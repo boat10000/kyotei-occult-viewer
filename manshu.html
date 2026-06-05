@@ -223,10 +223,17 @@ async function loadTimes(){
     var hm=(p.race_closed_at||'').slice(11,16);
     if(hm) tmap[p.race_stadium_number+'-'+p.race_number]=hm;
   });
+  function tmOf(vr){var s=vr.split('-'); return tmap[parseInt(s[0],10)+'-'+parseInt(s[1],10)]||'';}
   document.querySelectorAll('[data-rt]').forEach(function(el){
-    var s=el.dataset.rt.split('-'), hm=tmap[parseInt(s[0],10)+'-'+parseInt(s[1],10)];
-    if(hm) el.textContent='🕐'+hm+'締切';
+    var hm=tmOf(el.dataset.rt); if(hm) el.textContent='🕐'+hm+'締切';
   });
+  // 🏁本日の結果テーブルだけ、締切時刻の早い順に並べ替え
+  var tb=document.querySelector('.card.top tbody');
+  if(tb){
+    var rows=Array.prototype.slice.call(tb.querySelectorAll('tr[data-vr]'));
+    rows.sort(function(a,b){var x=tmOf(a.dataset.vr)||'99:99',y=tmOf(b.dataset.vr)||'99:99'; return x<y?-1:(x>y?1:0);});
+    rows.forEach(function(r){tb.appendChild(r);});
+  }
 }
 function checkStale(){
   var n=new Date();
