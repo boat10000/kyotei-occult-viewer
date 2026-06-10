@@ -21,8 +21,8 @@ tr.hit{background:#14321f} .saved{color:#34d399;font-size:12px;margin-left:8px}
 </style></head><body>
 <h1>✍️ 手動買い目 検証（頭2艇 × あなたの軸・消し）</h1>
 <p class="nav">🔥 <a href="manshu_chokuzen.html">直前 万舟予報</a>　／　📊 <a href="manshu.html">朝ランキング</a>　／　📈 <a href="forward_track.html">前向き戦績</a></p>
-<p class="m">①1着固定＝<b>頭2艇</b>（直前版が自動算出）／②軸2艇・③消し1艇＝<b>あなたが他サイト等を見て入力</b>／④残り5艇を2-3着で折返し（①-②-④ ∪ ①-④-②）。
-本日の直前TOP5を土台に、軸・消しを入れ替えて<b>この方法の的中率・回収率を検証</b>します。記録はこの端末のブラウザに保存（結果は自動照合）。
+<p class="m">①1着固定＝<b>頭2艇</b>（直前版が自動算出）／②軸2艇・③消し1艇＝<b>あなたが入力</b>（既定値=新軸モデルの推奨）／④残り5艇を2-3着で折返し（①-②-④ ∪ ①-④-②）。
+本日の<b>万舟率30%以上</b>のレースを土台に、軸・消しを入れ替えて<b>この方法の的中率・回収率を検証</b>します。記録はこの端末のブラウザに保存（結果は自動照合）。
 ※娯楽用・利益保証なし・生活費は賭けない。</p>
 <div id="tally" class="kpi"></div>
 <h2 id="rhd">本日の対象レース</h2>
@@ -110,9 +110,9 @@ async function init(){
   try{PICKS=await (await fetch('manual_picks.json?t='+Date.now())).json();}
   catch(e){document.getElementById('races').innerHTML='<p class="m">本日の直前TOP5データを読めません（直前版がまだ実行されていない可能性）。履歴の照合は動きます。</p>';renderTally();renderHistory();await settleAll();return;}
   const recs=load();
-  document.getElementById('rhd').textContent='本日（'+PICKS.date+'）の対象レース — 直前TOP5';
+  document.getElementById('rhd').textContent='本日（'+PICKS.date+'）の対象レース — 万舟率30%以上';
   let html=''; RACEMAP={};
-  if(!PICKS.races.length)html='<p class="m">本日のTOP5はまだありません（展示が出ると増えます）。</p>';
+  if(!PICKS.races.length)html='<p class="m">本日の万舟率30%以上のレースはまだありません（展示が出ると増えます）。</p>';
   for(const r of PICKS.races){
     const k=key(PICKS.date,r.venue,r.race_no); RACEMAP[k]=r;
     const sv=recs[k]; const j=(sv&&sv.jiku2)||r.jiku2_def, w=(sv&&sv.worst)||r.worst_def;
