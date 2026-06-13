@@ -1,17 +1,17 @@
 <!doctype html><html lang=ja><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
-<title>手動買い目 検証ツール</title>
+<title>軸入力ツール（頭3×軸1×流し）</title>
 <style>
 body{font-family:-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;max-width:720px;margin:0 auto;padding:14px}
 h1{font-size:18px} h2{font-size:15px;margin-top:18px} a{color:#60a5fa}
 .nav{font-size:13px;font-weight:700} .m{color:#94a3b8;font-size:12px;line-height:1.55}
 .c{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:11px 13px;margin:8px 0}
 .c b{color:#fbbf24} .hd{font-size:15px;font-weight:700;margin-bottom:4px}
-select{background:#0f172a;color:#e2e8f0;border:1px solid #475569;border-radius:6px;padding:3px 6px;font-size:15px;margin:0 2px}
-.row{margin:5px 0;font-size:14px} .lbl{color:#94a3b8;display:inline-block;min-width:74px}
+select{background:#0f172a;color:#e2e8f0;border:1px solid #475569;border-radius:6px;padding:4px 8px;font-size:16px;margin:0 3px}
+.row{margin:6px 0;font-size:14px} .lbl{color:#94a3b8;display:inline-block;min-width:72px}
 .buy{background:#0b1220;border-radius:8px;padding:8px 10px;margin-top:7px;font-size:14px} .buy b{color:#fde047}
-button{background:#2563eb;color:#fff;border:0;border-radius:7px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px}
-button.rec{background:#16a34a} button.del{background:#475569;padding:3px 9px;font-size:11px;margin:0}
+button{background:#16a34a;color:#fff;border:0;border-radius:7px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px}
+button.del{background:#475569;padding:3px 9px;font-size:11px;margin:0}
 .kpi{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
 .box{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:8px 12px;flex:1;min-width:84px}
 .box b{font-size:20px;display:block} .pos{color:#34d399} .neg{color:#f87171} .tag{font-size:11px;color:#94a3b8}
@@ -19,10 +19,10 @@ table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
 th,td{padding:5px 5px;border-bottom:1px solid #1e293b;text-align:left} th{color:#94a3b8}
 tr.hit{background:#14321f} .saved{color:#34d399;font-size:12px;margin-left:8px}
 </style></head><body>
-<h1>✍️ 手動買い目 検証（頭2艇 × あなたの軸・消し）</h1>
-<p class="nav">🔥 <a href="manshu_chokuzen.html">直前 万舟予報</a>　／　📊 <a href="manshu.html">朝ランキング</a>　／　📈 <a href="forward_track.html">前向き戦績</a></p>
-<p class="m">①1着固定＝<b>頭2艇</b>（直前版が自動算出）／②軸2艇・③消し1艇＝<b>あなたが入力</b>（既定値=新軸モデルの推奨）／④残り5艇を2-3着で折返し（①-②-④ ∪ ①-④-②）。
-本日の<b>万舟率30%以上</b>のレースを土台に、軸・消しを入れ替えて<b>この方法の的中率・回収率を検証</b>します。記録はこの端末のブラウザに保存（結果は自動照合）。
+<h1>🎯 軸入力ツール（頭3 × 軸1 × 流し折返し）</h1>
+<p class="nav">🚤 <a href="manshu_chokuzen.html">直前 万舟予報</a>　／　📈 <a href="forward_track.html">前向き戦績</a></p>
+<p class="m">買い目＝<b>①頭3艇（AI・1着候補/捕捉67%）</b>を1着固定／<b>②軸1艇＝あなたが入力</b>／<b>③消し1艇（AI・65%で3着外）</b>を除いた5艇で折返し（②と④を2-3着で入替）。
+本日の<b>万舟率27%以上</b>のレースが対象。軸を入れると買い目と点数が出ます。記録するとこの端末に保存され、結果が出たら回収率が自動で貯まります。
 ※娯楽用・利益保証なし・生活費は賭けない。</p>
 <div id="tally" class="kpi"></div>
 <h2 id="rhd">本日の対象レース</h2>
@@ -32,37 +32,35 @@ tr.hit{background:#14321f} .saved{color:#34d399;font-size:12px;margin-left:8px}
 <p class="m" style="margin-top:10px"><button class="del" onclick="settleAll()">結果を再照合</button>
 　<button class="del" onclick="if(confirm('全記録を消去しますか？'))clearAll()">記録を全消去</button></p>
 <script>
-const LS='manual_buy_records_v1';
+const LS='manual_buy2_records_v1';
 const load=()=>{try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return {}}};
 const save=r=>localStorage.setItem(LS,JSON.stringify(r));
 const key=(d,v,r)=>d+'_'+v+'_'+r;
 let PICKS={date:'',races:[]}, RACEMAP={};
 
-function combosFrom(head,jiku2,worst){
-  const wide5=[1,2,3,4,5,6].filter(b=>b!==worst); const s=new Set();
-  for(const a of head){
-    for(const b of jiku2)for(const c of wide5){if(new Set([a,b,c]).size===3)s.add(a+'-'+b+'-'+c);}
-    for(const b of wide5)for(const c of jiku2){if(new Set([a,b,c]).size===3)s.add(a+'-'+b+'-'+c);}
+function formation(head3, jiku, kill){   // 頭3-軸1-流し(消し以外5艇)の折返し
+  const nag=[1,2,3,4,5,6].filter(b=>b!==kill);
+  const s=new Set();
+  for(const a of head3){
+    for(const c of nag){
+      if(new Set([a,jiku,c]).size===3){ s.add(a+'-'+jiku+'-'+c); s.add(a+'-'+c+'-'+jiku); }
+    }
   }
   return [...s];
 }
-function selOpts(val){let o='';for(let b=1;b<=6;b++)o+='<option value="'+b+'"'+(b==val?' selected':'')+'>'+b+'</option>';return o;}
-function getInputs(k){return {jiku2:[+document.getElementById('j0_'+k).value,+document.getElementById('j1_'+k).value],worst:+document.getElementById('w_'+k).value};}
+function selOpts(val){let o='';for(let b=1;b<=6;b++)o+='<option value="'+b+'"'+(b==val?' selected':'')+'>'+b+'号艇</option>';return o;}
 function preview(k){
-  const r=RACEMAP[k]; const {jiku2,worst}=getInputs(k);
-  const combos=combosFrom(r.head2,jiku2,worst);
-  const wide5=[1,2,3,4,5,6].filter(b=>b!==worst);
-  const h=r.head2.join(''),j=jiku2.join(''),wd=wide5.join('');
-  const warn=(jiku2[0]===jiku2[1])?' <span class="neg">※軸が同じ艇</span>':'';
-  document.getElementById('buy_'+k).innerHTML='買い目: <b>'+h+'-'+j+'-'+wd+'</b> ／ <b>'+h+'-'+wd+'-'+j+'</b> ('+combos.length+'点)'+warn;
-  return combos;
+  const r=RACEMAP[k]; const jiku=+document.getElementById('j_'+k).value;
+  const cs=formation(r.head3, jiku, r.kill);
+  const h=r.head3.join('・'); const nag=[1,2,3,4,5,6].filter(b=>b!==r.kill).join('');
+  document.getElementById('buy_'+k).innerHTML=
+    '買い目: <b>頭'+h+' － 軸'+jiku+' － 流し'+nag+'</b>（折返し '+cs.length+'点 ＝ '+cs.length*100+'円）';
 }
 function record(k){
-  const r=RACEMAP[k]; const {jiku2,worst}=getInputs(k);
-  if(jiku2[0]===jiku2[1]){alert('軸2艇が同じです。別の2艇を選んでください。');return;}
-  const combos=combosFrom(r.head2,jiku2,worst); const recs=load();
-  recs[k]={date:PICKS.date,venue:r.venue,vn:r.vn,race_no:r.race_no,head2:r.head2,jiku2:jiku2,worst:worst,
-    combos:combos,npts:combos.length,ts:new Date().toISOString().slice(0,16),
+  const r=RACEMAP[k]; const jiku=+document.getElementById('j_'+k).value;
+  const cs=formation(r.head3, jiku, r.kill); const recs=load();
+  recs[k]={date:PICKS.date,venue:r.venue,vn:r.vn,race_no:r.race_no,head3:r.head3,kill:r.kill,jiku:jiku,
+    combos:cs,npts:cs.length,ts:new Date().toISOString().slice(0,16),
     settled:0,win_combo:null,payout:null,hit:null};
   save(recs); document.getElementById('sv_'+k).textContent='✓記録しました';
   renderTally(); renderHistory(); settleAll();
@@ -84,8 +82,7 @@ function renderTally(){
   const recs=Object.values(load()); const st=recs.filter(r=>r.settled); const nst=st.length;
   const hit=st.filter(r=>r.hit).length;
   const ret=st.filter(r=>r.hit).reduce((a,r)=>a+(r.payout||0),0);
-  const cost=st.reduce((a,r)=>a+r.npts*100,0);
-  const roi=cost?ret/cost*100:0;
+  const cost=st.reduce((a,r)=>a+r.npts*100,0); const roi=cost?ret/cost*100:0;
   const man=st.filter(r=>r.payout>=10000).length;
   document.getElementById('tally').innerHTML=
     box('記録/確定',recs.length+'/'+nst,'レース','')+
@@ -95,12 +92,12 @@ function renderTally(){
 }
 function renderHistory(){
   const recs=Object.values(load()).sort((a,b)=>(b.date+b.venue+('0'+b.race_no).slice(-2)).localeCompare(a.date+a.venue+('0'+a.race_no).slice(-2)));
-  if(!recs.length){document.getElementById('history').innerHTML='<p class="m">まだ記録がありません。上のレースで軸・消しを入れて「この買い目を記録」を押してください。</p>';return;}
-  let h='<table><thead><tr><th>日</th><th>場R</th><th>頭</th><th>軸/消</th><th>点</th><th>的中</th><th>結果(配当)</th><th></th></tr></thead><tbody>';
+  if(!recs.length){document.getElementById('history').innerHTML='<p class="m">まだ記録がありません。レースで軸を選び「この買い目を記録」を押してください。</p>';return;}
+  let h='<table><thead><tr><th>日</th><th>場R</th><th>頭3</th><th>軸</th><th>消</th><th>点</th><th>的中</th><th>結果(配当)</th></tr></thead><tbody>';
   for(const r of recs){
     const res=r.settled?(r.win_combo+' '+(r.payout||0).toLocaleString()+'円'):'結果待ち';
     const hh=r.settled?(r.hit?'✅':'✗'):'—';
-    h+='<tr class="'+(r.hit?'hit':'')+'"><td>'+r.date.slice(5)+'</td><td>'+r.vn+r.race_no+'R</td><td>'+r.head2.join('')+'</td><td>'+r.jiku2.join('')+'/消'+r.worst+'</td><td>'+r.npts+'</td><td>'+hh+'</td><td>'+res+'</td><td><button class="del" onclick="delRec(\''+key(r.date,r.venue,r.race_no)+'\')">削除</button></td></tr>';
+    h+='<tr class="'+(r.hit?'hit':'')+'"><td>'+r.date.slice(5)+'</td><td>'+r.vn+r.race_no+'R</td><td>'+r.head3.join('')+'</td><td>'+r.jiku+'</td><td>'+r.kill+'</td><td>'+r.npts+'</td><td>'+hh+'</td><td>'+res+'</td><td><button class="del" onclick="delRec(\''+key(r.date,r.venue,r.race_no)+'\')">削除</button></td></tr>';
   }
   document.getElementById('history').innerHTML=h+'</tbody></table>';
 }
@@ -108,27 +105,27 @@ function delRec(k){const r=load();delete r[k];save(r);renderTally();renderHistor
 function clearAll(){localStorage.removeItem(LS);renderTally();renderHistory();}
 async function init(){
   try{PICKS=await (await fetch('manual_picks.json?t='+Date.now())).json();}
-  catch(e){document.getElementById('races').innerHTML='<p class="m">本日の直前TOP5データを読めません（直前版がまだ実行されていない可能性）。履歴の照合は動きます。</p>';renderTally();renderHistory();await settleAll();return;}
+  catch(e){document.getElementById('races').innerHTML='<p class="m">本日のデータを読めません（直前版がまだ実行されていない可能性）。履歴の照合は動きます。</p>';renderTally();renderHistory();await settleAll();return;}
   const recs=load();
-  document.getElementById('rhd').textContent='本日（'+PICKS.date+'）の対象レース — 万舟率30%以上';
+  document.getElementById('rhd').textContent='本日（'+PICKS.date+'）の対象レース — 万舟率27%以上';
   let html=''; RACEMAP={};
-  if(!PICKS.races.length)html='<p class="m">本日の万舟率30%以上のレースはまだありません（展示が出ると増えます）。</p>';
-  for(const r of PICKS.races){
+  if(!(PICKS.races||[]).length)html='<p class="m">本日の対象レース（万舟率27%以上）はまだありません（展示が出ると増えます）。</p>';
+  for(const r of (PICKS.races||[])){
+    if(!r.head3||r.kill==null) continue;
     const k=key(PICKS.date,r.venue,r.race_no); RACEMAP[k]=r;
-    const sv=recs[k]; const j=(sv&&sv.jiku2)||r.jiku2_def, w=(sv&&sv.worst)||r.worst_def;
-    const loc=Object.entries(r.loc_t3).map(([b,v])=>b+'号'+Math.round(v*100)+'%').join(' ');
-    const oc='onchange="preview(\''+k+'\')"';
-    html+='<div class="c"><div class="hd">'+r.vn+r.race_no+'R <span class="m">締切'+(r.deadline||'--:--')+' ／ 万舟率'+Math.round(r.manshu*100)+'% ／ 1号艇展示'+r.b1exrank+'位'+(r.b1exrank>=4?'🔥':'')+'</span></div>'
-      +'<div class="row"><span class="lbl">①1着固定</span><b>頭2艇 '+r.head2.join('・')+'号艇</b> <span class="m">(自動)</span></div>'
-      +'<div class="row"><span class="lbl">②軸2艇</span><select id="j0_'+k+'" '+oc+'>'+selOpts(j[0])+'</select><select id="j1_'+k+'" '+oc+'>'+selOpts(j[1])+'</select> <span class="m">←他サイトの軸を入力</span></div>'
-      +'<div class="row"><span class="lbl">③消し</span><select id="w_'+k+'" '+oc+'>'+selOpts(w)+'</select>号艇を消す <span class="m">←入力</span></div>'
-      +'<div class="row m">当地3着内率(参考): '+loc+'</div>'
+    const sv=recs[k]; const jdef=(sv&&sv.jiku)||r.head3[0];
+    const loc=r.loc_t3?('当地3着内率: '+Object.entries(r.loc_t3).map(([b,v])=>b+'号'+Math.round(v*100)+'%').join(' ')):'';
+    html+='<div class="c"><div class="hd">'+r.vn+r.race_no+'R <span class="m">締切'+(r.deadline||'--:--')+' ／ 万舟率'+Math.round(r.manshu*100)+'%</span></div>'
+      +'<div class="row"><span class="lbl">①頭3艇</span><b>'+r.head3.join('・')+'号艇</b> <span class="m">(AI・1着候補)</span></div>'
+      +'<div class="row"><span class="lbl">③消し</span><b>'+r.kill+'号艇</b> <span class="m">(AI・流しから除外)</span></div>'
+      +'<div class="row"><span class="lbl">②軸1艇</span><select id="j_'+k+'" onchange="preview(\''+k+'\')">'+selOpts(jdef)+'</select> <span class="m">←あなたが入力</span></div>'
+      +(loc?'<div class="row m">'+loc+'</div>':'')
       +'<div class="buy" id="buy_'+k+'"></div>'
-      +'<button class="rec" onclick="record(\''+k+'\')">この買い目を記録</button><span class="saved" id="sv_'+k+'">'+(sv?'✓記録済':'')+'</span>'
+      +'<button onclick="record(\''+k+'\')">この買い目を記録</button><span class="saved" id="sv_'+k+'">'+(sv?'✓記録済':'')+'</span>'
       +'</div>';
   }
   document.getElementById('races').innerHTML=html;
-  for(const r of PICKS.races)preview(key(PICKS.date,r.venue,r.race_no));
+  for(const r of (PICKS.races||[])){if(r.head3&&r.kill!=null)preview(key(PICKS.date,r.venue,r.race_no));}
   renderTally(); renderHistory(); await settleAll();
 }
 init();
