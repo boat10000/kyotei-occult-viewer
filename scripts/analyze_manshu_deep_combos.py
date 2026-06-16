@@ -255,6 +255,8 @@ def search_combos(
     min_count: int,
     min_valid: int,
     max_rows: int,
+    sort_by: str,
+    keep_duplicate_matches: bool,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     atom_list = atoms()
     masks = build_masks(rows, atom_list)
@@ -276,6 +278,7 @@ def search_combos(
     valid_baseline = (manshu_mask & valid_mask).bit_count() / valid_mask.bit_count()
 
     results: list[dict[str, Any]] = []
+    seen_masks: set[int] = set()
     for size in sizes:
         for combo in combinations(range(len(atom_list)), size):
             families = [atom_list[index].family for index in combo]
@@ -292,6 +295,10 @@ def search_combos(
             valid_n = (mask & valid_mask).bit_count()
             if valid_n < max(1, min_valid // 2):
                 continue
+            if not keep_duplicate_matches:
+                if mask in seen_masks:
+                    continue
+                seen_masks.add(mask)
             results.append(
                 evaluate_combo(
                     rows,
@@ -307,16 +314,33 @@ def search_combos(
                     min_valid,
                 )
             )
-    results.sort(
-        key=lambda row: (
+    if sort_by == "manshu_rate":
+        sort_key = lambda row: (
+            row.get("manshu_rate") or 0.0,
+            row.get("valid_rate") or 0.0,
+            row.get("n") or 0,
+        )
+    elif sort_by == "valid_rate":
+        sort_key = lambda row: (
+            row.get("valid_rate") or 0.0,
+            row.get("valid_n") or 0,
+            row.get("manshu_rate") or 0.0,
+        )
+    elif sort_by == "lift":
+        sort_key = lambda row: (
+            row.get("lift") or 0.0,
+            row.get("manshu_rate") or 0.0,
+            row.get("valid_rate") or 0.0,
+        )
+    else:
+        sort_key = lambda row: (
             row["priority"] == "高",
             row["reproducibility"] == "再現あり",
             row.get("valid_rate") or 0.0,
             row.get("valid_n") or 0,
             row.get("manshu_rate") or 0.0,
-        ),
-        reverse=True,
-    )
+        )
+    results.sort(key=sort_key, reverse=True)
     meta = {
         "row_count": len(rows),
         "manshu_count": manshu_mask.bit_count(),
@@ -327,6 +351,11 @@ def search_combos(
         "valid_baseline": valid_baseline,
         "atom_count": len(atom_list),
         "result_count": len(results),
+        "duplicate_matches": "kept" if keep_duplicate_matches else "deduped",
+        "sizes": ",".join(str(size) for size in sizes),
+        "min_count": min_count,
+        "min_valid": min_valid,
+        "sort_by": sort_by,
     }
     return results[:max_rows], meta
 
@@ -398,7 +427,7 @@ def write_markdown(path: Path, rows: list[dict[str, Any]], meta: dict[str, Any])
     morning = [row for row in rows if row["phase"] == "朝版"]
     preview = [row for row in rows if row["phase"] == "直前版"]
     lines = [
-        "# 5条件・6条件 万舟組み合わせ探索",
+        "# 複合条件 万舟率Top10",
         "",
         "この探索は娯楽・研究・検証用です。舟券購入、利益、的中を推奨または保証するものではありません。",
         "",
@@ -410,8 +439,16 @@ def write_markdown(path: Path, rows: list[dict[str, Any]], meta: dict[str, Any])
         f"- 学習期間: {meta['train_count']}レース / {fmt_pct(meta['train_baseline'])}",
         f"- 検証期間: {meta['valid_count']}レース / {fmt_pct(meta['valid_baseline'])}",
         f"- 探索候補条件数: {meta['atom_count']}",
-        f"- 条件数: 5条件・6条件",
+        f"- 条件数: {meta['sizes']}",
+        f"- 最低件数: {meta['min_count']}レース",
+        f"- 検証最低件数目安: {meta['min_valid']}レース",
+        f"- 並び順: {meta['sort_by']}",
+        f"- 同一対象レース集合: {meta['duplicate_matches']}",
         f"- 件数下限を満たした組み合わせ数: {meta['result_count']}",
+        "",
+        "## 万舟率Top10",
+        "",
+        *markdown_table(rows, 10),
         "",
         "## 高評価",
         "",
@@ -451,7 +488,15 @@ def run(args: argparse.Namespace) -> int:
     rows = read_rows(Path(args.dataset))
     if not rows:
         raise SystemExit("dataset has no valid rows")
-    results, meta = search_combos(rows, args.sizes, args.min_count, args.min_valid, args.max_rows)
+    results, meta = search_combos(
+        rows,
+        args.sizes,
+        args.min_count,
+        args.min_valid,
+        args.max_rows,
+        args.sort_by,
+        args.keep_duplicate_matches,
+    )
     write_csv(Path(args.output_csv), results)
     write_markdown(Path(args.output_md), results, meta)
     print(f"rows={meta['row_count']} baseline={meta['baseline_rate']:.4f} combos={meta['result_count']}")
@@ -467,6 +512,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--min-count", type=int, default=80)
     parser.add_argument("--min-valid", type=int, default=25)
     parser.add_argument("--max-rows", type=int, default=1000)
+    parser.add_argument("--sort-by", choices=["priority", "manshu_rate", "valid_rate", "lift"], default="priority")
+    parser.add_argument("--keep-duplicate-matches", action="store_true", help="keep combinations that match the exact same race set")
     parser.add_argument("--output-csv", default="reports/manshu_5_6_condition_patterns.csv")
     parser.add_argument("--output-md", default="reports/manshu_5_6_condition_patterns.md")
     return parser
@@ -474,4 +521,3 @@ def build_parser() -> argparse.ArgumentParser:
 
 if __name__ == "__main__":
     raise SystemExit(run(build_parser().parse_args()))
-
