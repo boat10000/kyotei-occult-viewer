@@ -2,26 +2,26 @@
 
 このレポートは分析用データセット生成時点の品質確認であり、舟券購入を推奨するものではありません。
 
-- 取得日数: 30 / 30
-- レース数: 4356
-- 分析対象レース数: 4205
-- 6艇情報あり: 4352
-- 万舟数: 723
-- 全体万舟率: 17.19%
-- 既存スコア結合数: 3989
+- 取得日数: 90 / 90
+- レース数: 13644
+- 分析対象レース数: 13184
+- 6艇情報あり: 13636
+- 万舟数: 2136
+- 全体万舟率: 16.20%
+- 既存スコア結合数: 6476
 - Parquet出力: wrote data/analysis/race_dataset.parquet
 
 ## 欠損数
 
-- `lane1_class`: 7 (0.2%)
-- `lane1_national_win_rate`: 7 (0.2%)
-- `lane1_local_win_rate`: 7 (0.2%)
-- `lane1_motor_quinella_rate`: 7 (0.2%)
-- `lane1_exhibition_time`: 86 (2.0%)
-- `wind_speed_m`: 79 (1.8%)
-- `wave_cm`: 79 (1.8%)
+- `lane1_class`: 16 (0.1%)
+- `lane1_national_win_rate`: 16 (0.1%)
+- `lane1_local_win_rate`: 16 (0.1%)
+- `lane1_motor_quinella_rate`: 16 (0.1%)
+- `lane1_exhibition_time`: 210 (1.5%)
+- `wind_speed_m`: 192 (1.4%)
+- `wave_cm`: 192 (1.4%)
 - `grade`: 0 (0.0%)
-- `existing_score`: 367 (8.4%)
+- `existing_score`: 7168 (52.5%)
 
 ## 注意
 
