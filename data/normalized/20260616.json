@@ -1,0 +1,519 @@
+{
+  "date": "2026-06-16",
+  "source": {
+    "official": true,
+    "fetched_at": "2026-06-17T00:00:00+09:00",
+    "notes": [],
+    "raw_manifest_entries": 6
+  },
+  "venues": [
+    {
+      "jcd": "01",
+      "name": "桐生",
+      "grade": "一般",
+      "title": "第２３回新東通信杯 ＢＴＳ福島開場１５周年記念",
+      "day_label": "３日",
+      "status": "12R以降中止",
+      "races": [
+        {
+          "race_no": 2,
+          "race_name": "予選",
+          "distance_m": 1800,
+          "deadline": "15:25",
+          "conditions": {
+            "fixed_entry": false,
+            "stabilizer": false
+          },
+          "weather": {
+            "weather": "晴",
+            "wind_direction": "is-wind12",
+            "wind_speed_m": 5.0,
+            "wave_cm": 4.0,
+            "air_temp_c": 25.0,
+            "water_temp_c": 18.0
+          },
+          "boats": [
+            {
+              "lane": 1,
+              "registration_no": "3581",
+              "class": "B1",
+              "name": "加木 郁",
+              "branch": "山口",
+              "birthplace": "山口",
+              "age": 53,
+              "weight_kg": 52.1,
+              "f_count": 0,
+              "l_count": 0,
+              "avg_st": 0.19,
+              "national": {
+                "win_rate": 4.71,
+                "quinella_rate": 24.04,
+                "trio_rate": 42.31
+              },
+              "local": {
+                "win_rate": 3.5,
+                "quinella_rate": 16.67,
+                "trio_rate": 16.67
+              },
+              "motor": {
+                "no": "28",
+                "quinella_rate": 36.04,
+                "trio_rate": 53.15
+              },
+              "boat": {
+                "no": "53",
+                "quinella_rate": 24.79,
+                "trio_rate": 38.46
+              },
+              "preview": {
+                "exhibition_time": 6.6,
+                "tilt": 0.0,
+                "adjust_weight": 0.0,
+                "parts_changed": [],
+                "exhibition_entry": 1,
+                "exhibition_st": 0.13
+              }
+            },
+            {
+              "lane": 2,
+              "registration_no": "4953",
+              "class": "A1",
+              "name": "尾上 雅也",
+              "branch": "埼玉",
+              "birthplace": "埼玉",
+              "age": 31,
+              "weight_kg": 52.2,
+              "f_count": 0,
+              "l_count": 0,
+              "avg_st": 0.14,
+              "national": {
+                "win_rate": 6.64,
+                "quinella_rate": 53.91,
+                "trio_rate": 66.09
+              },
+              "local": {
+                "win_rate": 5.17,
+                "quinella_rate": 31.71,
+                "trio_rate": 46.34
+              },
+              "motor": {
+                "no": "33",
+                "quinella_rate": 34.82,
+                "trio_rate": 51.79
+              },
+              "boat": {
+                "no": "68",
+                "quinella_rate": 26.92,
+                "trio_rate": 43.85
+              },
+              "preview": {
+                "exhibition_time": 6.66,
+                "tilt": 0.0,
+                "adjust_weight": 0.0,
+                "parts_changed": [],
+                "exhibition_entry": 2,
+                "exhibition_st": 0.13
+              }
+            },
+            {
+              "lane": 3,
+              "registration_no": "4690",
+              "class": "B2",
+              "name": "高石 梨菜",
+              "branch": "東京",
+              "birthplace": "東京",
+              "age": 32,
+              "weight_kg": 47.4,
+              "f_count": 0,
+              "l_count": 0,
+              "avg_st": null,
+              "national": {
+                "win_rate": 5.0,
+                "quinella_rate": 29.41,
+                "trio_rate": 47.06
+              },
+              "local": {
+                "win_rate": 0.0,
+                "quinella_rate": 0.0,
+                "trio_rate": 0.0
+              },
+              "motor": {
+                "no": "40",
+                "quinella_rate": 34.38,
+                "trio_rate": 52.34
+              },
+              "boat": {
+                "no": "41",
+                "quinella_rate": 33.87,
+                "trio_rate": 51.61
+              },
+              "preview": {
+                "exhibition_time": 6.62,
+                "tilt": 0.0,
+                "adjust_weight": 0.0,
+                "parts_changed": [],
+                "exhibition_entry": 3,
+                "exhibition_st": 0.17
+              }
+            },
+            {
+              "lane": 4,
+              "registration_no": "3161",
+              "class": "B1",
+              "name": "古場 輝義",
+              "branch": "大阪",
+              "birthplace": "長崎",
+              "age": 66,
+              "weight_kg": 52.2,
+              "f_count": 0,
+              "l_count": 0,
+              "avg_st": 0.18,
+              "national": {
+                "win_rate": 5.1,
+                "quinella_rate": 37.68,
+                "trio_rate": 53.62
+              },
+              "local": {
+                "win_rate": 5.52,
+                "quinella_rate": 34.48,
+                "trio_rate": 62.07
+              },
+              "motor": {
+                "no": "21",
+                "quinella_rate": 35.88,
+                "trio_rate": 53.44
+              },
+              "boat": {
+                "no": "43",
+                "quinella_rate": 28.93,
+                "trio_rate": 43.8
+              },
+              "preview": {
+                "exhibition_time": 6.69,
+                "tilt": -0.5,
+                "adjust_weight": 0.0,
+                "parts_changed": [],
+                "exhibition_entry": 4,
+                "exhibition_st": 0.04
+              }
+            },
+            {
+              "lane": 5,
+              "registration_no": "4568",
+              "class": "A2",
+              "name": "廣瀬 真也",
+              "branch": "東京",
+              "birthplace": "神奈川",
+              "age": 38,
+              "weight_kg": 51.0,
+              "f_count": 0,
+              "l_count": 0,
+              "avg_st": 0.16,
+              "national": {
+                "win_rate": 5.5,
+                "quinella_rate": 32.22,
+                "trio_rate": 55.56
+              },
+              "local": {
+                "win_rate": 5.38,
+                "quinella_rate": 33.33,
+                "trio_rate": 57.78
+              },
+              "motor": {
+                "no": "13",
+                "quinella_rate": 28.21,
+                "trio_rate": 47.01
+              },
+              "boat": {
+                "no": "13",
+                "quinella_rate": 23.58,
+                "trio_rate": 38.21
+              },
+              "preview": {
+                "exhibition_time": 6.69,
+                "tilt": 0.0,
+                "adjust_weight": 1.0,
+                "parts_changed": [],
+                "exhibition_entry": 5,
+                "exhibition_st": 0.05
+              }
+            },
+            {
+              "lane": 6,
+              "registration_no": "3655",
+              "class": "A2",
+              "name": "本橋 克洋",
+              "branch": "群馬",
+              "birthplace": "群馬",
+              "age": 52,
+              "weight_kg": 52.7,
+              "f_count": 1,
+              "l_count": 0,
+              "avg_st": 0.17,
+              "national": {
+                "win_rate": 5.35,
+                "quinella_rate": 30.65,
+                "trio_rate": 54.03
+              },
+              "local": {
+                "win_rate": 5.92,
+                "quinella_rate": 38.33,
+                "trio_rate": 60.83
+              },
+              "motor": {
+                "no": "16",
+                "quinella_rate": 21.78,
+                "trio_rate": 40.59
+              },
+              "boat": {
+                "no": "62",
+                "quinella_rate": 31.54,
+                "trio_rate": 46.15
+              },
+              "preview": {
+                "exhibition_time": 6.84,
+                "tilt": 0.0,
+                "adjust_weight": 0.0,
+                "parts_changed": [],
+                "exhibition_entry": 6,
+                "exhibition_st": 0.09
+              }
+            }
+          ],
+          "odds": {
+            "trifecta": {
+              "1-2-3": 10.0,
+              "2-1-3": 14.7,
+              "3-1-2": 71.1,
+              "4-1-2": 159.3,
+              "5-1-2": 86.5,
+              "6-1-2": 342.5,
+              "1-2-4": 19.5,
+              "2-1-4": 18.7,
+              "3-1-4": 114.4,
+              "4-1-3": 305.0,
+              "5-1-3": 231.6,
+              "6-1-3": 1171.0,
+              "1-2-5": 9.5,
+              "2-1-5": 11.9,
+              "3-1-5": 119.7,
+              "4-1-5": 184.5,
+              "5-1-4": 236.5,
+              "6-1-4": 1187.0,
+              "1-2-6": 27.6,
+              "2-1-6": 27.9,
+              "3-1-6": 266.2,
+              "4-1-6": 286.8,
+              "5-1-6": 143.6,
+              "6-1-5": 516.3,
+              "1-3-2": 21.2,
+              "2-3-1": 35.7,
+              "3-2-1": 67.0,
+              "4-2-1": 163.2,
+              "5-2-1": 85.0,
+              "6-2-1": 341.8,
+              "1-3-4": 54.2,
+              "2-3-4": 52.2,
+              "3-2-4": 98.9,
+              "4-2-3": 279.1,
+              "5-2-3": 181.3,
+              "6-2-3": 587.8,
+              "1-3-5": 39.9,
+              "2-3-5": 47.1,
+              "3-2-5": 104.4,
+              "4-2-5": 168.0,
+              "5-2-4": 186.3,
+              "6-2-4": 781.2,
+              "1-3-6": 100.4,
+              "2-3-6": 85.0,
+              "3-2-6": 222.6,
+              "4-2-6": 258.1,
+              "5-2-6": 113.0,
+              "6-2-5": 305.0,
+              "1-4-2": 47.4,
+              "2-4-1": 59.6,
+              "3-4-1": 232.2,
+              "4-3-1": 438.7,
+              "5-3-1": 429.2,
+              "6-3-1": 1562.0,
+              "1-4-3": 100.5,
+              "2-4-3": 92.9,
+              "3-4-2": 195.5,
+              "4-3-2": 391.4,
+              "5-3-2": 323.2,
+              "6-3-2": 724.1,
+              "1-4-5": 76.9,
+              "2-4-5": 66.3,
+              "3-4-5": 214.6,
+              "4-3-5": 385.5,
+              "5-3-4": 531.7,
+              "6-3-4": 1712.0,
+              "1-4-6": 123.0,
+              "2-4-6": 99.2,
+              "3-4-6": 472.4,
+              "4-3-6": 856.3,
+              "5-3-6": 640.7,
+              "6-3-5": 1763.0,
+              "1-5-2": 35.5,
+              "2-5-1": 33.3,
+              "3-5-1": 225.7,
+              "4-5-1": 183.4,
+              "5-4-1": 249.4,
+              "6-4-1": 1149.0,
+              "1-5-3": 77.8,
+              "2-5-3": 58.9,
+              "3-5-2": 190.1,
+              "4-5-2": 152.5,
+              "5-4-2": 206.8,
+              "6-4-2": 995.1,
+              "1-5-4": 101.6,
+              "2-5-4": 75.3,
+              "3-5-4": 288.2,
+              "4-5-3": 393.2,
+              "5-4-3": 494.8,
+              "6-4-3": 1781.0,
+              "1-5-6": 83.9,
+              "2-5-6": 43.6,
+              "3-5-6": 400.2,
+              "4-5-6": 141.0,
+              "5-4-6": 194.8,
+              "6-4-5": 667.1,
+              "1-6-2": 117.4,
+              "2-6-1": 96.7,
+              "3-6-1": 764.5,
+              "4-6-1": 580.2,
+              "5-6-1": 247.7,
+              "6-5-1": 584.0,
+              "1-6-3": 237.8,
+              "2-6-3": 166.1,
+              "3-6-2": 616.3,
+              "4-6-2": 411.3,
+              "5-6-2": 186.7,
+              "6-5-2": 352.7,
+              "1-6-4": 294.4,
+              "2-6-4": 182.8,
+              "3-6-4": 1029.0,
+              "4-6-3": 957.6,
+              "5-6-3": 597.7,
+              "6-5-3": 1370.0,
+              "1-6-5": 189.9,
+              "2-6-5": 89.4,
+              "3-6-5": 895.1,
+              "4-6-5": 308.7,
+              "5-6-4": 323.2,
+              "6-5-4": 589.8
+            },
+            "updated_at": null,
+            "is_final_odds": false
+          },
+          "result": {
+            "trifecta": "1-2-3",
+            "payout_yen": 1000,
+            "popularity": 2,
+            "is_canceled": false,
+            "refunds": []
+          }
+        }
+      ]
+    },
+    {
+      "jcd": "03",
+      "name": "江戸川",
+      "grade": "一般",
+      "title": "スカパー！・ＪＬＣ杯ルーキーシリーズ第１３戦",
+      "day_label": "最終日",
+      "status": "最終Ｒ発売終了",
+      "races": []
+    },
+    {
+      "jcd": "06",
+      "name": "浜名湖",
+      "grade": "一般",
+      "title": "体感型動物園 ｉＺｏｏカップ",
+      "day_label": "最終日",
+      "status": "最終Ｒ発売終了",
+      "races": []
+    },
+    {
+      "jcd": "08",
+      "name": "常滑",
+      "grade": "G1",
+      "title": "開設７３周年記念競走トコタンキング決定戦",
+      "day_label": "４日",
+      "status": "最終Ｒ発売終了",
+      "races": []
+    },
+    {
+      "jcd": "09",
+      "name": "津",
+      "grade": "一般",
+      "title": "マンスリーＢＯＡＴＲＡＣＥ杯",
+      "day_label": "初日",
+      "status": "最終Ｒ発売終了",
+      "races": []
+    },
+    {
+      "jcd": "10",
+      "name": "三国",
+      "grade": "一般",
+      "title": "ＢＯＡＴＲＡＣＥ振興会会長賞第５０回九頭龍賞",
+      "day_label": "最終日",
+      "status": "最終Ｒ発売終了",
+      "races": []
+    },
+    {
+      "jcd": "12",
+      "name": "住之江",
+      "grade": "一般",
+      "title": "ＭＢ選手会会長杯２０２６ダイスポジャンピーカップ",
+      "day_label": "３日",
+      "status": "最終Ｒ発売終了",
+      "races": []
+    },
+    {
+      "jcd": "16",
+      "name": "児島",
+      "grade": "一般",
+      "title": "新選手宿舎完成記念 第４２回日本ＭＢ選手会代表杯",
+      "day_label": "最終日",
+      "status": "最終Ｒ発売終了",
+      "races": []
+    },
+    {
+      "jcd": "18",
+      "name": "徳山",
+      "grade": "G3",
+      "title": "サッポロビールカップ",
+      "day_label": "初日",
+      "status": "最終Ｒ発売終了",
+      "races": []
+    },
+    {
+      "jcd": "19",
+      "name": "下関",
+      "grade": "一般",
+      "title": "ＭＮＢＲ下関２ｎｄ 日本モーターボート選手会会長杯",
+      "day_label": "５日",
+      "status": "最終Ｒ発売終了",
+      "races": []
+    },
+    {
+      "jcd": "21",
+      "name": "芦屋",
+      "grade": "一般",
+      "title": "ＰａｙＰａｙ銀行賞",
+      "day_label": "２日",
+      "status": "最終Ｒ発売終了",
+      "races": []
+    },
+    {
+      "jcd": "22",
+      "name": "福岡",
+      "grade": "G3",
+      "title": "オールレディース・ＬＯＶＥ ＦＭ福岡なでしこカップ",
+      "day_label": "５日",
+      "status": "最終Ｒ発売終了",
+      "races": []
+    }
+  ]
+}

@@ -29,3 +29,55 @@
 - 全サインは「**過去（2023-01〜2026-06）にそうだった**」という記述で、将来は保証しません。暫定14件は生き残りの上振れ前提で扱ってください。
 
 閲覧は依存ゼロの自己完結HTML（外部通信なし）。出走表データの取得元は [BoatraceOpenAPI](https://boatraceopenapi.github.io/)（公開情報）です。
+
+## データ取得・正規化基盤
+
+予想ロジックやUIを変更する前段階として、公式サイトの画面系データを低頻度・キャッシュ前提で取得し、正規化JSONへ変換するスクリプトを追加しています。
+
+調査メモ:
+
+- `docs/data-source-investigation.md`
+
+### 実行例
+
+1日分の開催一覧だけ取得:
+
+```bash
+python3 scripts/fetch_boatrace_data.py --date 2026-06-16
+```
+
+1場だけ、取得予定URLを確認:
+
+```bash
+python3 scripts/fetch_boatrace_data.py --date 2026-06-16 --jcd 01 --rno 2 --details --results --dry-run
+```
+
+1場1Rだけ詳細込みで取得:
+
+```bash
+python3 scripts/fetch_boatrace_data.py --date 2026-06-16 --jcd 01 --rno 2 --details --odds --preview --results
+```
+
+取得済みキャッシュから正規化:
+
+```bash
+python3 scripts/normalize_boatrace_data.py --date 2026-06-16
+```
+
+サンプル検証:
+
+```bash
+python3 scripts/verify_boatrace_data.py --date 2026-06-16 --expect-race-data --expect-result
+```
+
+GitHub Pages用データへ変換する場合は、まず `data/normalized/YYYYMMDD.json` を生成し、既存の静的HTML生成フロー側で必要な項目だけを読み込む方針です。今回のスクリプトは既存の `manshu.html` や日別HTMLを直接変更しません。
+
+取得時の安全方針:
+
+- デフォルトは開催一覧1ページのみ。
+- レース詳細、オッズ、直前情報、結果は明示オプション時のみ。
+- 同一URLは `data/raw/YYYYMMDD/` のキャッシュを再利用。
+- `--force` 指定時だけ再取得。
+- 並列取得なし、1リクエストごとにデフォルト1秒待機。
+- User-Agentを明示。
+- 取得範囲は指定日・指定場・指定Rに限定可能。
