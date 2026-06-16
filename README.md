@@ -37,6 +37,7 @@
 調査メモ:
 
 - `docs/data-source-investigation.md`
+- `docs/manshu-analysis-plan.md`
 
 ### 実行例
 
@@ -81,3 +82,78 @@ GitHub Pages用データへ変換する場合は、まず `data/normalized/YYYYM
 - 並列取得なし、1リクエストごとにデフォルト1秒待機。
 - User-Agentを明示。
 - 取得範囲は指定日・指定場・指定Rに限定可能。
+
+## 万舟共通条件分析
+
+既存の `manshu.html` や公開HTMLは変更せず、公式ダウンロード系B/Kファイルを主入力として、1レース1行の分析データセットとレポートを作成できます。
+
+公式B/Kダウンロードを1日分取得:
+
+```bash
+python3 scripts/fetch_boatrace_data.py --date 2026-06-16 --source official --cache
+```
+
+公式B/Kダウンロードを期間指定で取得:
+
+```bash
+python3 scripts/fetch_boatrace_data.py --start-date 2026-01-01 --end-date 2026-01-31 --source official --cache
+```
+
+取得予定URLだけ確認:
+
+```bash
+python3 scripts/fetch_boatrace_data.py --date 2026-06-16 --source official --dry-run
+```
+
+非公式OpenAPI v3を補助データとして取得する場合:
+
+```bash
+python3 scripts/fetch_boatrace_data.py --date 2026-06-16 --source openapi --details --results
+```
+
+OpenAPIは公式ではなく、正確性・完全性・リアルタイム性は保証されません。分析の比較・補助用途として扱います。
+
+正規化:
+
+```bash
+python3 scripts/normalize_boatrace_data.py --start-date 2026-01-01 --end-date 2026-01-31
+```
+
+分析データセット作成:
+
+```bash
+python3 scripts/build_manshu_dataset.py --start-date 2026-01-01 --end-date 2026-01-31
+```
+
+万舟条件分析:
+
+```bash
+python3 scripts/analyze_manshu_patterns.py --dataset data/analysis/race_dataset.csv
+```
+
+モデル検証:
+
+```bash
+python3 scripts/validate_manshu_model.py --dataset data/analysis/race_dataset.csv --time-split
+```
+
+主な出力:
+
+- `data/analysis/race_dataset.csv`
+- `data/analysis/race_dataset.parquet`（環境により `.unavailable.txt`）
+- `data/analysis/feature_dictionary.md`
+- `reports/manshu_common_patterns.md`
+- `reports/manshu_common_patterns.csv`
+- `reports/feature_lift_table.csv`
+- `reports/model_validation.md`
+- `reports/data_quality_report.md`
+
+分析上の注意:
+
+- `manshu_flag` は3連単払戻金10,000円以上。
+- `big_manshu_flag` は3連単払戻金50,000円以上。
+- 中止、不成立、返還あり、払戻欠損のレースは分析対象から除外。
+- 朝版モデルには出走表時点で分かる情報だけを使う。
+- 直前版モデルは展示・気象・オッズなど締切前情報まで使える。
+- 結果、払戻金、人気、着順、決まり手は予測特徴量に入れない。
+- レポートは娯楽・研究・検証用であり、舟券購入を推奨しません。

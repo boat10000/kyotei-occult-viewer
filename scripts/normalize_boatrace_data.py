@@ -8,8 +8,11 @@ import datetime as dt
 import html
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any
+
+from boatrace_official_download import normalized_from_download
 
 
 JST = dt.timezone(dt.timedelta(hours=9), name="JST")
@@ -27,6 +30,21 @@ def normalize_date(value: str) -> tuple[str, str]:
         raise argparse.ArgumentTypeError("date must be YYYY-MM-DD or YYYYMMDD")
     dt.date.fromisoformat(dashed)
     return dashed, compact
+
+
+def date_range(start: str, end: str) -> list[tuple[str, str]]:
+    start_dash, _start_compact = normalize_date(start)
+    end_dash, _end_compact = normalize_date(end)
+    current = dt.date.fromisoformat(start_dash)
+    last = dt.date.fromisoformat(end_dash)
+    if current > last:
+        raise argparse.ArgumentTypeError("start date must be on or before end date")
+    dates: list[tuple[str, str]] = []
+    while current <= last:
+        dashed = current.isoformat()
+        dates.append((dashed, dashed.replace("-", "")))
+        current += dt.timedelta(days=1)
+    return dates
 
 
 def now_iso() -> str:
@@ -438,6 +456,9 @@ def ensure_venue(venues_by_jcd: dict[str, dict[str, Any]], jcd: str) -> dict[str
 def normalize(args: argparse.Namespace) -> dict[str, Any]:
     date_dash, date_compact = normalize_date(args.date)
     raw_dir = Path(args.raw_dir) / date_compact
+    download_normalized = normalized_from_download(raw_dir, date_dash)
+    if download_normalized:
+        return download_normalized
     manifest = load_manifest(raw_dir)
     source_notes: list[str] = []
     entries = manifest.get("entries", [])
@@ -545,9 +566,11 @@ def normalize(args: argparse.Namespace) -> dict[str, Any]:
     }
 
 
-def run(args: argparse.Namespace) -> int:
-    _date_dash, date_compact = normalize_date(args.date)
-    normalized = normalize(args)
+def run_one_date(args: argparse.Namespace, date_value: str) -> int:
+    _date_dash, date_compact = normalize_date(date_value)
+    one_args = argparse.Namespace(**vars(args))
+    one_args.date = date_value
+    normalized = normalize(one_args)
     output = Path(args.output) if args.output else Path(args.output_dir) / f"{date_compact}.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(normalized, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -556,9 +579,30 @@ def run(args: argparse.Namespace) -> int:
     return 0
 
 
+def run(args: argparse.Namespace) -> int:
+    if args.output and (args.start_date or args.end_date):
+        raise SystemExit("--output can be used only with --date")
+    if args.date:
+        dates = [normalize_date(args.date)[0]]
+    elif args.start_date and args.end_date:
+        dates = [date_dash for date_dash, _compact in date_range(args.start_date, args.end_date)]
+    else:
+        raise SystemExit("provide --date or both --start-date and --end-date")
+    exit_code = 0
+    for date_value in dates:
+        try:
+            exit_code = max(exit_code, run_one_date(args, date_value))
+        except Exception as exc:
+            print(f"error normalizing {date_value}: {exc}", file=sys.stderr)
+            exit_code = 1
+    return exit_code
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--date", required=True, help="JST date as YYYY-MM-DD or YYYYMMDD")
+    parser.add_argument("--date", help="JST date as YYYY-MM-DD or YYYYMMDD")
+    parser.add_argument("--start-date", help="JST start date as YYYY-MM-DD or YYYYMMDD")
+    parser.add_argument("--end-date", help="JST end date as YYYY-MM-DD or YYYYMMDD")
     parser.add_argument("--raw-dir", default="data/raw", help="raw cache root")
     parser.add_argument("--output-dir", default="data/normalized", help="normalized output root")
     parser.add_argument("--output", help="explicit output file")

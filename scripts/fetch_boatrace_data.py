@@ -15,7 +15,10 @@ import html
 import json
 import re
 import ssl
+import shutil
+import subprocess
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.parse
@@ -25,6 +28,8 @@ from typing import Any
 
 
 BASE_URL = "https://www.boatrace.jp"
+MBRACE_URL = "https://www1.mbrace.or.jp"
+OPENAPI_URL = "https://boatraceopenapi.github.io"
 DEFAULT_USER_AGENT = (
     "kyotei-occult-viewer-data-fetcher/0.1 "
     "(local cache; low frequency; https://boat10000.github.io/kyotei-occult-viewer/)"
@@ -44,6 +49,21 @@ def normalize_date(value: str) -> tuple[str, str]:
         raise argparse.ArgumentTypeError("date must be YYYY-MM-DD or YYYYMMDD")
     dt.date.fromisoformat(dashed)
     return dashed, compact
+
+
+def date_range(start: str, end: str) -> list[tuple[str, str]]:
+    start_dash, _start_compact = normalize_date(start)
+    end_dash, _end_compact = normalize_date(end)
+    current = dt.date.fromisoformat(start_dash)
+    last = dt.date.fromisoformat(end_dash)
+    if current > last:
+        raise argparse.ArgumentTypeError("start date must be on or before end date")
+    dates: list[tuple[str, str]] = []
+    while current <= last:
+        dashed = current.isoformat()
+        dates.append((dashed, dashed.replace("-", "")))
+        current += dt.timedelta(days=1)
+    return dates
 
 
 def now_iso() -> str:
@@ -81,6 +101,21 @@ def race_url(kind: str, date_compact: str, jcd: str, rno: int) -> str:
 def resultlist_url(date_compact: str, jcd: str) -> str:
     query = urllib.parse.urlencode({"hd": date_compact, "jcd": jcd})
     return f"{BASE_URL}/owpc/pc/race/resultlist?{query}"
+
+
+def official_download_url(kind: str, date_compact: str) -> str:
+    yy = date_compact[2:4]
+    mm = date_compact[4:6]
+    dd = date_compact[6:8]
+    month = date_compact[:6]
+    prefix = kind.lower()
+    return f"{MBRACE_URL}/od2/{kind}/{month}/{prefix}{yy}{mm}{dd}.lzh"
+
+
+def openapi_url(kind: str, date_compact: str) -> str:
+    year = date_compact[:4]
+    endpoint = {"programs": "programs", "previews": "previews", "results": "results"}[kind]
+    return f"{OPENAPI_URL}/{endpoint}/v3/{year}/{date_compact}.json"
 
 
 def safe_filename(kind: str, url: str, jcd: str | None = None, rno: int | None = None) -> str:
@@ -146,6 +181,62 @@ def fetch_url(url: str, user_agent: str, timeout: float, retries: int) -> tuple[
                 break
             time.sleep(min(8.0, 2.0**attempt))
     raise RuntimeError(f"failed to fetch {url}: {last_error}")
+
+
+def fetch_bytes(url: str, user_agent: str, timeout: float, retries: int) -> tuple[int, bytes]:
+    headers = {"User-Agent": user_agent, "Accept": "application/octet-stream,application/json;q=0.9,*/*;q=0.8"}
+    last_error: Exception | None = None
+    context = ssl_context()
+    for attempt in range(retries + 1):
+        try:
+            request = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(request, timeout=timeout, context=context) as response:
+                return int(response.status), response.read()
+        except urllib.error.HTTPError as exc:
+            if exc.code == 404:
+                return int(exc.code), b""
+            last_error = exc
+            if attempt >= retries:
+                break
+            time.sleep(min(8.0, 2.0**attempt))
+        except (urllib.error.URLError, TimeoutError) as exc:
+            last_error = exc
+            if attempt >= retries:
+                break
+            time.sleep(min(8.0, 2.0**attempt))
+    raise RuntimeError(f"failed to fetch {url}: {last_error}")
+
+
+def extract_lzh_text(archive: Path, output_path: Path) -> bool:
+    lha = shutil.which("lha")
+    if not lha:
+        print("warning: lha command not found; saved .lzh but skipped extraction", file=sys.stderr)
+        return False
+    with tempfile.TemporaryDirectory(prefix="boatrace_lzh_") as tmp_name:
+        tmp_dir = Path(tmp_name)
+        try:
+            subprocess.run(
+                [lha, "x", str(archive.resolve())],
+                cwd=tmp_dir,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+        except subprocess.CalledProcessError as exc:
+            print(f"warning: failed to extract {archive}: {exc.stderr.strip()}", file=sys.stderr)
+            return False
+        text_files = sorted(tmp_dir.glob("*.txt")) + sorted(tmp_dir.glob("*.TXT"))
+        if not text_files:
+            print(f"warning: no TXT file found in {archive}", file=sys.stderr)
+            return False
+        raw = text_files[0].read_bytes()
+        try:
+            text = raw.decode("cp932")
+        except UnicodeDecodeError:
+            text = raw.decode("utf-8", errors="replace")
+        output_path.write_text(text, encoding="utf-8")
+        return True
 
 
 def parse_venues_from_index(index_html: str) -> list[dict[str, str | None]]:
@@ -297,8 +388,63 @@ def plan_requests(args: argparse.Namespace, raw_dir: Path, date_compact: str) ->
     return planned
 
 
-def run(args: argparse.Namespace) -> int:
-    date_dash, date_compact = normalize_date(args.date)
+def plan_download_requests(args: argparse.Namespace, _raw_dir: Path, date_compact: str) -> list[dict[str, Any]]:
+    wants_specific = args.details or args.results
+    kinds: list[str] = []
+    if args.details or not wants_specific:
+        kinds.append("B")
+    if args.results or not wants_specific:
+        kinds.append("K")
+    planned: list[dict[str, Any]] = []
+    for kind in kinds:
+        suffix = kind.lower()
+        planned.append(
+            {
+                "kind": f"official_download_{suffix}",
+                "url": official_download_url(kind, date_compact),
+                "file": f"official_download_{suffix}.lzh",
+                "text_file": f"official_download_{suffix}.txt",
+                "binary": True,
+                "jcd": None,
+                "rno": None,
+            }
+        )
+    return planned
+
+
+def plan_openapi_requests(args: argparse.Namespace, _raw_dir: Path, date_compact: str) -> list[dict[str, Any]]:
+    wants_specific = args.details or args.preview or args.results
+    kinds: list[str] = []
+    if args.details or not wants_specific:
+        kinds.append("programs")
+    if args.preview:
+        kinds.append("previews")
+    if args.results or not wants_specific:
+        kinds.append("results")
+    return [
+        {
+            "kind": f"openapi_{kind}",
+            "url": openapi_url(kind, date_compact),
+            "file": f"openapi_{kind}.json",
+            "binary": False,
+            "jcd": None,
+            "rno": None,
+        }
+        for kind in kinds
+    ]
+
+
+def plan_source_requests(args: argparse.Namespace, raw_dir: Path, date_compact: str) -> list[dict[str, Any]]:
+    if args.source == "official-screen":
+        return plan_requests(args, raw_dir, date_compact)
+    if args.source in {"official", "official-download"}:
+        return plan_download_requests(args, raw_dir, date_compact)
+    if args.source == "openapi":
+        return plan_openapi_requests(args, raw_dir, date_compact)
+    raise ValueError(f"unsupported source: {args.source}")
+
+
+def run_one_date(args: argparse.Namespace, date_dash: str, date_compact: str) -> int:
     raw_dir = Path(args.raw_dir) / date_compact
     raw_dir.mkdir(parents=True, exist_ok=True)
     manifest_path = raw_dir / "manifest.json"
@@ -317,7 +463,7 @@ def run(args: argparse.Namespace) -> int:
         }
     )
 
-    planned = plan_requests(args, raw_dir, date_compact)
+    planned = plan_source_requests(args, raw_dir, date_compact)
     if args.dry_run:
         for item in planned:
             print(f"{item['kind']}\t{item['file']}\t{item['url']}")
@@ -336,12 +482,33 @@ def run(args: argparse.Namespace) -> int:
         if target.exists() and not args.force:
             print(f"cache: {target}")
             entry.update({"cached": True, "status": None, "fetched_at": None})
+            text_file = item.get("text_file")
+            if text_file and not (raw_dir / text_file).exists():
+                extracted = extract_lzh_text(target, raw_dir / text_file)
+                entry["text_file"] = text_file if extracted else None
         else:
             if fetched_any and args.sleep > 0:
                 time.sleep(args.sleep)
             print(f"fetch: {item['url']}")
-            status, text = fetch_url(item["url"], args.user_agent, args.timeout, args.retries)
-            target.write_text(text, encoding="utf-8")
+            if item.get("binary"):
+                status, body = fetch_bytes(item["url"], args.user_agent, args.timeout, args.retries)
+                if status == 404:
+                    print(f"skip missing: {item['url']}", file=sys.stderr)
+                    entry.update({"cached": False, "status": status, "fetched_at": now_iso(), "missing": True})
+                    manifest["entries"] = [e for e in manifest.get("entries", []) if e.get("file") != item["file"]]
+                    manifest["entries"].append(entry)
+                    manifest["fetched_at"] = now_iso()
+                    save_manifest(manifest_path, manifest)
+                    fetched_any = True
+                    continue
+                target.write_bytes(body)
+                text_file = item.get("text_file")
+                if text_file:
+                    extracted = extract_lzh_text(target, raw_dir / text_file)
+                    entry["text_file"] = text_file if extracted else None
+            else:
+                status, text = fetch_url(item["url"], args.user_agent, args.timeout, args.retries)
+                target.write_text(text, encoding="utf-8")
             fetched_any = True
             entry.update({"cached": False, "status": status, "fetched_at": now_iso()})
         manifest["entries"] = [e for e in manifest.get("entries", []) if e.get("file") != item["file"]]
@@ -352,9 +519,35 @@ def run(args: argparse.Namespace) -> int:
     return 0
 
 
+def run(args: argparse.Namespace) -> int:
+    if args.date:
+        dates = [normalize_date(args.date)]
+    elif args.start_date and args.end_date:
+        dates = date_range(args.start_date, args.end_date)
+    else:
+        raise SystemExit("provide --date or both --start-date and --end-date")
+    exit_code = 0
+    for date_dash, date_compact in dates:
+        print(f"date: {date_dash}")
+        try:
+            exit_code = max(exit_code, run_one_date(args, date_dash, date_compact))
+        except RuntimeError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            exit_code = 1
+    return exit_code
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--date", required=True, help="JST date as YYYY-MM-DD or YYYYMMDD")
+    parser.add_argument("--date", help="JST date as YYYY-MM-DD or YYYYMMDD")
+    parser.add_argument("--start-date", help="JST start date as YYYY-MM-DD or YYYYMMDD")
+    parser.add_argument("--end-date", help="JST end date as YYYY-MM-DD or YYYYMMDD")
+    parser.add_argument(
+        "--source",
+        choices=["official-screen", "official", "official-download", "openapi"],
+        default="official-screen",
+        help="data source; --source official uses the official B/K download files",
+    )
     parser.add_argument("--jcd", help="venue code, e.g. 01")
     parser.add_argument("--rno", type=int, choices=range(1, 13), metavar="1-12", help="limit race number")
     parser.add_argument("--details", action="store_true", help="fetch official racelist pages")
@@ -362,6 +555,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--preview", action="store_true", help="fetch official beforeinfo pages")
     parser.add_argument("--results", action="store_true", help="fetch official resultlist and raceresult pages")
     parser.add_argument("--dry-run", action="store_true", help="print planned URLs without fetching")
+    parser.add_argument("--cache", action="store_true", help="accepted for CLI readability; cache is always used")
     parser.add_argument("--force", action="store_true", help="ignore cached files and refetch")
     parser.add_argument("--raw-dir", default="data/raw", help="raw cache root")
     parser.add_argument("--sleep", type=float, default=1.0, help="seconds to wait between network requests")
