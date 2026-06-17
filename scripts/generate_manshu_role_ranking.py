@@ -144,6 +144,11 @@ def build_race(group: pd.DataFrame, mode: str) -> dict[str, Any]:
     chaos = safe_float(row.get("chaos_score"))
     skip = bool(safe_int(row.get(f"skip_{mode}")) or 0)
     skip_reason = safe_text(row.get(f"skip_reason_{mode}")) or ""
+    result_trifecta = safe_text(row.get("result_trifecta"))
+    payout_yen = safe_int(row.get("payout_yen"))
+    is_labeled = bool(safe_int(row.get("is_labeled")) or (result_trifecta and payout_yen is not None))
+    manshu_flag = bool(safe_int(row.get("manshu_flag")) or (payout_yen is not None and payout_yen >= 10000))
+    big_manshu_flag = bool(safe_int(row.get("big_manshu_flag")) or (payout_yen is not None and payout_yen >= 50000))
     return {
         "race_id": safe_text(row.get("race_id")),
         "date": safe_text(row.get("date")),
@@ -170,6 +175,14 @@ def build_race(group: pd.DataFrame, mode: str) -> dict[str, Any]:
             "lane1_vs_avg_win_diff": safe_float(row.get("lane1_vs_avg_win_diff")),
             "wind_speed_m": safe_float(row.get("wind_speed_m")),
             "wave_cm": safe_float(row.get("wave_cm")),
+        },
+        "result": {
+            "status": "confirmed" if is_labeled else "pending",
+            "is_labeled": is_labeled,
+            "trifecta": result_trifecta,
+            "payout_yen": payout_yen,
+            "manshu": manshu_flag if is_labeled else None,
+            "big_manshu": big_manshu_flag if is_labeled else None,
         },
         "role_summary": roles,
         "boats": sorted(boats, key=lambda item: (item["role"], item["role_rank"] or 9, item["lane"])),

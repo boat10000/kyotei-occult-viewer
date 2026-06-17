@@ -2,7 +2,7 @@
   "version": "manshu-role-ranking-v1",
   "mode": "morning",
   "date": "2026-06-17",
-  "generated_at": "2026-06-17T12:27:44.526700+09:00",
+  "generated_at": "2026-06-17T12:48:09.261966+09:00",
   "source": {
     "dataset": "daily temporary boat role dataset for 2026-06-17",
     "official": true,
@@ -38,6 +38,14 @@
         "lane1_vs_avg_win_diff": -1.013,
         "wind_speed_m": null,
         "wave_cm": null
+      },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
       },
       "role_summary": {
         "head": [
@@ -275,6 +283,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           3,
@@ -510,6 +526,14 @@
         "lane1_vs_avg_win_diff": -0.892,
         "wind_speed_m": null,
         "wave_cm": null
+      },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
       },
       "role_summary": {
         "head": [
@@ -748,6 +772,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           4,
@@ -984,6 +1016,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           4,
@@ -1219,6 +1259,14 @@
         "lane1_vs_avg_win_diff": -0.977,
         "wind_speed_m": null,
         "wave_cm": null
+      },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
       },
       "role_summary": {
         "head": [
@@ -1457,6 +1505,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           4,
@@ -1694,6 +1750,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           4,
@@ -1929,6 +1993,14 @@
         "lane1_vs_avg_win_diff": -0.98,
         "wind_speed_m": null,
         "wave_cm": null
+      },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
       },
       "role_summary": {
         "head": [
@@ -2167,6 +2239,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           4,
@@ -2402,6 +2482,14 @@
         "lane1_vs_avg_win_diff": -0.932,
         "wind_speed_m": null,
         "wave_cm": null
+      },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
       },
       "role_summary": {
         "head": [
@@ -2640,6 +2728,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           4,
@@ -2877,6 +2973,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           2,
@@ -3113,6 +3217,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           4,
@@ -3348,6 +3460,14 @@
         "lane1_vs_avg_win_diff": -2.623,
         "wind_speed_m": null,
         "wave_cm": null
+      },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
       },
       "role_summary": {
         "head": [
@@ -3586,6 +3706,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           2,
@@ -3822,6 +3950,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           3,
@@ -4057,6 +4193,14 @@
         "lane1_vs_avg_win_diff": -0.303,
         "wind_speed_m": null,
         "wave_cm": null
+      },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
       },
       "role_summary": {
         "head": [
@@ -4295,6 +4439,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           2,
@@ -4532,6 +4684,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           4,
@@ -4767,6 +4927,14 @@
         "lane1_vs_avg_win_diff": -0.268,
         "wind_speed_m": null,
         "wave_cm": null
+      },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
       },
       "role_summary": {
         "head": [
@@ -5004,6 +5172,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           2,
@@ -5240,6 +5416,14 @@
         "wind_speed_m": null,
         "wave_cm": null
       },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
+      },
       "role_summary": {
         "head": [
           2,
@@ -5475,6 +5659,14 @@
         "lane1_vs_avg_win_diff": -0.31,
         "wind_speed_m": null,
         "wave_cm": null
+      },
+      "result": {
+        "status": "pending",
+        "is_labeled": false,
+        "trifecta": null,
+        "payout_yen": null,
+        "manshu": null,
+        "big_manshu": null
       },
       "role_summary": {
         "head": [

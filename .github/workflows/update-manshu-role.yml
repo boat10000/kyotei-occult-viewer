@@ -4,6 +4,8 @@ on:
   schedule:
     # 09:15 JST. Keeps official-data access low-frequency and cache-first.
     - cron: "15 0 * * *"
+    # 23:30 JST. Refreshes the official result file so role cards can show outcomes.
+    - cron: "30 14 * * *"
   workflow_dispatch:
     inputs:
       date:
@@ -52,17 +54,23 @@ jobs:
       - name: Update role JSON
         env:
           INPUT_DATE: ${{ github.event.inputs.date }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
         run: |
           DATE="$INPUT_DATE"
           if [ -z "$DATE" ]; then
             DATE="$(TZ=Asia/Tokyo date +%F)"
+          fi
+          FORCE_ARG=""
+          if [ "$EVENT_SCHEDULE" = "30 14 * * *" ]; then
+            FORCE_ARG="--force"
           fi
           python scripts/update_manshu_role_daily.py \
             --date "$DATE" \
             --mode morning \
             --source official \
             --raw-dir .cache/boatrace/raw \
-            --normalized-dir .cache/boatrace/normalized
+            --normalized-dir .cache/boatrace/normalized \
+            $FORCE_ARG
 
       - name: Commit generated JSON
         run: |

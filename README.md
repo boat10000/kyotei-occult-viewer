@@ -201,10 +201,11 @@ python3 scripts/update_manshu_role_daily.py --date 2026-06-17
 
 GitHub Actionsによる自動更新:
 
-- `.github/workflows/update-manshu-role.yml` が毎日 09:15 JST に実行されます。
+- `.github/workflows/update-manshu-role.yml` が毎日 09:15 JST と 23:30 JST に実行されます。
+- 09:15 は朝版ロール候補、23:30 は結果・配当反映用です。
 - 公式B/Kダウンロードを低頻度・キャッシュ前提で取得し、当日分の `data/output/manshu_role_ranking_YYYYMMDD.json` だけをコミットします。
 - GitHubのActions画面から `Update manshu role ranking` を手動実行すると、指定日付のJSONも再生成できます。
-- 自動生成は朝版ロール候補です。展示・気象を含む直前版は、画面スクレイピング負荷を避けるため、必要な場・Rだけ補完する方針です。
+- 展示・気象を含む直前版は、画面スクレイピング負荷を避けるため、必要な場・Rだけ補完する方針です。
 
 主な出力:
 

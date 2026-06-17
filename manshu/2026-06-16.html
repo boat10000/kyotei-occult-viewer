@@ -33,6 +33,7 @@ p.dist{font-size:12.5px;color:#33405a;background:#f7f9fc;border:1px solid #e3e8f
 .rolebox.head .tag{color:#b91c1c}.rolebox.head{background:#fff7ed;border-color:#fecaca}
 .rolebox.axis .tag{color:#1d4ed8}.rolebox.axis{background:#eff6ff;border-color:#bfdbfe}
 .rolefoot{font-size:11.5px;color:#64748b;margin-top:7px}
+.role-result{font-weight:800;color:#33405a}
 @media(max-width:560px){.rolegrid{grid-template-columns:1fr}}
 tr.rrow{cursor:pointer} tr.rrow:active{background:#f3effe} .caret{color:#7c3aed;font-size:11px}
 tr.accrow>td{padding:6px 4px;background:#faf8ff} tr.accrow .card{margin:0}
@@ -171,6 +172,7 @@ footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:20px}
 <script>
 "use strict";
 var RDATE="2026-06-16", MAN=10000;
+var ROLE_RESULT_MAP={};
 var XPICKS=[{"key": "1-2", "nm": "桐生", "r": 2}, {"key": "6-3", "nm": "浜名湖", "r": 3}, {"key": "6-1", "nm": "浜名湖", "r": 1}, {"key": "3-1", "nm": "江戸川", "r": 1}, {"key": "16-3", "nm": "児島", "r": 3}], XDATE="6/16";
 var NOTEPICKS=[{"key": "1-2", "nm": "桐生", "r": 2, "rate": 26, "dev": 9, "elite": true, "why": "会場が桐生（万舟率19%＝荒れやすい場）；本命(1号艇)がB1級（格下＝飛びやすい）；本命のイン1着率が33%と低い（飛びやすい）；出走にB級3人（実力が割れて混戦）；外枠にA1が1人（本命を負かす力あり）；2R（序盤は静まらず荒れやすい傾向） → これらの総合で万舟スコア26%（ベース16.6%の1.6倍）。"}, {"key": "6-3", "nm": "浜名湖", "r": 3, "rate": 25, "dev": 8, "elite": true, "why": "会場が浜名湖（万舟率18%＝荒れやすい場）；本命(1号艇)がB1級（格下＝飛びやすい）；出走にB級3人（実力が割れて混戦）；3R（序盤は静まらず荒れやすい傾向） → これらの総合で万舟スコア25%（ベース16.6%の1.5倍）。"}, {"key": "6-1", "nm": "浜名湖", "r": 1, "rate": 25, "dev": 7, "elite": true, "why": "会場が浜名湖（万舟率18%＝荒れやすい場）；本命(1号艇)がB1級（格下＝飛びやすい）；本命のイン1着率が25%と低い（飛びやすい）；出走にB級6人（実力が割れて混戦）；1R（序盤は静まらず荒れやすい傾向） → これらの総合で万舟スコア25%（ベース16.6%の1.5倍）。"}, {"key": "3-1", "nm": "江戸川", "r": 1, "rate": 25, "dev": 7, "elite": true, "why": "会場が江戸川（万舟率18%＝荒れやすい場）；本命(1号艇)がB1級（格下＝飛びやすい）；本命のイン1着率が18%と低い（飛びやすい）；出走にB級6人（実力が割れて混戦）；1R（序盤は静まらず荒れやすい傾向） → これらの総合で万舟スコア25%（ベース16.6%の1.5倍）。"}, {"key": "16-3", "nm": "児島", "r": 3, "rate": 24, "dev": 7, "elite": true, "why": "会場が児島（万舟率18%＝荒れやすい場）；本命のイン1着率が38%と低い（飛びやすい）；出走にB級4人（実力が割れて混戦）；3R（序盤は静まらず荒れやすい傾向） → これらの総合で万舟スコア24%（ベース16.6%の1.5倍）。"}], NAVG="17";
 function setStatus(t){var e=document.getElementById('rstat'); if(e) e.textContent=t;}
@@ -292,6 +294,23 @@ function roleBox(r,title,role,lanes){
   if(!body) body='<span class="muted">未判定</span>';
   return '<div class="rolebox '+role+'"><span class="tag">'+title+'</span>'+body+'</div>';
 }
+function roleResultKey(r){return parseInt(r.jcd,10)+'-'+parseInt(r.race_no,10);}
+function roleResultHtml(r){
+  var live=ROLE_RESULT_MAP[roleResultKey(r)],res=r.result||{},combo=null,payout=null;
+  if(live){combo=live.combination; payout=live.payout;}
+  else {combo=res.trifecta; payout=res.payout_yen;}
+  if(!combo) return '結果: <span class="muted">未確定</span>';
+  if(payout==null) return '結果: 3連単 <b>'+esc(combo)+'</b> <span class="muted">配当待ち</span>';
+  var man=payout>=MAN;
+  return '結果: 3連単 <b>'+esc(combo)+'</b> '+Number(payout).toLocaleString()+'円 '+(man?'<span class="man">◎万舟</span>':'<span class="muted">— 堅め</span>');
+}
+function updateRoleResults(){
+  document.querySelectorAll('[data-role-result]').forEach(function(el){
+    var raw=el.getAttribute('data-role-json');
+    if(!raw) return;
+    try{el.innerHTML=roleResultHtml(JSON.parse(raw));}catch(e){}
+  });
+}
 function renderRoleRanking(data){
   var status=document.getElementById('role-status'),list=document.getElementById('role-list');
   if(!status||!list) return;
@@ -320,6 +339,7 @@ function renderRoleRanking(data){
         roleBox(r,'消し候補','toss',roles.toss)+
         roleBox(r,'残り相手','opponent',roles.opponent)+
       '</div>'+
+      '<div class="rolefoot role-result" data-role-result="'+esc(roleResultKey(r))+'" data-role-json="'+esc(JSON.stringify({jcd:r.jcd,race_no:r.race_no,result:r.result||{}}))+'">'+roleResultHtml(r)+'</div>'+
       '<div class="rolefoot">'+(skip?'見送り候補: '+esc((r.skip_recommendation.reasons||[]).join(' / ')):'見送り判定なし')+'　検証用フォーメーション '+formText+'</div>'+
     '</div>';
   }).join('');
@@ -346,6 +366,8 @@ async function loadResults(){
     var t=trifectaOf(r);   // 配当が空でも着順から組番を復元(payout=null)
     if(t) map[r.race_stadium_number+'-'+r.race_number]=t;
   });
+  ROLE_RESULT_MAP=map;
+  updateRoleResults();
   var done=0,man=0,total=0,pend=0;
   document.querySelectorAll('[data-vr]').forEach(function(el){
     var kind=el.dataset.kind;

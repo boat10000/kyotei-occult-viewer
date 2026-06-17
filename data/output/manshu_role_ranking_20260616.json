@@ -2,13 +2,13 @@
   "version": "manshu-role-ranking-v1",
   "mode": "preview",
   "date": "2026-06-16",
-  "generated_at": "2026-06-17T10:36:01.088922+09:00",
+  "generated_at": "2026-06-17T12:48:08.943956+09:00",
   "source": {
     "dataset": "data/analysis/boat_role_dataset.csv",
     "official": true,
     "notes": [
-      "既存正規化データから生成したプロトタイプJSONです。",
-      "既存公開ページには未接続です。"
+      "既存正規化データから生成したロール表示用JSONです。",
+      "manshu.html は同日付の data/output/manshu_role_ranking_YYYYMMDD.json を読み込みます。"
     ]
   },
   "races": [
@@ -39,6 +39,14 @@
         "wind_speed_m": 3.0,
         "wave_cm": 1.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-2-4",
+        "payout_yen": 1380,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           2,
@@ -58,7 +66,7 @@
       "boats": [
         {
           "lane": 6,
-          "registration_no": "5223.0",
+          "registration_no": "5223",
           "name": "森清友翔",
           "class": "B1",
           "role": "axis",
@@ -85,7 +93,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "4550.0",
+          "registration_no": "4550",
           "name": "石岡将太",
           "class": "B1",
           "role": "axis",
@@ -112,7 +120,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4540.0",
+          "registration_no": "4540",
           "name": "相原利章",
           "class": "A2",
           "role": "head",
@@ -139,7 +147,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "3993.0",
+          "registration_no": "3993",
           "name": "永井聖美",
           "class": "A2",
           "role": "head",
@@ -166,7 +174,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4043.0",
+          "registration_no": "4043",
           "name": "桐本康臣",
           "class": "A2",
           "role": "opponent",
@@ -193,7 +201,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "3992.0",
+          "registration_no": "3992",
           "name": "関口智久",
           "class": "B1",
           "role": "toss",
@@ -239,9 +247,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -275,6 +281,14 @@
         "wind_speed_m": 2.0,
         "wave_cm": 1.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "5-1-2",
+        "payout_yen": 3440,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           2,
@@ -294,7 +308,7 @@
       "boats": [
         {
           "lane": 1,
-          "registration_no": "3891.0",
+          "registration_no": "3891",
           "name": "谷口健一",
           "class": "B1",
           "role": "axis",
@@ -321,7 +335,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "5128.0",
+          "registration_no": "5128",
           "name": "坪井爽佑",
           "class": "B1",
           "role": "axis",
@@ -348,7 +362,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "4564.0",
+          "registration_no": "4564",
           "name": "山本景士",
           "class": "B1",
           "role": "head",
@@ -375,7 +389,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4275.0",
+          "registration_no": "4275",
           "name": "菅野はや",
           "class": "B2",
           "role": "head",
@@ -402,7 +416,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "3523.0",
+          "registration_no": "3523",
           "name": "寳田亮治",
           "class": "B1",
           "role": "opponent",
@@ -429,7 +443,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "3839.0",
+          "registration_no": "3839",
           "name": "川合理司",
           "class": "B1",
           "role": "toss",
@@ -475,9 +489,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -511,6 +523,14 @@
         "wind_speed_m": 1.0,
         "wave_cm": 1.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "2-4-3",
+        "payout_yen": 2190,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           2,
@@ -530,7 +550,7 @@
       "boats": [
         {
           "lane": 4,
-          "registration_no": "5136.0",
+          "registration_no": "5136",
           "name": "濱野斗馬",
           "class": "A2",
           "role": "axis",
@@ -557,7 +577,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4086.0",
+          "registration_no": "4086",
           "name": "寺本重宣",
           "class": "A2",
           "role": "axis",
@@ -584,7 +604,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "5145.0",
+          "registration_no": "5145",
           "name": "島川海輝",
           "class": "A2",
           "role": "head",
@@ -611,7 +631,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4077.0",
+          "registration_no": "4077",
           "name": "品田直樹",
           "class": "B1",
           "role": "head",
@@ -638,7 +658,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "5076.0",
+          "registration_no": "5076",
           "name": "石原 光",
           "class": "B1",
           "role": "opponent",
@@ -665,7 +685,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "4167.0",
+          "registration_no": "4167",
           "name": "片岡秀樹",
           "class": "B1",
           "role": "toss",
@@ -711,9 +731,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -747,6 +765,14 @@
         "wind_speed_m": 5.0,
         "wave_cm": 4.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-2-3",
+        "payout_yen": 1000,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           2,
@@ -766,7 +792,7 @@
       "boats": [
         {
           "lane": 5,
-          "registration_no": "4568.0",
+          "registration_no": "4568",
           "name": "廣瀬真也",
           "class": "A2",
           "role": "axis",
@@ -793,7 +819,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "3161.0",
+          "registration_no": "3161",
           "name": "古場輝義",
           "class": "B1",
           "role": "axis",
@@ -820,7 +846,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "4953.0",
+          "registration_no": "4953",
           "name": "尾上雅也",
           "class": "A1",
           "role": "head",
@@ -847,7 +873,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "4690.0",
+          "registration_no": "4690",
           "name": "高石梨菜",
           "class": "B2",
           "role": "head",
@@ -874,7 +900,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "3655.0",
+          "registration_no": "3655",
           "name": "本橋克洋",
           "class": "A2",
           "role": "opponent",
@@ -901,7 +927,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "3581.0",
+          "registration_no": "3581",
           "name": "加木 郁",
           "class": "B1",
           "role": "toss",
@@ -947,9 +973,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -983,6 +1007,14 @@
         "wind_speed_m": 1.0,
         "wave_cm": 1.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-4-5",
+        "payout_yen": 1780,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           4,
@@ -1002,7 +1034,7 @@
       "boats": [
         {
           "lane": 2,
-          "registration_no": "4301.0",
+          "registration_no": "4301",
           "name": "関 裕也",
           "class": "B1",
           "role": "axis",
@@ -1029,7 +1061,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "3822.0",
+          "registration_no": "3822",
           "name": "平尾崇典",
           "class": "A1",
           "role": "axis",
@@ -1056,7 +1088,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4677.0",
+          "registration_no": "4677",
           "name": "片橋幸貴",
           "class": "B2",
           "role": "head",
@@ -1083,7 +1115,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4148.0",
+          "registration_no": "4148",
           "name": "枝尾 賢",
           "class": "A2",
           "role": "head",
@@ -1110,7 +1142,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "5157.0",
+          "registration_no": "5157",
           "name": "市川健太",
           "class": "B1",
           "role": "opponent",
@@ -1137,7 +1169,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "4904.0",
+          "registration_no": "4904",
           "name": "松本一毅",
           "class": "A2",
           "role": "toss",
@@ -1183,9 +1215,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -1219,6 +1249,14 @@
         "wind_speed_m": 2.0,
         "wave_cm": 5.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "3-5-1",
+        "payout_yen": 2430,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           3,
@@ -1238,7 +1276,7 @@
       "boats": [
         {
           "lane": 2,
-          "registration_no": "5178.0",
+          "registration_no": "5178",
           "name": "成貞琳平",
           "class": "B1",
           "role": "axis",
@@ -1265,7 +1303,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "5286.0",
+          "registration_no": "5286",
           "name": "坂井滉哉",
           "class": "B1",
           "role": "axis",
@@ -1292,7 +1330,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "5333.0",
+          "registration_no": "5333",
           "name": "山下智己",
           "class": "B1",
           "role": "head",
@@ -1319,7 +1357,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "5325.0",
+          "registration_no": "5325",
           "name": "澁川 夏",
           "class": "B1",
           "role": "head",
@@ -1346,7 +1384,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "5394.0",
+          "registration_no": "5394",
           "name": "福西広太",
           "class": "B1",
           "role": "opponent",
@@ -1373,7 +1411,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "5386.0",
+          "registration_no": "5386",
           "name": "米玉利大",
           "class": "B1",
           "role": "toss",
@@ -1419,9 +1457,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -1455,6 +1491,14 @@
         "wind_speed_m": 2.0,
         "wave_cm": 1.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-2-3",
+        "payout_yen": 1550,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           5,
@@ -1474,7 +1518,7 @@
       "boats": [
         {
           "lane": 2,
-          "registration_no": "4174.0",
+          "registration_no": "4174",
           "name": "赤坂俊輔",
           "class": "A1",
           "role": "axis",
@@ -1501,7 +1545,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "4369.0",
+          "registration_no": "4369",
           "name": "丹下 将",
           "class": "A2",
           "role": "axis",
@@ -1528,7 +1572,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4654.0",
+          "registration_no": "4654",
           "name": "篠田優也",
           "class": "A2",
           "role": "head",
@@ -1555,7 +1599,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4332.0",
+          "registration_no": "4332",
           "name": "村上彰一",
           "class": "B1",
           "role": "head",
@@ -1582,7 +1626,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "3812.0",
+          "registration_no": "3812",
           "name": "山崎聖司",
           "class": "B1",
           "role": "opponent",
@@ -1609,7 +1653,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "3652.0",
+          "registration_no": "3652",
           "name": "森下 勇",
           "class": "B1",
           "role": "toss",
@@ -1655,9 +1699,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -1691,6 +1733,14 @@
         "wind_speed_m": 4.0,
         "wave_cm": 4.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "3-2-5",
+        "payout_yen": 21640,
+        "manshu": true,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           5,
@@ -1710,7 +1760,7 @@
       "boats": [
         {
           "lane": 1,
-          "registration_no": "3784.0",
+          "registration_no": "3784",
           "name": "中島友和",
           "class": "B1",
           "role": "axis",
@@ -1737,7 +1787,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "4816.0",
+          "registration_no": "4816",
           "name": "村松修二",
           "class": "A2",
           "role": "axis",
@@ -1764,7 +1814,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4063.0",
+          "registration_no": "4063",
           "name": "市橋卓士",
           "class": "A1",
           "role": "head",
@@ -1791,7 +1841,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "5326.0",
+          "registration_no": "5326",
           "name": "三嶌さら",
           "class": "B1",
           "role": "head",
@@ -1818,7 +1868,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "3866.0",
+          "registration_no": "3866",
           "name": "木山誠一",
           "class": "B1",
           "role": "opponent",
@@ -1845,7 +1895,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4785.0",
+          "registration_no": "4785",
           "name": "木幡純也",
           "class": "B1",
           "role": "toss",
@@ -1891,9 +1941,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -1927,6 +1975,14 @@
         "wind_speed_m": 5.0,
         "wave_cm": 5.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-3-2",
+        "payout_yen": 1950,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           3,
@@ -1946,7 +2002,7 @@
       "boats": [
         {
           "lane": 2,
-          "registration_no": "4076.0",
+          "registration_no": "4076",
           "name": "杉田篤光",
           "class": "A2",
           "role": "axis",
@@ -1973,7 +2029,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "5096.0",
+          "registration_no": "5096",
           "name": "上原 崚",
           "class": "A2",
           "role": "axis",
@@ -2000,7 +2056,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "5132.0",
+          "registration_no": "5132",
           "name": "中野希一",
           "class": "A1",
           "role": "head",
@@ -2027,7 +2083,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "4594.0",
+          "registration_no": "4594",
           "name": "谷川祐一",
           "class": "A2",
           "role": "head",
@@ -2054,7 +2110,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4725.0",
+          "registration_no": "4725",
           "name": "佐竹太一",
           "class": "B1",
           "role": "opponent",
@@ -2081,7 +2137,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "4638.0",
+          "registration_no": "4638",
           "name": "小林遼太",
           "class": "B1",
           "role": "toss",
@@ -2163,6 +2219,14 @@
         "wind_speed_m": 2.0,
         "wave_cm": 1.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "2-3-5",
+        "payout_yen": 1120,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           2,
@@ -2182,7 +2246,7 @@
       "boats": [
         {
           "lane": 5,
-          "registration_no": "4710.0",
+          "registration_no": "4710",
           "name": "福田宗平",
           "class": "A1",
           "role": "axis",
@@ -2209,7 +2273,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4945.0",
+          "registration_no": "4945",
           "name": "上村宏太",
           "class": "B1",
           "role": "axis",
@@ -2236,7 +2300,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "4736.0",
+          "registration_no": "4736",
           "name": "高倉和士",
           "class": "A1",
           "role": "head",
@@ -2263,7 +2327,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "4766.0",
+          "registration_no": "4766",
           "name": "石井孝之",
           "class": "B1",
           "role": "head",
@@ -2290,7 +2354,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4359.0",
+          "registration_no": "4359",
           "name": "横川聖志",
           "class": "A2",
           "role": "opponent",
@@ -2317,7 +2381,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "3906.0",
+          "registration_no": "3906",
           "name": "飯山晃三",
           "class": "B1",
           "role": "toss",
@@ -2399,6 +2463,14 @@
         "wind_speed_m": 2.0,
         "wave_cm": 2.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-2-4",
+        "payout_yen": 590,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           2,
@@ -2418,7 +2490,7 @@
       "boats": [
         {
           "lane": 1,
-          "registration_no": "3406.0",
+          "registration_no": "3406",
           "name": "中里英夫",
           "class": "A2",
           "role": "axis",
@@ -2445,7 +2517,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "3870.0",
+          "registration_no": "3870",
           "name": "寺嶋 雄",
           "class": "B1",
           "role": "axis",
@@ -2472,7 +2544,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4000.0",
+          "registration_no": "4000",
           "name": "松本博昭",
           "class": "A2",
           "role": "head",
@@ -2499,7 +2571,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "4677.0",
+          "registration_no": "4677",
           "name": "片橋幸貴",
           "class": "B2",
           "role": "head",
@@ -2526,7 +2598,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4904.0",
+          "registration_no": "4904",
           "name": "松本一毅",
           "class": "A2",
           "role": "opponent",
@@ -2553,7 +2625,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "3882.0",
+          "registration_no": "3882",
           "name": "新田智彰",
           "class": "B1",
           "role": "toss",
@@ -2635,6 +2707,14 @@
         "wind_speed_m": 1.0,
         "wave_cm": 1.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "4-5-1",
+        "payout_yen": 6140,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           4,
@@ -2654,7 +2734,7 @@
       "boats": [
         {
           "lane": 2,
-          "registration_no": "3613.0",
+          "registration_no": "3613",
           "name": "角谷健吾",
           "class": "A1",
           "role": "axis",
@@ -2681,7 +2761,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "4750.0",
+          "registration_no": "4750",
           "name": "井上尚悟",
           "class": "B1",
           "role": "axis",
@@ -2708,7 +2788,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4960.0",
+          "registration_no": "4960",
           "name": "黒野元基",
           "class": "A1",
           "role": "head",
@@ -2735,7 +2815,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4260.0",
+          "registration_no": "4260",
           "name": "中越博紀",
           "class": "A2",
           "role": "head",
@@ -2762,7 +2842,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4195.0",
+          "registration_no": "4195",
           "name": "前川守嗣",
           "class": "B1",
           "role": "opponent",
@@ -2789,7 +2869,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "4202.0",
+          "registration_no": "4202",
           "name": "浮田圭浩",
           "class": "B1",
           "role": "toss",
@@ -2835,9 +2915,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -2871,6 +2949,14 @@
         "wind_speed_m": 3.0,
         "wave_cm": 3.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-2-5",
+        "payout_yen": 1120,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           2,
@@ -2890,7 +2976,7 @@
       "boats": [
         {
           "lane": 1,
-          "registration_no": "3930.0",
+          "registration_no": "3930",
           "name": "岸本 隆",
           "class": "B1",
           "role": "axis",
@@ -2917,7 +3003,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4428.0",
+          "registration_no": "4428",
           "name": "有賀達也",
           "class": "A1",
           "role": "axis",
@@ -2944,7 +3030,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "3703.0",
+          "registration_no": "3703",
           "name": "鳥飼 眞",
           "class": "A2",
           "role": "head",
@@ -2971,7 +3057,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "4064.0",
+          "registration_no": "4064",
           "name": "原田篤志",
           "class": "A1",
           "role": "head",
@@ -2998,7 +3084,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4821.0",
+          "registration_no": "4821",
           "name": "妻鳥晋也",
           "class": "B1",
           "role": "opponent",
@@ -3025,7 +3111,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "4906.0",
+          "registration_no": "4906",
           "name": "鈴木雅希",
           "class": "B1",
           "role": "toss",
@@ -3107,6 +3193,14 @@
         "wind_speed_m": 3.0,
         "wave_cm": 5.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-4-2",
+        "payout_yen": 2520,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           3,
@@ -3126,7 +3220,7 @@
       "boats": [
         {
           "lane": 2,
-          "registration_no": "5351.0",
+          "registration_no": "5351",
           "name": "齊藤 廉",
           "class": "B1",
           "role": "axis",
@@ -3153,7 +3247,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "5337.0",
+          "registration_no": "5337",
           "name": "出畑孝成",
           "class": "B1",
           "role": "axis",
@@ -3180,7 +3274,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "5298.0",
+          "registration_no": "5298",
           "name": "水谷理人",
           "class": "A2",
           "role": "head",
@@ -3207,7 +3301,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "5290.0",
+          "registration_no": "5290",
           "name": "坂本一真",
           "class": "B1",
           "role": "head",
@@ -3234,7 +3328,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "5394.0",
+          "registration_no": "5394",
           "name": "福西広太",
           "class": "B1",
           "role": "opponent",
@@ -3261,7 +3355,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "5398.0",
+          "registration_no": "5398",
           "name": "鐘ヶ江真",
           "class": "B1",
           "role": "toss",
@@ -3307,9 +3401,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -3343,6 +3435,14 @@
         "wind_speed_m": 4.0,
         "wave_cm": 5.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "2-3-4",
+        "payout_yen": 2370,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           2,
@@ -3362,7 +3462,7 @@
       "boats": [
         {
           "lane": 5,
-          "registration_no": "5424.0",
+          "registration_no": "5424",
           "name": "熊倉幹太",
           "class": "B2",
           "role": "axis",
@@ -3389,7 +3489,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "5244.0",
+          "registration_no": "5244",
           "name": "黒田 剛",
           "class": "B1",
           "role": "axis",
@@ -3416,7 +3516,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "5292.0",
+          "registration_no": "5292",
           "name": "佐藤右京",
           "class": "B1",
           "role": "head",
@@ -3443,7 +3543,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "5177.0",
+          "registration_no": "5177",
           "name": "松井貫太",
           "class": "B1",
           "role": "head",
@@ -3470,7 +3570,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "5242.0",
+          "registration_no": "5242",
           "name": "高山弘斗",
           "class": "B1",
           "role": "opponent",
@@ -3497,7 +3597,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "5187.0",
+          "registration_no": "5187",
           "name": "小坂風太",
           "class": "B1",
           "role": "toss",
@@ -3543,9 +3643,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -3579,6 +3677,14 @@
         "wind_speed_m": 2.0,
         "wave_cm": 1.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-3-6",
+        "payout_yen": 2650,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           3,
@@ -3598,7 +3704,7 @@
       "boats": [
         {
           "lane": 1,
-          "registration_no": "4580.0",
+          "registration_no": "4580",
           "name": "長谷川雅",
           "class": "B1",
           "role": "axis",
@@ -3625,7 +3731,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "3576.0",
+          "registration_no": "3576",
           "name": "白水勝也",
           "class": "A1",
           "role": "axis",
@@ -3652,7 +3758,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "4418.0",
+          "registration_no": "4418",
           "name": "茅原悠紀",
           "class": "A1",
           "role": "head",
@@ -3679,7 +3785,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4485.0",
+          "registration_no": "4485",
           "name": "楠原正剛",
           "class": "A2",
           "role": "head",
@@ -3706,7 +3812,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4523.0",
+          "registration_no": "4523",
           "name": "中村辰也",
           "class": "A2",
           "role": "opponent",
@@ -3733,7 +3839,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4508.0",
+          "registration_no": "4508",
           "name": "野間大樹",
           "class": "B1",
           "role": "toss",
@@ -3779,9 +3885,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -3815,6 +3919,14 @@
         "wind_speed_m": 3.0,
         "wave_cm": 3.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "5-2-4",
+        "payout_yen": 31100,
+        "manshu": true,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           3,
@@ -3834,7 +3946,7 @@
       "boats": [
         {
           "lane": 2,
-          "registration_no": "3627.0",
+          "registration_no": "3627",
           "name": "井上恵一",
           "class": "A2",
           "role": "axis",
@@ -3861,7 +3973,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "5039.0",
+          "registration_no": "5039",
           "name": "倉田茂将",
           "class": "A2",
           "role": "axis",
@@ -3888,7 +4000,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4575.0",
+          "registration_no": "4575",
           "name": "戸塚邦好",
           "class": "A1",
           "role": "head",
@@ -3915,7 +4027,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "5005.0",
+          "registration_no": "5005",
           "name": "石田貴洋",
           "class": "B1",
           "role": "head",
@@ -3942,7 +4054,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4006.0",
+          "registration_no": "4006",
           "name": "小野勇作",
           "class": "B1",
           "role": "opponent",
@@ -3969,7 +4081,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "4489.0",
+          "registration_no": "4489",
           "name": "岩川仁士",
           "class": "B1",
           "role": "toss",
@@ -4015,9 +4127,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -4051,6 +4161,14 @@
         "wind_speed_m": 4.0,
         "wave_cm": 5.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "4-1-3",
+        "payout_yen": 5330,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           4,
@@ -4070,7 +4188,7 @@
       "boats": [
         {
           "lane": 2,
-          "registration_no": "5127.0",
+          "registration_no": "5127",
           "name": "沼田大都",
           "class": "B1",
           "role": "axis",
@@ -4097,7 +4215,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "5307.0",
+          "registration_no": "5307",
           "name": "富永夏哉",
           "class": "B1",
           "role": "axis",
@@ -4124,7 +4242,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "5255.0",
+          "registration_no": "5255",
           "name": "藤原仙二",
           "class": "A2",
           "role": "head",
@@ -4151,7 +4269,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "5232.0",
+          "registration_no": "5232",
           "name": "樅山拓馬",
           "class": "B1",
           "role": "head",
@@ -4178,7 +4296,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "5263.0",
+          "registration_no": "5263",
           "name": "花田凱成",
           "class": "B1",
           "role": "opponent",
@@ -4205,7 +4323,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "5312.0",
+          "registration_no": "5312",
           "name": "川辺郭人",
           "class": "B1",
           "role": "toss",
@@ -4251,9 +4369,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -4287,6 +4403,14 @@
         "wind_speed_m": 3.0,
         "wave_cm": 2.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-2-4",
+        "payout_yen": 580,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           4,
@@ -4306,7 +4430,7 @@
       "boats": [
         {
           "lane": 1,
-          "registration_no": "4583.0",
+          "registration_no": "4583",
           "name": "古田祐貴",
           "class": "A2",
           "role": "axis",
@@ -4333,7 +4457,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "5020.0",
+          "registration_no": "5020",
           "name": "宮村勇哉",
           "class": "B1",
           "role": "axis",
@@ -4360,7 +4484,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4892.0",
+          "registration_no": "4892",
           "name": "柴田直哉",
           "class": "B1",
           "role": "head",
@@ -4387,7 +4511,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4369.0",
+          "registration_no": "4369",
           "name": "丹下 将",
           "class": "A2",
           "role": "head",
@@ -4414,7 +4538,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "4379.0",
+          "registration_no": "4379",
           "name": "桑島和宏",
           "class": "A1",
           "role": "opponent",
@@ -4441,7 +4565,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "3950.0",
+          "registration_no": "3950",
           "name": "石川哲秀",
           "class": "B1",
           "role": "toss",
@@ -4487,9 +4611,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -4523,6 +4645,14 @@
         "wind_speed_m": 3.0,
         "wave_cm": 2.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-5-2",
+        "payout_yen": 770,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           2,
@@ -4542,7 +4672,7 @@
       "boats": [
         {
           "lane": 1,
-          "registration_no": "3893.0",
+          "registration_no": "3893",
           "name": "汐崎正則",
           "class": "B1",
           "role": "axis",
@@ -4569,7 +4699,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4017.0",
+          "registration_no": "4017",
           "name": "向井美鈴",
           "class": "A2",
           "role": "axis",
@@ -4596,7 +4726,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "3554.0",
+          "registration_no": "3554",
           "name": "仲口博崇",
           "class": "A1",
           "role": "head",
@@ -4623,7 +4753,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "3349.0",
+          "registration_no": "3349",
           "name": "吉田一郎",
           "class": "A2",
           "role": "head",
@@ -4650,7 +4780,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "5067.0",
+          "registration_no": "5067",
           "name": "山田真聖",
           "class": "B1",
           "role": "opponent",
@@ -4677,7 +4807,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "5011.0",
+          "registration_no": "5011",
           "name": "高木圭大",
           "class": "B1",
           "role": "toss",
@@ -4723,9 +4853,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -4759,6 +4887,14 @@
         "wind_speed_m": 2.0,
         "wave_cm": 1.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-3-2",
+        "payout_yen": 750,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           2,
@@ -4778,7 +4914,7 @@
       "boats": [
         {
           "lane": 3,
-          "registration_no": "3615.0",
+          "registration_no": "3615",
           "name": "横田 茂",
           "class": "B1",
           "role": "axis",
@@ -4805,7 +4941,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4943.0",
+          "registration_no": "4943",
           "name": "八木治樹",
           "class": "B1",
           "role": "axis",
@@ -4832,7 +4968,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4145.0",
+          "registration_no": "4145",
           "name": "小澤 学",
           "class": "B1",
           "role": "head",
@@ -4859,7 +4995,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "5048.0",
+          "registration_no": "5048",
           "name": "眞鳥康太",
           "class": "B1",
           "role": "head",
@@ -4886,7 +5022,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "4623.0",
+          "registration_no": "4623",
           "name": "中北将史",
           "class": "B1",
           "role": "opponent",
@@ -4913,7 +5049,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "5349.0",
+          "registration_no": "5349",
           "name": "宮崎奏磨",
           "class": "B2",
           "role": "toss",
@@ -4995,6 +5131,14 @@
         "wind_speed_m": 2.0,
         "wave_cm": 1.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-4-5",
+        "payout_yen": 1060,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           2,
@@ -5014,7 +5158,7 @@
       "boats": [
         {
           "lane": 1,
-          "registration_no": "4980.0",
+          "registration_no": "4980",
           "name": "佐々木完",
           "class": "A1",
           "role": "axis",
@@ -5041,7 +5185,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "4739.0",
+          "registration_no": "4739",
           "name": "中村晃朋",
           "class": "A1",
           "role": "axis",
@@ -5068,7 +5212,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4604.0",
+          "registration_no": "4604",
           "name": "岩瀬裕亮",
           "class": "A1",
           "role": "head",
@@ -5095,7 +5239,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "4959.0",
+          "registration_no": "4959",
           "name": "井上忠政",
           "class": "A1",
           "role": "head",
@@ -5122,7 +5266,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4344.0",
+          "registration_no": "4344",
           "name": "新田雄史",
           "class": "A1",
           "role": "opponent",
@@ -5149,7 +5293,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4483.0",
+          "registration_no": "4483",
           "name": "北野輝季",
           "class": "A1",
           "role": "toss",
@@ -5231,6 +5375,14 @@
         "wind_speed_m": 3.0,
         "wave_cm": 3.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "1-5-2",
+        "payout_yen": 3500,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           3,
@@ -5250,7 +5402,7 @@
       "boats": [
         {
           "lane": 2,
-          "registration_no": "4433.0",
+          "registration_no": "4433",
           "name": "川野芽唯",
           "class": "A1",
           "role": "axis",
@@ -5277,7 +5429,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4289.0",
+          "registration_no": "4289",
           "name": "落合直子",
           "class": "A2",
           "role": "axis",
@@ -5304,7 +5456,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4286.0",
+          "registration_no": "4286",
           "name": "平田さや",
           "class": "A2",
           "role": "head",
@@ -5331,7 +5483,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "4773.0",
+          "registration_no": "4773",
           "name": "中川りな",
           "class": "A2",
           "role": "head",
@@ -5358,7 +5510,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "4909.0",
+          "registration_no": "4909",
           "name": "薮内瑞希",
           "class": "B1",
           "role": "opponent",
@@ -5385,7 +5537,7 @@
         },
         {
           "lane": 1,
-          "registration_no": "4936.0",
+          "registration_no": "4936",
           "name": "戸敷晃美",
           "class": "A2",
           "role": "toss",
@@ -5431,9 +5583,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -5467,6 +5617,14 @@
         "wind_speed_m": 0.0,
         "wave_cm": 1.0
       },
+      "result": {
+        "status": "confirmed",
+        "is_labeled": true,
+        "trifecta": "2-4-1",
+        "payout_yen": 5630,
+        "manshu": false,
+        "big_manshu": false
+      },
       "role_summary": {
         "head": [
           4,
@@ -5486,7 +5644,7 @@
       "boats": [
         {
           "lane": 1,
-          "registration_no": "4077.0",
+          "registration_no": "4077",
           "name": "品田直樹",
           "class": "B1",
           "role": "axis",
@@ -5513,7 +5671,7 @@
         },
         {
           "lane": 3,
-          "registration_no": "5073.0",
+          "registration_no": "5073",
           "name": "上原健次",
           "class": "A2",
           "role": "axis",
@@ -5540,7 +5698,7 @@
         },
         {
           "lane": 4,
-          "registration_no": "4418.0",
+          "registration_no": "4418",
           "name": "茅原悠紀",
           "class": "A1",
           "role": "head",
@@ -5567,7 +5725,7 @@
         },
         {
           "lane": 6,
-          "registration_no": "5222.0",
+          "registration_no": "5222",
           "name": "津田陸翔",
           "class": "A2",
           "role": "head",
@@ -5594,7 +5752,7 @@
         },
         {
           "lane": 2,
-          "registration_no": "4281.0",
+          "registration_no": "4281",
           "name": "大澤大夢",
           "class": "B1",
           "role": "opponent",
@@ -5621,7 +5779,7 @@
         },
         {
           "lane": 5,
-          "registration_no": "4245.0",
+          "registration_no": "4245",
           "name": "高橋直哉",
           "class": "B1",
           "role": "toss",
@@ -5667,9 +5825,7 @@
       },
       "skip_recommendation": {
         "skip": false,
-        "reasons": [
-          "nan"
-        ]
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
