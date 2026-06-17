@@ -134,6 +134,28 @@ def race_labels(row: Row) -> dict[str, Any]:
     }
 
 
+def empty_race_labels() -> dict[str, Any]:
+    return {
+        "mid_arare_flag": None,
+        "target_arare_flag": None,
+        "payout_3000_flag": None,
+        "payout_5000_flag": None,
+        "payout_10000_flag": None,
+        "payout_20000_flag": None,
+        "payout_50000_flag": None,
+        "non_target_flag": None,
+    }
+
+
+def empty_result_labels() -> dict[str, Any]:
+    return {
+        "actual_finish_pos": None,
+        "actual_win": None,
+        "actual_top3": None,
+        "actual_out_top3": None,
+    }
+
+
 def race_base_score(row: Row) -> float:
     """Transparent chaos score proxy shared by ranking and role JSON output."""
     lane1_win = as_float(row.get("lane1_national_win_rate"))
@@ -364,16 +386,24 @@ def skip_recommendation(row: Row, scored: list[Row], mode: str) -> tuple[int, st
     return bool_int(bool(reasons)), "|".join(reasons)
 
 
-def flatten_role_rows(race: Row) -> list[Row]:
-    if as_int(race.get("valid_for_analysis")) != 1:
-        return []
+def has_six_boats(race: Row) -> bool:
+    return all(race.get(f"lane{lane}_registration_no") or race.get(f"lane{lane}_name") for lane in range(1, 7))
+
+
+def flatten_role_rows(race: Row, include_unlabeled: bool = False) -> list[Row]:
+    valid_result = as_int(race.get("valid_for_analysis")) == 1
     trifecta = parse_trifecta(race.get("result_trifecta"))
-    if len(trifecta) != 3:
+    has_result_label = valid_result and len(trifecta) == 3
+    if not include_unlabeled and not has_result_label:
+        return []
+    if include_unlabeled and (as_int(race.get("is_canceled")) or as_int(race.get("refund_count"))):
+        return []
+    if include_unlabeled and not has_six_boats(race):
         return []
     scored = [score_boat(race, lane) for lane in range(1, 7)]
     roles_morning = assign_roles(scored, "morning")
     roles_preview = assign_roles(scored, "preview")
-    labels = race_labels(race)
+    labels = race_labels(race) if has_result_label else empty_race_labels()
     chaos = race_base_score(race)
     dq = data_quality_score(race)
     skip_morning, skip_reason_morning = skip_recommendation(race, scored, "morning")
@@ -403,6 +433,7 @@ def flatten_role_rows(race: Row) -> list[Row]:
             "payout_yen": race.get("payout_yen"),
             "manshu_flag": race.get("manshu_flag"),
             "big_manshu_flag": race.get("big_manshu_flag"),
+            "is_labeled": bool_int(has_result_label),
             "existing_score": race.get("existing_score"),
             "national_win_range": race.get("national_win_range"),
             "lane1_vs_avg_win_diff": race.get("lane1_vs_avg_win_diff"),
@@ -423,7 +454,7 @@ def flatten_role_rows(race: Row) -> list[Row]:
         }
         base.update(labels)
         base.update(item)
-        base.update(result_labels(trifecta, lane))
+        base.update(result_labels(trifecta, lane) if has_result_label else empty_result_labels())
         base.update(roles_morning[lane])
         base.update(roles_preview[lane])
         rows.append(base)
@@ -486,7 +517,7 @@ def run(args: argparse.Namespace) -> int:
     races = read_rows(Path(args.race_dataset))
     rows: list[Row] = []
     for race in races:
-        rows.extend(flatten_role_rows(race))
+        rows.extend(flatten_role_rows(race, include_unlabeled=args.include_unlabeled))
     write_csv(Path(args.output_csv), rows)
     parquet_note = write_parquet_if_possible(rows, Path(args.output_parquet))
     write_dictionary(Path(args.dictionary))
@@ -502,6 +533,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-csv", default="data/analysis/boat_role_dataset.csv")
     parser.add_argument("--output-parquet", default="data/analysis/boat_role_dataset.parquet")
     parser.add_argument("--dictionary", default="data/analysis/boat_role_feature_dictionary.md")
+    parser.add_argument(
+        "--include-unlabeled",
+        action="store_true",
+        help="include races without result/payout labels for same-day prediction display",
+    )
     return parser
 
 

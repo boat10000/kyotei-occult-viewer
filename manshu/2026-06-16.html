@@ -303,7 +303,8 @@ function renderRoleRanking(data){
     status.textContent='ロール分析データの日付が違うため表示を止めています（'+data.date+'）。';
     return;
   }
-  status.textContent='直前版ロール候補を表示中。頭2・軸2・消し1・残り相手1の重複なし分類です。';
+  var modeLabel=data.mode==='morning'?'朝版':'直前版';
+  status.textContent=modeLabel+'ロール候補を表示中。頭2・軸2・消し1・残り相手1の重複なし分類です。';
   list.innerHTML=data.races.slice(0,5).map(function(r,i){
     var roles=r.role_summary||{}, scores=r.scores||{}, forms=r.formations||{};
     var score=scores.manshu_score==null?'—':Math.round(scores.manshu_score);

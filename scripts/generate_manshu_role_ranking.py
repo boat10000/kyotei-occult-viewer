@@ -38,6 +38,21 @@ def safe_int(value: Any) -> int | None:
         return None
 
 
+def safe_id(value: Any) -> str:
+    if value in (None, "") or pd.isna(value):
+        return ""
+    text = str(value)
+    if text.endswith(".0"):
+        text = text[:-2]
+    return text
+
+
+def safe_text(value: Any) -> str | None:
+    if value in (None, "") or pd.isna(value):
+        return None
+    return str(value)
+
+
 def role_score(row: pd.Series, mode: str, role: str) -> float | None:
     if role == "head":
         return safe_float(row.get(f"head_score_{mode}"))
@@ -88,22 +103,22 @@ def build_race(group: pd.DataFrame, mode: str) -> dict[str, Any]:
     roles: dict[str, list[int]] = {"head": [], "axis": [], "toss": [], "opponent": []}
     boats: list[dict[str, Any]] = []
     for _, boat in group.sort_values("lane").iterrows():
-        role = str(boat.get(role_col))
+        role = safe_text(boat.get(role_col)) or "opponent"
         lane = int(boat["lane"])
         roles.setdefault(role, []).append(lane)
         boats.append(
             {
                 "lane": lane,
-                "registration_no": str(boat.get("registration_no") or ""),
-                "name": boat.get("name"),
-                "class": boat.get("class"),
+                "registration_no": safe_id(boat.get("registration_no")),
+                "name": safe_text(boat.get("name")),
+                "class": safe_text(boat.get("class")),
                 "role": role,
                 "role_rank": safe_int(boat.get(rank_col)),
                 "role_score": role_score(boat, mode, role),
                 "role_reason": {
-                    "head": boat.get("head_reasons"),
-                    "axis": boat.get("axis_reasons"),
-                    "toss": boat.get("toss_reasons"),
+                    "head": safe_text(boat.get("head_reasons")),
+                    "axis": safe_text(boat.get("axis_reasons")),
+                    "toss": safe_text(boat.get("toss_reasons")),
                 }.get(role, "相手候補"),
                 "scores": {
                     "head": safe_float(boat.get(f"head_score_{mode}")),
@@ -128,16 +143,17 @@ def build_race(group: pd.DataFrame, mode: str) -> dict[str, Any]:
         roles[key].sort()
     chaos = safe_float(row.get("chaos_score"))
     skip = bool(safe_int(row.get(f"skip_{mode}")) or 0)
+    skip_reason = safe_text(row.get(f"skip_reason_{mode}")) or ""
     return {
-        "race_id": row.get("race_id"),
-        "date": row.get("date"),
-        "jcd": str(row.get("jcd")).zfill(2),
-        "venue_name": row.get("venue_name"),
+        "race_id": safe_text(row.get("race_id")),
+        "date": safe_text(row.get("date")),
+        "jcd": safe_id(row.get("jcd")).zfill(2),
+        "venue_name": safe_text(row.get("venue_name")),
         "race_no": safe_int(row.get("race_no")),
-        "race_name": row.get("race_name"),
-        "deadline": row.get("deadline"),
-        "grade": row.get("grade"),
-        "time_zone": row.get("time_zone"),
+        "race_name": safe_text(row.get("race_name")),
+        "deadline": safe_text(row.get("deadline")),
+        "grade": safe_text(row.get("grade")),
+        "time_zone": safe_text(row.get("time_zone")),
         "scores": {
             "manshu_score": chaos,
             "manshu_probability_proxy": probability_proxy(chaos, 0.08, 0.24),
@@ -165,7 +181,7 @@ def build_race(group: pd.DataFrame, mode: str) -> dict[str, Any]:
         },
         "skip_recommendation": {
             "skip": skip,
-            "reasons": [part for part in str(row.get(f"skip_reason_{mode}") or "").split("|") if part],
+            "reasons": [part for part in skip_reason.split("|") if part],
         },
         "notes": [
             "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -191,18 +207,18 @@ def run(args: argparse.Namespace) -> int:
         "date": date_text,
         "generated_at": datetime.now(JST).isoformat(),
         "source": {
-            "dataset": args.dataset,
+            "dataset": args.source_dataset_label or args.dataset,
             "official": True,
             "notes": [
-                "既存正規化データから生成したプロトタイプJSONです。",
-                "既存公開ページには未接続です。",
+                "既存正規化データから生成したロール表示用JSONです。",
+                "manshu.html は同日付の data/output/manshu_role_ranking_YYYYMMDD.json を読み込みます。",
             ],
         },
         "races": races,
     }
     path = Path(args.output)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(output, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     print(f"wrote {path} races={len(races)}")
     return 0
 
@@ -214,6 +230,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--mode", choices=["morning", "preview"], default="preview")
     parser.add_argument("--top", type=int, default=24)
     parser.add_argument("--output", default="data/output/manshu_role_ranking_20260616.json")
+    parser.add_argument("--source-dataset-label", help="public label for the dataset path stored in JSON")
     return parser
 
 

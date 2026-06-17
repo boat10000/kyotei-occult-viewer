@@ -208,9 +208,9 @@ def fetch_bytes(url: str, user_agent: str, timeout: float, retries: int) -> tupl
 
 
 def extract_lzh_text(archive: Path, output_path: Path) -> bool:
-    lha = shutil.which("lha")
+    lha = shutil.which("lha") or shutil.which("lhasa")
     if not lha:
-        print("warning: lha command not found; saved .lzh but skipped extraction", file=sys.stderr)
+        print("warning: lha/lhasa command not found; saved .lzh but skipped extraction", file=sys.stderr)
         return False
     with tempfile.TemporaryDirectory(prefix="boatrace_lzh_") as tmp_name:
         tmp_dir = Path(tmp_name)

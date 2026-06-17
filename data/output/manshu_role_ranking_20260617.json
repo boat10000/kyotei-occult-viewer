@@ -1,0 +1,5690 @@
+{
+  "version": "manshu-role-ranking-v1",
+  "mode": "morning",
+  "date": "2026-06-17",
+  "generated_at": "2026-06-17T12:27:44.526700+09:00",
+  "source": {
+    "dataset": "daily temporary boat role dataset for 2026-06-17",
+    "official": true,
+    "notes": [
+      "既存正規化データから生成したロール表示用JSONです。",
+      "manshu.html は同日付の data/output/manshu_role_ranking_YYYYMMDD.json を読み込みます。"
+    ]
+  },
+  "races": [
+    {
+      "race_id": "2026-06-17_12_02",
+      "date": "2026-06-17",
+      "jcd": "12",
+      "venue_name": "住之江",
+      "race_no": 2,
+      "race_name": "一般戦",
+      "deadline": "15:44",
+      "grade": null,
+      "time_zone": "day",
+      "scores": {
+        "manshu_score": 88.0,
+        "manshu_probability_proxy": 0.2912,
+        "target_arare_probability_proxy": 0.488,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 2.76,
+        "lane1_vs_avg_win_diff": -1.013,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          4,
+          5
+        ],
+        "axis": [
+          2,
+          3
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          6
+        ]
+      },
+      "boats": [
+        {
+          "lane": 3,
+          "registration_no": "3986",
+          "name": "沖島広和",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 53.151,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 61.0,
+            "axis": 53.151,
+            "toss": 50.339,
+            "strength": 49.427,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.15,
+            "local_win_rate": 5.62,
+            "avg_st": null,
+            "motor_quinella_rate": 40.43,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "4969",
+          "name": "町田洸希",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 45.014,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 55.319,
+            "axis": 45.014,
+            "toss": 64.582,
+            "strength": 34.761,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.56,
+            "local_win_rate": 5.15,
+            "avg_st": null,
+            "motor_quinella_rate": 30.43,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "5145",
+          "name": "島川海輝",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 83.747,
+          "role_reason": "A級|全国勝率上位|外枠A級/強モーター|1号艇より勝率上位",
+          "scores": {
+            "head": 83.747,
+            "axis": 65.649,
+            "toss": 38.829,
+            "strength": 66.635,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 41.0
+          },
+          "features": {
+            "national_win_rate": 6.02,
+            "local_win_rate": 6.75,
+            "avg_st": null,
+            "motor_quinella_rate": 52.27,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4545",
+          "name": "岡村慶太",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 68.135,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 68.135,
+            "axis": 57.278,
+            "toss": 46.22,
+            "strength": 66.225,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 6.97,
+            "local_win_rate": 6.5,
+            "avg_st": null,
+            "motor_quinella_rate": 29.79,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "3589",
+          "name": "西村 勝",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 36.874,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 54.367,
+            "axis": 40.489,
+            "toss": 66.41,
+            "strength": 36.874,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 4.43,
+            "local_win_rate": 4.31,
+            "avg_st": null,
+            "motor_quinella_rate": 42.31,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "3211",
+          "name": "北川敏弘",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 76.174,
+          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
+          "scores": {
+            "head": 31.456,
+            "axis": 47.174,
+            "toss": 76.174,
+            "strength": 32.895,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.21,
+            "local_win_rate": 3.87,
+            "avg_st": null,
+            "motor_quinella_rate": 34.04,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_19_04",
+      "date": "2026-06-17",
+      "jcd": "19",
+      "venue_name": "下関",
+      "race_no": 4,
+      "race_name": "一般",
+      "deadline": "19:03",
+      "grade": null,
+      "time_zone": "night",
+      "scores": {
+        "manshu_score": 86.0,
+        "manshu_probability_proxy": 0.2864,
+        "target_arare_probability_proxy": 0.481,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": false,
+        "outer_exhibition_top": false,
+        "national_win_range": 1.71,
+        "lane1_vs_avg_win_diff": -0.732,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          3,
+          6
+        ],
+        "axis": [
+          2,
+          5
+        ],
+        "toss": [
+          4
+        ],
+        "opponent": [
+          1
+        ]
+      },
+      "boats": [
+        {
+          "lane": 2,
+          "registration_no": "3904",
+          "name": "森 貴洋",
+          "class": "B2",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 53.469,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 64.851,
+            "axis": 53.469,
+            "toss": 51.877,
+            "strength": 45.549,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.96,
+            "local_win_rate": 6.0,
+            "avg_st": null,
+            "motor_quinella_rate": 46.43,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "3997",
+          "name": "北村征嗣",
+          "class": "A1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 50.675,
+          "role_reason": "A級",
+          "scores": {
+            "head": 68.694,
+            "axis": 50.675,
+            "toss": 56.416,
+            "strength": 55.652,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 6.39,
+            "local_win_rate": 6.5,
+            "avg_st": null,
+            "motor_quinella_rate": 20.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "4218",
+          "name": "吉川喜継",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 71.083,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 71.083,
+            "axis": 55.672,
+            "toss": 48.664,
+            "strength": 61.532,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.63,
+            "local_win_rate": 7.68,
+            "avg_st": null,
+            "motor_quinella_rate": 15.38,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "4364",
+          "name": "池永 太",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 69.78,
+          "role_reason": "A級|1号艇より勝率上位",
+          "scores": {
+            "head": 69.78,
+            "axis": 50.117,
+            "toss": 50.765,
+            "strength": 61.667,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 5.99,
+            "local_win_rate": 6.56,
+            "avg_st": null,
+            "motor_quinella_rate": 30.77,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4158",
+          "name": "木場雄二",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 43.438,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 40.884,
+            "axis": 49.243,
+            "toss": 65.626,
+            "strength": 43.438,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.92,
+            "local_win_rate": 5.13,
+            "avg_st": null,
+            "motor_quinella_rate": 28.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "3619",
+          "name": "長谷川充",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 73.98,
+          "role_reason": "B級|モーター弱め",
+          "scores": {
+            "head": 56.454,
+            "axis": 38.464,
+            "toss": 73.98,
+            "strength": 27.844,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.02,
+            "local_win_rate": 4.53,
+            "avg_st": null,
+            "motor_quinella_rate": 4.17,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_01_09",
+      "date": "2026-06-17",
+      "jcd": "01",
+      "venue_name": "桐生",
+      "race_no": 9,
+      "race_name": "準優勝戦",
+      "deadline": "19:21",
+      "grade": null,
+      "time_zone": "night",
+      "scores": {
+        "manshu_score": 85.0,
+        "manshu_probability_proxy": 0.284,
+        "target_arare_probability_proxy": 0.4775,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": false,
+        "outer_exhibition_top": false,
+        "national_win_range": 1.3,
+        "lane1_vs_avg_win_diff": -0.892,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          5,
+          6
+        ],
+        "axis": [
+          2,
+          3
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          4
+        ]
+      },
+      "boats": [
+        {
+          "lane": 3,
+          "registration_no": "4808",
+          "name": "松尾 拓",
+          "class": "A1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 57.717,
+          "role_reason": "3着内安定候補|A級",
+          "scores": {
+            "head": 70.036,
+            "axis": 57.717,
+            "toss": 49.074,
+            "strength": 59.038,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.68,
+            "local_win_rate": 6.0,
+            "avg_st": null,
+            "motor_quinella_rate": 30.3,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "5163",
+          "name": "清水愛海",
+          "class": "A1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 55.121,
+          "role_reason": "A級",
+          "scores": {
+            "head": 69.254,
+            "axis": 55.121,
+            "toss": 52.706,
+            "strength": 56.033,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.93,
+            "local_win_rate": 6.57,
+            "avg_st": null,
+            "motor_quinella_rate": 25.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "4099",
+          "name": "吉永則雄",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 71.825,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 71.825,
+            "axis": 53.202,
+            "toss": 45.204,
+            "strength": 66.537,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 5.93,
+            "local_win_rate": 6.5,
+            "avg_st": null,
+            "motor_quinella_rate": 35.43,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4593",
+          "name": "小坂宗司",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 70.654,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 70.654,
+            "axis": 57.069,
+            "toss": 45.622,
+            "strength": 60.319,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 6.01,
+            "local_win_rate": 6.28,
+            "avg_st": null,
+            "motor_quinella_rate": 36.5,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "3643",
+          "name": "米田隆弘",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 47.293,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 64.623,
+            "axis": 50.14,
+            "toss": 54.343,
+            "strength": 47.293,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.35,
+            "local_win_rate": 6.16,
+            "avg_st": null,
+            "motor_quinella_rate": 36.36,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "3581",
+          "name": "加木 郁",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 78.893,
+          "role_reason": "B級|1号艇イン信頼度低め",
+          "scores": {
+            "head": 35.931,
+            "axis": 47.295,
+            "toss": 78.893,
+            "strength": 31.646,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.71,
+            "local_win_rate": 3.5,
+            "avg_st": null,
+            "motor_quinella_rate": 36.04,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め",
+          "頭候補が割れ気味"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_13_07",
+      "date": "2026-06-17",
+      "jcd": "13",
+      "venue_name": "尼崎",
+      "race_no": 7,
+      "race_name": "予選",
+      "deadline": "13:17",
+      "grade": null,
+      "time_zone": "day",
+      "scores": {
+        "manshu_score": 83.0,
+        "manshu_probability_proxy": 0.2792,
+        "target_arare_probability_proxy": 0.4705,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 5.68,
+        "lane1_vs_avg_win_diff": -0.543,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          4,
+          6
+        ],
+        "axis": [
+          2,
+          3
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          5
+        ]
+      },
+      "boats": [
+        {
+          "lane": 2,
+          "registration_no": "4769",
+          "name": "馬場 剛",
+          "class": "A2",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 55.921,
+          "role_reason": "3着内安定候補|A級",
+          "scores": {
+            "head": 65.188,
+            "axis": 55.921,
+            "toss": 46.356,
+            "strength": 58.257,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.5,
+            "local_win_rate": 7.43,
+            "avg_st": null,
+            "motor_quinella_rate": 25.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "3977",
+          "name": "山本兼士",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 51.116,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 56.718,
+            "axis": 51.116,
+            "toss": 60.555,
+            "strength": 39.234,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.47,
+            "local_win_rate": 4.42,
+            "avg_st": null,
+            "motor_quinella_rate": 46.15,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "4787",
+          "name": "椎名 豊",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 81.548,
+          "role_reason": "A級|全国勝率上位|外枠A級/強モーター|1号艇より勝率上位",
+          "scores": {
+            "head": 81.548,
+            "axis": 63.492,
+            "toss": 30.778,
+            "strength": 82.542,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 35.0
+          },
+          "features": {
+            "national_win_rate": 7.0,
+            "local_win_rate": 7.07,
+            "avg_st": null,
+            "motor_quinella_rate": 51.28,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "4607",
+          "name": "鶴田勇雄",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 67.211,
+          "role_reason": "A級|1号艇より勝率上位",
+          "scores": {
+            "head": 67.211,
+            "axis": 49.112,
+            "toss": 59.012,
+            "strength": 46.312,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 33.0
+          },
+          "features": {
+            "national_win_rate": 5.77,
+            "local_win_rate": 6.41,
+            "avg_st": null,
+            "motor_quinella_rate": 16.67,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "5425",
+          "name": "西山 育",
+          "class": "B2",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 29.926,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 46.889,
+            "axis": 47.413,
+            "toss": 66.969,
+            "strength": 29.926,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 21.0
+          },
+          "features": {
+            "national_win_rate": 1.32,
+            "local_win_rate": 1.17,
+            "avg_st": null,
+            "motor_quinella_rate": 56.76,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "3294",
+          "name": "野中義生",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 73.191,
+          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
+          "scores": {
+            "head": 32.76,
+            "axis": 48.685,
+            "toss": 73.191,
+            "strength": 35.999,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.36,
+            "local_win_rate": 4.17,
+            "avg_st": null,
+            "motor_quinella_rate": 35.42,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_17_06",
+      "date": "2026-06-17",
+      "jcd": "17",
+      "venue_name": "宮島",
+      "race_no": 6,
+      "race_name": "予選",
+      "deadline": "13:23",
+      "grade": null,
+      "time_zone": "day",
+      "scores": {
+        "manshu_score": 83.0,
+        "manshu_probability_proxy": 0.2792,
+        "target_arare_probability_proxy": 0.4705,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 3.21,
+        "lane1_vs_avg_win_diff": -0.517,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          4,
+          5
+        ],
+        "axis": [
+          2,
+          3
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          6
+        ]
+      },
+      "boats": [
+        {
+          "lane": 3,
+          "registration_no": "3353",
+          "name": "前田光昭",
+          "class": "B2",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 44.15,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 43.919,
+            "axis": 44.15,
+            "toss": 73.155,
+            "strength": 23.045,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 3.55,
+            "local_win_rate": 0.0,
+            "avg_st": null,
+            "motor_quinella_rate": 42.17,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "3775",
+          "name": "泉 啓文",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 43.899,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 48.519,
+            "axis": 43.899,
+            "toss": 65.204,
+            "strength": 32.855,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 3.9,
+            "local_win_rate": 5.4,
+            "avg_st": null,
+            "motor_quinella_rate": 28.93,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "3473",
+          "name": "石川真二",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 85.274,
+          "role_reason": "A級|全国勝率上位|外枠A級/強モーター|1号艇より勝率上位",
+          "scores": {
+            "head": 85.274,
+            "axis": 64.595,
+            "toss": 39.229,
+            "strength": 70.272,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 41.0
+          },
+          "features": {
+            "national_win_rate": 6.09,
+            "local_win_rate": 6.3,
+            "avg_st": null,
+            "motor_quinella_rate": 44.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "3654",
+          "name": "武田光史",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 71.254,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 71.254,
+            "axis": 61.829,
+            "toss": 38.223,
+            "strength": 73.653,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 6.76,
+            "local_win_rate": 7.58,
+            "avg_st": null,
+            "motor_quinella_rate": 36.36,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "3797",
+          "name": "岩井 繁",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 37.672,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 48.702,
+            "axis": 42.885,
+            "toss": 64.591,
+            "strength": 37.672,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 21.0
+          },
+          "features": {
+            "national_win_rate": 3.8,
+            "local_win_rate": 4.3,
+            "avg_st": null,
+            "motor_quinella_rate": 49.69,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "3637",
+          "name": "齋藤和政",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 79.097,
+          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
+          "scores": {
+            "head": 30.236,
+            "axis": 46.377,
+            "toss": 79.097,
+            "strength": 29.991,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.2,
+            "local_win_rate": 2.78,
+            "avg_st": null,
+            "motor_quinella_rate": 34.91,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_21_10",
+      "date": "2026-06-17",
+      "jcd": "21",
+      "venue_name": "芦屋",
+      "race_no": 10,
+      "race_name": "予選特賞",
+      "deadline": "12:53",
+      "grade": null,
+      "time_zone": "day",
+      "scores": {
+        "manshu_score": 83.0,
+        "manshu_probability_proxy": 0.2792,
+        "target_arare_probability_proxy": 0.4705,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 2.49,
+        "lane1_vs_avg_win_diff": -0.977,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          2,
+          4
+        ],
+        "axis": [
+          5,
+          6
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          3
+        ]
+      },
+      "boats": [
+        {
+          "lane": 6,
+          "registration_no": "4276",
+          "name": "鈴木勝博",
+          "class": "A2",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 48.913,
+          "role_reason": "A級",
+          "scores": {
+            "head": 62.269,
+            "axis": 48.913,
+            "toss": 51.575,
+            "strength": 55.688,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 5.73,
+            "local_win_rate": 6.17,
+            "avg_st": null,
+            "motor_quinella_rate": 34.09,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "3866",
+          "name": "木山誠一",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 42.212,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 47.351,
+            "axis": 42.212,
+            "toss": 66.012,
+            "strength": 35.789,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 4.9,
+            "local_win_rate": 4.12,
+            "avg_st": null,
+            "motor_quinella_rate": 29.41,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "5129",
+          "name": "山口真喜",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 76.36,
+          "role_reason": "A級|外枠A級/強モーター|1号艇より勝率上位",
+          "scores": {
+            "head": 76.36,
+            "axis": 56.106,
+            "toss": 55.656,
+            "strength": 49.049,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 41.0
+          },
+          "features": {
+            "national_win_rate": 5.6,
+            "local_win_rate": 3.91,
+            "avg_st": null,
+            "motor_quinella_rate": 41.03,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "5015",
+          "name": "高橋竜矢",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 72.365,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 72.365,
+            "axis": 65.99,
+            "toss": 33.152,
+            "strength": 75.346,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.94,
+            "local_win_rate": 6.05,
+            "avg_st": null,
+            "motor_quinella_rate": 38.71,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "5245",
+          "name": "倉富大誠",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 31.703,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 53.555,
+            "axis": 40.933,
+            "toss": 68.041,
+            "strength": 31.703,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.94,
+            "local_win_rate": 4.33,
+            "avg_st": null,
+            "motor_quinella_rate": 14.29,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4374",
+          "name": "永田義紘",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 71.025,
+          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
+          "scores": {
+            "head": 33.846,
+            "axis": 51.342,
+            "toss": 71.025,
+            "strength": 38.586,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.45,
+            "local_win_rate": 4.29,
+            "avg_st": null,
+            "motor_quinella_rate": 41.46,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め",
+          "消し候補が不明瞭"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_01_02",
+      "date": "2026-06-17",
+      "jcd": "01",
+      "venue_name": "桐生",
+      "race_no": 2,
+      "race_name": "一般",
+      "deadline": "16:02",
+      "grade": null,
+      "time_zone": "evening",
+      "scores": {
+        "manshu_score": 81.0,
+        "manshu_probability_proxy": 0.2744,
+        "target_arare_probability_proxy": 0.4635,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": false,
+        "outer_exhibition_top": false,
+        "national_win_range": 2.02,
+        "lane1_vs_avg_win_diff": -1.212,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          4,
+          6
+        ],
+        "axis": [
+          2,
+          3
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          5
+        ]
+      },
+      "boats": [
+        {
+          "lane": 2,
+          "registration_no": "3893",
+          "name": "汐崎正則",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 52.537,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 59.866,
+            "axis": 52.537,
+            "toss": 53.552,
+            "strength": 45.586,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.01,
+            "local_win_rate": 4.46,
+            "avg_st": null,
+            "motor_quinella_rate": 43.12,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "4568",
+          "name": "廣瀬真也",
+          "class": "A2",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 52.314,
+          "role_reason": "A級",
+          "scores": {
+            "head": 59.429,
+            "axis": 52.314,
+            "toss": 58.146,
+            "strength": 45.689,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.5,
+            "local_win_rate": 5.29,
+            "avg_st": null,
+            "motor_quinella_rate": 28.21,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "4593",
+          "name": "小坂宗司",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 73.094,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 73.094,
+            "axis": 58.869,
+            "toss": 44.422,
+            "strength": 60.319,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 33.0
+          },
+          "features": {
+            "national_win_rate": 6.01,
+            "local_win_rate": 6.28,
+            "avg_st": null,
+            "motor_quinella_rate": 36.5,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "5163",
+          "name": "清水愛海",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 62.414,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 62.414,
+            "axis": 46.441,
+            "toss": 56.786,
+            "strength": 56.033,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 5.93,
+            "local_win_rate": 6.57,
+            "avg_st": null,
+            "motor_quinella_rate": 25.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "3441",
+          "name": "土屋太朗",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 33.053,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 46.202,
+            "axis": 40.199,
+            "toss": 69.514,
+            "strength": 33.053,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 4.77,
+            "local_win_rate": 5.4,
+            "avg_st": null,
+            "motor_quinella_rate": 25.81,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "3973",
+          "name": "崎 利仁",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 74.797,
+          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
+          "scores": {
+            "head": 32.166,
+            "axis": 48.973,
+            "toss": 74.797,
+            "strength": 34.585,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 3.99,
+            "local_win_rate": 4.96,
+            "avg_st": null,
+            "motor_quinella_rate": 38.21,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め",
+          "頭候補が割れ気味"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_01_03",
+      "date": "2026-06-17",
+      "jcd": "01",
+      "venue_name": "桐生",
+      "race_no": 3,
+      "race_name": "一般",
+      "deadline": "16:35",
+      "grade": null,
+      "time_zone": "evening",
+      "scores": {
+        "manshu_score": 81.0,
+        "manshu_probability_proxy": 0.2744,
+        "target_arare_probability_proxy": 0.4635,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": false,
+        "outer_exhibition_top": false,
+        "national_win_range": 2.13,
+        "lane1_vs_avg_win_diff": -1.018,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          4,
+          5
+        ],
+        "axis": [
+          2,
+          3
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          6
+        ]
+      },
+      "boats": [
+        {
+          "lane": 3,
+          "registration_no": "3349",
+          "name": "吉田一郎",
+          "class": "A2",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 55.653,
+          "role_reason": "A級",
+          "scores": {
+            "head": 64.492,
+            "axis": 55.653,
+            "toss": 46.857,
+            "strength": 57.743,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.78,
+            "local_win_rate": 5.65,
+            "avg_st": null,
+            "motor_quinella_rate": 24.71,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "3643",
+          "name": "米田隆弘",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 51.22,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 60.583,
+            "axis": 51.22,
+            "toss": 52.903,
+            "strength": 47.293,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.35,
+            "local_win_rate": 6.16,
+            "avg_st": null,
+            "motor_quinella_rate": 36.36,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "4363",
+          "name": "大野芳顕",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 70.297,
+          "role_reason": "A級|1号艇より勝率上位",
+          "scores": {
+            "head": 70.297,
+            "axis": 54.28,
+            "toss": 50.419,
+            "strength": 53.66,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 33.0
+          },
+          "features": {
+            "national_win_rate": 5.88,
+            "local_win_rate": 5.07,
+            "avg_st": null,
+            "motor_quinella_rate": 28.83,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4953",
+          "name": "尾上雅也",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 66.852,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 66.852,
+            "axis": 57.616,
+            "toss": 48.802,
+            "strength": 63.171,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 6.64,
+            "local_win_rate": 5.45,
+            "avg_st": null,
+            "motor_quinella_rate": 34.82,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "3581",
+          "name": "加木 郁",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 31.646,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 44.171,
+            "axis": 36.815,
+            "toss": 72.173,
+            "strength": 31.646,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 4.71,
+            "local_win_rate": 3.5,
+            "avg_st": null,
+            "motor_quinella_rate": 36.04,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4898",
+          "name": "菊地敬介",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 81.053,
+          "role_reason": "B級|モーター弱め|1号艇イン信頼度低め",
+          "scores": {
+            "head": 29.712,
+            "axis": 42.225,
+            "toss": 81.053,
+            "strength": 28.744,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.65,
+            "local_win_rate": 3.89,
+            "avg_st": null,
+            "motor_quinella_rate": 21.95,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_01_04",
+      "date": "2026-06-17",
+      "jcd": "01",
+      "venue_name": "桐生",
+      "race_no": 4,
+      "race_name": "一般",
+      "deadline": "17:09",
+      "grade": null,
+      "time_zone": "evening",
+      "scores": {
+        "manshu_score": 81.0,
+        "manshu_probability_proxy": 0.2744,
+        "target_arare_probability_proxy": 0.4635,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": false,
+        "outer_exhibition_top": false,
+        "national_win_range": 2.35,
+        "lane1_vs_avg_win_diff": -0.98,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          5,
+          6
+        ],
+        "axis": [
+          2,
+          3
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          4
+        ]
+      },
+      "boats": [
+        {
+          "lane": 2,
+          "registration_no": "4973",
+          "name": "栗原直也",
+          "class": "A2",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 55.899,
+          "role_reason": "A級",
+          "scores": {
+            "head": 61.775,
+            "axis": 55.899,
+            "toss": 52.47,
+            "strength": 50.132,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.22,
+            "local_win_rate": 5.48,
+            "avg_st": null,
+            "motor_quinella_rate": 35.16,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "4549",
+          "name": "小林文彦",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 53.075,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 61.59,
+            "axis": 53.075,
+            "toss": 50.444,
+            "strength": 50.834,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.0,
+            "local_win_rate": 5.38,
+            "avg_st": null,
+            "motor_quinella_rate": 38.39,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "5089",
+          "name": "前田 翔",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 69.63,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 69.63,
+            "axis": 55.605,
+            "toss": 39.886,
+            "strength": 73.213,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 6.94,
+            "local_win_rate": 6.65,
+            "avg_st": null,
+            "motor_quinella_rate": 35.43,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4808",
+          "name": "松尾 拓",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 65.116,
+          "role_reason": "A級|1号艇より勝率上位",
+          "scores": {
+            "head": 65.116,
+            "axis": 54.837,
+            "toss": 51.234,
+            "strength": 59.038,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 5.68,
+            "local_win_rate": 6.0,
+            "avg_st": null,
+            "motor_quinella_rate": 30.3,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "5230",
+          "name": "石原凪紗",
+          "class": "B2",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 26.222,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 50.773,
+            "axis": 40.66,
+            "toss": 72.709,
+            "strength": 26.222,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.99,
+            "local_win_rate": 2.94,
+            "avg_st": null,
+            "motor_quinella_rate": 29.73,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4414",
+          "name": "大澤真菜",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 79.417,
+          "role_reason": "B級|モーター弱め|1号艇イン信頼度低め",
+          "scores": {
+            "head": 30.571,
+            "axis": 43.118,
+            "toss": 79.417,
+            "strength": 30.788,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.59,
+            "local_win_rate": 5.16,
+            "avg_st": null,
+            "motor_quinella_rate": 22.5,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め",
+          "頭候補が割れ気味"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_05_04",
+      "date": "2026-06-17",
+      "jcd": "05",
+      "venue_name": "多摩川",
+      "race_no": 4,
+      "race_name": "予選",
+      "deadline": "13:03",
+      "grade": null,
+      "time_zone": "day",
+      "scores": {
+        "manshu_score": 81.0,
+        "manshu_probability_proxy": 0.2744,
+        "target_arare_probability_proxy": 0.4635,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": false,
+        "outer_exhibition_top": false,
+        "national_win_range": 2.87,
+        "lane1_vs_avg_win_diff": -0.812,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          4,
+          5
+        ],
+        "axis": [
+          2,
+          3
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          6
+        ]
+      },
+      "boats": [
+        {
+          "lane": 2,
+          "registration_no": "4197",
+          "name": "渥美卓郎",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 52.665,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 50.055,
+            "axis": 52.665,
+            "toss": 61.958,
+            "strength": 36.513,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 3.76,
+            "local_win_rate": 3.76,
+            "avg_st": null,
+            "motor_quinella_rate": 59.38,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "3831",
+          "name": "安藤裕貴",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 45.287,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 55.302,
+            "axis": 45.287,
+            "toss": 63.094,
+            "strength": 35.862,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.62,
+            "local_win_rate": 4.1,
+            "avg_st": null,
+            "motor_quinella_rate": 30.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "4539",
+          "name": "金子賢志",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 75.9,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 75.9,
+            "axis": 60.369,
+            "toss": 43.54,
+            "strength": 67.001,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 33.0
+          },
+          "features": {
+            "national_win_rate": 6.63,
+            "local_win_rate": 6.44,
+            "avg_st": null,
+            "motor_quinella_rate": 33.33,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4401",
+          "name": "小林 泰",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 61.731,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 61.731,
+            "axis": 48.992,
+            "toss": 53.765,
+            "strength": 50.978,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 5.54,
+            "local_win_rate": 6.05,
+            "avg_st": null,
+            "motor_quinella_rate": 13.51,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "3772",
+          "name": "一柳和孝",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 41.522,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 48.319,
+            "axis": 36.839,
+            "toss": 60.779,
+            "strength": 41.522,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 4.82,
+            "local_win_rate": 5.51,
+            "avg_st": null,
+            "motor_quinella_rate": 23.68,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4253",
+          "name": "西川真人",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 80.896,
+          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
+          "scores": {
+            "head": 29.897,
+            "axis": 45.886,
+            "toss": 80.896,
+            "strength": 29.184,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.1,
+            "local_win_rate": 4.61,
+            "avg_st": null,
+            "motor_quinella_rate": 34.21,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_12_03",
+      "date": "2026-06-17",
+      "jcd": "12",
+      "venue_name": "住之江",
+      "race_no": 3,
+      "race_name": "一般戦",
+      "deadline": "16:07",
+      "grade": null,
+      "time_zone": "evening",
+      "scores": {
+        "manshu_score": 81.0,
+        "manshu_probability_proxy": 0.2744,
+        "target_arare_probability_proxy": 0.4635,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": false,
+        "outer_exhibition_top": false,
+        "national_win_range": 4.71,
+        "lane1_vs_avg_win_diff": -0.932,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          2,
+          4
+        ],
+        "axis": [
+          3,
+          5
+        ],
+        "toss": [
+          6
+        ],
+        "opponent": [
+          1
+        ]
+      },
+      "boats": [
+        {
+          "lane": 3,
+          "registration_no": "4485",
+          "name": "楠原正剛",
+          "class": "A2",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 61.534,
+          "role_reason": "モーター上位|A級",
+          "scores": {
+            "head": 63.589,
+            "axis": 61.534,
+            "toss": 47.645,
+            "strength": 55.594,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.15,
+            "local_win_rate": 5.63,
+            "avg_st": null,
+            "motor_quinella_rate": 48.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4086",
+          "name": "寺本重宣",
+          "class": "A2",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 57.026,
+          "role_reason": "3着内安定候補|A級",
+          "scores": {
+            "head": 65.004,
+            "axis": 57.026,
+            "toss": 47.949,
+            "strength": 58.77,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 6.27,
+            "local_win_rate": 5.75,
+            "avg_st": null,
+            "motor_quinella_rate": 38.3,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "5222",
+          "name": "津田陸翔",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 71.162,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 71.162,
+            "axis": 54.948,
+            "toss": 49.99,
+            "strength": 55.72,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 33.0
+          },
+          "features": {
+            "national_win_rate": 6.68,
+            "local_win_rate": 5.1,
+            "avg_st": null,
+            "motor_quinella_rate": 28.57,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "4596",
+          "name": "葛原大陽",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 67.577,
+          "role_reason": "A級|1号艇より勝率上位",
+          "scores": {
+            "head": 67.577,
+            "axis": 60.946,
+            "toss": 43.918,
+            "strength": 63.946,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.92,
+            "local_win_rate": 6.1,
+            "avg_st": null,
+            "motor_quinella_rate": 35.42,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4213",
+          "name": "重富伸也",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 25.829,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 28.488,
+            "axis": 41.175,
+            "toss": 83.502,
+            "strength": 25.829,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.08,
+            "local_win_rate": 4.46,
+            "avg_st": null,
+            "motor_quinella_rate": 21.95,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "5372",
+          "name": "上岡巧汰",
+          "class": "B2",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 87.918,
+          "role_reason": "低勝率|B級|モーター弱め",
+          "scores": {
+            "head": 29.658,
+            "axis": 27.296,
+            "toss": 87.918,
+            "strength": 11.377,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 13.0
+          },
+          "features": {
+            "national_win_rate": 1.97,
+            "local_win_rate": 1.81,
+            "avg_st": null,
+            "motor_quinella_rate": 28.26,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め",
+          "頭候補が割れ気味"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_18_03",
+      "date": "2026-06-17",
+      "jcd": "18",
+      "venue_name": "徳山",
+      "race_no": 3,
+      "race_name": "決めトク予選",
+      "deadline": "09:36",
+      "grade": null,
+      "time_zone": "morning",
+      "scores": {
+        "manshu_score": 81.0,
+        "manshu_probability_proxy": 0.2744,
+        "target_arare_probability_proxy": 0.4635,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": false,
+        "outer_a_count": 2,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 1.48,
+        "lane1_vs_avg_win_diff": -0.18,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          4,
+          6
+        ],
+        "axis": [
+          1,
+          3
+        ],
+        "toss": [
+          2
+        ],
+        "opponent": [
+          5
+        ]
+      },
+      "boats": [
+        {
+          "lane": 3,
+          "registration_no": "4575",
+          "name": "戸塚邦好",
+          "class": "A1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 64.187,
+          "role_reason": "3着内安定候補|モーター上位|A級",
+          "scores": {
+            "head": 73.918,
+            "axis": 64.187,
+            "toss": 40.402,
+            "strength": 68.281,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.29,
+            "local_win_rate": 5.62,
+            "avg_st": null,
+            "motor_quinella_rate": 41.3,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "5238",
+          "name": "笹木香吾",
+          "class": "A2",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 59.061,
+          "role_reason": "A級",
+          "scores": {
+            "head": 45.574,
+            "axis": 59.061,
+            "toss": 58.471,
+            "strength": 54.605,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 5.66,
+            "local_win_rate": 4.83,
+            "avg_st": null,
+            "motor_quinella_rate": 34.29,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "4594",
+          "name": "谷川祐一",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 78.953,
+          "role_reason": "A級|外枠A級/強モーター",
+          "scores": {
+            "head": 78.953,
+            "axis": 59.62,
+            "toss": 47.026,
+            "strength": 57.603,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 35.0
+          },
+          "features": {
+            "national_win_rate": 5.59,
+            "local_win_rate": 6.0,
+            "avg_st": null,
+            "motor_quinella_rate": 42.55,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "4786",
+          "name": "佐藤博亮",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 76.193,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 76.193,
+            "axis": 57.14,
+            "toss": 35.81,
+            "strength": 76.935,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 6.77,
+            "local_win_rate": 7.7,
+            "avg_st": null,
+            "motor_quinella_rate": 36.11,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "5032",
+          "name": "谷口知優",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 42.115,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 49.008,
+            "axis": 45.353,
+            "toss": 61.042,
+            "strength": 42.115,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 13.0
+          },
+          "features": {
+            "national_win_rate": 5.44,
+            "local_win_rate": 5.41,
+            "avg_st": null,
+            "motor_quinella_rate": 32.43,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "3930",
+          "name": "岸本 隆",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 61.807,
+          "role_reason": "B級|モーター弱め",
+          "scores": {
+            "head": 55.706,
+            "axis": 44.311,
+            "toss": 61.807,
+            "strength": 38.063,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 5.29,
+            "local_win_rate": 5.15,
+            "avg_st": null,
+            "motor_quinella_rate": 23.81,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め",
+          "消し候補が不明瞭"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_18_11",
+      "date": "2026-06-17",
+      "jcd": "18",
+      "venue_name": "徳山",
+      "race_no": 11,
+      "race_name": "予選",
+      "deadline": "13:40",
+      "grade": null,
+      "time_zone": "day",
+      "scores": {
+        "manshu_score": 81.0,
+        "manshu_probability_proxy": 0.2744,
+        "target_arare_probability_proxy": 0.4635,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": false,
+        "outer_exhibition_top": false,
+        "national_win_range": 1.78,
+        "lane1_vs_avg_win_diff": -0.962,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          2,
+          4
+        ],
+        "axis": [
+          3,
+          5
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          6
+        ]
+      },
+      "boats": [
+        {
+          "lane": 5,
+          "registration_no": "4535",
+          "name": "北山康介",
+          "class": "A1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 56.384,
+          "role_reason": "3着内安定候補|A級",
+          "scores": {
+            "head": 73.688,
+            "axis": 56.384,
+            "toss": 43.045,
+            "strength": 67.543,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 6.36,
+            "local_win_rate": 7.14,
+            "avg_st": null,
+            "motor_quinella_rate": 25.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "4489",
+          "name": "岩川仁士",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 50.275,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 64.064,
+            "axis": 50.275,
+            "toss": 55.837,
+            "strength": 44.819,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.3,
+            "local_win_rate": 5.65,
+            "avg_st": null,
+            "motor_quinella_rate": 36.17,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "4703",
+          "name": "森永 隆",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 75.223,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 75.223,
+            "axis": 66.428,
+            "toss": 33.721,
+            "strength": 70.246,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.55,
+            "local_win_rate": 6.59,
+            "avg_st": null,
+            "motor_quinella_rate": 46.67,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "3703",
+          "name": "鳥飼 眞",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 74.407,
+          "role_reason": "A級|1号艇より勝率上位",
+          "scores": {
+            "head": 74.407,
+            "axis": 50.994,
+            "toss": 53.404,
+            "strength": 51.54,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 33.0
+          },
+          "features": {
+            "national_win_rate": 6.12,
+            "local_win_rate": 6.09,
+            "avg_st": null,
+            "motor_quinella_rate": 12.2,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "3930",
+          "name": "岸本 隆",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 38.063,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 51.866,
+            "axis": 35.631,
+            "toss": 65.887,
+            "strength": 38.063,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 5.29,
+            "local_win_rate": 5.15,
+            "avg_st": null,
+            "motor_quinella_rate": 23.81,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "5071",
+          "name": "野見山拓",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 83.264,
+          "role_reason": "B級|モーター弱め|1号艇イン信頼度低め",
+          "scores": {
+            "head": 34.108,
+            "axis": 42.158,
+            "toss": 83.264,
+            "strength": 27.305,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.77,
+            "local_win_rate": 3.91,
+            "avg_st": null,
+            "motor_quinella_rate": 23.53,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_24_03",
+      "date": "2026-06-17",
+      "jcd": "24",
+      "venue_name": "大村",
+      "race_no": 3,
+      "race_name": "予選",
+      "deadline": "16:15",
+      "grade": null,
+      "time_zone": "evening",
+      "scores": {
+        "manshu_score": 81.0,
+        "manshu_probability_proxy": 0.2744,
+        "target_arare_probability_proxy": 0.4635,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": false,
+        "outer_a_count": 3,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 1.24,
+        "lane1_vs_avg_win_diff": -0.025,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          4,
+          5
+        ],
+        "axis": [
+          1,
+          2
+        ],
+        "toss": [
+          6
+        ],
+        "opponent": [
+          3
+        ]
+      },
+      "boats": [
+        {
+          "lane": 2,
+          "registration_no": "4804",
+          "name": "高田ひか",
+          "class": "A1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 72.475,
+          "role_reason": "3着内安定候補|モーター上位|A級",
+          "scores": {
+            "head": 79.884,
+            "axis": 72.475,
+            "toss": 26.842,
+            "strength": 81.344,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.67,
+            "local_win_rate": 6.08,
+            "avg_st": null,
+            "motor_quinella_rate": 53.85,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4531",
+          "name": "武富智亮",
+          "class": "A2",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 60.106,
+          "role_reason": "3着内安定候補|A級",
+          "scores": {
+            "head": 47.114,
+            "axis": 60.106,
+            "toss": 56.486,
+            "strength": 58.272,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 6.24,
+            "local_win_rate": 6.26,
+            "avg_st": null,
+            "motor_quinella_rate": 33.33,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4939",
+          "name": "宮之原輝",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 87.006,
+          "role_reason": "A級|全国勝率上位|外枠A級/強モーター|1号艇より勝率上位",
+          "scores": {
+            "head": 87.006,
+            "axis": 65.228,
+            "toss": 30.971,
+            "strength": 80.205,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 35.0
+          },
+          "features": {
+            "national_win_rate": 6.81,
+            "local_win_rate": 7.73,
+            "avg_st": null,
+            "motor_quinella_rate": 40.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "4645",
+          "name": "上村純一",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 86.916,
+          "role_reason": "A級|外枠A級/強モーター|1号艇より勝率上位",
+          "scores": {
+            "head": 86.916,
+            "axis": 61.051,
+            "toss": 48.415,
+            "strength": 62.277,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 41.0
+          },
+          "features": {
+            "national_win_rate": 6.39,
+            "local_win_rate": 5.0,
+            "avg_st": null,
+            "motor_quinella_rate": 41.67,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "4553",
+          "name": "坪口竜也",
+          "class": "A2",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 54.252,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 62.026,
+            "axis": 54.479,
+            "toss": 49.382,
+            "strength": 54.252,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 5.91,
+            "local_win_rate": 6.39,
+            "avg_st": null,
+            "motor_quinella_rate": 25.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "5104",
+          "name": "山田 丈",
+          "class": "A2",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 61.815,
+          "role_reason": "モーター弱め",
+          "scores": {
+            "head": 57.108,
+            "axis": 44.01,
+            "toss": 61.815,
+            "strength": 45.782,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 21.0
+          },
+          "features": {
+            "national_win_rate": 5.57,
+            "local_win_rate": 5.12,
+            "avg_st": null,
+            "motor_quinella_rate": 29.41,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_09_03",
+      "date": "2026-06-17",
+      "jcd": "09",
+      "venue_name": "津",
+      "race_no": 3,
+      "race_name": "予選",
+      "deadline": "11:38",
+      "grade": null,
+      "time_zone": "morning",
+      "scores": {
+        "manshu_score": 80.0,
+        "manshu_probability_proxy": 0.272,
+        "target_arare_probability_proxy": 0.46,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 1,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 4.79,
+        "lane1_vs_avg_win_diff": -2.623,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          3,
+          6
+        ],
+        "axis": [
+          2,
+          5
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          4
+        ]
+      },
+      "boats": [
+        {
+          "lane": 2,
+          "registration_no": "4943",
+          "name": "八木治樹",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 48.249,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 55.554,
+            "axis": 48.249,
+            "toss": 62.792,
+            "strength": 35.318,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 3.87,
+            "local_win_rate": 4.53,
+            "avg_st": null,
+            "motor_quinella_rate": 41.05,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4332",
+          "name": "村上彰一",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 44.974,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 54.457,
+            "axis": 44.974,
+            "toss": 68.753,
+            "strength": 33.659,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 4.51,
+            "local_win_rate": 4.0,
+            "avg_st": null,
+            "motor_quinella_rate": 41.76,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "4174",
+          "name": "赤坂俊輔",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 67.729,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 67.729,
+            "axis": 53.656,
+            "toss": 43.83,
+            "strength": 68.688,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 6.25,
+            "local_win_rate": 7.2,
+            "avg_st": null,
+            "motor_quinella_rate": 34.31,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "3873",
+          "name": "別府昌樹",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 57.214,
+          "role_reason": "A級|1号艇より勝率上位",
+          "scores": {
+            "head": 57.214,
+            "axis": 49.895,
+            "toss": 59.282,
+            "strength": 40.414,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 3.53,
+            "local_win_rate": 5.34,
+            "avg_st": null,
+            "motor_quinella_rate": 26.39,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "4894",
+          "name": "原村拓也",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 32.604,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 53.454,
+            "axis": 43.892,
+            "toss": 68.145,
+            "strength": 32.604,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.88,
+            "local_win_rate": 0.0,
+            "avg_st": null,
+            "motor_quinella_rate": 33.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "5349",
+          "name": "宮崎奏磨",
+          "class": "B2",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 84.697,
+          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
+          "scores": {
+            "head": 26.303,
+            "axis": 44.319,
+            "toss": 84.697,
+            "strength": 20.625,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 1.46,
+            "local_win_rate": 1.21,
+            "avg_st": null,
+            "motor_quinella_rate": 39.51,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め",
+          "頭候補が割れ気味"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_12_04",
+      "date": "2026-06-17",
+      "jcd": "12",
+      "venue_name": "住之江",
+      "race_no": 4,
+      "race_name": "一般戦",
+      "deadline": "16:32",
+      "grade": null,
+      "time_zone": "evening",
+      "scores": {
+        "manshu_score": 80.0,
+        "manshu_probability_proxy": 0.272,
+        "target_arare_probability_proxy": 0.46,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 1,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 2.96,
+        "lane1_vs_avg_win_diff": -0.547,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          2,
+          4
+        ],
+        "axis": [
+          3,
+          5
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          6
+        ]
+      },
+      "boats": [
+        {
+          "lane": 3,
+          "registration_no": "5243",
+          "name": "三馬崇史",
+          "class": "A2",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 55.43,
+          "role_reason": "モーター上位|A級",
+          "scores": {
+            "head": 58.991,
+            "axis": 55.43,
+            "toss": 58.135,
+            "strength": 44.646,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.16,
+            "local_win_rate": 2.11,
+            "avg_st": null,
+            "motor_quinella_rate": 40.43,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "3808",
+          "name": "秋田健太",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 45.573,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 48.262,
+            "axis": 45.573,
+            "toss": 68.087,
+            "strength": 33.196,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 21.0
+          },
+          "features": {
+            "national_win_rate": 4.17,
+            "local_win_rate": 3.13,
+            "avg_st": null,
+            "motor_quinella_rate": 44.44,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "4523",
+          "name": "中村辰也",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 68.239,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 68.239,
+            "axis": 49.994,
+            "toss": 55.67,
+            "strength": 48.761,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 33.0
+          },
+          "features": {
+            "national_win_rate": 5.66,
+            "local_win_rate": 6.24,
+            "avg_st": null,
+            "motor_quinella_rate": 13.33,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "4036",
+          "name": "金田 諭",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 67.459,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 67.459,
+            "axis": 56.439,
+            "toss": 45.354,
+            "strength": 63.665,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.6,
+            "local_win_rate": 7.41,
+            "avg_st": null,
+            "motor_quinella_rate": 19.44,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "3471",
+          "name": "赤峰和也",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 27.303,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 36.347,
+            "axis": 33.844,
+            "toss": 75.123,
+            "strength": 27.303,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 13.0
+          },
+          "features": {
+            "national_win_rate": 3.64,
+            "local_win_rate": 4.87,
+            "avg_st": null,
+            "motor_quinella_rate": 31.11,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4245",
+          "name": "高橋直哉",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 79.032,
+          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
+          "scores": {
+            "head": 30.756,
+            "axis": 45.42,
+            "toss": 79.032,
+            "strength": 31.229,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.39,
+            "local_win_rate": 5.0,
+            "avg_st": null,
+            "motor_quinella_rate": 30.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_13_01",
+      "date": "2026-06-17",
+      "jcd": "13",
+      "venue_name": "尼崎",
+      "race_no": 1,
+      "race_name": "朝からセンプ",
+      "deadline": "10:40",
+      "grade": null,
+      "time_zone": "morning",
+      "scores": {
+        "manshu_score": 80.0,
+        "manshu_probability_proxy": 0.272,
+        "target_arare_probability_proxy": 0.46,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 0,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 2.51,
+        "lane1_vs_avg_win_diff": -0.653,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          3,
+          6
+        ],
+        "axis": [
+          2,
+          4
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          5
+        ]
+      },
+      "boats": [
+        {
+          "lane": 4,
+          "registration_no": "3268",
+          "name": "森 竜也",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 38.27,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 51.229,
+            "axis": 38.27,
+            "toss": 72.755,
+            "strength": 27.306,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.43,
+            "local_win_rate": 4.03,
+            "avg_st": null,
+            "motor_quinella_rate": 13.79,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "5123",
+          "name": "福山恵里",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 36.222,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 48.539,
+            "axis": 36.222,
+            "toss": 80.921,
+            "strength": 18.618,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.36,
+            "local_win_rate": 3.14,
+            "avg_st": null,
+            "motor_quinella_rate": 19.35,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "4522",
+          "name": "古澤光紀",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 68.994,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 68.994,
+            "axis": 63.338,
+            "toss": 38.959,
+            "strength": 68.462,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.81,
+            "local_win_rate": 6.08,
+            "avg_st": null,
+            "motor_quinella_rate": 38.1,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "3977",
+          "name": "山本兼士",
+          "class": "B1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 55.358,
+          "role_reason": "全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 55.358,
+            "axis": 42.436,
+            "toss": 64.155,
+            "strength": 39.234,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 4.47,
+            "local_win_rate": 4.42,
+            "avg_st": null,
+            "motor_quinella_rate": 46.15,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "3591",
+          "name": "後藤孝義",
+          "class": "B2",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 15.134,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 32.676,
+            "axis": 34.448,
+            "toss": 82.737,
+            "strength": 15.134,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 13.0
+          },
+          "features": {
+            "national_win_rate": 3.3,
+            "local_win_rate": 2.72,
+            "avg_st": null,
+            "motor_quinella_rate": 28.26,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4449",
+          "name": "中嶋達也",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 87.553,
+          "role_reason": "低勝率|B級|モーター弱め|1号艇イン信頼度低め",
+          "scores": {
+            "head": 26.649,
+            "axis": 40.311,
+            "toss": 87.553,
+            "strength": 21.45,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 3.69,
+            "local_win_rate": 3.82,
+            "avg_st": null,
+            "motor_quinella_rate": 24.44,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_13_02",
+      "date": "2026-06-17",
+      "jcd": "13",
+      "venue_name": "尼崎",
+      "race_no": 2,
+      "race_name": "予選",
+      "deadline": "11:05",
+      "grade": null,
+      "time_zone": "morning",
+      "scores": {
+        "manshu_score": 80.0,
+        "manshu_probability_proxy": 0.272,
+        "target_arare_probability_proxy": 0.46,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 1,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 4.59,
+        "lane1_vs_avg_win_diff": -0.303,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          2,
+          5
+        ],
+        "axis": [
+          1,
+          3
+        ],
+        "toss": [
+          4
+        ],
+        "opponent": [
+          6
+        ]
+      },
+      "boats": [
+        {
+          "lane": 1,
+          "registration_no": "3580",
+          "name": "水口由紀",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 55.57,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 35.525,
+            "axis": 55.57,
+            "toss": 66.097,
+            "strength": 42.583,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 3.86,
+            "local_win_rate": 4.81,
+            "avg_st": null,
+            "motor_quinella_rate": 51.22,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "3878",
+          "name": "胡本悟志",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 43.449,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 52.047,
+            "axis": 43.449,
+            "toss": 71.997,
+            "strength": 28.111,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.39,
+            "local_win_rate": 3.89,
+            "avg_st": null,
+            "motor_quinella_rate": 33.33,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4109",
+          "name": "谷津幸宏",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 69.208,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 69.208,
+            "axis": 59.461,
+            "toss": 41.298,
+            "strength": 68.781,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 5.91,
+            "local_win_rate": 7.06,
+            "avg_st": null,
+            "motor_quinella_rate": 34.21,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "4163",
+          "name": "山崎裕司",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 66.589,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 66.589,
+            "axis": 64.885,
+            "toss": 40.818,
+            "strength": 61.592,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.25,
+            "local_win_rate": 5.86,
+            "avg_st": null,
+            "motor_quinella_rate": 52.17,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "5425",
+          "name": "西山 育",
+          "class": "B2",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 29.926,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 45.449,
+            "axis": 41.613,
+            "toss": 68.409,
+            "strength": 29.926,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 21.0
+          },
+          "features": {
+            "national_win_rate": 1.32,
+            "local_win_rate": 1.17,
+            "avg_st": null,
+            "motor_quinella_rate": 56.76,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "4393",
+          "name": "田中孝明",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 74.233,
+          "role_reason": "低勝率|B級|モーター弱め",
+          "scores": {
+            "head": 50.84,
+            "axis": 38.4,
+            "toss": 74.233,
+            "strength": 26.382,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.25,
+            "local_win_rate": 4.95,
+            "avg_st": null,
+            "motor_quinella_rate": 21.62,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め",
+          "消し候補が不明瞭"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_17_04",
+      "date": "2026-06-17",
+      "jcd": "17",
+      "venue_name": "宮島",
+      "race_no": 4,
+      "race_name": "予選",
+      "deadline": "12:13",
+      "grade": null,
+      "time_zone": "day",
+      "scores": {
+        "manshu_score": 80.0,
+        "manshu_probability_proxy": 0.272,
+        "target_arare_probability_proxy": 0.46,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 1,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 2.54,
+        "lane1_vs_avg_win_diff": -0.855,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          2,
+          4
+        ],
+        "axis": [
+          3,
+          5
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          6
+        ]
+      },
+      "boats": [
+        {
+          "lane": 3,
+          "registration_no": "2878",
+          "name": "富山弘幸",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 53.147,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 60.334,
+            "axis": 53.147,
+            "toss": 52.715,
+            "strength": 47.844,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.22,
+            "local_win_rate": 5.75,
+            "avg_st": null,
+            "motor_quinella_rate": 42.41,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "3990",
+          "name": "芹澤克彦",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 50.323,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 59.5,
+            "axis": 50.323,
+            "toss": 56.205,
+            "strength": 45.666,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 4.87,
+            "local_win_rate": 4.79,
+            "avg_st": null,
+            "motor_quinella_rate": 45.35,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "3898",
+          "name": "平田忠則",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 78.364,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 78.364,
+            "axis": 62.598,
+            "toss": 37.945,
+            "strength": 72.867,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 33.0
+          },
+          "features": {
+            "national_win_rate": 6.97,
+            "local_win_rate": 7.18,
+            "avg_st": null,
+            "motor_quinella_rate": 33.74,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "3988",
+          "name": "古川誠之",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 61.476,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 61.476,
+            "axis": 54.351,
+            "toss": 53.793,
+            "strength": 49.419,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.75,
+            "local_win_rate": 4.89,
+            "avg_st": null,
+            "motor_quinella_rate": 30.64,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "3442",
+          "name": "宮武英司",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 36.043,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 46.018,
+            "axis": 36.515,
+            "toss": 66.893,
+            "strength": 36.043,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 4.47,
+            "local_win_rate": 5.29,
+            "avg_st": null,
+            "motor_quinella_rate": 29.45,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "3458",
+          "name": "東 健介",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 69.997,
+          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
+          "scores": {
+            "head": 34.248,
+            "axis": 51.058,
+            "toss": 69.997,
+            "strength": 39.542,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.43,
+            "local_win_rate": 4.84,
+            "avg_st": null,
+            "motor_quinella_rate": 39.26,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め",
+          "頭候補が割れ気味"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_19_01",
+      "date": "2026-06-17",
+      "jcd": "19",
+      "venue_name": "下関",
+      "race_no": 1,
+      "race_name": "一般",
+      "deadline": "17:41",
+      "grade": null,
+      "time_zone": "evening",
+      "scores": {
+        "manshu_score": 80.0,
+        "manshu_probability_proxy": 0.272,
+        "target_arare_probability_proxy": 0.46,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 1,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 4.63,
+        "lane1_vs_avg_win_diff": -0.448,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          4,
+          5
+        ],
+        "axis": [
+          1,
+          2
+        ],
+        "toss": [
+          3
+        ],
+        "opponent": [
+          6
+        ]
+      },
+      "boats": [
+        {
+          "lane": 2,
+          "registration_no": "5106",
+          "name": "山崎 祥",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 51.969,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 61.077,
+            "axis": 51.969,
+            "toss": 51.233,
+            "strength": 48.47,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.44,
+            "local_win_rate": 5.32,
+            "avg_st": null,
+            "motor_quinella_rate": 37.5,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4325",
+          "name": "新出浩司",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 49.672,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 33.438,
+            "axis": 49.672,
+            "toss": 71.299,
+            "strength": 37.614,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.18,
+            "local_win_rate": 4.67,
+            "avg_st": null,
+            "motor_quinella_rate": 36.84,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "3641",
+          "name": "一瀬 明",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 78.45,
+          "role_reason": "A級|全国勝率上位|外枠A級/強モーター|1号艇より勝率上位",
+          "scores": {
+            "head": 78.45,
+            "axis": 57.94,
+            "toss": 51.732,
+            "strength": 54.023,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 41.0
+          },
+          "features": {
+            "national_win_rate": 6.32,
+            "local_win_rate": 4.17,
+            "avg_st": null,
+            "motor_quinella_rate": 41.18,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4146",
+          "name": "柳橋宏紀",
+          "class": "B1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 62.522,
+          "role_reason": "全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 62.522,
+            "axis": 53.67,
+            "toss": 50.075,
+            "strength": 52.862,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 5.9,
+            "local_win_rate": 4.23,
+            "avg_st": null,
+            "motor_quinella_rate": 48.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "3635",
+          "name": "石田政吾",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 31.287,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 44.021,
+            "axis": 32.103,
+            "toss": 71.002,
+            "strength": 31.287,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 4.24,
+            "local_win_rate": 5.24,
+            "avg_st": null,
+            "motor_quinella_rate": 11.54,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "5400",
+          "name": "高村 諒",
+          "class": "B2",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 79.154,
+          "role_reason": "低勝率|B級|モーター弱め",
+          "scores": {
+            "head": 40.816,
+            "axis": 37.442,
+            "toss": 79.154,
+            "strength": 15.657,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 1.69,
+            "local_win_rate": 0.0,
+            "avg_st": null,
+            "motor_quinella_rate": 28.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_22_03",
+      "date": "2026-06-17",
+      "jcd": "22",
+      "venue_name": "福岡",
+      "race_no": 3,
+      "race_name": "カタメン3一",
+      "deadline": "13:29",
+      "grade": null,
+      "time_zone": "day",
+      "scores": {
+        "manshu_score": 80.0,
+        "manshu_probability_proxy": 0.272,
+        "target_arare_probability_proxy": 0.46,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 0,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 4.16,
+        "lane1_vs_avg_win_diff": -0.268,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          3,
+          6
+        ],
+        "axis": [
+          2,
+          5
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          4
+        ]
+      },
+      "boats": [
+        {
+          "lane": 2,
+          "registration_no": "3801",
+          "name": "五反田忍",
+          "class": "B2",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 41.652,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 52.28,
+            "axis": 41.652,
+            "toss": 69.117,
+            "strength": 27.525,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.65,
+            "local_win_rate": 3.67,
+            "avg_st": null,
+            "motor_quinella_rate": 27.78,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4569",
+          "name": "中澤宏奈",
+          "class": "B2",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 40.961,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 43.851,
+            "axis": 40.961,
+            "toss": 72.463,
+            "strength": 27.454,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 4.77,
+            "local_win_rate": 1.89,
+            "avg_st": null,
+            "motor_quinella_rate": 35.53,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "4123",
+          "name": "細川裕子",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 70.326,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 70.326,
+            "axis": 63.116,
+            "toss": 37.336,
+            "strength": 71.633,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.75,
+            "local_win_rate": 6.45,
+            "avg_st": null,
+            "motor_quinella_rate": 33.33,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "4349",
+          "name": "犬童千秋",
+          "class": "B1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 59.592,
+          "role_reason": "1号艇より勝率上位",
+          "scores": {
+            "head": 59.592,
+            "axis": 47.165,
+            "toss": 53.25,
+            "strength": 49.315,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 4.5,
+            "local_win_rate": 5.42,
+            "avg_st": null,
+            "motor_quinella_rate": 50.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "4510",
+          "name": "坂本奈央",
+          "class": "B2",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 19.238,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 41.84,
+            "axis": 40.811,
+            "toss": 77.272,
+            "strength": 19.238,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 2.59,
+            "local_win_rate": 3.44,
+            "avg_st": null,
+            "motor_quinella_rate": 39.06,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "3357",
+          "name": "福島陽子",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 82.375,
+          "role_reason": "低勝率|B級|モーター弱め|1号艇イン信頼度低め",
+          "scores": {
+            "head": 29.004,
+            "axis": 42.363,
+            "toss": 82.375,
+            "strength": 27.057,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.33,
+            "local_win_rate": 3.68,
+            "avg_st": null,
+            "motor_quinella_rate": 24.56,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_18_08",
+      "date": "2026-06-17",
+      "jcd": "18",
+      "venue_name": "徳山",
+      "race_no": 8,
+      "race_name": "予選",
+      "deadline": "12:00",
+      "grade": null,
+      "time_zone": "day",
+      "scores": {
+        "manshu_score": 79.0,
+        "manshu_probability_proxy": 0.2696,
+        "target_arare_probability_proxy": 0.4565,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 1.69,
+        "lane1_vs_avg_win_diff": -0.507,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          2,
+          6
+        ],
+        "axis": [
+          1,
+          5
+        ],
+        "toss": [
+          3
+        ],
+        "opponent": [
+          4
+        ]
+      },
+      "boats": [
+        {
+          "lane": 1,
+          "registration_no": "4006",
+          "name": "小野勇作",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 59.941,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 46.031,
+            "axis": 59.941,
+            "toss": 54.665,
+            "strength": 55.693,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 5.35,
+            "local_win_rate": 5.66,
+            "avg_st": null,
+            "motor_quinella_rate": 50.0,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "3761",
+          "name": "山本光雄",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 52.29,
+          "role_reason": "モーター上位",
+          "scores": {
+            "head": 66.172,
+            "axis": 52.29,
+            "toss": 53.769,
+            "strength": 49.648,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 5.53,
+            "local_win_rate": 5.43,
+            "avg_st": null,
+            "motor_quinella_rate": 47.22,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "4786",
+          "name": "佐藤博亮",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 78.033,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 78.033,
+            "axis": 65.82,
+            "toss": 31.73,
+            "strength": 76.935,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.77,
+            "local_win_rate": 7.7,
+            "avg_st": null,
+            "motor_quinella_rate": 36.11,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "4451",
+          "name": "松崎祐太",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 74.056,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 74.056,
+            "axis": 55.934,
+            "toss": 40.312,
+            "strength": 71.849,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 6.27,
+            "local_win_rate": 6.94,
+            "avg_st": null,
+            "motor_quinella_rate": 38.3,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "5096",
+          "name": "上原 崚",
+          "class": "A2",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 47.462,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 72.694,
+            "axis": 49.935,
+            "toss": 57.711,
+            "strength": 47.462,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 33.0
+          },
+          "features": {
+            "national_win_rate": 6.14,
+            "local_win_rate": 5.0,
+            "avg_st": null,
+            "motor_quinella_rate": 21.43,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "4821",
+          "name": "妻鳥晋也",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 62.462,
+          "role_reason": "B級|モーター弱め",
+          "scores": {
+            "head": 55.005,
+            "axis": 44.644,
+            "toss": 62.462,
+            "strength": 37.536,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 5.08,
+            "local_win_rate": 5.0,
+            "avg_st": null,
+            "motor_quinella_rate": 25.64,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_18_10",
+      "date": "2026-06-17",
+      "jcd": "18",
+      "venue_name": "徳山",
+      "race_no": 10,
+      "race_name": "予選",
+      "deadline": "13:07",
+      "grade": null,
+      "time_zone": "day",
+      "scores": {
+        "manshu_score": 79.0,
+        "manshu_probability_proxy": 0.2696,
+        "target_arare_probability_proxy": 0.4565,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 2,
+        "outer_motor_strong": true,
+        "outer_exhibition_top": false,
+        "national_win_range": 1.55,
+        "lane1_vs_avg_win_diff": -0.455,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          2,
+          4
+        ],
+        "axis": [
+          3,
+          5
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          6
+        ]
+      },
+      "boats": [
+        {
+          "lane": 5,
+          "registration_no": "5238",
+          "name": "笹木香吾",
+          "class": "A2",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 54.381,
+          "role_reason": "A級",
+          "scores": {
+            "head": 68.254,
+            "axis": 54.381,
+            "toss": 50.311,
+            "strength": 54.605,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 5.66,
+            "local_win_rate": 4.83,
+            "avg_st": null,
+            "motor_quinella_rate": 34.29,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "4529",
+          "name": "嶋 義信",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 52.493,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 66.805,
+            "axis": 52.493,
+            "toss": 49.724,
+            "strength": 51.345,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.06,
+            "local_win_rate": 5.4,
+            "avg_st": null,
+            "motor_quinella_rate": 35.71,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "4076",
+          "name": "杉田篤光",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 82.415,
+          "role_reason": "A級|外枠A級/強モーター|1号艇より勝率上位",
+          "scores": {
+            "head": 82.415,
+            "axis": 57.893,
+            "toss": 52.454,
+            "strength": 51.56,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 41.0
+          },
+          "features": {
+            "national_win_rate": 5.27,
+            "local_win_rate": 4.38,
+            "avg_st": null,
+            "motor_quinella_rate": 44.12,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "5217",
+          "name": "藤原碧生",
+          "class": "A1",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 72.911,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 72.911,
+            "axis": 59.475,
+            "toss": 44.225,
+            "strength": 64.739,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 6.67,
+            "local_win_rate": 6.06,
+            "avg_st": null,
+            "motor_quinella_rate": 29.27,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "4880",
+          "name": "澤崎雄哉",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 37.425,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 45.598,
+            "axis": 34.313,
+            "toss": 66.078,
+            "strength": 37.425,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 13.0
+          },
+          "features": {
+            "national_win_rate": 5.12,
+            "local_win_rate": 5.5,
+            "avg_st": null,
+            "motor_quinella_rate": 15.63,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4906",
+          "name": "鈴木雅希",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 76.387,
+          "role_reason": "B級|1号艇イン信頼度低め",
+          "scores": {
+            "head": 37.168,
+            "axis": 48.218,
+            "toss": 76.387,
+            "strength": 34.591,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 5.21,
+            "local_win_rate": 3.22,
+            "avg_st": null,
+            "motor_quinella_rate": 35.56,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    },
+    {
+      "race_id": "2026-06-17_01_01",
+      "date": "2026-06-17",
+      "jcd": "01",
+      "venue_name": "桐生",
+      "race_no": 1,
+      "race_name": "一般",
+      "deadline": "15:27",
+      "grade": null,
+      "time_zone": "day",
+      "scores": {
+        "manshu_score": 78.0,
+        "manshu_probability_proxy": 0.2672,
+        "target_arare_probability_proxy": 0.453,
+        "data_quality_score": 0.714
+      },
+      "risk_flags": {
+        "lane1_not_a1": true,
+        "lane1_b_class": true,
+        "outer_a_count": 1,
+        "outer_motor_strong": false,
+        "outer_exhibition_top": false,
+        "national_win_range": 2.0,
+        "lane1_vs_avg_win_diff": -0.31,
+        "wind_speed_m": null,
+        "wave_cm": null
+      },
+      "role_summary": {
+        "head": [
+          2,
+          5
+        ],
+        "axis": [
+          3,
+          4
+        ],
+        "toss": [
+          1
+        ],
+        "opponent": [
+          6
+        ]
+      },
+      "boats": [
+        {
+          "lane": 3,
+          "registration_no": "3834",
+          "name": "細川明人",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 42.954,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 50.657,
+            "axis": 42.954,
+            "toss": 71.249,
+            "strength": 27.182,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 3.73,
+            "local_win_rate": 3.73,
+            "avg_st": null,
+            "motor_quinella_rate": 32.77,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "3528",
+          "name": "笠野友紀",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 2,
+          "role_score": 40.969,
+          "role_reason": "相対評価",
+          "scores": {
+            "head": 48.934,
+            "axis": 40.969,
+            "toss": 75.753,
+            "strength": 24.223,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 3.91,
+            "local_win_rate": 0.0,
+            "avg_st": null,
+            "motor_quinella_rate": 33.33,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 2,
+          "registration_no": "4513",
+          "name": "河野真也",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 1,
+          "role_score": 66.016,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 66.016,
+            "axis": 50.916,
+            "toss": 54.658,
+            "strength": 48.323,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.69,
+            "local_win_rate": 6.0,
+            "avg_st": null,
+            "motor_quinella_rate": 18.07,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "4017",
+          "name": "向井美鈴",
+          "class": "A2",
+          "role": "head",
+          "role_rank": 2,
+          "role_score": 65.889,
+          "role_reason": "A級|全国勝率上位|1号艇より勝率上位",
+          "scores": {
+            "head": 65.889,
+            "axis": 50.582,
+            "toss": 56.877,
+            "strength": 48.973,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 27.0
+          },
+          "features": {
+            "national_win_rate": 5.73,
+            "local_win_rate": 5.2,
+            "avg_st": null,
+            "motor_quinella_rate": 28.09,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "3161",
+          "name": "古場輝義",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 42.922,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 53.907,
+            "axis": 40.829,
+            "toss": 61.127,
+            "strength": 42.922,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 5.1,
+            "local_win_rate": 5.59,
+            "avg_st": null,
+            "motor_quinella_rate": 35.88,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 1,
+          "registration_no": "4020",
+          "name": "川上清人",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 77.939,
+          "role_reason": "低勝率|B級|モーター弱め|1号艇イン信頼度低め",
+          "scores": {
+            "head": 35.852,
+            "axis": 45.167,
+            "toss": 77.939,
+            "strength": 31.457,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.46,
+            "local_win_rate": 3.78,
+            "avg_st": null,
+            "motor_quinella_rate": 28.83,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        }
+      ],
+      "formations": {
+        "A": {
+          "points": 24,
+          "definition": "頭2艇-消し以外-消し以外"
+        },
+        "B": {
+          "points": 18,
+          "definition": "頭2艇-軸2艇+相手-消し以外"
+        },
+        "C": {
+          "points": 12,
+          "definition": "頭2艇-軸2艇-消し以外"
+        },
+        "D": {
+          "points": 9,
+          "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "skip_recommendation": {
+        "skip": true,
+        "reasons": [
+          "データ欠損多め",
+          "消し候補が不明瞭"
+        ]
+      },
+      "notes": [
+        "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
+        "確率は表示用の暫定proxyで、実測的中確率や利益を保証しません。"
+      ]
+    }
+  ]
+}
