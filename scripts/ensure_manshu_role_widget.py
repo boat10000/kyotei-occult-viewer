@@ -25,7 +25,10 @@ ROLE_CSS = """.card.role{border-left-color:#0d9488} .card.role h2{color:#0f766e}
 .rolebox.head .tag{color:#b91c1c}.rolebox.head{background:#fff7ed;border-color:#fecaca}
 .rolebox.axis .tag{color:#1d4ed8}.rolebox.axis{background:#eff6ff;border-color:#bfdbfe}
 .rolefoot{font-size:11.5px;color:#64748b;margin-top:7px}
-.role-result{font-weight:800;color:#33405a}"""
+.role-result{font-weight:800;color:#33405a}
+.role-strategy{margin-top:7px;border:1px solid #e5e7eb;background:#fafafa;border-radius:8px;padding:7px 8px;font-size:12px;line-height:1.5;color:#374151}
+.role-strategy b{color:#111827}.role-strategy .good{color:#047857;font-weight:900}.role-strategy .hold{color:#b45309;font-weight:900}.role-strategy .avoid{color:#b91c1c;font-weight:900}.role-strategy .outside_rule{color:#64748b;font-weight:900}
+.role-tickets{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:#475569;word-break:break-word}"""
 
 
 ROLE_CARD = """<div class="card role" id="role-card">
@@ -61,6 +64,24 @@ function roleResultHtml(r){
   var man=payout>=MAN;
   return '結果: 3連単 <b>'+esc(combo)+'</b> '+Number(payout).toLocaleString()+'円 '+(man?'<span class="man">◎万舟</span>':'<span class="muted">— 堅め</span>');
 }
+function pctText(v){return v==null?'—':(Number(v)*100).toFixed(1)+'%';}
+function roleStrategyHtml(r){
+  var s=r.strategy&&r.strategy.buy_style_1;
+  if(!s) return '';
+  var hist=s.historical&&s.historical.good_venues||{}, overall=s.historical&&s.historical.overall||{};
+  var form=s.formation||{}, tickets=(form.tickets||[]).slice(0,9).join(' / ');
+  var cls=s.status||'outside_rule';
+  var condition=s.condition_matched?'条件一致':'条件外';
+  var result=s.result_check||{};
+  var hitText=result.hit==null?'':(' / 照合 '+(result.hit?'的中':'不的中'));
+  return '<div class="role-strategy">'+
+    '<b>買い方1（検証用9点）</b>: <span class="'+cls+'">'+esc(s.status_label||condition)+'</span> / 場相性 <span class="'+(s.venue_tier||'neutral')+'">'+esc(s.venue_label||'—')+'</span>'+hitText+
+    '<br><span class="muted">条件: 1号艇弱め・外枠最強が上・勝率差1.5以内・非進入固定・外枠展示上位</span>'+
+    '<br><span class="muted">過去全体 '+esc(overall.races||'—')+'R ROI '+pctText(overall.return_rate)+' / 相性良場 '+esc(hist.races||'—')+'R ROI '+pctText(hist.return_rate)+'（後半 '+pctText(hist.validation_return_rate)+'）</span>'+
+    (tickets?'<br><span class="role-tickets">'+esc(tickets)+'</span>':'')+
+    '<br><span class="muted">'+esc(s.venue_reason||'')+'</span>'+
+  '</div>';
+}
 function updateRoleResults(){
   document.querySelectorAll('[data-role-result]').forEach(function(el){
     var raw=el.getAttribute('data-role-json');
@@ -80,8 +101,19 @@ function renderRoleRanking(data){
     return;
   }
   var modeLabel=data.mode==='morning'?'朝版':'直前版';
-  status.textContent=modeLabel+'ロール候補を表示中。頭2・軸2・消し1・残り相手1の重複なし分類です。';
-  list.innerHTML=data.races.slice(0,5).map(function(r,i){
+  var strategyMatches=data.races.filter(function(r){var s=r.strategy&&r.strategy.buy_style_1; return s&&s.condition_matched;});
+  var goodMatches=strategyMatches.filter(function(r){return (r.strategy.buy_style_1.venue_tier)==='good';});
+  status.textContent=modeLabel+'ロール候補を表示中。買い方1条件一致 '+strategyMatches.length+'件 / 相性良 '+goodMatches.length+'件。条件一致がある場合は優先表示します。';
+  var seen={}, display=[];
+  strategyMatches.sort(function(a,b){
+    var order={good:3,hold:2,neutral:1,avoid:0};
+    var av=order[(a.strategy.buy_style_1.venue_tier)||'neutral']||0;
+    var bv=order[(b.strategy.buy_style_1.venue_tier)||'neutral']||0;
+    return bv-av;
+  }).concat(data.races).forEach(function(r){
+    if(!seen[r.race_id]){seen[r.race_id]=1; display.push(r);}
+  });
+  list.innerHTML=display.slice(0,8).map(function(r,i){
     var roles=r.role_summary||{}, scores=r.scores||{}, forms=r.formations||{};
     var score=scores.manshu_score==null?'—':Math.round(scores.manshu_score);
     var manshu=scores.manshu_probability_proxy==null?'—':(scores.manshu_probability_proxy*100).toFixed(1)+'%';
@@ -97,6 +129,7 @@ function renderRoleRanking(data){
         roleBox(r,'残り相手','opponent',roles.opponent)+
       '</div>'+
       '<div class="rolefoot role-result" data-role-result="'+esc(roleResultKey(r))+'" data-role-json="'+esc(JSON.stringify({jcd:r.jcd,race_no:r.race_no,result:r.result||{}}))+'">'+roleResultHtml(r)+'</div>'+
+      roleStrategyHtml(r)+
       '<div class="rolefoot">'+(skip?'見送り候補: '+esc((r.skip_recommendation.reasons||[]).join(' / ')):'見送り判定なし')+'　検証用フォーメーション '+formText+'</div>'+
     '</div>';
   }).join('');
@@ -148,6 +181,15 @@ def patch_html(path: Path) -> bool:
     if ".card.role" not in text:
         marker = ".card.rank{border-left-color:#7c3aed} .card.rank h2{color:#6d28d9}\n"
         text = text.replace(marker, marker + ROLE_CSS + "\n", 1)
+    elif ".role-strategy" not in text:
+        text = text.replace(
+            ".role-result{font-weight:800;color:#33405a}",
+            """.role-result{font-weight:800;color:#33405a}
+.role-strategy{margin-top:7px;border:1px solid #e5e7eb;background:#fafafa;border-radius:8px;padding:7px 8px;font-size:12px;line-height:1.5;color:#374151}
+.role-strategy b{color:#111827}.role-strategy .good{color:#047857;font-weight:900}.role-strategy .hold{color:#b45309;font-weight:900}.role-strategy .avoid{color:#b91c1c;font-weight:900}.role-strategy .outside_rule{color:#64748b;font-weight:900}
+.role-tickets{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:#475569;word-break:break-word}""",
+            1,
+        )
 
     if 'id="role-card"' not in text:
         text, count = re.subn(
@@ -175,6 +217,24 @@ def patch_html(path: Path) -> bool:
         if marker not in text:
             raise RuntimeError(f"{path}: JS insertion marker not found")
         text = text.replace(marker, ROLE_JS + "\n" + marker, 1)
+    elif "function roleStrategyHtml(" not in text or "strategyMatches=data.races.filter" not in text:
+        text, count = re.subn(
+            r"function esc\(s\)\{.*?\nfunction acc\(tr\)\{",
+            ROLE_JS + "\nfunction acc(tr){",
+            text,
+            count=1,
+            flags=re.S,
+        )
+        if count != 1:
+            text, count = re.subn(
+                r"function esc\(s\)\{.*?\nasync function loadResults\(\)\{",
+                ROLE_JS + "\nasync function loadResults(){",
+                text,
+                count=1,
+                flags=re.S,
+            )
+        if count != 1:
+            raise RuntimeError(f"{path}: existing role JS replacement marker not found")
 
     if "ROLE_RESULT_MAP=map;" not in text:
         marker = "  var done=0,man=0,total=0,pend=0;"

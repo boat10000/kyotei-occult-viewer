@@ -2,7 +2,7 @@
   "version": "manshu-role-ranking-v1",
   "mode": "preview",
   "date": "2026-06-16",
-  "generated_at": "2026-06-17T12:48:08.943956+09:00",
+  "generated_at": "2026-06-17T17:05:44.186933+09:00",
   "source": {
     "dataset": "data/analysis/boat_role_dataset.csv",
     "official": true,
@@ -243,6 +243,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": true,
+          "status": "avoid",
+          "status_label": "条件一致・見送り寄り",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": true,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 4.82,
+            "lane1_vs_best_outer_win_diff": -1.08,
+            "national_win_range": 1.17
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "2-3-4",
+              "2-3-5",
+              "2-3-6",
+              "2-4-3",
+              "2-4-5",
+              "2-4-6",
+              "2-6-3",
+              "2-6-4",
+              "2-6-5"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
@@ -487,6 +558,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": true,
+          "status": "avoid",
+          "status_label": "条件一致・見送り寄り",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": true,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 3.59,
+            "lane1_vs_best_outer_win_diff": -0.58,
+            "national_win_range": 1.5
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "2-1-3",
+              "2-1-4",
+              "2-1-5",
+              "2-4-1",
+              "2-4-3",
+              "2-4-5",
+              "2-5-1",
+              "2-5-3",
+              "2-5-4"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": false,
         "reasons": []
@@ -727,6 +869,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "good",
+          "venue_label": "相性良",
+          "venue_reason": "前半選定場で後半検証もプラス。買い方1の検証上は優先候補。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 3.59,
+            "lane1_vs_best_outer_win_diff": -2.92,
+            "national_win_range": 2.92
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "2-4-3",
+              "2-4-5",
+              "2-4-6",
+              "2-5-3",
+              "2-5-4",
+              "2-5-6",
+              "2-6-3",
+              "2-6-4",
+              "2-6-5"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": true,
+            "return_yen_per_100": 2190,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
@@ -971,6 +1184,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "neutral",
+          "venue_label": "中立",
+          "venue_reason": "場別サンプルが薄いため、全体条件だけで参考表示。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": false
+          },
+          "metrics": {
+            "lane1_national_win_rate": 4.71,
+            "lane1_vs_best_outer_win_diff": -0.79,
+            "national_win_range": 1.93
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "2-3-4",
+              "2-3-5",
+              "2-3-6",
+              "2-4-3",
+              "2-4-5",
+              "2-4-6",
+              "2-5-3",
+              "2-5-4",
+              "2-5-6"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": false,
         "reasons": []
@@ -1211,6 +1495,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "hold",
+          "venue_label": "保留",
+          "venue_reason": "全期間では良いが前半選定場ではないため、前向き検証待ち。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 4.89,
+            "lane1_vs_best_outer_win_diff": -1.39,
+            "national_win_range": 2.18
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "4-2-3",
+              "4-2-5",
+              "4-2-6",
+              "4-5-2",
+              "4-5-3",
+              "4-5-6",
+              "4-6-2",
+              "4-6-3",
+              "4-6-5"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
@@ -1455,6 +1810,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 2.74,
+            "lane1_vs_best_outer_win_diff": -1.63,
+            "national_win_range": 2.79
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "3-2-4",
+              "3-2-5",
+              "3-2-6",
+              "3-5-2",
+              "3-5-4",
+              "3-5-6",
+              "3-6-2",
+              "3-6-4",
+              "3-6-5"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": false,
         "reasons": []
@@ -1695,6 +2121,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 3.68,
+            "lane1_vs_best_outer_win_diff": -2.73,
+            "national_win_range": 2.73
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "5-2-3",
+              "5-2-4",
+              "5-2-6",
+              "5-3-2",
+              "5-3-4",
+              "5-3-6",
+              "5-6-2",
+              "5-6-3",
+              "5-6-4"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
@@ -1939,6 +2436,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 4.77,
+            "lane1_vs_best_outer_win_diff": -1.63,
+            "national_win_range": 1.63
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "5-1-2",
+              "5-1-3",
+              "5-1-6",
+              "5-2-1",
+              "5-2-3",
+              "5-2-6",
+              "5-6-1",
+              "5-6-2",
+              "5-6-3"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": false,
         "reasons": []
@@ -2179,6 +2747,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "good",
+          "venue_label": "相性良",
+          "venue_reason": "前半選定場で後半検証もプラス。買い方1の検証上は優先候補。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 4.95,
+            "lane1_vs_best_outer_win_diff": -2.34,
+            "national_win_range": 2.34
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "3-2-4",
+              "3-2-5",
+              "3-2-6",
+              "3-4-2",
+              "3-4-5",
+              "3-4-6",
+              "3-6-2",
+              "3-6-4",
+              "3-6-5"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
@@ -2425,6 +3064,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 4.27,
+            "lane1_vs_best_outer_win_diff": -1.53,
+            "national_win_range": 2.54
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "2-3-4",
+              "2-3-5",
+              "2-3-6",
+              "2-5-3",
+              "2-5-4",
+              "2-5-6",
+              "2-6-3",
+              "2-6-4",
+              "2-6-5"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": true,
+            "return_yen_per_100": 1120,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": true,
         "reasons": [
@@ -2667,6 +3377,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "hold",
+          "venue_label": "保留",
+          "venue_reason": "全期間では良いが前半選定場ではないため、前向き検証待ち。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": false,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": true,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 5.13,
+            "lane1_vs_best_outer_win_diff": -1.02,
+            "national_win_range": 1.5
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "2-1-3",
+              "2-1-4",
+              "2-1-6",
+              "2-3-1",
+              "2-3-4",
+              "2-3-6",
+              "2-4-1",
+              "2-4-3",
+              "2-4-6"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
@@ -2913,6 +3694,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "neutral",
+          "venue_label": "中立",
+          "venue_reason": "場別サンプルが薄いため、全体条件だけで参考表示。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 4.46,
+            "lane1_vs_best_outer_win_diff": -3.48,
+            "national_win_range": 3.48
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "4-2-3",
+              "4-2-5",
+              "4-2-6",
+              "4-3-2",
+              "4-3-5",
+              "4-3-6",
+              "4-6-2",
+              "4-6-3",
+              "4-6-5"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": false,
         "reasons": []
@@ -3153,6 +4005,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "good",
+          "venue_label": "相性良",
+          "venue_reason": "前半選定場で後半検証もプラス。買い方1の検証上は優先候補。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": false,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": true,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 5.29,
+            "lane1_vs_best_outer_win_diff": -1.09,
+            "national_win_range": 1.3
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "2-1-4",
+              "2-1-5",
+              "2-1-6",
+              "2-5-1",
+              "2-5-4",
+              "2-5-6",
+              "2-6-1",
+              "2-6-4",
+              "2-6-5"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
@@ -3399,6 +4322,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 3.67,
+            "lane1_vs_best_outer_win_diff": -3.13,
+            "national_win_range": 3.46
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "3-2-4",
+              "3-2-5",
+              "3-2-6",
+              "3-4-2",
+              "3-4-5",
+              "3-4-6",
+              "3-5-2",
+              "3-5-4",
+              "3-5-6"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": false,
         "reasons": []
@@ -3639,6 +4633,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 2.85,
+            "lane1_vs_best_outer_win_diff": -1.33,
+            "national_win_range": 2.9
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "2-3-4",
+              "2-3-5",
+              "2-3-6",
+              "2-4-3",
+              "2-4-5",
+              "2-4-6",
+              "2-5-3",
+              "2-5-4",
+              "2-5-6"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": true,
+            "return_yen_per_100": 2370,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
@@ -3883,6 +4948,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "good",
+          "venue_label": "相性良",
+          "venue_reason": "前半選定場で後半検証もプラス。買い方1の検証上は優先候補。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": false,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 5.51,
+            "lane1_vs_best_outer_win_diff": -0.15,
+            "national_win_range": 2.71
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "3-1-2",
+              "3-1-4",
+              "3-1-5",
+              "3-2-1",
+              "3-2-4",
+              "3-2-5",
+              "3-5-1",
+              "3-5-2",
+              "3-5-4"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": false,
         "reasons": []
@@ -4123,6 +5259,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "good",
+          "venue_label": "相性良",
+          "venue_reason": "前半選定場で後半検証もプラス。買い方1の検証上は優先候補。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": false,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 5.3,
+            "lane1_vs_best_outer_win_diff": -0.99,
+            "national_win_range": 2.06
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "3-2-4",
+              "3-2-5",
+              "3-2-6",
+              "3-4-2",
+              "3-4-5",
+              "3-4-6",
+              "3-6-2",
+              "3-6-4",
+              "3-6-5"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
@@ -4367,6 +5574,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 4.44,
+            "lane1_vs_best_outer_win_diff": -2.41,
+            "national_win_range": 3.1
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "4-2-1",
+              "4-2-3",
+              "4-2-5",
+              "4-3-1",
+              "4-3-2",
+              "4-3-5",
+              "4-5-1",
+              "4-5-2",
+              "4-5-3"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": false,
         "reasons": []
@@ -4607,6 +5885,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 4.94,
+            "lane1_vs_best_outer_win_diff": -0.86,
+            "national_win_range": 1.93
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "4-1-2",
+              "4-1-3",
+              "4-1-6",
+              "4-3-1",
+              "4-3-2",
+              "4-3-6",
+              "4-6-1",
+              "4-6-2",
+              "4-6-3"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
@@ -4851,6 +6200,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "neutral",
+          "venue_label": "中立",
+          "venue_reason": "場別サンプルが薄いため、全体条件だけで参考表示。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": false,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 5.01,
+            "lane1_vs_best_outer_win_diff": -1.3,
+            "national_win_range": 3.04
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "2-1-4",
+              "2-1-5",
+              "2-1-6",
+              "2-5-1",
+              "2-5-4",
+              "2-5-6",
+              "2-6-1",
+              "2-6-4",
+              "2-6-5"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": false,
         "reasons": []
@@ -5091,6 +6511,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": true,
+            "lane1_weaker_than_best_outer": false,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 4.77,
+            "lane1_vs_best_outer_win_diff": 0.9,
+            "national_win_range": 3.31
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "2-3-1",
+              "2-3-4",
+              "2-3-5",
+              "2-4-1",
+              "2-4-3",
+              "2-4-5",
+              "2-5-1",
+              "2-5-3",
+              "2-5-4"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
@@ -5337,6 +6828,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": false,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": true,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 6.95,
+            "lane1_vs_best_outer_win_diff": -0.85,
+            "national_win_range": 1.18
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "2-1-3",
+              "2-1-4",
+              "2-1-5",
+              "2-3-1",
+              "2-3-4",
+              "2-3-5",
+              "2-5-1",
+              "2-5-3",
+              "2-5-4"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": true,
         "reasons": [
@@ -5581,6 +7143,77 @@
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
         }
       },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "avoid",
+          "venue_label": "見送り寄り",
+          "venue_reason": "今回の買い方1検証では0回収や低回収が目立つ場。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": false,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": true,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": false
+          },
+          "metrics": {
+            "lane1_national_win_rate": 5.78,
+            "lane1_vs_best_outer_win_diff": -0.24,
+            "national_win_range": 1.46
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "3-2-4",
+              "3-2-5",
+              "3-2-6",
+              "3-4-2",
+              "3-4-5",
+              "3-4-6",
+              "3-5-2",
+              "3-5-4",
+              "3-5-6"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
+        }
+      },
       "skip_recommendation": {
         "skip": false,
         "reasons": []
@@ -5821,6 +7454,77 @@
         "D": {
           "points": 9,
           "definition": "頭1番手-頭2番手+軸2艇-消し以外"
+        }
+      },
+      "strategy": {
+        "buy_style_1": {
+          "version": "buy-style-1-v1",
+          "label": "買い方1（検証用9点）",
+          "condition_matched": false,
+          "status": "outside_rule",
+          "status_label": "条件外",
+          "venue_tier": "good",
+          "venue_label": "相性良",
+          "venue_reason": "前半選定場で後半検証もプラス。買い方1の検証上は優先候補。",
+          "conditions": {
+            "lane1_national_win_rate_lt_5": false,
+            "lane1_weaker_than_best_outer": true,
+            "national_win_range_le_1_5": false,
+            "not_fixed_entry": true,
+            "outer_exhibition_top": true
+          },
+          "metrics": {
+            "lane1_national_win_rate": 5.9,
+            "lane1_vs_best_outer_win_diff": -1.96,
+            "national_win_range": 3.47
+          },
+          "formation": {
+            "name": "D",
+            "points": 9,
+            "definition": "頭1番手-頭2番手+軸2艇-消し以外",
+            "tickets": [
+              "4-1-2",
+              "4-1-3",
+              "4-1-6",
+              "4-3-1",
+              "4-3-2",
+              "4-3-6",
+              "4-6-1",
+              "4-6-2",
+              "4-6-3"
+            ]
+          },
+          "historical": {
+            "overall": {
+              "races": 164,
+              "avg_points": 9.0,
+              "hit_rate": 0.1037,
+              "manshu_hit_rate": 0.061,
+              "return_rate": 1.8388,
+              "return_rate_without_max": 1.4358,
+              "profit_yen_per_100": 123800,
+              "max_drawdown_yen_per_100": 44630,
+              "max_losing_streak": 30
+            },
+            "good_venues": {
+              "races": 60,
+              "hit_rate": 0.2333,
+              "manshu_hit_rate": 0.1667,
+              "return_rate": 4.7115,
+              "return_rate_without_max": 3.61,
+              "validation_races": 15,
+              "validation_return_rate": 5.4622
+            }
+          },
+          "result_check": {
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
+          },
+          "notes": [
+            "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
+            "場別フィルタはサンプルが少ないため前向き検証が必要です。"
+          ]
         }
       },
       "skip_recommendation": {
