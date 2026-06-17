@@ -156,13 +156,25 @@ def default_targets(root: Path) -> list[Path]:
 def patch_html(path: Path) -> bool:
     text = path.read_text(encoding="utf-8")
     original = text
-    if 'var RDATE="' not in text or '<div class="card rank">' not in text:
+    if 'var RDATE="' not in text:
         print(f"skip unsupported manshu page: {path}")
         return False
-    if ".card.role" not in text and ".card.rank{border-left-color:#7c3aed} .card.rank h2{color:#6d28d9}\n" not in text:
+    if ".card.role" not in text and not any(
+        marker in text
+        for marker in [
+            ".card.rank{border-left-color:#7c3aed} .card.rank h2{color:#6d28d9}\n",
+            "footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:20px}\n",
+        ]
+    ):
         print(f"skip unsupported manshu page: {path} (CSS marker not found)")
         return False
-    if 'id="role-card"' not in text and not re.search(r'(<div class="bar">.*?</div>\n)(<div class="card rank">)', text, flags=re.S):
+    if 'id="role-card"' not in text and not any(
+        [
+            re.search(r'(<div class="bar">.*?</div>\n)(<div class="card rank">)', text, flags=re.S),
+            re.search(r'(<p class="sub">📅 .*?</p>\n)', text, flags=re.S),
+            re.search(r'(<details class="card">)', text),
+        ]
+    ):
         print(f"skip unsupported manshu page: {path} (role card marker not found)")
         return False
     if "var ROLE_RESULT_MAP={};" not in text and not re.search(r'(var RDATE="[^"]+", MAN=10000;\n)', text):
@@ -174,13 +186,21 @@ def patch_html(path: Path) -> bool:
     if "ROLE_RESULT_MAP=map;" not in text and "  var done=0,man=0,total=0,pend=0;" not in text:
         print(f"skip unsupported manshu page: {path} (loadResults marker not found)")
         return False
-    if "loadRoleRanking()" not in text.split("document.addEventListener('DOMContentLoaded'", 1)[-1] and "showLen('xrank'); loadTimes();" not in text:
+    if (
+        "loadRoleRanking()" not in text.split("document.addEventListener('DOMContentLoaded'", 1)[-1]
+        and "showLen('xrank'); loadTimes();" not in text
+        and "showLen('xrank');" not in text
+    ):
         print(f"skip unsupported manshu page: {path} (DOMContentLoaded marker not found)")
         return False
 
     if ".card.role" not in text:
         marker = ".card.rank{border-left-color:#7c3aed} .card.rank h2{color:#6d28d9}\n"
-        text = text.replace(marker, marker + ROLE_CSS + "\n", 1)
+        if marker in text:
+            text = text.replace(marker, marker + ROLE_CSS + "\n", 1)
+        else:
+            marker = "footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:20px}\n"
+            text = text.replace(marker, ROLE_CSS + "\n" + marker, 1)
     elif ".role-strategy" not in text:
         text = text.replace(
             ".role-result{font-weight:800;color:#33405a}",
@@ -192,13 +212,30 @@ def patch_html(path: Path) -> bool:
         )
 
     if 'id="role-card"' not in text:
-        text, count = re.subn(
-            r'(<div class="bar">.*?</div>\n)(<div class="card rank">)',
-            r"\1" + ROLE_CARD + "\n" + r"\2",
-            text,
-            count=1,
-            flags=re.S,
-        )
+        count = 0
+        if '<div class="card rank">' in text:
+            text, count = re.subn(
+                r'(<div class="bar">.*?</div>\n)(<div class="card rank">)',
+                r"\1" + ROLE_CARD + "\n" + r"\2",
+                text,
+                count=1,
+                flags=re.S,
+            )
+        if count != 1:
+            text, count = re.subn(
+                r'(<p class="sub">📅 .*?</p>\n)',
+                r"\1" + ROLE_CARD + "\n",
+                text,
+                count=1,
+                flags=re.S,
+            )
+        if count != 1:
+            text, count = re.subn(
+                r'(<details class="card">)',
+                ROLE_CARD + "\n" + r"\1",
+                text,
+                count=1,
+            )
         if count != 1:
             raise RuntimeError(f"{path}: role card insertion marker not found")
 
@@ -241,8 +278,12 @@ def patch_html(path: Path) -> bool:
         text = text.replace(marker, "  ROLE_RESULT_MAP=map;\n  updateRoleResults();\n" + marker, 1)
 
     if "loadRoleRanking()" not in text.split("document.addEventListener('DOMContentLoaded'", 1)[-1]:
-        marker = "showLen('xrank'); loadTimes();"
-        text = text.replace(marker, "showLen('xrank'); loadRoleRanking(); loadTimes();", 1)
+        if "showLen('xrank'); loadTimes();" in text:
+            marker = "showLen('xrank'); loadTimes();"
+            text = text.replace(marker, "showLen('xrank'); loadRoleRanking(); loadTimes();", 1)
+        else:
+            marker = "showLen('xrank');"
+            text = text.replace(marker, "showLen('xrank'); loadRoleRanking();", 1)
 
     if text != original:
         path.write_text(text, encoding="utf-8")
