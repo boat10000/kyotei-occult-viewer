@@ -7,6 +7,7 @@ on:
     paths:
       - "manshu.html"
       - "manshu/*.html"
+      - "manshu_posts.html"
       - "scripts/ensure_manshu_role_widget.py"
   workflow_dispatch:
 
@@ -31,7 +32,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add manshu.html manshu/*.html
+          git add manshu.html manshu/*.html manshu_posts.html
           if git diff --cached --quiet; then
             echo "Role widget already present."
             exit 0

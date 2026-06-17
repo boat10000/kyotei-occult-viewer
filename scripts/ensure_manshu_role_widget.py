@@ -39,6 +39,116 @@ ROLE_CSS = """.rate-scroll{overflow-x:auto;margin-top:8px}
 .post-card textarea{min-height:150px}"""
 
 
+PUBLIC_COPY_REPLACEMENTS = [
+    (
+        "📋 投稿センター｜X・note用の文章をコピーして即投稿 ▶",
+        "📋 投稿センター｜X・note用の文章を作成 ▶",
+    ),
+    (
+        "万舟率が上がる条件でも、どの買い目で利益化できるかは別問題です。<b>生活費は賭けず、当てる楽しみとして小さく。</b>",
+        "万舟率は荒れやすさの目安です。買い目や利益とは切り分けて、研究・記録用として見てください。",
+    ),
+    (
+        "実データ検証では荒れ狙いの回収率は約65%（＝賭けるほど確実に減る）。<b>生活費は賭けず、当てる楽しみとして小さく。</b>",
+        "実データ検証では、固定した荒れ狙いの買い方は回収率約65%でした。利益化の根拠にはせず、研究・記録用として見てください。",
+    ),
+    (
+        "⚠️ <b>このページは「下見（朝の静的予報）」です。</b> 実際に買う本番の買い目は",
+        "⚠️ <b>このページは「朝時点の荒れやすさランキング」です。</b> 展示や気象を含む直前版は",
+    ),
+    (
+        "買い目（2-6ボックス）の正直な回収率は<b>朝・直前とも約65%</b>（控除率の壁の下＝中長期は負け・娯楽用）。直前版で上がるのは万舟率ではなく<b>1号艇が飛ぶか・軸・消しの精度</b>。<b>各レース30〜40分前に展示が出てから、直前版を見るのがおすすめです。</b>",
+        "固定買い目の過去検証では、朝・直前とも回収率は約65%で、利益化の根拠にはなりません。直前版では展示後の1号艇信頼度・軸候補・消し候補を補助表示します。展示が出た後に確認する用途で見てください。",
+    ),
+    (
+        "このツールの心臓＝「万舟が出やすい条件」。過去データから発掘し、<b>学習(2023-24)で発見 → 検証(2025年〜・学習に未使用)で再現</b>したものだけ採用しています。各条件の実績を全部公開：<b>検証列が学習列とベース(16.6%)を両方上回る＝偶然でなく本物</b>の証拠。盛っていれば検証列が即崩れる＝一目で見抜けます。🔥=本日のレースが該当。",
+        "過去データで万舟率が高かった条件を、学習期間と検証期間に分けて確認しています。<b>検証期(2025年〜・学習に未使用)</b>でもベースライン(16.6%)を上回った条件だけを表示しています。🔥=本日のレースが該当。",
+    ),
+    (
+        "※検証期＝学習に一切使っていない未来データ。ここで再現していることが唯一の誠実さの担保。回収率・利益とは別物（万舟率＝荒れやすさ）。",
+        "※検証期は条件作成に使っていない期間です。万舟率は荒れやすさの目安で、回収率・利益とは別指標です。",
+    ),
+    (
+        "※これは娯楽用の“荒れ予報”です。的中・利益を保証するものではありません。生活費は賭けず、当てる楽しみとして小さくお楽しみください。",
+        "※これは娯楽・研究用の荒れやすさメモです。的中・利益を保証するものではありません。",
+    ),
+    (
+        "※娯楽用の予報です。生活費は賭けず、小さくお楽しみください。",
+        "※娯楽・研究用の記録です。的中や利益を保証するものではありません。",
+    ),
+    (
+        "トップ10のランキング本文です。結果は別投稿に分けます。",
+        "トップ10を投稿用に整えた本文です。結果は含めません。",
+    ),
+    (
+        "トップ10の答え合わせ本文です。ランキング投稿とは別に使えます。",
+        "トップ10の確定結果を投稿用に整えた本文です。",
+    ),
+    (
+        "ランキング投稿とは分けて、結果の答え合わせだけを投稿できます。",
+        "ランキングとは別に、確定結果だけを投稿できます。",
+    ),
+    (
+        "万舟率TOP5 答え合わせ",
+        "万舟率TOP5 結果",
+    ),
+    (
+        "万舟率TOP10 答え合わせ",
+        "万舟率TOP10 結果",
+    ),
+    (
+        "※荒れやすさの研究用メモ。買い目・購入推奨・利益保証なし。",
+        "※荒れやすさの研究用メモです。買い目は載せていません。",
+    ),
+    (
+        "万舟率=荒れやすさの研究用指標",
+        "万舟率は荒れやすさの目安",
+    ),
+    (
+        "結果は別投稿で答え合わせ。買い目・購入推奨・利益保証なし。",
+        "結果は別投稿で確認します。買い目は載せません。",
+    ),
+    (
+        "ランキング投稿とは分けた答え合わせ。買い目・購入推奨・利益保証なし。",
+        "ランキングとは別に、確定結果だけをまとめました。",
+    ),
+    (
+        "過去データから作った「荒れやすさ」のランキングです。結果は別投稿で答え合わせします。買い目、購入推奨、利益保証ではありません。",
+        "過去データをもとに、荒れやすさの目安が高い順に並べた観察メモです。結果は別投稿で確認します。",
+    ),
+    (
+        "万舟率は荒れやすさの目安で、的中や利益を示す数字ではありません。",
+        "万舟率は荒れやすさの目安で、的中や利益を示すものではありません。",
+    ),
+    (
+        "娯楽・研究用です。舟券購入を推奨しません。",
+        "娯楽・研究用の記録です。",
+    ),
+    (
+        "ランキングTOP10が実際にどう決着したかを見る観察記録です。",
+        "ランキングTOP10の確定結果をまとめた記録です。",
+    ),
+    (
+        "結果・払戻は答え合わせ用で、購入判断を促すものではありません。",
+        "結果・払戻は記録用です。購入判断を促すものではありません。",
+    ),
+    (
+        "買い目、購入推奨、利益保証は含みません。",
+        "買い目や購入推奨は含みません。",
+    ),
+    (
+        "同じランキングJSONから安全文面を生成",
+        "同じランキングJSONから投稿文を生成",
+    ),
+]
+
+
+def polish_public_copy(text: str) -> str:
+    for before, after in PUBLIC_COPY_REPLACEMENTS:
+        text = text.replace(before, after)
+    return text
+
+
 RATE_CARD = """<div class="card rank" id="rate-card">
   <h2>📊 万舟率トップ10（結果つき）</h2>
   <p class="lead" id="rate-status">本日の万舟率トップ10を読み込み中…</p>
@@ -331,9 +441,17 @@ def default_targets(root: Path) -> list[Path]:
 def patch_html(path: Path) -> bool:
     text = path.read_text(encoding="utf-8")
     original = text
-    if 'var RDATE="' not in text:
-        print(f"skip unsupported manshu page: {path}")
+    text = polish_public_copy(text)
+
+    def skip(reason: str) -> bool:
+        print(reason)
+        if text != original:
+            path.write_text(text, encoding="utf-8")
+            return True
         return False
+
+    if 'var RDATE="' not in text:
+        return skip(f"skip unsupported manshu page: {path}")
     if ".card.role" not in text and not any(
         marker in text
         for marker in [
@@ -341,8 +459,7 @@ def patch_html(path: Path) -> bool:
             "footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:20px}\n",
         ]
     ):
-        print(f"skip unsupported manshu page: {path} (CSS marker not found)")
-        return False
+        return skip(f"skip unsupported manshu page: {path} (CSS marker not found)")
     if 'id="role-card"' not in text and not any(
         [
             re.search(r'(<div class="bar">.*?</div>\n)(<div class="card rank">)', text, flags=re.S),
@@ -350,24 +467,19 @@ def patch_html(path: Path) -> bool:
             re.search(r'(<details class="card">)', text),
         ]
     ):
-        print(f"skip unsupported manshu page: {path} (role card marker not found)")
-        return False
+        return skip(f"skip unsupported manshu page: {path} (role card marker not found)")
     if "var ROLE_RESULT_MAP={};" not in text and not re.search(r'(var RDATE="[^"]+", MAN=10000;\n)', text):
-        print(f"skip unsupported manshu page: {path} (RDATE marker not found)")
-        return False
+        return skip(f"skip unsupported manshu page: {path} (RDATE marker not found)")
     if "function roleDataUrl()" not in text and "function acc(tr){" not in text:
-        print(f"skip unsupported manshu page: {path} (JS marker not found)")
-        return False
+        return skip(f"skip unsupported manshu page: {path} (JS marker not found)")
     if "ROLE_RESULT_MAP=map;" not in text and "  var done=0,man=0,total=0,pend=0;" not in text:
-        print(f"skip unsupported manshu page: {path} (loadResults marker not found)")
-        return False
+        return skip(f"skip unsupported manshu page: {path} (loadResults marker not found)")
     if (
         "loadRoleRanking()" not in text.split("document.addEventListener('DOMContentLoaded'", 1)[-1]
         and "showLen('xrank'); loadTimes();" not in text
         and "showLen('xrank');" not in text
     ):
-        print(f"skip unsupported manshu page: {path} (DOMContentLoaded marker not found)")
-        return False
+        return skip(f"skip unsupported manshu page: {path} (DOMContentLoaded marker not found)")
 
     if ".rate-scroll" not in text:
         marker = ".card.rank{border-left-color:#7c3aed} .card.rank h2{color:#6d28d9}\n"
@@ -625,8 +737,21 @@ def patch_html(path: Path) -> bool:
     if "loadResults()" not in text.split("document.addEventListener('DOMContentLoaded'", 1)[-1]:
         text = text.replace("loadRoleRanking();", "loadRoleRanking(); loadResults();", 1)
 
+    text = polish_public_copy(text)
+
     if text != original:
         path.write_text(text, encoding="utf-8")
+        return True
+    return False
+
+
+def patch_posts_html(path: Path) -> bool:
+    if not path.exists():
+        return False
+    text = path.read_text(encoding="utf-8")
+    updated = polish_public_copy(text)
+    if updated != text:
+        path.write_text(updated, encoding="utf-8")
         return True
     return False
 
@@ -644,6 +769,8 @@ def run(args: argparse.Namespace) -> int:
     for target in targets:
         if patch_html(target):
             changed.append(str(target))
+    if not args.paths and patch_posts_html(root / "manshu_posts.html"):
+        changed.append("manshu_posts.html")
     if changed:
         print("patched manshu widgets:")
         for path in changed:

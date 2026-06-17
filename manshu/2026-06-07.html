@@ -69,7 +69,7 @@ footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:20px}
 <div id="stale" class="stale" style="display:none"></div>
 <p class="sub">万舟スコアで全156Rを採点し、荒れそうな上位<b>10</b>レースを表示（うち特定条件にも該当7件）。ベース万舟率≈16.6%。
 <b>これは“荒れ予報”＝娯楽用の情報で、買い目の推奨ではありません。</b>
-万舟率が上がる条件でも、どの買い目で利益化できるかは別問題です。<b>生活費は賭けず、当てる楽しみとして小さく。</b></p>
+万舟率は荒れやすさの目安です。買い目や利益とは切り分けて、研究・記録用として見てください。</p>
 <p class="sub">📅 <a href="manshu_days.html" style="color:#2563eb;font-weight:700">日付を選んで過去の結果を見る</a>　／　📚 <a href="manshu_research.html" style="color:#2563eb;font-weight:700">万舟研究ノート</a></p>
 <div class="bar"><button id="rbtn" onclick="loadResults()">🔄 結果を更新</button><span id="rstat" class="rstat">最新の結果を読み込み中…</span></div>
 <div class="card elite"><h2>🎯 本日の厳選（万舟率≥22%）</h2><p class="lead">万舟率（条件該当はその過去実績／他は万舟スコア）が<b>≥22%</b>のレース：<b>桐生4R（29%） ／ 江戸川4R（28%） ／ 津4R（27%） ／ 大村2R（27%） ／ 多摩川2R（27%） ／ 常滑7R（27%） ／ 常滑6R（27%） ／ 江戸川5R（23%） ／ 桐生5R（23%） ／ 桐生3R（22%）</b>。下のカードでも🎯印。ただし🎯でも実際に万舟になるのは<b>約4回に1回（実測〜26%）</b>＝外れる方が多い前提で見極めを。</p></div>
@@ -94,19 +94,19 @@ footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:20px}
 </div>
 <div class="card xpost post-card" id="top5-x-result-card">
   <h2>✍️ X投稿用｜結果</h2>
-  <p class="lead">ランキング投稿とは分けて、結果の答え合わせだけを投稿できます。</p>
+  <p class="lead">ランキングとは別に、確定結果だけを投稿できます。</p>
   <textarea class="xta" id="top5-x-result-post" rows="8" readonly>読み込み中…</textarea>
   <button class="xcopy" onclick="copyX('top5-x-result-post',this)">📋 X結果文をコピー</button><span id="top5-x-result-post-len" class="xlen"></span>
 </div>
 <div class="card notepost post-card" id="top10-note-card">
   <h2>📝 note投稿用｜ランキング</h2>
-  <p class="lead">トップ10のランキング本文です。結果は別投稿に分けます。</p>
+  <p class="lead">トップ10を投稿用に整えた本文です。結果は含めません。</p>
   <textarea class="xta" id="top10-note-rank-post" rows="18" readonly>読み込み中…</textarea>
   <button class="xcopy" onclick="copyX('top10-note-rank-post',this)">📋 noteランキング文をコピー</button>
 </div>
 <div class="card notepost post-card" id="top10-note-result-card">
   <h2>📝 note投稿用｜結果</h2>
-  <p class="lead">トップ10の答え合わせ本文です。ランキング投稿とは別に使えます。</p>
+  <p class="lead">トップ10の確定結果を投稿用に整えた本文です。</p>
   <textarea class="xta" id="top10-note-result-post" rows="18" readonly>読み込み中…</textarea>
   <button class="xcopy" onclick="copyX('top10-note-result-post',this)">📋 note結果文をコピー</button>
 </div>
@@ -308,7 +308,7 @@ footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:20px}
 　・参考の配当：中央値3,700円／最高176,100円
 
 ━━━━━━━━━━
-※これは娯楽用の“荒れ予報”です。的中・利益を保証するものではありません。生活費は賭けず、当てる楽しみとして小さくお楽しみください。
+※これは娯楽・研究用の荒れやすさメモです。的中・利益を保証するものではありません。
 ※万舟率は「荒れやすさの目安」であり、どの買い目が当たる／儲かるかを示すものではありません。
 
 #競艇 #ボートレース #万舟 #競艇予想 #ボートレース予想</textarea><div><button class="xcopy" onclick="copyX('xnote',this)">📋 コピー</button></div></div>
@@ -521,28 +521,28 @@ function buildTopPosts(top,summary){
   var top5=top.slice(0,5),top5Done=0,top5Manshu=0;
   top5.forEach(function(r){var res=rateResult(r); if(res.combination&&res.payout!=null){top5Done++; if(res.manshu) top5Manshu++;}});
   if(xr){
-    var xlines=[md+' 万舟率TOP5 観察メモ','万舟率=荒れやすさの研究用指標',''];
+    var xlines=[md+' 万舟率TOP5 観察メモ','万舟率は荒れやすさの目安',''];
     top5.forEach(function(r,i){
       var rate=Math.round((r.scores&&r.scores.manshu_probability_proxy||0)*100);
       xlines.push((i+1)+'. '+compactRaceLabel(r).replace(/<[^>]*>/g,'')+' 万舟率'+rate+'%'+(r.deadline?'（'+r.deadline+'）':''));
     });
-    xlines.push('','結果は別投稿で答え合わせ。買い目・購入推奨・利益保証なし。','#ボートレース #データ分析');
+    xlines.push('','結果は別投稿で確認します。買い目は載せません。','#ボートレース #データ分析');
     xr.value=xlines.join('\n');
     showLen('top5-x-rank-post');
   }
   if(xx){
-    var rx=[md+' 万舟率TOP5 答え合わせ','確定 '+top5Done+'/'+top5.length+'R / 万舟決着 '+top5Manshu+'件',''];
+    var rx=[md+' 万舟率TOP5 結果','確定 '+top5Done+'/'+top5.length+'R / 万舟決着 '+top5Manshu+'件',''];
     top5.forEach(function(r,i){
       var res=rateResult(r),rate=Math.round((r.scores&&r.scores.manshu_probability_proxy||0)*100);
       var result=res.payout==null?(res.combination?'結果 '+res.combination+' 配当待ち':'結果待ち'):('結果 '+res.combination+' '+Number(res.payout).toLocaleString()+'円'+(res.manshu?' 万舟決着':' 1万円未満'));
       rx.push((i+1)+'. '+compactRaceLabel(r).replace(/<[^>]*>/g,'')+' 万舟率'+rate+'% / '+result);
     });
-    rx.push('','ランキング投稿とは分けた答え合わせ。買い目・購入推奨・利益保証なし。','#ボートレース #データ分析');
+    rx.push('','ランキングとは別に、確定結果だけをまとめました。','#ボートレース #データ分析');
     xx.value=rx.join('\n');
     showLen('top5-x-result-post');
   }
   if(nr){
-    var L=['# '+md+' 万舟率TOP10 観察メモ','','過去データから作った「荒れやすさ」のランキングです。結果は別投稿で答え合わせします。買い目、購入推奨、利益保証ではありません。','','## TOP10'];
+    var L=['# '+md+' 万舟率TOP10 観察メモ','','過去データをもとに、荒れやすさの目安が高い順に並べた観察メモです。結果は別投稿で確認します。','','## TOP10'];
     top.forEach(function(r,i){
       var res=rateResult(r),rate=pctPoint(r.scores&&r.scores.manshu_probability_proxy);
       L.push('');
@@ -551,13 +551,13 @@ function buildTopPosts(top,summary){
     });
     L.push('');
     L.push('## 注意');
-    L.push('- 万舟率は荒れやすさの目安で、的中や利益を示す数字ではありません。');
+    L.push('- 万舟率は荒れやすさの目安で、的中や利益を示すものではありません。');
     L.push('- 結果・払戻はランキング投稿には含めません。');
-    L.push('- 娯楽・研究用です。舟券購入を推奨しません。');
+    L.push('- 娯楽・研究用の記録です。');
     nr.value=L.join('\n');
   }
   if(nx){
-    var R=['# '+md+' 万舟率TOP10 答え合わせ','','ランキングTOP10が実際にどう決着したかを見る観察記録です。','','## 集計','- 確定: '+summary.done+'/'+top.length+'R','- 万舟決着: '+summary.manshu+'件','','## TOP10 結果'];
+    var R=['# '+md+' 万舟率TOP10 結果','','ランキングTOP10の確定結果をまとめた記録です。','','## 集計','- 確定: '+summary.done+'/'+top.length+'R','- 万舟決着: '+summary.manshu+'件','','## TOP10 結果'];
     top.forEach(function(r,i){
       var rate=pctPoint(r.scores&&r.scores.manshu_probability_proxy);
       R.push('');
@@ -566,8 +566,8 @@ function buildTopPosts(top,summary){
     });
     R.push('');
     R.push('## 注意');
-    R.push('- 結果・払戻は答え合わせ用で、購入判断を促すものではありません。');
-    R.push('- 買い目、購入推奨、利益保証は含みません。');
+    R.push('- 結果・払戻は記録用です。購入判断を促すものではありません。');
+    R.push('- 買い目や購入推奨は含みません。');
     R.push('- 娯楽・研究用の記録です。');
     nx.value=R.join('\n');
   }
