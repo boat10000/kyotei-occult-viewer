@@ -37,7 +37,8 @@ ROLE_CSS = """.card.role{border-left-color:#0d9488} .card.role h2{color:#0f766e}
 .rate-table .result{white-space:nowrap}
 .rate-table .roi{font-weight:900;color:#047857;white-space:nowrap}
 .rate-table .miss{color:#64748b;font-weight:800}
-.rate-tickets{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.55;color:#475569;min-width:220px;max-width:320px;word-break:break-word}
+.rate-roles{font-size:11.8px;line-height:1.55;color:#475569;min-width:220px;max-width:320px}
+.rate-roles b{color:#33405a}
 .rate-summary{font-size:12.5px;color:#33405a;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;margin:8px 0 0}
 .post-card textarea{min-height:150px}"""
 
@@ -48,7 +49,7 @@ RATE_CARD = """<div class="card rank" id="rate-card">
   <div class="bar"><button id="rbtn" onclick="loadResults()">🔄 結果を更新</button><span id="rstat" class="rstat"></span></div>
   <div class="rate-scroll">
     <table class="rate-table">
-      <thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>買い目（買い方1）</th><th>単発ROI</th></tr></thead>
+      <thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>頭・軸・消し</th><th>単発ROI</th></tr></thead>
       <tbody id="rate-list"></tbody>
     </table>
   </div>
@@ -126,6 +127,20 @@ function strategyEval(r){
   var roi=cost?ret/cost*100:null;
   return {points:points,cost:cost,done:true,hit:!!hit,returnYen:ret,roi:roi,label:hit?'的中':'不的中',short:hit?'◎':'×'};
 }
+function roleLaneName(r,lane){
+  var b=(r.boats||[]).find(function(x){return Number(x.lane)===Number(lane);})||{};
+  return lane+'号艇'+(b.name?' '+esc(b.name):'');
+}
+function roleLanesText(r,lanes){
+  if(!lanes||!lanes.length) return '未判定';
+  return lanes.map(function(lane){return roleLaneName(r,lane);}).join(' / ');
+}
+function rateRolesHtml(r){
+  var roles=r.role_summary||{};
+  return '<div><b>頭</b>: '+esc(roleLanesText(r,roles.head))+'</div>'+
+    '<div><b>軸</b>: '+esc(roleLanesText(r,roles.axis))+'</div>'+
+    '<div><b>消し</b>: '+esc(roleLanesText(r,roles.toss))+'</div>';
+}
 function topRateRaces(data){
   return (data.races||[]).slice().sort(function(a,b){
     return (b.scores&&b.scores.manshu_probability_proxy||0)-(a.scores&&a.scores.manshu_probability_proxy||0);
@@ -167,8 +182,6 @@ function renderRateTop10(data){
   status.textContent='万舟率が高い順にトップ10を表示中。結果・的中・回収率は確定分から順次反映します。';
   body.innerHTML=top.map(function(r,i){
     var res=rateResult(r),ev=strategyEval(r),rate=pctPoint(r.scores&&r.scores.manshu_probability_proxy);
-    var s=r.strategy&&r.strategy.buy_style_1||{},tickets=s.formation&&s.formation.tickets||[];
-    var ticketsHtml=tickets.length?esc(tickets.slice(0,9).join(' / ')):'<span class="muted">未生成</span>';
     var resultHtml=!res.combination?'<span class="muted">結果待ち</span>':
       esc(res.combination)+'<br><span class="'+(res.manshu?'man':'muted')+'">'+(res.payout==null?'配当待ち':yenText(res.payout)+(res.manshu?' ◎万舟':' — 堅め'))+'</span>';
     var hitHtml=ev.hit==null?'<span class="muted">'+esc(ev.label)+'</span>':
@@ -180,7 +193,7 @@ function renderRateTop10(data){
       '<td class="rate">'+rate+'</td>'+
       '<td class="result">'+resultHtml+'</td>'+
       '<td>'+hitHtml+'</td>'+
-      '<td class="rate-tickets">'+ticketsHtml+'</td>'+
+      '<td class="rate-roles">'+rateRolesHtml(r)+'</td>'+
       '<td>'+roiHtml+'</td>'+
     '</tr>';
   }).join('');
@@ -379,19 +392,29 @@ def patch_html(path: Path) -> bool:
 .rate-table .result{white-space:nowrap}
 .rate-table .roi{font-weight:900;color:#047857;white-space:nowrap}
 .rate-table .miss{color:#64748b;font-weight:800}
-.rate-tickets{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.55;color:#475569;min-width:220px;max-width:320px;word-break:break-word}
+.rate-roles{font-size:11.8px;line-height:1.55;color:#475569;min-width:220px;max-width:320px}
+.rate-roles b{color:#33405a}
 .rate-summary{font-size:12.5px;color:#33405a;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;margin:8px 0 0}
 .post-card textarea{min-height:150px}""",
             1,
         )
-    elif ".rate-tickets" not in text:
+    elif ".rate-roles" not in text:
         text = text.replace(".rate-table{min-width:720px}", ".rate-table{min-width:980px}", 1)
-        text = text.replace(
-            ".rate-table .miss{color:#64748b;font-weight:800}",
-            """.rate-table .miss{color:#64748b;font-weight:800}
-.rate-tickets{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.55;color:#475569;min-width:220px;max-width:320px;word-break:break-word}""",
-            1,
+        text, count = re.subn(
+            r"\.rate-tickets\{[^}]+\}",
+            """.rate-roles{font-size:11.8px;line-height:1.55;color:#475569;min-width:220px;max-width:320px}
+.rate-roles b{color:#33405a}""",
+            text,
+            count=1,
         )
+        if count != 1:
+            text = text.replace(
+                ".rate-table .miss{color:#64748b;font-weight:800}",
+                """.rate-table .miss{color:#64748b;font-weight:800}
+.rate-roles{font-size:11.8px;line-height:1.55;color:#475569;min-width:220px;max-width:320px}
+.rate-roles b{color:#33405a}""",
+                1,
+            )
 
     if 'id="role-card"' not in text:
         count = 0
@@ -440,10 +463,15 @@ def patch_html(path: Path) -> bool:
             )
         if count != 1:
             raise RuntimeError(f"{path}: rate card insertion marker not found")
-    elif "買い目（買い方1）" not in text:
+    elif "頭・軸・消し" not in text:
+        text = text.replace(
+            "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>買い目（買い方1）</th><th>単発ROI</th></tr></thead>",
+            "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>頭・軸・消し</th><th>単発ROI</th></tr></thead>",
+            1,
+        )
         text = text.replace(
             "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>単発ROI</th></tr></thead>",
-            "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>買い目（買い方1）</th><th>単発ROI</th></tr></thead>",
+            "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>頭・軸・消し</th><th>単発ROI</th></tr></thead>",
             1,
         )
 
@@ -469,7 +497,8 @@ def patch_html(path: Path) -> bool:
         or "var ROLE_RANKING_DATA=null;" not in text
         or "x.value=xlines.join('\\\\n');" not in text
         or "note.value=L.join('\\\\n');" not in text
-        or "ticketsHtml" not in text
+        or "rateRolesHtml" not in text
+        or "ticketsHtml" in text
         or "L.push('- 買い目:" in text
     ):
         text, count = re.subn(
