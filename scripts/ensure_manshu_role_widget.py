@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Ensure generated manshu HTML pages include the role-ranking widget.
+"""Ensure generated manshu HTML pages include the top ranking/post widgets.
 
 The daily manshu generator rewrites manshu.html and date archive pages. This
 script is intentionally idempotent so it can run after generated commits and
-restore the role widget without changing prediction logic.
+restore the ranking/result post widgets without changing prediction logic.
 """
 
 from __future__ import annotations
@@ -13,42 +13,25 @@ import re
 from pathlib import Path
 
 
-ROLE_CSS = """.card.role{border-left-color:#0d9488} .card.role h2{color:#0f766e}
-.rolelist{display:grid;gap:10px;margin-top:8px}
-.roleitem{border:1px solid #dbeafe;background:#f8fbff;border-radius:9px;padding:10px}
-.roletop{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;font-size:13px;color:#33405a}
-.rolemetric{font-size:12px;font-weight:800;color:#0f766e;background:#ccfbf1;border:1px solid #99f6e4;border-radius:999px;padding:2px 8px;white-space:nowrap}
-.rolegrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
-.rolebox{background:#fff;border:1px solid #eef1f5;border-radius:8px;padding:6px 8px;font-size:12.5px;line-height:1.45}
-.rolebox b{color:#33405a}.rolebox .tag{display:block;color:#0f766e;font-weight:800;font-size:11.5px;margin-bottom:2px}
-.rolebox.toss .tag{color:#b45309}.rolebox.toss{background:#fff7ed;border-color:#fed7aa}
-.rolebox.head .tag{color:#b91c1c}.rolebox.head{background:#fff7ed;border-color:#fecaca}
-.rolebox.axis .tag{color:#1d4ed8}.rolebox.axis{background:#eff6ff;border-color:#bfdbfe}
-.rolefoot{font-size:11.5px;color:#64748b;margin-top:7px}
-.role-result{font-weight:800;color:#33405a}
-.role-strategy{margin-top:7px;border:1px solid #e5e7eb;background:#fafafa;border-radius:8px;padding:7px 8px;font-size:12px;line-height:1.5;color:#374151}
-.role-strategy b{color:#111827}.role-strategy .good{color:#047857;font-weight:900}.role-strategy .hold{color:#b45309;font-weight:900}.role-strategy .avoid{color:#b91c1c;font-weight:900}.role-strategy .outside_rule{color:#64748b;font-weight:900}
-.rate-scroll{overflow-x:auto;margin-top:8px}
-.rate-table{min-width:980px}
+ROLE_CSS = """.rate-scroll{overflow-x:auto;margin-top:8px}
+.rate-table{min-width:760px}
 .rate-table th,.rate-table td{vertical-align:top}
 .rate-table .race{font-weight:800;color:#33405a;white-space:nowrap}
 .rate-table .rate{font-weight:900;color:#7c3aed;white-space:nowrap}
 .rate-table .result{white-space:nowrap}
 .rate-table .roi{font-weight:900;color:#047857;white-space:nowrap}
 .rate-table .miss{color:#64748b;font-weight:800}
-.rate-roles{font-size:11.8px;line-height:1.55;color:#475569;min-width:220px;max-width:320px}
-.rate-roles b{color:#33405a}
 .rate-summary{font-size:12.5px;color:#33405a;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;margin:8px 0 0}
 .post-card textarea{min-height:150px}"""
 
 
 RATE_CARD = """<div class="card rank" id="rate-card">
-  <h2>📊 万舟率トップ10（結果・的中・回収率つき）</h2>
+  <h2>📊 万舟率トップ10（結果つき）</h2>
   <p class="lead" id="rate-status">本日の万舟率トップ10を読み込み中…</p>
   <div class="bar"><button id="rbtn" onclick="loadResults()">🔄 結果を更新</button><span id="rstat" class="rstat"></span></div>
   <div class="rate-scroll">
     <table class="rate-table">
-      <thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>頭・軸・消し</th><th>単発ROI</th></tr></thead>
+      <thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>単発回収率</th></tr></thead>
       <tbody id="rate-list"></tbody>
     </table>
   </div>
@@ -56,24 +39,54 @@ RATE_CARD = """<div class="card rank" id="rate-card">
   <p class="muted">的中・回収率は「買い方1（検証用9点）」を100円ずつ買った場合の単発換算です。予想・購入推奨・利益保証ではありません。</p>
 </div>
 <div class="card xpost post-card" id="top5-x-card">
-  <h2>✍️ X投稿用｜万舟率トップ5</h2>
-  <p class="lead">トップ5の観察メモを短文で投稿できます。買い目や回収率は載せません。</p>
-  <textarea class="xta" id="top5-x-post" rows="8" readonly>読み込み中…</textarea>
-  <button class="xcopy" onclick="copyX('top5-x-post',this)">📋 X文をコピー</button><span id="top5-x-post-len" class="xlen"></span>
+  <h2>✍️ X投稿用｜ランキング</h2>
+  <p class="lead">ランキングだけを短文で投稿できます。結果・買い目・回収率は載せません。</p>
+  <textarea class="xta" id="top5-x-rank-post" rows="8" readonly>読み込み中…</textarea>
+  <button class="xcopy" onclick="copyX('top5-x-rank-post',this)">📋 Xランキング文をコピー</button><span id="top5-x-rank-post-len" class="xlen"></span>
+</div>
+<div class="card xpost post-card" id="top5-x-result-card">
+  <h2>✍️ X投稿用｜結果</h2>
+  <p class="lead">ランキング投稿とは分けて、結果の答え合わせだけを投稿できます。</p>
+  <textarea class="xta" id="top5-x-result-post" rows="8" readonly>読み込み中…</textarea>
+  <button class="xcopy" onclick="copyX('top5-x-result-post',this)">📋 X結果文をコピー</button><span id="top5-x-result-post-len" class="xlen"></span>
 </div>
 <div class="card notepost post-card" id="top10-note-card">
-  <h2>📝 note投稿用｜万舟率トップ10</h2>
-  <p class="lead">トップ10の観察メモと答え合わせをnoteへ貼れる形式です。買い目や回収率は載せません。</p>
-  <textarea class="xta" id="top10-note-post" rows="18" readonly>読み込み中…</textarea>
-  <button class="xcopy" onclick="copyX('top10-note-post',this)">📋 note文をコピー</button>
+  <h2>📝 note投稿用｜ランキング</h2>
+  <p class="lead">トップ10のランキング本文です。結果は別投稿に分けます。</p>
+  <textarea class="xta" id="top10-note-rank-post" rows="18" readonly>読み込み中…</textarea>
+  <button class="xcopy" onclick="copyX('top10-note-rank-post',this)">📋 noteランキング文をコピー</button>
+</div>
+<div class="card notepost post-card" id="top10-note-result-card">
+  <h2>📝 note投稿用｜結果</h2>
+  <p class="lead">トップ10の答え合わせ本文です。ランキング投稿とは別に使えます。</p>
+  <textarea class="xta" id="top10-note-result-post" rows="18" readonly>読み込み中…</textarea>
+  <button class="xcopy" onclick="copyX('top10-note-result-post',this)">📋 note結果文をコピー</button>
 </div>"""
 
 
-ROLE_CARD = """<div class="card role" id="role-card">
-  <h2>🧪 ロール分析（試験表示）</h2>
-  <p class="lead" id="role-status">頭2艇・軸2艇・消し候補を読み込み中…</p>
-  <div class="rolelist" id="role-list"></div>
-  <p class="muted">過去20,947Rで検証した補助表示です。買い目確定や利益保証ではありません。直前版は展示・気象込みのため、朝の判断とは分けて見てください。</p>
+POST_CARDS = """<div class="card xpost post-card" id="top5-x-card">
+  <h2>✍️ X投稿用｜ランキング</h2>
+  <p class="lead">ランキングだけを短文で投稿できます。結果・買い目・回収率は載せません。</p>
+  <textarea class="xta" id="top5-x-rank-post" rows="8" readonly>読み込み中…</textarea>
+  <button class="xcopy" onclick="copyX('top5-x-rank-post',this)">📋 Xランキング文をコピー</button><span id="top5-x-rank-post-len" class="xlen"></span>
+</div>
+<div class="card xpost post-card" id="top5-x-result-card">
+  <h2>✍️ X投稿用｜結果</h2>
+  <p class="lead">ランキング投稿とは分けて、結果の答え合わせだけを投稿できます。</p>
+  <textarea class="xta" id="top5-x-result-post" rows="8" readonly>読み込み中…</textarea>
+  <button class="xcopy" onclick="copyX('top5-x-result-post',this)">📋 X結果文をコピー</button><span id="top5-x-result-post-len" class="xlen"></span>
+</div>
+<div class="card notepost post-card" id="top10-note-card">
+  <h2>📝 note投稿用｜ランキング</h2>
+  <p class="lead">トップ10のランキング本文です。結果は別投稿に分けます。</p>
+  <textarea class="xta" id="top10-note-rank-post" rows="18" readonly>読み込み中…</textarea>
+  <button class="xcopy" onclick="copyX('top10-note-rank-post',this)">📋 noteランキング文をコピー</button>
+</div>
+<div class="card notepost post-card" id="top10-note-result-card">
+  <h2>📝 note投稿用｜結果</h2>
+  <p class="lead">トップ10の答え合わせ本文です。ランキング投稿とは別に使えます。</p>
+  <textarea class="xta" id="top10-note-result-post" rows="18" readonly>読み込み中…</textarea>
+  <button class="xcopy" onclick="copyX('top10-note-result-post',this)">📋 note結果文をコピー</button>
 </div>"""
 
 
@@ -82,16 +95,6 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){retur
 function roleDataUrl(){
   var prefix=location.pathname.indexOf('/manshu/')>=0?'../':'';
   return prefix+'data/output/manshu_role_ranking_'+RDATE.replace(/-/g,'')+'.json';
-}
-function boatLine(r,lane,role){
-  var b=(r.boats||[]).find(function(x){return Number(x.lane)===Number(lane);})||{};
-  var reason=b.role_reason?'<br><span class="muted">'+esc(b.role_reason).replace(/\\|/g,' / ')+'</span>':'';
-  return '<b>'+lane+'号艇</b>'+(b.name?' '+esc(b.name):'')+(b.class?' <span class="muted">'+esc(b.class)+'</span>':'')+reason;
-}
-function roleBox(r,title,role,lanes){
-  var body=(lanes||[]).map(function(lane){return boatLine(r,lane,role);}).join('<br>');
-  if(!body) body='<span class="muted">未判定</span>';
-  return '<div class="rolebox '+role+'"><span class="tag">'+title+'</span>'+body+'</div>';
 }
 function roleResultKey(r){return parseInt(r.jcd,10)+'-'+parseInt(r.race_no,10);}
 function roleResultHtml(r){
@@ -125,20 +128,6 @@ function strategyEval(r){
   if(ret==null) ret=hit?result.payout:0;
   var roi=cost?ret/cost*100:null;
   return {points:points,cost:cost,done:true,hit:!!hit,returnYen:ret,roi:roi,label:hit?'的中':'不的中',short:hit?'◎':'×'};
-}
-function roleLaneName(r,lane){
-  var b=(r.boats||[]).find(function(x){return Number(x.lane)===Number(lane);})||{};
-  return lane+'号艇'+(b.name?' '+esc(b.name):'');
-}
-function roleLanesText(r,lanes){
-  if(!lanes||!lanes.length) return '未判定';
-  return lanes.map(function(lane){return roleLaneName(r,lane);}).join(' / ');
-}
-function rateRolesHtml(r){
-  var roles=r.role_summary||{};
-  return '<div><b>頭</b>: '+esc(roleLanesText(r,roles.head))+'</div>'+
-    '<div><b>軸</b>: '+esc(roleLanesText(r,roles.axis))+'</div>'+
-    '<div><b>消し</b>: '+esc(roleLanesText(r,roles.toss))+'</div>';
 }
 function topRateRaces(data){
   return (data.races||[]).slice().sort(function(a,b){
@@ -178,7 +167,7 @@ function renderRateTop10(data){
   if(!body||!status) return;
   var top=topRateRaces(data),summary=summarizeTop(top);
   if(!top.length){status.textContent='万舟率トップ10データが空です。'; return;}
-  status.textContent='万舟率が高い順にトップ10を表示中。結果・的中・回収率は確定分から順次反映します。';
+  status.textContent='万舟率が高い順にトップ10を表示中。結果は確定分から順次反映します。';
   body.innerHTML=top.map(function(r,i){
     var res=rateResult(r),ev=strategyEval(r),rate=pctPoint(r.scores&&r.scores.manshu_probability_proxy);
     var resultHtml=!res.combination?'<span class="muted">結果待ち</span>':
@@ -192,7 +181,6 @@ function renderRateTop10(data){
       '<td class="rate">'+rate+'</td>'+
       '<td class="result">'+resultHtml+'</td>'+
       '<td>'+hitHtml+'</td>'+
-      '<td class="rate-roles">'+rateRolesHtml(r)+'</td>'+
       '<td>'+roiHtml+'</td>'+
     '</tr>';
   }).join('');
@@ -202,112 +190,75 @@ function renderRateTop10(data){
   buildTopPosts(top,summary);
 }
 function buildTopPosts(top,summary){
-  var x=document.getElementById('top5-x-post'),note=document.getElementById('top10-note-post');
-  if(x){
-    var xlines=[(RDATE.slice(5).replace('-','/')+' 万舟率TOP5 観察メモ')];
-    top.slice(0,5).forEach(function(r,i){
-      var res=rateResult(r),rate=Math.round((r.scores&&r.scores.manshu_probability_proxy||0)*100);
-      var result=res.payout==null?(res.combination?'結果 '+res.combination+' 配当待ち':'結果待ち'):('結果 '+res.combination+' '+Number(res.payout).toLocaleString()+'円'+(res.manshu?' 万舟':''));
-      xlines.push((i+1)+'. '+compactRaceLabel(r).replace(/<[^>]*>/g,'')+' 万舟率'+rate+'% / '+result);
+  var xr=document.getElementById('top5-x-rank-post'),xx=document.getElementById('top5-x-result-post');
+  var nr=document.getElementById('top10-note-rank-post'),nx=document.getElementById('top10-note-result-post');
+  var md=RDATE.slice(5).replace('-','/');
+  var top5=top.slice(0,5),top5Done=0,top5Manshu=0;
+  top5.forEach(function(r){var res=rateResult(r); if(res.combination&&res.payout!=null){top5Done++; if(res.manshu) top5Manshu++;}});
+  if(xr){
+    var xlines=[md+' 万舟率TOP5 観察メモ','万舟率=荒れやすさの研究用指標',''];
+    top5.forEach(function(r,i){
+      var rate=Math.round((r.scores&&r.scores.manshu_probability_proxy||0)*100);
+      xlines.push((i+1)+'. '+compactRaceLabel(r).replace(/<[^>]*>/g,'')+' 万舟率'+rate+'%'+(r.deadline?'（'+r.deadline+'）':''));
     });
-    xlines.push('荒れやすさの研究用メモ。買い目・購入推奨・利益保証なし。');
-    x.value=xlines.join('\\\\n');
-    showLen('top5-x-post');
+    xlines.push('','結果は別投稿で答え合わせ。買い目・購入推奨・利益保証なし。','#ボートレース #データ分析');
+    xr.value=xlines.join('\\\\n');
+    showLen('top5-x-rank-post');
   }
-  if(note){
-    var L=['# '+RDATE.slice(5).replace('-','/')+' 万舟率TOP10 観察メモ・答え合わせ','','過去データから作った「荒れやすさ」のランキングです。買い目、購入推奨、利益保証ではありません。','','## 集計','- 確定: '+summary.done+'/'+top.length+'R','- 万舟決着: '+summary.manshu+'件','- 対象: 万舟率TOP10の答え合わせ','','## TOP10'];
+  if(xx){
+    var rx=[md+' 万舟率TOP5 答え合わせ','確定 '+top5Done+'/'+top5.length+'R / 万舟決着 '+top5Manshu+'件',''];
+    top5.forEach(function(r,i){
+      var res=rateResult(r),rate=Math.round((r.scores&&r.scores.manshu_probability_proxy||0)*100);
+      var result=res.payout==null?(res.combination?'結果 '+res.combination+' 配当待ち':'結果待ち'):('結果 '+res.combination+' '+Number(res.payout).toLocaleString()+'円'+(res.manshu?' 万舟決着':' 1万円未満'));
+      rx.push((i+1)+'. '+compactRaceLabel(r).replace(/<[^>]*>/g,'')+' 万舟率'+rate+'% / '+result);
+    });
+    rx.push('','ランキング投稿とは分けた答え合わせ。買い目・購入推奨・利益保証なし。','#ボートレース #データ分析');
+    xx.value=rx.join('\\\\n');
+    showLen('top5-x-result-post');
+  }
+  if(nr){
+    var L=['# '+md+' 万舟率TOP10 観察メモ','','過去データから作った「荒れやすさ」のランキングです。結果は別投稿で答え合わせします。買い目、購入推奨、利益保証ではありません。','','## TOP10'];
     top.forEach(function(r,i){
       var res=rateResult(r),rate=pctPoint(r.scores&&r.scores.manshu_probability_proxy);
       L.push('');
       L.push('### '+(i+1)+'位 '+(r.venue_name||'')+r.race_no+'R（'+(r.deadline||'締切未取得')+'）');
       L.push('- 万舟率: '+rate);
-      L.push('- 結果: '+resultCellText(r));
     });
     L.push('');
     L.push('## 注意');
     L.push('- 万舟率は荒れやすさの目安で、的中や利益を示す数字ではありません。');
-    L.push('- 結果・払戻は答え合わせ用で、購入判断を促すものではありません。');
+    L.push('- 結果・払戻はランキング投稿には含めません。');
     L.push('- 娯楽・研究用です。舟券購入を推奨しません。');
-    note.value=L.join('\\\\n');
+    nr.value=L.join('\\\\n');
   }
-}
-function roleStrategyHtml(r){
-  var s=r.strategy&&r.strategy.buy_style_1;
-  if(!s) return '';
-  var hist=s.historical&&s.historical.good_venues||{}, overall=s.historical&&s.historical.overall||{};
-  var cls=s.status||'outside_rule';
-  var condition=s.condition_matched?'条件一致':'条件外';
-  var result=s.result_check||{};
-  var hitText=result.hit==null?'':(' / 照合 '+(result.hit?'的中':'不的中'));
-  return '<div class="role-strategy">'+
-    '<b>買い方1（検証用9点）</b>: <span class="'+cls+'">'+esc(s.status_label||condition)+'</span> / 場相性 <span class="'+(s.venue_tier||'neutral')+'">'+esc(s.venue_label||'—')+'</span>'+hitText+
-    '<br><span class="muted">条件: 1号艇弱め・外枠最強が上・勝率差1.5以内・非進入固定・外枠展示上位</span>'+
-    '<br><span class="muted">過去全体 '+esc(overall.races||'—')+'R ROI '+pctText(overall.return_rate)+' / 相性良場 '+esc(hist.races||'—')+'R ROI '+pctText(hist.return_rate)+'（後半 '+pctText(hist.validation_return_rate)+'）</span>'+
-    '<br><span class="muted">'+esc(s.venue_reason||'')+'</span>'+
-  '</div>';
-}
-function updateRoleResults(){
-  document.querySelectorAll('[data-role-result]').forEach(function(el){
-    var raw=el.getAttribute('data-role-json');
-    if(!raw) return;
-    try{el.innerHTML=roleResultHtml(JSON.parse(raw));}catch(e){}
-  });
+  if(nx){
+    var R=['# '+md+' 万舟率TOP10 答え合わせ','','ランキングTOP10が実際にどう決着したかを見る観察記録です。','','## 集計','- 確定: '+summary.done+'/'+top.length+'R','- 万舟決着: '+summary.manshu+'件','','## TOP10 結果'];
+    top.forEach(function(r,i){
+      var rate=pctPoint(r.scores&&r.scores.manshu_probability_proxy);
+      R.push('');
+      R.push('### '+(i+1)+'位 '+(r.venue_name||'')+r.race_no+'R（万舟率 '+rate+'）');
+      R.push('- 結果: '+resultCellText(r));
+    });
+    R.push('');
+    R.push('## 注意');
+    R.push('- 結果・払戻は答え合わせ用で、購入判断を促すものではありません。');
+    R.push('- 買い目、購入推奨、利益保証は含みません。');
+    R.push('- 娯楽・研究用の記録です。');
+    nx.value=R.join('\\\\n');
+  }
 }
 function renderRoleRanking(data){
   ROLE_RANKING_DATA=data;
-  var status=document.getElementById('role-status'),list=document.getElementById('role-list');
   renderRateTop10(data);
-  if(!status||!list) return;
-  if(!data||!Array.isArray(data.races)||!data.races.length){
-    status.textContent='ロール分析データが空です。';
-    return;
-  }
-  if(data.date&&data.date!==RDATE){
-    status.textContent='ロール分析データの日付が違うため表示を止めています（'+data.date+'）。';
-    return;
-  }
-  var modeLabel=data.mode==='morning'?'朝版':'直前版';
-  var strategyMatches=data.races.filter(function(r){var s=r.strategy&&r.strategy.buy_style_1; return s&&s.condition_matched;});
-  var goodMatches=strategyMatches.filter(function(r){return (r.strategy.buy_style_1.venue_tier)==='good';});
-  status.textContent=modeLabel+'ロール候補を表示中。買い方1条件一致 '+strategyMatches.length+'件 / 相性良 '+goodMatches.length+'件。条件一致がある場合は優先表示します。';
-  var seen={}, display=[];
-  strategyMatches.sort(function(a,b){
-    var order={good:3,hold:2,neutral:1,avoid:0};
-    var av=order[(a.strategy.buy_style_1.venue_tier)||'neutral']||0;
-    var bv=order[(b.strategy.buy_style_1.venue_tier)||'neutral']||0;
-    return bv-av;
-  }).concat(data.races).forEach(function(r){
-    if(!seen[r.race_id]){seen[r.race_id]=1; display.push(r);}
-  });
-  list.innerHTML=display.slice(0,8).map(function(r,i){
-    var roles=r.role_summary||{}, scores=r.scores||{};
-    var score=scores.manshu_score==null?'—':Math.round(scores.manshu_score);
-    var manshu=scores.manshu_probability_proxy==null?'—':(scores.manshu_probability_proxy*100).toFixed(1)+'%';
-    var target=scores.target_arare_probability_proxy==null?'—':Math.round(scores.target_arare_probability_proxy*100)+'%';
-    var skip=r.skip_recommendation&&r.skip_recommendation.skip;
-    return '<div class="roleitem">'+
-      '<div class="roletop"><div><b>'+(i+1)+'位 '+esc(r.venue_name)+esc(r.race_no)+'R</b> <span class="muted">'+esc(r.deadline||'')+'</span></div><span class="rolemetric">推定万舟率 '+manshu+' / 荒れ度 '+score+' / 中荒れ '+target+'</span></div>'+
-      '<div class="rolegrid">'+
-        roleBox(r,'頭候補2艇','head',roles.head)+
-        roleBox(r,'軸候補2艇','axis',roles.axis)+
-        roleBox(r,'消し候補','toss',roles.toss)+
-        roleBox(r,'残り相手','opponent',roles.opponent)+
-      '</div>'+
-      '<div class="rolefoot role-result" data-role-result="'+esc(roleResultKey(r))+'" data-role-json="'+esc(JSON.stringify({jcd:r.jcd,race_no:r.race_no,result:r.result||{}}))+'">'+roleResultHtml(r)+'</div>'+
-      roleStrategyHtml(r)+
-      '<div class="rolefoot">'+(skip?'見送り候補: '+esc((r.skip_recommendation.reasons||[]).join(' / ')):'見送り判定なし')+'</div>'+
-    '</div>';
-  }).join('');
 }
 async function loadRoleRanking(){
-  var status=document.getElementById('role-status');
-  if(!status) return;
+  var status=document.getElementById('rate-status');
   try{
     var r=await fetch(roleDataUrl(),{cache:'no-store'});
     if(!r.ok) throw 0;
     renderRoleRanking(await r.json());
   }catch(e){
-    status.textContent='本日のロール分析JSONはまだ未生成です。生成されると、頭2艇・軸2艇・消し候補がここに表示されます。';
+    if(status) status.textContent='本日の万舟率トップ10 JSONはまだ未生成です。';
   }
 }"""
 
@@ -359,7 +310,7 @@ def patch_html(path: Path) -> bool:
         print(f"skip unsupported manshu page: {path} (DOMContentLoaded marker not found)")
         return False
 
-    if ".card.role" not in text:
+    if ".rate-scroll" not in text:
         marker = ".card.rank{border-left-color:#7c3aed} .card.rank h2{color:#6d28d9}\n"
         if marker in text:
             text = text.replace(marker, marker + ROLE_CSS + "\n", 1)
@@ -381,7 +332,7 @@ def patch_html(path: Path) -> bool:
             marker
             + """
 .rate-scroll{overflow-x:auto;margin-top:8px}
-.rate-table{min-width:980px}
+.rate-table{min-width:760px}
 .rate-table th,.rate-table td{vertical-align:top}
 .rate-table .race{font-weight:800;color:#33405a;white-space:nowrap}
 .rate-table .rate{font-weight:900;color:#7c3aed;white-space:nowrap}
@@ -395,7 +346,7 @@ def patch_html(path: Path) -> bool:
             1,
         )
     elif ".rate-roles" not in text:
-        text = text.replace(".rate-table{min-width:720px}", ".rate-table{min-width:980px}", 1)
+        text = text.replace(".rate-table{min-width:720px}", ".rate-table{min-width:760px}", 1)
         text, count = re.subn(
             r"\.rate-tickets\{[^}]+\}",
             """.rate-roles{font-size:11.8px;line-height:1.55;color:#475569;min-width:220px;max-width:320px}
@@ -412,33 +363,37 @@ def patch_html(path: Path) -> bool:
                 1,
             )
 
-    if 'id="role-card"' not in text:
-        count = 0
-        if '<div class="card rank">' in text:
-            text, count = re.subn(
-                r'(<div class="bar">.*?</div>\n)(<div class="card rank">)',
-                r"\1" + ROLE_CARD + "\n" + r"\2",
-                text,
-                count=1,
-                flags=re.S,
-            )
-        if count != 1:
-            text, count = re.subn(
-                r'(<p class="sub">📅 .*?</p>\n)',
-                r"\1" + ROLE_CARD + "\n",
-                text,
-                count=1,
-                flags=re.S,
-            )
-        if count != 1:
-            text, count = re.subn(
-                r'(<details class="card">)',
-                ROLE_CARD + "\n" + r"\1",
-                text,
-                count=1,
-            )
-        if count != 1:
-            raise RuntimeError(f"{path}: role card insertion marker not found")
+    text = text.replace(".rate-table{min-width:980px}", ".rate-table{min-width:760px}")
+    while ROLE_CSS + "\n" + ROLE_CSS in text:
+        text = text.replace(ROLE_CSS + "\n" + ROLE_CSS, ROLE_CSS)
+
+    role_css_patterns = [
+        r"\.card\.role\{[^}]+\} \.card\.role h2\{[^}]+\}\n?",
+        r"\.rolelist\{[^}]+\}\n?",
+        r"\.roleitem\{[^}]+\}\n?",
+        r"\.roletop\{[^}]+\}\n?",
+        r"\.rolemetric\{[^}]+\}\n?",
+        r"\.rolegrid\{[^}]+\}\n?",
+        r"\.rolebox\{[^}]+\}\n?",
+        r"\.rolebox b\{[^}]+\}\.rolebox \.tag\{[^}]+\}\n?",
+        r"\.rolebox\.toss \.tag\{[^}]+\}\.rolebox\.toss\{[^}]+\}\n?",
+        r"\.rolebox\.head \.tag\{[^}]+\}\.rolebox\.head\{[^}]+\}\n?",
+        r"\.rolebox\.axis \.tag\{[^}]+\}\.rolebox\.axis\{[^}]+\}\n?",
+        r"\.rolefoot\{[^}]+\}\n?",
+        r"\.role-result\{[^}]+\}\n?",
+        r"\.role-strategy\{[^}]+\}\n?",
+        r"\.role-strategy b\{[^}]+\}\.role-strategy \.good\{[^}]+\}\.role-strategy \.hold\{[^}]+\}\.role-strategy \.avoid\{[^}]+\}\.role-strategy \.outside_rule\{[^}]+\}\n?",
+    ]
+    for pattern in role_css_patterns:
+        text = re.sub(pattern, "", text)
+
+    text = re.sub(
+        r'\n?<div class="card role" id="role-card">\s*<h2>.*?</h2>\s*<p class="lead" id="role-status">.*?</p>\s*<div class="rolelist" id="role-list"></div>\s*<p class="muted">.*?</p>\s*</div>\n?',
+        "\n",
+        text,
+        count=1,
+        flags=re.S,
+    )
 
     if 'id="rate-card"' not in text:
         count = 0
@@ -459,17 +414,39 @@ def patch_html(path: Path) -> bool:
             )
         if count != 1:
             raise RuntimeError(f"{path}: rate card insertion marker not found")
-    elif "頭・軸・消し" not in text:
-        text = text.replace(
-            "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>買い目（買い方1）</th><th>単発ROI</th></tr></thead>",
-            "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>頭・軸・消し</th><th>単発ROI</th></tr></thead>",
-            1,
+    text = text.replace(
+        "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>頭・軸・消し</th><th>単発ROI</th></tr></thead>",
+        "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>単発回収率</th></tr></thead>",
+    )
+    text = text.replace(
+        "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>単発ROI</th></tr></thead>",
+        "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>単発回収率</th></tr></thead>",
+    )
+    text = re.sub(r"\n?\.rate-roles\{[^}]+\}", "", text)
+    text = re.sub(r"\n?\.rate-roles b\{[^}]+\}", "", text)
+
+    for card_id in [
+        "top5-x-card",
+        "top5-x-result-card",
+        "top10-note-card",
+        "top10-note-result-card",
+    ]:
+        text = re.sub(
+            r'\n?<div class="card (?:xpost|notepost) post-card" id="' + re.escape(card_id) + r'">.*?</div>\n?',
+            "\n",
+            text,
+            count=1,
+            flags=re.S,
         )
-        text = text.replace(
-            "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>単発ROI</th></tr></thead>",
-            "<thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>頭・軸・消し</th><th>単発ROI</th></tr></thead>",
-            1,
-        )
+    text, count = re.subn(
+        r'(<p class="muted">的中・回収率は「買い方1（検証用9点）」.*?</p>\s*</div>\n)',
+        r"\1" + POST_CARDS + "\n",
+        text,
+        count=1,
+        flags=re.S,
+    )
+    if count != 1:
+        raise RuntimeError(f"{path}: post card insertion marker not found")
 
     if "var ROLE_RESULT_MAP={};" not in text:
         text, count = re.subn(
@@ -489,6 +466,10 @@ def patch_html(path: Path) -> bool:
         "トップ10の結果・根拠・回収率をそのままnoteへ貼れる形式です。",
         "トップ10の観察メモと答え合わせをnoteへ貼れる形式です。買い目や回収率は載せません。",
     )
+    text = text.replace(
+        "万舟率トップ10（結果・的中・回収率つき）",
+        "万舟率トップ10（結果つき）",
+    )
 
     if "function roleDataUrl()" not in text:
         marker = "function acc(tr){"
@@ -496,19 +477,23 @@ def patch_html(path: Path) -> bool:
             raise RuntimeError(f"{path}: JS insertion marker not found")
         text = text.replace(marker, ROLE_JS + "\n" + marker, 1)
     elif (
-        "function roleStrategyHtml(" not in text
-        or "strategyMatches=data.races.filter" not in text
+        "function buildTopPosts(" not in text
         or "function renderRateTop10(" not in text
         or "var ROLE_RANKING_DATA=null;" not in text
-        or "x.value=xlines.join('\\\\n');" not in text
-        or "note.value=L.join('\\\\n');" not in text
-        or "rateRolesHtml" not in text
+        or "top5-x-rank-post" not in text
+        or "top10-note-result-post" not in text
+        or "function boatLine(" in text
+        or "function roleBox(" in text
+        or "function rateRolesHtml(" in text
+        or "function roleStrategyHtml(" in text
+        or "function updateRoleResults(" in text
         or "ticketsHtml" in text
         or "role-tickets" in text
         or "検証用フォーメーション" in text
         or "買い方1=9点検証" in text
         or "確定分ROI" in text
         or "回収率をそのままnote" in text
+        or "rateRolesHtml(r)" in text
         or "L.push('- 買い目:" in text
     ):
         text, count = re.subn(
@@ -530,12 +515,13 @@ def patch_html(path: Path) -> bool:
             raise RuntimeError(f"{path}: existing role JS replacement marker not found")
 
     text = re.sub(r"\n?\.role-tickets\{[^}]+\}", "", text)
+    text = text.replace("  updateRoleResults();\n", "")
 
     if "ROLE_RESULT_MAP=map;" not in text:
         marker = "  var done=0,man=0,total=0,pend=0;"
-        text = text.replace(marker, "  ROLE_RESULT_MAP=map;\n  updateRoleResults();\n  updateRateResults();\n" + marker, 1)
+        text = text.replace(marker, "  ROLE_RESULT_MAP=map;\n  updateRateResults();\n" + marker, 1)
     elif "updateRateResults();" not in text:
-        text = text.replace("  updateRoleResults();\n", "  updateRoleResults();\n  updateRateResults();\n", 1)
+        text = text.replace("  ROLE_RESULT_MAP=map;\n", "  ROLE_RESULT_MAP=map;\n  updateRateResults();\n", 1)
 
     if "loadRoleRanking()" not in text.split("document.addEventListener('DOMContentLoaded'", 1)[-1]:
         if "showLen('xrank'); loadTimes();" in text:
@@ -567,11 +553,11 @@ def run(args: argparse.Namespace) -> int:
         if patch_html(target):
             changed.append(str(target))
     if changed:
-        print("patched role widget:")
+        print("patched manshu widgets:")
         for path in changed:
             print(f"- {path}")
     else:
-        print("role widget already present")
+        print("manshu widgets already present")
     return 0
 
 
