@@ -30,6 +30,10 @@ ROLE_CSS = """.rate-scroll{overflow-x:auto;margin-top:8px}
 .pickbox.head{background:#fff7ed;border-color:#fed7aa}.pickbox.head .picktag{color:#b91c1c}
 .pickbox.axis{background:#eff6ff;border-color:#bfdbfe}.pickbox.axis .picktag{color:#1d4ed8}
 .pickbox.toss{background:#f8fafc;border-color:#cbd5e1}.pickbox.toss .picktag{color:#475569}
+.buybox{border:1px solid #bae6fd;background:#f0f9ff;border-radius:8px;margin-top:8px;padding:8px 9px;font-size:12.5px;line-height:1.5}
+.buytitle{font-weight:900;color:#0369a1;margin-bottom:4px}
+.tickets{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.ticket{font-weight:800;color:#0f172a;background:#fff;border:1px solid #cbd5e1;border-radius:6px;padding:2px 6px;font-variant-numeric:tabular-nums}
 .pickhint{font-size:11.5px;color:#64748b;margin-top:7px}
 @media(max-width:640px){.pickgrid{grid-template-columns:1fr}}
 .post-card textarea{min-height:150px}"""
@@ -181,6 +185,18 @@ function pickBox(r,key,label){
   var body=lanes.length?lanes.map(function(lane){return pickLine(r,lane);}).join(''):'<span class="muted">未判定</span>';
   return '<div class="pickbox '+key+'"><span class="picktag">'+label+'</span>'+body+'</div>';
 }
+function buyTicketsHtml(r){
+  var s=r.strategy&&r.strategy.buy_style_1,form=s&&s.formation||{},tickets=form.tickets||[];
+  if(!tickets.length) return '';
+  var status=s.status_label||'判定なし',venue=s.venue_label||'場相性なし';
+  var note=s.venue_reason?'<br><span class="muted">'+esc(s.venue_reason)+'</span>':'';
+  return '<div class="buybox">'+
+    '<div class="buytitle">'+esc(s.label||'買い方1（検証用9点）')+'</div>'+
+    '<div><b>'+esc(form.name||'')+'型</b> / '+esc(form.definition||'')+' / '+esc(form.points||tickets.length)+'点</div>'+
+    '<div class="muted">判定: '+esc(status)+' / 場相性: '+esc(venue)+note+'</div>'+
+    '<div class="tickets">'+tickets.map(function(t){return '<span class="ticket">'+esc(t)+'</span>';}).join('')+'</div>'+
+  '</div>';
+}
 function pickDetailsHtml(r){
   return '<div class="pickpanel">'+
     '<div class="pickgrid">'+
@@ -188,7 +204,8 @@ function pickDetailsHtml(r){
       pickBox(r,'axis','軸候補')+
       pickBox(r,'toss','消し候補')+
     '</div>'+
-    '<div class="pickhint">行をもう一度押すと閉じます。役割表示は過去データから作った補助情報で、買い目・購入推奨ではありません。</div>'+
+    buyTicketsHtml(r)+
+    '<div class="pickhint">行をもう一度押すと閉じます。役割表示と9点は過去検証用の補助情報で、購入推奨・利益保証ではありません。</div>'+
   '</div>';
 }
 function toggleRatePick(key){
@@ -419,9 +436,23 @@ def patch_html(path: Path) -> bool:
 .pickbox.head{background:#fff7ed;border-color:#fed7aa}.pickbox.head .picktag{color:#b91c1c}
 .pickbox.axis{background:#eff6ff;border-color:#bfdbfe}.pickbox.axis .picktag{color:#1d4ed8}
 .pickbox.toss{background:#f8fafc;border-color:#cbd5e1}.pickbox.toss .picktag{color:#475569}
+.buybox{border:1px solid #bae6fd;background:#f0f9ff;border-radius:8px;margin-top:8px;padding:8px 9px;font-size:12.5px;line-height:1.5}
+.buytitle{font-weight:900;color:#0369a1;margin-bottom:4px}
+.tickets{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.ticket{font-weight:800;color:#0f172a;background:#fff;border:1px solid #cbd5e1;border-radius:6px;padding:2px 6px;font-variant-numeric:tabular-nums}
 .pickhint{font-size:11.5px;color:#64748b;margin-top:7px}
 @media(max-width:640px){.pickgrid{grid-template-columns:1fr}}
 .post-card textarea{min-height:150px}""",
+            1,
+        )
+    elif ".buybox" not in text:
+        text = text.replace(
+            ".pickbox.toss{background:#f8fafc;border-color:#cbd5e1}.pickbox.toss .picktag{color:#475569}",
+            """.pickbox.toss{background:#f8fafc;border-color:#cbd5e1}.pickbox.toss .picktag{color:#475569}
+.buybox{border:1px solid #bae6fd;background:#f0f9ff;border-radius:8px;margin-top:8px;padding:8px 9px;font-size:12.5px;line-height:1.5}
+.buytitle{font-weight:900;color:#0369a1;margin-bottom:4px}
+.tickets{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.ticket{font-weight:800;color:#0f172a;background:#fff;border:1px solid #cbd5e1;border-radius:6px;padding:2px 6px;font-variant-numeric:tabular-nums}""",
             1,
         )
 
@@ -538,6 +569,7 @@ def patch_html(path: Path) -> bool:
         "function buildTopPosts(" not in text
         or "function renderRateTop10(" not in text
         or "function pickDetailsHtml(" not in text
+        or "function buyTicketsHtml(" not in text
         or "toggleRatePick(" not in text
         or "var ROLE_RANKING_DATA=null;" not in text
         or "top5-x-rank-post" not in text
