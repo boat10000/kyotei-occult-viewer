@@ -388,7 +388,7 @@ def write_report(path: Path, race_count: int, date_min: str, date_max: str, summ
         "",
         f"- 期間: {date_min} - {date_max}",
         f"- 対象レース数: {race_count:,}",
-        "- 単位: 1レース内で `head` 2艇、`axis` 2艇、`toss` 1艇、`opponent` 1艇",
+        "- 単位: 1レース内で `head` 2艇、`axis` 2艇、`toss` 1艇、`opponent` 1艇。`toss` は原則2〜6号艇から選ぶ",
         "- データリーク防止: 着順、払戻、人気、結果は検証ラベルとしてのみ使用",
         "",
         "## Role Success Summary",

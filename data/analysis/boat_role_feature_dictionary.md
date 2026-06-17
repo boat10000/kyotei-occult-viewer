@@ -5,7 +5,7 @@
 - `head_score_morning/preview`: 1着候補スコア。結果列は使わない。
 - `axis_score_morning/preview`: 3着以内候補スコア。結果列は使わない。
 - `toss_score_morning/preview`: 3着外候補スコア。結果列は使わない。
-- `role_morning/preview`: 各レース内で重複なしに割り当てた `head`, `axis`, `toss`, `opponent`。
+- `role_morning/preview`: 各レース内で重複なしに割り当てた `head`, `axis`, `toss`, `opponent`。`toss` は原則2〜6号艇から選ぶ。
 - `actual_win`, `actual_top3`, `actual_out_top3`: 検証ラベル。
 - `mid_arare_flag`: 払戻5,000円以上10,000円未満。
 - `target_arare_flag`: 払戻5,000円以上。

@@ -2,7 +2,7 @@
   "version": "manshu-role-ranking-v1",
   "mode": "morning",
   "date": "2026-06-17",
-  "generated_at": "2026-06-17T17:13:19.639323+09:00",
+  "generated_at": "2026-06-17T22:01:14.375546+09:00",
   "source": {
     "dataset": "daily temporary boat role dataset for 2026-06-17",
     "official": true,
@@ -288,21 +288,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -317,10 +317,8 @@
         }
       },
       "skip_recommendation": {
-        "skip": true,
-        "reasons": [
-          "消し候補が不明瞭"
-        ]
+        "skip": false,
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -368,11 +366,11 @@
           6
         ],
         "axis": [
-          2,
-          5
+          1,
+          2
         ],
         "toss": [
-          1
+          5
         ],
         "opponent": [
           4
@@ -380,12 +378,39 @@
       },
       "boats": [
         {
+          "lane": 1,
+          "registration_no": "4449",
+          "name": "中嶋達也",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 49.311,
+          "role_reason": "展示3位以内",
+          "scores": {
+            "head": 26.649,
+            "axis": 49.311,
+            "toss": 87.553,
+            "strength": 21.45,
+            "start": 50.0,
+            "exhibition": 100.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 3.69,
+            "local_win_rate": 3.82,
+            "avg_st": null,
+            "motor_quinella_rate": 24.44,
+            "exhibition_time": 6.87,
+            "exhibition_rank": 1
+          }
+        },
+        {
           "lane": 2,
           "registration_no": "5123",
           "name": "福山恵里",
           "class": "B1",
           "role": "axis",
-          "role_rank": 1,
+          "role_rank": 2,
           "role_score": 41.622,
           "role_reason": "展示3位以内",
           "scores": {
@@ -402,33 +427,6 @@
             "local_win_rate": 3.14,
             "avg_st": null,
             "motor_quinella_rate": 19.35,
-            "exhibition_time": 6.91,
-            "exhibition_rank": 2
-          }
-        },
-        {
-          "lane": 5,
-          "registration_no": "3591",
-          "name": "後藤孝義",
-          "class": "B2",
-          "role": "axis",
-          "role_rank": 2,
-          "role_score": 39.848,
-          "role_reason": "展示3位以内",
-          "scores": {
-            "head": 38.676,
-            "axis": 39.848,
-            "toss": 82.737,
-            "strength": 15.134,
-            "start": 50.0,
-            "exhibition": 80.0,
-            "outside_attack": 19.0
-          },
-          "features": {
-            "national_win_rate": 3.3,
-            "local_win_rate": 2.72,
-            "avg_st": null,
-            "motor_quinella_rate": 28.26,
             "exhibition_time": 6.91,
             "exhibition_rank": 2
           }
@@ -515,30 +513,30 @@
           }
         },
         {
-          "lane": 1,
-          "registration_no": "4449",
-          "name": "中嶋達也",
-          "class": "B1",
+          "lane": 5,
+          "registration_no": "3591",
+          "name": "後藤孝義",
+          "class": "B2",
           "role": "toss",
           "role_rank": 1,
-          "role_score": 87.553,
-          "role_reason": "低勝率|B級|モーター弱め|1号艇イン信頼度低め",
+          "role_score": 82.737,
+          "role_reason": "低勝率|B級|モーター弱め",
           "scores": {
-            "head": 26.649,
-            "axis": 49.311,
-            "toss": 87.553,
-            "strength": 21.45,
+            "head": 38.676,
+            "axis": 39.848,
+            "toss": 82.737,
+            "strength": 15.134,
             "start": 50.0,
-            "exhibition": 100.0,
-            "outside_attack": 0.0
+            "exhibition": 80.0,
+            "outside_attack": 19.0
           },
           "features": {
-            "national_win_rate": 3.69,
-            "local_win_rate": 3.82,
+            "national_win_rate": 3.3,
+            "local_win_rate": 2.72,
             "avg_st": null,
-            "motor_quinella_rate": 24.44,
-            "exhibition_time": 6.87,
-            "exhibition_rank": 1
+            "motor_quinella_rate": 28.26,
+            "exhibition_time": 6.91,
+            "exhibition_rank": 2
           }
         }
       ],
@@ -587,15 +585,15 @@
             "points": 9,
             "definition": "頭1番手-頭2番手+軸2艇-消し以外",
             "tickets": [
+              "3-1-2",
+              "3-1-4",
+              "3-1-6",
+              "3-2-1",
               "3-2-4",
-              "3-2-5",
               "3-2-6",
-              "3-5-2",
-              "3-5-4",
-              "3-5-6",
+              "3-6-1",
               "3-6-2",
-              "3-6-4",
-              "3-6-5"
+              "3-6-4"
             ]
           },
           "historical": {
@@ -603,26 +601,26 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
-            "hit": false,
-            "return_yen_per_100": 0,
+            "hit": true,
+            "return_yen_per_100": 1400,
             "manshu_hit": false
           },
           "notes": [
@@ -632,8 +630,10 @@
         }
       },
       "skip_recommendation": {
-        "skip": false,
-        "reasons": []
+        "skip": true,
+        "reasons": [
+          "消し候補が不明瞭"
+        ]
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -916,21 +916,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -1000,10 +1000,10 @@
           6
         ],
         "toss": [
-          1
+          3
         ],
         "opponent": [
-          3
+          1
         ]
       },
       "boats": [
@@ -1116,41 +1116,14 @@
           }
         },
         {
-          "lane": 3,
-          "registration_no": "3353",
-          "name": "前田光昭",
-          "class": "B2",
-          "role": "opponent",
-          "role_rank": 1,
-          "role_score": 23.045,
-          "role_reason": "相手候補",
-          "scores": {
-            "head": 43.919,
-            "axis": 42.35,
-            "toss": 73.155,
-            "strength": 23.045,
-            "start": 50.0,
-            "exhibition": 40.0,
-            "outside_attack": 19.0
-          },
-          "features": {
-            "national_win_rate": 3.55,
-            "local_win_rate": 0.0,
-            "avg_st": null,
-            "motor_quinella_rate": 42.17,
-            "exhibition_time": 6.75,
-            "exhibition_rank": 4
-          }
-        },
-        {
           "lane": 1,
           "registration_no": "3637",
           "name": "齋藤和政",
           "class": "B1",
-          "role": "toss",
+          "role": "opponent",
           "role_rank": 1,
-          "role_score": 86.097,
-          "role_reason": "低勝率|B級|展示下位|1号艇イン信頼度低め",
+          "role_score": 29.991,
+          "role_reason": "相手候補",
           "scores": {
             "head": 30.236,
             "axis": 37.377,
@@ -1167,6 +1140,33 @@
             "motor_quinella_rate": 34.91,
             "exhibition_time": 6.83,
             "exhibition_rank": 6
+          }
+        },
+        {
+          "lane": 3,
+          "registration_no": "3353",
+          "name": "前田光昭",
+          "class": "B2",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 73.155,
+          "role_reason": "低勝率|B級",
+          "scores": {
+            "head": 43.919,
+            "axis": 42.35,
+            "toss": 73.155,
+            "strength": 23.045,
+            "start": 50.0,
+            "exhibition": 40.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 3.55,
+            "local_win_rate": 0.0,
+            "avg_st": null,
+            "motor_quinella_rate": 42.17,
+            "exhibition_time": 6.75,
+            "exhibition_rank": 4
           }
         }
       ],
@@ -1215,14 +1215,14 @@
             "points": 9,
             "definition": "頭1番手-頭2番手+軸2艇-消し以外",
             "tickets": [
-              "4-2-3",
+              "4-2-1",
               "4-2-5",
               "4-2-6",
+              "4-5-1",
               "4-5-2",
-              "4-5-3",
               "4-5-6",
+              "4-6-1",
               "4-6-2",
-              "4-6-3",
               "4-6-5"
             ]
           },
@@ -1231,26 +1231,26 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
-            "hit": true,
-            "return_yen_per_100": 2070,
+            "hit": false,
+            "return_yen_per_100": 0,
             "manshu_hit": false
           },
           "notes": [
@@ -1305,15 +1305,15 @@
       },
       "role_summary": {
         "head": [
-          5,
+          4,
           6
         ],
         "axis": [
-          2,
-          4
+          1,
+          2
         ],
         "toss": [
-          1
+          5
         ],
         "opponent": [
           3
@@ -1348,30 +1348,30 @@
           }
         },
         {
-          "lane": 4,
-          "registration_no": "4894",
-          "name": "原村拓也",
-          "class": "B1",
+          "lane": 1,
+          "registration_no": "5349",
+          "name": "宮崎奏磨",
+          "class": "B2",
           "role": "axis",
           "role_rank": 2,
-          "role_score": 45.692,
+          "role_score": 53.319,
           "role_reason": "展示3位以内",
           "scores": {
-            "head": 59.454,
-            "axis": 45.692,
-            "toss": 68.145,
-            "strength": 32.604,
+            "head": 26.303,
+            "axis": 53.319,
+            "toss": 84.697,
+            "strength": 20.625,
             "start": 50.0,
-            "exhibition": 60.0,
-            "outside_attack": 31.0
+            "exhibition": 100.0,
+            "outside_attack": 0.0
           },
           "features": {
-            "national_win_rate": 4.88,
-            "local_win_rate": 0.0,
+            "national_win_rate": 1.46,
+            "local_win_rate": 1.21,
             "avg_st": null,
-            "motor_quinella_rate": 33.0,
-            "exhibition_time": 6.93,
-            "exhibition_rank": 3
+            "motor_quinella_rate": 39.51,
+            "exhibition_time": 6.89,
+            "exhibition_rank": 1
           }
         },
         {
@@ -1402,28 +1402,28 @@
           }
         },
         {
-          "lane": 5,
-          "registration_no": "4332",
-          "name": "村上彰一",
+          "lane": 4,
+          "registration_no": "4894",
+          "name": "原村拓也",
           "class": "B1",
           "role": "head",
           "role_rank": 2,
-          "role_score": 60.457,
-          "role_reason": "外枠A級/強モーター|1号艇より勝率上位",
+          "role_score": 59.454,
+          "role_reason": "全国勝率上位|1号艇より勝率上位",
           "scores": {
-            "head": 60.457,
-            "axis": 46.774,
-            "toss": 68.753,
-            "strength": 33.659,
+            "head": 59.454,
+            "axis": 45.692,
+            "toss": 68.145,
+            "strength": 32.604,
             "start": 50.0,
             "exhibition": 60.0,
-            "outside_attack": 33.0
+            "outside_attack": 31.0
           },
           "features": {
-            "national_win_rate": 4.51,
-            "local_win_rate": 4.0,
+            "national_win_rate": 4.88,
+            "local_win_rate": 0.0,
             "avg_st": null,
-            "motor_quinella_rate": 41.76,
+            "motor_quinella_rate": 33.0,
             "exhibition_time": 6.93,
             "exhibition_rank": 3
           }
@@ -1456,30 +1456,30 @@
           }
         },
         {
-          "lane": 1,
-          "registration_no": "5349",
-          "name": "宮崎奏磨",
-          "class": "B2",
+          "lane": 5,
+          "registration_no": "4332",
+          "name": "村上彰一",
+          "class": "B1",
           "role": "toss",
           "role_rank": 1,
-          "role_score": 84.697,
-          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
+          "role_score": 68.753,
+          "role_reason": "B級",
           "scores": {
-            "head": 26.303,
-            "axis": 53.319,
-            "toss": 84.697,
-            "strength": 20.625,
+            "head": 60.457,
+            "axis": 46.774,
+            "toss": 68.753,
+            "strength": 33.659,
             "start": 50.0,
-            "exhibition": 100.0,
-            "outside_attack": 0.0
+            "exhibition": 60.0,
+            "outside_attack": 33.0
           },
           "features": {
-            "national_win_rate": 1.46,
-            "local_win_rate": 1.21,
+            "national_win_rate": 4.51,
+            "local_win_rate": 4.0,
             "avg_st": null,
-            "motor_quinella_rate": 39.51,
-            "exhibition_time": 6.89,
-            "exhibition_rank": 1
+            "motor_quinella_rate": 41.76,
+            "exhibition_time": 6.93,
+            "exhibition_rank": 3
           }
         }
       ],
@@ -1528,15 +1528,15 @@
             "points": 9,
             "definition": "頭1番手-頭2番手+軸2艇-消し以外",
             "tickets": [
-              "5-2-3",
-              "5-2-4",
-              "5-2-6",
-              "5-4-2",
-              "5-4-3",
-              "5-4-6",
-              "5-6-2",
-              "5-6-3",
-              "5-6-4"
+              "4-1-2",
+              "4-1-3",
+              "4-1-6",
+              "4-2-1",
+              "4-2-3",
+              "4-2-6",
+              "4-6-1",
+              "4-6-2",
+              "4-6-3"
             ]
           },
           "historical": {
@@ -1544,27 +1544,27 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
-            "hit": true,
-            "return_yen_per_100": 12220,
-            "manshu_hit": true
+            "hit": false,
+            "return_yen_per_100": 0,
+            "manshu_hit": false
           },
           "notes": [
             "過去検証用の固定ルールです。舟券購入を推奨するものではありません。",
@@ -1575,7 +1575,8 @@
       "skip_recommendation": {
         "skip": true,
         "reasons": [
-          "頭候補が割れ気味"
+          "頭候補が割れ気味",
+          "消し候補が不明瞭"
         ]
       },
       "notes": [
@@ -1859,21 +1860,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -1939,14 +1940,14 @@
           5
         ],
         "axis": [
-          2,
-          3
+          1,
+          2
         ],
         "toss": [
-          1
+          6
         ],
         "opponent": [
-          6
+          3
         ]
       },
       "boats": [
@@ -1978,30 +1979,30 @@
           }
         },
         {
-          "lane": 3,
-          "registration_no": "2878",
-          "name": "富山弘幸",
+          "lane": 1,
+          "registration_no": "3458",
+          "name": "東 健介",
           "class": "B1",
           "role": "axis",
           "role_rank": 2,
-          "role_score": 44.147,
-          "role_reason": "モーター上位",
+          "role_score": 49.258,
+          "role_reason": "相対評価",
           "scores": {
-            "head": 60.334,
-            "axis": 44.147,
-            "toss": 59.715,
-            "strength": 47.844,
+            "head": 34.248,
+            "axis": 49.258,
+            "toss": 69.997,
+            "strength": 39.542,
             "start": 50.0,
-            "exhibition": 0.0,
-            "outside_attack": 25.0
+            "exhibition": 40.0,
+            "outside_attack": 0.0
           },
           "features": {
-            "national_win_rate": 5.22,
-            "local_win_rate": 5.75,
+            "national_win_rate": 4.43,
+            "local_win_rate": 4.84,
             "avg_st": null,
-            "motor_quinella_rate": 42.41,
-            "exhibition_time": 6.73,
-            "exhibition_rank": 6
+            "motor_quinella_rate": 39.26,
+            "exhibition_time": 6.7,
+            "exhibition_rank": 4
           }
         },
         {
@@ -2059,14 +2060,41 @@
           }
         },
         {
+          "lane": 3,
+          "registration_no": "2878",
+          "name": "富山弘幸",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 47.844,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 60.334,
+            "axis": 44.147,
+            "toss": 59.715,
+            "strength": 47.844,
+            "start": 50.0,
+            "exhibition": 0.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.22,
+            "local_win_rate": 5.75,
+            "avg_st": null,
+            "motor_quinella_rate": 42.41,
+            "exhibition_time": 6.73,
+            "exhibition_rank": 6
+          }
+        },
+        {
           "lane": 6,
           "registration_no": "3442",
           "name": "宮武英司",
           "class": "B1",
-          "role": "opponent",
+          "role": "toss",
           "role_rank": 1,
-          "role_score": 36.043,
-          "role_reason": "相手候補",
+          "role_score": 66.893,
+          "role_reason": "低勝率|B級|モーター弱め",
           "scores": {
             "head": 52.018,
             "axis": 41.915,
@@ -2083,33 +2111,6 @@
             "motor_quinella_rate": 29.45,
             "exhibition_time": 6.65,
             "exhibition_rank": 2
-          }
-        },
-        {
-          "lane": 1,
-          "registration_no": "3458",
-          "name": "東 健介",
-          "class": "B1",
-          "role": "toss",
-          "role_rank": 1,
-          "role_score": 69.997,
-          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
-          "scores": {
-            "head": 34.248,
-            "axis": 49.258,
-            "toss": 69.997,
-            "strength": 39.542,
-            "start": 50.0,
-            "exhibition": 40.0,
-            "outside_attack": 0.0
-          },
-          "features": {
-            "national_win_rate": 4.43,
-            "local_win_rate": 4.84,
-            "avg_st": null,
-            "motor_quinella_rate": 39.26,
-            "exhibition_time": 6.7,
-            "exhibition_rank": 4
           }
         }
       ],
@@ -2158,15 +2159,15 @@
             "points": 9,
             "definition": "頭1番手-頭2番手+軸2艇-消し以外",
             "tickets": [
+              "4-1-2",
+              "4-1-3",
+              "4-1-5",
+              "4-2-1",
               "4-2-3",
               "4-2-5",
-              "4-2-6",
-              "4-3-2",
-              "4-3-5",
-              "4-3-6",
+              "4-5-1",
               "4-5-2",
-              "4-5-3",
-              "4-5-6"
+              "4-5-3"
             ]
           },
           "historical": {
@@ -2174,21 +2175,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -2252,14 +2253,14 @@
           5
         ],
         "axis": [
-          2,
+          1,
           3
         ],
         "toss": [
-          1
+          6
         ],
         "opponent": [
-          6
+          2
         ]
       },
       "boats": [
@@ -2291,28 +2292,28 @@
           }
         },
         {
-          "lane": 2,
-          "registration_no": "4969",
-          "name": "町田洸希",
+          "lane": 1,
+          "registration_no": "3211",
+          "name": "北川敏弘",
           "class": "B1",
           "role": "axis",
           "role_rank": 2,
-          "role_score": 45.014,
+          "role_score": 47.174,
           "role_reason": "相対評価",
           "scores": {
-            "head": 55.319,
-            "axis": 45.014,
-            "toss": 64.582,
-            "strength": 34.761,
+            "head": 31.456,
+            "axis": 47.174,
+            "toss": 76.174,
+            "strength": 32.895,
             "start": 50.0,
             "exhibition": 50.0,
-            "outside_attack": 25.0
+            "outside_attack": 0.0
           },
           "features": {
-            "national_win_rate": 4.56,
-            "local_win_rate": 5.15,
+            "national_win_rate": 4.21,
+            "local_win_rate": 3.87,
             "avg_st": null,
-            "motor_quinella_rate": 30.43,
+            "motor_quinella_rate": 34.04,
             "exhibition_time": null,
             "exhibition_rank": null
           }
@@ -2372,14 +2373,41 @@
           }
         },
         {
+          "lane": 2,
+          "registration_no": "4969",
+          "name": "町田洸希",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 34.761,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 55.319,
+            "axis": 45.014,
+            "toss": 64.582,
+            "strength": 34.761,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 4.56,
+            "local_win_rate": 5.15,
+            "avg_st": null,
+            "motor_quinella_rate": 30.43,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
           "lane": 6,
           "registration_no": "3589",
           "name": "西村 勝",
           "class": "B1",
-          "role": "opponent",
+          "role": "toss",
           "role_rank": 1,
-          "role_score": 36.874,
-          "role_reason": "相手候補",
+          "role_score": 66.41,
+          "role_reason": "低勝率|B級",
           "scores": {
             "head": 54.367,
             "axis": 40.489,
@@ -2394,33 +2422,6 @@
             "local_win_rate": 4.31,
             "avg_st": null,
             "motor_quinella_rate": 42.31,
-            "exhibition_time": null,
-            "exhibition_rank": null
-          }
-        },
-        {
-          "lane": 1,
-          "registration_no": "3211",
-          "name": "北川敏弘",
-          "class": "B1",
-          "role": "toss",
-          "role_rank": 1,
-          "role_score": 76.174,
-          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
-          "scores": {
-            "head": 31.456,
-            "axis": 47.174,
-            "toss": 76.174,
-            "strength": 32.895,
-            "start": 50.0,
-            "exhibition": 50.0,
-            "outside_attack": 0.0
-          },
-          "features": {
-            "national_win_rate": 4.21,
-            "local_win_rate": 3.87,
-            "avg_st": null,
-            "motor_quinella_rate": 34.04,
             "exhibition_time": null,
             "exhibition_rank": null
           }
@@ -2471,15 +2472,15 @@
             "points": 9,
             "definition": "頭1番手-頭2番手+軸2艇-消し以外",
             "tickets": [
-              "4-2-3",
-              "4-2-5",
-              "4-2-6",
+              "4-1-2",
+              "4-1-3",
+              "4-1-5",
+              "4-3-1",
               "4-3-2",
               "4-3-5",
-              "4-3-6",
+              "4-5-1",
               "4-5-2",
-              "4-5-3",
-              "4-5-6"
+              "4-5-3"
             ]
           },
           "historical": {
@@ -2487,21 +2488,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -2518,7 +2519,8 @@
       "skip_recommendation": {
         "skip": true,
         "reasons": [
-          "データ欠損多め"
+          "データ欠損多め",
+          "消し候補が不明瞭"
         ]
       },
       "notes": [
@@ -2802,21 +2804,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -2884,10 +2886,10 @@
           5
         ],
         "toss": [
-          1
+          6
         ],
         "opponent": [
-          6
+          1
         ]
       },
       "boats": [
@@ -3000,41 +3002,14 @@
           }
         },
         {
-          "lane": 6,
-          "registration_no": "4880",
-          "name": "澤崎雄哉",
-          "class": "B1",
-          "role": "opponent",
-          "role_rank": 1,
-          "role_score": 37.425,
-          "role_reason": "相手候補",
-          "scores": {
-            "head": 51.598,
-            "axis": 39.713,
-            "toss": 66.078,
-            "strength": 37.425,
-            "start": 50.0,
-            "exhibition": 80.0,
-            "outside_attack": 19.0
-          },
-          "features": {
-            "national_win_rate": 5.12,
-            "local_win_rate": 5.5,
-            "avg_st": null,
-            "motor_quinella_rate": 15.63,
-            "exhibition_time": 6.94,
-            "exhibition_rank": 2
-          }
-        },
-        {
           "lane": 1,
           "registration_no": "4906",
           "name": "鈴木雅希",
           "class": "B1",
-          "role": "toss",
+          "role": "opponent",
           "role_rank": 1,
-          "role_score": 83.387,
-          "role_reason": "B級|展示下位|1号艇イン信頼度低め",
+          "role_score": 34.591,
+          "role_reason": "相手候補",
           "scores": {
             "head": 37.168,
             "axis": 42.818,
@@ -3051,6 +3026,33 @@
             "motor_quinella_rate": 35.56,
             "exhibition_time": 6.98,
             "exhibition_rank": 5
+          }
+        },
+        {
+          "lane": 6,
+          "registration_no": "4880",
+          "name": "澤崎雄哉",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 66.078,
+          "role_reason": "B級|モーター弱め",
+          "scores": {
+            "head": 51.598,
+            "axis": 39.713,
+            "toss": 66.078,
+            "strength": 37.425,
+            "start": 50.0,
+            "exhibition": 80.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 5.12,
+            "local_win_rate": 5.5,
+            "avg_st": null,
+            "motor_quinella_rate": 15.63,
+            "exhibition_time": 6.94,
+            "exhibition_rank": 2
           }
         }
       ],
@@ -3099,15 +3101,15 @@
             "points": 9,
             "definition": "頭1番手-頭2番手+軸2艇-消し以外",
             "tickets": [
+              "2-3-1",
               "2-3-4",
               "2-3-5",
-              "2-3-6",
+              "2-4-1",
               "2-4-3",
               "2-4-5",
-              "2-4-6",
+              "2-5-1",
               "2-5-3",
-              "2-5-4",
-              "2-5-6"
+              "2-5-4"
             ]
           },
           "historical": {
@@ -3115,21 +3117,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -3428,21 +3430,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -3457,10 +3459,8 @@
         }
       },
       "skip_recommendation": {
-        "skip": true,
-        "reasons": [
-          "消し候補が不明瞭"
-        ]
+        "skip": false,
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -3743,21 +3743,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -4058,21 +4058,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -4142,10 +4142,10 @@
           3
         ],
         "toss": [
-          1
+          4
         ],
         "opponent": [
-          4
+          1
         ]
       },
       "boats": [
@@ -4258,41 +4258,14 @@
           }
         },
         {
-          "lane": 4,
-          "registration_no": "3643",
-          "name": "米田隆弘",
-          "class": "B1",
-          "role": "opponent",
-          "role_rank": 1,
-          "role_score": 47.293,
-          "role_reason": "相手候補",
-          "scores": {
-            "head": 64.623,
-            "axis": 50.14,
-            "toss": 54.343,
-            "strength": 47.293,
-            "start": 50.0,
-            "exhibition": 50.0,
-            "outside_attack": 25.0
-          },
-          "features": {
-            "national_win_rate": 5.35,
-            "local_win_rate": 6.16,
-            "avg_st": null,
-            "motor_quinella_rate": 36.36,
-            "exhibition_time": null,
-            "exhibition_rank": null
-          }
-        },
-        {
           "lane": 1,
           "registration_no": "3581",
           "name": "加木 郁",
           "class": "B1",
-          "role": "toss",
+          "role": "opponent",
           "role_rank": 1,
-          "role_score": 78.893,
-          "role_reason": "B級|1号艇イン信頼度低め",
+          "role_score": 31.646,
+          "role_reason": "相手候補",
           "scores": {
             "head": 35.931,
             "axis": 47.295,
@@ -4307,6 +4280,33 @@
             "local_win_rate": 3.5,
             "avg_st": null,
             "motor_quinella_rate": 36.04,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 4,
+          "registration_no": "3643",
+          "name": "米田隆弘",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 54.343,
+          "role_reason": "B級",
+          "scores": {
+            "head": 64.623,
+            "axis": 50.14,
+            "toss": 54.343,
+            "strength": 47.293,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 25.0
+          },
+          "features": {
+            "national_win_rate": 5.35,
+            "local_win_rate": 6.16,
+            "avg_st": null,
+            "motor_quinella_rate": 36.36,
             "exhibition_time": null,
             "exhibition_rank": null
           }
@@ -4357,15 +4357,15 @@
             "points": 9,
             "definition": "頭1番手-頭2番手+軸2艇-消し以外",
             "tickets": [
+              "5-2-1",
               "5-2-3",
-              "5-2-4",
               "5-2-6",
+              "5-3-1",
               "5-3-2",
-              "5-3-4",
               "5-3-6",
+              "5-6-1",
               "5-6-2",
-              "5-6-3",
-              "5-6-4"
+              "5-6-3"
             ]
           },
           "historical": {
@@ -4373,21 +4373,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -4405,7 +4405,8 @@
         "skip": true,
         "reasons": [
           "データ欠損多め",
-          "頭候補が割れ気味"
+          "頭候補が割れ気味",
+          "消し候補が不明瞭"
         ]
       },
       "notes": [
@@ -4689,21 +4690,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -5004,21 +5005,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -5035,8 +5036,7 @@
       "skip_recommendation": {
         "skip": true,
         "reasons": [
-          "頭候補が割れ気味",
-          "消し候補が不明瞭"
+          "頭候補が割れ気味"
         ]
       },
       "notes": [
@@ -5085,11 +5085,11 @@
           6
         ],
         "axis": [
-          3,
-          4
+          1,
+          3
         ],
         "toss": [
-          1
+          4
         ],
         "opponent": [
           5
@@ -5097,12 +5097,39 @@
       },
       "boats": [
         {
+          "lane": 1,
+          "registration_no": "5063",
+          "name": "大塚雅治",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 61.838,
+          "role_reason": "モーター上位|展示3位以内",
+          "scores": {
+            "head": 35.124,
+            "axis": 61.838,
+            "toss": 68.409,
+            "strength": 41.629,
+            "start": 50.0,
+            "exhibition": 100.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.7,
+            "local_win_rate": 4.64,
+            "avg_st": null,
+            "motor_quinella_rate": 42.86,
+            "exhibition_time": 6.7,
+            "exhibition_rank": 1
+          }
+        },
+        {
           "lane": 3,
           "registration_no": "4905",
           "name": "土井祥伍",
           "class": "B1",
           "role": "axis",
-          "role_rank": 1,
+          "role_rank": 2,
           "role_score": 55.77,
           "role_reason": "モーター上位|展示3位以内",
           "scores": {
@@ -5121,33 +5148,6 @@
             "motor_quinella_rate": 61.11,
             "exhibition_time": 6.72,
             "exhibition_rank": 3
-          }
-        },
-        {
-          "lane": 4,
-          "registration_no": "3784",
-          "name": "中島友和",
-          "class": "B1",
-          "role": "axis",
-          "role_rank": 2,
-          "role_score": 46.471,
-          "role_reason": "展示3位以内",
-          "scores": {
-            "head": 60.496,
-            "axis": 46.471,
-            "toss": 64.923,
-            "strength": 35.086,
-            "start": 50.0,
-            "exhibition": 80.0,
-            "outside_attack": 31.0
-          },
-          "features": {
-            "national_win_rate": 4.77,
-            "local_win_rate": 4.91,
-            "avg_st": null,
-            "motor_quinella_rate": 16.28,
-            "exhibition_time": 6.71,
-            "exhibition_rank": 2
           }
         },
         {
@@ -5232,30 +5232,30 @@
           }
         },
         {
-          "lane": 1,
-          "registration_no": "5063",
-          "name": "大塚雅治",
+          "lane": 4,
+          "registration_no": "3784",
+          "name": "中島友和",
           "class": "B1",
           "role": "toss",
           "role_rank": 1,
-          "role_score": 68.409,
-          "role_reason": "B級|1号艇イン信頼度低め",
+          "role_score": 64.923,
+          "role_reason": "B級|モーター弱め",
           "scores": {
-            "head": 35.124,
-            "axis": 61.838,
-            "toss": 68.409,
-            "strength": 41.629,
+            "head": 60.496,
+            "axis": 46.471,
+            "toss": 64.923,
+            "strength": 35.086,
             "start": 50.0,
-            "exhibition": 100.0,
-            "outside_attack": 0.0
+            "exhibition": 80.0,
+            "outside_attack": 31.0
           },
           "features": {
-            "national_win_rate": 4.7,
-            "local_win_rate": 4.64,
+            "national_win_rate": 4.77,
+            "local_win_rate": 4.91,
             "avg_st": null,
-            "motor_quinella_rate": 42.86,
-            "exhibition_time": 6.7,
-            "exhibition_rank": 1
+            "motor_quinella_rate": 16.28,
+            "exhibition_time": 6.71,
+            "exhibition_rank": 2
           }
         }
       ],
@@ -5304,14 +5304,14 @@
             "points": 9,
             "definition": "頭1番手-頭2番手+軸2艇-消し以外",
             "tickets": [
-              "2-3-4",
+              "2-1-3",
+              "2-1-5",
+              "2-1-6",
+              "2-3-1",
               "2-3-5",
               "2-3-6",
-              "2-4-3",
-              "2-4-5",
-              "2-4-6",
+              "2-6-1",
               "2-6-3",
-              "2-6-4",
               "2-6-5"
             ]
           },
@@ -5320,26 +5320,26 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
-            "hit": false,
-            "return_yen_per_100": 0,
+            "hit": true,
+            "return_yen_per_100": 2540,
             "manshu_hit": false
           },
           "notes": [
@@ -5351,7 +5351,8 @@
       "skip_recommendation": {
         "skip": true,
         "reasons": [
-          "頭候補が割れ気味"
+          "頭候補が割れ気味",
+          "消し候補が不明瞭"
         ]
       },
       "notes": [
@@ -5400,24 +5401,51 @@
           6
         ],
         "axis": [
-          4,
-          5
+          1,
+          4
         ],
         "toss": [
-          1
+          3
         ],
         "opponent": [
-          3
+          5
         ]
       },
       "boats": [
+        {
+          "lane": 1,
+          "registration_no": "4766",
+          "name": "石井孝之",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 54.283,
+          "role_reason": "展示3位以内",
+          "scores": {
+            "head": 31.701,
+            "axis": 54.283,
+            "toss": 76.803,
+            "strength": 33.478,
+            "start": 50.0,
+            "exhibition": 80.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.38,
+            "local_win_rate": 4.36,
+            "avg_st": null,
+            "motor_quinella_rate": 39.29,
+            "exhibition_time": 6.84,
+            "exhibition_rank": 2
+          }
+        },
         {
           "lane": 4,
           "registration_no": "4945",
           "name": "上村宏太",
           "class": "B1",
           "role": "axis",
-          "role_rank": 1,
+          "role_rank": 2,
           "role_score": 52.883,
           "role_reason": "展示3位以内",
           "scores": {
@@ -5436,33 +5464,6 @@
             "motor_quinella_rate": 31.94,
             "exhibition_time": 6.82,
             "exhibition_rank": 1
-          }
-        },
-        {
-          "lane": 5,
-          "registration_no": "3812",
-          "name": "山崎聖司",
-          "class": "B1",
-          "role": "axis",
-          "role_rank": 2,
-          "role_score": 43.655,
-          "role_reason": "展示3位以内",
-          "scores": {
-            "head": 46.261,
-            "axis": 43.655,
-            "toss": 68.561,
-            "strength": 33.193,
-            "start": 50.0,
-            "exhibition": 60.0,
-            "outside_attack": 19.0
-          },
-          "features": {
-            "national_win_rate": 4.35,
-            "local_win_rate": 5.0,
-            "avg_st": null,
-            "motor_quinella_rate": 31.43,
-            "exhibition_time": 6.9,
-            "exhibition_rank": 3
           }
         },
         {
@@ -5520,14 +5521,41 @@
           }
         },
         {
+          "lane": 5,
+          "registration_no": "3812",
+          "name": "山崎聖司",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 33.193,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 46.261,
+            "axis": 43.655,
+            "toss": 68.561,
+            "strength": 33.193,
+            "start": 50.0,
+            "exhibition": 60.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 4.35,
+            "local_win_rate": 5.0,
+            "avg_st": null,
+            "motor_quinella_rate": 31.43,
+            "exhibition_time": 6.9,
+            "exhibition_rank": 3
+          }
+        },
+        {
           "lane": 3,
           "registration_no": "4229",
           "name": "市川美宏",
           "class": "B1",
-          "role": "opponent",
+          "role": "toss",
           "role_rank": 1,
-          "role_score": 29.096,
-          "role_reason": "相手候補",
+          "role_score": 75.662,
+          "role_reason": "低勝率|B級|展示下位",
           "scores": {
             "head": 46.46,
             "axis": 38.023,
@@ -5544,33 +5572,6 @@
             "motor_quinella_rate": 32.0,
             "exhibition_time": 6.96,
             "exhibition_rank": 5
-          }
-        },
-        {
-          "lane": 1,
-          "registration_no": "4766",
-          "name": "石井孝之",
-          "class": "B1",
-          "role": "toss",
-          "role_rank": 1,
-          "role_score": 76.803,
-          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
-          "scores": {
-            "head": 31.701,
-            "axis": 54.283,
-            "toss": 76.803,
-            "strength": 33.478,
-            "start": 50.0,
-            "exhibition": 80.0,
-            "outside_attack": 0.0
-          },
-          "features": {
-            "national_win_rate": 4.38,
-            "local_win_rate": 4.36,
-            "avg_st": null,
-            "motor_quinella_rate": 39.29,
-            "exhibition_time": 6.84,
-            "exhibition_rank": 2
           }
         }
       ],
@@ -5619,13 +5620,13 @@
             "points": 9,
             "definition": "頭1番手-頭2番手+軸2艇-消し以外",
             "tickets": [
-              "2-4-3",
+              "2-1-4",
+              "2-1-5",
+              "2-1-6",
+              "2-4-1",
               "2-4-5",
               "2-4-6",
-              "2-5-3",
-              "2-5-4",
-              "2-5-6",
-              "2-6-3",
+              "2-6-1",
               "2-6-4",
               "2-6-5"
             ]
@@ -5635,21 +5636,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -5664,10 +5665,8 @@
         }
       },
       "skip_recommendation": {
-        "skip": true,
-        "reasons": [
-          "消し候補が不明瞭"
-        ]
+        "skip": false,
+        "reasons": []
       },
       "notes": [
         "娯楽・研究用の分析出力です。舟券購入を推奨するものではありません。",
@@ -5950,21 +5949,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -6263,21 +6262,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -6576,21 +6575,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -6654,24 +6653,51 @@
           4
         ],
         "axis": [
-          3,
-          5
+          1,
+          3
         ],
         "toss": [
-          1
+          6
         ],
         "opponent": [
-          6
+          5
         ]
       },
       "boats": [
+        {
+          "lane": 1,
+          "registration_no": "5153",
+          "name": "佐藤ほの",
+          "class": "B1",
+          "role": "axis",
+          "role_rank": 1,
+          "role_score": 47.542,
+          "role_reason": "展示3位以内",
+          "scores": {
+            "head": 26.066,
+            "axis": 47.542,
+            "toss": 89.501,
+            "strength": 20.062,
+            "start": 50.0,
+            "exhibition": 100.0,
+            "outside_attack": 0.0
+          },
+          "features": {
+            "national_win_rate": 4.06,
+            "local_win_rate": 3.53,
+            "avg_st": null,
+            "motor_quinella_rate": 15.38,
+            "exhibition_time": 6.87,
+            "exhibition_rank": 1
+          }
+        },
         {
           "lane": 3,
           "registration_no": "3748",
           "name": "小黒竜吾",
           "class": "B1",
           "role": "axis",
-          "role_rank": 1,
+          "role_rank": 2,
           "role_score": 41.671,
           "role_reason": "展示3位以内",
           "scores": {
@@ -6690,33 +6716,6 @@
             "motor_quinella_rate": 25.58,
             "exhibition_time": 6.93,
             "exhibition_rank": 3
-          }
-        },
-        {
-          "lane": 5,
-          "registration_no": "4888",
-          "name": "金児隆太",
-          "class": "B1",
-          "role": "axis",
-          "role_rank": 2,
-          "role_score": 38.539,
-          "role_reason": "相対評価",
-          "scores": {
-            "head": 48.132,
-            "axis": 38.539,
-            "toss": 64.735,
-            "strength": 37.648,
-            "start": 50.0,
-            "exhibition": 40.0,
-            "outside_attack": 19.0
-          },
-          "features": {
-            "national_win_rate": 5.2,
-            "local_win_rate": 5.65,
-            "avg_st": null,
-            "motor_quinella_rate": 20.51,
-            "exhibition_time": 6.94,
-            "exhibition_rank": 4
           }
         },
         {
@@ -6774,14 +6773,41 @@
           }
         },
         {
+          "lane": 5,
+          "registration_no": "4888",
+          "name": "金児隆太",
+          "class": "B1",
+          "role": "opponent",
+          "role_rank": 1,
+          "role_score": 37.648,
+          "role_reason": "相手候補",
+          "scores": {
+            "head": 48.132,
+            "axis": 38.539,
+            "toss": 64.735,
+            "strength": 37.648,
+            "start": 50.0,
+            "exhibition": 40.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 5.2,
+            "local_win_rate": 5.65,
+            "avg_st": null,
+            "motor_quinella_rate": 20.51,
+            "exhibition_time": 6.94,
+            "exhibition_rank": 4
+          }
+        },
+        {
           "lane": 6,
           "registration_no": "5434",
           "name": "藤田康生",
           "class": "B2",
-          "role": "opponent",
+          "role": "toss",
           "role_rank": 1,
-          "role_score": 16.699,
-          "role_reason": "相手候補",
+          "role_score": 81.563,
+          "role_reason": "低勝率|B級|モーター弱め",
           "scores": {
             "head": 31.894,
             "axis": 27.5,
@@ -6798,33 +6824,6 @@
             "motor_quinella_rate": 28.57,
             "exhibition_time": 6.94,
             "exhibition_rank": 4
-          }
-        },
-        {
-          "lane": 1,
-          "registration_no": "5153",
-          "name": "佐藤ほの",
-          "class": "B1",
-          "role": "toss",
-          "role_rank": 1,
-          "role_score": 89.501,
-          "role_reason": "低勝率|B級|モーター弱め|1号艇イン信頼度低め",
-          "scores": {
-            "head": 26.066,
-            "axis": 47.542,
-            "toss": 89.501,
-            "strength": 20.062,
-            "start": 50.0,
-            "exhibition": 100.0,
-            "outside_attack": 0.0
-          },
-          "features": {
-            "national_win_rate": 4.06,
-            "local_win_rate": 3.53,
-            "avg_st": null,
-            "motor_quinella_rate": 15.38,
-            "exhibition_time": 6.87,
-            "exhibition_rank": 1
           }
         }
       ],
@@ -6873,15 +6872,15 @@
             "points": 9,
             "definition": "頭1番手-頭2番手+軸2艇-消し以外",
             "tickets": [
+              "2-1-3",
+              "2-1-4",
+              "2-1-5",
+              "2-3-1",
               "2-3-4",
               "2-3-5",
-              "2-3-6",
+              "2-4-1",
               "2-4-3",
-              "2-4-5",
-              "2-4-6",
-              "2-5-3",
-              "2-5-4",
-              "2-5-6"
+              "2-4-5"
             ]
           },
           "historical": {
@@ -6889,21 +6888,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -7202,21 +7201,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {
@@ -7233,8 +7232,7 @@
       "skip_recommendation": {
         "skip": true,
         "reasons": [
-          "頭候補が割れ気味",
-          "消し候補が不明瞭"
+          "頭候補が割れ気味"
         ]
       },
       "notes": [
@@ -7287,10 +7285,10 @@
           3
         ],
         "toss": [
-          1
+          5
         ],
         "opponent": [
-          5
+          1
         ]
       },
       "boats": [
@@ -7403,41 +7401,14 @@
           }
         },
         {
-          "lane": 5,
-          "registration_no": "3441",
-          "name": "土屋太朗",
-          "class": "B1",
-          "role": "opponent",
-          "role_rank": 1,
-          "role_score": 33.053,
-          "role_reason": "相手候補",
-          "scores": {
-            "head": 46.202,
-            "axis": 40.199,
-            "toss": 69.514,
-            "strength": 33.053,
-            "start": 50.0,
-            "exhibition": 50.0,
-            "outside_attack": 19.0
-          },
-          "features": {
-            "national_win_rate": 4.77,
-            "local_win_rate": 5.4,
-            "avg_st": null,
-            "motor_quinella_rate": 25.81,
-            "exhibition_time": null,
-            "exhibition_rank": null
-          }
-        },
-        {
           "lane": 1,
           "registration_no": "3973",
           "name": "崎 利仁",
           "class": "B1",
-          "role": "toss",
+          "role": "opponent",
           "role_rank": 1,
-          "role_score": 74.797,
-          "role_reason": "低勝率|B級|1号艇イン信頼度低め",
+          "role_score": 34.585,
+          "role_reason": "相手候補",
           "scores": {
             "head": 32.166,
             "axis": 48.973,
@@ -7452,6 +7423,33 @@
             "local_win_rate": 4.96,
             "avg_st": null,
             "motor_quinella_rate": 38.21,
+            "exhibition_time": null,
+            "exhibition_rank": null
+          }
+        },
+        {
+          "lane": 5,
+          "registration_no": "3441",
+          "name": "土屋太朗",
+          "class": "B1",
+          "role": "toss",
+          "role_rank": 1,
+          "role_score": 69.514,
+          "role_reason": "B級|モーター弱め",
+          "scores": {
+            "head": 46.202,
+            "axis": 40.199,
+            "toss": 69.514,
+            "strength": 33.053,
+            "start": 50.0,
+            "exhibition": 50.0,
+            "outside_attack": 19.0
+          },
+          "features": {
+            "national_win_rate": 4.77,
+            "local_win_rate": 5.4,
+            "avg_st": null,
+            "motor_quinella_rate": 25.81,
             "exhibition_time": null,
             "exhibition_rank": null
           }
@@ -7502,15 +7500,15 @@
             "points": 9,
             "definition": "頭1番手-頭2番手+軸2艇-消し以外",
             "tickets": [
+              "4-2-1",
               "4-2-3",
-              "4-2-5",
               "4-2-6",
+              "4-3-1",
               "4-3-2",
-              "4-3-5",
               "4-3-6",
+              "4-6-1",
               "4-6-2",
-              "4-6-3",
-              "4-6-5"
+              "4-6-3"
             ]
           },
           "historical": {
@@ -7518,21 +7516,21 @@
               "races": 164,
               "avg_points": 9.0,
               "hit_rate": 0.1037,
-              "manshu_hit_rate": 0.061,
-              "return_rate": 1.8388,
-              "return_rate_without_max": 1.4358,
-              "profit_yen_per_100": 123800,
-              "max_drawdown_yen_per_100": 44630,
-              "max_losing_streak": 30
+              "manshu_hit_rate": 0.0488,
+              "return_rate": 1.5077,
+              "return_rate_without_max": 1.1115,
+              "profit_yen_per_100": 74930,
+              "max_drawdown_yen_per_100": 56190,
+              "max_losing_streak": 32
             },
             "good_venues": {
-              "races": 60,
-              "hit_rate": 0.2333,
-              "manshu_hit_rate": 0.1667,
-              "return_rate": 4.7115,
-              "return_rate_without_max": 3.61,
-              "validation_races": 15,
-              "validation_return_rate": 5.4622
+              "races": 62,
+              "hit_rate": 0.1935,
+              "manshu_hit_rate": 0.1129,
+              "return_rate": 3.3486,
+              "return_rate_without_max": 2.32,
+              "validation_races": 18,
+              "validation_return_rate": 4.0728
             }
           },
           "result_check": {

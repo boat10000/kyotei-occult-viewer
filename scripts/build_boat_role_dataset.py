@@ -332,7 +332,11 @@ def score_boat(row: Row, lane: int) -> dict[str, Any]:
 
 def assign_roles(scored: list[Row], mode: str) -> dict[int, dict[str, Any]]:
     suffix = "_preview" if mode == "preview" else "_morning"
-    toss_sorted = sorted(scored, key=lambda item: (item[f"toss_score{suffix}"], item["lane"]), reverse=True)
+    # Keep lane 1 available as head/axis/opponent, but do not use it as the
+    # single toss candidate. Historical checks showed lane 1 still stays top3
+    # too often to treat it as a hard elimination.
+    toss_pool = [item for item in scored if int(item["lane"]) != 1] or scored
+    toss_sorted = sorted(toss_pool, key=lambda item: (item[f"toss_score{suffix}"], item["lane"]), reverse=True)
     toss_lane = int(toss_sorted[0]["lane"])
     head_sorted = sorted(
         [item for item in scored if item["lane"] != toss_lane],
@@ -373,7 +377,8 @@ def skip_recommendation(row: Row, scored: list[Row], mode: str) -> tuple[int, st
     suffix = "_preview" if mode == "preview" else "_morning"
     dq = data_quality_score(row)
     head_scores = sorted([float(item[f"head_score{suffix}"]) for item in scored], reverse=True)
-    toss_scores = sorted([float(item[f"toss_score{suffix}"]) for item in scored], reverse=True)
+    toss_pool = [item for item in scored if int(item["lane"]) != 1] or scored
+    toss_scores = sorted([float(item[f"toss_score{suffix}"]) for item in toss_pool], reverse=True)
     reasons: list[str] = []
     if dq < 0.78:
         reasons.append("データ欠損多め")
@@ -501,7 +506,7 @@ def write_dictionary(path: Path) -> None:
         "- `head_score_morning/preview`: 1着候補スコア。結果列は使わない。",
         "- `axis_score_morning/preview`: 3着以内候補スコア。結果列は使わない。",
         "- `toss_score_morning/preview`: 3着外候補スコア。結果列は使わない。",
-        "- `role_morning/preview`: 各レース内で重複なしに割り当てた `head`, `axis`, `toss`, `opponent`。",
+        "- `role_morning/preview`: 各レース内で重複なしに割り当てた `head`, `axis`, `toss`, `opponent`。`toss` は原則2〜6号艇から選ぶ。",
         "- `actual_win`, `actual_top3`, `actual_out_top3`: 検証ラベル。",
         "- `mid_arare_flag`: 払戻5,000円以上10,000円未満。",
         "- `target_arare_flag`: 払戻5,000円以上。",
