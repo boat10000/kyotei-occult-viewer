@@ -308,11 +308,12 @@ function renderRoleRanking(data){
   list.innerHTML=data.races.slice(0,5).map(function(r,i){
     var roles=r.role_summary||{}, scores=r.scores||{}, forms=r.formations||{};
     var score=scores.manshu_score==null?'—':Math.round(scores.manshu_score);
+    var manshu=scores.manshu_probability_proxy==null?'—':(scores.manshu_probability_proxy*100).toFixed(1)+'%';
     var target=scores.target_arare_probability_proxy==null?'—':Math.round(scores.target_arare_probability_proxy*100)+'%';
     var skip=r.skip_recommendation&&r.skip_recommendation.skip;
     var formText=['A','B','C','D'].map(function(k){return k+':'+(forms[k]&&forms[k].points!=null?forms[k].points:'—')+'点';}).join(' / ');
     return '<div class="roleitem">'+
-      '<div class="roletop"><div><b>'+(i+1)+'位 '+esc(r.venue_name)+esc(r.race_no)+'R</b> <span class="muted">'+esc(r.deadline||'')+'</span></div><span class="rolemetric">荒れ度 '+score+' / 中荒れproxy '+target+'</span></div>'+
+      '<div class="roletop"><div><b>'+(i+1)+'位 '+esc(r.venue_name)+esc(r.race_no)+'R</b> <span class="muted">'+esc(r.deadline||'')+'</span></div><span class="rolemetric">推定万舟率 '+manshu+' / 荒れ度 '+score+' / 中荒れ '+target+'</span></div>'+
       '<div class="rolegrid">'+
         roleBox(r,'頭候補2艇','head',roles.head)+
         roleBox(r,'軸候補2艇','axis',roles.axis)+
