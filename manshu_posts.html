@@ -29,17 +29,16 @@ button.copy:active{background:#15803d}
 <div id="meta" class="meta">読み込み中…</div>
 <div id="forecast"></div>
 <div id="result"></div>
-<p class="hint" style="margin-top:20px">※各ボタンで全文コピー → X/note に貼って投稿。Xの①②は連投（①を投稿→その返信に②）。
-有料note本編は note で有料設定にして販売。<br>※娯楽用・利益保証なし・生活費は賭けない。</p>
+<p class="hint" style="margin-top:20px">※各ボタンで全文コピー → X/note に貼って投稿。Xはトップ5の短文、noteはトップ10の長文です。<br>※娯楽・研究用。舟券購入推奨や利益保証ではありません。</p>
 <script>
 let POSTS=[];
-function wlen(s){let n=0;for(const c of s)n+=(c.codePointAt(0)>0x7f?2:1);return n;} // X相当の重み(全角=2)
-function badge(ch){if(ch==='X')return '<span class="badge b-x">X</span>';
-  if(ch==='note有料')return '<span class="badge b-paid">note 有料</span>';return '<span class="badge b-note">note</span>';}
-function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+const MAN=10000;
+function wlen(s){let n=0;for(const c of s)n+=(c.codePointAt(0)>0x7f?2:1);return n;}
+function badge(ch){return ch==='X'?'<span class="badge b-x">X</span>':'<span class="badge b-note">note</span>';}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function card(p){
-  const isX=p.ch==='X'; const wl=wlen(p.text);
-  const cnt=isX?`<span class="cnt ${wl>280?'over':''}">${wl}/280字</span>`:'';
+  const wl=p.ch==='X'?wlen(p.text):0;
+  const cnt=p.ch==='X'?`<span class="cnt ${wl>280?'over':''}">${wl}/280字</span>`:'';
   return `<div class="card"><div class="hd">${badge(p.ch)}<span class="title">${esc(p.title)}</span>${cnt}</div>`
     +`<pre id="t_${p.id}">${esc(p.text)}</pre>`
     +`<button class="copy" onclick="copy('${p.id}',this)">📋 この文をコピー</button></div>`;
@@ -52,19 +51,81 @@ async function copy(id,btn){
   const o=btn.textContent;btn.textContent='✓ コピーしました！';btn.style.background='#0891b2';
   setTimeout(()=>{btn.textContent=o;btn.style.background='';},1500);
 }
+function keyOf(r){return parseInt(r.jcd,10)+'-'+parseInt(r.race_no,10);}
+function pct(v){return v==null?'—':(Number(v)*100).toFixed(1)+'%';}
+function yen(v){return v==null?'—':Number(v).toLocaleString()+'円';}
+function trifectaOf(r){
+  const t=(r.payouts&&r.payouts.trifecta&&r.payouts.trifecta[0])||null;
+  if(t&&t.payout!=null)return {combination:t.combination,payout:t.payout};
+  const pl={}; (r.boats||[]).forEach(b=>{if(b.racer_place_number)pl[b.racer_place_number]=b.racer_boat_number;});
+  if(pl[1]&&pl[2]&&pl[3])return {combination:pl[1]+'-'+pl[2]+'-'+pl[3],payout:null};
+  return null;
+}
+async function resultMap(date){
+  const map={};
+  try{
+    const url='https://boatraceopenapi.github.io/results/v2/'+date.slice(0,4)+'/'+date.replace(/-/g,'')+'.json';
+    const d=await (await fetch(url,{cache:'no-store'})).json();
+    (d.results||[]).forEach(r=>{const t=trifectaOf(r); if(t)map[r.race_stadium_number+'-'+r.race_number]=t;});
+  }catch(e){}
+  return map;
+}
+function rateResult(r,map){
+  const live=map[keyOf(r)],res=r.result||{};
+  const combo=live?live.combination:res.trifecta, payout=live?live.payout:res.payout_yen;
+  return {combination:combo,payout:payout,manshu:payout!=null&&payout>=MAN};
+}
+function evalBuy(r,map){
+  const s=r.strategy&&r.strategy.buy_style_1||{},f=s.formation||{},tickets=f.tickets||[],points=Number(f.points||tickets.length||9),cost=points*100;
+  const res=rateResult(r,map),check=s.result_check||{};
+  let hit=check.hit,ret=check.return_yen_per_100;
+  if(hit==null&&res.combination&&res.payout!=null&&tickets.length){hit=tickets.includes(res.combination);ret=hit?res.payout:0;}
+  if(res.combination&&res.payout==null&&hit==null)return {done:false,hit:null,roi:null,ret:null,points};
+  if(!res.combination&&hit==null)return {done:false,hit:null,roi:null,ret:null,points};
+  if(ret==null)ret=hit?res.payout:0;
+  return {done:true,hit:!!hit,roi:cost?ret/cost*100:null,ret:ret,points};
+}
+function label(r){return (r.venue_name||'')+r.race_no+'R';}
+function resultText(r,map){
+  const res=rateResult(r,map);
+  if(!res.combination)return '結果待ち';
+  if(res.payout==null)return res.combination+' 配当待ち';
+  return res.combination+' '+yen(res.payout)+(res.manshu?' 万舟◎':' 堅め');
+}
+function buildPosts(role,map){
+  const top=(role.races||[]).slice().sort((a,b)=>(b.scores?.manshu_probability_proxy||0)-(a.scores?.manshu_probability_proxy||0)).slice(0,10);
+  let done=0,manshu=0,hit=0,cost=0,ret=0;
+  top.forEach(r=>{const res=rateResult(r,map),ev=evalBuy(r,map); if(res.combination&&res.payout!=null){done++; if(res.manshu)manshu++;} if(ev.done){hit+=ev.hit?1:0; cost+=ev.points*100; ret+=ev.ret||0;}});
+  const roi=cost?Math.round(ret/cost*100):null;
+  const md=role.date.slice(5).replace('-','/');
+  const x=[md+' 万舟率TOP5結果'];
+  top.slice(0,5).forEach((r,i)=>{const res=rateResult(r,map),ev=evalBuy(r,map),rate=Math.round((r.scores?.manshu_probability_proxy||0)*100);
+    const pay=res.payout==null?(res.combination?'配当待ち':'結果待ち'):(Number(res.payout).toLocaleString()+'円'+(res.manshu?'万':''));
+    x.push(`${i+1}${label(r)}${rate}% ${pay} ${ev.hit==null?'待':ev.hit?'◎':'×'}${ev.roi==null?'—':Math.round(ev.roi)+'%'}`);
+  });
+  x.push('買い方1=9点検証/予報・利益保証なし');
+  const note=['# '+md+' 万舟率TOP10 結果・答え合わせ','','万舟率が高い順のTOP10です。買い方1は9点を100円ずつ買った場合の検証用計算で、回収率は単発換算です。予想・購入推奨・利益保証ではありません。','','## 集計',`- 確定: ${done}/${top.length}R`,`- 万舟発生: ${manshu}件`,`- 買い方1的中: ${hit}件`,`- 確定分ROI: ${roi==null?'—':roi+'%'}（返戻 ${yen(ret)} / 想定購入 ${yen(cost)}）`,'','## TOP10'];
+  top.forEach((r,i)=>{const ev=evalBuy(r,map),s=r.strategy&&r.strategy.buy_style_1||{},tickets=s.formation&&s.formation.tickets||[];
+    note.push('',`### ${i+1}位 ${label(r)}（${r.deadline||'締切未取得'}）`,`- 万舟率: ${pct(r.scores&&r.scores.manshu_probability_proxy)}`,`- 結果: ${resultText(r,map)}`,`- 買い方1: ${ev.hit==null?'結果待ち':ev.hit?'的中':'不的中'} / 回収率 ${ev.roi==null?'—':Math.round(ev.roi)+'%'} / 返戻 ${yen(ev.ret)}`);
+    if(tickets.length)note.push('- 買い目: '+tickets.slice(0,9).join(' / '));
+    if(s.venue_label)note.push('- 場相性: '+s.venue_label+'。'+(s.venue_reason||''));
+  });
+  note.push('','※万舟率は荒れやすさの目安であり、利益化できるかは別問題です。','※娯楽・研究用。舟券購入を推奨するものではありません。');
+  POSTS=[{id:'x_top5',phase:'forecast',ch:'X',title:'X投稿用 万舟率TOP5',text:x.join('\n')},{id:'note_top10',phase:'forecast',ch:'note',title:'note投稿用 万舟率TOP10',text:note.join('\n')}];
+  return {top,done,manshu,hit,roi,ret,cost};
+}
 async function load(){
-  let d;
-  try{d=await (await fetch('manshu_posts.json?t='+Date.now())).json();}
-  catch(e){document.getElementById('meta').innerHTML='<span class="empty">本日の投稿データがまだありません（朝の万舟率ランキング生成後に出ます）。</span>';return;}
-  POSTS=d.posts||[];
-  const st=d.all_done?`<span class="status s-done">🏁 全${d.n}R確定・結果も投稿OK</span>`
-                     :`<span class="status s-wait">⏳ 結果 ${d.done}/${d.n}R確定（残りは結果待ち表示）</span>`;
-  document.getElementById('meta').innerHTML=
-    `<b style="color:var(--tx);font-size:14px">${d.date} のランキング</b>（更新 ${d.updated||'--:--'}）<br>`
-    +`box的中 ${d.hit}／確定${d.done}・万舟◎${d.man}件<br>${st}`;
-  const fc=POSTS.filter(p=>p.phase==='forecast'), rs=POSTS.filter(p=>p.phase==='result');
-  document.getElementById('forecast').innerHTML='<h2>☀️ 朝の予報（5-3位X／5-3位note／1-2位 有料note）</h2>'+fc.map(card).join('');
-  document.getElementById('result').innerHTML='<h2>🏁 結果・答え合わせ（5-3位X／5-1位note・全レース確定後）</h2>'+rs.map(card).join('');
+  let metaDate;
+  try{const p=await (await fetch('manshu_posts.json?t='+Date.now())).json(); metaDate=p.date;}catch(e){}
+  const date=metaDate || new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Tokyo'});
+  let role;
+  try{role=await (await fetch('data/output/manshu_role_ranking_'+date.replace(/-/g,'')+'.json?t='+Date.now())).json();}
+  catch(e){document.getElementById('meta').innerHTML='<span class="empty">本日の万舟率トップ10データがまだありません。</span>';return;}
+  const map=await resultMap(role.date);
+  const s=buildPosts(role,map);
+  document.getElementById('meta').innerHTML=`<b style="color:var(--tx);font-size:14px">${role.date} の万舟率TOP10</b><br>確定 ${s.done}/${s.top.length}R・万舟発生 ${s.manshu}件・買い方1的中 ${s.hit}件・ROI ${s.roi==null?'—':s.roi+'%'}<br><span class="status s-done">同じランキングJSONから生成</span>`;
+  document.getElementById('forecast').innerHTML='<h2>✍️ 投稿文（Xトップ5／noteトップ10）</h2>'+POSTS.map(card).join('');
+  document.getElementById('result').innerHTML='';
 }
 load();
 </script>

@@ -28,7 +28,44 @@ ROLE_CSS = """.card.role{border-left-color:#0d9488} .card.role h2{color:#0f766e}
 .role-result{font-weight:800;color:#33405a}
 .role-strategy{margin-top:7px;border:1px solid #e5e7eb;background:#fafafa;border-radius:8px;padding:7px 8px;font-size:12px;line-height:1.5;color:#374151}
 .role-strategy b{color:#111827}.role-strategy .good{color:#047857;font-weight:900}.role-strategy .hold{color:#b45309;font-weight:900}.role-strategy .avoid{color:#b91c1c;font-weight:900}.role-strategy .outside_rule{color:#64748b;font-weight:900}
-.role-tickets{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:#475569;word-break:break-word}"""
+.role-tickets{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:#475569;word-break:break-word}
+.rate-scroll{overflow-x:auto;margin-top:8px}
+.rate-table{min-width:720px}
+.rate-table th,.rate-table td{vertical-align:top}
+.rate-table .race{font-weight:800;color:#33405a;white-space:nowrap}
+.rate-table .rate{font-weight:900;color:#7c3aed;white-space:nowrap}
+.rate-table .result{white-space:nowrap}
+.rate-table .roi{font-weight:900;color:#047857;white-space:nowrap}
+.rate-table .miss{color:#64748b;font-weight:800}
+.rate-summary{font-size:12.5px;color:#33405a;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;margin:8px 0 0}
+.post-card textarea{min-height:150px}"""
+
+
+RATE_CARD = """<div class="card rank" id="rate-card">
+  <h2>📊 万舟率トップ10（結果・的中・回収率つき）</h2>
+  <p class="lead" id="rate-status">本日の万舟率トップ10を読み込み中…</p>
+  <div class="bar"><button id="rbtn" onclick="loadResults()">🔄 結果を更新</button><span id="rstat" class="rstat"></span></div>
+  <div class="rate-scroll">
+    <table class="rate-table">
+      <thead><tr><th>順位</th><th>場R</th><th>万舟率</th><th>結果</th><th>買い方1</th><th>単発ROI</th></tr></thead>
+      <tbody id="rate-list"></tbody>
+    </table>
+  </div>
+  <p class="rate-summary" id="rate-summary">集計待ち</p>
+  <p class="muted">的中・回収率は「買い方1（検証用9点）」を100円ずつ買った場合の単発換算です。予想・購入推奨・利益保証ではありません。</p>
+</div>
+<div class="card xpost post-card" id="top5-x-card">
+  <h2>✍️ X投稿用｜万舟率トップ5</h2>
+  <p class="lead">トップ5の結果・的中・回収率を短文で投稿できます。</p>
+  <textarea class="xta" id="top5-x-post" rows="8" readonly>読み込み中…</textarea>
+  <button class="xcopy" onclick="copyX('top5-x-post',this)">📋 X文をコピー</button><span id="top5-x-post-len" class="xlen"></span>
+</div>
+<div class="card notepost post-card" id="top10-note-card">
+  <h2>📝 note投稿用｜万舟率トップ10</h2>
+  <p class="lead">トップ10の結果・根拠・回収率をそのままnoteへ貼れる形式です。</p>
+  <textarea class="xta" id="top10-note-post" rows="18" readonly>読み込み中…</textarea>
+  <button class="xcopy" onclick="copyX('top10-note-post',this)">📋 note文をコピー</button>
+</div>"""
 
 
 ROLE_CARD = """<div class="card role" id="role-card">
@@ -39,7 +76,8 @@ ROLE_CARD = """<div class="card role" id="role-card">
 </div>"""
 
 
-ROLE_JS = """function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+ROLE_JS = """var ROLE_RANKING_DATA=null;
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function roleDataUrl(){
   var prefix=location.pathname.indexOf('/manshu/')>=0?'../':'';
   return prefix+'data/output/manshu_role_ranking_'+RDATE.replace(/-/g,'')+'.json';
@@ -65,6 +103,120 @@ function roleResultHtml(r){
   return '結果: 3連単 <b>'+esc(combo)+'</b> '+Number(payout).toLocaleString()+'円 '+(man?'<span class="man">◎万舟</span>':'<span class="muted">— 堅め</span>');
 }
 function pctText(v){return v==null?'—':(Number(v)*100).toFixed(1)+'%';}
+function pctPoint(v){return v==null?'—':(Number(v)*100).toFixed(1)+'%';}
+function yenText(v){return v==null?'—':Number(v).toLocaleString()+'円';}
+function rateResult(r){
+  var live=ROLE_RESULT_MAP[roleResultKey(r)],res=r.result||{},combo=null,payout=null,status=null;
+  if(live){combo=live.combination; payout=live.payout; status='live';}
+  else {combo=res.trifecta; payout=res.payout_yen; status=res.status||null;}
+  return {combination:combo,payout:payout,manshu:payout!=null&&payout>=MAN,status:status};
+}
+function strategyEval(r){
+  var s=r.strategy&&r.strategy.buy_style_1||{},form=s.formation||{},tickets=form.tickets||[];
+  var points=Number(form.points||tickets.length||9),cost=points*100,result=rateResult(r),check=s.result_check||{};
+  var hit=check.hit,ret=check.return_yen_per_100;
+  if(hit==null&&result.combination&&result.payout!=null&&tickets.length){
+    hit=tickets.indexOf(result.combination)>=0;
+    ret=hit?result.payout:0;
+  }
+  if(result.combination&&!result.payout&&hit==null) return {points:points,cost:cost,done:false,hit:null,returnYen:null,roi:null,label:'配当待ち',short:'待'};
+  if(!result.combination&&hit==null) return {points:points,cost:cost,done:false,hit:null,returnYen:null,roi:null,label:'結果待ち',short:'待'};
+  if(ret==null) ret=hit?result.payout:0;
+  var roi=cost?ret/cost*100:null;
+  return {points:points,cost:cost,done:true,hit:!!hit,returnYen:ret,roi:roi,label:hit?'的中':'不的中',short:hit?'◎':'×'};
+}
+function topRateRaces(data){
+  return (data.races||[]).slice().sort(function(a,b){
+    return (b.scores&&b.scores.manshu_probability_proxy||0)-(a.scores&&a.scores.manshu_probability_proxy||0);
+  }).slice(0,10);
+}
+function summarizeTop(top){
+  var done=0,manshu=0,hit=0,cost=0,ret=0,pending=0;
+  top.forEach(function(r){
+    var res=rateResult(r),ev=strategyEval(r);
+    if(res.combination&&res.payout!=null){
+      done++;
+      if(res.manshu) manshu++;
+    } else pending++;
+    if(ev.done){
+      cost+=ev.cost;
+      ret+=ev.returnYen||0;
+      if(ev.hit) hit++;
+    }
+  });
+  return {done:done,pending:pending,manshu:manshu,hit:hit,cost:cost,ret:ret,roi:cost?ret/cost*100:null};
+}
+function resultCellText(r){
+  var res=rateResult(r);
+  if(!res.combination) return '結果待ち';
+  if(res.payout==null) return res.combination+' 配当待ち';
+  return res.combination+' '+yenText(res.payout)+' '+(res.manshu?'◎万舟':'堅め');
+}
+function compactRaceLabel(r){return esc(r.venue_name||'')+esc(r.race_no)+'R';}
+function updateRateResults(){
+  if(!ROLE_RANKING_DATA) return;
+  renderRateTop10(ROLE_RANKING_DATA);
+}
+function renderRateTop10(data){
+  ROLE_RANKING_DATA=data;
+  var body=document.getElementById('rate-list'),status=document.getElementById('rate-status'),summaryEl=document.getElementById('rate-summary');
+  if(!body||!status) return;
+  var top=topRateRaces(data),summary=summarizeTop(top);
+  if(!top.length){status.textContent='万舟率トップ10データが空です。'; return;}
+  status.textContent='万舟率が高い順にトップ10を表示中。結果・的中・回収率は確定分から順次反映します。';
+  body.innerHTML=top.map(function(r,i){
+    var res=rateResult(r),ev=strategyEval(r),rate=pctPoint(r.scores&&r.scores.manshu_probability_proxy);
+    var resultHtml=!res.combination?'<span class="muted">結果待ち</span>':
+      esc(res.combination)+'<br><span class="'+(res.manshu?'man':'muted')+'">'+(res.payout==null?'配当待ち':yenText(res.payout)+(res.manshu?' ◎万舟':' — 堅め'))+'</span>';
+    var hitHtml=ev.hit==null?'<span class="muted">'+esc(ev.label)+'</span>':
+      '<span class="'+(ev.hit?'man':'miss')+'">'+esc(ev.label)+'</span><br><span class="muted">'+ev.points+'点</span>';
+    var roiHtml=ev.roi==null?'<span class="muted">—</span>':'<span class="roi">'+Math.round(ev.roi)+'%</span><br><span class="muted">返 '+yenText(ev.returnYen)+'</span>';
+    return '<tr data-rate-row="'+esc(roleResultKey(r))+'">'+
+      '<td class="rkn">'+(i+1)+'</td>'+
+      '<td><span class="race">'+compactRaceLabel(r)+'</span><br><span class="muted">'+esc(r.deadline||'')+'</span></td>'+
+      '<td class="rate">'+rate+'</td>'+
+      '<td class="result">'+resultHtml+'</td>'+
+      '<td>'+hitHtml+'</td>'+
+      '<td>'+roiHtml+'</td>'+
+    '</tr>';
+  }).join('');
+  if(summaryEl){
+    summaryEl.innerHTML='トップ10確定 '+summary.done+'/'+top.length+'R / 万舟発生 '+summary.manshu+'件 / 買い方1的中 '+summary.hit+'件 / 確定分ROI <b>'+(summary.roi==null?'—':Math.round(summary.roi)+'%')+'</b>（返戻 '+yenText(summary.ret)+' / 想定購入 '+yenText(summary.cost)+'）';
+  }
+  buildTopPosts(top,summary);
+}
+function buildTopPosts(top,summary){
+  var x=document.getElementById('top5-x-post'),note=document.getElementById('top10-note-post');
+  if(x){
+    var xlines=[(RDATE.slice(5).replace('-','/')+' 万舟率TOP5結果')];
+    top.slice(0,5).forEach(function(r,i){
+      var res=rateResult(r),ev=strategyEval(r),rate=Math.round((r.scores&&r.scores.manshu_probability_proxy||0)*100);
+      var pay=res.payout==null?(res.combination?'配当待ち':'結果待ち'):(Number(res.payout).toLocaleString()+'円'+(res.manshu?'万':''));
+      var roi=ev.roi==null?'—':Math.round(ev.roi)+'%';
+      xlines.push((i+1)+compactRaceLabel(r).replace(/<[^>]*>/g,'')+rate+'% '+pay+' '+ev.short+roi);
+    });
+    xlines.push('買い方1=9点検証/予報・利益保証なし');
+    x.value=xlines.join('\\\\n');
+    showLen('top5-x-post');
+  }
+  if(note){
+    var L=['# '+RDATE.slice(5).replace('-','/')+' 万舟率TOP10 結果・答え合わせ','','万舟率が高い順のTOP10です。買い方1は9点を100円ずつ買った場合の検証用計算で、回収率は単発換算です。予想・購入推奨・利益保証ではありません。','','## 集計','- 確定: '+summary.done+'/'+top.length+'R','- 万舟発生: '+summary.manshu+'件','- 買い方1的中: '+summary.hit+'件','- 確定分ROI: '+(summary.roi==null?'—':Math.round(summary.roi)+'%')+'（返戻 '+yenText(summary.ret)+' / 想定購入 '+yenText(summary.cost)+'）','','## TOP10'];
+    top.forEach(function(r,i){
+      var res=rateResult(r),ev=strategyEval(r),rate=pctPoint(r.scores&&r.scores.manshu_probability_proxy),s=r.strategy&&r.strategy.buy_style_1||{},tickets=s.formation&&s.formation.tickets||[];
+      L.push('');
+      L.push('### '+(i+1)+'位 '+(r.venue_name||'')+r.race_no+'R（'+(r.deadline||'締切未取得')+'）');
+      L.push('- 万舟率: '+rate);
+      L.push('- 結果: '+resultCellText(r));
+      L.push('- 買い方1: '+ev.label+' / 回収率 '+(ev.roi==null?'—':Math.round(ev.roi)+'%')+' / 返戻 '+yenText(ev.returnYen));
+      if(tickets.length) L.push('- 買い目: '+tickets.slice(0,9).join(' / '));
+      if(s.venue_label) L.push('- 場相性: '+s.venue_label+'。'+(s.venue_reason||''));
+    });
+    L.push('');
+    L.push('※万舟率は荒れやすさの目安であり、利益化できるかは別問題です。');
+    L.push('※娯楽・研究用。舟券購入を推奨するものではありません。');
+    note.value=L.join('\\\\n');
+  }
+}
 function roleStrategyHtml(r){
   var s=r.strategy&&r.strategy.buy_style_1;
   if(!s) return '';
@@ -90,7 +242,9 @@ function updateRoleResults(){
   });
 }
 function renderRoleRanking(data){
+  ROLE_RANKING_DATA=data;
   var status=document.getElementById('role-status'),list=document.getElementById('role-list');
+  renderRateTop10(data);
   if(!status||!list) return;
   if(!data||!Array.isArray(data.races)||!data.races.length){
     status.textContent='ロール分析データが空です。';
@@ -210,6 +364,22 @@ def patch_html(path: Path) -> bool:
 .role-tickets{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:#475569;word-break:break-word}""",
             1,
         )
+    elif ".rate-table" not in text:
+        text = text.replace(
+            ".role-tickets{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:#475569;word-break:break-word}",
+            """.role-tickets{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:#475569;word-break:break-word}
+.rate-scroll{overflow-x:auto;margin-top:8px}
+.rate-table{min-width:720px}
+.rate-table th,.rate-table td{vertical-align:top}
+.rate-table .race{font-weight:800;color:#33405a;white-space:nowrap}
+.rate-table .rate{font-weight:900;color:#7c3aed;white-space:nowrap}
+.rate-table .result{white-space:nowrap}
+.rate-table .roi{font-weight:900;color:#047857;white-space:nowrap}
+.rate-table .miss{color:#64748b;font-weight:800}
+.rate-summary{font-size:12.5px;color:#33405a;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;margin:8px 0 0}
+.post-card textarea{min-height:150px}""",
+            1,
+        )
 
     if 'id="role-card"' not in text:
         count = 0
@@ -239,6 +409,26 @@ def patch_html(path: Path) -> bool:
         if count != 1:
             raise RuntimeError(f"{path}: role card insertion marker not found")
 
+    if 'id="rate-card"' not in text:
+        count = 0
+        if 'id="role-card"' in text:
+            text, count = re.subn(
+                r'(<div class="card role" id="role-card">)',
+                RATE_CARD + "\n" + r"\1",
+                text,
+                count=1,
+            )
+        if count != 1:
+            text, count = re.subn(
+                r'(<p class="sub">📅 .*?</p>\n)',
+                r"\1" + RATE_CARD + "\n",
+                text,
+                count=1,
+                flags=re.S,
+            )
+        if count != 1:
+            raise RuntimeError(f"{path}: rate card insertion marker not found")
+
     if "var ROLE_RESULT_MAP={};" not in text:
         text, count = re.subn(
             r'(var RDATE="[^"]+", MAN=10000;\n)',
@@ -254,9 +444,16 @@ def patch_html(path: Path) -> bool:
         if marker not in text:
             raise RuntimeError(f"{path}: JS insertion marker not found")
         text = text.replace(marker, ROLE_JS + "\n" + marker, 1)
-    elif "function roleStrategyHtml(" not in text or "strategyMatches=data.races.filter" not in text:
+    elif (
+        "function roleStrategyHtml(" not in text
+        or "strategyMatches=data.races.filter" not in text
+        or "function renderRateTop10(" not in text
+        or "var ROLE_RANKING_DATA=null;" not in text
+        or "x.value=xlines.join('\\\\n');" not in text
+        or "note.value=L.join('\\\\n');" not in text
+    ):
         text, count = re.subn(
-            r"function esc\(s\)\{.*?\nfunction acc\(tr\)\{",
+            r"(?:var ROLE_RANKING_DATA=null;\n)?function esc\(s\)\{.*?\nfunction acc\(tr\)\{",
             ROLE_JS + "\nfunction acc(tr){",
             text,
             count=1,
@@ -275,7 +472,9 @@ def patch_html(path: Path) -> bool:
 
     if "ROLE_RESULT_MAP=map;" not in text:
         marker = "  var done=0,man=0,total=0,pend=0;"
-        text = text.replace(marker, "  ROLE_RESULT_MAP=map;\n  updateRoleResults();\n" + marker, 1)
+        text = text.replace(marker, "  ROLE_RESULT_MAP=map;\n  updateRoleResults();\n  updateRateResults();\n" + marker, 1)
+    elif "updateRateResults();" not in text:
+        text = text.replace("  updateRoleResults();\n", "  updateRoleResults();\n  updateRateResults();\n", 1)
 
     if "loadRoleRanking()" not in text.split("document.addEventListener('DOMContentLoaded'", 1)[-1]:
         if "showLen('xrank'); loadTimes();" in text:
@@ -284,6 +483,8 @@ def patch_html(path: Path) -> bool:
         else:
             marker = "showLen('xrank');"
             text = text.replace(marker, "showLen('xrank'); loadRoleRanking();", 1)
+    if "loadResults()" not in text.split("document.addEventListener('DOMContentLoaded'", 1)[-1]:
+        text = text.replace("loadRoleRanking();", "loadRoleRanking(); loadResults();", 1)
 
     if text != original:
         path.write_text(text, encoding="utf-8")
