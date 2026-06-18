@@ -101,30 +101,7 @@ footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:20px}
   <p class="rate-summary" id="rate-summary">集計待ち</p>
   <p class="muted">的中・回収率は「買い方1（検証用9点）」を100円ずつ買った場合の単発換算です。予想・購入推奨・利益保証ではありません。</p>
 </div>
-<div class="card xpost post-card" id="top5-x-card">
-  <h2>✍️ X投稿用｜ランキング</h2>
-  <p class="lead">ランキングだけを短文で投稿できます。結果・買い目・回収率は載せません。</p>
-  <textarea class="xta" id="top5-x-rank-post" rows="8" readonly>読み込み中…</textarea>
-  <button class="xcopy" onclick="copyX('top5-x-rank-post',this)">📋 Xランキング文をコピー</button><span id="top5-x-rank-post-len" class="xlen"></span>
-</div>
-<div class="card xpost post-card" id="top5-x-result-card">
-  <h2>✍️ X投稿用｜結果</h2>
-  <p class="lead">ランキングとは別に、確定結果だけを投稿できます。</p>
-  <textarea class="xta" id="top5-x-result-post" rows="8" readonly>読み込み中…</textarea>
-  <button class="xcopy" onclick="copyX('top5-x-result-post',this)">📋 X結果文をコピー</button><span id="top5-x-result-post-len" class="xlen"></span>
-</div>
-<div class="card notepost post-card" id="top10-note-card">
-  <h2>📝 note投稿用｜ランキング</h2>
-  <p class="lead">トップ10を投稿用に整えた本文です。結果は含めません。</p>
-  <textarea class="xta" id="top10-note-rank-post" rows="18" readonly>読み込み中…</textarea>
-  <button class="xcopy" onclick="copyX('top10-note-rank-post',this)">📋 noteランキング文をコピー</button>
-</div>
-<div class="card notepost post-card" id="top10-note-result-card">
-  <h2>📝 note投稿用｜結果</h2>
-  <p class="lead">トップ10の確定結果を投稿用に整えた本文です。</p>
-  <textarea class="xta" id="top10-note-result-post" rows="18" readonly>読み込み中…</textarea>
-  <button class="xcopy" onclick="copyX('top10-note-result-post',this)">📋 note結果文をコピー</button>
-</div>
+<!-- 投稿用カード(X/note・ランキング/結果)は投稿センター(manshu_posts.html)に集約のため削除(オーナー2026-06-18) -->
 <details class="card"><summary class="csum">📋 条件の成績（全公開）<span class="muted">　タップで開く ▶</span></summary><p class="lead">過去データで万舟率が高かった条件を、学習期間と検証期間に分けて確認しています。<b>検証期(2025年〜・学習に未使用)</b>でもベースライン(16.6%)を上回った条件だけを表示しています。🔥=本日のレースが該当。</p><table><thead><tr><th>条件</th><th>検証期 万舟率<br>(2025〜・未使用)</th><th>学習期<br>(〜2024)</th><th>ベース比<br>z=信頼</th></tr></thead><tbody><tr><td>本命イン1着率&lt;40% × 当地イン1着率&lt;40% × 実力差ふつう × 外枠A1×0</td><td class="p"><b>41%</b><br><span class="muted">85回中</span></td><td class="p">24%</td><td class="p">2.5倍<br><span class="muted">z6</span></td></tr><tr class=hit><td>04場 × 当地イン実績薄 × 1号艇東京 × 6艇横一線(実力拮抗) 🔥本日該当</td><td class="p"><b>40%</b><br><span class="muted">85回中</span></td><td class="p">24%</td><td class="p">2.4倍<br><span class="muted">z6</span></td></tr><tr><td>本命イン1着率&lt;40% × 当地イン1着率&lt;40% × 実力差ふつう × 本命が枠1で勝ててない(&lt;40%)</td><td class="p"><b>38%</b><br><span class="muted">97回中</span></td><td class="p">24%</td><td class="p">2.3倍<br><span class="muted">z6</span></td></tr><tr><td>本命イン1着率&lt;40% × 当地イン1着率&lt;40% × 1号艇と相手が拮抗 × 実力差ふつう</td><td class="p"><b>38%</b><br><span class="muted">113回中</span></td><td class="p">29%</td><td class="p">2.3倍<br><span class="muted">z6</span></td></tr><tr><td>1号艇B1 × 本命イン1着率&lt;40% × 当地イン1着率&lt;40% × 実力差ふつう</td><td class="p"><b>38%</b><br><span class="muted">122回中</span></td><td class="p">26%</td><td class="p">2.3倍<br><span class="muted">z6</span></td></tr><tr><td>本命イン1着率&lt;40% × 当地イン1着率&lt;40% × 実力差ふつう</td><td class="p"><b>36%</b><br><span class="muted">136回中</span></td><td class="p">25%</td><td class="p">2.2倍<br><span class="muted">z6</span></td></tr><tr class=hit><td>04場 × 1号艇東京 × 6艇横一線(実力拮抗) 🔥本日該当</td><td class="p"><b>36%</b><br><span class="muted">128回中</span></td><td class="p">24%</td><td class="p">2.2倍<br><span class="muted">z6</span></td></tr><tr><td>A1×1 × 1号艇福岡 × 6艇横一線(実力拮抗) × 外枠A1×1</td><td class="p"><b>36%</b><br><span class="muted">103回中</span></td><td class="p">25%</td><td class="p">2.2倍<br><span class="muted">z5</span></td></tr><tr><td>A1×1 × 1号艇愛知 × 1号艇と相手が拮抗 × 6艇横一線(実力拮抗)</td><td class="p"><b>35%</b><br><span class="muted">99回中</span></td><td class="p">23%</td><td class="p">2.1倍<br><span class="muted">z5</span></td></tr><tr><td>1号艇B1 × 1号艇兵庫 × 6艇横一線(実力拮抗)</td><td class="p"><b>34%</b><br><span class="muted">73回中</span></td><td class="p">25%</td><td class="p">2.1倍<br><span class="muted">z4</span></td></tr><tr><td>当地イン1着率&lt;40% × 1号艇と相手が拮抗 × 実力差ふつう × 本命が枠1で勝ててない(&lt;40%)</td><td class="p"><b>34%</b><br><span class="muted">126回中</span></td><td class="p">28%</td><td class="p">2.1倍<br><span class="muted">z5</span></td></tr><tr><td>16場 × 1号艇と相手が拮抗 × 6艇横一線(実力拮抗) × 外枠に枠超えの実力(3連対60%+)</td><td class="p"><b>34%</b><br><span class="muted">115回中</span></td><td class="p">24%</td><td class="p">2.0倍<br><span class="muted">z5</span></td></tr></tbody></table><p class="muted">※検証期は条件作成に使っていない期間です。万舟率は荒れやすさの目安で、回収率・利益とは別指標です。</p></details>
 
 <footer>万舟アラート築成レポート / 条件は2023-24学習→2025以降の検証期で再現確認済み(z≥3)。事例は実データの3連単・配当。結果はスマホのブラウザが自動取得(BoatraceOpenAPI)。</footer>
