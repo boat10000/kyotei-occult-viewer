@@ -159,6 +159,23 @@ def lane_value(group: pd.DataFrame, lane: int, column: str) -> float | None:
     return safe_float(rows.iloc[0].get(column))
 
 
+def lane1_profile_from_row(row: pd.Series) -> dict[str, Any] | None:
+    starts = safe_int(row.get("lane1_profile_starts"))
+    if not starts:
+        return None
+    return {
+        "starts": starts,
+        "win_rate": safe_float(row.get("lane1_profile_win_rate")),
+        "miss_win_rate": safe_float(row.get("lane1_profile_miss_win_rate")),
+        "top3_rate": safe_float(row.get("lane1_profile_top3_rate")),
+        "out_top3_rate": safe_float(row.get("lane1_profile_out_top3_rate")),
+        "teppan_score": safe_float(row.get("lane1_profile_teppan_score")),
+        "tobi_score": safe_float(row.get("lane1_profile_tobi_score")),
+        "manshu_rate_when_missed": safe_float(row.get("lane1_profile_manshu_rate_when_missed")),
+        "label": safe_text(row.get("lane1_profile_label")),
+    }
+
+
 def buy_style_1_venue_tier(jcd: str) -> dict[str, Any]:
     if jcd in BUY_STYLE_1_GOOD_VENUES:
         return {
@@ -195,6 +212,7 @@ def buy_style_1_strategy(row: pd.Series, group: pd.DataFrame, roles: dict[str, l
     national_range = safe_float(row.get("national_win_range"))
     fixed_entry = bool(safe_int(row.get("fixed_entry")) or 0)
     outer_exhibition_top = bool(safe_int(row.get("outer_exhibition_top_flag")) or 0)
+    lane1_profile = lane1_profile_from_row(row)
     conditions = {
         "lane1_national_win_rate_lt_5": lane1_win is not None and lane1_win < 5.0,
         "lane1_weaker_than_best_outer": lane1_vs_best_outer is not None and lane1_vs_best_outer < 0,
@@ -231,6 +249,10 @@ def buy_style_1_strategy(row: pd.Series, group: pd.DataFrame, roles: dict[str, l
             "lane1_national_win_rate": lane1_win,
             "lane1_vs_best_outer_win_diff": round(lane1_vs_best_outer, 3) if lane1_vs_best_outer is not None else None,
             "national_win_range": national_range,
+            "lane1_profile_starts": lane1_profile["starts"] if lane1_profile else None,
+            "lane1_profile_tobi_score": lane1_profile["tobi_score"] if lane1_profile else None,
+            "lane1_profile_teppan_score": lane1_profile["teppan_score"] if lane1_profile else None,
+            "lane1_profile_label": lane1_profile["label"] if lane1_profile else None,
         },
         "formation": {
             "name": "D",
@@ -257,9 +279,20 @@ def build_race(group: pd.DataFrame, mode: str) -> dict[str, Any]:
     rank_col = f"role_rank_{mode}"
     roles: dict[str, list[int]] = {"head": [], "axis": [], "toss": [], "opponent": []}
     boats: list[dict[str, Any]] = []
+    lane1_profile = lane1_profile_from_row(row)
     for _, boat in group.sort_values("lane").iterrows():
         role = safe_text(boat.get(role_col)) or "opponent"
         lane = int(boat["lane"])
+        features = {
+            "national_win_rate": safe_float(boat.get("national_win_rate")),
+            "local_win_rate": safe_float(boat.get("local_win_rate")),
+            "avg_st": safe_float(boat.get("avg_st")),
+            "motor_quinella_rate": safe_float(boat.get("motor_quinella_rate")),
+            "exhibition_time": safe_float(boat.get("exhibition_time")),
+            "exhibition_rank": safe_int(boat.get("exhibition_rank")),
+        }
+        if lane == 1 and lane1_profile:
+            features["lane1_profile"] = lane1_profile
         roles.setdefault(role, []).append(lane)
         boats.append(
             {
@@ -284,14 +317,7 @@ def build_race(group: pd.DataFrame, mode: str) -> dict[str, Any]:
                     "exhibition": safe_float(boat.get("exhibition_score")),
                     "outside_attack": safe_float(boat.get("outside_attack_score")),
                 },
-                "features": {
-                    "national_win_rate": safe_float(boat.get("national_win_rate")),
-                    "local_win_rate": safe_float(boat.get("local_win_rate")),
-                    "avg_st": safe_float(boat.get("avg_st")),
-                    "motor_quinella_rate": safe_float(boat.get("motor_quinella_rate")),
-                    "exhibition_time": safe_float(boat.get("exhibition_time")),
-                    "exhibition_rank": safe_int(boat.get("exhibition_rank")),
-                },
+                "features": features,
             }
         )
     for key in roles:
@@ -328,6 +354,7 @@ def build_race(group: pd.DataFrame, mode: str) -> dict[str, Any]:
             "outer_exhibition_top": bool(safe_int(row.get("outer_exhibition_top_flag")) or 0),
             "national_win_range": safe_float(row.get("national_win_range")),
             "lane1_vs_avg_win_diff": safe_float(row.get("lane1_vs_avg_win_diff")),
+            "lane1_profile": lane1_profile,
             "wind_speed_m": safe_float(row.get("wind_speed_m")),
             "wave_cm": safe_float(row.get("wave_cm")),
         },

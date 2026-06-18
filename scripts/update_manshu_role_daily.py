@@ -56,6 +56,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--normalized-dir", default="data/normalized")
     parser.add_argument("--output-dir", default="data/output")
     parser.add_argument("--work-dir", help="temporary analysis output directory; defaults to a temp directory")
+    parser.add_argument(
+        "--lane1-profile",
+        default="data/analysis/lane1_racer_profiles.csv",
+        help="historical lane-1 racer profile CSV used as a same-day display feature",
+    )
     return parser
 
 
@@ -138,6 +143,8 @@ def run(args: argparse.Namespace) -> int:
                 "--dictionary",
                 str(boat_dictionary),
                 "--include-unlabeled",
+                "--lane1-profile",
+                args.lane1_profile,
             ],
             dry_run=args.dry_run,
         )

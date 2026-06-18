@@ -37,7 +37,18 @@
         "national_win_range": 2.13,
         "lane1_vs_avg_win_diff": -1.085,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 11,
+          "win_rate": 0.364,
+          "miss_win_rate": 0.636,
+          "top3_rate": 0.636,
+          "out_top3_rate": 0.364,
+          "teppan_score": 0.222,
+          "tobi_score": 0.283,
+          "manshu_rate_when_missed": 0.143,
+          "label": "標準"
+        }
       },
       "result": {
         "status": "pending",
@@ -115,7 +126,18 @@
             "avg_st": null,
             "motor_quinella_rate": 59.38,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 11,
+              "win_rate": 0.364,
+              "miss_win_rate": 0.636,
+              "top3_rate": 0.636,
+              "out_top3_rate": 0.364,
+              "teppan_score": 0.222,
+              "tobi_score": 0.283,
+              "manshu_rate_when_missed": 0.143,
+              "label": "標準"
+            }
           }
         },
         {
@@ -265,7 +287,11 @@
           "metrics": {
             "lane1_national_win_rate": 3.76,
             "lane1_vs_best_outer_win_diff": -2.13,
-            "national_win_range": 2.13
+            "national_win_range": 2.13,
+            "lane1_profile_starts": 11,
+            "lane1_profile_tobi_score": 0.283,
+            "lane1_profile_teppan_score": 0.222,
+            "lane1_profile_label": "標準"
           },
           "formation": {
             "name": "D",
@@ -352,7 +378,18 @@
         "national_win_range": 2.42,
         "lane1_vs_avg_win_diff": -0.738,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 12,
+          "win_rate": 0.417,
+          "miss_win_rate": 0.583,
+          "top3_rate": 0.833,
+          "out_top3_rate": 0.167,
+          "teppan_score": 0.319,
+          "tobi_score": 0.224,
+          "manshu_rate_when_missed": 0.143,
+          "label": "標準"
+        }
       },
       "result": {
         "status": "pending",
@@ -403,7 +440,18 @@
             "avg_st": null,
             "motor_quinella_rate": 47.37,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 12,
+              "win_rate": 0.417,
+              "miss_win_rate": 0.583,
+              "top3_rate": 0.833,
+              "out_top3_rate": 0.167,
+              "teppan_score": 0.319,
+              "tobi_score": 0.224,
+              "manshu_rate_when_missed": 0.143,
+              "label": "標準"
+            }
           }
         },
         {
@@ -580,7 +628,11 @@
           "metrics": {
             "lane1_national_win_rate": 4.43,
             "lane1_vs_best_outer_win_diff": -2.38,
-            "national_win_range": 2.42
+            "national_win_range": 2.42,
+            "lane1_profile_starts": 12,
+            "lane1_profile_tobi_score": 0.224,
+            "lane1_profile_teppan_score": 0.319,
+            "lane1_profile_label": "標準"
           },
           "formation": {
             "name": "D",
@@ -668,7 +720,18 @@
         "national_win_range": 3.1,
         "lane1_vs_avg_win_diff": -1.225,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 8,
+          "win_rate": 0.375,
+          "miss_win_rate": 0.625,
+          "top3_rate": 0.75,
+          "out_top3_rate": 0.25,
+          "teppan_score": 0.232,
+          "tobi_score": 0.224,
+          "manshu_rate_when_missed": 0.4,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -746,7 +809,18 @@
             "avg_st": null,
             "motor_quinella_rate": 28.93,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 8,
+              "win_rate": 0.375,
+              "miss_win_rate": 0.625,
+              "top3_rate": 0.75,
+              "out_top3_rate": 0.25,
+              "teppan_score": 0.232,
+              "tobi_score": 0.224,
+              "manshu_rate_when_missed": 0.4,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -896,7 +970,11 @@
           "metrics": {
             "lane1_national_win_rate": 3.9,
             "lane1_vs_best_outer_win_diff": -2.88,
-            "national_win_range": 3.1
+            "national_win_range": 3.1,
+            "lane1_profile_starts": 8,
+            "lane1_profile_tobi_score": 0.224,
+            "lane1_profile_teppan_score": 0.232,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -983,7 +1061,18 @@
         "national_win_range": 1.47,
         "lane1_vs_avg_win_diff": -0.843,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 9,
+          "win_rate": 0.556,
+          "miss_win_rate": 0.444,
+          "top3_rate": 0.889,
+          "out_top3_rate": 0.111,
+          "teppan_score": 0.371,
+          "tobi_score": 0.13,
+          "manshu_rate_when_missed": 0.0,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -1142,7 +1231,18 @@
             "avg_st": null,
             "motor_quinella_rate": 25.64,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 9,
+              "win_rate": 0.556,
+              "miss_win_rate": 0.444,
+              "top3_rate": 0.889,
+              "out_top3_rate": 0.111,
+              "teppan_score": 0.371,
+              "tobi_score": 0.13,
+              "manshu_rate_when_missed": 0.0,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -1211,7 +1311,11 @@
           "metrics": {
             "lane1_national_win_rate": 5.08,
             "lane1_vs_best_outer_win_diff": -1.47,
-            "national_win_range": 1.47
+            "national_win_range": 1.47,
+            "lane1_profile_starts": 9,
+            "lane1_profile_tobi_score": 0.13,
+            "lane1_profile_teppan_score": 0.371,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -1298,7 +1402,18 @@
         "national_win_range": 3.55,
         "lane1_vs_avg_win_diff": -1.57,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 8,
+          "win_rate": 0.25,
+          "miss_win_rate": 0.75,
+          "top3_rate": 0.375,
+          "out_top3_rate": 0.625,
+          "teppan_score": 0.094,
+          "tobi_score": 0.373,
+          "manshu_rate_when_missed": 0.0,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -1376,7 +1491,18 @@
             "avg_st": null,
             "motor_quinella_rate": 36.84,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 8,
+              "win_rate": 0.25,
+              "miss_win_rate": 0.75,
+              "top3_rate": 0.375,
+              "out_top3_rate": 0.625,
+              "teppan_score": 0.094,
+              "tobi_score": 0.373,
+              "manshu_rate_when_missed": 0.0,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -1526,7 +1652,11 @@
           "metrics": {
             "lane1_national_win_rate": 3.47,
             "lane1_vs_best_outer_win_diff": -3.55,
-            "national_win_range": 3.55
+            "national_win_range": 3.55,
+            "lane1_profile_starts": 8,
+            "lane1_profile_tobi_score": 0.373,
+            "lane1_profile_teppan_score": 0.094,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -1613,7 +1743,18 @@
         "national_win_range": 3.18,
         "lane1_vs_avg_win_diff": -0.718,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 12,
+          "win_rate": 0.25,
+          "miss_win_rate": 0.75,
+          "top3_rate": 0.583,
+          "out_top3_rate": 0.417,
+          "teppan_score": 0.17,
+          "tobi_score": 0.372,
+          "manshu_rate_when_missed": 0.333,
+          "label": "標準"
+        }
       },
       "result": {
         "status": "pending",
@@ -1772,7 +1913,18 @@
             "avg_st": null,
             "motor_quinella_rate": 23.4,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 12,
+              "win_rate": 0.25,
+              "miss_win_rate": 0.75,
+              "top3_rate": 0.583,
+              "out_top3_rate": 0.417,
+              "teppan_score": 0.17,
+              "tobi_score": 0.372,
+              "manshu_rate_when_missed": 0.333,
+              "label": "標準"
+            }
           }
         },
         {
@@ -1841,7 +1993,11 @@
           "metrics": {
             "lane1_national_win_rate": 4.29,
             "lane1_vs_best_outer_win_diff": -2.42,
-            "national_win_range": 3.18
+            "national_win_range": 3.18,
+            "lane1_profile_starts": 12,
+            "lane1_profile_tobi_score": 0.372,
+            "lane1_profile_teppan_score": 0.17,
+            "lane1_profile_label": "標準"
           },
           "formation": {
             "name": "D",
@@ -1928,7 +2084,18 @@
         "national_win_range": 1.37,
         "lane1_vs_avg_win_diff": -0.65,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 16,
+          "win_rate": 0.562,
+          "miss_win_rate": 0.438,
+          "top3_rate": 0.812,
+          "out_top3_rate": 0.188,
+          "teppan_score": 0.415,
+          "tobi_score": 0.173,
+          "manshu_rate_when_missed": 0.714,
+          "label": "標準"
+        }
       },
       "result": {
         "status": "pending",
@@ -1979,7 +2146,18 @@
             "avg_st": null,
             "motor_quinella_rate": 38.89,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 16,
+              "win_rate": 0.562,
+              "miss_win_rate": 0.438,
+              "top3_rate": 0.812,
+              "out_top3_rate": 0.188,
+              "teppan_score": 0.415,
+              "tobi_score": 0.173,
+              "manshu_rate_when_missed": 0.714,
+              "label": "標準"
+            }
           }
         },
         {
@@ -2156,7 +2334,11 @@
           "metrics": {
             "lane1_national_win_rate": 5.58,
             "lane1_vs_best_outer_win_diff": -1.23,
-            "national_win_range": 1.37
+            "national_win_range": 1.37,
+            "lane1_profile_starts": 16,
+            "lane1_profile_tobi_score": 0.173,
+            "lane1_profile_teppan_score": 0.415,
+            "lane1_profile_label": "標準"
           },
           "formation": {
             "name": "D",
@@ -2243,7 +2425,18 @@
         "national_win_range": 0.43,
         "lane1_vs_avg_win_diff": -0.222,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 17,
+          "win_rate": 0.588,
+          "miss_win_rate": 0.412,
+          "top3_rate": 0.941,
+          "out_top3_rate": 0.059,
+          "teppan_score": 0.49,
+          "tobi_score": 0.144,
+          "manshu_rate_when_missed": 0.0,
+          "label": "標準"
+        }
       },
       "result": {
         "status": "pending",
@@ -2294,7 +2487,18 @@
             "avg_st": null,
             "motor_quinella_rate": 58.82,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 17,
+              "win_rate": 0.588,
+              "miss_win_rate": 0.412,
+              "top3_rate": 0.941,
+              "out_top3_rate": 0.059,
+              "teppan_score": 0.49,
+              "tobi_score": 0.144,
+              "manshu_rate_when_missed": 0.0,
+              "label": "標準"
+            }
           }
         },
         {
@@ -2471,7 +2675,11 @@
           "metrics": {
             "lane1_national_win_rate": 6.14,
             "lane1_vs_best_outer_win_diff": -0.43,
-            "national_win_range": 0.43
+            "national_win_range": 0.43,
+            "lane1_profile_starts": 17,
+            "lane1_profile_tobi_score": 0.144,
+            "lane1_profile_teppan_score": 0.49,
+            "lane1_profile_label": "標準"
           },
           "formation": {
             "name": "D",
@@ -2559,7 +2767,18 @@
         "national_win_range": 2.91,
         "lane1_vs_avg_win_diff": -1.337,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 7,
+          "win_rate": 0.571,
+          "miss_win_rate": 0.429,
+          "top3_rate": 1.0,
+          "out_top3_rate": 0.0,
+          "teppan_score": 0.389,
+          "tobi_score": 0.103,
+          "manshu_rate_when_missed": 0.333,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -2718,7 +2937,18 @@
             "avg_st": null,
             "motor_quinella_rate": 22.47,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 7,
+              "win_rate": 0.571,
+              "miss_win_rate": 0.429,
+              "top3_rate": 1.0,
+              "out_top3_rate": 0.0,
+              "teppan_score": 0.389,
+              "tobi_score": 0.103,
+              "manshu_rate_when_missed": 0.333,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -2787,7 +3017,11 @@
           "metrics": {
             "lane1_national_win_rate": 3.74,
             "lane1_vs_best_outer_win_diff": -2.19,
-            "national_win_range": 2.91
+            "national_win_range": 2.91,
+            "lane1_profile_starts": 7,
+            "lane1_profile_tobi_score": 0.103,
+            "lane1_profile_teppan_score": 0.389,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -2874,7 +3108,18 @@
         "national_win_range": 3.37,
         "lane1_vs_avg_win_diff": -1.097,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 8,
+          "win_rate": 0.125,
+          "miss_win_rate": 0.875,
+          "top3_rate": 0.375,
+          "out_top3_rate": 0.625,
+          "teppan_score": 0.062,
+          "tobi_score": 0.451,
+          "manshu_rate_when_missed": 0.0,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -2952,7 +3197,18 @@
             "avg_st": null,
             "motor_quinella_rate": 38.38,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 8,
+              "win_rate": 0.125,
+              "miss_win_rate": 0.875,
+              "top3_rate": 0.375,
+              "out_top3_rate": 0.625,
+              "teppan_score": 0.062,
+              "tobi_score": 0.451,
+              "manshu_rate_when_missed": 0.0,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -3102,7 +3358,11 @@
           "metrics": {
             "lane1_national_win_rate": 2.34,
             "lane1_vs_best_outer_win_diff": -2.46,
-            "national_win_range": 3.37
+            "national_win_range": 3.37,
+            "lane1_profile_starts": 8,
+            "lane1_profile_tobi_score": 0.451,
+            "lane1_profile_teppan_score": 0.062,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -3189,7 +3449,18 @@
         "national_win_range": 2.38,
         "lane1_vs_avg_win_diff": -1.115,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 7,
+          "win_rate": 0.143,
+          "miss_win_rate": 0.857,
+          "top3_rate": 0.286,
+          "out_top3_rate": 0.714,
+          "teppan_score": 0.045,
+          "tobi_score": 0.442,
+          "manshu_rate_when_missed": 0.167,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -3348,7 +3619,18 @@
             "avg_st": null,
             "motor_quinella_rate": 42.17,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 7,
+              "win_rate": 0.143,
+              "miss_win_rate": 0.857,
+              "top3_rate": 0.286,
+              "out_top3_rate": 0.714,
+              "teppan_score": 0.045,
+              "tobi_score": 0.442,
+              "manshu_rate_when_missed": 0.167,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -3417,7 +3699,11 @@
           "metrics": {
             "lane1_national_win_rate": 3.55,
             "lane1_vs_best_outer_win_diff": -2.38,
-            "national_win_range": 2.38
+            "national_win_range": 2.38,
+            "lane1_profile_starts": 7,
+            "lane1_profile_tobi_score": 0.442,
+            "lane1_profile_teppan_score": 0.045,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -3506,7 +3792,18 @@
         "national_win_range": 1.59,
         "lane1_vs_avg_win_diff": -0.297,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 9,
+          "win_rate": 0.0,
+          "miss_win_rate": 1.0,
+          "top3_rate": 0.556,
+          "out_top3_rate": 0.444,
+          "teppan_score": 0.093,
+          "tobi_score": 0.522,
+          "manshu_rate_when_missed": 0.333,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -3584,7 +3881,18 @@
             "avg_st": null,
             "motor_quinella_rate": 27.6,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 9,
+              "win_rate": 0.0,
+              "miss_win_rate": 1.0,
+              "top3_rate": 0.556,
+              "out_top3_rate": 0.444,
+              "teppan_score": 0.093,
+              "tobi_score": 0.522,
+              "manshu_rate_when_missed": 0.333,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -3734,7 +4042,11 @@
           "metrics": {
             "lane1_national_win_rate": 3.97,
             "lane1_vs_best_outer_win_diff": -1.35,
-            "national_win_range": 1.59
+            "national_win_range": 1.59,
+            "lane1_profile_starts": 9,
+            "lane1_profile_tobi_score": 0.522,
+            "lane1_profile_teppan_score": 0.093,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -3821,7 +4133,18 @@
         "national_win_range": 1.57,
         "lane1_vs_avg_win_diff": -0.785,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 17,
+          "win_rate": 0.588,
+          "miss_win_rate": 0.412,
+          "top3_rate": 0.706,
+          "out_top3_rate": 0.294,
+          "teppan_score": 0.398,
+          "tobi_score": 0.187,
+          "manshu_rate_when_missed": 0.857,
+          "label": "標準"
+        }
       },
       "result": {
         "status": "pending",
@@ -3899,7 +4222,18 @@
             "avg_st": null,
             "motor_quinella_rate": 40.0,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 17,
+              "win_rate": 0.588,
+              "miss_win_rate": 0.412,
+              "top3_rate": 0.706,
+              "out_top3_rate": 0.294,
+              "teppan_score": 0.398,
+              "tobi_score": 0.187,
+              "manshu_rate_when_missed": 0.857,
+              "label": "標準"
+            }
           }
         },
         {
@@ -4049,7 +4383,11 @@
           "metrics": {
             "lane1_national_win_rate": 5.51,
             "lane1_vs_best_outer_win_diff": -1.57,
-            "national_win_range": 1.57
+            "national_win_range": 1.57,
+            "lane1_profile_starts": 17,
+            "lane1_profile_tobi_score": 0.187,
+            "lane1_profile_teppan_score": 0.398,
+            "lane1_profile_label": "標準"
           },
           "formation": {
             "name": "D",
@@ -4137,7 +4475,18 @@
         "national_win_range": 1.3,
         "lane1_vs_avg_win_diff": -0.633,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 10,
+          "win_rate": 0.7,
+          "miss_win_rate": 0.3,
+          "top3_rate": 1.0,
+          "out_top3_rate": 0.0,
+          "teppan_score": 0.511,
+          "tobi_score": 0.07,
+          "manshu_rate_when_missed": 0.0,
+          "label": "標準"
+        }
       },
       "result": {
         "status": "pending",
@@ -4188,7 +4537,18 @@
             "avg_st": null,
             "motor_quinella_rate": 43.12,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 10,
+              "win_rate": 0.7,
+              "miss_win_rate": 0.3,
+              "top3_rate": 1.0,
+              "out_top3_rate": 0.0,
+              "teppan_score": 0.511,
+              "tobi_score": 0.07,
+              "manshu_rate_when_missed": 0.0,
+              "label": "標準"
+            }
           }
         },
         {
@@ -4365,7 +4725,11 @@
           "metrics": {
             "lane1_national_win_rate": 5.01,
             "lane1_vs_best_outer_win_diff": -1.3,
-            "national_win_range": 1.3
+            "national_win_range": 1.3,
+            "lane1_profile_starts": 10,
+            "lane1_profile_tobi_score": 0.07,
+            "lane1_profile_teppan_score": 0.511,
+            "lane1_profile_label": "標準"
           },
           "formation": {
             "name": "D",
@@ -4452,7 +4816,18 @@
         "national_win_range": 2.54,
         "lane1_vs_avg_win_diff": -0.868,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 8,
+          "win_rate": 0.375,
+          "miss_win_rate": 0.625,
+          "top3_rate": 0.75,
+          "out_top3_rate": 0.25,
+          "teppan_score": 0.232,
+          "tobi_score": 0.224,
+          "manshu_rate_when_missed": 0.4,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -4611,7 +4986,18 @@
             "avg_st": null,
             "motor_quinella_rate": 0.0,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 8,
+              "win_rate": 0.375,
+              "miss_win_rate": 0.625,
+              "top3_rate": 0.75,
+              "out_top3_rate": 0.25,
+              "teppan_score": 0.232,
+              "tobi_score": 0.224,
+              "manshu_rate_when_missed": 0.4,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -4680,7 +5066,11 @@
           "metrics": {
             "lane1_national_win_rate": 4.18,
             "lane1_vs_best_outer_win_diff": -1.85,
-            "national_win_range": 2.54
+            "national_win_range": 2.54,
+            "lane1_profile_starts": 8,
+            "lane1_profile_tobi_score": 0.224,
+            "lane1_profile_teppan_score": 0.232,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -4767,7 +5157,18 @@
         "national_win_range": 4.33,
         "lane1_vs_avg_win_diff": -0.537,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 6,
+          "win_rate": 0.167,
+          "miss_win_rate": 0.833,
+          "top3_rate": 0.333,
+          "out_top3_rate": 0.667,
+          "teppan_score": 0.053,
+          "tobi_score": 0.389,
+          "manshu_rate_when_missed": 0.2,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -4845,7 +5246,18 @@
             "avg_st": null,
             "motor_quinella_rate": 21.05,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 6,
+              "win_rate": 0.167,
+              "miss_win_rate": 0.833,
+              "top3_rate": 0.333,
+              "out_top3_rate": 0.667,
+              "teppan_score": 0.053,
+              "tobi_score": 0.389,
+              "manshu_rate_when_missed": 0.2,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -4995,7 +5407,11 @@
           "metrics": {
             "lane1_national_win_rate": 4.07,
             "lane1_vs_best_outer_win_diff": -2.34,
-            "national_win_range": 4.33
+            "national_win_range": 4.33,
+            "lane1_profile_starts": 6,
+            "lane1_profile_tobi_score": 0.389,
+            "lane1_profile_teppan_score": 0.053,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -5082,7 +5498,18 @@
         "national_win_range": 3.16,
         "lane1_vs_avg_win_diff": -0.425,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 8,
+          "win_rate": 0.375,
+          "miss_win_rate": 0.625,
+          "top3_rate": 0.625,
+          "out_top3_rate": 0.375,
+          "teppan_score": 0.196,
+          "tobi_score": 0.247,
+          "manshu_rate_when_missed": 0.4,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -5160,7 +5587,18 @@
             "avg_st": null,
             "motor_quinella_rate": 23.62,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 8,
+              "win_rate": 0.375,
+              "miss_win_rate": 0.625,
+              "top3_rate": 0.625,
+              "out_top3_rate": 0.375,
+              "teppan_score": 0.196,
+              "tobi_score": 0.247,
+              "manshu_rate_when_missed": 0.4,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -5310,7 +5748,11 @@
           "metrics": {
             "lane1_national_win_rate": 4.69,
             "lane1_vs_best_outer_win_diff": -1.95,
-            "national_win_range": 3.16
+            "national_win_range": 3.16,
+            "lane1_profile_starts": 8,
+            "lane1_profile_tobi_score": 0.247,
+            "lane1_profile_teppan_score": 0.196,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -5397,7 +5839,18 @@
         "national_win_range": 5.29,
         "lane1_vs_avg_win_diff": -0.185,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 8,
+          "win_rate": 0.625,
+          "miss_win_rate": 0.375,
+          "top3_rate": 0.625,
+          "out_top3_rate": 0.375,
+          "teppan_score": 0.306,
+          "tobi_score": 0.137,
+          "manshu_rate_when_missed": 0.0,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -5475,7 +5928,18 @@
             "avg_st": null,
             "motor_quinella_rate": 36.26,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 8,
+              "win_rate": 0.625,
+              "miss_win_rate": 0.375,
+              "top3_rate": 0.625,
+              "out_top3_rate": 0.375,
+              "teppan_score": 0.306,
+              "tobi_score": 0.137,
+              "manshu_rate_when_missed": 0.0,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -5625,7 +6089,11 @@
           "metrics": {
             "lane1_national_win_rate": 4.49,
             "lane1_vs_best_outer_win_diff": -2.26,
-            "national_win_range": 5.29
+            "national_win_range": 5.29,
+            "lane1_profile_starts": 8,
+            "lane1_profile_tobi_score": 0.137,
+            "lane1_profile_teppan_score": 0.306,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -5712,7 +6180,18 @@
         "national_win_range": 2.95,
         "lane1_vs_avg_win_diff": -0.607,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 10,
+          "win_rate": 0.3,
+          "miss_win_rate": 0.7,
+          "top3_rate": 0.6,
+          "out_top3_rate": 0.4,
+          "teppan_score": 0.179,
+          "tobi_score": 0.317,
+          "manshu_rate_when_missed": 0.429,
+          "label": "標準"
+        }
       },
       "result": {
         "status": "pending",
@@ -5763,7 +6242,18 @@
             "avg_st": null,
             "motor_quinella_rate": 31.43,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 10,
+              "win_rate": 0.3,
+              "miss_win_rate": 0.7,
+              "top3_rate": 0.6,
+              "out_top3_rate": 0.4,
+              "teppan_score": 0.179,
+              "tobi_score": 0.317,
+              "manshu_rate_when_missed": 0.429,
+              "label": "標準"
+            }
           }
         },
         {
@@ -5940,7 +6430,11 @@
           "metrics": {
             "lane1_national_win_rate": 4.35,
             "lane1_vs_best_outer_win_diff": -1.45,
-            "national_win_range": 2.95
+            "national_win_range": 2.95,
+            "lane1_profile_starts": 10,
+            "lane1_profile_tobi_score": 0.317,
+            "lane1_profile_teppan_score": 0.179,
+            "lane1_profile_label": "標準"
           },
           "formation": {
             "name": "D",
@@ -6028,7 +6522,18 @@
         "national_win_range": 1.29,
         "lane1_vs_avg_win_diff": -0.25,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 14,
+          "win_rate": 0.714,
+          "miss_win_rate": 0.286,
+          "top3_rate": 1.0,
+          "out_top3_rate": 0.0,
+          "teppan_score": 0.569,
+          "tobi_score": 0.076,
+          "manshu_rate_when_missed": 0.0,
+          "label": "標準"
+        }
       },
       "result": {
         "status": "pending",
@@ -6106,7 +6611,18 @@
             "avg_st": null,
             "motor_quinella_rate": 47.22,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 14,
+              "win_rate": 0.714,
+              "miss_win_rate": 0.286,
+              "top3_rate": 1.0,
+              "out_top3_rate": 0.0,
+              "teppan_score": 0.569,
+              "tobi_score": 0.076,
+              "manshu_rate_when_missed": 0.0,
+              "label": "標準"
+            }
           }
         },
         {
@@ -6256,7 +6772,11 @@
           "metrics": {
             "lane1_national_win_rate": 5.53,
             "lane1_vs_best_outer_win_diff": -0.93,
-            "national_win_range": 1.29
+            "national_win_range": 1.29,
+            "lane1_profile_starts": 14,
+            "lane1_profile_tobi_score": 0.076,
+            "lane1_profile_teppan_score": 0.569,
+            "lane1_profile_label": "標準"
           },
           "formation": {
             "name": "D",
@@ -6343,7 +6863,18 @@
         "national_win_range": 1.5,
         "lane1_vs_avg_win_diff": -0.455,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 17,
+          "win_rate": 0.294,
+          "miss_win_rate": 0.706,
+          "top3_rate": 0.529,
+          "out_top3_rate": 0.471,
+          "teppan_score": 0.195,
+          "tobi_score": 0.396,
+          "manshu_rate_when_missed": 0.333,
+          "label": "イン飛び注意"
+        }
       },
       "result": {
         "status": "pending",
@@ -6394,7 +6925,18 @@
             "avg_st": null,
             "motor_quinella_rate": 37.78,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 17,
+              "win_rate": 0.294,
+              "miss_win_rate": 0.706,
+              "top3_rate": 0.529,
+              "out_top3_rate": 0.471,
+              "teppan_score": 0.195,
+              "tobi_score": 0.396,
+              "manshu_rate_when_missed": 0.333,
+              "label": "イン飛び注意"
+            }
           }
         },
         {
@@ -6571,7 +7113,11 @@
           "metrics": {
             "lane1_national_win_rate": 5.11,
             "lane1_vs_best_outer_win_diff": -1.29,
-            "national_win_range": 1.5
+            "national_win_range": 1.5,
+            "lane1_profile_starts": 17,
+            "lane1_profile_tobi_score": 0.396,
+            "lane1_profile_teppan_score": 0.195,
+            "lane1_profile_label": "イン飛び注意"
           },
           "formation": {
             "name": "D",
@@ -6659,7 +7205,18 @@
         "national_win_range": 1.43,
         "lane1_vs_avg_win_diff": -0.605,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 12,
+          "win_rate": 0.667,
+          "miss_win_rate": 0.333,
+          "top3_rate": 0.75,
+          "out_top3_rate": 0.25,
+          "teppan_score": 0.418,
+          "tobi_score": 0.121,
+          "manshu_rate_when_missed": 0.0,
+          "label": "標準"
+        }
       },
       "result": {
         "status": "pending",
@@ -6737,7 +7294,18 @@
             "avg_st": null,
             "motor_quinella_rate": 29.41,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 12,
+              "win_rate": 0.667,
+              "miss_win_rate": 0.333,
+              "top3_rate": 0.75,
+              "out_top3_rate": 0.25,
+              "teppan_score": 0.418,
+              "tobi_score": 0.121,
+              "manshu_rate_when_missed": 0.0,
+              "label": "標準"
+            }
           }
         },
         {
@@ -6887,7 +7455,11 @@
           "metrics": {
             "lane1_national_win_rate": 5.57,
             "lane1_vs_best_outer_win_diff": -0.55,
-            "national_win_range": 1.43
+            "national_win_range": 1.43,
+            "lane1_profile_starts": 12,
+            "lane1_profile_tobi_score": 0.121,
+            "lane1_profile_teppan_score": 0.418,
+            "lane1_profile_label": "標準"
           },
           "formation": {
             "name": "D",
@@ -6975,7 +7547,18 @@
         "national_win_range": 2.97,
         "lane1_vs_avg_win_diff": -1.268,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 6,
+          "win_rate": 0.0,
+          "miss_win_rate": 1.0,
+          "top3_rate": 0.5,
+          "out_top3_rate": 0.5,
+          "teppan_score": 0.066,
+          "tobi_score": 0.462,
+          "manshu_rate_when_missed": 0.167,
+          "label": "データ薄め"
+        }
       },
       "result": {
         "status": "pending",
@@ -7053,7 +7636,18 @@
             "avg_st": null,
             "motor_quinella_rate": 39.39,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 6,
+              "win_rate": 0.0,
+              "miss_win_rate": 1.0,
+              "top3_rate": 0.5,
+              "out_top3_rate": 0.5,
+              "teppan_score": 0.066,
+              "tobi_score": 0.462,
+              "manshu_rate_when_missed": 0.167,
+              "label": "データ薄め"
+            }
           }
         },
         {
@@ -7203,7 +7797,11 @@
           "metrics": {
             "lane1_national_win_rate": 3.73,
             "lane1_vs_best_outer_win_diff": -2.97,
-            "national_win_range": 2.97
+            "national_win_range": 2.97,
+            "lane1_profile_starts": 6,
+            "lane1_profile_tobi_score": 0.462,
+            "lane1_profile_teppan_score": 0.066,
+            "lane1_profile_label": "データ薄め"
           },
           "formation": {
             "name": "D",
@@ -7290,7 +7888,18 @@
         "national_win_range": 2.81,
         "lane1_vs_avg_win_diff": -0.432,
         "wind_speed_m": null,
-        "wave_cm": null
+        "wave_cm": null,
+        "lane1_profile": {
+          "starts": 10,
+          "win_rate": 0.2,
+          "miss_win_rate": 0.8,
+          "top3_rate": 0.7,
+          "out_top3_rate": 0.3,
+          "teppan_score": 0.176,
+          "tobi_score": 0.356,
+          "manshu_rate_when_missed": 0.25,
+          "label": "標準"
+        }
       },
       "result": {
         "status": "pending",
@@ -7368,7 +7977,18 @@
             "avg_st": null,
             "motor_quinella_rate": 36.96,
             "exhibition_time": null,
-            "exhibition_rank": null
+            "exhibition_rank": null,
+            "lane1_profile": {
+              "starts": 10,
+              "win_rate": 0.2,
+              "miss_win_rate": 0.8,
+              "top3_rate": 0.7,
+              "out_top3_rate": 0.3,
+              "teppan_score": 0.176,
+              "tobi_score": 0.356,
+              "manshu_rate_when_missed": 0.25,
+              "label": "標準"
+            }
           }
         },
         {
@@ -7518,7 +8138,11 @@
           "metrics": {
             "lane1_national_win_rate": 4.86,
             "lane1_vs_best_outer_win_diff": -1.91,
-            "national_win_range": 2.81
+            "national_win_range": 2.81,
+            "lane1_profile_starts": 10,
+            "lane1_profile_tobi_score": 0.356,
+            "lane1_profile_teppan_score": 0.176,
+            "lane1_profile_label": "標準"
           },
           "formation": {
             "name": "D",

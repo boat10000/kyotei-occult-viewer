@@ -295,11 +295,17 @@ function compactRaceLabel(r){return esc(r.venue_name||'')+esc(r.race_no)+'R';}
 function roleBoat(r,lane){
   return (r.boats||[]).find(function(b){return Number(b.lane)===Number(lane);})||{lane:lane};
 }
+function lane1ProfileText(profile){
+  if(!profile||!profile.starts) return '';
+  var label=profile.label||'履歴あり';
+  return '1号艇イン履歴: '+esc(label)+' / 1着 '+pctText(profile.win_rate)+' / 1着外 '+pctText(profile.miss_win_rate)+' / 3連対外 '+pctText(profile.out_top3_rate)+'（n='+esc(profile.starts)+'）';
+}
 function pickLine(r,lane){
   var b=roleBoat(r,lane),name=b.name?' '+esc(b.name):'', cls=b.class?' <span class="muted">'+esc(b.class)+'</span>':'';
   var score=b.role_score==null?'':' <span class="muted">score '+Math.round(Number(b.role_score))+'</span>';
   var reason=b.role_reason?'<br><span class="muted">'+esc(b.role_reason).replace(/\|/g,' / ')+'</span>':'';
-  return '<div><b>'+esc(lane)+'号艇</b>'+name+cls+score+reason+'</div>';
+  var profile=(Number(lane)===1&&b.features&&b.features.lane1_profile)?'<br><span class="muted">'+lane1ProfileText(b.features.lane1_profile)+'</span>':'';
+  return '<div><b>'+esc(lane)+'号艇</b>'+name+cls+score+reason+profile+'</div>';
 }
 function pickBox(r,key,label){
   var lanes=(r.role_summary&&r.role_summary[key])||[];
@@ -382,7 +388,7 @@ function buildTopPosts(top,summary){
       xlines.push((i+1)+'. '+compactRaceLabel(r).replace(/<[^>]*>/g,'')+' 万舟率'+rate+'%'+(r.deadline?'（'+r.deadline+'）':''));
     });
     xlines.push('','結果は別投稿で確認します。買い目は載せません。','#ボートレース #データ分析');
-    xr.value=xlines.join('\\n');
+    xr.value=xlines.join('\n');
     showLen('top5-x-rank-post');
   }
   if(xx){
@@ -393,7 +399,7 @@ function buildTopPosts(top,summary){
       rx.push((i+1)+'. '+compactRaceLabel(r).replace(/<[^>]*>/g,'')+' 万舟率'+rate+'% / '+result);
     });
     rx.push('','ランキングとは別に、確定結果だけをまとめました。','#ボートレース #データ分析');
-    xx.value=rx.join('\\n');
+    xx.value=rx.join('\n');
     showLen('top5-x-result-post');
   }
   if(nr){
@@ -409,7 +415,7 @@ function buildTopPosts(top,summary){
     L.push('- 万舟率は荒れやすさの目安で、的中や利益を示すものではありません。');
     L.push('- 結果・払戻はランキング投稿には含めません。');
     L.push('- 娯楽・研究用の記録です。');
-    nr.value=L.join('\\n');
+    nr.value=L.join('\n');
   }
   if(nx){
     var R=['# '+md+' 万舟率TOP10 結果','','ランキングTOP10の確定結果をまとめた記録です。','','## 集計','- 確定: '+summary.done+'/'+top.length+'R','- 万舟決着: '+summary.manshu+'件','','## TOP10 結果'];
@@ -424,7 +430,7 @@ function buildTopPosts(top,summary){
     R.push('- 結果・払戻は記録用です。購入判断を促すものではありません。');
     R.push('- 買い目や購入推奨は含みません。');
     R.push('- 娯楽・研究用の記録です。');
-    nx.value=R.join('\\n');
+    nx.value=R.join('\n');
   }
 }
 function renderRoleRanking(data){

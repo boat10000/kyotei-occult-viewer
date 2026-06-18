@@ -493,11 +493,17 @@ function compactRaceLabel(r){return esc(r.venue_name||'')+esc(r.race_no)+'R';}
 function roleBoat(r,lane){
   return (r.boats||[]).find(function(b){return Number(b.lane)===Number(lane);})||{lane:lane};
 }
+function lane1ProfileText(profile){
+  if(!profile||!profile.starts) return '';
+  var label=profile.label||'履歴あり';
+  return '1号艇イン履歴: '+esc(label)+' / 1着 '+pctText(profile.win_rate)+' / 1着外 '+pctText(profile.miss_win_rate)+' / 3連対外 '+pctText(profile.out_top3_rate)+'（n='+esc(profile.starts)+'）';
+}
 function pickLine(r,lane){
   var b=roleBoat(r,lane),name=b.name?' '+esc(b.name):'', cls=b.class?' <span class="muted">'+esc(b.class)+'</span>':'';
   var score=b.role_score==null?'':' <span class="muted">score '+Math.round(Number(b.role_score))+'</span>';
   var reason=b.role_reason?'<br><span class="muted">'+esc(b.role_reason).replace(/\|/g,' / ')+'</span>':'';
-  return '<div><b>'+esc(lane)+'号艇</b>'+name+cls+score+reason+'</div>';
+  var profile=(Number(lane)===1&&b.features&&b.features.lane1_profile)?'<br><span class="muted">'+lane1ProfileText(b.features.lane1_profile)+'</span>':'';
+  return '<div><b>'+esc(lane)+'号艇</b>'+name+cls+score+reason+profile+'</div>';
 }
 function pickBox(r,key,label){
   var lanes=(r.role_summary&&r.role_summary[key])||[];

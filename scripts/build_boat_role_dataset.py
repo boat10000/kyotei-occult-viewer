@@ -24,6 +24,19 @@ Row = dict[str, Any]
 ROLE_VERSION = "manshu-role-v1"
 
 
+LANE1_PROFILE_COLUMNS = [
+    "lane1_profile_starts",
+    "lane1_profile_win_rate",
+    "lane1_profile_miss_win_rate",
+    "lane1_profile_top3_rate",
+    "lane1_profile_out_top3_rate",
+    "lane1_profile_teppan_score",
+    "lane1_profile_tobi_score",
+    "lane1_profile_manshu_rate_when_missed",
+    "lane1_profile_label",
+]
+
+
 def as_float(value: Any) -> float | None:
     try:
         if value in (None, "", "-", "－"):
@@ -67,6 +80,79 @@ def bool_int(value: bool) -> int:
 def read_rows(path: Path) -> list[Row]:
     with path.open(encoding="utf-8", newline="") as handle:
         return list(csv.DictReader(handle))
+
+
+def normalize_registration_no(value: Any) -> str:
+    if value in (None, "", "-", "－"):
+        return ""
+    text = str(value).strip()
+    if text.endswith(".0"):
+        text = text[:-2]
+    return text.zfill(4) if text.isdigit() else text
+
+
+def read_lane1_profiles(path: Path | None) -> dict[str, Row]:
+    if path is None or not path.exists():
+        return {}
+    with path.open(encoding="utf-8", newline="") as handle:
+        profiles = {
+            normalize_registration_no(row.get("registration_no")): row
+            for row in csv.DictReader(handle)
+        }
+    profiles.pop("", None)
+    return profiles
+
+
+def lane1_profile_for_race(race: Row, profiles: dict[str, Row]) -> Row | None:
+    registration_no = normalize_registration_no(race.get("lane1_registration_no"))
+    return profiles.get(registration_no)
+
+
+def lane1_profile_label(profile: Row | None) -> str | None:
+    if not profile:
+        return None
+    starts = as_int(profile.get("lane1_starts"))
+    if starts < 10:
+        return "データ薄め"
+    tobi = as_float(profile.get("tobi_score"))
+    teppan = as_float(profile.get("teppan_score"))
+    miss_win = as_float(profile.get("lane1_miss_win_rate"))
+    out_top3 = as_float(profile.get("lane1_out_top3_rate"))
+    win = as_float(profile.get("lane1_win_rate"))
+    top3 = as_float(profile.get("lane1_top3_rate"))
+    if starts >= 15 and (
+        (tobi is not None and tobi >= 0.30)
+        or (miss_win is not None and miss_win >= 0.72)
+        or (out_top3 is not None and out_top3 >= 0.34)
+    ):
+        return "イン飛び注意"
+    if starts >= 15 and (
+        (teppan is not None and teppan >= 0.72)
+        or (
+            win is not None
+            and top3 is not None
+            and win >= 0.82
+            and top3 >= 0.90
+        )
+    ):
+        return "イン鉄板寄り"
+    return "標準"
+
+
+def lane1_profile_metrics(profile: Row | None) -> Row:
+    if not profile:
+        return {key: None for key in LANE1_PROFILE_COLUMNS}
+    return {
+        "lane1_profile_starts": as_int(profile.get("lane1_starts")) or None,
+        "lane1_profile_win_rate": as_float(profile.get("lane1_win_rate")),
+        "lane1_profile_miss_win_rate": as_float(profile.get("lane1_miss_win_rate")),
+        "lane1_profile_top3_rate": as_float(profile.get("lane1_top3_rate")),
+        "lane1_profile_out_top3_rate": as_float(profile.get("lane1_out_top3_rate")),
+        "lane1_profile_teppan_score": as_float(profile.get("teppan_score")),
+        "lane1_profile_tobi_score": as_float(profile.get("tobi_score")),
+        "lane1_profile_manshu_rate_when_missed": as_float(profile.get("manshu_rate_when_lane1_missed")),
+        "lane1_profile_label": lane1_profile_label(profile),
+    }
 
 
 def parse_trifecta(value: Any) -> list[int]:
@@ -156,13 +242,20 @@ def empty_result_labels() -> dict[str, Any]:
     }
 
 
-def race_base_score(row: Row) -> float:
+def race_base_score(row: Row, lane1_profile: Row | None = None) -> float:
     """Transparent chaos score proxy shared by ranking and role JSON output."""
     lane1_win = as_float(row.get("lane1_national_win_rate"))
     lane1_avg_diff = as_float(row.get("lane1_vs_avg_win_diff"))
     national_range = as_float(row.get("national_win_range"))
     wind_speed = as_float(row.get("wind_speed_m"))
     exhibition_range = as_float(row.get("exhibition_time_range"))
+    profile = lane1_profile_metrics(lane1_profile)
+    profile_starts = as_int(profile.get("lane1_profile_starts"))
+    profile_tobi = as_float(profile.get("lane1_profile_tobi_score"))
+    profile_teppan = as_float(profile.get("lane1_profile_teppan_score"))
+    profile_miss_win = as_float(profile.get("lane1_profile_miss_win_rate"))
+    profile_out_top3 = as_float(profile.get("lane1_profile_out_top3_rate"))
+    profile_win = as_float(profile.get("lane1_profile_win_rate"))
     score = 34.0
     score += 10.0 if as_int(row.get("lane1_not_a1")) else 0.0
     score += 7.0 if as_int(row.get("lane1_b_class")) else 0.0
@@ -176,6 +269,12 @@ def race_base_score(row: Row) -> float:
     score += 5.0 if as_int(row.get("early_race")) else 0.0
     score += 5.0 if wind_speed is not None and wind_speed >= 5 else 0.0
     score += 4.0 if exhibition_range is not None and exhibition_range >= 0.08 else 0.0
+    if profile_starts >= 15:
+        score += 7.0 if profile_tobi is not None and profile_tobi >= 0.30 else 0.0
+        score += 4.0 if profile_out_top3 is not None and profile_out_top3 >= 0.34 else 0.0
+        score += 3.0 if profile_miss_win is not None and profile_miss_win >= 0.72 else 0.0
+        score -= 7.0 if profile_teppan is not None and profile_teppan >= 0.72 else 0.0
+        score -= 3.0 if profile_win is not None and profile_win >= 0.82 else 0.0
     score -= 5.0 if as_int(row.get("fixed_entry")) else 0.0
     return round(clamp(score), 3)
 
@@ -201,8 +300,15 @@ def data_quality_score(row: Row) -> float:
     return round((present + 0.6 * preview_present) / (len(required) + 0.6 * len(preview)), 3)
 
 
-def score_boat(row: Row, lane: int) -> dict[str, Any]:
+def score_boat(row: Row, lane: int, lane1_profile: Row | None = None) -> dict[str, Any]:
     prefix = f"lane{lane}_"
+    profile = lane1_profile_metrics(lane1_profile)
+    profile_starts = as_int(profile.get("lane1_profile_starts"))
+    profile_tobi = as_float(profile.get("lane1_profile_tobi_score"))
+    profile_teppan = as_float(profile.get("lane1_profile_teppan_score"))
+    profile_miss_win = as_float(profile.get("lane1_profile_miss_win_rate"))
+    profile_out_top3 = as_float(profile.get("lane1_profile_out_top3_rate"))
+    profile_win = as_float(profile.get("lane1_profile_win_rate"))
     cls = row.get(prefix + "class")
     national = as_float(row.get(prefix + "national_win_rate"))
     local = as_float(row.get(prefix + "local_win_rate"))
@@ -237,6 +343,10 @@ def score_boat(row: Row, lane: int) -> dict[str, Any]:
     lane1_danger_bonus = 7.0 if lane != 1 and as_int(row.get("lane1_not_a1")) else 0.0
     lane1_danger_bonus += 6.0 if lane != 1 and (as_float(row.get("lane1_vs_avg_win_diff")) or 99) <= 0 else 0.0
     lane1_danger_bonus += 6.0 if lane != 1 and national_diff_lane1 is not None and national_diff_lane1 > 0 else 0.0
+    if lane != 1 and profile_starts >= 15:
+        lane1_danger_bonus += 4.0 if profile_tobi is not None and profile_tobi >= 0.30 else 0.0
+        lane1_danger_bonus += 3.0 if profile_out_top3 is not None and profile_out_top3 >= 0.34 else 0.0
+        lane1_danger_bonus -= 4.0 if profile_teppan is not None and profile_teppan >= 0.72 else 0.0
     range_bonus = 5.0 if (as_float(row.get("national_win_range")) or 99) <= 2.0 else 0.0
 
     head_morning = (
@@ -273,6 +383,12 @@ def score_boat(row: Row, lane: int) -> dict[str, Any]:
     weakness += 7.0 if exhibition_rank and exhibition_rank >= 5 else 0.0
     weakness += 6.0 if lane == 1 and as_int(row.get("lane1_not_a1")) else 0.0
     weakness += 6.0 if lane == 1 and (as_float(row.get("lane1_vs_avg_win_diff")) or 99) <= 0 else 0.0
+    if lane == 1 and profile_starts >= 15:
+        weakness += 7.0 if profile_tobi is not None and profile_tobi >= 0.30 else 0.0
+        weakness += 4.0 if profile_out_top3 is not None and profile_out_top3 >= 0.34 else 0.0
+        weakness += 3.0 if profile_miss_win is not None and profile_miss_win >= 0.72 else 0.0
+        weakness -= 7.0 if profile_teppan is not None and profile_teppan >= 0.72 else 0.0
+        weakness -= 3.0 if profile_win is not None and profile_win >= 0.82 else 0.0
 
     head_reasons: list[str] = []
     axis_reasons: list[str] = []
@@ -283,12 +399,15 @@ def score_boat(row: Row, lane: int) -> dict[str, Any]:
     role_reason("展示上位", bool(exhibition_rank and exhibition_rank <= 2), head_reasons)
     role_reason("外枠A級/強モーター", bool(lane >= 4 and outside_bonus >= 12), head_reasons)
     role_reason("1号艇より勝率上位", bool(national_diff_lane1 is not None and national_diff_lane1 > 0), head_reasons)
+    role_reason("1号艇イン履歴が不安", bool(lane != 1 and profile_starts >= 15 and profile_tobi is not None and profile_tobi >= 0.30), head_reasons)
+    role_reason("イン鉄板履歴", bool(lane == 1 and profile_starts >= 15 and profile_teppan is not None and profile_teppan >= 0.72), head_reasons)
 
     role_reason("3着内安定候補", strength >= 58, axis_reasons)
     role_reason("モーター上位", bool(motor is not None and motor >= 40), axis_reasons)
     role_reason("展示3位以内", bool(exhibition_rank and exhibition_rank <= 3), axis_reasons)
     role_reason("ST安定", bool(avg_st_rank and avg_st_rank <= 3), axis_reasons)
     role_reason("A級", class_group(cls) == "A", axis_reasons)
+    role_reason("イン鉄板履歴", bool(lane == 1 and profile_starts >= 15 and profile_teppan is not None and profile_teppan >= 0.72), axis_reasons)
 
     role_reason("低勝率", bool(national is not None and national < 4.5), toss_reasons)
     role_reason("B級", class_group(cls) == "B", toss_reasons)
@@ -296,8 +415,9 @@ def score_boat(row: Row, lane: int) -> dict[str, Any]:
     role_reason("展示下位", bool(exhibition_rank and exhibition_rank >= 5), toss_reasons)
     role_reason("ST不安", bool(avg_st is not None and avg_st >= 0.19), toss_reasons)
     role_reason("1号艇イン信頼度低め", bool(lane == 1 and as_int(row.get("lane1_not_a1"))), toss_reasons)
+    role_reason("イン飛び履歴高め", bool(lane == 1 and profile_starts >= 15 and profile_tobi is not None and profile_tobi >= 0.30), toss_reasons)
 
-    return {
+    output = {
         "lane": lane,
         "registration_no": row.get(prefix + "registration_no"),
         "name": row.get(prefix + "name"),
@@ -328,6 +448,9 @@ def score_boat(row: Row, lane: int) -> dict[str, Any]:
         "axis_reasons": "|".join(axis_reasons[:5]) or "相対評価",
         "toss_reasons": "|".join(toss_reasons[:5]) or "相対評価",
     }
+    if lane == 1:
+        output.update(profile)
+    return output
 
 
 def assign_roles(scored: list[Row], mode: str) -> dict[int, dict[str, Any]]:
@@ -395,7 +518,11 @@ def has_six_boats(race: Row) -> bool:
     return all(race.get(f"lane{lane}_registration_no") or race.get(f"lane{lane}_name") for lane in range(1, 7))
 
 
-def flatten_role_rows(race: Row, include_unlabeled: bool = False) -> list[Row]:
+def flatten_role_rows(
+    race: Row,
+    lane1_profiles: dict[str, Row] | None = None,
+    include_unlabeled: bool = False,
+) -> list[Row]:
     valid_result = as_int(race.get("valid_for_analysis")) == 1
     trifecta = parse_trifecta(race.get("result_trifecta"))
     has_result_label = valid_result and len(trifecta) == 3
@@ -405,11 +532,13 @@ def flatten_role_rows(race: Row, include_unlabeled: bool = False) -> list[Row]:
         return []
     if include_unlabeled and not has_six_boats(race):
         return []
-    scored = [score_boat(race, lane) for lane in range(1, 7)]
+    lane1_profile = lane1_profile_for_race(race, lane1_profiles or {})
+    profile = lane1_profile_metrics(lane1_profile)
+    scored = [score_boat(race, lane, lane1_profile=lane1_profile) for lane in range(1, 7)]
     roles_morning = assign_roles(scored, "morning")
     roles_preview = assign_roles(scored, "preview")
     labels = race_labels(race) if has_result_label else empty_race_labels()
-    chaos = race_base_score(race)
+    chaos = race_base_score(race, lane1_profile=lane1_profile)
     dq = data_quality_score(race)
     skip_morning, skip_reason_morning = skip_recommendation(race, scored, "morning")
     skip_preview, skip_reason_preview = skip_recommendation(race, scored, "preview")
@@ -457,6 +586,7 @@ def flatten_role_rows(race: Row, include_unlabeled: bool = False) -> list[Row]:
             "skip_preview": skip_preview,
             "skip_reason_preview": skip_reason_preview,
         }
+        base.update(profile)
         base.update(labels)
         base.update(item)
         base.update(result_labels(trifecta, lane) if has_result_label else empty_result_labels())
@@ -476,7 +606,7 @@ def write_csv(path: Path, rows: list[Row]) -> None:
                 fields.append(key)
                 seen.add(key)
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -511,6 +641,8 @@ def write_dictionary(path: Path) -> None:
         "- `mid_arare_flag`: 払戻5,000円以上10,000円未満。",
         "- `target_arare_flag`: 払戻5,000円以上。",
         "- `chaos_score`: レース荒れ判定用の説明可能なルールベーススコア。",
+        "- `lane1_profile_*`: 1号艇選手が過去に1号艇だった時の履歴プロファイル。過去履歴から作る補助特徴量で、当日結果は使わない。",
+        "- `lane1_profile_label`: `イン鉄板寄り`, `イン飛び注意`, `標準`, `データ薄め` の簡易ラベル。",
         "- `skip_morning/preview`: 見送り候補。頭候補が割れ気味、消し候補不明瞭、欠損多めなど。",
         "",
         "データリーク防止: `payout_yen`, `result_trifecta`, `actual_*` はラベル・検証専用。",
@@ -520,14 +652,22 @@ def write_dictionary(path: Path) -> None:
 
 def run(args: argparse.Namespace) -> int:
     races = read_rows(Path(args.race_dataset))
+    lane1_profiles = read_lane1_profiles(Path(args.lane1_profile)) if args.lane1_profile else {}
     rows: list[Row] = []
     for race in races:
-        rows.extend(flatten_role_rows(race, include_unlabeled=args.include_unlabeled))
+        rows.extend(
+            flatten_role_rows(
+                race,
+                lane1_profiles=lane1_profiles,
+                include_unlabeled=args.include_unlabeled,
+            )
+        )
     write_csv(Path(args.output_csv), rows)
     parquet_note = write_parquet_if_possible(rows, Path(args.output_parquet))
     write_dictionary(Path(args.dictionary))
     race_count = len({row["race_id"] for row in rows})
     print(f"wrote {args.output_csv} rows={len(rows)} races={race_count}")
+    print(f"lane1 profiles loaded={len(lane1_profiles)}")
     print(parquet_note)
     return 0
 
@@ -538,6 +678,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-csv", default="data/analysis/boat_role_dataset.csv")
     parser.add_argument("--output-parquet", default="data/analysis/boat_role_dataset.parquet")
     parser.add_argument("--dictionary", default="data/analysis/boat_role_feature_dictionary.md")
+    parser.add_argument(
+        "--lane1-profile",
+        default="data/analysis/lane1_racer_profiles.csv",
+        help="optional historical lane-1 racer profile CSV",
+    )
     parser.add_argument(
         "--include-unlabeled",
         action="store_true",
