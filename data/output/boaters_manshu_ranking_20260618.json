@@ -1,0 +1,193 @@
+{
+  "version": "boaters-manshu-logic-v1",
+  "date": "2026-06-18",
+  "generated_at": "2026-06-19T02:17:17+09:00",
+  "threshold_pct": 27.0,
+  "logic_label": "BOATERS展示込み 27%以上ロジック",
+  "logic_summary": "2020年以降のBOATERS DBから、AI+一般3連対、1号艇の決まり手耐性、直近1年の差され/まくられ率、オリジナル展示の展示タイム・1周タイムを組み合わせ、過去検証で万舟率27%以上だった条件だけを採用。",
+  "source": {
+    "ranking_json": "/Users/ohyabumasaya/Desktop/price_action_analysis/outputs/manshu_daily_rank_2026-06-18.json",
+    "database": "/Users/ohyabumasaya/Desktop/price_action_analysis/outputs/boaters_all_races.sqlite"
+  },
+  "summary": {
+    "all_races": 156,
+    "races_with_full_tenji": 136,
+    "races_with_full_isshu": 126,
+    "displayed_top_n": 5,
+    "settled_top_n": 5,
+    "manshu_hits_top_n": 2,
+    "actual_manshu_rate_top_n_pct": 40.0
+  },
+  "races": [
+    {
+      "rank": 1,
+      "status": "確定",
+      "date": "2026-06-18",
+      "race_id": "2026-06-181703",
+      "place_name": "宮島",
+      "round": 3,
+      "deadline_time": "2026-06-18T11:43:00+09:00",
+      "manshu_rate_pct": 29.53,
+      "recent_rate_pct": 31.86,
+      "condition": "1〜3R × 1号艇AI+一般3連対<110 × 展示: AI+下位4〜6号艇が展示/1周2位以内 × 展示: 5/6号艇の展示が1号艇より0.10秒以上速い",
+      "matched_logic_count": 104,
+      "metrics": {
+        "boat1_ai_prediction_pct": 24.62,
+        "boat1_ai_plus": 96.14,
+        "boat1_nige_pct": 15.38,
+        "boat1_loss_pct": 69.23,
+        "boat1_tenji_time": 6.8,
+        "boat1_isshu_time": 38.0,
+        "outer56_best_tenji_time": 6.67,
+        "outer56_best_isshu_time": 37.28,
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "result": {
+        "trifecta": "3-2-5",
+        "payout_yen": 2780,
+        "manshu": false,
+        "win_method": "まくり差し",
+        "weather": "曇り",
+        "wind_speed": 1.0,
+        "wave_height": 1.0
+      }
+    },
+    {
+      "rank": 2,
+      "status": "確定",
+      "date": "2026-06-18",
+      "race_id": "2026-06-182109",
+      "place_name": "芦屋",
+      "round": 9,
+      "deadline_time": "2026-06-18T12:21:00+09:00",
+      "manshu_rate_pct": 29.02,
+      "recent_rate_pct": 29.41,
+      "condition": "会場: 芦屋 × 7〜12R × 展示: 1号艇1周タイム4〜6位 × 展示: 5/6号艇の1周が1号艇より0.15秒以上速い",
+      "matched_logic_count": 17,
+      "metrics": {
+        "boat1_ai_prediction_pct": 63.23,
+        "boat1_ai_plus": 166.01,
+        "boat1_nige_pct": 56.0,
+        "boat1_loss_pct": 24.0,
+        "boat1_tenji_time": 6.8,
+        "boat1_isshu_time": 37.13,
+        "outer56_best_tenji_time": 6.81,
+        "outer56_best_isshu_time": 36.89,
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "result": {
+        "trifecta": "1-4-3",
+        "payout_yen": 11290,
+        "manshu": true,
+        "win_method": "逃げ",
+        "weather": "晴",
+        "wind_speed": 3.0,
+        "wave_height": 3.0
+      }
+    },
+    {
+      "rank": 3,
+      "status": "確定",
+      "date": "2026-06-18",
+      "race_id": "2026-06-182107",
+      "place_name": "芦屋",
+      "round": 7,
+      "deadline_time": "2026-06-18T11:21:00+09:00",
+      "manshu_rate_pct": 29.02,
+      "recent_rate_pct": 29.41,
+      "condition": "会場: 芦屋 × 7〜12R × 展示: 1号艇1周タイム4〜6位 × 展示: 5/6号艇の1周が1号艇より0.15秒以上速い",
+      "matched_logic_count": 15,
+      "metrics": {
+        "boat1_ai_prediction_pct": 58.32,
+        "boat1_ai_plus": 168.25,
+        "boat1_nige_pct": 37.04,
+        "boat1_loss_pct": 44.44,
+        "boat1_tenji_time": 6.73,
+        "boat1_isshu_time": 37.31,
+        "outer56_best_tenji_time": 6.76,
+        "outer56_best_isshu_time": 36.99,
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "result": {
+        "trifecta": "3-1-5",
+        "payout_yen": 8650,
+        "manshu": false,
+        "win_method": "まくり差し",
+        "weather": "晴",
+        "wind_speed": 2.0,
+        "wave_height": 2.0
+      }
+    },
+    {
+      "rank": 4,
+      "status": "確定",
+      "date": "2026-06-18",
+      "race_id": "2026-06-182111",
+      "place_name": "芦屋",
+      "round": 11,
+      "deadline_time": "2026-06-18T13:27:00+09:00",
+      "manshu_rate_pct": 29.02,
+      "recent_rate_pct": 29.41,
+      "condition": "会場: 芦屋 × 7〜12R × 展示: 1号艇1周タイム4〜6位 × 展示: 5/6号艇の1周が1号艇より0.15秒以上速い",
+      "matched_logic_count": 6,
+      "metrics": {
+        "boat1_ai_prediction_pct": 60.65,
+        "boat1_ai_plus": 182.87,
+        "boat1_nige_pct": 59.18,
+        "boat1_loss_pct": 18.36,
+        "boat1_tenji_time": 6.71,
+        "boat1_isshu_time": 37.15,
+        "outer56_best_tenji_time": 6.69,
+        "outer56_best_isshu_time": 36.79,
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "result": {
+        "trifecta": "1-2-5",
+        "payout_yen": 1940,
+        "manshu": false,
+        "win_method": "逃げ",
+        "weather": "晴",
+        "wind_speed": 4.0,
+        "wave_height": 4.0
+      }
+    },
+    {
+      "rank": 5,
+      "status": "確定",
+      "date": "2026-06-18",
+      "race_id": "2026-06-181706",
+      "place_name": "宮島",
+      "round": 6,
+      "deadline_time": "2026-06-18T13:23:00+09:00",
+      "manshu_rate_pct": 27.88,
+      "recent_rate_pct": 28.49,
+      "condition": "会場: 宮島 × 1号艇AI予測<40% × 展示: 5/6号艇に展示タイム2位以内 × 展示: 5/6号艇の展示が1号艇より0.03秒以上速い × 展示: 5/6号艇の1周が1号艇より0.05秒以上速い",
+      "matched_logic_count": 8,
+      "metrics": {
+        "boat1_ai_prediction_pct": 16.56,
+        "boat1_ai_plus": 101.78,
+        "boat1_nige_pct": 25.0,
+        "boat1_loss_pct": 42.86,
+        "boat1_tenji_time": 6.7,
+        "boat1_isshu_time": 37.73,
+        "outer56_best_tenji_time": 6.66,
+        "outer56_best_isshu_time": 37.2,
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "result": {
+        "trifecta": "1-6-2",
+        "payout_yen": 10920,
+        "manshu": true,
+        "win_method": "逃げ",
+        "weather": "晴",
+        "wind_speed": 3.0,
+        "wave_height": 3.0
+      }
+    }
+  ]
+}
