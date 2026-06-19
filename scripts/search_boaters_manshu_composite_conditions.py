@@ -17,6 +17,9 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DB = ROOT.parent / "price_action_analysis" / "outputs" / "boaters_all_races.sqlite"
 OUT_DIR = ROOT / "data" / "output" / "manshu_composite_condition_search"
+SUMMER_MONTHS = {6, 7, 8}
+SUMMER_B1_FAST_DIFF = 0.10
+SUMMER_B1_SLOW_DIFF = -0.10
 
 
 def pct(value):
@@ -176,6 +179,7 @@ def build_race_frame(boats: pd.DataFrame) -> pd.DataFrame:
     race["outer56_best_ai_plus"] = race[["b5_ai_plus", "b6_ai_plus"]].max(axis=1)
     race["outer56_best_ai_prediction"] = race[["b5_ai_prediction_pct", "b6_ai_prediction_pct"]].max(axis=1)
     race["outer56_top3"] = race[["b5_top3", "b6_top3"]].any(axis=1)
+    race["is_summer"] = race["date"].dt.month.isin(SUMMER_MONTHS)
     for boat in range(1, 7):
         race[f"b{boat}_double_time"] = race[f"b{boat}_tenji_rank_use"].eq(1) & race[f"b{boat}_isshu_rank"].eq(1)
     race["mid234_double_time"] = race[["b2_double_time", "b3_double_time", "b4_double_time"]].any(axis=1)
@@ -216,6 +220,8 @@ def build_atoms(race: pd.DataFrame) -> list[dict]:
         atom("b1_ai_pred_lt25", "1号艇AI予測25%未満", race["b1_ai_prediction_pct"].lt(25), "b1", "b1_ai_pred", 2),
         atom("b1_avgdiff_le0", "1号艇平均との差0以下", race["b1_avg_isshu_diff"].le(0), "b1", "b1_avgdiff", 3),
         atom("b1_avgdiff_le_m005", "1号艇平均との差-0.05以下", race["b1_avg_isshu_diff"].le(-0.05), "b1", "b1_avgdiff", 3),
+        atom("summer_b1_isshu_slow_m010", "夏場1号艇平均との差-0.10以下", race["is_summer"] & race["b1_avg_isshu_diff"].le(SUMMER_B1_SLOW_DIFF), "b1", "b1_summer_isshu", 4),
+        atom("summer_b1_isshu_fast010", "夏場1号艇平均との差0.10以上", race["is_summer"] & race["b1_avg_isshu_diff"].ge(SUMMER_B1_FAST_DIFF), "b1", "b1_summer_isshu", 1),
         atom("b1_tenji_ge4", "1号艇展示4位以下", race["b1_tenji_rank_use"].ge(4), "b1", "b1_tenji", 3),
         atom("b1_tenji_ge5", "1号艇展示5位以下", race["b1_tenji_rank_use"].ge(5), "b1", "b1_tenji", 2),
         atom("b1_isshu_ge4", "1号艇1周4位以下", race["b1_isshu_rank"].ge(4), "b1", "b1_isshu", 2),
@@ -268,6 +274,7 @@ def build_atoms(race: pd.DataFrame) -> list[dict]:
     atoms += [
         atom("front_1_6r", "前半1〜6R", race["round"].le(6), "context", "round", 2),
         atom("late_7_12r", "後半7〜12R", race["round"].ge(7), "context", "round", 2),
+        atom("summer", "夏場6〜8月", race["is_summer"], "context", "season", 2),
         atom("wind_wave_ge5", "風または波5以上", race["wind_speed"].ge(5) | race["wave_height"].ge(5), "context", "weather", 2),
         atom("round_1_3", "1〜3R", race["round"].le(3), "context", "round_detail", 1),
         atom("round_10_12", "10〜12R", race["round"].ge(10), "context", "round_detail", 1),

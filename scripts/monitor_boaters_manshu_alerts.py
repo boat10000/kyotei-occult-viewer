@@ -37,6 +37,11 @@ RANK_SCRIPT = (
 )
 SITE_DATA_SCRIPT = ROOT / "scripts" / "build_boaters_manshu_site_data.py"
 JST = ZoneInfo("Asia/Tokyo")
+SUMMER_MONTHS = {6, 7, 8}
+SUMMER_B1_FAST_DIFF = 0.10
+SUMMER_B1_SLOW_DIFF = -0.10
+SUMMER_B1_FAST_NIGE_DELTA_PP = 15
+SUMMER_B1_SLOW_NIGE_DELTA_PP = -17
 
 try:
     sys.path.insert(0, str(PRICE_DIR))
@@ -218,6 +223,34 @@ def as_num(value):
     except (TypeError, ValueError):
         return None
     return number if math.isfinite(number) else None
+
+
+def is_summer_date(value):
+    if not value:
+        return False
+    text = str(value)
+    try:
+        month = int(text[5:7])
+    except (TypeError, ValueError):
+        return False
+    return month in SUMMER_MONTHS
+
+
+def summer_b1_isshu_factor(date_value, b1_avg_diff, isshu_boats=None):
+    b1_avg_diff = as_num(b1_avg_diff)
+    if isshu_boats is not None:
+        try:
+            if int(isshu_boats or 0) < 6:
+                return {"signal": "", "nige_delta_pp": 0, "score_bonus": 0}
+        except (TypeError, ValueError):
+            return {"signal": "", "nige_delta_pp": 0, "score_bonus": 0}
+    if not is_summer_date(date_value) or b1_avg_diff is None:
+        return {"signal": "", "nige_delta_pp": 0, "score_bonus": 0}
+    if b1_avg_diff >= SUMMER_B1_FAST_DIFF:
+        return {"signal": "fast_hold", "nige_delta_pp": SUMMER_B1_FAST_NIGE_DELTA_PP, "score_bonus": 12}
+    if b1_avg_diff <= SUMMER_B1_SLOW_DIFF:
+        return {"signal": "slow_fly", "nige_delta_pp": SUMMER_B1_SLOW_NIGE_DELTA_PP, "score_bonus": -14}
+    return {"signal": "", "nige_delta_pp": 0, "score_bonus": 0}
 
 
 def pct(value):
@@ -715,6 +748,7 @@ def boat_score_live(row, mode):
     isshu = row.get("isshu_rank") or 6
     st_rank = row.get("st_rank_general") or 6
     double_time = bool(row.get("double_time"))
+    summer_bonus = row.get("summer_b1_score_bonus") or 0
     double_bonus = 0
     if double_time:
         boat = row.get("boat_number")
@@ -727,15 +761,15 @@ def boat_score_live(row, mode):
         elif boat == 6:
             double_bonus = 8
     if mode == "ai_pred":
-        return ai_pred + (double_bonus * 0.25)
+        return ai_pred + (double_bonus * 0.25) + (summer_bonus * 0.25)
     if mode == "ai_plus":
-        return ai_plus + double_bonus
+        return ai_plus + double_bonus + summer_bonus
     if mode == "exhibit":
-        return avgdiff * 55 + (7 - tenji) * 6 + (7 - isshu) * 4 + ai_pred * 0.25 + double_bonus
+        return avgdiff * 55 + (7 - tenji) * 6 + (7 - isshu) * 4 + ai_pred * 0.25 + double_bonus + summer_bonus
     if mode == "st_exhibit":
-        return (7 - st_rank) * 8 + avgdiff * 40 + (7 - tenji) * 5 + ai_pred * 0.2 + double_bonus
+        return (7 - st_rank) * 8 + avgdiff * 40 + (7 - tenji) * 5 + ai_pred * 0.2 + double_bonus + summer_bonus
     if mode == "worst_ai_plus":
-        return -(ai_plus * 0.45 + ai_pred * 0.35 + avgdiff * 40 + (7 - tenji) * 4 + double_bonus)
+        return -(ai_plus * 0.45 + ai_pred * 0.35 + avgdiff * 40 + (7 - tenji) * 4 + double_bonus + summer_bonus)
     return 0
 
 
@@ -814,7 +848,7 @@ def weather_value(race, key):
     return as_num(result.get(key))
 
 
-def enrich_rows(by_boat, morning_metrics):
+def enrich_rows(by_boat, morning_metrics, date_text=None):
     rows = []
     for boat in range(1, 7):
         source = by_boat.get(boat, {})
@@ -847,6 +881,7 @@ def enrich_rows(by_boat, morning_metrics):
             if avg_isshu is not None and row.get("isshu_time") is not None
             else None
         )
+        row["avg_isshu_time"] = avg_isshu
 
     if rows[0]["nige_pct"] is None:
         rows[0]["nige_pct"] = as_num(morning_metrics.get("boat1_nige_pct"))
@@ -866,6 +901,14 @@ def enrich_rows(by_boat, morning_metrics):
         row["tenji_rank"] = row["tenji_time_rank"]
         row["isshu_rank"] = row["isshu_time_rank"]
         row["double_time"] = row["tenji_rank"] == 1 and row["isshu_rank"] == 1
+        row["summer_b1_isshu_factor"] = ""
+        row["summer_b1_nige_delta_pp"] = 0
+        row["summer_b1_score_bonus"] = 0
+        if row["boat_number"] == 1:
+            summer_factor = summer_b1_isshu_factor(date_text, row["avg_isshu_diff"], len(isshu_values))
+            row["summer_b1_isshu_factor"] = summer_factor["signal"]
+            row["summer_b1_nige_delta_pp"] = summer_factor["nige_delta_pp"]
+            row["summer_b1_score_bonus"] = summer_factor["score_bonus"]
         row["exhibit_rank"] = min(row["tenji_time_rank"], row["isshu_time_rank"])
         row["outer_good"] = int(row["boat_number"] in {5, 6} and row["exhibit_rank"] <= 2)
         st_rank = row["st_rank_general"] if row["st_rank_general"] is not None else 4
@@ -879,6 +922,12 @@ def enrich_rows(by_boat, morning_metrics):
                 double_score = 0.80
             elif row["boat_number"] == 6:
                 double_score = 0.65
+        summer_score = 0
+        if row["boat_number"] == 1:
+            if row["summer_b1_isshu_factor"] == "fast_hold":
+                summer_score = 0.90
+            elif row["summer_b1_isshu_factor"] == "slow_fly":
+                summer_score = -1.00
         row["comp_score"] = (
             row["ai_prediction_pct_rank"] * 0.34
             + row["ai_plus_rank"] * 0.30
@@ -886,6 +935,7 @@ def enrich_rows(by_boat, morning_metrics):
             + row["exhibit_rank"] * 0.18
             + st_rank * 0.06
             - double_score
+            - summer_score
         )
         row["value_score"] = (
             row["comp_score"]
@@ -896,7 +946,7 @@ def enrich_rows(by_boat, morning_metrics):
     return rows
 
 
-def race_metrics(rows):
+def race_metrics(rows, date_text=None):
     b1 = next(row for row in rows if row["boat_number"] == 1)
     outer = [row for row in rows if row["boat_number"] in {5, 6}]
     outer46 = [row for row in rows if row["boat_number"] in {4, 5, 6}]
@@ -915,6 +965,8 @@ def race_metrics(rows):
     rank6 = next((row for row in rows if row.get("ai_plus_rank") == 6), {})
     rank5 = next((row for row in rows if row.get("ai_plus_rank") == 5), {})
     double_time_boats = [row["boat_number"] for row in rows if row.get("double_time")]
+    isshu_boats = sum(1 for row in rows if row.get("isshu_time") is not None)
+    summer_factor = summer_b1_isshu_factor(date_text, b1.get("avg_isshu_diff"), isshu_boats)
     return {
         "boat1_ai_prediction_pct": b1.get("ai_prediction_pct"),
         "boat1_ai_plus": b1.get("ai_plus"),
@@ -922,6 +974,12 @@ def race_metrics(rows):
         "boat1_nige_pct": b1.get("nige_pct"),
         "boat1_loss_pct": b1_loss,
         "boat1_avg_isshu_diff": b1.get("avg_isshu_diff"),
+        "avg_isshu_time": b1.get("avg_isshu_time"),
+        "is_summer": is_summer_date(date_text),
+        "b1_summer_isshu_factor": summer_factor["signal"],
+        "b1_summer_nige_delta_pp": summer_factor["nige_delta_pp"],
+        "boat1_summer_isshu_factor": summer_factor["signal"],
+        "boat1_summer_nige_delta_pp": summer_factor["nige_delta_pp"],
         "boat1_tenji_time": b1_tenji,
         "boat1_isshu_time": b1_isshu,
         "boat1_tenji_rank": b1.get("tenji_rank"),
@@ -970,7 +1028,7 @@ def race_metrics(rows):
             1 for row in outer46 if row.get("ai_plus_rank", 9) >= 5 and row.get("exhibit_rank", 9) <= 2
         ),
         "tenji_boats": sum(1 for row in rows if row.get("tenji_time") is not None),
-        "isshu_boats": sum(1 for row in rows if row.get("isshu_time") is not None),
+        "isshu_boats": isshu_boats,
     }
 
 
@@ -984,6 +1042,13 @@ def condition_confirmed(condition, metrics):
             checks.append(("1号艇平均との差0以下", (metrics.get("boat1_avg_isshu_diff") or 9) <= 0))
         elif "0.10以上" in text:
             checks.append(("1号艇平均との差0.10以上", (metrics.get("boat1_avg_isshu_diff") or -9) >= 0.10))
+
+    if "夏場" in text and "1号艇" in text and ("1周" in text or "平均との差" in text):
+        checks.append(("夏場6〜8月", bool(metrics.get("is_summer"))))
+        if "-0.10以下" in text or "0.10秒遅い" in text:
+            checks.append(("夏場1号艇平均との差-0.10以下", (metrics.get("boat1_avg_isshu_diff") or 9) <= SUMMER_B1_SLOW_DIFF))
+        elif "0.10以上" in text or "0.10秒速い" in text:
+            checks.append(("夏場1号艇平均との差0.10以上", (metrics.get("boat1_avg_isshu_diff") or -9) >= SUMMER_B1_FAST_DIFF))
 
     if "5/6号艇平均との差" in text:
         if "0.14以上" in text:
@@ -1050,6 +1115,7 @@ def roi_strategies(race, metrics, rows):
     )
     strategies = []
     wind_wave = (weather_value(race, "wind_speed") or 0) >= 5 or (weather_value(race, "wave_height") or 0) >= 5
+    b1_summer_fast = (metrics.get("b1_summer_isshu_factor") or metrics.get("boat1_summer_isshu_factor")) == "fast_hold"
     if (
         round_no <= 3
         and (metrics.get("boat1_nige_pct") or 999) < 40
@@ -1120,6 +1186,7 @@ def roi_strategies(race, metrics, rows):
         strategies.append(("ashiya_bad1_mid12", "芦屋: 1号艇展示/1周悪化 中枠頭 12点", mid_heads_support_156))
     if (
         place == "宮島"
+        and not b1_summer_fast
         and (metrics.get("boat1_nige_pct") or 999) < 50
         and (metrics.get("boat1_loss_pct") or -1) >= 40
         and metrics.get("outer56_exhibit_top2_count", 0) >= 2
@@ -1128,6 +1195,7 @@ def roi_strategies(race, metrics, rows):
         strategies.append(("miyajima_outer_no1", "宮島: 外2艇展示浮上 1号艇全消し 12点", mid_heads_outer_no1))
     if (
         place == "丸亀"
+        and not b1_summer_fast
         and (metrics.get("boat1_nige_pct") or 999) < 45
         and (metrics.get("boat1_loss_pct") or -1) >= 45
         and metrics.get("outer56_isshu_top2_count", 0) >= 1
@@ -1173,6 +1241,17 @@ def fmt_double_time(metrics):
     return f", DT{fmt_list(boats)}"
 
 
+def fmt_summer_b1_isshu(metrics):
+    signal = metrics.get("b1_summer_isshu_factor") or metrics.get("boat1_summer_isshu_factor")
+    if not signal:
+        return ""
+    delta = as_num(metrics.get("b1_summer_nige_delta_pp") or metrics.get("boat1_summer_nige_delta_pp"))
+    if delta is None:
+        return ""
+    sign = "+" if delta > 0 else ""
+    return f", 夏1周逃げ{sign}{delta:.0f}pt"
+
+
 def fetch_live_race(race, refresh=True):
     place = race.get("place_name")
     slug = race.get("slug") or PLACE_SLUGS.get(place)
@@ -1202,10 +1281,12 @@ def make_message(race, alert_type, metrics, checks, strategies):
         f"締切{deadline_text} / 1号艇逃げ{fmt_pct(metrics.get('boat1_nige_pct'))}, "
         f"逃げ失敗{fmt_pct(metrics.get('boat1_loss_pct'))}, "
         f"1平均との差{fmt_time(metrics.get('boat1_avg_isshu_diff'))}, "
+        f"1周平均{fmt_time(metrics.get('avg_isshu_time'))}, "
         f"1展示{fmt_time(metrics.get('boat1_tenji_time'))}"
         f"({metrics.get('boat1_tenji_time_rank')}位), "
         f"5/6平均との差{fmt_time(metrics.get('outer56_best_avg_isshu_diff'))}"
         f"{fmt_double_time(metrics)}"
+        f"{fmt_summer_b1_isshu(metrics)}"
     )
     if alert_type == "buy_ok" and strategies:
         s = strategies[0]
@@ -1297,8 +1378,8 @@ def monitor(args):
 
         try:
             by_boat = fetch_live_race(race, refresh=not args.no_refresh)
-            rows = enrich_rows(by_boat, race.get("metrics") or {})
-            metrics = race_metrics(rows)
+            rows = enrich_rows(by_boat, race.get("metrics") or {}, date_text=race.get("date"))
+            metrics = race_metrics(rows, date_text=race.get("date"))
             confirmed, checks = condition_confirmed(race.get("condition"), metrics)
             strategies = roi_strategies(race, metrics, rows)
             alert_type = "buy_ok" if strategies else "rate_up" if confirmed else None

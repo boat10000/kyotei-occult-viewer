@@ -221,6 +221,10 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "boat1_nige_pct": "b1_nige_pct",
         "boat1_loss_pct": "b1_loss_pct",
         "boat1_avg_isshu_diff": "b1_avg_isshu_diff",
+        "avg_isshu_time": "avg_isshu_time",
+        "is_summer": "is_summer",
+        "b1_summer_isshu_factor": "b1_summer_isshu_factor",
+        "b1_summer_nige_delta_pp": "b1_summer_nige_delta_pp",
         "boat1_tenji_time": "b1_tenji_time",
         "boat1_isshu_time": "b1_isshu_time",
         "outer56_best_avg_isshu_diff": "outer56_best_avg_isshu_diff",
@@ -248,7 +252,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         value = metrics.get(out_key)
         if value is None:
             value = row.get(in_key)
-        if out_key == "double_time_boats":
+        if out_key in {"double_time_boats", "b1_summer_isshu_factor"}:
             normalized_metrics[out_key] = value or ""
         else:
             normalized_metrics[out_key] = as_num(value)

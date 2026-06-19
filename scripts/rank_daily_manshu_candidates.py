@@ -18,6 +18,11 @@ DEFAULT_LOGIC_CSV = ROOT / "data" / "model" / "manshu_condition_combo_search.csv
 
 FIXED_TOP6_VENUES = {"平和島", "鳴門", "戸田", "桐生", "江戸川", "浜名湖"}
 FIXED_TOP10_VENUES = FIXED_TOP6_VENUES | {"児島", "三国", "宮島", "若松"}
+SUMMER_MONTHS = {6, 7, 8}
+SUMMER_B1_FAST_DIFF = 0.10
+SUMMER_B1_SLOW_DIFF = -0.10
+SUMMER_B1_FAST_NIGE_DELTA_PP = 15
+SUMMER_B1_SLOW_NIGE_DELTA_PP = -17
 
 AVGDIFF_LANE_EDGES = {
     ("芦屋", 5): {"threshold": 0.40, "top3_uplift_pp": 27.28, "win_uplift_pp": 8.55},
@@ -242,6 +247,7 @@ def daily_features(today_db, target_date):
             MAX(CASE WHEN boat_number = 4 THEN avg_isshu_diff END) AS b4_avg_isshu_diff,
             MAX(CASE WHEN boat_number = 5 THEN avg_isshu_diff END) AS b5_avg_isshu_diff,
             MAX(CASE WHEN boat_number = 6 THEN avg_isshu_diff END) AS b6_avg_isshu_diff,
+            AVG(isshu_time) AS avg_isshu_time,
             MAX(CASE WHEN boat_number = 2 THEN tenji_time_rank END) AS b2_tenji_time_rank,
             MAX(CASE WHEN boat_number = 3 THEN tenji_time_rank END) AS b3_tenji_time_rank,
             MAX(CASE WHEN boat_number = 4 THEN tenji_time_rank END) AS b4_tenji_time_rank,
@@ -344,8 +350,10 @@ def mask_ge(series, value):
 
 def atom_masks(df, top6_venues, top10_venues):
     n = len(df)
+    summer = df["date"].astype(str).str.slice(5, 7).isin([f"{month:02d}" for month in SUMMER_MONTHS]).to_numpy()
     masks = {
         "all": np.ones(n, dtype=bool),
+        "summer": summer,
         "venue_top6": df["place_name"].isin(top6_venues).to_numpy(),
         "venue_top10": df["place_name"].isin(top10_venues).to_numpy(),
         "round_early": mask_le(df["round_no"], 6),
@@ -372,6 +380,8 @@ def atom_masks(df, top6_venues, top10_venues):
         "outer56_low_aiplus_exhibit_top2": mask_ge(df["outer56_low_aiplus_exhibit_top2_count"], 1),
         "outer56_low_aipred_exhibit_top2": mask_ge(df["outer56_low_aipred_exhibit_top2_count"], 1),
         "outer46_low_aiplus_exhibit_top2": mask_ge(df["outer46_low_aiplus_exhibit_top2_count"], 1),
+        "summer_b1_isshu_fast010": summer & mask_ge(df["b1_avg_isshu_diff"], SUMMER_B1_FAST_DIFF),
+        "summer_b1_isshu_slow_m010": summer & mask_le(df["b1_avg_isshu_diff"], SUMMER_B1_SLOW_DIFF),
     }
     for place in PLACE_NAMES.values():
         masks[f"venue_{place}"] = df["place_name"].eq(place).to_numpy()
@@ -400,6 +410,33 @@ def num(value):
     if value is None or pd.isna(value):
         return None
     return float(value)
+
+
+def is_summer_date(value):
+    if value is None or pd.isna(value):
+        return False
+    text = str(value)
+    try:
+        month = int(text[5:7])
+    except (TypeError, ValueError):
+        return False
+    return month in SUMMER_MONTHS
+
+
+def summer_b1_isshu_factor(date_value, b1_avg_diff, isshu_boats=None):
+    if isshu_boats is not None:
+        try:
+            if int(isshu_boats or 0) < 6:
+                return {"signal": "", "nige_delta_pp": 0, "score_bonus": 0}
+        except (TypeError, ValueError):
+            return {"signal": "", "nige_delta_pp": 0, "score_bonus": 0}
+    if not is_summer_date(date_value) or b1_avg_diff is None:
+        return {"signal": "", "nige_delta_pp": 0, "score_bonus": 0}
+    if b1_avg_diff >= SUMMER_B1_FAST_DIFF:
+        return {"signal": "fast_hold", "nige_delta_pp": SUMMER_B1_FAST_NIGE_DELTA_PP, "score_bonus": 12}
+    if b1_avg_diff <= SUMMER_B1_SLOW_DIFF:
+        return {"signal": "slow_fly", "nige_delta_pp": SUMMER_B1_SLOW_NIGE_DELTA_PP, "score_bonus": -14}
+    return {"signal": "", "nige_delta_pp": 0, "score_bonus": 0}
 
 
 def tenji_rank_use(race, boat):
@@ -459,6 +496,40 @@ def composite_edge_signals(race):
                 "top3_rate_pct": 88.26,
                 "win_uplift_pp": 14.44,
                 "top3_uplift_pp": 8.33,
+            },
+        )
+
+    summer_factor = summer_b1_isshu_factor(race.get("date"), b1_avg, race.get("isshu_boats"))
+    if summer_factor["signal"] == "fast_hold":
+        add_edge(
+            signals,
+            "codex_summer_b1_isshu_fast010_hold",
+            "夏場: 1号艇1周が6艇平均より0.10秒速いのでイン逃げ率+15pt",
+            None,
+            -2.2,
+            "b1_hold_down",
+            {
+                "boat": 1,
+                "avg_isshu_diff": b1_avg,
+                "threshold": SUMMER_B1_FAST_DIFF,
+                "nige_delta_pp": SUMMER_B1_FAST_NIGE_DELTA_PP,
+                "season": "summer_6_8",
+            },
+        )
+    elif summer_factor["signal"] == "slow_fly":
+        add_edge(
+            signals,
+            "codex_summer_b1_isshu_slow_m010_fly",
+            "夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt",
+            None,
+            2.8,
+            "b1_fly_up",
+            {
+                "boat": 1,
+                "avg_isshu_diff": b1_avg,
+                "threshold": SUMMER_B1_SLOW_DIFF,
+                "nige_delta_pp": SUMMER_B1_SLOW_NIGE_DELTA_PP,
+                "season": "summer_6_8",
             },
         )
 
@@ -795,6 +866,11 @@ def build_rankings(df, logic_rows, masks, threshold=27.0):
 
 def row_summary(race, matches, status, edge_signals=None):
     edge_signals = edge_signals or []
+    summer_factor = summer_b1_isshu_factor(
+        race.get("date"),
+        num(race.get("b1_avg_isshu_diff")),
+        race.get("isshu_boats"),
+    )
     matches = sorted(
         matches,
         key=lambda item: (
@@ -842,6 +918,10 @@ def row_summary(race, matches, status, edge_signals=None):
         "b1_nige_pct": race.get("b1_nige_pct"),
         "b1_loss_pct": race.get("b1_loss_pct"),
         "b1_avg_isshu_diff": race.get("b1_avg_isshu_diff"),
+        "avg_isshu_time": race.get("avg_isshu_time"),
+        "is_summer": int(is_summer_date(race.get("date"))),
+        "b1_summer_isshu_factor": summer_factor["signal"],
+        "b1_summer_nige_delta_pp": summer_factor["nige_delta_pp"],
         "b1_tenji_time": race.get("b1_tenji_time"),
         "b1_isshu_time": race.get("b1_isshu_time"),
         "outer56_best_avg_isshu_diff": race.get("outer56_best_avg_isshu_diff"),
@@ -909,7 +989,7 @@ def make_report(path, date_text, actual_rows, watch_rows, top_n):
 </head>
 <body>
   <h1>{date_text} 万舟率ランキング</h1>
-  <div class="meta">27%以上ロジック + Codex複合補正 + ダブルタイム補正 / 確定ランキングは展示・1周が出ているレースのみ / 展示待ちは非展示条件だけ一致</div>
+  <div class="meta">27%以上ロジック + Codex複合補正 + ダブルタイム補正 + 夏場1周平均との差補正 / 確定ランキングは展示・1周が出ているレースのみ / 展示待ちは非展示条件だけ一致</div>
   <h2>確定ランキング TOP{top_n}</h2>
   <table>
     <thead><tr><th>#</th><th>状態</th><th>場</th><th>R</th><th>締切</th><th>補正後</th><th>元率</th><th>補正pt</th><th>直近率</th><th>一致数</th><th>代表条件</th><th>1号艇AI</th><th>1展示</th><th>5/6最速展示</th></tr></thead>
@@ -963,7 +1043,7 @@ def main():
         "date": args.date,
         "threshold_pct": args.threshold,
         "logic_label": "Codex BOATERS展示込み 万舟率ロジック + 複合補正",
-        "logic_summary": "既存の27%以上ロジックに、1号艇平均との差/展示弱化、5・6号艇の平均との差上振れ、AI+最下位の穴/消し判定、場×艇番平均との差エッジ、展示タイム+1周タイム1位のダブルタイム補正を加点・減点したランキング。",
+        "logic_summary": "既存の27%以上ロジックに、1号艇平均との差/展示弱化、5・6号艇の平均との差上振れ、AI+最下位の穴/消し判定、場×艇番平均との差エッジ、展示タイム+1周タイム1位のダブルタイム補正、夏場の1号艇1周平均との差0.10秒補正を加点・減点したランキング。",
         "races": int(len(df)),
         "races_with_full_tenji": int((df["tenji_boats"] >= 6).sum()),
         "races_with_full_isshu": int((df["isshu_boats"] >= 6).sum()),
