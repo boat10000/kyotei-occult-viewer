@@ -1,0 +1,402 @@
+{
+  "version": "boaters-manshu-history-index-v1",
+  "generated_at": "2026-06-19T11:49:45+09:00",
+  "start_date": "2026-05-01",
+  "end_date": "2026-06-18",
+  "top_n": 10,
+  "threshold_pct": 27.0,
+  "dates": [
+    {
+      "date": "2026-05-01",
+      "path": "data/output/boaters_manshu_ranking_20260501.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-05-02",
+      "path": "data/output/boaters_manshu_ranking_20260502.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-05-03",
+      "path": "data/output/boaters_manshu_ranking_20260503.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-05-04",
+      "path": "data/output/boaters_manshu_ranking_20260504.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-05-05",
+      "path": "data/output/boaters_manshu_ranking_20260505.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0
+    },
+    {
+      "date": "2026-05-06",
+      "path": "data/output/boaters_manshu_ranking_20260506.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0
+    },
+    {
+      "date": "2026-05-07",
+      "path": "data/output/boaters_manshu_ranking_20260507.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-05-08",
+      "path": "data/output/boaters_manshu_ranking_20260508.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-05-09",
+      "path": "data/output/boaters_manshu_ranking_20260509.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-05-10",
+      "path": "data/output/boaters_manshu_ranking_20260510.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0
+    },
+    {
+      "date": "2026-05-11",
+      "path": "data/output/boaters_manshu_ranking_20260511.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-05-12",
+      "path": "data/output/boaters_manshu_ranking_20260512.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-05-13",
+      "path": "data/output/boaters_manshu_ranking_20260513.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 0,
+      "actual_manshu_rate_top_n_pct": 0.0
+    },
+    {
+      "date": "2026-05-14",
+      "path": "data/output/boaters_manshu_ranking_20260514.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 4,
+      "actual_manshu_rate_top_n_pct": 40.0
+    },
+    {
+      "date": "2026-05-15",
+      "path": "data/output/boaters_manshu_ranking_20260515.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-05-16",
+      "path": "data/output/boaters_manshu_ranking_20260516.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 4,
+      "actual_manshu_rate_top_n_pct": 40.0
+    },
+    {
+      "date": "2026-05-17",
+      "path": "data/output/boaters_manshu_ranking_20260517.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-05-18",
+      "path": "data/output/boaters_manshu_ranking_20260518.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-05-19",
+      "path": "data/output/boaters_manshu_ranking_20260519.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-05-20",
+      "path": "data/output/boaters_manshu_ranking_20260520.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-05-21",
+      "path": "data/output/boaters_manshu_ranking_20260521.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-05-22",
+      "path": "data/output/boaters_manshu_ranking_20260522.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-05-23",
+      "path": "data/output/boaters_manshu_ranking_20260523.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-05-24",
+      "path": "data/output/boaters_manshu_ranking_20260524.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-05-25",
+      "path": "data/output/boaters_manshu_ranking_20260525.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-05-26",
+      "path": "data/output/boaters_manshu_ranking_20260526.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 5,
+      "actual_manshu_rate_top_n_pct": 50.0
+    },
+    {
+      "date": "2026-05-27",
+      "path": "data/output/boaters_manshu_ranking_20260527.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 5,
+      "actual_manshu_rate_top_n_pct": 50.0
+    },
+    {
+      "date": "2026-05-28",
+      "path": "data/output/boaters_manshu_ranking_20260528.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-05-29",
+      "path": "data/output/boaters_manshu_ranking_20260529.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-05-30",
+      "path": "data/output/boaters_manshu_ranking_20260530.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 4,
+      "actual_manshu_rate_top_n_pct": 40.0
+    },
+    {
+      "date": "2026-05-31",
+      "path": "data/output/boaters_manshu_ranking_20260531.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-06-01",
+      "path": "data/output/boaters_manshu_ranking_20260601.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-06-02",
+      "path": "data/output/boaters_manshu_ranking_20260602.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-06-03",
+      "path": "data/output/boaters_manshu_ranking_20260603.json",
+      "displayed_top_n": 8,
+      "settled_top_n": 8,
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 12.5
+    },
+    {
+      "date": "2026-06-04",
+      "path": "data/output/boaters_manshu_ranking_20260604.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 6,
+      "actual_manshu_rate_top_n_pct": 60.0
+    },
+    {
+      "date": "2026-06-05",
+      "path": "data/output/boaters_manshu_ranking_20260605.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-06-06",
+      "path": "data/output/boaters_manshu_ranking_20260606.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-06-07",
+      "path": "data/output/boaters_manshu_ranking_20260607.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 5,
+      "actual_manshu_rate_top_n_pct": 50.0
+    },
+    {
+      "date": "2026-06-08",
+      "path": "data/output/boaters_manshu_ranking_20260608.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0
+    },
+    {
+      "date": "2026-06-09",
+      "path": "data/output/boaters_manshu_ranking_20260609.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-06-10",
+      "path": "data/output/boaters_manshu_ranking_20260610.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-06-11",
+      "path": "data/output/boaters_manshu_ranking_20260611.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0
+    },
+    {
+      "date": "2026-06-12",
+      "path": "data/output/boaters_manshu_ranking_20260612.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0
+    },
+    {
+      "date": "2026-06-13",
+      "path": "data/output/boaters_manshu_ranking_20260613.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 5,
+      "actual_manshu_rate_top_n_pct": 50.0
+    },
+    {
+      "date": "2026-06-14",
+      "path": "data/output/boaters_manshu_ranking_20260614.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 4,
+      "actual_manshu_rate_top_n_pct": 40.0
+    },
+    {
+      "date": "2026-06-15",
+      "path": "data/output/boaters_manshu_ranking_20260615.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-06-16",
+      "path": "data/output/boaters_manshu_ranking_20260616.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-06-17",
+      "path": "data/output/boaters_manshu_ranking_20260617.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 10,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0
+    },
+    {
+      "date": "2026-06-18",
+      "path": "data/output/boaters_manshu_ranking_20260618.json",
+      "displayed_top_n": 10,
+      "settled_top_n": 8,
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 37.5
+    }
+  ]
+}
