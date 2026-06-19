@@ -23,6 +23,65 @@ SUMMER_B1_FAST_DIFF = 0.10
 SUMMER_B1_SLOW_DIFF = -0.10
 SUMMER_B1_FAST_NIGE_DELTA_PP = 15
 SUMMER_B1_SLOW_NIGE_DELTA_PP = -17
+SUPER_SLIT_TENJI_ADV = 0.10
+
+SUPER_SLIT_ALERT_STATS = {
+    2: {
+        "rows": 1492,
+        "win_rate_pct": 29.56,
+        "top3_rate_pct": 70.91,
+        "makuri_win_rate_pct": 11.53,
+        "win_uplift_pp": 16.13,
+        "top3_uplift_pp": 13.90,
+        "makuri_win_uplift_pp": 7.79,
+        "manshu_rate_pct": 17.23,
+        "bonus_pct": 0.6,
+    },
+    3: {
+        "rows": 3857,
+        "win_rate_pct": 22.45,
+        "top3_rate_pct": 66.55,
+        "makuri_win_rate_pct": 10.76,
+        "win_uplift_pp": 10.21,
+        "top3_uplift_pp": 12.94,
+        "makuri_win_uplift_pp": 6.00,
+        "manshu_rate_pct": 16.85,
+        "bonus_pct": 0.5,
+    },
+    4: {
+        "rows": 3454,
+        "win_rate_pct": 21.63,
+        "top3_rate_pct": 61.09,
+        "makuri_win_rate_pct": 12.94,
+        "win_uplift_pp": 11.91,
+        "top3_uplift_pp": 15.45,
+        "makuri_win_uplift_pp": 8.63,
+        "manshu_rate_pct": 17.98,
+        "bonus_pct": 1.0,
+    },
+    5: {
+        "rows": 3140,
+        "win_rate_pct": 12.68,
+        "top3_rate_pct": 49.43,
+        "makuri_win_rate_pct": 5.45,
+        "win_uplift_pp": 7.03,
+        "top3_uplift_pp": 14.32,
+        "makuri_win_uplift_pp": 4.23,
+        "manshu_rate_pct": 18.47,
+        "bonus_pct": 1.2,
+    },
+    6: {
+        "rows": 3249,
+        "win_rate_pct": 8.90,
+        "top3_rate_pct": 40.69,
+        "makuri_win_rate_pct": 4.16,
+        "win_uplift_pp": 5.94,
+        "top3_uplift_pp": 14.58,
+        "makuri_win_uplift_pp": 3.42,
+        "manshu_rate_pct": 18.34,
+        "bonus_pct": 1.1,
+    },
+}
 
 AVGDIFF_LANE_EDGES = {
     ("芦屋", 5): {"threshold": 0.40, "top3_uplift_pp": 27.28, "win_uplift_pp": 8.55},
@@ -53,6 +112,10 @@ EXHIBIT_PREFIXES = (
     "outer56_low_aiplus_exhibit",
     "outer56_low_aipred_exhibit",
     "outer46_low_aiplus_exhibit",
+    "super_slit",
+    "mid234_super_slit",
+    "outer456_super_slit",
+    "outer56_super_slit",
 )
 
 
@@ -248,6 +311,16 @@ def daily_features(today_db, target_date):
             MAX(CASE WHEN boat_number = 5 THEN avg_isshu_diff END) AS b5_avg_isshu_diff,
             MAX(CASE WHEN boat_number = 6 THEN avg_isshu_diff END) AS b6_avg_isshu_diff,
             AVG(isshu_time) AS avg_isshu_time,
+            MAX(CASE WHEN boat_number = 2 THEN tenji_time END) AS b2_tenji_time,
+            MAX(CASE WHEN boat_number = 3 THEN tenji_time END) AS b3_tenji_time,
+            MAX(CASE WHEN boat_number = 4 THEN tenji_time END) AS b4_tenji_time,
+            MAX(CASE WHEN boat_number = 5 THEN tenji_time END) AS b5_tenji_time,
+            MAX(CASE WHEN boat_number = 6 THEN tenji_time END) AS b6_tenji_time,
+            MAX(CASE WHEN boat_number = 2 THEN st_rank_general END) AS b2_st_rank_general,
+            MAX(CASE WHEN boat_number = 3 THEN st_rank_general END) AS b3_st_rank_general,
+            MAX(CASE WHEN boat_number = 4 THEN st_rank_general END) AS b4_st_rank_general,
+            MAX(CASE WHEN boat_number = 5 THEN st_rank_general END) AS b5_st_rank_general,
+            MAX(CASE WHEN boat_number = 6 THEN st_rank_general END) AS b6_st_rank_general,
             MAX(CASE WHEN boat_number = 2 THEN tenji_time_rank END) AS b2_tenji_time_rank,
             MAX(CASE WHEN boat_number = 3 THEN tenji_time_rank END) AS b3_tenji_time_rank,
             MAX(CASE WHEN boat_number = 4 THEN tenji_time_rank END) AS b4_tenji_time_rank,
@@ -331,6 +404,18 @@ def daily_features(today_db, target_date):
         ORDER BY place_id, round_no
         """
         df = pd.read_sql_query(sql, con, params=(target_date,))
+    for boat in range(2, 7):
+        left = boat - 1
+        df[f"b{boat}_super_slit_tenji_adv"] = df[f"b{left}_tenji_time"] - df[f"b{boat}_tenji_time"]
+        df[f"b{boat}_super_slit_st_rank_adv"] = df[f"b{left}_st_rank_general"] - df[f"b{boat}_st_rank_general"]
+        df[f"b{boat}_super_slit_alert"] = (
+            df[f"b{boat}_super_slit_tenji_adv"].ge(SUPER_SLIT_TENJI_ADV)
+            & df[f"b{boat}_super_slit_st_rank_adv"].gt(0)
+        ).astype(int)
+    df["super_slit_alert_count"] = sum(df[f"b{boat}_super_slit_alert"] for boat in range(2, 7))
+    df["mid234_super_slit_count"] = sum(df[f"b{boat}_super_slit_alert"] for boat in (2, 3, 4))
+    df["outer456_super_slit_count"] = sum(df[f"b{boat}_super_slit_alert"] for boat in (4, 5, 6))
+    df["outer56_super_slit_count"] = sum(df[f"b{boat}_super_slit_alert"] for boat in (5, 6))
     df["outer56_tenji_advantage"] = df["b1_tenji_time"] - df["outer56_best_tenji_time"]
     df["outer56_isshu_advantage"] = df["b1_isshu_time"] - df["outer56_best_isshu_time"]
     return df
@@ -382,6 +467,11 @@ def atom_masks(df, top6_venues, top10_venues):
         "outer46_low_aiplus_exhibit_top2": mask_ge(df["outer46_low_aiplus_exhibit_top2_count"], 1),
         "summer_b1_isshu_fast010": summer & mask_ge(df["b1_avg_isshu_diff"], SUMMER_B1_FAST_DIFF),
         "summer_b1_isshu_slow_m010": summer & mask_le(df["b1_avg_isshu_diff"], SUMMER_B1_SLOW_DIFF),
+        "super_slit_alert": mask_ge(df["super_slit_alert_count"], 1),
+        "super_slit_alert_ge2": mask_ge(df["super_slit_alert_count"], 2),
+        "mid234_super_slit": mask_ge(df["mid234_super_slit_count"], 1),
+        "outer456_super_slit": mask_ge(df["outer456_super_slit_count"], 1),
+        "outer56_super_slit": mask_ge(df["outer56_super_slit_count"], 1),
     }
     for place in PLACE_NAMES.values():
         masks[f"venue_{place}"] = df["place_name"].eq(place).to_numpy()
@@ -481,6 +571,7 @@ def composite_edge_signals(race):
     if rank5_tenji is None:
         rank5_tenji = num(race.get("ai_rank5_tenji_time_rank"))
     double_time_boats = [boat for boat in range(1, 7) if int(race.get(f"b{boat}_double_time") or 0) == 1]
+    super_slit_boats = [boat for boat in range(2, 7) if int(race.get(f"b{boat}_super_slit_alert") or 0) == 1]
 
     if 1 in double_time_boats:
         add_edge(
@@ -531,6 +622,40 @@ def composite_edge_signals(race):
                 "nige_delta_pp": SUMMER_B1_SLOW_NIGE_DELTA_PP,
                 "season": "summer_6_8",
             },
+        )
+
+    for boat in super_slit_boats:
+        stats = SUPER_SLIT_ALERT_STATS[boat]
+        add_edge(
+            signals,
+            f"codex_super_slit_alert_{boat}",
+            f"スーパースリットアラート: {boat}号艇が左隣より展示0.10秒速く平均ST順位も上位",
+            stats["manshu_rate_pct"],
+            stats["bonus_pct"],
+            "super_slit_up",
+            {
+                "boat": boat,
+                "left_boat": boat - 1,
+                "tenji_adv": num(race.get(f"b{boat}_super_slit_tenji_adv")),
+                "st_rank_adv": num(race.get(f"b{boat}_super_slit_st_rank_adv")),
+                "rows": stats["rows"],
+                "win_rate_pct": stats["win_rate_pct"],
+                "top3_rate_pct": stats["top3_rate_pct"],
+                "makuri_win_rate_pct": stats["makuri_win_rate_pct"],
+                "win_uplift_pp": stats["win_uplift_pp"],
+                "top3_uplift_pp": stats["top3_uplift_pp"],
+                "makuri_win_uplift_pp": stats["makuri_win_uplift_pp"],
+            },
+        )
+    if len(super_slit_boats) >= 2:
+        add_edge(
+            signals,
+            "codex_super_slit_alert_multi",
+            "スーパースリットアラートが2艇以上: レース万舟率22.20%",
+            22.20,
+            2.0,
+            "super_slit_multi",
+            {"boats": super_slit_boats, "base_manshu_rate_pct": 16.74},
         )
 
     for boat, manshu_rate, win_rate, top3_rate, win_uplift, top3_uplift, bonus in [
@@ -935,6 +1060,11 @@ def row_summary(race, matches, status, edge_signals=None):
         "ai_rank5_avg_isshu_diff": race.get("ai_rank5_avg_isshu_diff"),
         "ai_rank5_tenji_rank": race.get("ai_rank5_tenji_rank"),
         "double_time_boats": ",".join(str(boat) for boat in range(1, 7) if int(race.get(f"b{boat}_double_time") or 0) == 1),
+        "super_slit_boats": ",".join(str(boat) for boat in range(2, 7) if int(race.get(f"b{boat}_super_slit_alert") or 0) == 1),
+        "super_slit_alert_count": int(race.get("super_slit_alert_count") or 0),
+        "mid234_super_slit_count": int(race.get("mid234_super_slit_count") or 0),
+        "outer456_super_slit_count": int(race.get("outer456_super_slit_count") or 0),
+        "outer56_super_slit_count": int(race.get("outer56_super_slit_count") or 0),
         "boat1_double_time": int(race.get("b1_double_time") or 0),
         "mid234_double_time_count": int(race.get("mid234_double_time_count") or 0),
         "outer46_double_time_count": int(race.get("outer46_double_time_count") or 0),
@@ -989,7 +1119,7 @@ def make_report(path, date_text, actual_rows, watch_rows, top_n):
 </head>
 <body>
   <h1>{date_text} 万舟率ランキング</h1>
-  <div class="meta">27%以上ロジック + Codex複合補正 + ダブルタイム補正 + 夏場1周平均との差補正 / 確定ランキングは展示・1周が出ているレースのみ / 展示待ちは非展示条件だけ一致</div>
+  <div class="meta">27%以上ロジック + Codex複合補正 + ダブルタイム補正 + 夏場1周平均との差補正 + スーパースリットアラート / 確定ランキングは展示・1周が出ているレースのみ / 展示待ちは非展示条件だけ一致</div>
   <h2>確定ランキング TOP{top_n}</h2>
   <table>
     <thead><tr><th>#</th><th>状態</th><th>場</th><th>R</th><th>締切</th><th>補正後</th><th>元率</th><th>補正pt</th><th>直近率</th><th>一致数</th><th>代表条件</th><th>1号艇AI</th><th>1展示</th><th>5/6最速展示</th></tr></thead>
@@ -1043,7 +1173,7 @@ def main():
         "date": args.date,
         "threshold_pct": args.threshold,
         "logic_label": "Codex BOATERS展示込み 万舟率ロジック + 複合補正",
-        "logic_summary": "既存の27%以上ロジックに、1号艇平均との差/展示弱化、5・6号艇の平均との差上振れ、AI+最下位の穴/消し判定、場×艇番平均との差エッジ、展示タイム+1周タイム1位のダブルタイム補正、夏場の1号艇1周平均との差0.10秒補正を加点・減点したランキング。",
+        "logic_summary": "既存の27%以上ロジックに、1号艇平均との差/展示弱化、5・6号艇の平均との差上振れ、AI+最下位の穴/消し判定、場×艇番平均との差エッジ、展示タイム+1周タイム1位のダブルタイム補正、夏場の1号艇1周平均との差0.10秒補正、左隣より展示0.10秒速く平均ST順位も上位のスーパースリットアラートを加点・減点したランキング。",
         "races": int(len(df)),
         "races_with_full_tenji": int((df["tenji_boats"] >= 6).sum()),
         "races_with_full_isshu": int((df["isshu_boats"] >= 6).sum()),

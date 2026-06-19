@@ -20,6 +20,7 @@ OUT_DIR = ROOT / "data" / "output" / "manshu_composite_condition_search"
 SUMMER_MONTHS = {6, 7, 8}
 SUMMER_B1_FAST_DIFF = 0.10
 SUMMER_B1_SLOW_DIFF = -0.10
+SUPER_SLIT_TENJI_ADV = 0.10
 
 
 def pct(value):
@@ -182,9 +183,20 @@ def build_race_frame(boats: pd.DataFrame) -> pd.DataFrame:
     race["is_summer"] = race["date"].dt.month.isin(SUMMER_MONTHS)
     for boat in range(1, 7):
         race[f"b{boat}_double_time"] = race[f"b{boat}_tenji_rank_use"].eq(1) & race[f"b{boat}_isshu_rank"].eq(1)
+    for boat in range(2, 7):
+        left = boat - 1
+        race[f"b{boat}_super_slit"] = (
+            (race[f"b{left}_tenji_time"] - race[f"b{boat}_tenji_time"]).ge(SUPER_SLIT_TENJI_ADV)
+            & (race[f"b{left}_st_rank_general"] - race[f"b{boat}_st_rank_general"]).gt(0)
+        )
     race["mid234_double_time"] = race[["b2_double_time", "b3_double_time", "b4_double_time"]].any(axis=1)
     race["outer46_double_time"] = race[["b4_double_time", "b5_double_time", "b6_double_time"]].any(axis=1)
     race["outer56_double_time"] = race[["b5_double_time", "b6_double_time"]].any(axis=1)
+    race["super_slit"] = race[[f"b{boat}_super_slit" for boat in range(2, 7)]].any(axis=1)
+    race["super_slit_count"] = race[[f"b{boat}_super_slit" for boat in range(2, 7)]].sum(axis=1)
+    race["mid234_super_slit"] = race[["b2_super_slit", "b3_super_slit", "b4_super_slit"]].any(axis=1)
+    race["outer456_super_slit"] = race[["b4_super_slit", "b5_super_slit", "b6_super_slit"]].any(axis=1)
+    race["outer56_super_slit"] = race[["b5_super_slit", "b6_super_slit"]].any(axis=1)
     race["b1_fly"] = ~race["b1_top3"].astype(bool)
     race["winner_3to6"] = race["winner_boat"].isin([3, 4, 5, 6])
     race["mid_st_best"] = race[["b3_st_rank_general", "b4_st_rank_general"]].min(axis=1)
@@ -245,6 +257,8 @@ def build_atoms(race: pd.DataFrame) -> list[dict]:
         atom("outer56_ai_pred_ge12", "5/6号艇AI予測最大12%以上", race["outer56_best_ai_prediction"].ge(12), "outer", "outer_ai_pred", 2),
         atom("outer56_double_time", "5/6号艇にダブルタイム", race["outer56_double_time"], "outer", "outer_double_time", 4),
         atom("outer46_double_time", "4〜6号艇にダブルタイム", race["outer46_double_time"], "outer", "outer_double_time", 3),
+        atom("outer56_super_slit", "5/6号艇にスーパースリットアラート", race["outer56_super_slit"], "outer", "outer_super_slit", 3),
+        atom("outer456_super_slit", "4〜6号艇にスーパースリットアラート", race["outer456_super_slit"], "outer", "outer_super_slit", 3),
     ]
 
     # AI+下位艇を穴/消しに分ける材料
@@ -268,6 +282,9 @@ def build_atoms(race: pd.DataFrame) -> list[dict]:
         atom("b6_st_top2", "6号艇平均ST順位2位以内", race["b6_st_rank_general"].le(2), "st", "st_boat", 1),
         atom("mid234_double_time", "2〜4号艇にダブルタイム", race["mid234_double_time"], "exhibit", "double_time", 3),
         atom("b1_double_time", "1号艇ダブルタイム", race["b1_double_time"], "exhibit", "double_time", 2),
+        atom("super_slit", "スーパースリットアラートあり", race["super_slit"], "exhibit", "super_slit", 3),
+        atom("super_slit_ge2", "スーパースリットアラート2艇以上", race["super_slit_count"].ge(2), "exhibit", "super_slit", 4),
+        atom("mid234_super_slit", "2〜4号艇にスーパースリットアラート", race["mid234_super_slit"], "exhibit", "super_slit", 3),
     ]
 
     # レース文脈

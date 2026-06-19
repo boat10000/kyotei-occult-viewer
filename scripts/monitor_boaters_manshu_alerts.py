@@ -42,6 +42,15 @@ SUMMER_B1_FAST_DIFF = 0.10
 SUMMER_B1_SLOW_DIFF = -0.10
 SUMMER_B1_FAST_NIGE_DELTA_PP = 15
 SUMMER_B1_SLOW_NIGE_DELTA_PP = -17
+SUPER_SLIT_TENJI_ADV = 0.10
+
+SUPER_SLIT_ALERT_STATS = {
+    2: {"win_rate_pct": 29.56, "top3_rate_pct": 70.91, "makuri_win_rate_pct": 11.53, "score_bonus": 11},
+    3: {"win_rate_pct": 22.45, "top3_rate_pct": 66.55, "makuri_win_rate_pct": 10.76, "score_bonus": 10},
+    4: {"win_rate_pct": 21.63, "top3_rate_pct": 61.09, "makuri_win_rate_pct": 12.94, "score_bonus": 12},
+    5: {"win_rate_pct": 12.68, "top3_rate_pct": 49.43, "makuri_win_rate_pct": 5.45, "score_bonus": 11},
+    6: {"win_rate_pct": 8.90, "top3_rate_pct": 40.69, "makuri_win_rate_pct": 4.16, "score_bonus": 10},
+}
 
 try:
     sys.path.insert(0, str(PRICE_DIR))
@@ -749,6 +758,7 @@ def boat_score_live(row, mode):
     st_rank = row.get("st_rank_general") or 6
     double_time = bool(row.get("double_time"))
     summer_bonus = row.get("summer_b1_score_bonus") or 0
+    super_slit_bonus = row.get("super_slit_score_bonus") or 0
     double_bonus = 0
     if double_time:
         boat = row.get("boat_number")
@@ -761,15 +771,15 @@ def boat_score_live(row, mode):
         elif boat == 6:
             double_bonus = 8
     if mode == "ai_pred":
-        return ai_pred + (double_bonus * 0.25) + (summer_bonus * 0.25)
+        return ai_pred + (double_bonus * 0.25) + (summer_bonus * 0.25) + (super_slit_bonus * 0.25)
     if mode == "ai_plus":
-        return ai_plus + double_bonus + summer_bonus
+        return ai_plus + double_bonus + summer_bonus + super_slit_bonus
     if mode == "exhibit":
-        return avgdiff * 55 + (7 - tenji) * 6 + (7 - isshu) * 4 + ai_pred * 0.25 + double_bonus + summer_bonus
+        return avgdiff * 55 + (7 - tenji) * 6 + (7 - isshu) * 4 + ai_pred * 0.25 + double_bonus + summer_bonus + super_slit_bonus
     if mode == "st_exhibit":
-        return (7 - st_rank) * 8 + avgdiff * 40 + (7 - tenji) * 5 + ai_pred * 0.2 + double_bonus + summer_bonus
+        return (7 - st_rank) * 8 + avgdiff * 40 + (7 - tenji) * 5 + ai_pred * 0.2 + double_bonus + summer_bonus + super_slit_bonus
     if mode == "worst_ai_plus":
-        return -(ai_plus * 0.45 + ai_pred * 0.35 + avgdiff * 40 + (7 - tenji) * 4 + double_bonus + summer_bonus)
+        return -(ai_plus * 0.45 + ai_pred * 0.35 + avgdiff * 40 + (7 - tenji) * 4 + double_bonus + summer_bonus + super_slit_bonus)
     return 0
 
 
@@ -897,6 +907,31 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
     rank_values(rows, "tenji_time", ascending=True)
     rank_values(rows, "isshu_time", ascending=True)
 
+    by_number = {row["boat_number"]: row for row in rows}
+    for boat in range(1, 7):
+        row = by_number[boat]
+        row["super_slit_alert"] = False
+        row["super_slit_tenji_adv"] = None
+        row["super_slit_st_rank_adv"] = None
+        row["super_slit_score_bonus"] = 0
+        if boat == 1:
+            continue
+        left = by_number[boat - 1]
+        if (
+            row.get("tenji_time") is not None
+            and left.get("tenji_time") is not None
+            and row.get("st_rank_general") is not None
+            and left.get("st_rank_general") is not None
+        ):
+            row["super_slit_tenji_adv"] = round(left["tenji_time"] - row["tenji_time"], 3)
+            row["super_slit_st_rank_adv"] = round(left["st_rank_general"] - row["st_rank_general"], 3)
+            row["super_slit_alert"] = (
+                row["super_slit_tenji_adv"] >= SUPER_SLIT_TENJI_ADV
+                and row["super_slit_st_rank_adv"] > 0
+            )
+            if row["super_slit_alert"]:
+                row["super_slit_score_bonus"] = SUPER_SLIT_ALERT_STATS[boat]["score_bonus"]
+
     for row in rows:
         row["tenji_rank"] = row["tenji_time_rank"]
         row["isshu_rank"] = row["isshu_time_rank"]
@@ -928,6 +963,14 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
                 summer_score = 0.90
             elif row["summer_b1_isshu_factor"] == "slow_fly":
                 summer_score = -1.00
+        super_slit_score = 0
+        if row["super_slit_alert"]:
+            if row["boat_number"] in {2, 3}:
+                super_slit_score = 0.80
+            elif row["boat_number"] in {4, 5}:
+                super_slit_score = 0.95
+            elif row["boat_number"] == 6:
+                super_slit_score = 0.75
         row["comp_score"] = (
             row["ai_prediction_pct_rank"] * 0.34
             + row["ai_plus_rank"] * 0.30
@@ -936,12 +979,14 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
             + st_rank * 0.06
             - double_score
             - summer_score
+            - super_slit_score
         )
         row["value_score"] = (
             row["comp_score"]
             - (0.45 if row["boat_number"] in {4, 5, 6} else 0)
             - (0.70 if row["outer_good"] else 0)
             - (0.30 if row["double_time"] and row["boat_number"] in {5, 6} else 0)
+            - (0.35 if row["super_slit_alert"] and row["boat_number"] in {4, 5, 6} else 0)
         )
     return rows
 
@@ -965,6 +1010,7 @@ def race_metrics(rows, date_text=None):
     rank6 = next((row for row in rows if row.get("ai_plus_rank") == 6), {})
     rank5 = next((row for row in rows if row.get("ai_plus_rank") == 5), {})
     double_time_boats = [row["boat_number"] for row in rows if row.get("double_time")]
+    super_slit_boats = [row["boat_number"] for row in rows if row.get("super_slit_alert")]
     isshu_boats = sum(1 for row in rows if row.get("isshu_time") is not None)
     summer_factor = summer_b1_isshu_factor(date_text, b1.get("avg_isshu_diff"), isshu_boats)
     return {
@@ -996,6 +1042,11 @@ def race_metrics(rows, date_text=None):
         "ai_rank5_avg_isshu_diff": rank5.get("avg_isshu_diff"),
         "ai_rank5_tenji_rank": rank5.get("tenji_rank"),
         "double_time_boats": double_time_boats,
+        "super_slit_boats": super_slit_boats,
+        "super_slit_alert_count": len(super_slit_boats),
+        "mid234_super_slit_count": sum(1 for row in rows if row["boat_number"] in {2, 3, 4} and row.get("super_slit_alert")),
+        "outer456_super_slit_count": sum(1 for row in rows if row["boat_number"] in {4, 5, 6} and row.get("super_slit_alert")),
+        "outer56_super_slit_count": sum(1 for row in outer if row.get("super_slit_alert")),
         "boat1_double_time": bool(b1.get("double_time")),
         "mid234_double_time_count": sum(1 for row in rows if row["boat_number"] in {2, 3, 4} and row.get("double_time")),
         "outer46_double_time_count": sum(1 for row in outer46 if row.get("double_time")),
@@ -1061,6 +1112,16 @@ def condition_confirmed(condition, metrics):
 
     if "AI+最下位が5/6号艇" in text:
         checks.append(("AI+最下位が5/6号艇", int(metrics.get("ai_rank6_boat") or 0) in {5, 6}))
+
+    if "スーパースリット" in text or "スーパーST" in text:
+        if "2艇以上" in text:
+            checks.append(("スーパースリット2艇以上", metrics.get("super_slit_alert_count", 0) >= 2))
+        elif "5/6" in text:
+            checks.append(("5/6号艇にスーパースリット", metrics.get("outer56_super_slit_count", 0) >= 1))
+        elif "4〜6" in text:
+            checks.append(("4〜6号艇にスーパースリット", metrics.get("outer456_super_slit_count", 0) >= 1))
+        else:
+            checks.append(("スーパースリットあり", metrics.get("super_slit_alert_count", 0) >= 1))
 
     if "AI+最下位" in text and "展示4位以下" in text:
         checks.append(("AI+最下位展示4位以下", (metrics.get("ai_rank6_tenji_rank") or 9) >= 4))
@@ -1241,6 +1302,13 @@ def fmt_double_time(metrics):
     return f", DT{fmt_list(boats)}"
 
 
+def fmt_super_slit(metrics):
+    boats = metrics.get("super_slit_boats") or []
+    if not boats:
+        return ""
+    return f", SSA{fmt_list(boats)}"
+
+
 def fmt_summer_b1_isshu(metrics):
     signal = metrics.get("b1_summer_isshu_factor") or metrics.get("boat1_summer_isshu_factor")
     if not signal:
@@ -1286,6 +1354,7 @@ def make_message(race, alert_type, metrics, checks, strategies):
         f"({metrics.get('boat1_tenji_time_rank')}位), "
         f"5/6平均との差{fmt_time(metrics.get('outer56_best_avg_isshu_diff'))}"
         f"{fmt_double_time(metrics)}"
+        f"{fmt_super_slit(metrics)}"
         f"{fmt_summer_b1_isshu(metrics)}"
     )
     if alert_type == "buy_ok" and strategies:
