@@ -1,11 +1,11 @@
 {
  "date": "2026-06-19",
- "updated": "19:14",
- "all_done": false,
- "done": 8,
+ "updated": "19:24",
+ "all_done": true,
+ "done": 10,
  "n": 10,
- "hit": 4,
- "man": 1,
+ "hit": 5,
+ "man": 2,
  "posts": [
   {
    "id": "forecast",
