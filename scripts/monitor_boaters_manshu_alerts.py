@@ -806,19 +806,19 @@ def enrich_rows(by_boat, morning_metrics):
     rows = []
     for boat in range(1, 7):
         source = by_boat.get(boat, {})
-        ai_3ren = pct(source.get("ai_3ren_pct"))
-        general = pct(source.get("general_3ren_pct"))
+        ai_3ren = as_num(source.get("ai_3ren_pct"))
+        general = as_num(source.get("general_3ren_pct"))
         row = {
             "boat_number": boat,
             "ai_3ren_pct": ai_3ren,
             "general_3ren_pct": general,
             "st_rank_general": as_num(source.get("st_rank_general")),
-            "ai_prediction_pct": pct(source.get("ai_prediction_pct")),
+            "ai_prediction_pct": as_num(source.get("ai_prediction_pct")),
             "tenji_time": as_num(source.get("tenji_time")),
             "isshu_time": as_num(source.get("isshu_time")),
-            "nige_pct": pct(source.get("nige_pct")),
-            "sasare_pct": pct(source.get("sasare_pct")),
-            "makurare_pct": pct(source.get("makurare_pct")),
+            "nige_pct": as_num(source.get("nige_pct")),
+            "sasare_pct": as_num(source.get("sasare_pct")),
+            "makurare_pct": as_num(source.get("makurare_pct")),
         }
         row["ai_plus"] = (
             row["ai_3ren_pct"] + row["general_3ren_pct"]
