@@ -1,351 +1,39 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万舟アラート 2026-06-06</title><style>
-body{font-family:-apple-system,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;background:#f4f6fb;color:#1c2230;max-width:780px;margin:0 auto;padding:16px;line-height:1.7}
-h1{font-size:21px} .sub{color:#5b6577;font-size:13px;margin:0 0 16px}
-.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 14px}
-#rbtn{font:inherit;font-weight:700;background:#2563eb;color:#fff;border:0;border-radius:9px;padding:9px 15px;cursor:pointer}
-#rbtn:active{opacity:.7} .rstat{font-size:12.5px;color:#15803d;font-weight:700}
-.card{background:#fff;border:1px solid #e3e8f0;border-left:6px solid #d97706;border-radius:12px;padding:14px 16px;margin:0 0 16px}
-.card h2{font-size:17px;margin:0 0 6px;color:#b45309} .card h3{font-size:13.5px;margin:14px 0 4px;color:#33405a}
-.card h3.reason{color:#b45309;font-size:14px;margin-top:12px}
-p.why{font-size:13px;color:#33405a;background:#fff7ed;border:1px solid #fde7c8;border-radius:8px;padding:9px 11px;margin:6px 0;line-height:1.6}
-.fly{font-size:13px;color:#33405a;margin:8px 0} .fly>b{color:#b45309}
-.fly ul{margin:4px 0 2px;padding-left:18px} .fly li{margin:2px 0}
-.fly .big{font-size:16px;color:#dc2626;font-variant-numeric:tabular-nums}
-p.dist{font-size:12.5px;color:#33405a;background:#f7f9fc;border:1px solid #e3e8f0;border-radius:8px;padding:7px 10px;margin:8px 0;line-height:1.55}
-.card.top{border-left-color:#16a34a} .card.top h2{color:#15803d}
-.card.score{border-left-color:#2563eb} .card.score h2{color:#1d4ed8}
-.card.rank{border-left-color:#7c3aed} .card.rank h2{color:#6d28d9}
-tr.rrow{cursor:pointer} tr.rrow:active{background:#f3effe} .caret{color:#7c3aed;font-size:11px}
-tr.accrow>td{padding:6px 4px;background:#faf8ff} tr.accrow .card{margin:0}
-.card.elite{border-left-color:#dc2626;background:#fff7ed} .card.elite h2{color:#b91c1c}
-.card.track{border-left-color:#0d9488} .card.track h2{color:#0f766e}
-.card.xpost{border-left-color:#0ea5e9} .card.xpost h2{color:#0369a1}
-.xta{width:100%;box-sizing:border-box;font:13px/1.55 -apple-system,"Hiragino Kaku Gothic ProN",Meiryo,monospace;border:1px solid #cbd5e1;border-radius:8px;padding:9px 10px;background:#f8fafc;color:#0f172a;resize:vertical;white-space:pre}
-.xcopy{font:inherit;font-weight:700;background:#0ea5e9;color:#fff;border:0;border-radius:8px;padding:8px 16px;cursor:pointer;margin:6px 0}
-.xcopy:active{opacity:.7} .xlen{font-size:12px;color:#64748b;margin-left:8px} .xlen.over{color:#dc2626;font-weight:700}
-.lead{font-size:13px;color:#5b6577;margin:4px 0} ul.why{margin:4px 0 8px;padding-left:18px;font-size:13.5px}
-ul.why li{margin:3px 0} .stat{font-size:13px;background:#fdf3e3;border:1px solid #f4dcae;border-radius:8px;padding:8px 10px}
-.muted{color:#8a5a09;font-size:12px} table{width:100%;border-collapse:collapse;font-size:12.5px;margin:2px 0 4px}
-th,td{padding:5px 7px;border-bottom:1px solid #eef1f5;text-align:left} th{background:#f7f9fc;color:#5b6577}
-td.c{font-weight:700;letter-spacing:.03em} td.p{text-align:right;font-variant-numeric:tabular-nums}
-tr.hit{background:#fff7ed} .man{color:#dc2626;font-weight:800} .no{color:#9ca3af}
-.res{font-size:14px;border-radius:8px;padding:8px 10px;margin:8px 0} .res.hit{background:#fdeaea;color:#b91c1c} .res.miss{background:#eef1f5;color:#374151}
-.b1{font-size:13px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:7px 10px;color:#9a3412;margin:6px 0}
-.cond{font-size:11.5px;color:#8a93a6;font-weight:400}
-.rt{font-size:12px;color:#2563eb;font-weight:700;white-space:nowrap}
-.stale{background:#fef3c7;border:1px solid #f59e0b;color:#92400e;border-radius:8px;padding:10px 12px;margin:0 0 12px;font-size:13px;font-weight:700;line-height:1.5}
-footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:20px}
-</style></head><body>
-<h1>🌊 本日の荒れそうなレース — 2026-06-06</h1>
-<div id="stale" class="stale" style="display:none"></div>
-<p class="sub">万舟スコアで全132Rを採点し、荒れそうな上位<b>14</b>レースを一つずつ分析（うち特定条件にも該当6件）。ベース万舟率≈16.6%。
-<b>これは“荒れ予報”＝娯楽用の情報で、買い目の推奨ではありません。</b>
-万舟率は荒れやすさの目安です。買い目や利益とは切り分けて、研究・記録用として見てください。</p>
-<p class="sub">📅 <a href="manshu_days.html" style="color:#2563eb;font-weight:700">日付を選んで過去の結果を見る</a>　／　📚 <a href="manshu_research.html" style="color:#2563eb;font-weight:700">万舟研究ノート</a></p>
-<div class="bar"><button id="rbtn" onclick="loadResults()">🔄 結果を更新</button><span id="rstat" class="rstat">最新の結果を読み込み中…</span></div>
-<div class="card elite"><h2>🎯 本日の厳選（万舟率≥22%）</h2><p class="lead">万舟率（条件該当はその過去実績／他は万舟スコア）が<b>≥22%</b>のレース：<b>蒲郡4R（28%） ／ 江戸川3R（28%） ／ 常滑2R（27%） ／ 大村2R（27%） ／ 桐生4R（27%） ／ 常滑3R（27%） ／ 三国7R（23%） ／ 桐生1R（23%） ／ 桐生10R（23%） ／ 三国6R（22%） ／ 桐生2R（22%） ／ 桐生9R（22%）</b>。下のカードでも🎯印。ただし🎯でも実際に万舟になるのは<b>約4回に1回（実測〜26%）</b>＝外れる方が多い前提で見極めを。</p></div>
-<div class="card rank"><h2>📊 本日の万舟率ランキング（高い順）</h2><p class="lead"><b>万舟率</b>＝特定条件に該当するレースはその条件の過去実績、該当しないレースは万舟スコア(モデル推定)。「その日の最有力を数本だけ」狙う用途で最も的中が鋭い順（OOS検証で確認：各日トップ3で実測26%）。🎯=最有力(≥22%)。ベース16.6%。<b>本日の全132レースの平均万舟率は約17%</b>。各行の「平均±◯pt」はこの平均からの差（＋が大きいほど“平均より荒れやすい”）。<b>各行をタップすると、その下に「なぜ荒れそうか」の根拠が開きます（▶）。</b></p><table><thead><tr><th>場R</th><th>万舟率</th><th>本命飛び率</th><th>結果(3連単)</th><th>配当</th></tr></thead><tbody><tr class="rrow" data-vr="07-4" data-kind="score" onclick="acc(this)"><td>🎯 蒲郡4R <span class="rt" data-rt="07-4">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>28%</b><br><span class="muted">平均+10pt</span><br><span class="muted">条件（参考ス18）</span></td><td class="p">56%</td><td class="c" data-f="scombo">4-5-2</td><td class="p" data-f="spay">4,950円</td></tr><tr class="accrow" id="acc-07-4" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 蒲郡4R <span class="rt" data-rt="07-4">🕐--:--</span>　万舟率 ≈ 28%　<span class="cond">条件該当／参考スコア18%</span></h2>
-  <p class="res miss" data-vr="07-4" data-kind="card">本日結果: 3連単 <b>4-5-2</b> 4,950円 — 堅め</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why"><b>条件</b>：4R × 1号艇B1 × 1号艇群馬<br>→ この条件は検証期166Rで万舟 <b>46</b>回（<b>28%</b>＝通常16.6%の<b>約1.7倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>この条件で（検証期・相手・場・R込み）（166R）：<b class="big">約70%</b></li><li>この1号艇のイン実績だけなら：全国 <b>56%</b>（イン1着44%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>38% / <b>3号艇</b>22% / <b>4号艇</b>18%</li></ul></div>
-  <p class="dist">💴 この条件の配当（検証期）（166R）：<b>中央値 4,015円</b>／平均 9,565円／最高 290,090円　—　万舟 46回(28%)／万舟ならず 120回(72%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-03-05</td><td>浜名湖4R</td><td class="c">6-5-2</td><td class="p">290,090円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-05-04</td><td>桐生4R</td><td class="c">3-4-6</td><td class="p">83,330円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-08-14</td><td>桐生4R</td><td class="c">4-3-2</td><td class="p">61,100円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-02-21</td><td>唐津4R</td><td class="c">2-5-4</td><td class="p">45,510円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-03-18</td><td>津4R</td><td class="c">6-1-3</td><td class="p">35,590円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-08-02</td><td>常滑4R</td><td class="c">1-2-3</td><td class="p">560円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-03-31</td><td>下関4R</td><td class="c">1-2-4</td><td class="p">580円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-10-07</td><td>江戸川4R</td><td class="c">5-6-4</td><td class="p">650円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-01-16</td><td>浜名湖4R</td><td class="c">1-3-4</td><td class="p">760円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-05-26</td><td>桐生4R</td><td class="c">2-6-3</td><td class="p">900円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="03-3" data-kind="score" onclick="acc(this)"><td>🎯 江戸川3R <span class="rt" data-rt="03-3">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>28%</b><br><span class="muted">平均+10pt</span><br><span class="muted">条件（参考ス20）</span></td><td class="p">65%</td><td class="c" data-f="scombo">1-5-3</td><td class="p" data-f="spay">1,450円</td></tr><tr class="accrow" id="acc-03-3" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 江戸川3R <span class="rt" data-rt="03-3">🕐--:--</span>　万舟率 ≈ 28%　<span class="cond">条件該当／参考スコア20%</span></h2>
-  <p class="res miss" data-vr="03-3" data-kind="card">本日結果: 3連単 <b>1-5-3</b> 1,450円 — 堅め</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why"><b>条件</b>：03場 × 3R × 1号艇B1 × B級4人<br>→ この条件は検証期105Rで万舟 <b>29</b>回（<b>28%</b>＝通常16.6%の<b>約1.7倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>この条件で（検証期・相手・場・R込み）（105R）：<b class="big">約67%</b></li><li>この1号艇のイン実績だけなら：全国 <b>65%</b>（イン1着35%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>37% / <b>4号艇</b>30% / <b>3号艇</b>17%</li></ul></div>
-  <p class="dist">💴 この条件の配当（検証期）（105R）：<b>中央値 3,750円</b>／平均 11,778円／最高 104,310円　—　万舟 29回(28%)／万舟ならず 76回(72%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-02-16</td><td>江戸川3R</td><td class="c">5-3-6</td><td class="p">104,310円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-09-16</td><td>江戸川3R</td><td class="c">4-6-3</td><td class="p">74,680円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-01-28</td><td>江戸川3R</td><td class="c">1-4-6</td><td class="p">71,830円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-03-17</td><td>江戸川3R</td><td class="c">4-1-5</td><td class="p">66,200円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-12-20</td><td>江戸川3R</td><td class="c">3-2-5</td><td class="p">62,560円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-12-11</td><td>江戸川3R</td><td class="c">1-2-6</td><td class="p">650円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-06-15</td><td>江戸川3R</td><td class="c">2-1-6</td><td class="p">660円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-03-14</td><td>江戸川3R</td><td class="c">1-2-4</td><td class="p">890円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-11-16</td><td>江戸川3R</td><td class="c">2-3-4</td><td class="p">910円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-02-18</td><td>江戸川3R</td><td class="c">1-2-4</td><td class="p">940円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="08-2" data-kind="score" onclick="acc(this)"><td>🎯 常滑2R <span class="rt" data-rt="08-2">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>27%</b><br><span class="muted">平均+10pt</span><br><span class="muted">条件（参考ス18）</span></td><td class="p">67%</td><td class="c" data-f="scombo">1-4-5</td><td class="p" data-f="spay">7,290円</td></tr><tr class="accrow" id="acc-08-2" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 常滑2R <span class="rt" data-rt="08-2">🕐--:--</span>　万舟率 ≈ 27%　<span class="cond">条件該当／参考スコア18%</span></h2>
-  <p class="res miss" data-vr="08-2" data-kind="card">本日結果: 3連単 <b>1-4-5</b> 7,290円 — 堅め</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why"><b>条件</b>：2R × B級3人 × A1×1 × 本命イン1着率&lt;40%<br>→ この条件は検証期251Rで万舟 <b>69</b>回（<b>27%</b>＝通常16.6%の<b>約1.7倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>この条件で（検証期・相手・場・R込み）（251R）：<b class="big">約71%</b></li><li>この1号艇のイン実績だけなら：全国 <b>67%</b>（イン1着33%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>35% / <b>3号艇</b>24% / <b>4号艇</b>19%</li></ul></div>
-  <p class="dist">💴 この条件の配当（検証期）（251R）：<b>中央値 4,200円</b>／平均 8,358円／最高 122,580円　—　万舟 69回(27%)／万舟ならず 182回(73%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-10-08</td><td>鳴門2R</td><td class="c">6-1-5</td><td class="p">122,580円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-12-22</td><td>浜名湖2R</td><td class="c">3-5-4</td><td class="p">59,210円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-04-04</td><td>蒲郡2R</td><td class="c">5-6-2</td><td class="p">46,610円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-10-20</td><td>浜名湖2R</td><td class="c">4-2-3</td><td class="p">45,520円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-02-17</td><td>びわこ2R</td><td class="c">6-4-1</td><td class="p">43,280円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-07-15</td><td>常滑2R</td><td class="c">1-3-4</td><td class="p">470円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-05-31</td><td>常滑2R</td><td class="c">1-5-3</td><td class="p">660円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-05-31</td><td>鳴門2R</td><td class="c">2-1-3</td><td class="p">680円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-03-15</td><td>桐生2R</td><td class="c">2-1-6</td><td class="p">740円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-05-12</td><td>常滑2R</td><td class="c">3-4-5</td><td class="p">810円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="24-2" data-kind="score" onclick="acc(this)"><td>🎯 大村2R <span class="rt" data-rt="24-2">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>27%</b><br><span class="muted">平均+10pt</span><br><span class="muted">条件（参考ス18）</span></td><td class="p">73%</td><td class="c" data-f="scombo">4-2-5</td><td class="p" data-f="spay">2,010円</td></tr><tr class="accrow" id="acc-24-2" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 大村2R <span class="rt" data-rt="24-2">🕐--:--</span>　万舟率 ≈ 27%　<span class="cond">条件該当／参考スコア18%</span></h2>
-  <p class="res miss" data-vr="24-2" data-kind="card">本日結果: 3連単 <b>4-2-5</b> 2,010円 — 堅め</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why"><b>条件</b>：2R × B級3人 × A1×1 × 本命イン1着率&lt;40%<br>→ この条件は検証期251Rで万舟 <b>69</b>回（<b>27%</b>＝通常16.6%の<b>約1.7倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>この条件で（検証期・相手・場・R込み）（251R）：<b class="big">約71%</b></li><li>この1号艇のイン実績だけなら：全国 <b>73%</b>（イン1着27%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>35% / <b>3号艇</b>24% / <b>4号艇</b>19%</li></ul></div>
-  <p class="dist">💴 この条件の配当（検証期）（251R）：<b>中央値 4,200円</b>／平均 8,358円／最高 122,580円　—　万舟 69回(27%)／万舟ならず 182回(73%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-10-08</td><td>鳴門2R</td><td class="c">6-1-5</td><td class="p">122,580円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-12-22</td><td>浜名湖2R</td><td class="c">3-5-4</td><td class="p">59,210円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-04-04</td><td>蒲郡2R</td><td class="c">5-6-2</td><td class="p">46,610円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-10-20</td><td>浜名湖2R</td><td class="c">4-2-3</td><td class="p">45,520円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-02-17</td><td>びわこ2R</td><td class="c">6-4-1</td><td class="p">43,280円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-07-15</td><td>常滑2R</td><td class="c">1-3-4</td><td class="p">470円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-05-31</td><td>常滑2R</td><td class="c">1-5-3</td><td class="p">660円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-05-31</td><td>鳴門2R</td><td class="c">2-1-3</td><td class="p">680円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-03-15</td><td>桐生2R</td><td class="c">2-1-6</td><td class="p">740円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-05-12</td><td>常滑2R</td><td class="c">3-4-5</td><td class="p">810円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="01-4" data-kind="score" onclick="acc(this)"><td>🎯 桐生4R <span class="rt" data-rt="01-4">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>27%</b><br><span class="muted">平均+10pt</span><br><span class="muted">条件（参考ス20）</span></td><td class="p">45%</td><td class="c" data-f="scombo">3-1-5</td><td class="p" data-f="spay">1,810円</td></tr><tr class="accrow" id="acc-01-4" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 桐生4R <span class="rt" data-rt="01-4">🕐--:--</span>　万舟率 ≈ 27%　<span class="cond">条件該当／参考スコア20%</span></h2>
-  <p class="res miss" data-vr="01-4" data-kind="card">本日結果: 3連単 <b>3-1-5</b> 1,810円 — 堅め</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why"><b>条件</b>：01場 × 4R × 1号艇B1<br>→ この条件は検証期190Rで万舟 <b>52</b>回（<b>27%</b>＝通常16.6%の<b>約1.6倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>この条件で（検証期・相手・場・R込み）（190R）：<b class="big">約74%</b></li><li>この1号艇のイン実績だけなら：全国 <b>45%</b>（イン1着55%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>33% / <b>4号艇</b>27% / <b>3号艇</b>17%</li></ul></div>
-  <p class="dist">💴 この条件の配当（検証期）（190R）：<b>中央値 4,900円</b>／平均 9,285円／最高 146,110円　—　万舟 52回(27%)／万舟ならず 138回(73%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-03-05</td><td>桐生4R</td><td class="c">6-4-5</td><td class="p">146,110円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-05-04</td><td>桐生4R</td><td class="c">3-4-6</td><td class="p">83,330円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-10-22</td><td>桐生4R</td><td class="c">1-6-3</td><td class="p">65,060円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-08-14</td><td>桐生4R</td><td class="c">4-3-2</td><td class="p">61,100円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-09-07</td><td>桐生4R</td><td class="c">4-5-3</td><td class="p">41,290円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-07-09</td><td>桐生4R</td><td class="c">1-3-4</td><td class="p">670円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-05-26</td><td>桐生4R</td><td class="c">2-6-3</td><td class="p">900円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-09-26</td><td>桐生4R</td><td class="c">2-3-4</td><td class="p">940円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-07-28</td><td>桐生4R</td><td class="c">6-3-5</td><td class="p">1,000円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-03-19</td><td>桐生4R</td><td class="c">2-3-1</td><td class="p">1,060円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="08-3" data-kind="score" onclick="acc(this)"><td>🎯 常滑3R <span class="rt" data-rt="08-3">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>27%</b><br><span class="muted">平均+10pt</span><br><span class="muted">条件（参考ス20）</span></td><td class="p">65%</td><td class="c" data-f="scombo">3-2-5</td><td class="p" data-f="spay">5,150円</td></tr><tr class="accrow" id="acc-08-3" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 常滑3R <span class="rt" data-rt="08-3">🕐--:--</span>　万舟率 ≈ 27%　<span class="cond">条件該当／参考スコア20%</span></h2>
-  <p class="res miss" data-vr="08-3" data-kind="card">本日結果: 3連単 <b>3-2-5</b> 5,150円 — 堅め</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why"><b>条件</b>：08場 × B級3人 × A1×1 × 女子1人<br>→ この条件は検証期149Rで万舟 <b>40</b>回（<b>27%</b>＝通常16.6%の<b>約1.6倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B2級）が飛ぶ確率</b><ul><li>この条件で（検証期・相手・場・R込み）（149R）：<b class="big">約58%</b></li><li>この1号艇のイン実績だけなら：全国 <b>65%</b>（イン1着35%）</li><li>飛んだ時に1着へ来やすい艇：<b>3号艇</b>25% / <b>2号艇</b>23% / <b>6号艇</b>20%</li></ul></div>
-  <p class="dist">💴 この条件の配当（検証期）（149R）：<b>中央値 3,480円</b>／平均 11,324円／最高 302,410円　—　万舟 40回(27%)／万舟ならず 109回(73%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2026-06-05</td><td>常滑6R</td><td class="c">6-5-4</td><td class="p">302,410円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-01-17</td><td>常滑5R</td><td class="c">6-5-2</td><td class="p">74,860円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-11-22</td><td>常滑8R</td><td class="c">6-5-3</td><td class="p">61,640円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-01-09</td><td>常滑9R</td><td class="c">5-2-4</td><td class="p">61,440円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-11-19</td><td>常滑4R</td><td class="c">5-4-2</td><td class="p">59,720円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2026-05-27</td><td>常滑5R</td><td class="c">1-3-6</td><td class="p">320円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-02-23</td><td>常滑10R</td><td class="c">1-2-5</td><td class="p">390円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-05-23</td><td>常滑4R</td><td class="c">1-2-4</td><td class="p">450円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-04-06</td><td>常滑8R</td><td class="c">1-2-3</td><td class="p">480円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-01-02</td><td>常滑9R</td><td class="c">1-2-4</td><td class="p">520円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="10-7" data-kind="score" onclick="acc(this)"><td>🎯 三国7R <span class="rt" data-rt="10-7">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>23%</b><br><span class="muted">平均+6pt</span><br><span class="muted">スコア</span></td><td class="p">80%</td><td class="c" data-f="scombo">4-2-5</td><td class="p" data-f="spay">1,940円</td></tr><tr class="accrow" id="acc-10-7" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 三国7R <span class="rt" data-rt="10-7">🕐--:--</span>　万舟スコア 23%　<span class="cond">条件該当なし</span></h2>
-  <p class="res miss" data-vr="10-7" data-kind="card">本日結果: 3連単 <b>4-2-5</b> 1,940円 — 堅め</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why">・会場が<b>三国</b>（万舟率18%＝荒れやすい場）<br>・本命(1号艇)が<b>B1級</b>（格下＝飛びやすい）<br>・本命のイン1着率が<b>20%</b>と低い（飛びやすい）<br>・出走に<b>B級4人</b>（実力が割れて混戦）<br>・外枠に<b>A1が1人</b>（本命を負かす力あり）<br>→ これらの総合で<b>万舟スコア23%</b>（ベース16.6%の<b>1.4倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>似た荒れ度のレースで（検証期）（867R）：<b class="big">約65%</b></li><li>この1号艇のイン実績だけなら：全国 <b>80%</b>（イン1着20%）　/　当地 <b>78%</b>（イン1着22%）</li><li>飛んだ時に1着へ来やすい艇：<b>3号艇</b>29% / <b>2号艇</b>29% / <b>4号艇</b>21%</li></ul></div>
-  <p class="dist">💴 三国でスコアが近い荒れ度レースの配当（検証期）（867R）：<b>中央値 3,740円</b>／平均 7,987円／最高 154,300円　—　万舟 172回(20%)／万舟ならず 695回(80%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-06-01</td><td>三国2R</td><td class="c">5-3-1</td><td class="p">154,300円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-04-15</td><td>三国7R</td><td class="c">5-1-4</td><td class="p">143,150円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-03-02</td><td>三国6R</td><td class="c">6-1-2</td><td class="p">125,400円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-07-07</td><td>三国6R</td><td class="c">5-6-3</td><td class="p">122,760円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-01-02</td><td>三国6R</td><td class="c">3-6-5</td><td class="p">101,400円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-05-16</td><td>三国6R</td><td class="c">1-2-3</td><td class="p">470円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-10-17</td><td>三国6R</td><td class="c">6-2-1</td><td class="p">520円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-05-14</td><td>三国6R</td><td class="c">2-3-5</td><td class="p">530円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-01-04</td><td>三国8R</td><td class="c">4-2-5</td><td class="p">550円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-07-16</td><td>三国5R</td><td class="c">2-3-4</td><td class="p">550円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="01-1" data-kind="score" onclick="acc(this)"><td>🎯 桐生1R <span class="rt" data-rt="01-1">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>23%</b><br><span class="muted">平均+6pt</span><br><span class="muted">スコア</span></td><td class="p">68%</td><td class="c" data-f="scombo">5-3-6 <span class="man">◎</span></td><td class="p" data-f="spay">36,590円</td></tr><tr class="accrow" id="acc-01-1" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 桐生1R <span class="rt" data-rt="01-1">🕐--:--</span>　万舟スコア 23%　<span class="cond">条件該当なし</span></h2>
-  <p class="res hit" data-vr="01-1" data-kind="card">本日結果: 3連単 <b>5-3-6</b> 36,590円 ◎万舟的中</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why">・会場が<b>桐生</b>（万舟率19%＝荒れやすい場）<br>・本命(1号艇)が<b>B1級</b>（格下＝飛びやすい）<br>・本命のイン1着率が<b>32%</b>と低い（飛びやすい）<br>・出走に<b>B級4人</b>（実力が割れて混戦）<br>・<b>1R</b>（序盤は静まらず荒れやすい傾向）<br>→ これらの総合で<b>万舟スコア23%</b>（ベース16.6%の<b>1.4倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>似た荒れ度のレースで（検証期）（1517R）：<b class="big">約66%</b></li><li>この1号艇のイン実績だけなら：全国 <b>68%</b>（イン1着32%）　/　当地 <b>62%</b>（イン1着38%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>27% / <b>3号艇</b>25% / <b>4号艇</b>25%</li></ul></div>
-  <p class="dist">💴 桐生でスコアが近い荒れ度レースの配当（検証期）（1517R）：<b>中央値 4,170円</b>／平均 8,373円／最高 176,100円　—　万舟 324回(21%)／万舟ならず 1193回(79%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-07-20</td><td>桐生8R</td><td class="c">6-2-3</td><td class="p">176,100円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-03-05</td><td>桐生4R</td><td class="c">6-4-5</td><td class="p">146,110円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-01-03</td><td>桐生9R</td><td class="c">5-2-1</td><td class="p">140,790円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-03-09</td><td>桐生2R</td><td class="c">6-5-1</td><td class="p">124,130円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-11-13</td><td>桐生3R</td><td class="c">5-3-2</td><td class="p">121,830円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-09-25</td><td>桐生3R</td><td class="c">1-2-4</td><td class="p">240円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-07-28</td><td>桐生3R</td><td class="c">1-2-3</td><td class="p">420円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-08-16</td><td>桐生2R</td><td class="c">1-2-3</td><td class="p">470円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-07-25</td><td>桐生5R</td><td class="c">4-5-6</td><td class="p">510円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-02-23</td><td>桐生3R</td><td class="c">3-5-6</td><td class="p">520円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="01-10" data-kind="score" onclick="acc(this)"><td>🎯 桐生10R <span class="rt" data-rt="01-10">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>23%</b><br><span class="muted">平均+6pt</span><br><span class="muted">スコア</span></td><td class="p">45%</td><td class="c" data-f="scombo">1-2-3</td><td class="p" data-f="spay">1,250円</td></tr><tr class="accrow" id="acc-01-10" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 桐生10R <span class="rt" data-rt="01-10">🕐--:--</span>　万舟スコア 23%　<span class="cond">条件該当なし</span></h2>
-  <p class="res miss" data-vr="01-10" data-kind="card">本日結果: 3連単 <b>1-2-3</b> 1,250円 — 堅め</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why">・会場が<b>桐生</b>（万舟率19%＝荒れやすい場）<br>・本命(1号艇)が<b>B1級</b>（格下＝飛びやすい）<br>・外枠に<b>A1が2人</b>（本命を負かす力あり）<br>→ これらの総合で<b>万舟スコア23%</b>（ベース16.6%の<b>1.4倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>似た荒れ度のレースで（検証期）（1754R）：<b class="big">約64%</b></li><li>この1号艇のイン実績だけなら：全国 <b>45%</b>（イン1着55%）　/　当地 <b>62%</b>（イン1着38%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>27% / <b>4号艇</b>25% / <b>3号艇</b>25%</li></ul></div>
-  <p class="dist">💴 桐生でスコアが近い荒れ度レースの配当（検証期）（1754R）：<b>中央値 3,980円</b>／平均 8,326円／最高 176,100円　—　万舟 379回(22%)／万舟ならず 1375回(78%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-07-20</td><td>桐生8R</td><td class="c">6-2-3</td><td class="p">176,100円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-03-05</td><td>桐生4R</td><td class="c">6-4-5</td><td class="p">146,110円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-01-03</td><td>桐生9R</td><td class="c">5-2-1</td><td class="p">140,790円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-03-09</td><td>桐生2R</td><td class="c">6-5-1</td><td class="p">124,130円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-11-13</td><td>桐生3R</td><td class="c">5-3-2</td><td class="p">121,830円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-09-25</td><td>桐生3R</td><td class="c">1-2-4</td><td class="p">240円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-03-17</td><td>桐生7R</td><td class="c">1-3-4</td><td class="p">390円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-07-28</td><td>桐生3R</td><td class="c">1-2-3</td><td class="p">420円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-08-16</td><td>桐生2R</td><td class="c">1-2-3</td><td class="p">470円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-03-11</td><td>桐生10R</td><td class="c">1-2-3</td><td class="p">480円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="10-6" data-kind="score" onclick="acc(this)"><td>🎯 三国6R <span class="rt" data-rt="10-6">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>22%</b><br><span class="muted">平均+5pt</span><br><span class="muted">スコア</span></td><td class="p">74%</td><td class="c" data-f="scombo">5-4-1</td><td class="p" data-f="spay">5,480円</td></tr><tr class="accrow" id="acc-10-6" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 三国6R <span class="rt" data-rt="10-6">🕐--:--</span>　万舟スコア 22%　<span class="cond">条件該当なし</span></h2>
-  <p class="res miss" data-vr="10-6" data-kind="card">本日結果: 3連単 <b>5-4-1</b> 5,480円 — 堅め</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why">・会場が<b>三国</b>（万舟率18%＝荒れやすい場）<br>・本命(1号艇)が<b>B1級</b>（格下＝飛びやすい）<br>・本命のイン1着率が<b>26%</b>と低い（飛びやすい）<br>・出走に<b>B級3人</b>（実力が割れて混戦）<br>・外枠に<b>A1が1人</b>（本命を負かす力あり）<br>→ これらの総合で<b>万舟スコア22%</b>（ベース16.6%の<b>1.3倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>似た荒れ度のレースで（検証期）（1427R）：<b class="big">約61%</b></li><li>この1号艇のイン実績だけなら：全国 <b>74%</b>（イン1着26%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>31% / <b>3号艇</b>29% / <b>4号艇</b>20%</li></ul></div>
-  <p class="dist">💴 三国でスコアが近い荒れ度レースの配当（検証期）（1427R）：<b>中央値 3,560円</b>／平均 8,109円／最高 216,620円　—　万舟 282回(20%)／万舟ならず 1145回(80%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-11-14</td><td>三国5R</td><td class="c">6-3-5</td><td class="p">216,620円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-06-01</td><td>三国2R</td><td class="c">5-3-1</td><td class="p">154,300円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-04-15</td><td>三国7R</td><td class="c">5-1-4</td><td class="p">143,150円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-03-02</td><td>三国6R</td><td class="c">6-1-2</td><td class="p">125,400円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-07-07</td><td>三国6R</td><td class="c">5-6-3</td><td class="p">122,760円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-06-27</td><td>三国7R</td><td class="c">1-2-3</td><td class="p">420円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-03-23</td><td>三国2R</td><td class="c">1-2-3</td><td class="p">430円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-07-17</td><td>三国6R</td><td class="c">6-1-4</td><td class="p">430円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-05-26</td><td>三国8R</td><td class="c">6-2-1</td><td class="p">450円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-05-04</td><td>三国3R</td><td class="c">3-1-4</td><td class="p">460円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="01-2" data-kind="score" onclick="acc(this)"><td>🎯 桐生2R <span class="rt" data-rt="01-2">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>22%</b><br><span class="muted">平均+5pt</span><br><span class="muted">スコア</span></td><td class="p">82%</td><td class="c" data-f="scombo">5-3-1 <span class="man">◎</span></td><td class="p" data-f="spay">19,490円</td></tr><tr class="accrow" id="acc-01-2" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 桐生2R <span class="rt" data-rt="01-2">🕐--:--</span>　万舟スコア 22%　<span class="cond">条件該当なし</span></h2>
-  <p class="res hit" data-vr="01-2" data-kind="card">本日結果: 3連単 <b>5-3-1</b> 19,490円 ◎万舟的中</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why">・会場が<b>桐生</b>（万舟率19%＝荒れやすい場）<br>・本命(1号艇)が<b>B1級</b>（格下＝飛びやすい）<br>・本命のイン1着率が<b>18%</b>と低い（飛びやすい）<br>・出走に<b>B級4人</b>（実力が割れて混戦）<br>・<b>2R</b>（序盤は静まらず荒れやすい傾向）<br>→ これらの総合で<b>万舟スコア22%</b>（ベース16.6%の<b>1.3倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>似た荒れ度のレースで（検証期）（2011R）：<b class="big">約62%</b></li><li>この1号艇のイン実績だけなら：全国 <b>82%</b>（イン1着18%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>27% / <b>3号艇</b>25% / <b>4号艇</b>25%</li></ul></div>
-  <p class="dist">💴 桐生でスコアが近い荒れ度レースの配当（検証期）（2011R）：<b>中央値 3,700円</b>／平均 8,003円／最高 176,100円　—　万舟 420回(21%)／万舟ならず 1591回(79%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-07-20</td><td>桐生8R</td><td class="c">6-2-3</td><td class="p">176,100円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-03-05</td><td>桐生4R</td><td class="c">6-4-5</td><td class="p">146,110円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-01-03</td><td>桐生9R</td><td class="c">5-2-1</td><td class="p">140,790円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-03-09</td><td>桐生2R</td><td class="c">6-5-1</td><td class="p">124,130円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-11-13</td><td>桐生3R</td><td class="c">5-3-2</td><td class="p">121,830円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-09-25</td><td>桐生3R</td><td class="c">1-2-4</td><td class="p">240円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-03-17</td><td>桐生7R</td><td class="c">1-3-4</td><td class="p">390円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-07-28</td><td>桐生3R</td><td class="c">1-2-3</td><td class="p">420円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-04-03</td><td>桐生10R</td><td class="c">1-3-4</td><td class="p">440円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-02-03</td><td>桐生11R</td><td class="c">1-2-3</td><td class="p">450円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="01-9" data-kind="score" onclick="acc(this)"><td>🎯 桐生9R <span class="rt" data-rt="01-9">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>22%</b><br><span class="muted">平均+5pt</span><br><span class="muted">スコア</span></td><td class="p">62%</td><td class="c" data-f="scombo">4-5-1</td><td class="p" data-f="spay">2,560円</td></tr><tr class="accrow" id="acc-01-9" style="display:none"><td colspan="5">
-<div class="card elite">
-  <h2>🎯 ⚠ 桐生9R <span class="rt" data-rt="01-9">🕐--:--</span>　万舟スコア 22%　<span class="cond">条件該当なし</span></h2>
-  <p class="res miss" data-vr="01-9" data-kind="card">本日結果: 3連単 <b>4-5-1</b> 2,560円 — 堅め</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why">・会場が<b>桐生</b>（万舟率19%＝荒れやすい場）<br>・本命(1号艇)が<b>B1級</b>（格下＝飛びやすい）<br>・本命のイン1着率が<b>38%</b>と低い（飛びやすい）<br>・出走に<b>B級3人</b>（実力が割れて混戦）<br>・外枠に<b>A1が1人</b>（本命を負かす力あり）<br>→ これらの総合で<b>万舟スコア22%</b>（ベース16.6%の<b>1.3倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>似た荒れ度のレースで（検証期）（2089R）：<b class="big">約61%</b></li><li>この1号艇のイン実績だけなら：全国 <b>62%</b>（イン1着38%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>27% / <b>3号艇</b>25% / <b>4号艇</b>25%</li></ul></div>
-  <p class="dist">💴 桐生でスコアが近い荒れ度レースの配当（検証期）（2089R）：<b>中央値 3,680円</b>／平均 8,006円／最高 176,100円　—　万舟 433回(21%)／万舟ならず 1656回(79%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-07-20</td><td>桐生8R</td><td class="c">6-2-3</td><td class="p">176,100円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-03-05</td><td>桐生4R</td><td class="c">6-4-5</td><td class="p">146,110円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-01-03</td><td>桐生9R</td><td class="c">5-2-1</td><td class="p">140,790円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-03-09</td><td>桐生2R</td><td class="c">6-5-1</td><td class="p">124,130円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-11-13</td><td>桐生3R</td><td class="c">5-3-2</td><td class="p">121,830円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-09-25</td><td>桐生3R</td><td class="c">1-2-4</td><td class="p">240円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-03-17</td><td>桐生7R</td><td class="c">1-3-4</td><td class="p">390円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-07-28</td><td>桐生3R</td><td class="c">1-2-3</td><td class="p">420円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-04-03</td><td>桐生10R</td><td class="c">1-3-4</td><td class="p">440円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-02-03</td><td>桐生11R</td><td class="c">1-2-3</td><td class="p">450円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="03-6" data-kind="score" onclick="acc(this)"><td>江戸川6R <span class="rt" data-rt="03-6">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>21%</b><br><span class="muted">平均+4pt</span><br><span class="muted">スコア</span></td><td class="p">85%</td><td class="c" data-f="scombo">4-3-2 <span class="man">◎</span></td><td class="p" data-f="spay">12,190円</td></tr><tr class="accrow" id="acc-03-6" style="display:none"><td colspan="5">
-<div class="card">
-  <h2>⚠ 江戸川6R <span class="rt" data-rt="03-6">🕐--:--</span>　万舟スコア 21%　<span class="cond">条件該当なし</span></h2>
-  <p class="res hit" data-vr="03-6" data-kind="card">本日結果: 3連単 <b>4-3-2</b> 12,190円 ◎万舟的中</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why">・会場が<b>江戸川</b>（万舟率18%＝荒れやすい場）<br>・本命(1号艇)が<b>B1級</b>（格下＝飛びやすい）<br>・本命のイン1着率が<b>15%</b>と低い（飛びやすい）<br>・出走に<b>B級4人</b>（実力が割れて混戦）<br>・外枠に<b>A1が1人</b>（本命を負かす力あり）<br>→ これらの総合で<b>万舟スコア21%</b>（ベース16.6%の<b>1.3倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>似た荒れ度のレースで（検証期）（1962R）：<b class="big">約59%</b></li><li>この1号艇のイン実績だけなら：全国 <b>85%</b>（イン1着15%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>36% / <b>3号艇</b>27% / <b>4号艇</b>21%</li></ul></div>
-  <p class="dist">💴 江戸川でスコアが近い荒れ度レースの配当（検証期）（1962R）：<b>中央値 3,645円</b>／平均 7,894円／最高 210,150円　—　万舟 394回(20%)／万舟ならず 1568回(80%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-12-11</td><td>江戸川2R</td><td class="c">6-5-1</td><td class="p">210,150円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-05-13</td><td>江戸川11R</td><td class="c">6-5-4</td><td class="p">197,220円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-01-19</td><td>江戸川9R</td><td class="c">6-5-3</td><td class="p">164,600円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-03-12</td><td>江戸川2R</td><td class="c">6-1-3</td><td class="p">134,750円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-11-17</td><td>江戸川5R</td><td class="c">5-3-6</td><td class="p">134,060円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2026-05-31</td><td>江戸川8R</td><td class="c">4-5-6</td><td class="p">150円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-12-13</td><td>江戸川6R</td><td class="c">1-4-5</td><td class="p">210円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-07-10</td><td>江戸川1R</td><td class="c">1-3-2</td><td class="p">250円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-06-09</td><td>江戸川3R</td><td class="c">3-2-6</td><td class="p">300円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-04-28</td><td>江戸川1R</td><td class="c">1-3-2</td><td class="p">420円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr><tr class="rrow" data-vr="06-5" data-kind="score" onclick="acc(this)"><td>浜名湖5R <span class="rt" data-rt="06-5">🕐--:--</span> <span class="caret">▶</span></td><td class="p"><b>21%</b><br><span class="muted">平均+4pt</span><br><span class="muted">スコア</span></td><td class="p">65%</td><td class="c" data-f="scombo">2-3-5</td><td class="p" data-f="spay">4,840円</td></tr><tr class="accrow" id="acc-06-5" style="display:none"><td colspan="5">
-<div class="card">
-  <h2>⚠ 浜名湖5R <span class="rt" data-rt="06-5">🕐--:--</span>　万舟スコア 21%　<span class="cond">条件該当なし</span></h2>
-  <p class="res miss" data-vr="06-5" data-kind="card">本日結果: 3連単 <b>2-3-5</b> 4,840円 — 堅め</p>
-  <h3 class="reason">📌 根拠：なぜこのレースが荒れそうか</h3>
-  <p class="why">・会場が<b>浜名湖</b>（万舟率18%＝荒れやすい場）<br>・本命(1号艇)が<b>B1級</b>（格下＝飛びやすい）<br>・本命のイン1着率が<b>35%</b>と低い（飛びやすい）<br>・出走に<b>B級3人</b>（実力が割れて混戦）<br>・外枠に<b>A1が1人</b>（本命を負かす力あり）<br>→ これらの総合で<b>万舟スコア21%</b>（ベース16.6%の<b>1.3倍</b>）。だから荒れそう。</p>
-  <div class="fly"><b>🚤 1号艇（本命・B1級）が飛ぶ確率</b><ul><li>似た荒れ度のレースで（検証期）（2120R）：<b class="big">約58%</b></li><li>この1号艇のイン実績だけなら：全国 <b>65%</b>（イン1着35%）</li><li>飛んだ時に1着へ来やすい艇：<b>2号艇</b>30% / <b>3号艇</b>29% / <b>4号艇</b>19%</li></ul></div>
-  <p class="dist">💴 浜名湖でスコアが近い荒れ度レースの配当（検証期）（2120R）：<b>中央値 3,215円</b>／平均 7,757円／最高 290,090円　—　万舟 403回(19%)／万舟ならず 1717回(81%)。つまり大半は普通配当です。</p>
-  <h3>📈 荒れた時の例（高配当だった3連単・配当）</h3>
-  <table><tbody><tr class="hit"><td>2025-03-05</td><td>浜名湖4R</td><td class="c">6-5-2</td><td class="p">290,090円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-04-09</td><td>浜名湖2R</td><td class="c">6-1-3</td><td class="p">255,000円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2026-02-15</td><td>浜名湖2R</td><td class="c">6-2-1</td><td class="p">212,600円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-05-07</td><td>浜名湖12R</td><td class="c">6-3-2</td><td class="p">186,540円</td><td><span class="man">◎万舟</span></td></tr><tr class="hit"><td>2025-02-20</td><td>浜名湖10R</td><td class="c">6-3-5</td><td class="p">174,630円</td><td><span class="man">◎万舟</span></td></tr></tbody></table>
-  <h3>📉 荒れなかった例（堅く決着した時の3連単・配当）</h3>
-  <table><tbody><tr class=""><td>2025-01-11</td><td>浜名湖4R</td><td class="c">2-3-4</td><td class="p">290円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-02-02</td><td>浜名湖3R</td><td class="c">2-3-4</td><td class="p">300円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-04-13</td><td>浜名湖6R</td><td class="c">1-3-5</td><td class="p">310円</td><td><span class="no">—</span></td></tr><tr class=""><td>2026-01-15</td><td>浜名湖7R</td><td class="c">1-3-4</td><td class="p">410円</td><td><span class="no">—</span></td></tr><tr class=""><td>2025-11-27</td><td>浜名湖7R</td><td class="c">1-5-2</td><td class="p">420円</td><td><span class="no">—</span></td></tr></tbody></table>
-</div></td></tr></tbody></table></div>
-<div class="card xpost"><h2>📋 X（旧Twitter）投稿用テキスト</h2><p class="lead">下の枠をコピーして、そのままXに貼り付けて投稿できます（手動投稿用）。スマホでも📋ボタンでコピーできます。</p><h3>🌊 朝のランキング投稿</h3><textarea class="xta" id="xrank" readonly rows="11">🌊本日の万舟予報 6/6
-全レース平均 17%・荒れ警戒TOP5
-数字=万舟率／(±pt)=平均との差
-
-①蒲郡4R 28%(+10pt)
-②江戸川3R 28%(+10pt)
-③常滑2R 27%(+10pt)
-④大村2R 27%(+10pt)
-⑤桐生4R 27%(+10pt)
-
-※荒れ&quot;予報&quot;で的中/利益は保証しません
-#競艇 #ボートレース #競艇予想 #万舟</textarea><div><button class="xcopy" onclick="copyX('xrank',this)">📋 コピー</button><span class="xlen" id="xrank-len"></span></div><h3 style="margin-top:16px">🏁 結果版（全レース確定後に自動表示）</h3><span id="xres-status" class="muted">結果待ち…（ランキングの全レースが確定すると、ここに結果版テキストが自動で出ます）</span><textarea class="xta" id="xres" readonly rows="10" style="display:none;margin-top:6px"></textarea><div><button class="xcopy" id="xres-btn" style="display:none" onclick="copyX('xres',this)">📋 コピー</button><span class="xlen" id="xres-len"></span></div></div>
-
-<footer>万舟アラート築成レポート / 条件は2023-24学習→2025以降の検証期で再現確認済み(z≥3)。事例は実データの3連単・配当。結果はスマホのブラウザが自動取得(BoatraceOpenAPI)。</footer>
-<script>
-"use strict";
-var RDATE="2026-06-06", MAN=10000;
-var XPICKS=[{"key": "7-4", "nm": "蒲郡", "r": 4}, {"key": "3-3", "nm": "江戸川", "r": 3}, {"key": "8-2", "nm": "常滑", "r": 2}, {"key": "24-2", "nm": "大村", "r": 2}, {"key": "1-4", "nm": "桐生", "r": 4}], XDATE="6/6";
-function setStatus(t){var e=document.getElementById('rstat'); if(e) e.textContent=t;}
-function wlen(s){var n=0; Array.from(s||'').forEach(function(ch){n+=ch.codePointAt(0)>0x1100?2:1;}); return n;}
-function showLen(id){var t=document.getElementById(id),e=document.getElementById(id+'-len'); if(!t||!e) return; var n=wlen(t.value); e.textContent=n+'/280'; e.className='xlen'+(n>280?' over':'');}
-function copyX(id,btn){
-  var t=document.getElementById(id); if(!t) return;
-  var o=btn.getAttribute('data-o'); if(!o){o=btn.textContent; btn.setAttribute('data-o',o);}
-  var ok=function(){btn.textContent='✅ コピーしました'; setTimeout(function(){btn.textContent=o;},1600);};
-  var fb=function(){t.style.display='block'; t.focus(); t.select(); try{document.execCommand('copy');}catch(e){} ok();};
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t.value).then(ok,fb);} else {fb();}
-}
-function buildXResult(map){
-  var total=XPICKS.length; if(!total) return;
-  var done=0, man=[];
-  XPICKS.forEach(function(p){var t=map[p.key]; if(t){done++; if(t.payout>=MAN) man.push({p:p,t:t});}});
-  var st=document.getElementById('xres-status'),ta=document.getElementById('xres'),bt=document.getElementById('xres-btn');
-  if(done<total){ if(st) st.textContent='結果待ち '+done+'/'+total+'（全レース確定後に結果版を表示）';
-    if(ta) ta.style.display='none'; if(bt) bt.style.display='none'; return; }
-  var lines=['🏁'+XDATE+' 万舟予報の結果','万舟◎ '+man.length+'/'+total+'件',''];
-  if(man.length){ man.sort(function(a,b){return b.t.payout-a.t.payout;});
-    man.slice(0,5).forEach(function(m){lines.push('🎯'+m.p.nm+m.p.r+'R '+m.t.combination+' '+m.t.payout.toLocaleString()+'円');});
-  } else { lines.push('本日は万舟◎なし（堅め決着でした）'); }
-  lines.push('','※荒れ予報の答え合わせ','#競艇 #ボートレース #万舟');
-  if(ta){ ta.value=lines.join('\n'); ta.style.display='block'; }
-  if(st) st.textContent='✅ 全'+total+'レース確定。結果版ができました↓';
-  if(bt) bt.style.display='inline-block';
-  showLen('xres');
-}
-function fillRow(tr,tri,m){
-  var a=tr.querySelector('[data-f=tri]'),z=tr.querySelector('[data-f=res]');
-  if(a) a.textContent=tri.combination+' '+tri.payout.toLocaleString()+'円';
-  if(z) z.innerHTML=m?'<span class="man">◎万舟</span>':'— 堅め';
-  tr.className=m?'hit':'';
-}
-function fillCard(el,tri,m){
-  el.className='res '+(m?'hit':'miss');
-  el.innerHTML='本日結果: 3連単 <b>'+tri.combination+'</b> '+tri.payout.toLocaleString()+'円 '+(m?'◎万舟的中':'— 堅め');
-}
-function fillScore(tr,tri,m){
-  var c=tr.querySelector('[data-f=scombo]'),p=tr.querySelector('[data-f=spay]');
-  if(c){ c.className='c'; c.innerHTML=tri.combination+(m?' <span class="man">◎</span>':''); }
-  if(p){ p.className='p'; p.textContent=tri.payout.toLocaleString()+'円'; }
-  if(m) tr.classList.add('hit'); else tr.classList.remove('hit');
-}
-function acc(tr){
-  var e=document.getElementById('acc-'+tr.dataset.vr);
-  if(!e) return;
-  var hidden=(e.style.display==='none');
-  e.style.display=hidden?'':'none';
-  var c=tr.querySelector('.caret'); if(c) c.textContent=hidden?'▼':'▶';
-}
-async function loadResults(){
-  setStatus('\u6700\u65b0\u306e\u7d50\u679c\u3092\u53d6\u5f97\u4e2d\u2026');
-  var url='https://boatraceopenapi.github.io/results/v2/'+RDATE.slice(0,4)+'/'+RDATE.replace(/-/g,'')+'.json';
-  var data;
-  try{var r=await fetch(url,{cache:'no-store'}); if(!r.ok) throw 0; data=await r.json();}
-  catch(e){setStatus('\u672c\u65e5\u306e\u7d50\u679c\u306f\u307e\u3060\u516c\u958b\u3055\u308c\u3066\u3044\u307e\u305b\u3093\uff08\u30ec\u30fc\u30b9\u78ba\u5b9a\u5f8c\u306b\u81ea\u52d5\u8868\u793a\uff09'); return;}
-  var map={};
-  (data.results||[]).forEach(function(r){
-    var t=(r.payouts&&r.payouts.trifecta&&r.payouts.trifecta[0])||null;
-    if(t) map[r.race_stadium_number+'-'+r.race_number]=t;
-  });
-  var done=0,man=0,total=0;
-  document.querySelectorAll('[data-vr]').forEach(function(el){
-    var kind=el.dataset.kind;
-    if(kind==='score') total++;   // 万舟率ランキングの行で件数カウント
-    var s=el.dataset.vr.split('-'), key=parseInt(s[0],10)+'-'+parseInt(s[1],10), t=map[key];
-    if(!t) return;
-    var isMan=t.payout>=MAN;
-    if(kind==='score'){ done++; if(isMan) man++; }
-    if(kind==='card') fillCard(el,t,isMan);
-    else if(kind==='score') fillScore(el,t,isMan);
-    else fillRow(el,t,isMan);
-  });
-  buildXResult(map);   // ② 全レース確定したら結果版テキストを自動生成
-  var now=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
-  setStatus(total?('\u672c\u65e5 '+done+'/'+total+' \u30ec\u30fc\u30b9\u78ba\u5b9a \u30fb \u4e07\u821f\u25ce'+man+'\u4ef6\uff08'+now+' \u66f4\u65b0\uff09'):'\u5bfe\u8c61\u30ec\u30fc\u30b9\u306a\u3057');
-}
-async function loadTimes(){
-  var url='https://boatraceopenapi.github.io/programs/v2/'+RDATE.slice(0,4)+'/'+RDATE.replace(/-/g,'')+'.json';
-  var data;
-  try{var r=await fetch(url,{cache:'no-store'}); if(!r.ok) return; data=await r.json();}catch(e){return;}
-  var tmap={};
-  (data.programs||[]).forEach(function(p){
-    var hm=(p.race_closed_at||'').slice(11,16);
-    if(hm) tmap[p.race_stadium_number+'-'+p.race_number]=hm;
-  });
-  function tmOf(vr){var s=vr.split('-'); return tmap[parseInt(s[0],10)+'-'+parseInt(s[1],10)]||'';}
-  document.querySelectorAll('[data-rt]').forEach(function(el){
-    var hm=tmOf(el.dataset.rt); if(hm) el.textContent='🕐'+hm+'締切';
-  });
-  // 🏁本日の結果テーブルだけ、締切時刻の早い順に並べ替え
-  var tb=document.querySelector('.card.top tbody');
-  if(tb){
-    var rows=Array.prototype.slice.call(tb.querySelectorAll('tr[data-vr]'));
-    rows.sort(function(a,b){var x=tmOf(a.dataset.vr)||'99:99',y=tmOf(b.dataset.vr)||'99:99'; return x<y?-1:(x>y?1:0);});
-    rows.forEach(function(r){tb.appendChild(r);});
-  }
-  // 📊万舟スコアTOP12テーブルも締切時刻の早い順に
-  var sb=document.querySelector('.card.score tbody');
-  if(sb){
-    var sr=Array.prototype.slice.call(sb.querySelectorAll('tr[data-vr]'));
-    sr.sort(function(a,b){var x=tmOf(a.dataset.vr)||'99:99',y=tmOf(b.dataset.vr)||'99:99'; return x<y?-1:(x>y?1:0);});
-    sr.forEach(function(r){sb.appendChild(r);});
-  }
-}
-function checkStale(){
-  var n=new Date();
-  var t=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');
-  if(RDATE<t){
-    var b=document.getElementById('stale');
-    if(b){b.style.display='block'; b.innerHTML='⚠ これは <b>'+RDATE+'</b> の予報です。本日（'+t+'）分はまだ準備中（PCが起動すると自動で最新に切り替わります）。';}
-  }
-}
-document.addEventListener('DOMContentLoaded',function(){checkStale(); showLen('xrank'); loadTimes(); loadResults(); setInterval(loadResults,180000);});
-</script>
-</body></html>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Codex BOATERS 万舟率ランキング 2026-06-06</title>
+  <style>
+    body{font-family:-apple-system,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;background:#f6f7fb;color:#172033;max-width:940px;margin:0 auto;padding:16px;line-height:1.65}
+    h1{font-size:22px;margin:0 0 8px}
+    .sub{color:#5b6577;font-size:13px;margin:6px 0 14px}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}
+    .nav a{display:inline-block;background:#fff;border:1px solid #d9e2ec;border-radius:8px;color:#2563eb;font-weight:800;text-decoration:none;padding:8px 11px}
+    .card{background:#fff;border:1px solid #e3e8f0;border-left:6px solid #dc2626;border-radius:8px;padding:14px 16px;margin:0 0 16px}
+    .card h2{font-size:17px;margin:0 0 8px;color:#991b1b}
+    .lead{font-size:13px;color:#5b6577;margin:4px 0}
+    .muted{color:#64748b;font-size:12px}
+    footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:20px}
+  </style>
+</head>
+<body>
+  <h1>Codex BOATERS 万舟率ランキング</h1>
+  <p class="sub">2026-06-06 / BOATERSのAI・一般3連対率、1号艇逃げ失敗率、直前オリジナル展示、複合条件で算出</p>
+  <div class="nav">
+    <a href="../manshu_posts.html?date=2026-06-06">投稿センター</a>
+    <a href="../manshu_days.html">日付を選ぶ</a>
+    <a href="../manshu_research.html">研究ノート</a>
+  </div>
+  <section class="card rank">
+    <h2>Codexランキングを読み込み中</h2>
+    <p class="lead">Codex BOATERS展示込みロジックのJSONを読み込んでいます。</p>
+  </section>
+  <footer>Codex BOATERS manshu ranking / 研究・記録用。的中や利益を保証するものではありません。</footer>
+  <script>var RDATE="2026-06-06", MAN=10000;</script>
+  <script src="../scripts/boaters_manshu_widget.js?v=codex4"></script>
+</body>
+</html>

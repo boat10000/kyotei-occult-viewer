@@ -180,6 +180,65 @@ def ensure_boaters_widget(text: str, path: Path) -> str:
     return text
 
 
+def manshu_date_for_path(path: Path, text: str) -> str | None:
+    match = re.search(r'var RDATE="(\d{4}-\d{2}-\d{2})"', text)
+    if match:
+        return match.group(1)
+    match = re.fullmatch(r"(\d{4}-\d{2}-\d{2})\.html", path.name)
+    if match:
+        return match.group(1)
+    match = re.search(r"(\d{4}-\d{2}-\d{2})", text)
+    return match.group(1) if match else None
+
+
+def codex_only_html(path: Path, date_text: str) -> str:
+    prefix = "../" if path.parent.name == "manshu" else ""
+    posts = f"{prefix}manshu_posts.html?date={date_text}"
+    days = f"{prefix}manshu_days.html"
+    research = f"{prefix}manshu_research.html"
+    widget = f"{prefix}scripts/boaters_manshu_widget.js?v=codex4"
+    return f"""<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Codex BOATERS 万舟率ランキング {date_text}</title>
+  <style>
+    body{{font-family:-apple-system,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;background:#f6f7fb;color:#172033;max-width:940px;margin:0 auto;padding:16px;line-height:1.65}}
+    h1{{font-size:22px;margin:0 0 8px}}
+    .sub{{color:#5b6577;font-size:13px;margin:6px 0 14px}}
+    .nav{{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}}
+    .nav a{{display:inline-block;background:#fff;border:1px solid #d9e2ec;border-radius:8px;color:#2563eb;font-weight:800;text-decoration:none;padding:8px 11px}}
+    .card{{background:#fff;border:1px solid #e3e8f0;border-left:6px solid #dc2626;border-radius:8px;padding:14px 16px;margin:0 0 16px}}
+    .card h2{{font-size:17px;margin:0 0 8px;color:#991b1b}}
+    .lead{{font-size:13px;color:#5b6577;margin:4px 0}}
+    .muted{{color:#64748b;font-size:12px}}
+    footer{{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:20px}}
+  </style>
+</head>
+<body>
+  <h1>Codex BOATERS 万舟率ランキング</h1>
+  <p class="sub">{date_text} / BOATERSのAI・一般3連対率、1号艇逃げ失敗率、直前オリジナル展示、複合条件で算出</p>
+  <div class="nav">
+    <a href="{posts}">投稿センター</a>
+    <a href="{days}">日付を選ぶ</a>
+    <a href="{research}">研究ノート</a>
+  </div>
+  <section class="card rank">
+    <h2>Codexランキングを読み込み中</h2>
+    <p class="lead">Codex BOATERS展示込みロジックのJSONを読み込んでいます。</p>
+  </section>
+  <footer>Codex BOATERS manshu ranking / 研究・記録用。的中や利益を保証するものではありません。</footer>
+  <script>var RDATE="{date_text}", MAN=10000;</script>
+  <script src="{widget}"></script>
+</body>
+</html>
+"""
+
+
 RATE_CARD = """<div class="card rank" id="rate-card">
   <h2>📊 万舟率トップ10（結果つき）</h2>
   <p class="lead" id="rate-status">本日の万舟率トップ10を読み込み中…</p>
@@ -490,6 +549,14 @@ def default_targets(root: Path) -> list[Path]:
 def patch_html(path: Path) -> bool:
     text = path.read_text(encoding="utf-8")
     original = text
+    date_text = manshu_date_for_path(path, text)
+    if date_text:
+        text = codex_only_html(path, date_text)
+        if text != original:
+            path.write_text(text, encoding="utf-8")
+            return True
+        return False
+
     text = polish_public_copy(text)
 
     def skip(reason: str) -> bool:

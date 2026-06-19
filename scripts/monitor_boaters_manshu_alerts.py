@@ -11,6 +11,7 @@ import subprocess
 import sys
 import html
 import re
+import ssl
 import time
 import urllib.error
 import urllib.request
@@ -32,9 +33,7 @@ BUILD_DB_SCRIPT = (
     else ROOT / "scripts" / "build_boaters_database.py"
 )
 RANK_SCRIPT = (
-    PRICE_DIR / "rank_daily_manshu_candidates.py"
-    if (PRICE_DIR / "rank_daily_manshu_candidates.py").exists()
-    else ROOT / "scripts" / "rank_daily_manshu_candidates.py"
+    ROOT / "scripts" / "rank_daily_manshu_candidates.py"
 )
 SITE_DATA_SCRIPT = ROOT / "scripts" / "build_boaters_manshu_site_data.py"
 JST = ZoneInfo("Asia/Tokyo")
@@ -223,7 +222,11 @@ def as_num(value):
 
 def pct(value):
     number = as_num(value)
-    return None if number is None else round(number, 2)
+    if number is None:
+        return None
+    if -1 <= number <= 1:
+        number *= 100
+    return round(number, 2)
 
 
 def fmt_pct(value):
@@ -261,6 +264,33 @@ def run_cmd(cmd, cwd):
         detail = (result.stderr or result.stdout or "").strip()
         raise RuntimeError(detail[-4000:] or f"command failed: {' '.join(cmd)}")
     return result.stdout
+
+
+def fetch_boaters_page(slug, date, round_no, page, refresh=False):
+    url = f"https://boaters-boatrace.com/race/{slug}/{date}/{round_no}R/{page}"
+    request = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+            "Accept-Language": "ja,en-US;q=0.8,en;q=0.6",
+        },
+    )
+    context = None
+    try:
+        import certifi
+
+        context = ssl.create_default_context(cafile=certifi.where())
+    except Exception:
+        context = ssl.create_default_context()
+    try:
+        with urllib.request.urlopen(request, timeout=25, context=context) as response:
+            text = response.read().decode("utf-8", errors="replace")
+    except urllib.error.HTTPError as exc:
+        raise RuntimeError(f"HTTP {exc.code}: {url}") from exc
+    except urllib.error.URLError as exc:
+        raise RuntimeError(f"URL error: {url}: {exc}") from exc
+    time.sleep(0.18)
+    return text
 
 
 def public_ranking_path(date_text):
@@ -675,6 +705,103 @@ def codex_logic29_outer_required(rows):
     }
 
 
+def boat_score_live(row, mode):
+    ai_pred = row.get("ai_prediction_pct") or 0
+    ai_plus = row.get("ai_plus") or 0
+    ai_rank = row.get("ai_plus_rank") or 6
+    avgdiff = row.get("avg_isshu_diff")
+    avgdiff = -0.5 if avgdiff is None else avgdiff
+    tenji = row.get("tenji_rank") or row.get("tenji_time_rank") or 6
+    isshu = row.get("isshu_rank") or 6
+    st_rank = row.get("st_rank_general") or 6
+    if mode == "ai_pred":
+        return ai_pred
+    if mode == "ai_plus":
+        return ai_plus
+    if mode == "exhibit":
+        return avgdiff * 55 + (7 - tenji) * 6 + (7 - isshu) * 4 + ai_pred * 0.25
+    if mode == "st_exhibit":
+        return (7 - st_rank) * 8 + avgdiff * 40 + (7 - tenji) * 5 + ai_pred * 0.2
+    if mode == "worst_ai_plus":
+        return -(ai_plus * 0.45 + ai_pred * 0.35 + avgdiff * 40 + (7 - tenji) * 4)
+    return 0
+
+
+def top_boats_live(rows, pool, mode, n):
+    pool = set(pool)
+    selected = [row for row in rows if row["boat_number"] in pool]
+    selected = sorted(
+        selected,
+        key=lambda row: (boat_score_live(row, mode), -row["boat_number"]),
+        reverse=True,
+    )
+    return unique(row["boat_number"] for row in selected[:n])
+
+
+def codex_stable_front_wind11(rows):
+    kill = top_boats_live(rows, range(1, 7), "worst_ai_plus", 1)
+    heads = [boat for boat in top_boats_live(rows, {3, 4, 5, 6}, "st_exhibit", 2) if boat not in kill]
+    if len(heads) != 2:
+        return set(), None
+
+    second = [boat for boat in unique([5, 6] + top_boats_live(rows, {1, 2, 3, 4}, "ai_pred", 3)) if boat not in kill]
+    third = [boat for boat in unique([1] + top_boats_live(rows, {2, 3, 4, 5, 6}, "ai_pred", 1)) if boat not in kill]
+    tickets = set()
+    for head in heads:
+        for second_boat in second:
+            for third_boat in third:
+                if len({head, second_boat, third_boat}) == 3:
+                    tickets.add(f"{head}{second_boat}{third_boat}")
+
+    if not (10 <= len(tickets) <= 15):
+        return set(), None
+    return tickets, {
+        "heads": heads,
+        "axes": third,
+        "supports": second,
+        "keshi": kill[0] if kill else None,
+        "role_note": f"{heads[0]},{heads[1]}頭 / 2着は5,6+AI予測上位 / 3着は1+AI予測上位 / 最弱AI+を消し",
+    }
+
+
+def codex_rank56_exhibit10(rows):
+    kill = top_boats_live(rows, range(1, 7), "worst_ai_plus", 1)
+    heads = [boat for boat in top_boats_live(rows, {3, 4, 5, 6}, "st_exhibit", 2) if boat not in kill]
+    if len(heads) != 2:
+        return set(), None
+
+    second = [boat for boat in top_boats_live(rows, range(1, 7), "ai_pred", 4) if boat not in kill]
+    third = [boat for boat in top_boats_live(rows, range(1, 7), "ai_plus", 2) if boat not in kill]
+    tickets = set()
+    for head in heads:
+        for second_boat in second:
+            for third_boat in third:
+                if len({head, second_boat, third_boat}) == 3:
+                    tickets.add(f"{head}{second_boat}{third_boat}")
+
+    if not (10 <= len(tickets) <= 15):
+        return set(), None
+    return tickets, {
+        "heads": heads,
+        "axes": third,
+        "supports": second,
+        "keshi": kill[0] if kill else None,
+        "role_note": f"{heads[0]},{heads[1]}頭 / 2着はAI予測上位4艇 / 3着はAI+上位2艇 / 最弱AI+を消し",
+    }
+
+
+def weather_value(race, key):
+    value = as_num(race.get(key))
+    if value is not None:
+        return value
+    metrics = race.get("metrics") or {}
+    value = as_num(metrics.get(key))
+    if value is not None:
+        return value
+    result = race.get("result") or {}
+    return as_num(result.get(key))
+
+
 def enrich_rows(by_boat, morning_metrics):
     rows = []
     for boat in range(1, 7):
@@ -754,12 +881,14 @@ def race_metrics(rows):
     outer_tenji = [row["tenji_time"] for row in outer if row.get("tenji_time") is not None]
     outer_isshu = [row["isshu_time"] for row in outer if row.get("isshu_time") is not None]
     outer_avgdiff = [row["avg_isshu_diff"] for row in outer if row.get("avg_isshu_diff") is not None]
+    outer_ai_pred = [row["ai_prediction_pct"] for row in outer if row.get("ai_prediction_pct") is not None]
     outer56_best_tenji = min(outer_tenji) if outer_tenji else None
     outer56_best_isshu = min(outer_isshu) if outer_isshu else None
     outer56_best_avgdiff = max(outer_avgdiff) if outer_avgdiff else None
     b1_tenji = b1.get("tenji_time")
     b1_isshu = b1.get("isshu_time")
     rank6 = next((row for row in rows if row.get("ai_plus_rank") == 6), {})
+    rank5 = next((row for row in rows if row.get("ai_plus_rank") == 5), {})
     return {
         "boat1_ai_prediction_pct": b1.get("ai_prediction_pct"),
         "boat1_ai_plus": b1.get("ai_plus"),
@@ -775,9 +904,13 @@ def race_metrics(rows):
         "outer56_best_tenji_time": outer56_best_tenji,
         "outer56_best_isshu_time": outer56_best_isshu,
         "outer56_best_avg_isshu_diff": outer56_best_avgdiff,
+        "outer56_best_ai_prediction_pct": max(outer_ai_pred) if outer_ai_pred else None,
         "ai_rank6_boat": rank6.get("boat_number"),
         "ai_rank6_avg_isshu_diff": rank6.get("avg_isshu_diff"),
         "ai_rank6_tenji_rank": rank6.get("tenji_rank"),
+        "ai_rank5_boat": rank5.get("boat_number"),
+        "ai_rank5_avg_isshu_diff": rank5.get("avg_isshu_diff"),
+        "ai_rank5_tenji_rank": rank5.get("tenji_rank"),
         "outer56_tenji_advantage": (
             b1_tenji - outer56_best_tenji
             if b1_tenji is not None and outer56_best_tenji is not None
@@ -885,6 +1018,39 @@ def roi_strategies(race, metrics, rows):
         or (metrics.get("boat1_isshu_rank", 9) >= 4)
     )
     strategies = []
+    wind_wave = (weather_value(race, "wind_speed") or 0) >= 5 or (weather_value(race, "wave_height") or 0) >= 5
+    if (
+        round_no <= 3
+        and (metrics.get("boat1_nige_pct") or 999) < 40
+        and (metrics.get("outer56_best_ai_prediction_pct") or -1) >= 12
+        and (metrics.get("ai_rank6_tenji_rank") or 9) <= 2
+        and (metrics.get("ai_rank5_tenji_rank") or 9) <= 2
+        and metrics.get("tenji_boats", 0) >= 6
+        and metrics.get("isshu_boats", 0) >= 6
+    ):
+        strategies.append(
+            (
+                "codex_rank56_exhibit10",
+                "Codex安定型: AI+下位展示浮上 前半10点",
+                codex_rank56_exhibit10,
+            )
+        )
+    if (
+        round_no <= 3
+        and (metrics.get("boat1_loss_pct") or -1) >= 45
+        and (metrics.get("boat1_ai_prediction_pct") or 999) < 25
+        and (metrics.get("outer56_best_ai_prediction_pct") or -1) >= 12
+        and wind_wave
+        and metrics.get("tenji_boats", 0) >= 6
+        and metrics.get("isshu_boats", 0) >= 6
+    ):
+        strategies.append(
+            (
+                "codex_stable_front_wind11",
+                "Codex安定型: 1弱+5/6AI+風波 前半10〜15点",
+                codex_stable_front_wind11,
+            )
+        )
     if (
         round_no >= 7
         and (race.get("manshu_rate_pct") or 0) >= 29
@@ -976,8 +1142,8 @@ def fetch_live_race(race, refresh=True):
         raise RuntimeError(f"unknown place slug: {place}")
     date_text = race.get("date")
     round_no = int(race.get("round"))
-    data = extract_data_page(fetch_page(slug, date_text, round_no, "data", refresh=refresh))
-    last = extract_last_minute_page(fetch_page(slug, date_text, round_no, "last-minute", refresh=refresh))
+    data = extract_data_page(fetch_boaters_page(slug, date_text, round_no, "data", refresh=refresh))
+    last = extract_last_minute_page(fetch_boaters_page(slug, date_text, round_no, "last-minute", refresh=refresh))
     by_boat = {}
     for boat in range(1, 7):
         row = {}

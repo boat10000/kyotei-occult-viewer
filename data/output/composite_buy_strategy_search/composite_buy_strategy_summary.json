@@ -1,0 +1,2722 @@
+{
+  "version": "composite-buy-strategy-v1",
+  "db": "/Users/ohyabumasaya/Desktop/price_action_analysis/outputs/boaters_all_races.sqlite",
+  "conditions_source": "data/output/manshu_composite_condition_search/all_composite_conditions.csv",
+  "evaluated_strategy_variants": 11520,
+  "candidate_count": 29,
+  "train_period": "2020-01-01 to 2024-12-31",
+  "validation_period": "2025-01-01 to 2026-06-18",
+  "filters": {
+    "points": "10 to 15",
+    "return_focus": "manshu_only and 50x_plus proxy",
+    "min_train_races": 35,
+    "min_valid_races": 18,
+    "min_valid_manshu_hits": 2
+  },
+  "top_candidates": [
+    {
+      "condition": "1号艇逃げ失敗40%以上 × 1号艇AI予測25%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge40,b1_ai_pred_lt25,outer56_ai_pred_ge12,rank6_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 27.93,
+      "condition_recent_manshu_rate_pct": 35.1,
+      "head_selector": "rank5_rank6",
+      "second_selector": "axis_ai_pred_top2",
+      "third_selector": "support_best5_exhibit",
+      "kill_selector": "kill_1",
+      "template": "normal",
+      "train_bet_races": 89,
+      "train_avg_points": 10.2,
+      "train_manshu_hit_count": 3,
+      "train_manshu_hit_rate_pct": 3.37,
+      "train_roi_all_pct": 61.01,
+      "train_roi_50plus_pct": 61.01,
+      "train_roi_manshu_only_pct": 45.14,
+      "valid_bet_races": 56,
+      "valid_avg_points": 10.29,
+      "valid_manshu_hit_count": 5,
+      "valid_manshu_hit_rate_pct": 8.93,
+      "valid_plus50_hit_count": 5,
+      "valid_roi_all_pct": 487.69,
+      "valid_roi_50plus_pct": 487.69,
+      "valid_roi_manshu_only_pct": 487.69,
+      "valid_examples": [
+        {
+          "date": "2025-05-20",
+          "place_name": "鳴門",
+          "round": 2,
+          "trifecta": "4-3-6",
+          "payout_yen": 122910,
+          "tickets": [
+            "4-3-2",
+            "4-3-5",
+            "4-3-6",
+            "4-5-2",
+            "4-5-3",
+            "4-5-6",
+            "6-3-2",
+            "6-3-5",
+            "6-5-2",
+            "6-5-3"
+          ],
+          "heads": [
+            4,
+            6
+          ],
+          "second": [
+            5,
+            3
+          ],
+          "third": [
+            5,
+            3,
+            6,
+            2
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-07-21",
+          "place_name": "蒲郡",
+          "round": 3,
+          "trifecta": "2-5-6",
+          "payout_yen": 20990,
+          "tickets": [
+            "2-5-3",
+            "2-5-6",
+            "2-6-3",
+            "2-6-5",
+            "4-5-2",
+            "4-5-3",
+            "4-5-6",
+            "4-6-2",
+            "4-6-3",
+            "4-6-5"
+          ],
+          "heads": [
+            2,
+            4
+          ],
+          "second": [
+            5,
+            6
+          ],
+          "third": [
+            5,
+            2,
+            6,
+            3
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-10-13",
+          "place_name": "津",
+          "round": 3,
+          "trifecta": "3-4-2",
+          "payout_yen": 19590,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-4-2",
+            "3-4-5",
+            "6-2-3",
+            "6-2-4",
+            "6-2-5",
+            "6-4-2",
+            "6-4-3",
+            "6-4-5"
+          ],
+          "heads": [
+            3,
+            6
+          ],
+          "second": [
+            2,
+            4
+          ],
+          "third": [
+            4,
+            3,
+            2,
+            5
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-12-03",
+          "place_name": "大村",
+          "round": 1,
+          "trifecta": "6-2-4",
+          "payout_yen": 98270,
+          "tickets": [
+            "4-2-5",
+            "4-2-6",
+            "4-3-2",
+            "4-3-5",
+            "4-3-6",
+            "6-2-4",
+            "6-2-5",
+            "6-3-2",
+            "6-3-4",
+            "6-3-5"
+          ],
+          "heads": [
+            4,
+            6
+          ],
+          "second": [
+            2,
+            3
+          ],
+          "third": [
+            2,
+            4,
+            5,
+            6
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-12-25",
+          "place_name": "江戸川",
+          "round": 3,
+          "trifecta": "2-4-6",
+          "payout_yen": 19150,
+          "tickets": [
+            "2-3-4",
+            "2-3-5",
+            "2-3-6",
+            "2-4-5",
+            "2-4-6",
+            "6-3-2",
+            "6-3-4",
+            "6-3-5",
+            "6-4-2",
+            "6-4-5"
+          ],
+          "heads": [
+            2,
+            6
+          ],
+          "second": [
+            3,
+            4
+          ],
+          "third": [
+            2,
+            4,
+            6,
+            5
+          ],
+          "kill": [
+            1
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "rank5_rank6",
+        "second": "axis_ai_pred_top2",
+        "third": "support_best5_exhibit",
+        "kill": "kill_1",
+        "template": "normal"
+      },
+      "stability_score": 75.261
+    },
+    {
+      "condition": "1号艇逃げ失敗40%以上 × 1号艇AI予測25%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge40,b1_ai_pred_lt25,outer56_ai_pred_ge12,rank6_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 27.93,
+      "condition_recent_manshu_rate_pct": 35.1,
+      "head_selector": "rank5_rank6",
+      "second_selector": "axis_ai_pred_top2",
+      "third_selector": "support_outer_plus_ai",
+      "kill_selector": "kill_1",
+      "template": "normal",
+      "train_bet_races": 107,
+      "train_avg_points": 10.06,
+      "train_manshu_hit_count": 4,
+      "train_manshu_hit_rate_pct": 3.74,
+      "train_roi_all_pct": 72.19,
+      "train_roi_50plus_pct": 72.19,
+      "train_roi_manshu_only_pct": 64.12,
+      "valid_bet_races": 63,
+      "valid_avg_points": 10.03,
+      "valid_manshu_hit_count": 6,
+      "valid_manshu_hit_rate_pct": 9.52,
+      "valid_plus50_hit_count": 6,
+      "valid_roi_all_pct": 397.37,
+      "valid_roi_50plus_pct": 397.37,
+      "valid_roi_manshu_only_pct": 397.37,
+      "valid_examples": [
+        {
+          "date": "2025-05-20",
+          "place_name": "鳴門",
+          "round": 2,
+          "trifecta": "4-3-6",
+          "payout_yen": 122910,
+          "tickets": [
+            "4-3-2",
+            "4-3-5",
+            "4-3-6",
+            "4-5-2",
+            "4-5-3",
+            "4-5-6",
+            "6-3-2",
+            "6-3-5",
+            "6-5-2",
+            "6-5-3"
+          ],
+          "heads": [
+            4,
+            6
+          ],
+          "second": [
+            5,
+            3
+          ],
+          "third": [
+            5,
+            6,
+            3,
+            2
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-07-21",
+          "place_name": "蒲郡",
+          "round": 3,
+          "trifecta": "2-5-6",
+          "payout_yen": 20990,
+          "tickets": [
+            "2-5-3",
+            "2-5-6",
+            "2-6-3",
+            "2-6-5",
+            "4-5-2",
+            "4-5-3",
+            "4-5-6",
+            "4-6-2",
+            "4-6-3",
+            "4-6-5"
+          ],
+          "heads": [
+            2,
+            4
+          ],
+          "second": [
+            5,
+            6
+          ],
+          "third": [
+            5,
+            6,
+            3,
+            2
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-08-11",
+          "place_name": "戸田",
+          "round": 3,
+          "trifecta": "3-4-5",
+          "payout_yen": 29620,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-2-6",
+            "3-4-2",
+            "3-4-5",
+            "3-4-6",
+            "5-2-4",
+            "5-2-6",
+            "5-4-2",
+            "5-4-6"
+          ],
+          "heads": [
+            3,
+            5
+          ],
+          "second": [
+            2,
+            4
+          ],
+          "third": [
+            5,
+            6,
+            2,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-09-06",
+          "place_name": "江戸川",
+          "round": 3,
+          "trifecta": "4-3-6",
+          "payout_yen": 38880,
+          "tickets": [
+            "4-3-2",
+            "4-3-5",
+            "4-3-6",
+            "4-5-2",
+            "4-5-3",
+            "4-5-6",
+            "6-3-2",
+            "6-3-5",
+            "6-5-2",
+            "6-5-3"
+          ],
+          "heads": [
+            6,
+            4
+          ],
+          "second": [
+            3,
+            5
+          ],
+          "third": [
+            5,
+            6,
+            3,
+            2
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-10-13",
+          "place_name": "津",
+          "round": 3,
+          "trifecta": "3-4-2",
+          "payout_yen": 19590,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-2-6",
+            "3-4-2",
+            "3-4-5",
+            "3-4-6",
+            "6-2-4",
+            "6-2-5",
+            "6-4-2",
+            "6-4-5"
+          ],
+          "heads": [
+            3,
+            6
+          ],
+          "second": [
+            2,
+            4
+          ],
+          "third": [
+            5,
+            6,
+            2,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "rank5_rank6",
+        "second": "axis_ai_pred_top2",
+        "third": "support_outer_plus_ai",
+        "kill": "kill_1",
+        "template": "normal"
+      },
+      "stability_score": 95.7054
+    },
+    {
+      "condition": "1号艇逃げ失敗40%以上 × 1号艇AI予測25%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge40,b1_ai_pred_lt25,outer56_ai_pred_ge12,rank6_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 27.93,
+      "condition_recent_manshu_rate_pct": 35.1,
+      "head_selector": "underdog_exhibit",
+      "second_selector": "axis_ai_pred_top2",
+      "third_selector": "support_outer_plus_ai",
+      "kill_selector": "kill_1",
+      "template": "normal",
+      "train_bet_races": 66,
+      "train_avg_points": 10.18,
+      "train_manshu_hit_count": 3,
+      "train_manshu_hit_rate_pct": 4.55,
+      "train_roi_all_pct": 104.58,
+      "train_roi_50plus_pct": 89.48,
+      "train_roi_manshu_only_pct": 80.97,
+      "valid_bet_races": 33,
+      "valid_avg_points": 10.3,
+      "valid_manshu_hit_count": 4,
+      "valid_manshu_hit_rate_pct": 12.12,
+      "valid_plus50_hit_count": 4,
+      "valid_roi_all_pct": 332.53,
+      "valid_roi_50plus_pct": 319.53,
+      "valid_roi_manshu_only_pct": 319.53,
+      "valid_examples": [
+        {
+          "date": "2025-07-21",
+          "place_name": "蒲郡",
+          "round": 3,
+          "trifecta": "2-5-6",
+          "payout_yen": 20990,
+          "tickets": [
+            "2-5-3",
+            "2-5-6",
+            "2-6-3",
+            "2-6-5",
+            "4-5-2",
+            "4-5-3",
+            "4-5-6",
+            "4-6-2",
+            "4-6-3",
+            "4-6-5"
+          ],
+          "heads": [
+            2,
+            4
+          ],
+          "second": [
+            5,
+            6
+          ],
+          "third": [
+            5,
+            6,
+            3,
+            2
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-08-11",
+          "place_name": "戸田",
+          "round": 3,
+          "trifecta": "3-4-5",
+          "payout_yen": 29620,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-2-6",
+            "3-4-2",
+            "3-4-5",
+            "3-4-6",
+            "5-2-4",
+            "5-2-6",
+            "5-4-2",
+            "5-4-6"
+          ],
+          "heads": [
+            5,
+            3
+          ],
+          "second": [
+            2,
+            4
+          ],
+          "third": [
+            5,
+            6,
+            2,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-09-06",
+          "place_name": "江戸川",
+          "round": 3,
+          "trifecta": "4-3-6",
+          "payout_yen": 38880,
+          "tickets": [
+            "4-3-2",
+            "4-3-5",
+            "4-3-6",
+            "4-5-2",
+            "4-5-3",
+            "4-5-6",
+            "6-3-2",
+            "6-3-5",
+            "6-5-2",
+            "6-5-3"
+          ],
+          "heads": [
+            4,
+            6
+          ],
+          "second": [
+            3,
+            5
+          ],
+          "third": [
+            5,
+            6,
+            3,
+            2
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-12-25",
+          "place_name": "江戸川",
+          "round": 3,
+          "trifecta": "2-4-6",
+          "payout_yen": 19150,
+          "tickets": [
+            "2-3-4",
+            "2-3-5",
+            "2-3-6",
+            "2-4-3",
+            "2-4-5",
+            "2-4-6",
+            "6-3-4",
+            "6-3-5",
+            "6-4-3",
+            "6-4-5"
+          ],
+          "heads": [
+            6,
+            2
+          ],
+          "second": [
+            3,
+            4
+          ],
+          "third": [
+            5,
+            6,
+            3,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "underdog_exhibit",
+        "second": "axis_ai_pred_top2",
+        "third": "support_outer_plus_ai",
+        "kill": "kill_1",
+        "template": "normal"
+      },
+      "stability_score": 115.0378
+    },
+    {
+      "condition": "1号艇逃げ失敗45%以上 × 1号艇AI予測30%未満 × 5/6号艇AI予測最大12%以上 × 風または波5以上 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge45,b1_ai_pred_lt30,outer56_ai_pred_ge12,wind_wave_ge5,round_1_3",
+      "condition_manshu_rate_pct": 28.19,
+      "condition_recent_manshu_rate_pct": 35.0,
+      "head_selector": "st_mid_outer",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_outer_plus_ai",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 51,
+      "train_avg_points": 10.94,
+      "train_manshu_hit_count": 2,
+      "train_manshu_hit_rate_pct": 3.92,
+      "train_roi_all_pct": 135.79,
+      "train_roi_50plus_pct": 103.76,
+      "train_roi_manshu_only_pct": 94.18,
+      "valid_bet_races": 29,
+      "valid_avg_points": 10.97,
+      "valid_manshu_hit_count": 3,
+      "valid_manshu_hit_rate_pct": 10.34,
+      "valid_plus50_hit_count": 3,
+      "valid_roi_all_pct": 264.47,
+      "valid_roi_50plus_pct": 264.47,
+      "valid_roi_manshu_only_pct": 264.47,
+      "valid_examples": [
+        {
+          "date": "2025-01-29",
+          "place_name": "児島",
+          "round": 2,
+          "trifecta": "4-1-2",
+          "payout_yen": 15420,
+          "tickets": [
+            "3-1-2",
+            "3-1-5",
+            "3-2-5",
+            "3-5-2",
+            "4-1-2",
+            "4-1-5",
+            "4-2-5",
+            "4-3-2",
+            "4-3-5",
+            "4-5-2"
+          ],
+          "heads": [
+            3,
+            4
+          ],
+          "second": [
+            5,
+            1,
+            3,
+            2
+          ],
+          "third": [
+            5,
+            2
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2025-09-06",
+          "place_name": "江戸川",
+          "round": 2,
+          "trifecta": "6-2-5",
+          "payout_yen": 42710,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-4-5",
+            "3-5-4",
+            "3-6-4",
+            "3-6-5",
+            "6-2-4",
+            "6-2-5",
+            "6-3-4",
+            "6-3-5",
+            "6-4-5",
+            "6-5-4"
+          ],
+          "heads": [
+            6,
+            3
+          ],
+          "second": [
+            5,
+            6,
+            2,
+            4,
+            3
+          ],
+          "third": [
+            5,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2026-01-02",
+          "place_name": "丸亀",
+          "round": 1,
+          "trifecta": "5-4-1",
+          "payout_yen": 25970,
+          "tickets": [
+            "4-1-2",
+            "4-2-1",
+            "4-5-1",
+            "4-5-2",
+            "4-6-1",
+            "4-6-2",
+            "5-1-2",
+            "5-2-1",
+            "5-4-1",
+            "5-4-2",
+            "5-6-1",
+            "5-6-2"
+          ],
+          "heads": [
+            4,
+            5
+          ],
+          "second": [
+            5,
+            6,
+            2,
+            1,
+            4
+          ],
+          "third": [
+            1,
+            2
+          ],
+          "kill": [
+            3
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "st_mid_outer",
+        "second": "axis_ai_plus_top2",
+        "third": "support_outer_plus_ai",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 124.609
+    },
+    {
+      "condition": "1号艇逃げ失敗45%以上 × 5/6号艇AI予測最大12%以上 × AI+5位が展示2位以内 × 風または波5以上 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge45,outer56_ai_pred_ge12,rank5_tenji_top2,wind_wave_ge5,round_1_3",
+      "condition_manshu_rate_pct": 30.57,
+      "condition_recent_manshu_rate_pct": 39.02,
+      "head_selector": "st_mid_outer",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_best4_ai",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 48,
+      "train_avg_points": 10.0,
+      "train_manshu_hit_count": 2,
+      "train_manshu_hit_rate_pct": 4.17,
+      "train_roi_all_pct": 91.06,
+      "train_roi_50plus_pct": 62.46,
+      "train_roi_manshu_only_pct": 50.33,
+      "valid_bet_races": 22,
+      "valid_avg_points": 10.0,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 9.09,
+      "valid_plus50_hit_count": 2,
+      "valid_roi_all_pct": 264.23,
+      "valid_roi_50plus_pct": 264.23,
+      "valid_roi_manshu_only_pct": 264.23,
+      "valid_examples": [
+        {
+          "date": "2025-01-29",
+          "place_name": "児島",
+          "round": 2,
+          "trifecta": "4-1-2",
+          "payout_yen": 15420,
+          "tickets": [
+            "3-1-2",
+            "3-1-5",
+            "3-2-5",
+            "3-5-2",
+            "4-1-2",
+            "4-1-5",
+            "4-2-5",
+            "4-3-2",
+            "4-3-5",
+            "4-5-2"
+          ],
+          "heads": [
+            3,
+            4
+          ],
+          "second": [
+            1,
+            3,
+            2,
+            5
+          ],
+          "third": [
+            5,
+            2
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2025-09-06",
+          "place_name": "江戸川",
+          "round": 2,
+          "trifecta": "6-2-5",
+          "payout_yen": 42710,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-4-5",
+            "3-5-4",
+            "6-2-4",
+            "6-2-5",
+            "6-3-4",
+            "6-3-5",
+            "6-4-5",
+            "6-5-4"
+          ],
+          "heads": [
+            6,
+            3
+          ],
+          "second": [
+            2,
+            4,
+            5,
+            3
+          ],
+          "third": [
+            5,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "st_mid_outer",
+        "second": "axis_ai_plus_top2",
+        "third": "support_best4_ai",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 77.5858
+    },
+    {
+      "condition": "1号艇逃げ失敗40%以上 × 1号艇AI予測25%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge40,b1_ai_pred_lt25,outer56_ai_pred_ge12,rank6_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 27.93,
+      "condition_recent_manshu_rate_pct": 35.1,
+      "head_selector": "rank5_rank6",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_outer_plus_ai",
+      "kill_selector": "kill_1",
+      "template": "normal",
+      "train_bet_races": 147,
+      "train_avg_points": 10.04,
+      "train_manshu_hit_count": 4,
+      "train_manshu_hit_rate_pct": 2.72,
+      "train_roi_all_pct": 51.44,
+      "train_roi_50plus_pct": 51.44,
+      "train_roi_manshu_only_pct": 45.56,
+      "valid_bet_races": 71,
+      "valid_avg_points": 10.06,
+      "valid_manshu_hit_count": 3,
+      "valid_manshu_hit_rate_pct": 4.23,
+      "valid_plus50_hit_count": 3,
+      "valid_roi_all_pct": 241.06,
+      "valid_roi_50plus_pct": 241.06,
+      "valid_roi_manshu_only_pct": 241.06,
+      "valid_examples": [
+        {
+          "date": "2025-05-20",
+          "place_name": "鳴門",
+          "round": 2,
+          "trifecta": "4-3-6",
+          "payout_yen": 122910,
+          "tickets": [
+            "4-3-2",
+            "4-3-5",
+            "4-3-6",
+            "4-5-2",
+            "4-5-3",
+            "4-5-6",
+            "6-3-2",
+            "6-3-5",
+            "6-5-2",
+            "6-5-3"
+          ],
+          "heads": [
+            4,
+            6
+          ],
+          "second": [
+            5,
+            3
+          ],
+          "third": [
+            5,
+            6,
+            3,
+            2
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-08-11",
+          "place_name": "戸田",
+          "round": 3,
+          "trifecta": "3-4-5",
+          "payout_yen": 29620,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-2-6",
+            "3-4-2",
+            "3-4-5",
+            "3-4-6",
+            "5-2-4",
+            "5-2-6",
+            "5-4-2",
+            "5-4-6"
+          ],
+          "heads": [
+            3,
+            5
+          ],
+          "second": [
+            4,
+            2
+          ],
+          "third": [
+            5,
+            6,
+            2,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-10-13",
+          "place_name": "津",
+          "round": 3,
+          "trifecta": "3-4-2",
+          "payout_yen": 19590,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-2-6",
+            "3-4-2",
+            "3-4-5",
+            "3-4-6",
+            "6-2-4",
+            "6-2-5",
+            "6-4-2",
+            "6-4-5"
+          ],
+          "heads": [
+            3,
+            6
+          ],
+          "second": [
+            2,
+            4
+          ],
+          "third": [
+            5,
+            6,
+            2,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "rank5_rank6",
+        "second": "axis_ai_plus_top2",
+        "third": "support_outer_plus_ai",
+        "kill": "kill_1",
+        "template": "normal"
+      },
+      "stability_score": 68.0327
+    },
+    {
+      "condition": "1号艇逃げ失敗45%以上 × 1号艇AI予測30%未満 × 5/6号艇AI予測最大12%以上 × 風または波5以上 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge45,b1_ai_pred_lt30,outer56_ai_pred_ge12,wind_wave_ge5,round_1_3",
+      "condition_manshu_rate_pct": 28.19,
+      "condition_recent_manshu_rate_pct": 35.0,
+      "head_selector": "st_mid_outer",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_outer_plus_ai",
+      "kill_selector": "kill_rank6",
+      "template": "swap23",
+      "train_bet_races": 47,
+      "train_avg_points": 11.11,
+      "train_manshu_hit_count": 1,
+      "train_manshu_hit_rate_pct": 2.13,
+      "train_roi_all_pct": 123.58,
+      "train_roi_50plus_pct": 89.35,
+      "train_roi_manshu_only_pct": 79.1,
+      "valid_bet_races": 22,
+      "valid_avg_points": 11.0,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 9.09,
+      "valid_plus50_hit_count": 2,
+      "valid_roi_all_pct": 257.19,
+      "valid_roi_50plus_pct": 240.21,
+      "valid_roi_manshu_only_pct": 240.21,
+      "valid_examples": [
+        {
+          "date": "2025-01-29",
+          "place_name": "児島",
+          "round": 2,
+          "trifecta": "4-1-2",
+          "payout_yen": 15420,
+          "tickets": [
+            "3-1-2",
+            "3-1-5",
+            "3-2-5",
+            "3-5-2",
+            "4-1-2",
+            "4-1-5",
+            "4-2-5",
+            "4-3-2",
+            "4-3-5",
+            "4-5-2"
+          ],
+          "heads": [
+            3,
+            4
+          ],
+          "second": [
+            5,
+            1,
+            3,
+            2
+          ],
+          "third": [
+            5,
+            2
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2025-09-06",
+          "place_name": "江戸川",
+          "round": 2,
+          "trifecta": "6-2-5",
+          "payout_yen": 42710,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-4-5",
+            "3-5-4",
+            "3-6-4",
+            "3-6-5",
+            "6-2-4",
+            "6-2-5",
+            "6-3-4",
+            "6-3-5",
+            "6-4-5",
+            "6-5-4"
+          ],
+          "heads": [
+            6,
+            3
+          ],
+          "second": [
+            5,
+            6,
+            2,
+            4,
+            3
+          ],
+          "third": [
+            5,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "st_mid_outer",
+        "second": "axis_ai_plus_top2",
+        "third": "support_outer_plus_ai",
+        "kill": "kill_rank6",
+        "template": "swap23"
+      },
+      "stability_score": 106.3558
+    },
+    {
+      "condition": "1号艇逃げ失敗45%以上 × 1号艇AI予測30%未満 × 5/6号艇AI予測最大12%以上 × 風または波5以上 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge45,b1_ai_pred_lt30,outer56_ai_pred_ge12,wind_wave_ge5,round_1_3",
+      "condition_manshu_rate_pct": 28.19,
+      "condition_recent_manshu_rate_pct": 35.0,
+      "head_selector": "st_mid_outer",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_best5_exhibit",
+      "kill_selector": "kill_rank6",
+      "template": "swap23",
+      "train_bet_races": 50,
+      "train_avg_points": 11.48,
+      "train_manshu_hit_count": 1,
+      "train_manshu_hit_rate_pct": 2.0,
+      "train_roi_all_pct": 105.17,
+      "train_roi_50plus_pct": 81.25,
+      "train_roi_manshu_only_pct": 71.93,
+      "valid_bet_races": 25,
+      "valid_avg_points": 11.2,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 8.0,
+      "valid_plus50_hit_count": 2,
+      "valid_roi_all_pct": 226.75,
+      "valid_roi_50plus_pct": 207.61,
+      "valid_roi_manshu_only_pct": 207.61,
+      "valid_examples": [
+        {
+          "date": "2025-01-29",
+          "place_name": "児島",
+          "round": 2,
+          "trifecta": "4-1-2",
+          "payout_yen": 15420,
+          "tickets": [
+            "3-1-2",
+            "3-1-5",
+            "3-2-5",
+            "3-5-2",
+            "4-1-2",
+            "4-1-5",
+            "4-2-5",
+            "4-3-2",
+            "4-3-5",
+            "4-5-2"
+          ],
+          "heads": [
+            3,
+            4
+          ],
+          "second": [
+            2,
+            1,
+            3,
+            5
+          ],
+          "third": [
+            5,
+            2
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2025-09-06",
+          "place_name": "江戸川",
+          "round": 2,
+          "trifecta": "6-2-5",
+          "payout_yen": 42710,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-4-5",
+            "3-6-4",
+            "3-6-5",
+            "6-2-4",
+            "6-2-5",
+            "6-3-4",
+            "6-3-5",
+            "6-4-5"
+          ],
+          "heads": [
+            6,
+            3
+          ],
+          "second": [
+            3,
+            2,
+            4,
+            6
+          ],
+          "third": [
+            5,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "st_mid_outer",
+        "second": "axis_ai_plus_top2",
+        "third": "support_best5_exhibit",
+        "kill": "kill_rank6",
+        "template": "swap23"
+      },
+      "stability_score": 97.6498
+    },
+    {
+      "condition": "1号艇逃げ失敗40%以上 × 5/6号艇AI予測最大12%以上 × AI+最下位平均との差0.10以上 × AI+最下位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge40,outer56_ai_pred_ge12,rank6_avgdiff_ge010,rank6_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 31.93,
+      "condition_recent_manshu_rate_pct": 30.93,
+      "head_selector": "underdog_exhibit",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_best5_exhibit",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 44,
+      "train_avg_points": 11.68,
+      "train_manshu_hit_count": 2,
+      "train_manshu_hit_rate_pct": 4.55,
+      "train_roi_all_pct": 86.91,
+      "train_roi_50plus_pct": 73.85,
+      "train_roi_manshu_only_pct": 56.03,
+      "valid_bet_races": 48,
+      "valid_avg_points": 11.62,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 4.17,
+      "valid_plus50_hit_count": 3,
+      "valid_roi_all_pct": 218.92,
+      "valid_roi_50plus_pct": 202.19,
+      "valid_roi_manshu_only_pct": 190.27,
+      "valid_examples": [
+        {
+          "date": "2025-08-14",
+          "place_name": "びわこ",
+          "round": 1,
+          "trifecta": "2-6-5",
+          "payout_yen": 94010,
+          "tickets": [
+            "2-1-5",
+            "2-4-1",
+            "2-4-5",
+            "2-5-1",
+            "2-6-1",
+            "2-6-5",
+            "6-1-5",
+            "6-2-1",
+            "6-2-5",
+            "6-4-1",
+            "6-4-5",
+            "6-5-1"
+          ],
+          "heads": [
+            6,
+            2
+          ],
+          "second": [
+            6,
+            5,
+            2,
+            1,
+            4
+          ],
+          "third": [
+            1,
+            5
+          ],
+          "kill": [
+            3
+          ]
+        },
+        {
+          "date": "2025-11-20",
+          "place_name": "丸亀",
+          "round": 2,
+          "trifecta": "2-6-1",
+          "payout_yen": 12160,
+          "tickets": [
+            "2-1-3",
+            "2-3-1",
+            "2-4-1",
+            "2-4-3",
+            "2-6-1",
+            "2-6-3",
+            "6-1-3",
+            "6-2-1",
+            "6-2-3",
+            "6-3-1",
+            "6-4-1",
+            "6-4-3"
+          ],
+          "heads": [
+            2,
+            6
+          ],
+          "second": [
+            6,
+            3,
+            2,
+            1,
+            4
+          ],
+          "third": [
+            3,
+            1
+          ],
+          "kill": [
+            5
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "underdog_exhibit",
+        "second": "axis_ai_plus_top2",
+        "third": "support_best5_exhibit",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 77.0576
+    },
+    {
+      "condition": "1号艇逃げ失敗45%以上 × 1号艇AI予測30%未満 × 5/6号艇AI予測最大12%以上 × 風または波5以上 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge45,b1_ai_pred_lt30,outer56_ai_pred_ge12,wind_wave_ge5,round_1_3",
+      "condition_manshu_rate_pct": 28.19,
+      "condition_recent_manshu_rate_pct": 35.0,
+      "head_selector": "rank5_rank6",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_best5_exhibit",
+      "kill_selector": "kill_1",
+      "template": "swap23",
+      "train_bet_races": 72,
+      "train_avg_points": 10.03,
+      "train_manshu_hit_count": 2,
+      "train_manshu_hit_rate_pct": 2.78,
+      "train_roi_all_pct": 56.18,
+      "train_roi_50plus_pct": 52.15,
+      "train_roi_manshu_only_pct": 52.15,
+      "valid_bet_races": 61,
+      "valid_avg_points": 10.03,
+      "valid_manshu_hit_count": 4,
+      "valid_manshu_hit_rate_pct": 6.56,
+      "valid_plus50_hit_count": 4,
+      "valid_roi_all_pct": 178.73,
+      "valid_roi_50plus_pct": 178.73,
+      "valid_roi_manshu_only_pct": 178.73,
+      "valid_examples": [
+        {
+          "date": "2025-06-26",
+          "place_name": "平和島",
+          "round": 3,
+          "trifecta": "2-5-3",
+          "payout_yen": 19820,
+          "tickets": [
+            "2-3-5",
+            "2-4-3",
+            "2-4-5",
+            "2-5-3",
+            "6-2-3",
+            "6-2-5",
+            "6-3-5",
+            "6-4-3",
+            "6-4-5",
+            "6-5-3"
+          ],
+          "heads": [
+            2,
+            6
+          ],
+          "second": [
+            3,
+            4,
+            5,
+            2
+          ],
+          "third": [
+            3,
+            5
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-10-13",
+          "place_name": "津",
+          "round": 3,
+          "trifecta": "3-4-2",
+          "payout_yen": 19590,
+          "tickets": [
+            "3-2-4",
+            "3-4-2",
+            "3-5-2",
+            "3-5-4",
+            "6-2-4",
+            "6-3-2",
+            "6-3-4",
+            "6-4-2",
+            "6-5-2",
+            "6-5-4"
+          ],
+          "heads": [
+            3,
+            6
+          ],
+          "second": [
+            4,
+            3,
+            2,
+            5
+          ],
+          "third": [
+            2,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2026-04-28",
+          "place_name": "浜名湖",
+          "round": 3,
+          "trifecta": "3-2-5",
+          "payout_yen": 12540,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-4-5",
+            "3-5-4",
+            "6-2-4",
+            "6-2-5",
+            "6-3-4",
+            "6-3-5",
+            "6-4-5",
+            "6-5-4"
+          ],
+          "heads": [
+            3,
+            6
+          ],
+          "second": [
+            2,
+            4,
+            3,
+            5
+          ],
+          "third": [
+            4,
+            5
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2026-06-14",
+          "place_name": "江戸川",
+          "round": 1,
+          "trifecta": "6-4-5",
+          "payout_yen": 57430,
+          "tickets": [
+            "2-3-5",
+            "2-4-3",
+            "2-4-5",
+            "2-5-3",
+            "6-2-3",
+            "6-2-5",
+            "6-3-5",
+            "6-4-3",
+            "6-4-5",
+            "6-5-3"
+          ],
+          "heads": [
+            2,
+            6
+          ],
+          "second": [
+            2,
+            5,
+            4,
+            3
+          ],
+          "third": [
+            5,
+            3
+          ],
+          "kill": [
+            1
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "rank5_rank6",
+        "second": "axis_ai_plus_top2",
+        "third": "support_best5_exhibit",
+        "kill": "kill_1",
+        "template": "swap23"
+      },
+      "stability_score": 78.2971
+    },
+    {
+      "condition": "1号艇逃げ率40%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位が展示2位以内 × AI+5位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_nige_lt40,outer56_ai_pred_ge12,rank6_tenji_top2,rank5_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 29.36,
+      "condition_recent_manshu_rate_pct": 33.33,
+      "head_selector": "outer_value",
+      "second_selector": "axis_ai_pred_top2",
+      "third_selector": "support_best4_ai",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 43,
+      "train_avg_points": 10.0,
+      "train_manshu_hit_count": 2,
+      "train_manshu_hit_rate_pct": 4.65,
+      "train_roi_all_pct": 104.7,
+      "train_roi_50plus_pct": 81.35,
+      "train_roi_manshu_only_pct": 81.35,
+      "valid_bet_races": 20,
+      "valid_avg_points": 10.0,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 10.0,
+      "valid_plus50_hit_count": 2,
+      "valid_roi_all_pct": 177.9,
+      "valid_roi_50plus_pct": 177.9,
+      "valid_roi_manshu_only_pct": 177.9,
+      "valid_examples": [
+        {
+          "date": "2026-03-07",
+          "place_name": "宮島",
+          "round": 2,
+          "trifecta": "4-1-5",
+          "payout_yen": 24650,
+          "tickets": [
+            "3-1-2",
+            "3-1-5",
+            "3-2-5",
+            "3-5-2",
+            "4-1-2",
+            "4-1-5",
+            "4-2-5",
+            "4-3-2",
+            "4-3-5",
+            "4-5-2"
+          ],
+          "heads": [
+            3,
+            4
+          ],
+          "second": [
+            2,
+            5,
+            1,
+            3
+          ],
+          "third": [
+            2,
+            5
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2026-05-14",
+          "place_name": "平和島",
+          "round": 3,
+          "trifecta": "5-3-1",
+          "payout_yen": 10930,
+          "tickets": [
+            "5-1-2",
+            "5-2-1",
+            "5-3-1",
+            "5-3-2",
+            "6-1-2",
+            "6-2-1",
+            "6-3-1",
+            "6-3-2",
+            "6-5-1",
+            "6-5-2"
+          ],
+          "heads": [
+            5,
+            6
+          ],
+          "second": [
+            1,
+            2,
+            5,
+            3
+          ],
+          "third": [
+            1,
+            2
+          ],
+          "kill": [
+            4
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "outer_value",
+        "second": "axis_ai_pred_top2",
+        "third": "support_best4_ai",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 109.9278
+    },
+    {
+      "condition": "1号艇逃げ率40%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位が展示2位以内 × AI+5位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_nige_lt40,outer56_ai_pred_ge12,rank6_tenji_top2,rank5_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 29.36,
+      "condition_recent_manshu_rate_pct": 33.33,
+      "head_selector": "st_mid_outer",
+      "second_selector": "axis_ai_pred_top2",
+      "third_selector": "support_best4_ai",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 40,
+      "train_avg_points": 10.0,
+      "train_manshu_hit_count": 3,
+      "train_manshu_hit_rate_pct": 7.5,
+      "train_roi_all_pct": 144.1,
+      "train_roi_50plus_pct": 119.0,
+      "train_roi_manshu_only_pct": 119.0,
+      "valid_bet_races": 21,
+      "valid_avg_points": 10.0,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 9.52,
+      "valid_plus50_hit_count": 2,
+      "valid_roi_all_pct": 169.43,
+      "valid_roi_50plus_pct": 169.43,
+      "valid_roi_manshu_only_pct": 169.43,
+      "valid_examples": [
+        {
+          "date": "2026-03-07",
+          "place_name": "宮島",
+          "round": 2,
+          "trifecta": "4-1-5",
+          "payout_yen": 24650,
+          "tickets": [
+            "3-1-2",
+            "3-1-5",
+            "3-2-5",
+            "3-5-2",
+            "4-1-2",
+            "4-1-5",
+            "4-2-5",
+            "4-3-2",
+            "4-3-5",
+            "4-5-2"
+          ],
+          "heads": [
+            3,
+            4
+          ],
+          "second": [
+            2,
+            5,
+            1,
+            3
+          ],
+          "third": [
+            2,
+            5
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2026-05-14",
+          "place_name": "平和島",
+          "round": 3,
+          "trifecta": "5-3-1",
+          "payout_yen": 10930,
+          "tickets": [
+            "5-1-2",
+            "5-2-1",
+            "5-3-1",
+            "5-3-2",
+            "6-1-2",
+            "6-2-1",
+            "6-3-1",
+            "6-3-2",
+            "6-5-1",
+            "6-5-2"
+          ],
+          "heads": [
+            5,
+            6
+          ],
+          "second": [
+            1,
+            2,
+            5,
+            3
+          ],
+          "third": [
+            1,
+            2
+          ],
+          "kill": [
+            4
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "st_mid_outer",
+        "second": "axis_ai_pred_top2",
+        "third": "support_best4_ai",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 146.8754
+    },
+    {
+      "condition": "1号艇逃げ率40%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位が展示2位以内 × AI+5位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_nige_lt40,outer56_ai_pred_ge12,rank6_tenji_top2,rank5_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 29.36,
+      "condition_recent_manshu_rate_pct": 33.33,
+      "head_selector": "st_mid_outer",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_best4_ai",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 41,
+      "train_avg_points": 10.0,
+      "train_manshu_hit_count": 4,
+      "train_manshu_hit_rate_pct": 9.76,
+      "train_roi_all_pct": 137.51,
+      "train_roi_50plus_pct": 117.2,
+      "train_roi_manshu_only_pct": 117.2,
+      "valid_bet_races": 21,
+      "valid_avg_points": 10.0,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 9.52,
+      "valid_plus50_hit_count": 2,
+      "valid_roi_all_pct": 180.19,
+      "valid_roi_50plus_pct": 169.43,
+      "valid_roi_manshu_only_pct": 169.43,
+      "valid_examples": [
+        {
+          "date": "2026-03-07",
+          "place_name": "宮島",
+          "round": 2,
+          "trifecta": "4-1-5",
+          "payout_yen": 24650,
+          "tickets": [
+            "3-1-2",
+            "3-1-5",
+            "3-2-5",
+            "3-5-2",
+            "4-1-2",
+            "4-1-5",
+            "4-2-5",
+            "4-3-2",
+            "4-3-5",
+            "4-5-2"
+          ],
+          "heads": [
+            3,
+            4
+          ],
+          "second": [
+            2,
+            5,
+            1,
+            3
+          ],
+          "third": [
+            5,
+            2
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2026-05-14",
+          "place_name": "平和島",
+          "round": 3,
+          "trifecta": "5-3-1",
+          "payout_yen": 10930,
+          "tickets": [
+            "5-1-2",
+            "5-2-1",
+            "5-3-1",
+            "5-3-2",
+            "6-1-2",
+            "6-2-1",
+            "6-3-1",
+            "6-3-2",
+            "6-5-1",
+            "6-5-2"
+          ],
+          "heads": [
+            5,
+            6
+          ],
+          "second": [
+            1,
+            2,
+            5,
+            3
+          ],
+          "third": [
+            1,
+            2
+          ],
+          "kill": [
+            4
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "st_mid_outer",
+        "second": "axis_ai_plus_top2",
+        "third": "support_best4_ai",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 145.0754
+    },
+    {
+      "condition": "1号艇逃げ率40%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位平均との差0.10以上 × AI+最下位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_nige_lt40,outer56_ai_pred_ge12,rank6_avgdiff_ge010,rank6_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 31.58,
+      "condition_recent_manshu_rate_pct": 30.43,
+      "head_selector": "underdog_exhibit",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_best5_exhibit",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 46,
+      "train_avg_points": 11.61,
+      "train_manshu_hit_count": 3,
+      "train_manshu_hit_rate_pct": 6.52,
+      "train_roi_all_pct": 106.97,
+      "train_roi_50plus_pct": 94.4,
+      "train_roi_manshu_only_pct": 77.25,
+      "valid_bet_races": 56,
+      "valid_avg_points": 11.68,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 3.57,
+      "valid_plus50_hit_count": 4,
+      "valid_roi_all_pct": 195.96,
+      "valid_roi_50plus_pct": 181.68,
+      "valid_roi_manshu_only_pct": 162.34,
+      "valid_examples": [
+        {
+          "date": "2025-08-14",
+          "place_name": "びわこ",
+          "round": 1,
+          "trifecta": "2-6-5",
+          "payout_yen": 94010,
+          "tickets": [
+            "2-1-5",
+            "2-4-1",
+            "2-4-5",
+            "2-5-1",
+            "2-6-1",
+            "2-6-5",
+            "6-1-5",
+            "6-2-1",
+            "6-2-5",
+            "6-4-1",
+            "6-4-5",
+            "6-5-1"
+          ],
+          "heads": [
+            6,
+            2
+          ],
+          "second": [
+            6,
+            5,
+            2,
+            1,
+            4
+          ],
+          "third": [
+            1,
+            5
+          ],
+          "kill": [
+            3
+          ]
+        },
+        {
+          "date": "2025-11-20",
+          "place_name": "丸亀",
+          "round": 2,
+          "trifecta": "2-6-1",
+          "payout_yen": 12160,
+          "tickets": [
+            "2-1-3",
+            "2-3-1",
+            "2-4-1",
+            "2-4-3",
+            "2-6-1",
+            "2-6-3",
+            "6-1-3",
+            "6-2-1",
+            "6-2-3",
+            "6-3-1",
+            "6-4-1",
+            "6-4-3"
+          ],
+          "heads": [
+            2,
+            6
+          ],
+          "second": [
+            6,
+            3,
+            2,
+            1,
+            4
+          ],
+          "third": [
+            3,
+            1
+          ],
+          "kill": [
+            5
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "underdog_exhibit",
+        "second": "axis_ai_plus_top2",
+        "third": "support_best5_exhibit",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 97.723
+    },
+    {
+      "condition": "1号艇逃げ率40%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位が展示2位以内 × AI+5位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_nige_lt40,outer56_ai_pred_ge12,rank6_tenji_top2,rank5_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 29.36,
+      "condition_recent_manshu_rate_pct": 33.33,
+      "head_selector": "outer_value",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_best4_ai",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 43,
+      "train_avg_points": 10.0,
+      "train_manshu_hit_count": 2,
+      "train_manshu_hit_rate_pct": 4.65,
+      "train_roi_all_pct": 76.28,
+      "train_roi_50plus_pct": 56.91,
+      "train_roi_manshu_only_pct": 56.91,
+      "valid_bet_races": 22,
+      "valid_avg_points": 10.0,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 9.09,
+      "valid_plus50_hit_count": 2,
+      "valid_roi_all_pct": 172.0,
+      "valid_roi_50plus_pct": 161.73,
+      "valid_roi_manshu_only_pct": 161.73,
+      "valid_examples": [
+        {
+          "date": "2026-03-07",
+          "place_name": "宮島",
+          "round": 2,
+          "trifecta": "4-1-5",
+          "payout_yen": 24650,
+          "tickets": [
+            "3-1-2",
+            "3-1-5",
+            "3-2-5",
+            "3-5-2",
+            "4-1-2",
+            "4-1-5",
+            "4-2-5",
+            "4-3-2",
+            "4-3-5",
+            "4-5-2"
+          ],
+          "heads": [
+            3,
+            4
+          ],
+          "second": [
+            2,
+            5,
+            1,
+            3
+          ],
+          "third": [
+            5,
+            2
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2026-05-14",
+          "place_name": "平和島",
+          "round": 3,
+          "trifecta": "5-3-1",
+          "payout_yen": 10930,
+          "tickets": [
+            "5-1-2",
+            "5-2-1",
+            "5-3-1",
+            "5-3-2",
+            "6-1-2",
+            "6-2-1",
+            "6-3-1",
+            "6-3-2",
+            "6-5-1",
+            "6-5-2"
+          ],
+          "heads": [
+            5,
+            6
+          ],
+          "second": [
+            1,
+            2,
+            5,
+            3
+          ],
+          "third": [
+            1,
+            2
+          ],
+          "kill": [
+            4
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "outer_value",
+        "second": "axis_ai_plus_top2",
+        "third": "support_best4_ai",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 84.1658
+    },
+    {
+      "condition": "1号艇逃げ失敗40%以上 × 1号艇AI予測25%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge40,b1_ai_pred_lt25,outer56_ai_pred_ge12,rank6_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 27.93,
+      "condition_recent_manshu_rate_pct": 35.1,
+      "head_selector": "underdog_exhibit",
+      "second_selector": "axis_ai_pred_top2",
+      "third_selector": "support_best5_exhibit",
+      "kill_selector": "kill_1",
+      "template": "normal",
+      "train_bet_races": 49,
+      "train_avg_points": 10.33,
+      "train_manshu_hit_count": 2,
+      "train_manshu_hit_rate_pct": 4.08,
+      "train_roi_all_pct": 52.19,
+      "train_roi_50plus_pct": 52.19,
+      "train_roi_manshu_only_pct": 52.19,
+      "valid_bet_races": 25,
+      "valid_avg_points": 10.64,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 8.0,
+      "valid_plus50_hit_count": 2,
+      "valid_roi_all_pct": 178.31,
+      "valid_roi_50plus_pct": 150.9,
+      "valid_roi_manshu_only_pct": 150.9,
+      "valid_examples": [
+        {
+          "date": "2025-07-21",
+          "place_name": "蒲郡",
+          "round": 3,
+          "trifecta": "2-5-6",
+          "payout_yen": 20990,
+          "tickets": [
+            "2-5-3",
+            "2-5-6",
+            "2-6-3",
+            "2-6-5",
+            "4-5-2",
+            "4-5-3",
+            "4-5-6",
+            "4-6-2",
+            "4-6-3",
+            "4-6-5"
+          ],
+          "heads": [
+            2,
+            4
+          ],
+          "second": [
+            5,
+            6
+          ],
+          "third": [
+            5,
+            2,
+            6,
+            3
+          ],
+          "kill": [
+            1
+          ]
+        },
+        {
+          "date": "2025-12-25",
+          "place_name": "江戸川",
+          "round": 3,
+          "trifecta": "2-4-6",
+          "payout_yen": 19150,
+          "tickets": [
+            "2-3-4",
+            "2-3-5",
+            "2-3-6",
+            "2-4-5",
+            "2-4-6",
+            "6-3-2",
+            "6-3-4",
+            "6-3-5",
+            "6-4-2",
+            "6-4-5"
+          ],
+          "heads": [
+            6,
+            2
+          ],
+          "second": [
+            3,
+            4
+          ],
+          "third": [
+            2,
+            4,
+            6,
+            5
+          ],
+          "kill": [
+            1
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "underdog_exhibit",
+        "second": "axis_ai_pred_top2",
+        "third": "support_best5_exhibit",
+        "kill": "kill_1",
+        "template": "normal"
+      },
+      "stability_score": 77.9098
+    },
+    {
+      "condition": "1号艇逃げ失敗45%以上 × 1号艇AI予測30%未満 × 5/6号艇AI予測最大12%以上 × 風または波5以上 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge45,b1_ai_pred_lt30,outer56_ai_pred_ge12,wind_wave_ge5,round_1_3",
+      "condition_manshu_rate_pct": 28.19,
+      "condition_recent_manshu_rate_pct": 35.0,
+      "head_selector": "st_mid_outer",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_best5_exhibit",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 57,
+      "train_avg_points": 11.47,
+      "train_manshu_hit_count": 2,
+      "train_manshu_hit_rate_pct": 3.51,
+      "train_roi_all_pct": 118.49,
+      "train_roi_50plus_pct": 97.49,
+      "train_roi_manshu_only_pct": 80.35,
+      "valid_bet_races": 34,
+      "valid_avg_points": 11.35,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 5.88,
+      "valid_plus50_hit_count": 2,
+      "valid_roi_all_pct": 175.13,
+      "valid_roi_50plus_pct": 150.6,
+      "valid_roi_manshu_only_pct": 150.6,
+      "valid_examples": [
+        {
+          "date": "2025-01-29",
+          "place_name": "児島",
+          "round": 2,
+          "trifecta": "4-1-2",
+          "payout_yen": 15420,
+          "tickets": [
+            "3-1-2",
+            "3-1-5",
+            "3-2-5",
+            "3-5-2",
+            "4-1-2",
+            "4-1-5",
+            "4-2-5",
+            "4-3-2",
+            "4-3-5",
+            "4-5-2"
+          ],
+          "heads": [
+            3,
+            4
+          ],
+          "second": [
+            2,
+            1,
+            3,
+            5
+          ],
+          "third": [
+            5,
+            2
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2025-09-06",
+          "place_name": "江戸川",
+          "round": 2,
+          "trifecta": "6-2-5",
+          "payout_yen": 42710,
+          "tickets": [
+            "3-2-4",
+            "3-2-5",
+            "3-4-5",
+            "3-6-4",
+            "3-6-5",
+            "6-2-4",
+            "6-2-5",
+            "6-3-4",
+            "6-3-5",
+            "6-4-5"
+          ],
+          "heads": [
+            6,
+            3
+          ],
+          "second": [
+            3,
+            2,
+            4,
+            6
+          ],
+          "third": [
+            5,
+            4
+          ],
+          "kill": [
+            1
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "st_mid_outer",
+        "second": "axis_ai_plus_top2",
+        "third": "support_best5_exhibit",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 103.2865
+    },
+    {
+      "condition": "1号艇逃げ失敗40%以上 × 1号艇AI予測25%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge40,b1_ai_pred_lt25,outer56_ai_pred_ge12,rank6_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 27.93,
+      "condition_recent_manshu_rate_pct": 35.1,
+      "head_selector": "exhibit_non1",
+      "second_selector": "axis_1_best_non1",
+      "third_selector": "support_outer_plus_ai",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 35,
+      "train_avg_points": 10.74,
+      "train_manshu_hit_count": 1,
+      "train_manshu_hit_rate_pct": 2.86,
+      "train_roi_all_pct": 75.69,
+      "train_roi_50plus_pct": 63.09,
+      "train_roi_manshu_only_pct": 63.09,
+      "valid_bet_races": 37,
+      "valid_avg_points": 11.14,
+      "valid_manshu_hit_count": 4,
+      "valid_manshu_hit_rate_pct": 10.81,
+      "valid_plus50_hit_count": 4,
+      "valid_roi_all_pct": 162.04,
+      "valid_roi_50plus_pct": 145.22,
+      "valid_roi_manshu_only_pct": 145.22,
+      "valid_examples": [
+        {
+          "date": "2025-06-27",
+          "place_name": "鳴門",
+          "round": 2,
+          "trifecta": "6-1-3",
+          "payout_yen": 12390,
+          "tickets": [
+            "5-1-3",
+            "5-2-1",
+            "5-2-3",
+            "5-3-1",
+            "5-6-1",
+            "5-6-3",
+            "6-1-3",
+            "6-2-1",
+            "6-2-3",
+            "6-3-1",
+            "6-5-1",
+            "6-5-3"
+          ],
+          "heads": [
+            5,
+            6
+          ],
+          "second": [
+            5,
+            6,
+            3,
+            1,
+            2
+          ],
+          "third": [
+            1,
+            3
+          ],
+          "kill": [
+            4
+          ]
+        },
+        {
+          "date": "2025-08-10",
+          "place_name": "多摩川",
+          "round": 3,
+          "trifecta": "2-3-1",
+          "payout_yen": 13110,
+          "tickets": [
+            "2-1-3",
+            "2-3-1",
+            "2-5-1",
+            "2-5-3",
+            "2-6-1",
+            "2-6-3",
+            "6-1-3",
+            "6-2-1",
+            "6-2-3",
+            "6-3-1",
+            "6-5-1",
+            "6-5-3"
+          ],
+          "heads": [
+            6,
+            2
+          ],
+          "second": [
+            5,
+            6,
+            3,
+            1,
+            2
+          ],
+          "third": [
+            1,
+            3
+          ],
+          "kill": [
+            4
+          ]
+        },
+        {
+          "date": "2025-10-13",
+          "place_name": "津",
+          "round": 3,
+          "trifecta": "3-4-2",
+          "payout_yen": 19590,
+          "tickets": [
+            "3-1-2",
+            "3-2-1",
+            "3-4-1",
+            "3-4-2",
+            "3-5-1",
+            "3-5-2",
+            "4-1-2",
+            "4-2-1",
+            "4-5-1",
+            "4-5-2"
+          ],
+          "heads": [
+            4,
+            3
+          ],
+          "second": [
+            5,
+            2,
+            4,
+            1
+          ],
+          "third": [
+            1,
+            2
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2026-02-20",
+          "place_name": "下関",
+          "round": 2,
+          "trifecta": "5-6-3",
+          "payout_yen": 14740,
+          "tickets": [
+            "5-1-3",
+            "5-2-1",
+            "5-2-3",
+            "5-3-1",
+            "5-6-1",
+            "5-6-3",
+            "6-1-3",
+            "6-2-1",
+            "6-2-3",
+            "6-3-1",
+            "6-5-1",
+            "6-5-3"
+          ],
+          "heads": [
+            6,
+            5
+          ],
+          "second": [
+            5,
+            6,
+            3,
+            2,
+            1
+          ],
+          "third": [
+            1,
+            3
+          ],
+          "kill": [
+            4
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "exhibit_non1",
+        "second": "axis_1_best_non1",
+        "third": "support_outer_plus_ai",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 95.1863
+    },
+    {
+      "condition": "1号艇逃げ率40%未満 × 5/6号艇AI予測最大12%以上 × AI+最下位が展示2位以内 × AI+5位が展示2位以内 × 1〜3R",
+      "condition_atom_ids": "b1_nige_lt40,outer56_ai_pred_ge12,rank6_tenji_top2,rank5_tenji_top2,round_1_3",
+      "condition_manshu_rate_pct": 29.36,
+      "condition_recent_manshu_rate_pct": 33.33,
+      "head_selector": "st_mid_outer",
+      "second_selector": "axis_ai_plus_top2",
+      "third_selector": "support_outer_plus_ai",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 53,
+      "train_avg_points": 11.13,
+      "train_manshu_hit_count": 4,
+      "train_manshu_hit_rate_pct": 7.55,
+      "train_roi_all_pct": 97.46,
+      "train_roi_50plus_pct": 81.44,
+      "train_roi_manshu_only_pct": 81.44,
+      "valid_bet_races": 28,
+      "valid_avg_points": 10.57,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 7.14,
+      "valid_plus50_hit_count": 2,
+      "valid_roi_all_pct": 127.84,
+      "valid_roi_50plus_pct": 120.2,
+      "valid_roi_manshu_only_pct": 120.2,
+      "valid_examples": [
+        {
+          "date": "2026-03-07",
+          "place_name": "宮島",
+          "round": 2,
+          "trifecta": "4-1-5",
+          "payout_yen": 24650,
+          "tickets": [
+            "3-1-2",
+            "3-1-5",
+            "3-2-5",
+            "3-5-2",
+            "4-1-2",
+            "4-1-5",
+            "4-2-5",
+            "4-3-2",
+            "4-3-5",
+            "4-5-2"
+          ],
+          "heads": [
+            3,
+            4
+          ],
+          "second": [
+            5,
+            2,
+            1,
+            3
+          ],
+          "third": [
+            5,
+            2
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2026-05-14",
+          "place_name": "平和島",
+          "round": 3,
+          "trifecta": "5-3-1",
+          "payout_yen": 10930,
+          "tickets": [
+            "5-1-2",
+            "5-2-1",
+            "5-3-1",
+            "5-3-2",
+            "5-6-1",
+            "5-6-2",
+            "6-1-2",
+            "6-2-1",
+            "6-3-1",
+            "6-3-2",
+            "6-5-1",
+            "6-5-2"
+          ],
+          "heads": [
+            5,
+            6
+          ],
+          "second": [
+            5,
+            6,
+            1,
+            2,
+            3
+          ],
+          "third": [
+            1,
+            2
+          ],
+          "kill": [
+            4
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "st_mid_outer",
+        "second": "axis_ai_plus_top2",
+        "third": "support_outer_plus_ai",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 105.9912
+    },
+    {
+      "condition": "1号艇逃げ失敗45%以上 × 1号艇AI予測25%未満 × 5/6号艇AI予測最大12%以上 × 風または波5以上 × 1〜3R",
+      "condition_atom_ids": "b1_loss_ge45,b1_ai_pred_lt25,outer56_ai_pred_ge12,wind_wave_ge5,round_1_3",
+      "condition_manshu_rate_pct": 29.41,
+      "condition_recent_manshu_rate_pct": 37.62,
+      "head_selector": "st_mid_outer",
+      "second_selector": "axis_1_best_non1",
+      "third_selector": "support_outer_plus_ai",
+      "kill_selector": "kill_worst_ai_plus",
+      "template": "swap23",
+      "train_bet_races": 47,
+      "train_avg_points": 10.98,
+      "train_manshu_hit_count": 2,
+      "train_manshu_hit_rate_pct": 4.26,
+      "train_roi_all_pct": 131.92,
+      "train_roi_50plus_pct": 128.31,
+      "train_roi_manshu_only_pct": 101.84,
+      "valid_bet_races": 35,
+      "valid_avg_points": 11.03,
+      "valid_manshu_hit_count": 2,
+      "valid_manshu_hit_rate_pct": 5.71,
+      "valid_plus50_hit_count": 3,
+      "valid_roi_all_pct": 165.54,
+      "valid_roi_50plus_pct": 138.94,
+      "valid_roi_manshu_only_pct": 118.03,
+      "valid_examples": [
+        {
+          "date": "2025-10-13",
+          "place_name": "津",
+          "round": 3,
+          "trifecta": "3-4-2",
+          "payout_yen": 19590,
+          "tickets": [
+            "3-1-2",
+            "3-2-1",
+            "3-4-1",
+            "3-4-2",
+            "3-5-1",
+            "3-5-2",
+            "4-1-2",
+            "4-2-1",
+            "4-5-1",
+            "4-5-2"
+          ],
+          "heads": [
+            4,
+            3
+          ],
+          "second": [
+            5,
+            2,
+            4,
+            1
+          ],
+          "third": [
+            1,
+            2
+          ],
+          "kill": [
+            6
+          ]
+        },
+        {
+          "date": "2026-01-02",
+          "place_name": "丸亀",
+          "round": 1,
+          "trifecta": "5-4-1",
+          "payout_yen": 25970,
+          "tickets": [
+            "4-1-2",
+            "4-2-1",
+            "4-5-1",
+            "4-5-2",
+            "4-6-1",
+            "4-6-2",
+            "5-1-2",
+            "5-2-1",
+            "5-4-1",
+            "5-4-2",
+            "5-6-1",
+            "5-6-2"
+          ],
+          "heads": [
+            4,
+            5
+          ],
+          "second": [
+            5,
+            6,
+            2,
+            1,
+            4
+          ],
+          "third": [
+            1,
+            2
+          ],
+          "kill": [
+            3
+          ]
+        }
+      ],
+      "strategy": {
+        "head": "st_mid_outer",
+        "second": "axis_1_best_non1",
+        "third": "support_outer_plus_ai",
+        "kill": "kill_worst_ai_plus",
+        "template": "swap23"
+      },
+      "stability_score": 124.5684
+    }
+  ],
+  "outputs": {
+    "csv": "/Users/ohyabumasaya/Desktop/kyotei-occult-viewer/data/output/composite_buy_strategy_search/composite_buy_strategy_candidates.csv",
+    "json": "/Users/ohyabumasaya/Desktop/kyotei-occult-viewer/data/output/composite_buy_strategy_search/composite_buy_strategy_summary.json"
+  }
+}

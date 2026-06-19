@@ -256,6 +256,10 @@ def daily_features(today_db, target_date):
             MAX(CASE WHEN ai_plus_order = 6 THEN avg_isshu_diff END) AS ai_rank6_avg_isshu_diff,
             MAX(CASE WHEN ai_plus_order = 6 THEN tenji_time_rank END) AS ai_rank6_tenji_time_rank,
             MAX(CASE WHEN ai_plus_order = 6 THEN tenji_rank END) AS ai_rank6_tenji_rank,
+            MAX(CASE WHEN ai_plus_order = 5 THEN boat_number END) AS ai_rank5_boat,
+            MAX(CASE WHEN ai_plus_order = 5 THEN avg_isshu_diff END) AS ai_rank5_avg_isshu_diff,
+            MAX(CASE WHEN ai_plus_order = 5 THEN tenji_time_rank END) AS ai_rank5_tenji_time_rank,
+            MAX(CASE WHEN ai_plus_order = 5 THEN tenji_rank END) AS ai_rank5_tenji_rank,
 
             MIN(CASE WHEN boat_number IN (5, 6) THEN tenji_time END) AS outer56_best_tenji_time,
             MIN(CASE WHEN boat_number IN (5, 6) THEN isshu_time END) AS outer56_best_isshu_time,
@@ -409,7 +413,9 @@ def composite_edge_signals(race):
     b1_tenji_rank = tenji_rank_use(race, 1)
     b1_loss = num(race.get("b1_loss_pct"))
     b1_nige = num(race.get("b1_nige_pct"))
+    b1_ai_pred = num(race.get("b1_ai_prediction_pct"))
     b1_ai_order = num(race.get("b1_ai_plus_order"))
+    outer_ai_pred = num(race.get("outer56_best_ai_prediction_pct"))
     outer_avg = num(race.get("outer56_best_avg_isshu_diff"))
     outer_exhibit_top2 = num(race.get("outer56_exhibit_top2_count")) or 0
     round_no = int(race.get("round_no") or 0)
@@ -419,6 +425,61 @@ def composite_edge_signals(race):
     rank6_tenji = num(race.get("ai_rank6_tenji_rank"))
     if rank6_tenji is None:
         rank6_tenji = num(race.get("ai_rank6_tenji_time_rank"))
+    rank5_tenji = num(race.get("ai_rank5_tenji_rank"))
+    if rank5_tenji is None:
+        rank5_tenji = num(race.get("ai_rank5_tenji_time_rank"))
+
+    if (
+        b1_loss is not None
+        and b1_loss >= 45
+        and b1_ai_pred is not None
+        and b1_ai_pred < 25
+        and outer_ai_pred is not None
+        and outer_ai_pred >= 12
+        and wind_wave
+        and round_no <= 3
+    ):
+        add_edge(
+            signals,
+            "codex_buy_stable_front_wind11",
+            "買い方候補: 1号艇逃げ失敗45%以上+AI予測25%未満、5/6AI予測12%以上、風波5以上、1〜3R",
+            29.41,
+            4.2,
+            "buy_strategy_stable",
+            {
+                "strategy_id": "codex_stable_front_wind11",
+                "train_manshu_roi_pct": 101.84,
+                "validation_manshu_roi_pct": 118.03,
+                "validation_50plus_roi_pct": 138.94,
+                "points": "10-15",
+            },
+        )
+
+    if (
+        b1_nige is not None
+        and b1_nige < 40
+        and outer_ai_pred is not None
+        and outer_ai_pred >= 12
+        and rank6_tenji is not None
+        and rank6_tenji <= 2
+        and rank5_tenji is not None
+        and rank5_tenji <= 2
+        and round_no <= 3
+    ):
+        add_edge(
+            signals,
+            "codex_buy_stable_rank56_exhibit10",
+            "買い方候補: 1号艇逃げ率40%未満、5/6AI予測12%以上、AI+5位/最下位が展示2位以内、1〜3R",
+            29.36,
+            3.8,
+            "buy_strategy_stable",
+            {
+                "strategy_id": "codex_rank56_exhibit10",
+                "train_manshu_roi_pct": 117.2,
+                "validation_manshu_roi_pct": 169.43,
+                "points": "10",
+            },
+        )
 
     if (
         b1_avg is not None
@@ -706,10 +767,17 @@ def row_summary(race, matches, status, edge_signals=None):
         "b1_tenji_time": race.get("b1_tenji_time"),
         "b1_isshu_time": race.get("b1_isshu_time"),
         "outer56_best_avg_isshu_diff": race.get("outer56_best_avg_isshu_diff"),
+        "outer56_best_ai_prediction_pct": race.get("outer56_best_ai_prediction_pct"),
         "outer56_best_tenji_time": race.get("outer56_best_tenji_time"),
         "outer56_best_isshu_time": race.get("outer56_best_isshu_time"),
         "ai_rank6_boat": race.get("ai_rank6_boat"),
         "ai_rank6_avg_isshu_diff": race.get("ai_rank6_avg_isshu_diff"),
+        "ai_rank6_tenji_rank": race.get("ai_rank6_tenji_rank"),
+        "ai_rank5_boat": race.get("ai_rank5_boat"),
+        "ai_rank5_avg_isshu_diff": race.get("ai_rank5_avg_isshu_diff"),
+        "ai_rank5_tenji_rank": race.get("ai_rank5_tenji_rank"),
+        "wind_speed": race.get("wind_speed"),
+        "wave_height": race.get("wave_height"),
         "tenji_boats": int(race.get("tenji_boats") or 0),
         "isshu_boats": int(race.get("isshu_boats") or 0),
     }

@@ -112,7 +112,12 @@
     var statusClass = status === "展示待ち" ? " wait" : "";
     var edgeText = "";
     if (r.composite_edge_bonus_pct) {
-      edgeText = "<br><span class=\"bm-mini\">Codex複合補正 " + esc(fmtPct(r.composite_edge_bonus_pct)) + " / 元率 " + esc(fmtPct(r.base_manshu_rate_pct || r.composite_edge_base_rate_pct)) + "</span>";
+      var edges = (r.composite_edges || [])
+        .filter(function (edge) { return Number(edge.bonus_pct || 0) > 0; })
+        .slice(0, 2)
+        .map(function (edge) { return edge.label; })
+        .join(" / ");
+      edgeText = "<br><span class=\"bm-mini\">Codex複合補正 " + esc(fmtPct(r.composite_edge_bonus_pct)) + " / 元率 " + esc(fmtPct(r.base_manshu_rate_pct || r.composite_edge_base_rate_pct)) + (edges ? " / " + esc(edges) : "") + "</span>";
     }
     return [
       "<tr>",
