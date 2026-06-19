@@ -3,3 +3,7 @@ __pycache__/
 .DS_Store
 data/raw/
 data/output/boaters_push_config.local.json
+data/output/*.sqlite
+data/output/*.sqlite-shm
+data/output/*.sqlite-wal
+data/output/boaters_report/

@@ -24,9 +24,18 @@ PRICE_DIR = ROOT.parent / "price_action_analysis"
 PRICE_OUT = PRICE_DIR / "outputs"
 PUBLIC_OUT = ROOT / "data" / "output"
 PUSH_CONFIG = PUBLIC_OUT / "boaters_push_config.local.json"
+WORK_OUT = PRICE_OUT if PRICE_DIR.exists() else PUBLIC_OUT
 HISTORY_DB = PRICE_OUT / "boaters_all_races.sqlite"
-BUILD_DB_SCRIPT = PRICE_DIR / "build_boaters_database.py"
-RANK_SCRIPT = PRICE_DIR / "rank_daily_manshu_candidates.py"
+BUILD_DB_SCRIPT = (
+    PRICE_DIR / "build_boaters_database.py"
+    if (PRICE_DIR / "build_boaters_database.py").exists()
+    else ROOT / "scripts" / "build_boaters_database.py"
+)
+RANK_SCRIPT = (
+    PRICE_DIR / "rank_daily_manshu_candidates.py"
+    if (PRICE_DIR / "rank_daily_manshu_candidates.py").exists()
+    else ROOT / "scripts" / "rank_daily_manshu_candidates.py"
+)
 SITE_DATA_SCRIPT = ROOT / "scripts" / "build_boaters_manshu_site_data.py"
 JST = ZoneInfo("Asia/Tokyo")
 
@@ -307,7 +316,7 @@ def ensure_morning_ranking(
     if no_build:
         return None
 
-    db_path = PRICE_OUT / f"boaters_today_{date_text}.sqlite"
+    db_path = WORK_OUT / f"boaters_today_{date_text}.sqlite"
     if rebuild or not db_path.exists():
         run_cmd(
             [
@@ -326,12 +335,12 @@ def ensure_morning_ranking(
                 "--workers",
                 "3",
             ],
-            PRICE_DIR,
+            BUILD_DB_SCRIPT.parent,
         )
 
-    rank_json = PRICE_OUT / f"manshu_daily_rank_{date_text}.json"
-    rank_csv = PRICE_OUT / f"manshu_daily_rank_{date_text}.csv"
-    rank_html = PRICE_OUT / "boaters_report" / f"manshu_daily_rank_{date_text}.html"
+    rank_json = WORK_OUT / f"manshu_daily_rank_{date_text}.json"
+    rank_csv = WORK_OUT / f"manshu_daily_rank_{date_text}.csv"
+    rank_html = WORK_OUT / "boaters_report" / f"manshu_daily_rank_{date_text}.html"
     run_cmd(
         [
             sys.executable,
@@ -341,7 +350,7 @@ def ensure_morning_ranking(
             "--today-db",
             str(db_path),
             "--history-db",
-            str(HISTORY_DB),
+            str(HISTORY_DB if HISTORY_DB.exists() else PUBLIC_OUT / "boaters_all_races.sqlite"),
             "--threshold",
             str(threshold),
             "--top-n",
@@ -353,7 +362,7 @@ def ensure_morning_ranking(
             "--html-out",
             str(rank_html),
         ],
-        PRICE_DIR,
+        RANK_SCRIPT.parent,
     )
     run_cmd(
         [

@@ -5,18 +5,31 @@ on:
     - cron: "*/15 * * * *"
   workflow_dispatch:
 
+concurrency:
+  group: boaters-ntfy-monitor
+  cancel-in-progress: false
+
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     permissions:
-      contents: read
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: python -m pip install --upgrade pandas numpy certifi
+
+      - name: Resolve JST date
+        id: jst
+        run: |
+          echo "date=$(TZ=Asia/Tokyo date +%F)" >> "$GITHUB_OUTPUT"
+          echo "key=$(TZ=Asia/Tokyo date +%Y%m%d)" >> "$GITHUB_OUTPUT"
 
       - name: Run BOATERS monitor
         env:
@@ -25,7 +38,24 @@ jobs:
           BOATERS_NTFY_TOKEN: ${{ secrets.BOATERS_NTFY_TOKEN }}
         run: |
           python scripts/monitor_boaters_manshu_alerts.py \
+            --date "${{ steps.jst.outputs.date }}" \
             --top-n 10 \
             --threshold 27 \
-            --lookahead-minutes 20 \
-            --no-build-morning
+            --lookahead-minutes 20
+
+      - name: Persist generated monitor data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for path in \
+            "data/output/boaters_manshu_ranking_${{ steps.jst.outputs.key }}.json" \
+            "data/output/boaters_manshu_alerts_${{ steps.jst.outputs.key }}.json" \
+            "data/output/boaters_manshu_alert_state_${{ steps.jst.outputs.key }}.json" \
+            "data/output/manshu_daily_rank_${{ steps.jst.outputs.date }}.json" \
+            "data/output/manshu_daily_rank_${{ steps.jst.outputs.date }}.csv"; do
+            if [ -e "$path" ]; then
+              git add "$path"
+            fi
+          done
+          git diff --cached --quiet || git commit -m "Update BOATERS monitor data ${{ steps.jst.outputs.date }}"
+          git push || true
