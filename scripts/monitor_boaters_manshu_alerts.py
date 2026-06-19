@@ -310,9 +310,10 @@ def ensure_morning_ranking(
     public_json = public_ranking_path(date_text)
     if public_json.exists() and not rebuild:
         return public_json
-    fetched = fetch_public_ranking(date_text, ranking_url_base)
-    if fetched is not None:
-        return fetched
+    if not rebuild:
+        fetched = fetch_public_ranking(date_text, ranking_url_base)
+        if fetched is not None:
+            return fetched
     if no_build:
         return None
 
@@ -699,6 +700,15 @@ def enrich_rows(by_boat, morning_metrics):
         )
         rows.append(row)
 
+    isshu_values = [row["isshu_time"] for row in rows if row.get("isshu_time") is not None]
+    avg_isshu = sum(isshu_values) / len(isshu_values) if isshu_values else None
+    for row in rows:
+        row["avg_isshu_diff"] = (
+            round(avg_isshu - row["isshu_time"], 4)
+            if avg_isshu is not None and row.get("isshu_time") is not None
+            else None
+        )
+
     if rows[0]["nige_pct"] is None:
         rows[0]["nige_pct"] = as_num(morning_metrics.get("boat1_nige_pct"))
     if rows[0]["sasare_pct"] is None or rows[0]["makurare_pct"] is None:
@@ -743,15 +753,20 @@ def race_metrics(rows):
         b1_loss = b1["sasare_pct"] + b1["makurare_pct"]
     outer_tenji = [row["tenji_time"] for row in outer if row.get("tenji_time") is not None]
     outer_isshu = [row["isshu_time"] for row in outer if row.get("isshu_time") is not None]
+    outer_avgdiff = [row["avg_isshu_diff"] for row in outer if row.get("avg_isshu_diff") is not None]
     outer56_best_tenji = min(outer_tenji) if outer_tenji else None
     outer56_best_isshu = min(outer_isshu) if outer_isshu else None
+    outer56_best_avgdiff = max(outer_avgdiff) if outer_avgdiff else None
     b1_tenji = b1.get("tenji_time")
     b1_isshu = b1.get("isshu_time")
+    rank6 = next((row for row in rows if row.get("ai_plus_rank") == 6), {})
     return {
         "boat1_ai_prediction_pct": b1.get("ai_prediction_pct"),
         "boat1_ai_plus": b1.get("ai_plus"),
+        "boat1_ai_plus_order": b1.get("ai_plus_rank"),
         "boat1_nige_pct": b1.get("nige_pct"),
         "boat1_loss_pct": b1_loss,
+        "boat1_avg_isshu_diff": b1.get("avg_isshu_diff"),
         "boat1_tenji_time": b1_tenji,
         "boat1_isshu_time": b1_isshu,
         "boat1_tenji_rank": b1.get("tenji_rank"),
@@ -759,6 +774,10 @@ def race_metrics(rows):
         "boat1_isshu_rank": b1.get("isshu_rank"),
         "outer56_best_tenji_time": outer56_best_tenji,
         "outer56_best_isshu_time": outer56_best_isshu,
+        "outer56_best_avg_isshu_diff": outer56_best_avgdiff,
+        "ai_rank6_boat": rank6.get("boat_number"),
+        "ai_rank6_avg_isshu_diff": rank6.get("avg_isshu_diff"),
+        "ai_rank6_tenji_rank": rank6.get("tenji_rank"),
         "outer56_tenji_advantage": (
             b1_tenji - outer56_best_tenji
             if b1_tenji is not None and outer56_best_tenji is not None
@@ -794,6 +813,29 @@ def race_metrics(rows):
 def condition_confirmed(condition, metrics):
     checks = []
     text = str(condition or "")
+    if "1号艇平均との差" in text:
+        if "-0.05以下" in text:
+            checks.append(("1号艇平均との差-0.05以下", (metrics.get("boat1_avg_isshu_diff") or 9) <= -0.05))
+        elif "0以下" in text:
+            checks.append(("1号艇平均との差0以下", (metrics.get("boat1_avg_isshu_diff") or 9) <= 0))
+        elif "0.10以上" in text:
+            checks.append(("1号艇平均との差0.10以上", (metrics.get("boat1_avg_isshu_diff") or -9) >= 0.10))
+
+    if "5/6号艇平均との差" in text:
+        if "0.14以上" in text:
+            checks.append(("5/6平均との差0.14以上", (metrics.get("outer56_best_avg_isshu_diff") or -9) >= 0.14))
+        elif "0.10以上" in text:
+            checks.append(("5/6平均との差0.10以上", (metrics.get("outer56_best_avg_isshu_diff") or -9) >= 0.10))
+
+    if "AI+最下位の平均との差0.10以上" in text:
+        checks.append(("AI+最下位平均との差0.10以上", (metrics.get("ai_rank6_avg_isshu_diff") or -9) >= 0.10))
+
+    if "AI+最下位が5/6号艇" in text:
+        checks.append(("AI+最下位が5/6号艇", int(metrics.get("ai_rank6_boat") or 0) in {5, 6}))
+
+    if "AI+最下位" in text and "展示4位以下" in text:
+        checks.append(("AI+最下位展示4位以下", (metrics.get("ai_rank6_tenji_rank") or 9) >= 4))
+
     if "1号艇展示順位5" in text or "1号艇展示タイム5" in text:
         checks.append(("1号艇展示5位以下", metrics.get("boat1_tenji_time_rank", 9) >= 5))
     elif "1号艇展示順位4" in text or "1号艇展示タイム4" in text:
@@ -955,9 +997,10 @@ def make_message(race, alert_type, metrics, checks, strategies):
     metric_text = (
         f"締切{deadline_text} / 1号艇逃げ{fmt_pct(metrics.get('boat1_nige_pct'))}, "
         f"逃げ失敗{fmt_pct(metrics.get('boat1_loss_pct'))}, "
+        f"1平均との差{fmt_time(metrics.get('boat1_avg_isshu_diff'))}, "
         f"1展示{fmt_time(metrics.get('boat1_tenji_time'))}"
         f"({metrics.get('boat1_tenji_time_rank')}位), "
-        f"5/6展示優位{fmt_time(metrics.get('outer56_tenji_advantage'))}秒"
+        f"5/6平均との差{fmt_time(metrics.get('outer56_best_avg_isshu_diff'))}"
     )
     if alert_type == "buy_ok" and strategies:
         s = strategies[0]

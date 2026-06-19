@@ -41,7 +41,8 @@ jobs:
             --date "${{ steps.jst.outputs.date }}" \
             --top-n 10 \
             --threshold 27 \
-            --lookahead-minutes 20
+            --lookahead-minutes 20 \
+            --rebuild-morning
 
       - name: Persist generated monitor data
         run: |

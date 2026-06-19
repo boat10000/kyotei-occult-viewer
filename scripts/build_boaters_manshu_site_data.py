@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import csv
 import json
 import math
@@ -62,6 +63,18 @@ def as_int(value):
     except (TypeError, ValueError):
         return None
     return int(number) if math.isfinite(number) else None
+
+
+def format_trifecta(value):
+    if value is None:
+        return None
+    text = str(value).strip()
+    if not text:
+        return None
+    digits = "".join(ch for ch in text if ch.isdigit())
+    if len(digits) == 3:
+        return "-".join(digits)
+    return text
 
 
 def race_place_id(row: dict) -> int | None:
@@ -123,7 +136,16 @@ def load_csv_rows(path_text: str | None) -> list[dict]:
     if not path.exists():
         raise FileNotFoundError(path)
     with path.open(encoding="utf-8-sig", newline="") as handle:
-        return [dict(row) for row in csv.DictReader(handle)]
+        rows = []
+        for row in csv.DictReader(handle):
+            row = dict(row)
+            if isinstance(row.get("composite_edges"), str) and row["composite_edges"].strip():
+                try:
+                    row["composite_edges"] = ast.literal_eval(row["composite_edges"])
+                except Exception:
+                    row["composite_edges"] = []
+            rows.append(row)
+        return rows
 
 
 def unique_rows(rows: list[dict], top_n: int) -> list[dict]:
@@ -149,12 +171,14 @@ def normalize_result(row: dict, live_result: dict | None = None) -> dict:
     payout = result.get("payout_yen")
     if payout is None:
         payout = row.get("payout_yen")
-    trifecta = result.get("trifecta") or row.get("trifecta")
+    if payout is None:
+        payout = row.get("payout")
+    trifecta = result.get("trifecta") or row.get("trifecta") or row.get("winning_number3t1")
     if live_result:
         trifecta = live_result.get("trifecta") or trifecta
         payout = live_result.get("payout_yen") if live_result.get("payout_yen") is not None else payout
     return {
-        "trifecta": trifecta,
+        "trifecta": format_trifecta(trifecta),
         "payout_yen": as_int(payout),
         "manshu": bool(as_int(payout) and as_int(payout) >= 10000),
         "win_method": (live_result or {}).get("win_method") or result.get("win_method"),
@@ -193,12 +217,17 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
     metric_map = {
         "boat1_ai_prediction_pct": "b1_ai_prediction_pct",
         "boat1_ai_plus": "b1_ai_plus",
+        "boat1_ai_plus_order": "b1_ai_plus_order",
         "boat1_nige_pct": "b1_nige_pct",
         "boat1_loss_pct": "b1_loss_pct",
+        "boat1_avg_isshu_diff": "b1_avg_isshu_diff",
         "boat1_tenji_time": "b1_tenji_time",
         "boat1_isshu_time": "b1_isshu_time",
+        "outer56_best_avg_isshu_diff": "outer56_best_avg_isshu_diff",
         "outer56_best_tenji_time": "outer56_best_tenji_time",
         "outer56_best_isshu_time": "outer56_best_isshu_time",
+        "ai_rank6_boat": "ai_rank6_boat",
+        "ai_rank6_avg_isshu_diff": "ai_rank6_avg_isshu_diff",
         "tenji_boats": "tenji_boats",
         "isshu_boats": "isshu_boats",
     }
@@ -220,6 +249,10 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "round": round_no,
         "deadline_time": row.get("deadline_time"),
         "manshu_rate_pct": as_num(rate),
+        "base_manshu_rate_pct": as_num(row.get("base_manshu_rate_pct")),
+        "composite_edge_base_rate_pct": as_num(row.get("composite_edge_base_rate_pct")),
+        "composite_edge_bonus_pct": as_num(row.get("composite_edge_bonus_pct")),
+        "composite_edges": row.get("composite_edges") or [],
         "recent_rate_pct": as_num(recent),
         "condition": condition,
         "matched_logic_count": as_int(row.get("matched_logic_count")) or 0,

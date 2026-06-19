@@ -19,6 +19,23 @@ DEFAULT_LOGIC_CSV = ROOT / "data" / "model" / "manshu_condition_combo_search.csv
 FIXED_TOP6_VENUES = {"平和島", "鳴門", "戸田", "桐生", "江戸川", "浜名湖"}
 FIXED_TOP10_VENUES = FIXED_TOP6_VENUES | {"児島", "三国", "宮島", "若松"}
 
+AVGDIFF_LANE_EDGES = {
+    ("芦屋", 5): {"threshold": 0.40, "top3_uplift_pp": 27.28, "win_uplift_pp": 8.55},
+    ("下関", 5): {"threshold": 0.40, "top3_uplift_pp": 26.30, "win_uplift_pp": 4.95},
+    ("福岡", 6): {"threshold": 0.40, "top3_uplift_pp": 25.69, "win_uplift_pp": 4.06},
+    ("びわこ", 5): {"threshold": 0.40, "top3_uplift_pp": 23.75, "win_uplift_pp": 8.64},
+    ("芦屋", 6): {"threshold": 0.40, "top3_uplift_pp": 23.04, "win_uplift_pp": 5.69},
+    ("住之江", 6): {"threshold": 0.40, "top3_uplift_pp": 23.00, "win_uplift_pp": 4.63},
+    ("浜名湖", 5): {"threshold": 0.40, "top3_uplift_pp": 22.98, "win_uplift_pp": 9.50},
+    ("尼崎", 6): {"threshold": 0.40, "top3_uplift_pp": 22.88, "win_uplift_pp": 3.72},
+    ("徳山", 6): {"threshold": 0.40, "top3_uplift_pp": 22.26, "win_uplift_pp": 4.44},
+    ("三国", 5): {"threshold": 0.40, "top3_uplift_pp": 21.80, "win_uplift_pp": 7.18},
+    ("平和島", 4): {"threshold": 0.40, "top3_uplift_pp": 21.55, "win_uplift_pp": 10.54},
+    ("下関", 4): {"threshold": 0.40, "top3_uplift_pp": 21.24, "win_uplift_pp": 8.40},
+    ("戸田", 5): {"threshold": 0.40, "top3_uplift_pp": 21.21, "win_uplift_pp": 6.97},
+    ("児島", 5): {"threshold": 0.40, "top3_uplift_pp": 21.15, "win_uplift_pp": 6.34},
+}
+
 
 EXHIBIT_PREFIXES = (
     "b1_tenji",
@@ -161,6 +178,10 @@ def daily_features(today_db, target_date):
                     PARTITION BY race_id
                     ORDER BY CASE WHEN ai_plus IS NULL THEN 1 ELSE 0 END, ai_plus DESC
                 ) AS ai_plus_rank_raw,
+                ROW_NUMBER() OVER (
+                    PARTITION BY race_id
+                    ORDER BY CASE WHEN ai_plus IS NULL THEN 1 ELSE 0 END, ai_plus DESC, boat_number
+                ) AS ai_plus_order_raw,
                 RANK() OVER (
                     PARTITION BY race_id
                     ORDER BY CASE WHEN ai_prediction_pct IS NULL THEN 1 ELSE 0 END, ai_prediction_pct DESC
@@ -179,6 +200,7 @@ def daily_features(today_db, target_date):
             SELECT
                 *,
                 CASE WHEN ai_plus IS NOT NULL THEN ai_plus_rank_raw END AS ai_plus_rank,
+                CASE WHEN ai_plus IS NOT NULL THEN ai_plus_order_raw END AS ai_plus_order,
                 CASE WHEN ai_prediction_pct IS NOT NULL THEN ai_prediction_rank_raw END AS ai_prediction_rank,
                 CASE WHEN tenji_time IS NOT NULL THEN tenji_time_rank_raw END AS tenji_time_rank,
                 CASE WHEN isshu_time IS NOT NULL THEN isshu_rank_raw END AS isshu_rank
@@ -202,19 +224,42 @@ def daily_features(today_db, target_date):
 
             MAX(CASE WHEN boat_number = 1 THEN ai_prediction_pct END) AS b1_ai_prediction_pct,
             MAX(CASE WHEN boat_number = 1 THEN ai_plus END) AS b1_ai_plus,
+            MAX(CASE WHEN boat_number = 1 THEN ai_plus_order END) AS b1_ai_plus_order,
             MAX(CASE WHEN boat_number = 1 THEN ai_3ren_pct END) AS b1_ai_3ren_pct,
             MAX(CASE WHEN boat_number = 1 THEN general_3ren_pct END) AS b1_general_3ren_pct,
             MAX(CASE WHEN boat_number = 1 THEN st_rank_general END) AS b1_st_rank_general,
             MAX(CASE WHEN boat_number = 1 THEN tenji_time END) AS b1_tenji_time,
             MAX(CASE WHEN boat_number = 1 THEN isshu_time END) AS b1_isshu_time,
+            MAX(CASE WHEN boat_number = 1 THEN avg_isshu_diff END) AS b1_avg_isshu_diff,
             MAX(CASE WHEN boat_number = 1 THEN tenji_rank END) AS b1_tenji_rank,
             MAX(CASE WHEN boat_number = 1 THEN tenji_time_rank END) AS b1_tenji_time_rank,
             MAX(CASE WHEN boat_number = 1 THEN isshu_rank END) AS b1_isshu_rank,
             MAX(CASE WHEN boat_number = 1 THEN nige_pct_year END) AS b1_nige_pct,
             MAX(CASE WHEN boat_number = 1 THEN sasare_pct_year + makurare_pct_year END) AS b1_loss_pct,
 
+            MAX(CASE WHEN boat_number = 2 THEN avg_isshu_diff END) AS b2_avg_isshu_diff,
+            MAX(CASE WHEN boat_number = 3 THEN avg_isshu_diff END) AS b3_avg_isshu_diff,
+            MAX(CASE WHEN boat_number = 4 THEN avg_isshu_diff END) AS b4_avg_isshu_diff,
+            MAX(CASE WHEN boat_number = 5 THEN avg_isshu_diff END) AS b5_avg_isshu_diff,
+            MAX(CASE WHEN boat_number = 6 THEN avg_isshu_diff END) AS b6_avg_isshu_diff,
+            MAX(CASE WHEN boat_number = 2 THEN tenji_time_rank END) AS b2_tenji_time_rank,
+            MAX(CASE WHEN boat_number = 3 THEN tenji_time_rank END) AS b3_tenji_time_rank,
+            MAX(CASE WHEN boat_number = 4 THEN tenji_time_rank END) AS b4_tenji_time_rank,
+            MAX(CASE WHEN boat_number = 5 THEN tenji_time_rank END) AS b5_tenji_time_rank,
+            MAX(CASE WHEN boat_number = 6 THEN tenji_time_rank END) AS b6_tenji_time_rank,
+            MAX(CASE WHEN boat_number = 2 THEN tenji_rank END) AS b2_tenji_rank,
+            MAX(CASE WHEN boat_number = 3 THEN tenji_rank END) AS b3_tenji_rank,
+            MAX(CASE WHEN boat_number = 4 THEN tenji_rank END) AS b4_tenji_rank,
+            MAX(CASE WHEN boat_number = 5 THEN tenji_rank END) AS b5_tenji_rank,
+            MAX(CASE WHEN boat_number = 6 THEN tenji_rank END) AS b6_tenji_rank,
+            MAX(CASE WHEN ai_plus_order = 6 THEN boat_number END) AS ai_rank6_boat,
+            MAX(CASE WHEN ai_plus_order = 6 THEN avg_isshu_diff END) AS ai_rank6_avg_isshu_diff,
+            MAX(CASE WHEN ai_plus_order = 6 THEN tenji_time_rank END) AS ai_rank6_tenji_time_rank,
+            MAX(CASE WHEN ai_plus_order = 6 THEN tenji_rank END) AS ai_rank6_tenji_rank,
+
             MIN(CASE WHEN boat_number IN (5, 6) THEN tenji_time END) AS outer56_best_tenji_time,
             MIN(CASE WHEN boat_number IN (5, 6) THEN isshu_time END) AS outer56_best_isshu_time,
+            MAX(CASE WHEN boat_number IN (5, 6) THEN avg_isshu_diff END) AS outer56_best_avg_isshu_diff,
             MAX(CASE WHEN boat_number IN (5, 6) THEN ai_prediction_pct END) AS outer56_best_ai_prediction_pct,
             MAX(CASE WHEN boat_number IN (5, 6) THEN ai_plus END) AS outer56_best_ai_plus,
 
@@ -332,6 +377,207 @@ def atom_masks(df, top6_venues, top10_venues):
     return masks
 
 
+def num(value):
+    if value is None or pd.isna(value):
+        return None
+    return float(value)
+
+
+def tenji_rank_use(race, boat):
+    rank = num(race.get(f"b{boat}_tenji_rank"))
+    if rank is None:
+        rank = num(race.get(f"b{boat}_tenji_time_rank"))
+    return rank
+
+
+def add_edge(signals, signal_id, label, historical_rate_pct, bonus_pct, role, details=None):
+    signals.append(
+        {
+            "id": signal_id,
+            "label": label,
+            "historical_rate_pct": historical_rate_pct,
+            "bonus_pct": bonus_pct,
+            "role": role,
+            "details": details or {},
+        }
+    )
+
+
+def composite_edge_signals(race):
+    signals = []
+    b1_avg = num(race.get("b1_avg_isshu_diff"))
+    b1_tenji_rank = tenji_rank_use(race, 1)
+    b1_loss = num(race.get("b1_loss_pct"))
+    b1_nige = num(race.get("b1_nige_pct"))
+    b1_ai_order = num(race.get("b1_ai_plus_order"))
+    outer_avg = num(race.get("outer56_best_avg_isshu_diff"))
+    outer_exhibit_top2 = num(race.get("outer56_exhibit_top2_count")) or 0
+    round_no = int(race.get("round_no") or 0)
+    wind_wave = (num(race.get("wind_speed")) or 0) >= 5 or (num(race.get("wave_height")) or 0) >= 5
+    rank6_boat = int(race.get("ai_rank6_boat") or 0)
+    rank6_avg = num(race.get("ai_rank6_avg_isshu_diff"))
+    rank6_tenji = num(race.get("ai_rank6_tenji_rank"))
+    if rank6_tenji is None:
+        rank6_tenji = num(race.get("ai_rank6_tenji_time_rank"))
+
+    if (
+        b1_avg is not None
+        and b1_avg <= -0.05
+        and b1_tenji_rank is not None
+        and b1_tenji_rank >= 5
+        and b1_loss is not None
+        and b1_loss >= 40
+        and outer_avg is not None
+        and outer_avg >= 0.14
+        and round_no <= 6
+    ):
+        add_edge(
+            signals,
+            "codex_composite_front_b1bad_outer56_avg014",
+            "1号艇平均との差-0.05以下+展示5位以下+逃げ失敗40%以上、5/6平均との差0.14以上",
+            24.05,
+            3.0,
+            "manshu_rate_up",
+        )
+
+    if (
+        b1_avg is not None
+        and b1_avg <= 0
+        and outer_avg is not None
+        and outer_avg >= 0.10
+        and outer_exhibit_top2 >= 1
+        and round_no <= 6
+        and wind_wave
+    ):
+        add_edge(
+            signals,
+            "codex_composite_front_weather_outer56_avg010",
+            "1号艇平均との差0以下、5/6平均との差0.10以上+展示2位以内、風波5以上",
+            23.93,
+            2.8,
+            "manshu_rate_up",
+        )
+
+    if (
+        b1_ai_order is not None
+        and b1_ai_order >= 5
+        and b1_nige is not None
+        and b1_nige < 45
+        and b1_loss is not None
+        and b1_loss >= 40
+        and round_no >= 7
+    ):
+        add_edge(
+            signals,
+            "codex_composite_late_b1_aiplus5_loss40",
+            "後半7〜12Rで1号艇AI+5位以下、逃げ率45未満+逃げ失敗40%以上",
+            23.90,
+            2.8,
+            "manshu_rate_up",
+        )
+
+    if (
+        b1_ai_order is not None
+        and b1_ai_order >= 4
+        and rank6_avg is not None
+        and rank6_avg >= 0.10
+        and outer_exhibit_top2 >= 1
+    ):
+        add_edge(
+            signals,
+            "codex_rank6_ana_avg010_b1weak_outertop2",
+            "AI+最下位の平均との差0.10以上、1号艇AI+4位以下、5/6展示2位以内",
+            24.26,
+            3.2,
+            "rank6_ana",
+            {"rank6_boat": rank6_boat},
+        )
+
+    if (
+        b1_ai_order is not None
+        and b1_ai_order >= 4
+        and rank6_boat in {5, 6}
+        and rank6_avg is not None
+        and rank6_avg < 0
+        and rank6_tenji is not None
+        and rank6_tenji >= 4
+    ):
+        add_edge(
+            signals,
+            "codex_rank6_keshi_outer_bad_avg",
+            "AI+最下位が5/6号艇、平均との差マイナス、展示4位以下",
+            15.05,
+            -1.2,
+            "rank6_keshi",
+            {"rank6_boat": rank6_boat},
+        )
+
+    if b1_avg is not None and b1_avg <= 0 and b1_tenji_rank is not None and b1_tenji_rank >= 4:
+        add_edge(
+            signals,
+            "codex_b1_fly_avg0_tenji4",
+            "1号艇平均との差0以下+展示4位以下",
+            19.32,
+            1.2,
+            "b1_fly_up",
+        )
+
+    if b1_avg is not None and b1_avg >= 0.10 and b1_ai_order == 1:
+        add_edge(
+            signals,
+            "codex_b1_strong_avg010_aiplus1",
+            "1号艇平均との差0.10以上+AI+1位",
+            15.60,
+            -1.6,
+            "b1_hold_down",
+        )
+
+    place = race.get("place_name")
+    for boat in range(1, 7):
+        edge = AVGDIFF_LANE_EDGES.get((place, boat))
+        boat_avg = num(race.get(f"b{boat}_avg_isshu_diff"))
+        if edge and boat_avg is not None and boat_avg >= edge["threshold"]:
+            bonus = min(2.2, max(0.8, edge["top3_uplift_pp"] / 12.0))
+            add_edge(
+                signals,
+                f"codex_lane_avgdiff_{place}_{boat}_{edge['threshold']:.2f}",
+                f"{place}{boat}号艇平均との差{edge['threshold']:.2f}以上で3着内上振れ",
+                None,
+                round(bonus, 2),
+                "lane_top3_up",
+                {
+                    "boat": boat,
+                    "threshold": edge["threshold"],
+                    "top3_uplift_pp": edge["top3_uplift_pp"],
+                    "win_uplift_pp": edge["win_uplift_pp"],
+                },
+            )
+
+    signals.sort(key=lambda item: (item["bonus_pct"], item.get("historical_rate_pct") or 0), reverse=True)
+    return signals
+
+
+def composite_adjustment(signals):
+    positive = [signal["bonus_pct"] for signal in signals if signal["bonus_pct"] > 0]
+    negative = [signal["bonus_pct"] for signal in signals if signal["bonus_pct"] < 0]
+    bonus = min(5.0, sum(positive[:3])) + sum(negative)
+    return round(max(-3.0, min(5.0, bonus)), 2)
+
+
+def composite_base_rate(signals):
+    rates = [signal["historical_rate_pct"] for signal in signals if signal.get("historical_rate_pct") is not None]
+    return max(rates) if rates else None
+
+
+def composite_label(signals, limit=2):
+    if not signals:
+        return ""
+    labels = [signal["label"] for signal in signals if signal["bonus_pct"] > 0]
+    if not labels:
+        labels = [signal["label"] for signal in signals]
+    return " / ".join(labels[:limit])
+
+
 def is_exhibit_atom(atom_id):
     return atom_id.startswith(EXHIBIT_PREFIXES)
 
@@ -350,7 +596,7 @@ def split_atoms(combo_id):
     return [part.strip() for part in str(combo_id).split("&") if part.strip()]
 
 
-def build_rankings(df, logic_rows, masks):
+def build_rankings(df, logic_rows, masks, threshold=27.0):
     actual_by_race = {race_id: [] for race_id in df["race_id"]}
     watch_by_race = {race_id: [] for race_id in df["race_id"]}
     unknown_atoms = set()
@@ -387,10 +633,16 @@ def build_rankings(df, logic_rows, masks):
     for _, race in df.iterrows():
         actual = actual_by_race.get(race["race_id"], [])
         watch = watch_by_race.get(race["race_id"], [])
+        edge_signals = composite_edge_signals(race)
         if actual:
-            actual_rows.append(row_summary(race, actual, status="確定"))
+            actual_rows.append(row_summary(race, actual, status="確定", edge_signals=edge_signals))
+        elif edge_signals:
+            edge_row = row_summary(race, [], status="複合補正", edge_signals=edge_signals)
+            has_positive_edge = any(signal["bonus_pct"] > 0 for signal in edge_signals)
+            if has_positive_edge and edge_row["best_manshu_rate_pct"] >= threshold:
+                actual_rows.append(edge_row)
         if watch:
-            watch_rows.append(row_summary(race, watch, status="展示待ち"))
+            watch_rows.append(row_summary(race, watch, status="展示待ち", edge_signals=[]))
 
     key = lambda row: (
         row["best_manshu_rate_pct"],
@@ -402,7 +654,8 @@ def build_rankings(df, logic_rows, masks):
     return actual_rows, watch_rows, sorted(unknown_atoms)
 
 
-def row_summary(race, matches, status):
+def row_summary(race, matches, status, edge_signals=None):
+    edge_signals = edge_signals or []
     matches = sorted(
         matches,
         key=lambda item: (
@@ -412,7 +665,19 @@ def row_summary(race, matches, status):
         ),
         reverse=True,
     )
-    best = matches[0]
+    best = matches[0] if matches else None
+    edge_base = composite_base_rate(edge_signals)
+    logic_rate = float(best["manshu_rate_pct"]) if best else None
+    base_rate = max([rate for rate in [logic_rate, edge_base] if rate is not None], default=0.0)
+    edge_bonus = composite_adjustment(edge_signals)
+    adjusted_rate = max(0.0, min(40.0, base_rate + edge_bonus))
+    if best:
+        condition = best["condition"]
+    else:
+        condition = "Codex複合補正"
+    edge_text = composite_label(edge_signals)
+    if edge_text:
+        condition = f"{condition} × Codex複合補正: {edge_text}"
     return {
         "status": status,
         "date": race["date"],
@@ -420,22 +685,31 @@ def row_summary(race, matches, status):
         "round": int(race["round_no"]),
         "deadline_time": race.get("deadline_time"),
         "race_id": race["race_id"],
-        "best_manshu_rate_pct": float(best["manshu_rate_pct"]),
+        "best_manshu_rate_pct": round(adjusted_rate, 2),
+        "base_manshu_rate_pct": None if logic_rate is None else round(logic_rate, 2),
+        "composite_edge_base_rate_pct": None if edge_base is None else round(float(edge_base), 2),
+        "composite_edge_bonus_pct": edge_bonus,
+        "composite_edges": edge_signals,
         "best_recent_rate_pct": None
-        if pd.isna(best.get("recent_manshu_rate_pct_2025_2026"))
+        if best is None or pd.isna(best.get("recent_manshu_rate_pct_2025_2026"))
         else float(best.get("recent_manshu_rate_pct_2025_2026")),
-        "best_condition": best["condition"],
+        "best_condition": condition,
         "matched_logic_count": len(matches),
         "payout": race.get("payout"),
         "trifecta": race.get("trifecta"),
         "b1_ai_prediction_pct": race.get("b1_ai_prediction_pct"),
         "b1_ai_plus": race.get("b1_ai_plus"),
+        "b1_ai_plus_order": race.get("b1_ai_plus_order"),
         "b1_nige_pct": race.get("b1_nige_pct"),
         "b1_loss_pct": race.get("b1_loss_pct"),
+        "b1_avg_isshu_diff": race.get("b1_avg_isshu_diff"),
         "b1_tenji_time": race.get("b1_tenji_time"),
         "b1_isshu_time": race.get("b1_isshu_time"),
+        "outer56_best_avg_isshu_diff": race.get("outer56_best_avg_isshu_diff"),
         "outer56_best_tenji_time": race.get("outer56_best_tenji_time"),
         "outer56_best_isshu_time": race.get("outer56_best_isshu_time"),
+        "ai_rank6_boat": race.get("ai_rank6_boat"),
+        "ai_rank6_avg_isshu_diff": race.get("ai_rank6_avg_isshu_diff"),
         "tenji_boats": int(race.get("tenji_boats") or 0),
         "isshu_boats": int(race.get("isshu_boats") or 0),
     }
@@ -453,6 +727,8 @@ def make_report(path, date_text, actual_rows, watch_rows, top_n):
                 f"<td>{row['round']}R</td>"
                 f"<td>{html.escape(str(row.get('deadline_time') or '-'))}</td>"
                 f"<td>{fmt_pct(row['best_manshu_rate_pct'])}</td>"
+                f"<td>{fmt_pct(row.get('base_manshu_rate_pct'))}</td>"
+                f"<td>{fmt_pct(row.get('composite_edge_bonus_pct'))}</td>"
                 f"<td>{fmt_pct(row['best_recent_rate_pct'])}</td>"
                 f"<td>{fmt_num(row['matched_logic_count'])}</td>"
                 f"<td>{html.escape(row['best_condition'])}</td>"
@@ -461,7 +737,7 @@ def make_report(path, date_text, actual_rows, watch_rows, top_n):
                 f"<td>{fmt_time(row.get('outer56_best_tenji_time'))}</td>"
                 "</tr>"
             )
-        return "\n".join(trs) or "<tr><td colspan='12'>該当なし</td></tr>"
+        return "\n".join(trs) or "<tr><td colspan='14'>該当なし</td></tr>"
 
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
@@ -482,15 +758,15 @@ def make_report(path, date_text, actual_rows, watch_rows, top_n):
 </head>
 <body>
   <h1>{date_text} 万舟率ランキング</h1>
-  <div class="meta">27%以上ロジック / 確定ランキングは展示・1周が出ているレースのみ / 展示待ちは非展示条件だけ一致</div>
+  <div class="meta">27%以上ロジック + Codex複合補正 / 確定ランキングは展示・1周が出ているレースのみ / 展示待ちは非展示条件だけ一致</div>
   <h2>確定ランキング TOP{top_n}</h2>
   <table>
-    <thead><tr><th>#</th><th>状態</th><th>場</th><th>R</th><th>締切</th><th>過去万舟率</th><th>直近率</th><th>一致数</th><th>代表条件</th><th>1号艇AI</th><th>1展示</th><th>5/6最速展示</th></tr></thead>
+    <thead><tr><th>#</th><th>状態</th><th>場</th><th>R</th><th>締切</th><th>補正後</th><th>元率</th><th>補正pt</th><th>直近率</th><th>一致数</th><th>代表条件</th><th>1号艇AI</th><th>1展示</th><th>5/6最速展示</th></tr></thead>
     <tbody>{table(actual_rows)}</tbody>
   </table>
   <h2>展示待ち候補 TOP{top_n}</h2>
   <table>
-    <thead><tr><th>#</th><th>状態</th><th>場</th><th>R</th><th>締切</th><th>過去万舟率</th><th>直近率</th><th>一致数</th><th>代表条件</th><th>1号艇AI</th><th>1展示</th><th>5/6最速展示</th></tr></thead>
+    <thead><tr><th>#</th><th>状態</th><th>場</th><th>R</th><th>締切</th><th>補正後</th><th>元率</th><th>補正pt</th><th>直近率</th><th>一致数</th><th>代表条件</th><th>1号艇AI</th><th>1展示</th><th>5/6最速展示</th></tr></thead>
     <tbody>{table(watch_rows)}</tbody>
   </table>
 </body>
@@ -518,7 +794,12 @@ def main():
     logic_df = pd.read_csv(args.logic_csv)
     logic_df = logic_df[logic_df["manshu_rate_pct"] >= args.threshold].copy()
     masks = atom_masks(df, top6, top10)
-    actual_rows, watch_rows, unknown_atoms = build_rankings(df, logic_df.to_dict("records"), masks)
+    actual_rows, watch_rows, unknown_atoms = build_rankings(
+        df,
+        logic_df.to_dict("records"),
+        masks,
+        threshold=args.threshold,
+    )
 
     base_name = f"manshu_daily_rank_{args.date}"
     csv_path = Path(args.csv_out) if args.csv_out else OUT_DIR / f"{base_name}.csv"
@@ -530,6 +811,8 @@ def main():
     payload = {
         "date": args.date,
         "threshold_pct": args.threshold,
+        "logic_label": "Codex BOATERS展示込み 万舟率ロジック + 複合補正",
+        "logic_summary": "既存の27%以上ロジックに、1号艇平均との差/展示弱化、5・6号艇の平均との差上振れ、AI+最下位の穴/消し判定、場×艇番平均との差エッジを加点・減点したランキング。",
         "races": int(len(df)),
         "races_with_full_tenji": int((df["tenji_boats"] >= 6).sum()),
         "races_with_full_isshu": int((df["isshu_boats"] >= 6).sum()),
