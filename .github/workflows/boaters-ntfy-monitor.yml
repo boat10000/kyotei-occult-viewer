@@ -49,6 +49,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           for path in \
+            "data/output/boaters_manshu_ranking_codex_${{ steps.jst.outputs.key }}.json" \
             "data/output/boaters_manshu_ranking_${{ steps.jst.outputs.key }}.json" \
             "data/output/boaters_manshu_alerts_${{ steps.jst.outputs.key }}.json" \
             "data/output/boaters_manshu_alert_state_${{ steps.jst.outputs.key }}.json" \
