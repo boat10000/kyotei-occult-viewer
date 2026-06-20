@@ -1,402 +1,5150 @@
 {
-  "version": "boaters-manshu-history-index-v1",
-  "generated_at": "2026-06-19T11:49:45+09:00",
+  "version": "boaters-manshu-history-index-v2",
+  "generated_at": "2026-06-20T15:30:43+09:00",
   "start_date": "2026-05-01",
   "end_date": "2026-06-18",
   "top_n": 10,
   "threshold_pct": 27.0,
+  "logic_label": "Codex全場ランキング + 厳選ランキング",
+  "aggregate": {
+    "all_venue": {
+      "top1": {
+        "selected": 49,
+        "settled": 49,
+        "manshu_hits": 22,
+        "manshu_rate_pct": 44.9,
+        "hit_days": 22,
+        "days": 49,
+        "day_hit_rate_pct": 44.9,
+        "max_payout_yen": 102650
+      },
+      "top3": {
+        "selected": 147,
+        "settled": 147,
+        "manshu_hits": 43,
+        "manshu_rate_pct": 29.25,
+        "hit_days": 30,
+        "days": 49,
+        "day_hit_rate_pct": 61.22,
+        "max_payout_yen": 102650
+      },
+      "top5": {
+        "selected": 245,
+        "settled": 245,
+        "manshu_hits": 66,
+        "manshu_rate_pct": 26.94,
+        "hit_days": 36,
+        "days": 49,
+        "day_hit_rate_pct": 73.47,
+        "max_payout_yen": 102650
+      },
+      "top10": {
+        "selected": 490,
+        "settled": 488,
+        "manshu_hits": 110,
+        "manshu_rate_pct": 22.54,
+        "hit_days": 44,
+        "days": 49,
+        "day_hit_rate_pct": 89.8,
+        "max_payout_yen": 259950
+      }
+    },
+    "strict": {
+      "top10": {
+        "selected": 480,
+        "settled": 479,
+        "manshu_hits": 135,
+        "manshu_rate_pct": 28.18,
+        "hit_days": 49,
+        "days": 49,
+        "day_hit_rate_pct": 100.0,
+        "max_payout_yen": 126040
+      }
+    }
+  },
   "dates": [
     {
       "date": "2026-05-01",
       "path": "data/output/boaters_manshu_ranking_20260501.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260501.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4500,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 9310,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 9310,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 15130,
+          "hit_races": [
+            {
+              "rank": 9,
+              "race": "びわこ1R",
+              "trifecta": "5-3-4",
+              "payout_yen": 15130
+            },
+            {
+              "rank": 10,
+              "race": "戸田4R",
+              "trifecta": "5-1-4",
+              "payout_yen": 11950
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 18550,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "宮島10R",
+              "trifecta": "5-6-3",
+              "payout_yen": 18550
+            },
+            {
+              "rank": 8,
+              "race": "多摩川3R",
+              "trifecta": "5-3-1",
+              "payout_yen": 14380
+            },
+            {
+              "rank": 10,
+              "race": "桐生5R",
+              "trifecta": "4-2-6",
+              "payout_yen": 16990
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-02",
       "path": "data/output/boaters_manshu_ranking_20260502.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260502.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 1000,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 10050,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "びわこ5R",
+              "trifecta": "3-1-6",
+              "payout_yen": 10050
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 10550,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "びわこ5R",
+              "trifecta": "3-1-6",
+              "payout_yen": 10050
+            },
+            {
+              "rank": 4,
+              "race": "児島5R",
+              "trifecta": "1-5-6",
+              "payout_yen": 10550
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 40070,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "びわこ5R",
+              "trifecta": "3-1-6",
+              "payout_yen": 10050
+            },
+            {
+              "rank": 4,
+              "race": "児島5R",
+              "trifecta": "1-5-6",
+              "payout_yen": 10550
+            },
+            {
+              "rank": 7,
+              "race": "津8R",
+              "trifecta": "3-4-2",
+              "payout_yen": 40070
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 28840,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "鳴門1R",
+              "trifecta": "4-2-3",
+              "payout_yen": 28840
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-03",
       "path": "data/output/boaters_manshu_ranking_20260503.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260503.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "manshu_hits_top_n": 4,
+      "actual_manshu_rate_top_n_pct": 40.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 27320,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "蒲郡3R",
+              "trifecta": "2-5-6",
+              "payout_yen": 27320
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 27320,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "蒲郡3R",
+              "trifecta": "2-5-6",
+              "payout_yen": 27320
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 27320,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "蒲郡3R",
+              "trifecta": "2-5-6",
+              "payout_yen": 27320
+            },
+            {
+              "rank": 4,
+              "race": "常滑2R",
+              "trifecta": "3-1-6",
+              "payout_yen": 20130
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 4,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 27320,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "蒲郡3R",
+              "trifecta": "2-5-6",
+              "payout_yen": 27320
+            },
+            {
+              "rank": 4,
+              "race": "常滑2R",
+              "trifecta": "3-1-6",
+              "payout_yen": 20130
+            },
+            {
+              "rank": 6,
+              "race": "戸田8R",
+              "trifecta": "5-3-1",
+              "payout_yen": 18270
+            },
+            {
+              "rank": 8,
+              "race": "桐生3R",
+              "trifecta": "6-1-5",
+              "payout_yen": 15740
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 4,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 22390,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "若松3R",
+              "trifecta": "1-6-2",
+              "payout_yen": 12000
+            },
+            {
+              "rank": 4,
+              "race": "津3R",
+              "trifecta": "2-1-3",
+              "payout_yen": 16610
+            },
+            {
+              "rank": 8,
+              "race": "宮島6R",
+              "trifecta": "2-3-5",
+              "payout_yen": 22390
+            },
+            {
+              "rank": 9,
+              "race": "児島3R",
+              "trifecta": "5-6-3",
+              "payout_yen": 18910
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-04",
       "path": "data/output/boaters_manshu_ranking_20260504.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260504.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 14220,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "浜名湖6R",
+              "trifecta": "3-1-2",
+              "payout_yen": 14220
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 14220,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "浜名湖6R",
+              "trifecta": "3-1-2",
+              "payout_yen": 14220
+            },
+            {
+              "rank": 2,
+              "race": "宮島3R",
+              "trifecta": "2-6-5",
+              "payout_yen": 13790
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 60.0,
+          "max_payout_yen": 14220,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "浜名湖6R",
+              "trifecta": "3-1-2",
+              "payout_yen": 14220
+            },
+            {
+              "rank": 2,
+              "race": "宮島3R",
+              "trifecta": "2-6-5",
+              "payout_yen": 13790
+            },
+            {
+              "rank": 5,
+              "race": "三国8R",
+              "trifecta": "1-3-6",
+              "payout_yen": 10810
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 14220,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "浜名湖6R",
+              "trifecta": "3-1-2",
+              "payout_yen": 14220
+            },
+            {
+              "rank": 2,
+              "race": "宮島3R",
+              "trifecta": "2-6-5",
+              "payout_yen": 13790
+            },
+            {
+              "rank": 5,
+              "race": "三国8R",
+              "trifecta": "1-3-6",
+              "payout_yen": 10810
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 4,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 46180,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "鳴門4R",
+              "trifecta": "2-4-6",
+              "payout_yen": 46180
+            },
+            {
+              "rank": 2,
+              "race": "児島4R",
+              "trifecta": "2-3-5",
+              "payout_yen": 39490
+            },
+            {
+              "rank": 6,
+              "race": "若松2R",
+              "trifecta": "5-6-4",
+              "payout_yen": 10230
+            },
+            {
+              "rank": 10,
+              "race": "宮島3R",
+              "trifecta": "2-6-5",
+              "payout_yen": 13790
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-05",
       "path": "data/output/boaters_manshu_ranking_20260505.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260505.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 1,
-      "actual_manshu_rate_top_n_pct": 10.0
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 1180,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4550,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 57500,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "三国8R",
+              "trifecta": "5-4-2",
+              "payout_yen": 57500
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 57500,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "三国8R",
+              "trifecta": "5-4-2",
+              "payout_yen": 57500
+            },
+            {
+              "rank": 6,
+              "race": "平和島4R",
+              "trifecta": "5-2-6",
+              "payout_yen": 12320
+            },
+            {
+              "rank": 9,
+              "race": "常滑3R",
+              "trifecta": "4-5-2",
+              "payout_yen": 10450
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 12320,
+          "hit_races": [
+            {
+              "rank": 7,
+              "race": "平和島4R",
+              "trifecta": "5-2-6",
+              "payout_yen": 12320
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-06",
       "path": "data/output/boaters_manshu_ranking_20260506.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260506.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 1,
-      "actual_manshu_rate_top_n_pct": 10.0
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 33480,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀2R",
+              "trifecta": "2-6-5",
+              "payout_yen": 33480
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 33480,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀2R",
+              "trifecta": "2-6-5",
+              "payout_yen": 33480
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 33480,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀2R",
+              "trifecta": "2-6-5",
+              "payout_yen": 33480
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 150880,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀2R",
+              "trifecta": "2-6-5",
+              "payout_yen": 33480
+            },
+            {
+              "rank": 7,
+              "race": "唐津5R",
+              "trifecta": "4-3-6",
+              "payout_yen": 150880
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 33480,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "丸亀2R",
+              "trifecta": "2-6-5",
+              "payout_yen": 33480
+            },
+            {
+              "rank": 10,
+              "race": "児島1R",
+              "trifecta": "3-5-4",
+              "payout_yen": 20390
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-07",
       "path": "data/output/boaters_manshu_ranking_20260507.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260507.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 12940,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀2R",
+              "trifecta": "1-5-2",
+              "payout_yen": 12940
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 12940,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀2R",
+              "trifecta": "1-5-2",
+              "payout_yen": 12940
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 12940,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀2R",
+              "trifecta": "1-5-2",
+              "payout_yen": 12940
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 12940,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀2R",
+              "trifecta": "1-5-2",
+              "payout_yen": 12940
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 33800,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀2R",
+              "trifecta": "1-5-2",
+              "payout_yen": 12940
+            },
+            {
+              "rank": 8,
+              "race": "三国6R",
+              "trifecta": "6-2-4",
+              "payout_yen": 33800
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-08",
       "path": "data/output/boaters_manshu_ranking_20260508.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260508.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 2270,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 9240,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 9240,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 31720,
+          "hit_races": [
+            {
+              "rank": 6,
+              "race": "丸亀3R",
+              "trifecta": "6-4-2",
+              "payout_yen": 31720
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 31720,
+          "hit_races": [
+            {
+              "rank": 9,
+              "race": "丸亀3R",
+              "trifecta": "6-4-2",
+              "payout_yen": 31720
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-09",
       "path": "data/output/boaters_manshu_ranking_20260509.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260509.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4090,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 10710,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "びわこ5R",
+              "trifecta": "5-1-6",
+              "payout_yen": 10710
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 10710,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "びわこ5R",
+              "trifecta": "5-1-6",
+              "payout_yen": 10710
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 259950,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "びわこ5R",
+              "trifecta": "5-1-6",
+              "payout_yen": 10710
+            },
+            {
+              "rank": 6,
+              "race": "徳山6R",
+              "trifecta": "6-1-5",
+              "payout_yen": 259950
+            },
+            {
+              "rank": 10,
+              "race": "津6R",
+              "trifecta": "1-6-4",
+              "payout_yen": 22340
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 21780,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "鳴門2R",
+              "trifecta": "4-6-5",
+              "payout_yen": 21780
+            },
+            {
+              "rank": 3,
+              "race": "びわこ3R",
+              "trifecta": "4-3-1",
+              "payout_yen": 17250
+            },
+            {
+              "rank": 9,
+              "race": "芦屋7R",
+              "trifecta": "2-4-6",
+              "payout_yen": 12190
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-10",
       "path": "data/output/boaters_manshu_ranking_20260510.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260510.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 1,
-      "actual_manshu_rate_top_n_pct": 10.0
+      "manshu_hits_top_n": 5,
+      "actual_manshu_rate_top_n_pct": 50.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 15470,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "5-4-2",
+              "payout_yen": 15470
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 15880,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "5-4-2",
+              "payout_yen": 15470
+            },
+            {
+              "rank": 2,
+              "race": "唐津8R",
+              "trifecta": "2-5-1",
+              "payout_yen": 15880
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 60.0,
+          "max_payout_yen": 15880,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "5-4-2",
+              "payout_yen": 15470
+            },
+            {
+              "rank": 2,
+              "race": "唐津8R",
+              "trifecta": "2-5-1",
+              "payout_yen": 15880
+            },
+            {
+              "rank": 5,
+              "race": "福岡6R",
+              "trifecta": "1-3-5",
+              "payout_yen": 13420
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 5,
+          "manshu_rate_pct": 50.0,
+          "max_payout_yen": 29260,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "5-4-2",
+              "payout_yen": 15470
+            },
+            {
+              "rank": 2,
+              "race": "唐津8R",
+              "trifecta": "2-5-1",
+              "payout_yen": 15880
+            },
+            {
+              "rank": 5,
+              "race": "福岡6R",
+              "trifecta": "1-3-5",
+              "payout_yen": 13420
+            },
+            {
+              "rank": 8,
+              "race": "児島8R",
+              "trifecta": "3-1-5",
+              "payout_yen": 19220
+            },
+            {
+              "rank": 10,
+              "race": "鳴門10R",
+              "trifecta": "4-3-5",
+              "payout_yen": 29260
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 19220,
+          "hit_races": [
+            {
+              "rank": 7,
+              "race": "児島8R",
+              "trifecta": "3-1-5",
+              "payout_yen": 19220
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-11",
       "path": "data/output/boaters_manshu_ranking_20260511.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260511.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "manshu_hits_top_n": 5,
+      "actual_manshu_rate_top_n_pct": 50.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 3600,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4260,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 12230,
+          "hit_races": [
+            {
+              "rank": 4,
+              "race": "児島1R",
+              "trifecta": "3-5-1",
+              "payout_yen": 11820
+            },
+            {
+              "rank": 5,
+              "race": "鳴門5R",
+              "trifecta": "2-1-6",
+              "payout_yen": 12230
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 5,
+          "manshu_rate_pct": 50.0,
+          "max_payout_yen": 23870,
+          "hit_races": [
+            {
+              "rank": 4,
+              "race": "児島1R",
+              "trifecta": "3-5-1",
+              "payout_yen": 11820
+            },
+            {
+              "rank": 5,
+              "race": "鳴門5R",
+              "trifecta": "2-1-6",
+              "payout_yen": 12230
+            },
+            {
+              "rank": 6,
+              "race": "児島7R",
+              "trifecta": "3-4-2",
+              "payout_yen": 23870
+            },
+            {
+              "rank": 9,
+              "race": "津3R",
+              "trifecta": "3-1-6",
+              "payout_yen": 17500
+            },
+            {
+              "rank": 10,
+              "race": "びわこ7R",
+              "trifecta": "1-4-5",
+              "payout_yen": 13830
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 23870,
+          "hit_races": [
+            {
+              "rank": 3,
+              "race": "鳴門5R",
+              "trifecta": "2-1-6",
+              "payout_yen": 12230
+            },
+            {
+              "rank": 4,
+              "race": "児島7R",
+              "trifecta": "3-4-2",
+              "payout_yen": 23870
+            },
+            {
+              "rank": 7,
+              "race": "児島1R",
+              "trifecta": "3-5-1",
+              "payout_yen": 11820
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-12",
       "path": "data/output/boaters_manshu_ranking_20260512.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260512.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 24300,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "児島5R",
+              "trifecta": "5-6-4",
+              "payout_yen": 24300
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 24300,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "児島5R",
+              "trifecta": "5-6-4",
+              "payout_yen": 24300
+            },
+            {
+              "rank": 3,
+              "race": "鳴門2R",
+              "trifecta": "2-4-1",
+              "payout_yen": 10380
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 60.0,
+          "max_payout_yen": 24300,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "児島5R",
+              "trifecta": "5-6-4",
+              "payout_yen": 24300
+            },
+            {
+              "rank": 3,
+              "race": "鳴門2R",
+              "trifecta": "2-4-1",
+              "payout_yen": 10380
+            },
+            {
+              "rank": 5,
+              "race": "福岡5R",
+              "trifecta": "2-6-3",
+              "payout_yen": 14360
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 24300,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "児島5R",
+              "trifecta": "5-6-4",
+              "payout_yen": 24300
+            },
+            {
+              "rank": 3,
+              "race": "鳴門2R",
+              "trifecta": "2-4-1",
+              "payout_yen": 10380
+            },
+            {
+              "rank": 5,
+              "race": "福岡5R",
+              "trifecta": "2-6-3",
+              "payout_yen": 14360
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 40580,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "鳴門2R",
+              "trifecta": "2-4-1",
+              "payout_yen": 10380
+            },
+            {
+              "rank": 5,
+              "race": "児島5R",
+              "trifecta": "5-6-4",
+              "payout_yen": 24300
+            },
+            {
+              "rank": 7,
+              "race": "平和島3R",
+              "trifecta": "6-1-3",
+              "payout_yen": 40580
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-13",
       "path": "data/output/boaters_manshu_ranking_20260513.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260513.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 0,
-      "actual_manshu_rate_top_n_pct": 0.0
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 1410,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 40370,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "唐津4R",
+              "trifecta": "4-3-2",
+              "payout_yen": 10990
+            },
+            {
+              "rank": 3,
+              "race": "常滑4R",
+              "trifecta": "4-1-2",
+              "payout_yen": 40370
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 40370,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "唐津4R",
+              "trifecta": "4-3-2",
+              "payout_yen": 10990
+            },
+            {
+              "rank": 3,
+              "race": "常滑4R",
+              "trifecta": "4-1-2",
+              "payout_yen": 40370
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 40370,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "唐津4R",
+              "trifecta": "4-3-2",
+              "payout_yen": 10990
+            },
+            {
+              "rank": 3,
+              "race": "常滑4R",
+              "trifecta": "4-1-2",
+              "payout_yen": 40370
+            },
+            {
+              "rank": 8,
+              "race": "住之江5R",
+              "trifecta": "4-6-2",
+              "payout_yen": 18710
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 40370,
+          "hit_races": [
+            {
+              "rank": 9,
+              "race": "常滑4R",
+              "trifecta": "4-1-2",
+              "payout_yen": 40370
+            },
+            {
+              "rank": 10,
+              "race": "唐津4R",
+              "trifecta": "4-3-2",
+              "payout_yen": 10990
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-14",
       "path": "data/output/boaters_manshu_ranking_20260514.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260514.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 4,
-      "actual_manshu_rate_top_n_pct": 40.0
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 10930,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "平和島3R",
+              "trifecta": "5-3-1",
+              "payout_yen": 10930
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 14430,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "平和島3R",
+              "trifecta": "5-3-1",
+              "payout_yen": 10930
+            },
+            {
+              "rank": 2,
+              "race": "下関1R",
+              "trifecta": "1-6-3",
+              "payout_yen": 14430
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 60.0,
+          "max_payout_yen": 36660,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "平和島3R",
+              "trifecta": "5-3-1",
+              "payout_yen": 10930
+            },
+            {
+              "rank": 2,
+              "race": "下関1R",
+              "trifecta": "1-6-3",
+              "payout_yen": 14430
+            },
+            {
+              "rank": 5,
+              "race": "唐津6R",
+              "trifecta": "5-6-1",
+              "payout_yen": 36660
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 36660,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "平和島3R",
+              "trifecta": "5-3-1",
+              "payout_yen": 10930
+            },
+            {
+              "rank": 2,
+              "race": "下関1R",
+              "trifecta": "1-6-3",
+              "payout_yen": 14430
+            },
+            {
+              "rank": 5,
+              "race": "唐津6R",
+              "trifecta": "5-6-1",
+              "payout_yen": 36660
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 5,
+          "manshu_rate_pct": 50.0,
+          "max_payout_yen": 36660,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "下関1R",
+              "trifecta": "1-6-3",
+              "payout_yen": 14430
+            },
+            {
+              "rank": 2,
+              "race": "平和島3R",
+              "trifecta": "5-3-1",
+              "payout_yen": 10930
+            },
+            {
+              "rank": 4,
+              "race": "平和島11R",
+              "trifecta": "6-4-5",
+              "payout_yen": 14420
+            },
+            {
+              "rank": 8,
+              "race": "唐津6R",
+              "trifecta": "5-6-1",
+              "payout_yen": 36660
+            },
+            {
+              "rank": 9,
+              "race": "常滑2R",
+              "trifecta": "2-4-1",
+              "payout_yen": 14510
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-15",
       "path": "data/output/boaters_manshu_ranking_20260515.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260515.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 2830,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 8480,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 8480,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 22410,
+          "hit_races": [
+            {
+              "rank": 8,
+              "race": "児島2R",
+              "trifecta": "3-1-6",
+              "payout_yen": 22410
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 29450,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "若松4R",
+              "trifecta": "2-4-3",
+              "payout_yen": 29450
+            },
+            {
+              "rank": 3,
+              "race": "芦屋5R",
+              "trifecta": "4-2-6",
+              "payout_yen": 29010
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-16",
       "path": "data/output/boaters_manshu_ranking_20260516.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260516.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 4,
-      "actual_manshu_rate_top_n_pct": 40.0
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4010,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 10260,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "戸田3R",
+              "trifecta": "4-2-1",
+              "payout_yen": 10260
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 10870,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "戸田3R",
+              "trifecta": "4-2-1",
+              "payout_yen": 10260
+            },
+            {
+              "rank": 5,
+              "race": "若松3R",
+              "trifecta": "3-5-4",
+              "payout_yen": 10870
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 10870,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "戸田3R",
+              "trifecta": "4-2-1",
+              "payout_yen": 10260
+            },
+            {
+              "rank": 5,
+              "race": "若松3R",
+              "trifecta": "3-5-4",
+              "payout_yen": 10870
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 5,
+          "manshu_rate_pct": 50.0,
+          "max_payout_yen": 16890,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "若松3R",
+              "trifecta": "3-5-4",
+              "payout_yen": 10870
+            },
+            {
+              "rank": 3,
+              "race": "鳴門5R",
+              "trifecta": "5-1-2",
+              "payout_yen": 10610
+            },
+            {
+              "rank": 8,
+              "race": "三国7R",
+              "trifecta": "4-6-1",
+              "payout_yen": 10750
+            },
+            {
+              "rank": 9,
+              "race": "宮島5R",
+              "trifecta": "2-5-4",
+              "payout_yen": 16890
+            },
+            {
+              "rank": 10,
+              "race": "戸田3R",
+              "trifecta": "4-2-1",
+              "payout_yen": 10260
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-17",
       "path": "data/output/boaters_manshu_ranking_20260517.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260517.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "manshu_hits_top_n": 0,
+      "actual_manshu_rate_top_n_pct": 0.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 1990,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 1990,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 6810,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 6890,
+          "hit_races": []
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 40670,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀3R",
+              "trifecta": "4-5-3",
+              "payout_yen": 40670
+            },
+            {
+              "rank": 2,
+              "race": "鳴門9R",
+              "trifecta": "2-6-1",
+              "payout_yen": 10480
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-18",
       "path": "data/output/boaters_manshu_ranking_20260518.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260518.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 3370,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 3370,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 3370,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 24630,
+          "hit_races": [
+            {
+              "rank": 9,
+              "race": "丸亀7R",
+              "trifecta": "2-1-6",
+              "payout_yen": 24630
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 13560,
+          "hit_races": [
+            {
+              "rank": 4,
+              "race": "鳴門10R",
+              "trifecta": "3-1-6",
+              "payout_yen": 13560
+            },
+            {
+              "rank": 5,
+              "race": "芦屋6R",
+              "trifecta": "5-1-3",
+              "payout_yen": 12880
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-19",
       "path": "data/output/boaters_manshu_ranking_20260519.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260519.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 13680,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "徳山6R",
+              "trifecta": "2-6-1",
+              "payout_yen": 13680
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 13680,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "徳山6R",
+              "trifecta": "2-6-1",
+              "payout_yen": 13680
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 13680,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "徳山6R",
+              "trifecta": "2-6-1",
+              "payout_yen": 13680
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 13750,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "徳山6R",
+              "trifecta": "2-6-1",
+              "payout_yen": 13680
+            },
+            {
+              "rank": 9,
+              "race": "鳴門7R",
+              "trifecta": "5-4-2",
+              "payout_yen": 13750
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 13750,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "鳴門7R",
+              "trifecta": "5-4-2",
+              "payout_yen": 13750
+            },
+            {
+              "rank": 8,
+              "race": "徳山6R",
+              "trifecta": "2-6-1",
+              "payout_yen": 13680
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-20",
       "path": "data/output/boaters_manshu_ranking_20260520.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260520.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 16550,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "若松2R",
+              "trifecta": "2-6-5",
+              "payout_yen": 16550
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 33380,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "若松2R",
+              "trifecta": "2-6-5",
+              "payout_yen": 16550
+            },
+            {
+              "rank": 2,
+              "race": "芦屋6R",
+              "trifecta": "5-2-1",
+              "payout_yen": 33380
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 33380,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "若松2R",
+              "trifecta": "2-6-5",
+              "payout_yen": 16550
+            },
+            {
+              "rank": 2,
+              "race": "芦屋6R",
+              "trifecta": "5-2-1",
+              "payout_yen": 33380
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 33380,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "若松2R",
+              "trifecta": "2-6-5",
+              "payout_yen": 16550
+            },
+            {
+              "rank": 2,
+              "race": "芦屋6R",
+              "trifecta": "5-2-1",
+              "payout_yen": 33380
+            },
+            {
+              "rank": 10,
+              "race": "丸亀5R",
+              "trifecta": "4-3-2",
+              "payout_yen": 14350
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 4,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 33380,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "若松2R",
+              "trifecta": "2-6-5",
+              "payout_yen": 16550
+            },
+            {
+              "rank": 4,
+              "race": "芦屋7R",
+              "trifecta": "4-1-6",
+              "payout_yen": 10200
+            },
+            {
+              "rank": 8,
+              "race": "芦屋6R",
+              "trifecta": "5-2-1",
+              "payout_yen": 33380
+            },
+            {
+              "rank": 10,
+              "race": "丸亀5R",
+              "trifecta": "4-3-2",
+              "payout_yen": 14350
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-21",
       "path": "data/output/boaters_manshu_ranking_20260521.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260521.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4760,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4820,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 21060,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "丸亀2R",
+              "trifecta": "3-4-2",
+              "payout_yen": 21060
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 21060,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "丸亀2R",
+              "trifecta": "3-4-2",
+              "payout_yen": 21060
+            },
+            {
+              "rank": 10,
+              "race": "宮島6R",
+              "trifecta": "6-2-4",
+              "payout_yen": 10660
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 21060,
+          "hit_races": [
+            {
+              "rank": 4,
+              "race": "丸亀2R",
+              "trifecta": "3-4-2",
+              "payout_yen": 21060
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-22",
       "path": "data/output/boaters_manshu_ranking_20260522.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260522.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 11170,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "尼崎3R",
+              "trifecta": "2-3-5",
+              "payout_yen": 11170
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 13530,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "尼崎3R",
+              "trifecta": "2-3-5",
+              "payout_yen": 11170
+            },
+            {
+              "rank": 2,
+              "race": "津1R",
+              "trifecta": "5-1-4",
+              "payout_yen": 13530
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 60.0,
+          "max_payout_yen": 22220,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "尼崎3R",
+              "trifecta": "2-3-5",
+              "payout_yen": 11170
+            },
+            {
+              "rank": 2,
+              "race": "津1R",
+              "trifecta": "5-1-4",
+              "payout_yen": 13530
+            },
+            {
+              "rank": 4,
+              "race": "児島6R",
+              "trifecta": "5-1-2",
+              "payout_yen": 22220
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 22220,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "尼崎3R",
+              "trifecta": "2-3-5",
+              "payout_yen": 11170
+            },
+            {
+              "rank": 2,
+              "race": "津1R",
+              "trifecta": "5-1-4",
+              "payout_yen": 13530
+            },
+            {
+              "rank": 4,
+              "race": "児島6R",
+              "trifecta": "5-1-2",
+              "payout_yen": 22220
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 9,
+          "settled": 9,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 22220,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "尼崎3R",
+              "trifecta": "2-3-5",
+              "payout_yen": 11170
+            },
+            {
+              "rank": 2,
+              "race": "児島6R",
+              "trifecta": "5-1-2",
+              "payout_yen": 22220
+            },
+            {
+              "rank": 9,
+              "race": "津1R",
+              "trifecta": "5-1-4",
+              "payout_yen": 13530
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-23",
       "path": "data/output/boaters_manshu_ranking_20260523.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260523.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "manshu_hits_top_n": 0,
+      "actual_manshu_rate_top_n_pct": 0.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 1690,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 9000,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 9000,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 9280,
+          "hit_races": []
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 9,
+          "settled": 9,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 22.22,
+          "max_payout_yen": 88910,
+          "hit_races": [
+            {
+              "rank": 3,
+              "race": "丸亀9R",
+              "trifecta": "1-5-4",
+              "payout_yen": 20370
+            },
+            {
+              "rank": 8,
+              "race": "丸亀1R",
+              "trifecta": "1-6-3",
+              "payout_yen": 88910
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-24",
       "path": "data/output/boaters_manshu_ranking_20260524.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260524.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 7650,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 12450,
+          "hit_races": [
+            {
+              "rank": 3,
+              "race": "三国7R",
+              "trifecta": "2-1-6",
+              "payout_yen": 12450
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 12450,
+          "hit_races": [
+            {
+              "rank": 3,
+              "race": "三国7R",
+              "trifecta": "2-1-6",
+              "payout_yen": 12450
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 104840,
+          "hit_races": [
+            {
+              "rank": 3,
+              "race": "三国7R",
+              "trifecta": "2-1-6",
+              "payout_yen": 12450
+            },
+            {
+              "rank": 7,
+              "race": "常滑7R",
+              "trifecta": "5-2-1",
+              "payout_yen": 104840
+            },
+            {
+              "rank": 8,
+              "race": "唐津5R",
+              "trifecta": "3-1-4",
+              "payout_yen": 20850
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 9,
+          "settled": 9,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 11.11,
+          "max_payout_yen": 12450,
+          "hit_races": [
+            {
+              "rank": 4,
+              "race": "三国7R",
+              "trifecta": "2-1-6",
+              "payout_yen": 12450
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-25",
       "path": "data/output/boaters_manshu_ranking_20260525.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260525.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 26720,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "江戸川4R",
+              "trifecta": "4-2-6",
+              "payout_yen": 26720
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 26720,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "江戸川4R",
+              "trifecta": "4-2-6",
+              "payout_yen": 26720
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 26720,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "江戸川4R",
+              "trifecta": "4-2-6",
+              "payout_yen": 26720
+            },
+            {
+              "rank": 4,
+              "race": "唐津6R",
+              "trifecta": "4-5-1",
+              "payout_yen": 11770
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 26720,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "江戸川4R",
+              "trifecta": "4-2-6",
+              "payout_yen": 26720
+            },
+            {
+              "rank": 4,
+              "race": "唐津6R",
+              "trifecta": "4-5-1",
+              "payout_yen": 11770
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 9,
+          "settled": 9,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 22.22,
+          "max_payout_yen": 49330,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "芦屋8R",
+              "trifecta": "6-2-1",
+              "payout_yen": 12950
+            },
+            {
+              "rank": 6,
+              "race": "宮島12R",
+              "trifecta": "6-2-3",
+              "payout_yen": 49330
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-26",
       "path": "data/output/boaters_manshu_ranking_20260526.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260526.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 5,
-      "actual_manshu_rate_top_n_pct": 50.0
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4270,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 33490,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "三国7R",
+              "trifecta": "5-1-4",
+              "payout_yen": 33490
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 33490,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "三国7R",
+              "trifecta": "5-1-4",
+              "payout_yen": 33490
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 33490,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "三国7R",
+              "trifecta": "5-1-4",
+              "payout_yen": 33490
+            },
+            {
+              "rank": 9,
+              "race": "丸亀4R",
+              "trifecta": "3-6-1",
+              "payout_yen": 10010
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 5,
+          "manshu_rate_pct": 50.0,
+          "max_payout_yen": 33490,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "丸亀4R",
+              "trifecta": "3-6-1",
+              "payout_yen": 10010
+            },
+            {
+              "rank": 3,
+              "race": "三国7R",
+              "trifecta": "5-1-4",
+              "payout_yen": 33490
+            },
+            {
+              "rank": 5,
+              "race": "宮島10R",
+              "trifecta": "1-5-2",
+              "payout_yen": 15750
+            },
+            {
+              "rank": 8,
+              "race": "大村6R",
+              "trifecta": "5-2-3",
+              "payout_yen": 32680
+            },
+            {
+              "rank": 10,
+              "race": "宮島2R",
+              "trifecta": "6-3-1",
+              "payout_yen": 10040
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-27",
       "path": "data/output/boaters_manshu_ranking_20260527.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260527.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 5,
-      "actual_manshu_rate_top_n_pct": 50.0
+      "actual_manshu_rate_top_n_pct": 50.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 11470,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "大村6R",
+              "trifecta": "1-3-6",
+              "payout_yen": 11470
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 14730,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "大村6R",
+              "trifecta": "1-3-6",
+              "payout_yen": 11470
+            },
+            {
+              "rank": 3,
+              "race": "徳山5R",
+              "trifecta": "4-6-5",
+              "payout_yen": 14730
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 14730,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "大村6R",
+              "trifecta": "1-3-6",
+              "payout_yen": 11470
+            },
+            {
+              "rank": 3,
+              "race": "徳山5R",
+              "trifecta": "4-6-5",
+              "payout_yen": 14730
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 5,
+          "manshu_rate_pct": 50.0,
+          "max_payout_yen": 58170,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "大村6R",
+              "trifecta": "1-3-6",
+              "payout_yen": 11470
+            },
+            {
+              "rank": 3,
+              "race": "徳山5R",
+              "trifecta": "4-6-5",
+              "payout_yen": 14730
+            },
+            {
+              "rank": 6,
+              "race": "常滑12R",
+              "trifecta": "6-1-3",
+              "payout_yen": 58170
+            },
+            {
+              "rank": 7,
+              "race": "住之江2R",
+              "trifecta": "4-5-6",
+              "payout_yen": 13650
+            },
+            {
+              "rank": 9,
+              "race": "芦屋6R",
+              "trifecta": "3-6-5",
+              "payout_yen": 16320
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 4,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 60460,
+          "hit_races": [
+            {
+              "rank": 3,
+              "race": "芦屋6R",
+              "trifecta": "3-6-5",
+              "payout_yen": 16320
+            },
+            {
+              "rank": 6,
+              "race": "浜名湖12R",
+              "trifecta": "5-3-1",
+              "payout_yen": 60460
+            },
+            {
+              "rank": 7,
+              "race": "大村6R",
+              "trifecta": "1-3-6",
+              "payout_yen": 11470
+            },
+            {
+              "rank": 9,
+              "race": "徳山5R",
+              "trifecta": "4-6-5",
+              "payout_yen": 14730
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-28",
       "path": "data/output/boaters_manshu_ranking_20260528.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260528.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 7410,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 8370,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 14900,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "徳山10R",
+              "trifecta": "1-2-6",
+              "payout_yen": 14900
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 14900,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "徳山10R",
+              "trifecta": "1-2-6",
+              "payout_yen": 14900
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 54730,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀5R",
+              "trifecta": "2-4-1",
+              "payout_yen": 54730
+            },
+            {
+              "rank": 5,
+              "race": "宮島2R",
+              "trifecta": "4-2-1",
+              "payout_yen": 10910
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-29",
       "path": "data/output/boaters_manshu_ranking_20260529.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260529.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4630,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4630,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 30840,
+          "hit_races": [
+            {
+              "rank": 4,
+              "race": "戸田6R",
+              "trifecta": "4-2-3",
+              "payout_yen": 30840
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 30840,
+          "hit_races": [
+            {
+              "rank": 4,
+              "race": "戸田6R",
+              "trifecta": "4-2-3",
+              "payout_yen": 30840
+            },
+            {
+              "rank": 8,
+              "race": "徳山7R",
+              "trifecta": "5-3-4",
+              "payout_yen": 25470
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 4,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 50800,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀4R",
+              "trifecta": "1-4-2",
+              "payout_yen": 12270
+            },
+            {
+              "rank": 2,
+              "race": "丸亀2R",
+              "trifecta": "4-6-5",
+              "payout_yen": 18170
+            },
+            {
+              "rank": 6,
+              "race": "鳴門12R",
+              "trifecta": "3-5-1",
+              "payout_yen": 10620
+            },
+            {
+              "rank": 10,
+              "race": "浜名湖2R",
+              "trifecta": "4-3-2",
+              "payout_yen": 50800
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-30",
       "path": "data/output/boaters_manshu_ranking_20260530.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260530.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 4,
-      "actual_manshu_rate_top_n_pct": 40.0
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 1680,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 2030,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 2030,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 16900,
+          "hit_races": [
+            {
+              "rank": 8,
+              "race": "鳴門6R",
+              "trifecta": "5-3-4",
+              "payout_yen": 16900
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 16900,
+          "hit_races": [
+            {
+              "rank": 3,
+              "race": "江戸川6R",
+              "trifecta": "3-5-4",
+              "payout_yen": 15060
+            },
+            {
+              "rank": 5,
+              "race": "鳴門6R",
+              "trifecta": "5-3-4",
+              "payout_yen": 16900
+            },
+            {
+              "rank": 8,
+              "race": "宮島1R",
+              "trifecta": "3-1-2",
+              "payout_yen": 14120
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-05-31",
       "path": "data/output/boaters_manshu_ranking_20260531.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260531.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 3870,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 5850,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 8140,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 11970,
+          "hit_races": [
+            {
+              "rank": 8,
+              "race": "徳山5R",
+              "trifecta": "5-2-1",
+              "payout_yen": 11970
+            },
+            {
+              "rank": 9,
+              "race": "尼崎1R",
+              "trifecta": "1-2-3",
+              "payout_yen": 10890
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 36520,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "鳴門2R",
+              "trifecta": "3-2-1",
+              "payout_yen": 18890
+            },
+            {
+              "rank": 10,
+              "race": "多摩川5R",
+              "trifecta": "6-4-5",
+              "payout_yen": 36520
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-01",
       "path": "data/output/boaters_manshu_ranking_20260601.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260601.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 10090,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川4R",
+              "trifecta": "1-5-6",
+              "payout_yen": 10090
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 21310,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川4R",
+              "trifecta": "1-5-6",
+              "payout_yen": 10090
+            },
+            {
+              "rank": 3,
+              "race": "びわこ2R",
+              "trifecta": "6-2-4",
+              "payout_yen": 21310
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 21310,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川4R",
+              "trifecta": "1-5-6",
+              "payout_yen": 10090
+            },
+            {
+              "rank": 3,
+              "race": "びわこ2R",
+              "trifecta": "6-2-4",
+              "payout_yen": 21310
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 21310,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川4R",
+              "trifecta": "1-5-6",
+              "payout_yen": 10090
+            },
+            {
+              "rank": 3,
+              "race": "びわこ2R",
+              "trifecta": "6-2-4",
+              "payout_yen": 21310
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 10090,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "多摩川4R",
+              "trifecta": "1-5-6",
+              "payout_yen": 10090
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-02",
       "path": "data/output/boaters_manshu_ranking_20260602.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260602.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 11040,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "1-5-2",
+              "payout_yen": 11040
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 33460,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "1-5-2",
+              "payout_yen": 11040
+            },
+            {
+              "rank": 3,
+              "race": "桐生10R",
+              "trifecta": "3-5-4",
+              "payout_yen": 33460
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 33460,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "1-5-2",
+              "payout_yen": 11040
+            },
+            {
+              "rank": 3,
+              "race": "桐生10R",
+              "trifecta": "3-5-4",
+              "payout_yen": 33460
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 33460,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "1-5-2",
+              "payout_yen": 11040
+            },
+            {
+              "rank": 3,
+              "race": "桐生10R",
+              "trifecta": "3-5-4",
+              "payout_yen": 33460
+            },
+            {
+              "rank": 7,
+              "race": "唐津10R",
+              "trifecta": "4-2-3",
+              "payout_yen": 10630
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 9,
+          "settled": 9,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 28530,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "鳴門3R",
+              "trifecta": "3-2-5",
+              "payout_yen": 28530
+            },
+            {
+              "rank": 4,
+              "race": "桐生3R",
+              "trifecta": "3-2-5",
+              "payout_yen": 13150
+            },
+            {
+              "rank": 6,
+              "race": "多摩川3R",
+              "trifecta": "1-5-2",
+              "payout_yen": 11040
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-03",
       "path": "data/output/boaters_manshu_ranking_20260603.json",
-      "displayed_top_n": 8,
-      "settled_top_n": 8,
-      "manshu_hits_top_n": 1,
-      "actual_manshu_rate_top_n_pct": 12.5
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260603.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
+      "displayed_top_n": 10,
+      "settled_top_n": 9,
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 22.22,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 18710,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "住之江1R",
+              "trifecta": "1-4-5",
+              "payout_yen": 18710
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 18710,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "住之江1R",
+              "trifecta": "1-4-5",
+              "payout_yen": 18710
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 26680,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "住之江1R",
+              "trifecta": "1-4-5",
+              "payout_yen": 18710
+            },
+            {
+              "rank": 5,
+              "race": "芦屋10R",
+              "trifecta": "5-6-2",
+              "payout_yen": 26680
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 9,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 22.22,
+          "max_payout_yen": 26680,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "住之江1R",
+              "trifecta": "1-4-5",
+              "payout_yen": 18710
+            },
+            {
+              "rank": 5,
+              "race": "芦屋10R",
+              "trifecta": "5-6-2",
+              "payout_yen": 26680
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 9,
+          "settled": 9,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 22.22,
+          "max_payout_yen": 26680,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "芦屋10R",
+              "trifecta": "5-6-2",
+              "payout_yen": 26680
+            },
+            {
+              "rank": 3,
+              "race": "住之江1R",
+              "trifecta": "1-4-5",
+              "payout_yen": 18710
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-04",
       "path": "data/output/boaters_manshu_ranking_20260604.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260604.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 6,
-      "actual_manshu_rate_top_n_pct": 60.0
+      "manshu_hits_top_n": 3,
+      "actual_manshu_rate_top_n_pct": 30.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 980,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 42950,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "若松4R",
+              "trifecta": "4-3-6",
+              "payout_yen": 38660
+            },
+            {
+              "rank": 3,
+              "race": "三国7R",
+              "trifecta": "6-4-2",
+              "payout_yen": 42950
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 60.0,
+          "max_payout_yen": 42950,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "若松4R",
+              "trifecta": "4-3-6",
+              "payout_yen": 38660
+            },
+            {
+              "rank": 3,
+              "race": "三国7R",
+              "trifecta": "6-4-2",
+              "payout_yen": 42950
+            },
+            {
+              "rank": 5,
+              "race": "三国6R",
+              "trifecta": "1-3-5",
+              "payout_yen": 10440
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 42950,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "若松4R",
+              "trifecta": "4-3-6",
+              "payout_yen": 38660
+            },
+            {
+              "rank": 3,
+              "race": "三国7R",
+              "trifecta": "6-4-2",
+              "payout_yen": 42950
+            },
+            {
+              "rank": 5,
+              "race": "三国6R",
+              "trifecta": "1-3-5",
+              "payout_yen": 10440
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 7,
+          "manshu_rate_pct": 70.0,
+          "max_payout_yen": 48620,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "江戸川3R",
+              "trifecta": "6-2-5",
+              "payout_yen": 48620
+            },
+            {
+              "rank": 4,
+              "race": "三国6R",
+              "trifecta": "1-3-5",
+              "payout_yen": 10440
+            },
+            {
+              "rank": 5,
+              "race": "宮島10R",
+              "trifecta": "4-2-1",
+              "payout_yen": 43060
+            },
+            {
+              "rank": 6,
+              "race": "多摩川5R",
+              "trifecta": "6-3-4",
+              "payout_yen": 24070
+            },
+            {
+              "rank": 8,
+              "race": "三国7R",
+              "trifecta": "6-4-2",
+              "payout_yen": 42950
+            },
+            {
+              "rank": 9,
+              "race": "宮島6R",
+              "trifecta": "4-2-1",
+              "payout_yen": 13240
+            },
+            {
+              "rank": 10,
+              "race": "若松4R",
+              "trifecta": "4-3-6",
+              "payout_yen": 38660
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-05",
       "path": "data/output/boaters_manshu_ranking_20260605.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260605.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 5830,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 5830,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 5830,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 11180,
+          "hit_races": [
+            {
+              "rank": 9,
+              "race": "蒲郡3R",
+              "trifecta": "1-2-4",
+              "payout_yen": 11180
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 21350,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "宮島6R",
+              "trifecta": "5-4-6",
+              "payout_yen": 21350
+            },
+            {
+              "rank": 4,
+              "race": "三国9R",
+              "trifecta": "4-1-5",
+              "payout_yen": 19980
+            },
+            {
+              "rank": 7,
+              "race": "三国6R",
+              "trifecta": "1-6-3",
+              "payout_yen": 13760
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-06",
       "path": "data/output/boaters_manshu_ranking_20260606.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260606.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "manshu_hits_top_n": 0,
+      "actual_manshu_rate_top_n_pct": 0.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 6150,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 6150,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 6150,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 8320,
+          "hit_races": []
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 11840,
+          "hit_races": [
+            {
+              "rank": 7,
+              "race": "芦屋6R",
+              "trifecta": "3-6-5",
+              "payout_yen": 11840
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-07",
       "path": "data/output/boaters_manshu_ranking_20260607.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260607.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 5,
-      "actual_manshu_rate_top_n_pct": 50.0
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 102650,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀5R",
+              "trifecta": "4-6-3",
+              "payout_yen": 102650
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 102650,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀5R",
+              "trifecta": "4-6-3",
+              "payout_yen": 102650
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 102650,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀5R",
+              "trifecta": "4-6-3",
+              "payout_yen": 102650
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 102650,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀5R",
+              "trifecta": "4-6-3",
+              "payout_yen": 102650
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 102650,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "丸亀5R",
+              "trifecta": "4-6-3",
+              "payout_yen": 102650
+            },
+            {
+              "rank": 9,
+              "race": "三国7R",
+              "trifecta": "6-4-3",
+              "payout_yen": 10840
+            },
+            {
+              "rank": 10,
+              "race": "浜名湖1R",
+              "trifecta": "4-2-3",
+              "payout_yen": 10000
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-08",
       "path": "data/output/boaters_manshu_ranking_20260608.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260608.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 1,
-      "actual_manshu_rate_top_n_pct": 10.0
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 1480,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4290,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 9880,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 13340,
+          "hit_races": [
+            {
+              "rank": 8,
+              "race": "三国7R",
+              "trifecta": "3-2-4",
+              "payout_yen": 13340
+            },
+            {
+              "rank": 10,
+              "race": "浜名湖5R",
+              "trifecta": "5-1-6",
+              "payout_yen": 10600
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 30390,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "浜名湖5R",
+              "trifecta": "5-1-6",
+              "payout_yen": 10600
+            },
+            {
+              "rank": 6,
+              "race": "三国7R",
+              "trifecta": "3-2-4",
+              "payout_yen": 13340
+            },
+            {
+              "rank": 7,
+              "race": "浜名湖6R",
+              "trifecta": "6-5-3",
+              "payout_yen": 30390
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-09",
       "path": "data/output/boaters_manshu_ranking_20260609.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260609.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "manshu_hits_top_n": 5,
+      "actual_manshu_rate_top_n_pct": 50.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 11180,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "びわこ3R",
+              "trifecta": "4-2-1",
+              "payout_yen": 11180
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 11180,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "びわこ3R",
+              "trifecta": "4-2-1",
+              "payout_yen": 11180
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 60.0,
+          "max_payout_yen": 15600,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "びわこ3R",
+              "trifecta": "4-2-1",
+              "payout_yen": 11180
+            },
+            {
+              "rank": 4,
+              "race": "唐津7R",
+              "trifecta": "5-1-2",
+              "payout_yen": 15600
+            },
+            {
+              "rank": 5,
+              "race": "津8R",
+              "trifecta": "1-3-2",
+              "payout_yen": 12130
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 5,
+          "manshu_rate_pct": 50.0,
+          "max_payout_yen": 15600,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "びわこ3R",
+              "trifecta": "4-2-1",
+              "payout_yen": 11180
+            },
+            {
+              "rank": 4,
+              "race": "唐津7R",
+              "trifecta": "5-1-2",
+              "payout_yen": 15600
+            },
+            {
+              "rank": 5,
+              "race": "津8R",
+              "trifecta": "1-3-2",
+              "payout_yen": 12130
+            },
+            {
+              "rank": 7,
+              "race": "徳山5R",
+              "trifecta": "4-2-5",
+              "payout_yen": 11980
+            },
+            {
+              "rank": 9,
+              "race": "浜名湖3R",
+              "trifecta": "1-6-3",
+              "payout_yen": 10070
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 9,
+          "settled": 9,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 14760,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "浜名湖3R",
+              "trifecta": "1-6-3",
+              "payout_yen": 10070
+            },
+            {
+              "rank": 7,
+              "race": "丸亀1R",
+              "trifecta": "4-3-2",
+              "payout_yen": 14760
+            },
+            {
+              "rank": 9,
+              "race": "丸亀3R",
+              "trifecta": "6-1-4",
+              "payout_yen": 11930
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-10",
       "path": "data/output/boaters_manshu_ranking_20260610.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260610.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "manshu_hits_top_n": 4,
+      "actual_manshu_rate_top_n_pct": 40.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 44890,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "津8R",
+              "trifecta": "6-3-4",
+              "payout_yen": 44890
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 44890,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "津8R",
+              "trifecta": "6-3-4",
+              "payout_yen": 44890
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 44890,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "津8R",
+              "trifecta": "6-3-4",
+              "payout_yen": 44890
+            },
+            {
+              "rank": 5,
+              "race": "多摩川6R",
+              "trifecta": "1-6-2",
+              "payout_yen": 10670
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 4,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 44890,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "津8R",
+              "trifecta": "6-3-4",
+              "payout_yen": 44890
+            },
+            {
+              "rank": 5,
+              "race": "多摩川6R",
+              "trifecta": "1-6-2",
+              "payout_yen": 10670
+            },
+            {
+              "rank": 7,
+              "race": "びわこ5R",
+              "trifecta": "5-3-2",
+              "payout_yen": 10040
+            },
+            {
+              "rank": 10,
+              "race": "浜名湖12R",
+              "trifecta": "4-6-3",
+              "payout_yen": 39060
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 5,
+          "manshu_rate_pct": 50.0,
+          "max_payout_yen": 44890,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "鳴門11R",
+              "trifecta": "2-6-5",
+              "payout_yen": 21740
+            },
+            {
+              "rank": 4,
+              "race": "浜名湖3R",
+              "trifecta": "3-1-2",
+              "payout_yen": 17340
+            },
+            {
+              "rank": 7,
+              "race": "多摩川6R",
+              "trifecta": "1-6-2",
+              "payout_yen": 10670
+            },
+            {
+              "rank": 8,
+              "race": "浜名湖12R",
+              "trifecta": "4-6-3",
+              "payout_yen": 39060
+            },
+            {
+              "rank": 10,
+              "race": "津8R",
+              "trifecta": "6-3-4",
+              "payout_yen": 44890
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-11",
       "path": "data/output/boaters_manshu_ranking_20260611.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260611.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 30.0
+      "manshu_hits_top_n": 4,
+      "actual_manshu_rate_top_n_pct": 40.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 62970,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "4-5-6",
+              "payout_yen": 62970
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 62970,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "4-5-6",
+              "payout_yen": 62970
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 62970,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "4-5-6",
+              "payout_yen": 62970
+            },
+            {
+              "rank": 5,
+              "race": "三国9R",
+              "trifecta": "5-3-1",
+              "payout_yen": 13490
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 4,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 62970,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "4-5-6",
+              "payout_yen": 62970
+            },
+            {
+              "rank": 5,
+              "race": "三国9R",
+              "trifecta": "5-3-1",
+              "payout_yen": 13490
+            },
+            {
+              "rank": 7,
+              "race": "唐津9R",
+              "trifecta": "1-5-6",
+              "payout_yen": 19850
+            },
+            {
+              "rank": 8,
+              "race": "丸亀9R",
+              "trifecta": "5-3-2",
+              "payout_yen": 21950
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 4,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 126040,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "多摩川3R",
+              "trifecta": "4-5-6",
+              "payout_yen": 62970
+            },
+            {
+              "rank": 2,
+              "race": "丸亀9R",
+              "trifecta": "5-3-2",
+              "payout_yen": 21950
+            },
+            {
+              "rank": 5,
+              "race": "若松2R",
+              "trifecta": "2-5-6",
+              "payout_yen": 126040
+            },
+            {
+              "rank": 6,
+              "race": "三国9R",
+              "trifecta": "5-3-1",
+              "payout_yen": 13490
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-12",
       "path": "data/output/boaters_manshu_ranking_20260612.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260612.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 1,
-      "actual_manshu_rate_top_n_pct": 10.0
+      "manshu_hits_top_n": 0,
+      "actual_manshu_rate_top_n_pct": 0.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 1890,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 4870,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 7510,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 7510,
+          "hit_races": []
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 42380,
+          "hit_races": [
+            {
+              "rank": 7,
+              "race": "児島5R",
+              "trifecta": "1-6-2",
+              "payout_yen": 42380
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-13",
       "path": "data/output/boaters_manshu_ranking_20260613.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260613.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 5,
-      "actual_manshu_rate_top_n_pct": 50.0
+      "manshu_hits_top_n": 2,
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 5790,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 14030,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "三国7R",
+              "trifecta": "4-2-6",
+              "payout_yen": 14030
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 14030,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "三国7R",
+              "trifecta": "4-2-6",
+              "payout_yen": 14030
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 73140,
+          "hit_races": [
+            {
+              "rank": 2,
+              "race": "三国7R",
+              "trifecta": "4-2-6",
+              "payout_yen": 14030
+            },
+            {
+              "rank": 8,
+              "race": "児島3R",
+              "trifecta": "6-3-4",
+              "payout_yen": 73140
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 4,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 32410,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "三国8R",
+              "trifecta": "4-6-2",
+              "payout_yen": 10060
+            },
+            {
+              "rank": 6,
+              "race": "三国7R",
+              "trifecta": "4-2-6",
+              "payout_yen": 14030
+            },
+            {
+              "rank": 9,
+              "race": "浜名湖2R",
+              "trifecta": "2-3-6",
+              "payout_yen": 12250
+            },
+            {
+              "rank": 10,
+              "race": "鳴門10R",
+              "trifecta": "2-6-1",
+              "payout_yen": 32410
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-14",
       "path": "data/output/boaters_manshu_ranking_20260614.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260614.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 4,
-      "actual_manshu_rate_top_n_pct": 40.0
+      "manshu_hits_top_n": 0,
+      "actual_manshu_rate_top_n_pct": 0.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 2070,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 5560,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 5560,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 7830,
+          "hit_races": []
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 17100,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "桐生1R",
+              "trifecta": "1-2-6",
+              "payout_yen": 11900
+            },
+            {
+              "rank": 4,
+              "race": "児島8R",
+              "trifecta": "4-1-6",
+              "payout_yen": 17100
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-15",
       "path": "data/output/boaters_manshu_ranking_20260615.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260615.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "manshu_hits_top_n": 4,
+      "actual_manshu_rate_top_n_pct": 40.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 74370,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "浜名湖1R",
+              "trifecta": "6-2-4",
+              "payout_yen": 74370
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 74370,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "浜名湖1R",
+              "trifecta": "6-2-4",
+              "payout_yen": 74370
+            },
+            {
+              "rank": 2,
+              "race": "浜名湖5R",
+              "trifecta": "6-4-5",
+              "payout_yen": 18980
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 60.0,
+          "max_payout_yen": 74370,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "浜名湖1R",
+              "trifecta": "6-2-4",
+              "payout_yen": 74370
+            },
+            {
+              "rank": 2,
+              "race": "浜名湖5R",
+              "trifecta": "6-4-5",
+              "payout_yen": 18980
+            },
+            {
+              "rank": 5,
+              "race": "桐生1R",
+              "trifecta": "2-4-6",
+              "payout_yen": 40060
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 4,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 74370,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "浜名湖1R",
+              "trifecta": "6-2-4",
+              "payout_yen": 74370
+            },
+            {
+              "rank": 2,
+              "race": "浜名湖5R",
+              "trifecta": "6-4-5",
+              "payout_yen": 18980
+            },
+            {
+              "rank": 5,
+              "race": "桐生1R",
+              "trifecta": "2-4-6",
+              "payout_yen": 40060
+            },
+            {
+              "rank": 8,
+              "race": "福岡7R",
+              "trifecta": "1-4-5",
+              "payout_yen": 38900
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 8,
+          "settled": 8,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 37.5,
+          "max_payout_yen": 74370,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "浜名湖1R",
+              "trifecta": "6-2-4",
+              "payout_yen": 74370
+            },
+            {
+              "rank": 5,
+              "race": "浜名湖5R",
+              "trifecta": "6-4-5",
+              "payout_yen": 18980
+            },
+            {
+              "rank": 7,
+              "race": "児島5R",
+              "trifecta": "1-3-5",
+              "payout_yen": 10220
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-16",
       "path": "data/output/boaters_manshu_ranking_20260616.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260616.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
-      "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 10.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 10180,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "三国3R",
+              "trifecta": "1-3-6",
+              "payout_yen": 10180
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 10180,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "三国3R",
+              "trifecta": "1-3-6",
+              "payout_yen": 10180
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 10180,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "三国3R",
+              "trifecta": "1-3-6",
+              "payout_yen": 10180
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 10.0,
+          "max_payout_yen": 10180,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "三国3R",
+              "trifecta": "1-3-6",
+              "payout_yen": 10180
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 9,
+          "settled": 9,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 110870,
+          "hit_races": [
+            {
+              "rank": 3,
+              "race": "芦屋8R",
+              "trifecta": "5-3-2",
+              "payout_yen": 61190
+            },
+            {
+              "rank": 5,
+              "race": "三国3R",
+              "trifecta": "1-3-6",
+              "payout_yen": 10180
+            },
+            {
+              "rank": 8,
+              "race": "桐生9R",
+              "trifecta": "6-1-2",
+              "payout_yen": 110870
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-17",
       "path": "data/output/boaters_manshu_ranking_20260617.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260617.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
       "settled_top_n": 10,
       "manshu_hits_top_n": 2,
-      "actual_manshu_rate_top_n_pct": 20.0
+      "actual_manshu_rate_top_n_pct": 20.0,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 100.0,
+          "max_payout_yen": 12070,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "桐生3R",
+              "trifecta": "5-6-2",
+              "payout_yen": 12070
+            }
+          ]
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 66.67,
+          "max_payout_yen": 12220,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "桐生3R",
+              "trifecta": "5-6-2",
+              "payout_yen": 12070
+            },
+            {
+              "rank": 2,
+              "race": "津3R",
+              "trifecta": "5-6-2",
+              "payout_yen": 12220
+            }
+          ]
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 40.0,
+          "max_payout_yen": 12220,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "桐生3R",
+              "trifecta": "5-6-2",
+              "payout_yen": 12070
+            },
+            {
+              "rank": 2,
+              "race": "津3R",
+              "trifecta": "5-6-2",
+              "payout_yen": 12220
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 2,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 12220,
+          "hit_races": [
+            {
+              "rank": 1,
+              "race": "桐生3R",
+              "trifecta": "5-6-2",
+              "payout_yen": 12070
+            },
+            {
+              "rank": 2,
+              "race": "津3R",
+              "trifecta": "5-6-2",
+              "payout_yen": 12220
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 12220,
+          "hit_races": [
+            {
+              "rank": 3,
+              "race": "桐生3R",
+              "trifecta": "5-6-2",
+              "payout_yen": 12070
+            },
+            {
+              "rank": 4,
+              "race": "津3R",
+              "trifecta": "5-6-2",
+              "payout_yen": 12220
+            },
+            {
+              "rank": 8,
+              "race": "多摩川5R",
+              "trifecta": "2-4-1",
+              "payout_yen": 11330
+            }
+          ]
+        }
+      }
     },
     {
       "date": "2026-06-18",
       "path": "data/output/boaters_manshu_ranking_20260618.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260618.json",
+      "logic_label": "Codex全場ランキング + 厳選ランキング",
       "displayed_top_n": 10,
-      "settled_top_n": 8,
-      "manshu_hits_top_n": 3,
-      "actual_manshu_rate_top_n_pct": 37.5
+      "settled_top_n": 9,
+      "manshu_hits_top_n": 1,
+      "actual_manshu_rate_top_n_pct": 11.11,
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 1,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 2230,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 3,
+          "manshu_hits": 0,
+          "manshu_rate_pct": 0.0,
+          "max_payout_yen": 7220,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 5,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 10920,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "宮島6R",
+              "trifecta": "1-6-2",
+              "payout_yen": 10920
+            }
+          ]
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 9,
+          "manshu_hits": 1,
+          "manshu_rate_pct": 11.11,
+          "max_payout_yen": 10920,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "宮島6R",
+              "trifecta": "1-6-2",
+              "payout_yen": 10920
+            }
+          ]
+        }
+      },
+      "strict": {
+        "top10": {
+          "selected": 10,
+          "settled": 9,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 33.33,
+          "max_payout_yen": 24500,
+          "hit_races": [
+            {
+              "rank": 4,
+              "race": "芦屋9R",
+              "trifecta": "1-4-3",
+              "payout_yen": 11290
+            },
+            {
+              "rank": 5,
+              "race": "宮島6R",
+              "trifecta": "1-6-2",
+              "payout_yen": 10920
+            },
+            {
+              "rank": 9,
+              "race": "多摩川4R",
+              "trifecta": "1-6-4",
+              "payout_yen": 24500
+            }
+          ]
+        }
+      }
     }
   ]
 }
