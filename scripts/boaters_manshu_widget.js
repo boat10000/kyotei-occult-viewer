@@ -16,8 +16,13 @@
     resultMap: {}
   };
 
-  function dataUrl(date) {
-    return assetPrefix() + "data/output/boaters_manshu_ranking_" + date.replace(/-/g, "") + ".json";
+  function dataUrls(date) {
+    var key = date.replace(/-/g, "");
+    var prefix = assetPrefix() + "data/output/";
+    return [
+      prefix + "boaters_manshu_ranking_codex_" + key + ".json?v=codex8",
+      prefix + "boaters_manshu_ranking_" + key + ".json?v=codex8"
+    ];
   }
 
   function resultUrl(date) {
@@ -151,34 +156,30 @@
   function render(data) {
     var oldRank = document.querySelector(".card.rank");
     var existing = document.getElementById("boaters-manshu-card");
+    var legacyBuyLogic = document.getElementById("claude-top10-buy-logic");
     if (existing) existing.remove();
+    if (legacyBuyLogic) legacyBuyLogic.remove();
     if (!oldRank) oldRank = document.querySelector("footer");
     if (!oldRank) return;
     var summary = data.summary || {};
-    var strictRows = data.strict_races || [];
+    var strictRows = (data.strict_races || []).slice(0, 5);
     var strictHtml = strictRows.length ? [
-      "<div class=\"bm-subhead\">Codex厳選ランキング TOP" + esc(strictRows.length) + "</div>",
-      "<p class=\"lead\">過去検証で万舟率" + esc(fmtPct(data.threshold_pct)) + "以上だった条件に一致したレースです。会場別の強い型をそのまま残しています。</p>",
       "<table class=\"bm-table\"><thead><tr><th>万舟率</th><th>レース</th><th>該当ロジック・展示根拠</th><th>結果</th></tr></thead><tbody>",
-      strictRows.slice(0, 10).map(raceRow).join(""),
+      strictRows.map(raceRow).join(""),
       "</tbody></table>"
-    ].join("") : "";
+    ].join("") : "<p class=\"lead\">Codex厳選ランキングTOP5に表示できる該当レースがまだありません。</p>";
     var section = document.createElement("section");
     section.id = "boaters-manshu-card";
     section.className = "card boaters-manshu";
     section.innerHTML = [
-      "<h2>Codex全場ランキング TOP10</h2>",
-      "<p class=\"lead\"><b>" + esc(data.logic_label || "Codex全場ランキング") + "</b>で算出。会場指定だけで偏らないよう、1号艇弱化、外枠上振れ、展示タイム・1周タイム、展示+1周平均との差、AI+最下位の穴/消し判定、スリット隊形、女子戦攻略ファクターを総合評価しています。全場を見渡すため、同一会場は最大2Rまで表示します。</p>",
+      "<h2>Codex厳選ランキング TOP5</h2>",
+      "<p class=\"lead\"><b>" + esc(data.logic_label || "Codex厳選ランキング") + "</b>で算出。過去検証で万舟率" + esc(fmtPct(data.threshold_pct)) + "以上だった強い条件に一致したレースだけを表示します。</p>",
       "<div class=\"bm-summary\">",
-      "<span class=\"bm-chip hot\">全場TOP" + esc(summary.displayed_top_n || 0) + "</span>",
-      "<span class=\"bm-chip\">厳選TOP" + esc(summary.strict_displayed_top_n || 0) + "</span>",
-      "<span class=\"bm-chip\">万舟 " + esc(summary.manshu_hits_top_n || 0) + "/" + esc(summary.settled_top_n || 0) + "本</span>",
+      "<span class=\"bm-chip hot\">厳選TOP" + esc(strictRows.length) + "</span>",
+      "<span class=\"bm-chip\">万舟 " + esc(summary.strict_manshu_hits_top_n || 0) + "/" + esc(summary.strict_settled_top_n || 0) + "本</span>",
       "<span class=\"bm-chip\">展示6艇取得 " + esc(summary.races_with_full_tenji || 0) + "R</span>",
       "<span class=\"bm-chip\">1周6艇取得 " + esc(summary.races_with_full_isshu || 0) + "R</span>",
       "</div>",
-      "<table class=\"bm-table\"><thead><tr><th>万舟率</th><th>レース</th><th>該当ロジック・展示根拠</th><th>結果</th></tr></thead><tbody>",
-      (data.races || []).slice(0, 10).map(raceRow).join(""),
-      "</tbody></table>",
       strictHtml,
       "<p class=\"muted\">※これは万舟が出やすい条件のランキングです。買い目や利益を保証するものではありません。</p>"
     ].join("");
@@ -210,9 +211,17 @@
     var date = pageDate();
     if (!date) return;
     try {
-      var res = await fetch(dataUrl(date), { cache: "no-store" });
-      if (!res.ok) return;
-      STATE.data = await res.json();
+      var urls = dataUrls(date);
+      var res = null;
+      var payload = null;
+      for (var i = 0; i < urls.length; i += 1) {
+        res = await fetch(urls[i], { cache: "no-store" });
+        if (!res.ok) continue;
+        payload = await res.json();
+        if ((payload.strict_races || []).length || i === urls.length - 1) break;
+      }
+      if (!payload) return;
+      STATE.data = payload;
       render(STATE.data);
       loadResults(date);
     } catch (e) {

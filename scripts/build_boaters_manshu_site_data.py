@@ -362,6 +362,30 @@ def build_payload(source: dict, top_n: int, results_map: dict[tuple[int, int], d
     }
 
 
+def fill_source_from_csv(source: dict, csv_rows: list[dict]) -> None:
+    if not csv_rows:
+        return
+    source["_all_races_count"] = source.get("races")
+    all_rows = [
+        row
+        for row in csv_rows
+        if str(row.get("ranking_type") or "").strip() == "all_venue"
+        or str(row.get("status") or "").strip() == "全場スコア"
+    ]
+    strict_rows = [
+        row
+        for row in csv_rows
+        if str(row.get("ranking_type") or "").strip() == "strict"
+        or str(row.get("status") or "").strip() in {"確定", "展示待ち"}
+    ]
+    if not source.get("all_venue_rank_top") and all_rows:
+        source["all_venue_rank_top"] = all_rows
+    if not source.get("strict_rank_top") and strict_rows:
+        source["strict_rank_top"] = strict_rows
+    if (not isinstance(source.get("races"), list) or not source.get("races")) and all_rows:
+        source["races"] = all_rows
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-json", required=True)
@@ -374,13 +398,29 @@ def main() -> int:
     out_path = Path(args.out)
     source = json.loads(source_path.read_text(encoding="utf-8"))
     csv_rows = load_csv_rows(args.source_csv)
-    if csv_rows:
-        source["_all_races_count"] = source.get("races")
-        if not isinstance(source.get("all_venue_rank_top"), list):
-            source["races"] = csv_rows
+    fill_source_from_csv(source, csv_rows)
     payload = build_payload(source, args.top_n, load_results_map(args.results_json))
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+    if not payload.get("races") and not payload.get("strict_races") and out_path.exists():
+        existing = json.loads(out_path.read_text(encoding="utf-8"))
+        if existing.get("races") or existing.get("strict_races"):
+            print(
+                json.dumps(
+                    {
+                        "out": str(out_path),
+                        "date": payload["date"],
+                        "kept_existing": True,
+                        "reason": "new payload has no ranking rows",
+                    },
+                    ensure_ascii=False,
+                )
+            )
+            return 0
+    payload_text = json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False)
+    out_path.write_text(payload_text, encoding="utf-8")
+    if out_path.name.startswith("boaters_manshu_ranking_") and not out_path.name.startswith("boaters_manshu_ranking_codex_"):
+        codex_name = out_path.name.replace("boaters_manshu_ranking_", "boaters_manshu_ranking_codex_", 1)
+        out_path.with_name(codex_name).write_text(payload_text, encoding="utf-8")
     print(json.dumps({"out": str(out_path), "date": payload["date"], "races": len(payload["races"])}, ensure_ascii=False))
     return 0
 
