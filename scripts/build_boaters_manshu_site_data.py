@@ -220,8 +220,11 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "boat1_ai_plus_order": "b1_ai_plus_order",
         "boat1_nige_pct": "b1_nige_pct",
         "boat1_loss_pct": "b1_loss_pct",
+        "is_joshi": "is_joshi",
         "boat1_avg_isshu_diff": "b1_avg_isshu_diff",
+        "boat1_isshu_avg_diff": "b1_isshu_avg_diff",
         "avg_isshu_time": "avg_isshu_time",
+        "avg_exhibit_combo_time": "avg_exhibit_combo_time",
         "is_summer": "is_summer",
         "b1_summer_isshu_factor": "b1_summer_isshu_factor",
         "b1_summer_nige_delta_pp": "b1_summer_nige_delta_pp",
@@ -234,15 +237,31 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "ai_rank6_boat": "ai_rank6_boat",
         "ai_rank6_avg_isshu_diff": "ai_rank6_avg_isshu_diff",
         "ai_rank6_tenji_rank": "ai_rank6_tenji_rank",
+        "ai_rank6_isshu_rank": "ai_rank6_isshu_rank",
         "ai_rank5_boat": "ai_rank5_boat",
         "ai_rank5_avg_isshu_diff": "ai_rank5_avg_isshu_diff",
         "ai_rank5_tenji_rank": "ai_rank5_tenji_rank",
+        "ai_rank5_isshu_rank": "ai_rank5_isshu_rank",
         "double_time_boats": "double_time_boats",
         "super_slit_boats": "super_slit_boats",
         "super_slit_alert_count": "super_slit_alert_count",
         "mid234_super_slit_count": "mid234_super_slit_count",
         "outer456_super_slit_count": "outer456_super_slit_count",
         "outer56_super_slit_count": "outer56_super_slit_count",
+        "slit_shape_label": "slit_shape_label",
+        "b1_slit_gap_vs_23": "b1_slit_gap_vs_23",
+        "b3_slit_adv_vs_12": "b3_slit_adv_vs_12",
+        "b4_slit_adv_vs_123": "b4_slit_adv_vs_123",
+        "outer56_slit_adv_vs_1": "outer56_slit_adv_vs_1",
+        "outer456_slit_adv_vs_123": "outer456_slit_adv_vs_123",
+        "slit_dekoboko": "slit_dekoboko",
+        "slit_b1_front_wall": "slit_b1_front_wall",
+        "slit_b1_hole_vs_23": "slit_b1_hole_vs_23",
+        "slit_b2_wall_break_3peek": "slit_b2_wall_break_3peek",
+        "slit_b3_peek_vs_12": "slit_b3_peek_vs_12",
+        "slit_b4_cadou_peek": "slit_b4_cadou_peek",
+        "slit_outer456_pressure": "slit_outer456_pressure",
+        "slit_outer56_pressure_vs_1": "slit_outer56_pressure_vs_1",
         "boat1_double_time": "boat1_double_time",
         "mid234_double_time_count": "mid234_double_time_count",
         "outer46_double_time_count": "outer46_double_time_count",
@@ -257,7 +276,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         value = metrics.get(out_key)
         if value is None:
             value = row.get(in_key)
-        if out_key in {"double_time_boats", "super_slit_boats", "b1_summer_isshu_factor"}:
+        if out_key in {"double_time_boats", "super_slit_boats", "b1_summer_isshu_factor", "slit_shape_label"}:
             normalized_metrics[out_key] = value or ""
         else:
             normalized_metrics[out_key] = as_num(value)
@@ -272,6 +291,8 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "place_name": row.get("place_name"),
         "round": round_no,
         "deadline_time": row.get("deadline_time"),
+        "race_kind": row.get("race_kind"),
+        "series_title": row.get("series_title"),
         "manshu_rate_pct": as_num(rate),
         "base_manshu_rate_pct": as_num(row.get("base_manshu_rate_pct")),
         "composite_edge_base_rate_pct": as_num(row.get("composite_edge_base_rate_pct")),

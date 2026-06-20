@@ -12,6 +12,7 @@ import sys
 import html
 import re
 import ssl
+import sqlite3
 import time
 import urllib.error
 import urllib.request
@@ -50,6 +51,17 @@ SUPER_SLIT_ALERT_STATS = {
     4: {"win_rate_pct": 21.63, "top3_rate_pct": 61.09, "makuri_win_rate_pct": 12.94, "score_bonus": 12},
     5: {"win_rate_pct": 12.68, "top3_rate_pct": 49.43, "makuri_win_rate_pct": 5.45, "score_bonus": 11},
     6: {"win_rate_pct": 8.90, "top3_rate_pct": 40.69, "makuri_win_rate_pct": 4.16, "score_bonus": 10},
+}
+
+SLIT_FORMATION_STATS = {
+    "b1_front_wall": {"label": "1前+2壁", "b1_win_pct": 34.93, "b1_fly_pct": 34.40, "winner_3to6_pct": 38.84, "manshu_rate_pct": 18.25},
+    "b1_hole_vs_23": {"label": "1凹み", "b1_win_pct": 30.20, "b1_fly_pct": 38.18, "winner_3to6_pct": 45.89, "manshu_rate_pct": 19.07},
+    "b2_wall_break_3peek": {"label": "2壁割れ3覗き", "b1_win_pct": 31.40, "b1_fly_pct": 36.83, "winner_3to6_pct": 51.12, "manshu_rate_pct": 19.10},
+    "b3_peek_vs_12": {"label": "3覗き", "b1_win_pct": 31.00, "b1_fly_pct": 36.96, "winner_3to6_pct": 51.39, "manshu_rate_pct": 19.34},
+    "b4_cadou_peek": {"label": "4カド覗き", "b1_win_pct": 29.81, "b1_fly_pct": 38.99, "winner_3to6_pct": 52.81, "manshu_rate_pct": 19.68},
+    "outer456_pressure": {"label": "4〜6外圧", "b1_win_pct": 29.76, "b1_fly_pct": 38.20, "winner_3to6_pct": 52.31, "manshu_rate_pct": 20.87},
+    "outer56_pressure_vs_1": {"label": "5/6外圧", "b1_win_pct": 29.26, "b1_fly_pct": 39.18, "winner_3to6_pct": 48.27, "manshu_rate_pct": 21.14},
+    "center34_dent": {"label": "3/4中凹み", "b1_win_pct": 32.52, "b1_fly_pct": 34.90, "winner_3to6_pct": 43.68, "manshu_rate_pct": 20.09},
 }
 
 try:
@@ -347,6 +359,16 @@ def alerts_path(date_text):
     return PUBLIC_OUT / f"boaters_manshu_alerts_{date_text.replace('-', '')}.json"
 
 
+def db_race_count(db_path):
+    if not db_path.exists():
+        return 0
+    try:
+        with sqlite3.connect(f"file:{db_path}?mode=ro", uri=True) as con:
+            return int(con.execute("SELECT COUNT(*) FROM races").fetchone()[0] or 0)
+    except sqlite3.Error:
+        return 0
+
+
 def fetch_public_ranking(date_text, url_base):
     if not url_base:
         return None
@@ -410,6 +432,11 @@ def ensure_morning_ranking(
             ],
             BUILD_DB_SCRIPT.parent,
         )
+
+    if db_race_count(db_path) == 0:
+        if public_json.exists():
+            return public_json
+        raise RuntimeError(f"BOATERS daily DB has no races: {db_path}")
 
     rank_json = WORK_OUT / f"manshu_daily_rank_{date_text}.json"
     rank_csv = WORK_OUT / f"manshu_daily_rank_{date_text}.csv"
@@ -885,13 +912,27 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
 
     isshu_values = [row["isshu_time"] for row in rows if row.get("isshu_time") is not None]
     avg_isshu = sum(isshu_values) / len(isshu_values) if isshu_values else None
+    combo_values = [
+        row["tenji_time"] + row["isshu_time"]
+        for row in rows
+        if row.get("tenji_time") is not None and row.get("isshu_time") is not None
+    ]
+    avg_combo = sum(combo_values) / len(combo_values) if combo_values else None
     for row in rows:
-        row["avg_isshu_diff"] = (
+        row["isshu_avg_diff"] = (
             round(avg_isshu - row["isshu_time"], 4)
             if avg_isshu is not None and row.get("isshu_time") is not None
             else None
         )
+        row["avg_isshu_diff"] = (
+            round(avg_combo - (row["tenji_time"] + row["isshu_time"]), 4)
+            if avg_combo is not None
+            and row.get("tenji_time") is not None
+            and row.get("isshu_time") is not None
+            else None
+        )
         row["avg_isshu_time"] = avg_isshu
+        row["avg_exhibit_combo_time"] = avg_combo
 
     if rows[0]["nige_pct"] is None:
         rows[0]["nige_pct"] = as_num(morning_metrics.get("boat1_nige_pct"))
@@ -940,7 +981,7 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
         row["summer_b1_nige_delta_pp"] = 0
         row["summer_b1_score_bonus"] = 0
         if row["boat_number"] == 1:
-            summer_factor = summer_b1_isshu_factor(date_text, row["avg_isshu_diff"], len(isshu_values))
+            summer_factor = summer_b1_isshu_factor(date_text, row["isshu_avg_diff"], len(isshu_values))
             row["summer_b1_isshu_factor"] = summer_factor["signal"]
             row["summer_b1_nige_delta_pp"] = summer_factor["nige_delta_pp"]
             row["summer_b1_score_bonus"] = summer_factor["score_bonus"]
@@ -991,6 +1032,66 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
     return rows
 
 
+def slit_rank_metrics(rows):
+    by_boat = {row["boat_number"]: row for row in rows}
+
+    def rank(boat, default=9):
+        value = by_boat.get(boat, {}).get("st_rank_general")
+        return default if value is None else float(value)
+
+    b1 = rank(1)
+    b2 = rank(2)
+    b3 = rank(3)
+    b4 = rank(4)
+    b5 = rank(5)
+    b6 = rank(6)
+    b1_front_wall = b1 <= 2 and b2 <= 3 and b3 >= 3
+    b1_hole_vs_23 = b1 >= 4 and min(b2, b3) <= 2
+    b2_wall_break_3peek = b3 <= 2 and (b2 - b3) >= 1
+    b3_peek_vs_12 = b3 <= 2 and b3 < min(b1, b2)
+    b4_cadou_peek = b4 <= 2 and b4 < min(b1, b2, b3)
+    outer456_pressure = min(b4, b5, b6) < min(b1, b2, b3)
+    outer56_pressure_vs_1 = min(b5, b6) < b1
+    b5_left_adv = b5 < b4
+    b6_left_adv = b6 < b5
+    center34_dent = b3 >= 4 and b4 >= 4 and min(b1, b2, b5, b6) <= 2
+    slit_dekoboko = max(b1, b2, b3, b4, b5, b6) - min(b1, b2, b3, b4, b5, b6) >= 4
+    if b1_front_wall:
+        label = "1前+2壁"
+    elif b2_wall_break_3peek:
+        label = "2壁割れ3覗き"
+    elif b1_hole_vs_23 and outer456_pressure:
+        label = "1凹み+外圧"
+    elif b1_hole_vs_23:
+        label = "1凹み"
+    elif b4_cadou_peek:
+        label = "4カド覗き"
+    elif b3_peek_vs_12:
+        label = "3覗き"
+    elif outer456_pressure:
+        label = "外圧"
+    elif center34_dent:
+        label = "3/4中凹み"
+    elif slit_dekoboko:
+        label = "デコボコ"
+    else:
+        label = ""
+    return {
+        "slit_shape_label": label,
+        "slit_b1_front_wall": b1_front_wall,
+        "slit_b1_hole_vs_23": b1_hole_vs_23,
+        "slit_b2_wall_break_3peek": b2_wall_break_3peek,
+        "slit_b3_peek_vs_12": b3_peek_vs_12,
+        "slit_b4_cadou_peek": b4_cadou_peek,
+        "slit_outer456_pressure": outer456_pressure,
+        "slit_outer56_pressure_vs_1": outer56_pressure_vs_1,
+        "slit_b5_left_adv": b5_left_adv,
+        "slit_b6_left_adv": b6_left_adv,
+        "slit_center34_dent": center34_dent,
+        "slit_dekoboko": slit_dekoboko,
+    }
+
+
 def race_metrics(rows, date_text=None):
     b1 = next(row for row in rows if row["boat_number"] == 1)
     outer = [row for row in rows if row["boat_number"] in {5, 6}]
@@ -1012,7 +1113,8 @@ def race_metrics(rows, date_text=None):
     double_time_boats = [row["boat_number"] for row in rows if row.get("double_time")]
     super_slit_boats = [row["boat_number"] for row in rows if row.get("super_slit_alert")]
     isshu_boats = sum(1 for row in rows if row.get("isshu_time") is not None)
-    summer_factor = summer_b1_isshu_factor(date_text, b1.get("avg_isshu_diff"), isshu_boats)
+    summer_factor = summer_b1_isshu_factor(date_text, b1.get("isshu_avg_diff"), isshu_boats)
+    slit_metrics = slit_rank_metrics(rows)
     return {
         "boat1_ai_prediction_pct": b1.get("ai_prediction_pct"),
         "boat1_ai_plus": b1.get("ai_plus"),
@@ -1020,7 +1122,9 @@ def race_metrics(rows, date_text=None):
         "boat1_nige_pct": b1.get("nige_pct"),
         "boat1_loss_pct": b1_loss,
         "boat1_avg_isshu_diff": b1.get("avg_isshu_diff"),
+        "boat1_isshu_avg_diff": b1.get("isshu_avg_diff"),
         "avg_isshu_time": b1.get("avg_isshu_time"),
+        "avg_exhibit_combo_time": b1.get("avg_exhibit_combo_time"),
         "is_summer": is_summer_date(date_text),
         "b1_summer_isshu_factor": summer_factor["signal"],
         "b1_summer_nige_delta_pp": summer_factor["nige_delta_pp"],
@@ -1047,6 +1151,7 @@ def race_metrics(rows, date_text=None):
         "mid234_super_slit_count": sum(1 for row in rows if row["boat_number"] in {2, 3, 4} and row.get("super_slit_alert")),
         "outer456_super_slit_count": sum(1 for row in rows if row["boat_number"] in {4, 5, 6} and row.get("super_slit_alert")),
         "outer56_super_slit_count": sum(1 for row in outer if row.get("super_slit_alert")),
+        **slit_metrics,
         "boat1_double_time": bool(b1.get("double_time")),
         "mid234_double_time_count": sum(1 for row in rows if row["boat_number"] in {2, 3, 4} and row.get("double_time")),
         "outer46_double_time_count": sum(1 for row in outer46 if row.get("double_time")),
@@ -1086,29 +1191,37 @@ def race_metrics(rows, date_text=None):
 def condition_confirmed(condition, metrics):
     checks = []
     text = str(condition or "")
-    if "1号艇平均との差" in text:
-        if "-0.05以下" in text:
-            checks.append(("1号艇平均との差-0.05以下", (metrics.get("boat1_avg_isshu_diff") or 9) <= -0.05))
+    if "1号艇平均との差" in text or "1号艇 展示+一周平均との差" in text:
+        if "0.30以下" in text or "+0.30以下" in text:
+            checks.append(("1号艇 展示+一周平均との差+0.30以下", (metrics.get("boat1_avg_isshu_diff") or 9) <= 0.30))
+        elif "0.10以下" in text or "+0.10以下" in text:
+            checks.append(("1号艇 展示+一周平均との差+0.10以下", (metrics.get("boat1_avg_isshu_diff") or 9) <= 0.10))
+        elif "-0.05以下" in text:
+            checks.append(("1号艇 展示+一周平均との差-0.05以下", (metrics.get("boat1_avg_isshu_diff") or 9) <= -0.05))
         elif "0以下" in text:
-            checks.append(("1号艇平均との差0以下", (metrics.get("boat1_avg_isshu_diff") or 9) <= 0))
+            checks.append(("1号艇 展示+一周平均との差0以下", (metrics.get("boat1_avg_isshu_diff") or 9) <= 0))
+        elif "0.65以上" in text or "+0.65以上" in text:
+            checks.append(("1号艇 展示+一周平均との差+0.65以上", (metrics.get("boat1_avg_isshu_diff") or -9) >= 0.65))
+        elif "0.30以上" in text or "+0.30以上" in text:
+            checks.append(("1号艇 展示+一周平均との差+0.30以上", (metrics.get("boat1_avg_isshu_diff") or -9) >= 0.30))
         elif "0.10以上" in text:
-            checks.append(("1号艇平均との差0.10以上", (metrics.get("boat1_avg_isshu_diff") or -9) >= 0.10))
+            checks.append(("1号艇 展示+一周平均との差0.10以上", (metrics.get("boat1_avg_isshu_diff") or -9) >= 0.10))
 
     if "夏場" in text and "1号艇" in text and ("1周" in text or "平均との差" in text):
         checks.append(("夏場6〜8月", bool(metrics.get("is_summer"))))
         if "-0.10以下" in text or "0.10秒遅い" in text:
-            checks.append(("夏場1号艇平均との差-0.10以下", (metrics.get("boat1_avg_isshu_diff") or 9) <= SUMMER_B1_SLOW_DIFF))
+            checks.append(("夏場1号艇1周平均との差-0.10以下", (metrics.get("boat1_isshu_avg_diff") or 9) <= SUMMER_B1_SLOW_DIFF))
         elif "0.10以上" in text or "0.10秒速い" in text:
-            checks.append(("夏場1号艇平均との差0.10以上", (metrics.get("boat1_avg_isshu_diff") or -9) >= SUMMER_B1_FAST_DIFF))
+            checks.append(("夏場1号艇1周平均との差0.10以上", (metrics.get("boat1_isshu_avg_diff") or -9) >= SUMMER_B1_FAST_DIFF))
 
-    if "5/6号艇平均との差" in text:
+    if "5/6号艇平均との差" in text or "5/6号艇 展示+一周平均との差" in text:
         if "0.14以上" in text:
-            checks.append(("5/6平均との差0.14以上", (metrics.get("outer56_best_avg_isshu_diff") or -9) >= 0.14))
+            checks.append(("5/6 展示+一周平均との差0.14以上", (metrics.get("outer56_best_avg_isshu_diff") or -9) >= 0.14))
         elif "0.10以上" in text:
-            checks.append(("5/6平均との差0.10以上", (metrics.get("outer56_best_avg_isshu_diff") or -9) >= 0.10))
+            checks.append(("5/6 展示+一周平均との差0.10以上", (metrics.get("outer56_best_avg_isshu_diff") or -9) >= 0.10))
 
-    if "AI+最下位の平均との差0.10以上" in text:
-        checks.append(("AI+最下位平均との差0.10以上", (metrics.get("ai_rank6_avg_isshu_diff") or -9) >= 0.10))
+    if "AI+最下位の平均との差0.10以上" in text or "AI+最下位の展示+一周平均との差0.10以上" in text:
+        checks.append(("AI+最下位 展示+一周平均との差0.10以上", (metrics.get("ai_rank6_avg_isshu_diff") or -9) >= 0.10))
 
     if "AI+最下位が5/6号艇" in text:
         checks.append(("AI+最下位が5/6号艇", int(metrics.get("ai_rank6_boat") or 0) in {5, 6}))
@@ -1122,6 +1235,20 @@ def condition_confirmed(condition, metrics):
             checks.append(("4〜6号艇にスーパースリット", metrics.get("outer456_super_slit_count", 0) >= 1))
         else:
             checks.append(("スーパースリットあり", metrics.get("super_slit_alert_count", 0) >= 1))
+
+    if "スリット隊形" in text:
+        if "1前" in text or "2壁" in text:
+            checks.append(("スリット隊形1前+2壁", bool(metrics.get("slit_b1_front_wall"))))
+        elif "1凹み" in text:
+            checks.append(("スリット隊形1凹み", bool(metrics.get("slit_b1_hole_vs_23"))))
+        elif "3覗き" in text:
+            checks.append(("スリット隊形3覗き", bool(metrics.get("slit_b3_peek_vs_12")) or bool(metrics.get("slit_b2_wall_break_3peek"))))
+        elif "4カド" in text:
+            checks.append(("スリット隊形4カド覗き", bool(metrics.get("slit_b4_cadou_peek"))))
+        elif "外圧" in text:
+            checks.append(("スリット隊形外圧", bool(metrics.get("slit_outer456_pressure")) or bool(metrics.get("slit_outer56_pressure_vs_1"))))
+        else:
+            checks.append(("スリット隊形あり", bool(metrics.get("slit_shape_label"))))
 
     if "AI+最下位" in text and "展示4位以下" in text:
         checks.append(("AI+最下位展示4位以下", (metrics.get("ai_rank6_tenji_rank") or 9) >= 4))
@@ -1320,6 +1447,13 @@ def fmt_summer_b1_isshu(metrics):
     return f", 夏1周逃げ{sign}{delta:.0f}pt"
 
 
+def fmt_slit_shape(metrics):
+    label = metrics.get("slit_shape_label")
+    if not label:
+        return ""
+    return f", 隊形{label}"
+
+
 def fetch_live_race(race, refresh=True):
     place = race.get("place_name")
     slug = race.get("slug") or PLACE_SLUGS.get(place)
@@ -1348,14 +1482,15 @@ def make_message(race, alert_type, metrics, checks, strategies):
     metric_text = (
         f"締切{deadline_text} / 1号艇逃げ{fmt_pct(metrics.get('boat1_nige_pct'))}, "
         f"逃げ失敗{fmt_pct(metrics.get('boat1_loss_pct'))}, "
-        f"1平均との差{fmt_time(metrics.get('boat1_avg_isshu_diff'))}, "
-        f"1周平均{fmt_time(metrics.get('avg_isshu_time'))}, "
+        f"1展示+1周平均との差{fmt_time(metrics.get('boat1_avg_isshu_diff'))}, "
+        f"展示+1周平均{fmt_time(metrics.get('avg_exhibit_combo_time'))}, "
         f"1展示{fmt_time(metrics.get('boat1_tenji_time'))}"
         f"({metrics.get('boat1_tenji_time_rank')}位), "
-        f"5/6平均との差{fmt_time(metrics.get('outer56_best_avg_isshu_diff'))}"
+        f"5/6展示+1周平均との差{fmt_time(metrics.get('outer56_best_avg_isshu_diff'))}"
         f"{fmt_double_time(metrics)}"
         f"{fmt_super_slit(metrics)}"
         f"{fmt_summer_b1_isshu(metrics)}"
+        f"{fmt_slit_shape(metrics)}"
     )
     if alert_type == "buy_ok" and strategies:
         s = strategies[0]
