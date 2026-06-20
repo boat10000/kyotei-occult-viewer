@@ -1,1 +1,1 @@
-{"date": "2026-06-19", "races": []}
+{"date": "2026-06-20", "races": [{"venue": "13", "vn": "尼崎", "race_no": 1, "deadline": "10:36", "manshu": 0.284, "b1out": 0.365, "b1top2": 0.5, "fire": false, "head3": [3, 1, 2], "kill": 4, "loc_t3": {"1": 0.62, "2": 0.3, "3": 0.8, "4": 0.27, "5": 0.36, "6": 0.52}, "matchup": {"rival_boat": 3, "threat": 78.0, "nwr_gap": -2.47, "m2_gap": 12.3, "loc_gap": -16.0, "n_stronger": 4}}]}
