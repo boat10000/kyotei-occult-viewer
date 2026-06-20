@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Ensure generated manshu HTML pages include the top ranking/post widgets.
+"""Maintain manshu HTML helper pages without changing the public ranking logic.
 
-The daily manshu generator rewrites manshu.html and date archive pages. This
-script is intentionally idempotent so it can run after generated commits and
-restore the ranking/result post widgets without changing prediction logic.
+The public manshu.html page is intentionally kept on the legacy/ClaudeCode
+static ranking unless the user asks otherwise. This script may refresh the
+optional Codex page, but it must not replace manshu.html or dated archives with
+the Codex BOATERS widget.
 """
 
 from __future__ import annotations
@@ -196,6 +197,7 @@ def codex_only_html(path: Path, date_text: str) -> str:
     posts = f"{prefix}manshu_posts.html?date={date_text}"
     days = f"{prefix}manshu_days.html"
     research = f"{prefix}manshu_research.html"
+    main = f"{prefix}manshu.html"
     widget = f"{prefix}scripts/boaters_manshu_widget.js?v=codex7"
     return f"""<!doctype html>
 <html lang="ja">
@@ -223,6 +225,7 @@ def codex_only_html(path: Path, date_text: str) -> str:
   <h1>Codex BOATERS 万舟率ランキング</h1>
   <p class="sub">{date_text} / BOATERSのAI・一般3連対率、1号艇逃げ失敗率、直前オリジナル展示、複合条件で算出</p>
   <div class="nav">
+    <a href="{main}">通常ページ</a>
     <a href="{posts}">投稿センター</a>
     <a href="{days}">日付を選ぶ</a>
     <a href="{research}">研究ノート</a>
@@ -541,17 +544,35 @@ async function loadRoleRanking(){
 
 
 def default_targets(root: Path) -> list[Path]:
-    paths = [root / "manshu.html"]
-    paths.extend(sorted((root / "manshu").glob("*.html")))
+    paths = [root / "manshu_codex.html"]
     return [path for path in paths if path.exists()]
+
+
+def fix_dated_archive_links(text: str, path: Path, date_text: str) -> str:
+    if path.parent.name != "manshu":
+        return text
+    text = re.sub(
+        r'href="(?:\.\./)?manshu_posts\.html(?:\?date=\d{4}-\d{2}-\d{2})?"',
+        f'href="../manshu_posts.html?date={date_text}"',
+        text,
+    )
+    for name in ["manshu_chokuzen.html", "manshu_days.html", "manshu_research.html"]:
+        text = text.replace(f'href="{name}"', f'href="../{name}"')
+    return text
 
 
 def patch_html(path: Path) -> bool:
     text = path.read_text(encoding="utf-8")
     original = text
     date_text = manshu_date_for_path(path, text)
-    if date_text:
+    if date_text and path.name == "manshu_codex.html":
         text = codex_only_html(path, date_text)
+        if text != original:
+            path.write_text(text, encoding="utf-8")
+            return True
+        return False
+    if date_text and (path.name == "manshu.html" or path.parent.name == "manshu"):
+        text = fix_dated_archive_links(polish_public_copy(text), path, date_text)
         if text != original:
             path.write_text(text, encoding="utf-8")
             return True
@@ -906,7 +927,7 @@ def patch_posts_html(path: Path) -> bool:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("paths", nargs="*", help="HTML files to patch. Defaults to manshu.html and manshu/*.html")
+    parser.add_argument("paths", nargs="*", help="HTML files to patch. Defaults to manshu_codex.html")
     return parser
 
 
