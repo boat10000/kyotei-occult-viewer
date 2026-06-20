@@ -1,284 +1,87 @@
 {
   "version": "boaters-manshu-alerts-v1",
   "date": "2026-06-20",
-  "generated_at": "2026-06-20T14:59:27+09:00",
+  "generated_at": "2026-06-20T18:32:16+09:00",
   "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260620.json",
   "top_n": 10,
   "lookahead_minutes": 20.0,
-  "alerts": [
-    {
-      "alert_type": "buy_ok",
-      "race_id": "2026-06-200407",
-      "date": "2026-06-20",
-      "rank": 7,
-      "place_name": "平和島",
-      "round": 7,
-      "deadline_time": "2026-06-20T15:00:00+09:00",
-      "manshu_rate_pct": 29.92,
-      "recent_rate_pct": 23.24,
-      "condition": "会場: 平和島 × 1号艇AI+一般3連対<150 × 1号艇差され+まくられ率>=40% × 展示: AI+下位4〜6号艇が展示/1周2位以内 × 5/6号艇AI予測最大>=10% × Codex複合補正: スリット隊形: 5/6外圧 / スリット隊形: 4〜6外圧",
-      "checks": [
-        "スリット隊形外圧:OK",
-        "AI+下位4〜6号艇に展示上位:OK"
-      ],
-      "metrics": {
-        "boat1_ai_prediction_pct": 41.39,
-        "boat1_ai_plus": 142.82999999999998,
-        "boat1_ai_plus_order": 1,
-        "boat1_nige_pct": 40.0,
-        "boat1_loss_pct": 40.0,
-        "boat1_avg_isshu_diff": 0.1517,
-        "boat1_isshu_avg_diff": 0.15,
-        "avg_isshu_time": 37.63,
-        "avg_exhibit_combo_time": 44.55166666666667,
-        "is_summer": true,
-        "b1_summer_isshu_factor": "fast_hold",
-        "b1_summer_nige_delta_pp": 15,
-        "boat1_summer_isshu_factor": "fast_hold",
-        "boat1_summer_nige_delta_pp": 15,
-        "boat1_tenji_time": 6.92,
-        "boat1_isshu_time": 37.48,
-        "boat1_tenji_rank": 3,
-        "boat1_tenji_time_rank": 3,
-        "boat1_isshu_rank": 2,
-        "outer56_best_tenji_time": 6.81,
-        "outer56_best_isshu_time": 37.5,
-        "outer56_best_avg_isshu_diff": 0.1317,
-        "outer56_best_ai_prediction_pct": 19.5,
-        "ai_rank6_boat": 4,
-        "ai_rank6_avg_isshu_diff": -0.6883,
-        "ai_rank6_tenji_rank": 4,
-        "ai_rank5_boat": 6,
-        "ai_rank5_avg_isshu_diff": -0.0283,
-        "ai_rank5_tenji_rank": 1,
-        "double_time_boats": [],
-        "super_slit_boats": [],
-        "super_slit_alert_count": 0,
-        "mid234_super_slit_count": 0,
-        "outer456_super_slit_count": 0,
-        "outer56_super_slit_count": 0,
-        "slit_shape_label": "外圧",
-        "slit_b1_front_wall": false,
-        "slit_b1_hole_vs_23": false,
-        "slit_b2_wall_break_3peek": false,
-        "slit_b3_peek_vs_12": false,
-        "slit_b4_cadou_peek": false,
-        "slit_outer456_pressure": true,
-        "slit_outer56_pressure_vs_1": true,
-        "slit_b5_left_adv": true,
-        "slit_b6_left_adv": false,
-        "slit_center34_dent": false,
-        "slit_dekoboko": false,
-        "boat1_double_time": false,
-        "mid234_double_time_count": 0,
-        "outer46_double_time_count": 0,
-        "outer56_double_time_count": 0,
-        "outer56_tenji_advantage": 0.11000000000000032,
-        "outer56_isshu_advantage": -0.020000000000003126,
-        "outer56_tenji_top2_count": 1,
-        "outer56_isshu_top2_count": 0,
-        "outer56_exhibit_top2_count": 1,
-        "outer56_low_aiplus_exhibit_top2_count": 1,
-        "outer56_low_aipred_exhibit_top2_count": 1,
-        "outer46_exhibit_top2_count": 1,
-        "outer46_low_aiplus_exhibit_top2_count": 1,
-        "tenji_boats": 6,
-        "isshu_boats": 6
-      },
-      "strategies": [
-        {
-          "strategy_id": "codex_logic29_late_outer12",
-          "label": "Codex: 万舟率29%+後半 value頭 5/6絡み 10〜15点",
-          "points": 12,
-          "heads": [
-            2,
-            5
-          ],
-          "axes": [
-            1
-          ],
-          "supports": [
-            1,
-            6,
-            3,
-            4
-          ],
-          "keshi": null,
-          "role_note": "2,5頭 / 2-3着は1,6,3,4 / 5,6どちらか必須",
-          "tickets": [
-            "2-1-6",
-            "2-3-6",
-            "2-4-6",
-            "2-6-1",
-            "2-6-3",
-            "2-6-4",
-            "5-1-6",
-            "5-3-6",
-            "5-4-6",
-            "5-6-1",
-            "5-6-3",
-            "5-6-4"
-          ],
-          "odds_filter": "3連単50倍未満は買わない"
-        }
-      ],
-      "message": "【買い候補】平和島7R 万舟率29.9%\n締切15:00 / 1号艇逃げ40.0%, 逃げ失敗40.0%, 1展示+1周平均との差0.15, 展示+1周平均44.55, 1展示6.92(3位), 5/6展示+1周平均との差0.13, 夏1周逃げ+15pt, 隊形外圧\n直前条件: スリット隊形外圧:OK / AI+下位4〜6号艇に展示上位:OK\n買い方: Codex: 万舟率29%+後半 value頭 5/6絡み 10〜15点 / 12点 / 3連単50倍未満は買わない\n頭候補: 2,5 / 軸: 1 / 相手: 1,6,3,4 / 消し: -\n買い目: 2-1-6 2-3-6 2-4-6 2-6-1 2-6-3 2-6-4 5-1-6 5-3-6 5-4-6 5-6-1 5-6-3 5-6-4"
-    }
-  ],
+  "alerts": [],
   "inspected": [
     {
-      "race_id": "2026-06-200602",
-      "place_name": "浜名湖",
-      "round": 2,
+      "race_id": "2026-06-201301",
+      "place_name": "尼崎",
+      "round": 1,
       "status": "outside_window",
-      "minutes_to_deadline": -181.5
+      "minutes_to_deadline": -476.3
     },
     {
       "race_id": "2026-06-201703",
       "place_name": "宮島",
       "round": 3,
       "status": "outside_window",
-      "minutes_to_deadline": -196.5
-    },
-    {
-      "race_id": "2026-06-200606",
-      "place_name": "浜名湖",
-      "round": 6,
-      "status": "outside_window",
-      "minutes_to_deadline": -57.5
-    },
-    {
-      "race_id": "2026-06-201702",
-      "place_name": "宮島",
-      "round": 2,
-      "status": "outside_window",
-      "minutes_to_deadline": -225.5
-    },
-    {
-      "race_id": "2026-06-200209",
-      "place_name": "戸田",
-      "round": 9,
-      "status": "outside_window",
-      "minutes_to_deadline": -11.5
-    },
-    {
-      "race_id": "2026-06-202111",
-      "place_name": "芦屋",
-      "round": 11,
-      "status": "outside_window",
-      "minutes_to_deadline": -99.5
-    },
-    {
-      "race_id": "2026-06-200407",
-      "place_name": "平和島",
-      "round": 7,
-      "status": "checked",
-      "minutes_to_deadline": 0.5,
-      "condition_confirmed": true,
-      "checks": [
-        "スリット隊形外圧:OK",
-        "AI+下位4〜6号艇に展示上位:OK"
-      ],
-      "strategies": [
-        "codex_logic29_late_outer12"
-      ],
-      "metrics": {
-        "boat1_ai_prediction_pct": 41.39,
-        "boat1_ai_plus": 142.82999999999998,
-        "boat1_ai_plus_order": 1,
-        "boat1_nige_pct": 40.0,
-        "boat1_loss_pct": 40.0,
-        "boat1_avg_isshu_diff": 0.1517,
-        "boat1_isshu_avg_diff": 0.15,
-        "avg_isshu_time": 37.63,
-        "avg_exhibit_combo_time": 44.55166666666667,
-        "is_summer": true,
-        "b1_summer_isshu_factor": "fast_hold",
-        "b1_summer_nige_delta_pp": 15,
-        "boat1_summer_isshu_factor": "fast_hold",
-        "boat1_summer_nige_delta_pp": 15,
-        "boat1_tenji_time": 6.92,
-        "boat1_isshu_time": 37.48,
-        "boat1_tenji_rank": 3,
-        "boat1_tenji_time_rank": 3,
-        "boat1_isshu_rank": 2,
-        "outer56_best_tenji_time": 6.81,
-        "outer56_best_isshu_time": 37.5,
-        "outer56_best_avg_isshu_diff": 0.1317,
-        "outer56_best_ai_prediction_pct": 19.5,
-        "ai_rank6_boat": 4,
-        "ai_rank6_avg_isshu_diff": -0.6883,
-        "ai_rank6_tenji_rank": 4,
-        "ai_rank5_boat": 6,
-        "ai_rank5_avg_isshu_diff": -0.0283,
-        "ai_rank5_tenji_rank": 1,
-        "double_time_boats": [],
-        "super_slit_boats": [],
-        "super_slit_alert_count": 0,
-        "mid234_super_slit_count": 0,
-        "outer456_super_slit_count": 0,
-        "outer56_super_slit_count": 0,
-        "slit_shape_label": "外圧",
-        "slit_b1_front_wall": false,
-        "slit_b1_hole_vs_23": false,
-        "slit_b2_wall_break_3peek": false,
-        "slit_b3_peek_vs_12": false,
-        "slit_b4_cadou_peek": false,
-        "slit_outer456_pressure": true,
-        "slit_outer56_pressure_vs_1": true,
-        "slit_b5_left_adv": true,
-        "slit_b6_left_adv": false,
-        "slit_center34_dent": false,
-        "slit_dekoboko": false,
-        "boat1_double_time": false,
-        "mid234_double_time_count": 0,
-        "outer46_double_time_count": 0,
-        "outer56_double_time_count": 0,
-        "outer56_tenji_advantage": 0.11000000000000032,
-        "outer56_isshu_advantage": -0.020000000000003126,
-        "outer56_tenji_top2_count": 1,
-        "outer56_isshu_top2_count": 0,
-        "outer56_exhibit_top2_count": 1,
-        "outer56_low_aiplus_exhibit_top2_count": 1,
-        "outer56_low_aipred_exhibit_top2_count": 1,
-        "outer46_exhibit_top2_count": 1,
-        "outer46_low_aiplus_exhibit_top2_count": 1,
-        "tenji_boats": 6,
-        "isshu_boats": 6
-      }
-    },
-    {
-      "race_id": "2026-06-200603",
-      "place_name": "浜名湖",
-      "round": 3,
-      "status": "outside_window",
-      "minutes_to_deadline": -151.5
-    },
-    {
-      "race_id": "2026-06-201301",
-      "place_name": "尼崎",
-      "round": 1,
-      "status": "outside_window",
-      "minutes_to_deadline": -263.5
+      "minutes_to_deadline": -409.3
     },
     {
       "race_id": "2026-06-201806",
       "place_name": "徳山",
       "round": 6,
       "status": "outside_window",
-      "minutes_to_deadline": -239.5
+      "minutes_to_deadline": -452.3
+    },
+    {
+      "race_id": "2026-06-202002",
+      "place_name": "若松",
+      "round": 2,
+      "status": "outside_window",
+      "minutes_to_deadline": -24.3
+    },
+    {
+      "race_id": "2026-06-200612",
+      "place_name": "浜名湖",
+      "round": 12,
+      "status": "outside_window",
+      "minutes_to_deadline": -90.3
+    },
+    {
+      "race_id": "2026-06-201302",
+      "place_name": "尼崎",
+      "round": 2,
+      "status": "outside_window",
+      "minutes_to_deadline": -447.3
+    },
+    {
+      "race_id": "2026-06-201702",
+      "place_name": "宮島",
+      "round": 2,
+      "status": "outside_window",
+      "minutes_to_deadline": -438.3
+    },
+    {
+      "race_id": "2026-06-201105",
+      "place_name": "びわこ",
+      "round": 5,
+      "status": "outside_window",
+      "minutes_to_deadline": -370.3
+    },
+    {
+      "race_id": "2026-06-200605",
+      "place_name": "浜名湖",
+      "round": 5,
+      "status": "outside_window",
+      "minutes_to_deadline": -304.3
+    },
+    {
+      "race_id": "2026-06-200406",
+      "place_name": "平和島",
+      "round": 6,
+      "status": "outside_window",
+      "minutes_to_deadline": -244.3
     }
   ],
   "push": {
     "enabled": true,
     "sent": 0,
-    "attempted": 1,
-    "errors": [
-      {
-        "key": "alert:2026-06-200407:buy_ok",
-        "error": "'latin-1' codec can't encode characters in position 7-10: ordinal not in range(256)",
-        "status": null
-      }
-    ]
+    "attempted": 0,
+    "errors": []
   }
 }
