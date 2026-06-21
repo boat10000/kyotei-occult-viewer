@@ -1,7 +1,7 @@
 {
   "version": "boaters-manshu-logic-v2",
   "date": "2026-06-21",
-  "generated_at": "2026-06-21T06:33:04+00:00",
+  "generated_at": "2026-06-21T10:23:08+00:00",
   "threshold_pct": 27.0,
   "logic_label": "Codex全場ランキング + 厳選ランキング",
   "logic_summary": "メインは会場指定なしで、1号艇弱化、外枠上振れ、AI+下位の穴、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクターを総合評価した全場ランキング。同一会場だけに偏らないよう全場ランキングは1会場最大2Rまで表示。下段に過去検証27%以上条件へ一致した厳選ランキングも残す。",
@@ -11,16 +11,16 @@
   },
   "summary": {
     "all_races": 192,
-    "races_with_full_tenji": 128,
-    "races_with_full_isshu": 96,
+    "races_with_full_tenji": 177,
+    "races_with_full_isshu": 144,
     "displayed_top_n": 10,
     "strict_displayed_top_n": 10,
     "settled_top_n": 10,
-    "manshu_hits_top_n": 2,
-    "actual_manshu_rate_top_n_pct": 20.0,
+    "manshu_hits_top_n": 3,
+    "actual_manshu_rate_top_n_pct": 30.0,
     "strict_settled_top_n": 10,
-    "strict_manshu_hits_top_n": 2,
-    "strict_actual_manshu_rate_top_n_pct": 20.0
+    "strict_manshu_hits_top_n": 3,
+    "strict_actual_manshu_rate_top_n_pct": 30.0
   },
   "races": [
     {
@@ -1799,6 +1799,714 @@
       "rank": 6,
       "status": "全場スコア",
       "date": "2026-06-21",
+      "race_id": "2026-06-211504",
+      "place_id": 15,
+      "place_name": "丸亀",
+      "round": 4,
+      "deadline_time": "2026-06-21T16:45:00+09:00",
+      "race_kind": "Rookie3rdAdd",
+      "series_title": "スカパー！ＪＬＣ杯争奪　ルーキーシリーズ第１４戦",
+      "ranking_type": "all_venue",
+      "manshu_rate_pct": 34.14,
+      "base_manshu_rate_pct": 16.82,
+      "composite_edge_base_rate_pct": 21.14,
+      "composite_edge_bonus_pct": 13.0,
+      "composite_edges": [
+        {
+          "id": "codex_summer_b1_isshu_slow_m010_fly",
+          "label": "夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt",
+          "historical_rate_pct": null,
+          "bonus_pct": 2.8,
+          "role": "b1_fly_up",
+          "details": {
+            "boat": 1,
+            "isshu_avg_diff": -0.2383,
+            "threshold": -0.1,
+            "nige_delta_pp": -17,
+            "season": "summer_6_8"
+          }
+        },
+        {
+          "id": "codex_double_time_5_top3",
+          "label": "5号艇ダブルタイム: 3着内候補上昇・消し回避",
+          "historical_rate_pct": 18.76,
+          "bonus_pct": 2.7,
+          "role": "outer_top3_up",
+          "details": {
+            "boat": 5,
+            "manshu_rate_pct": 18.76,
+            "win_rate_pct": 14.26,
+            "top3_rate_pct": 56.51,
+            "win_uplift_pp": 8.84,
+            "top3_uplift_pp": 22.01
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_b1_super_debuff_丸亀",
+          "label": "1号艇 展示+一周平均との差-0.10以下: イン飛び超デバフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 2.6,
+          "role": "b1_fly_up",
+          "details": {
+            "boat": 1,
+            "avgdiff": -0.22000000000000597,
+            "threshold": -0.1,
+            "win_delta_pp": -11.21,
+            "top3_miss_delta_pp": 7.28
+          }
+        },
+        {
+          "id": "codex_slit_formation_outer56_pressure_vs_1",
+          "label": "スリット隊形: 5/6外圧",
+          "historical_rate_pct": 21.14,
+          "bonus_pct": 1.9,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "outer56_pressure_vs_1",
+            "candidate_b1_win_pct": 29.26,
+            "candidate_b1_fly_pct": 39.18,
+            "candidate_winner_3to6_pct": 48.27,
+            "candidate_outer56_top3_pct": 68.0,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_allvenue_b1_loss45",
+          "label": "全場: 1号艇差され+まくられ率45%以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.9,
+          "role": "b1_fly_up",
+          "details": {
+            "b1_loss_pct": 50.0
+          }
+        },
+        {
+          "id": "codex_slit_formation_outer456_pressure",
+          "label": "スリット隊形: 4〜6外圧",
+          "historical_rate_pct": 20.87,
+          "bonus_pct": 1.8,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "outer456_pressure",
+            "candidate_b1_win_pct": 29.76,
+            "candidate_b1_fly_pct": 38.2,
+            "candidate_winner_3to6_pct": 52.31,
+            "candidate_outer56_top3_pct": 68.77,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_allvenue_b1_nige40",
+          "label": "全場: 1号艇逃げ率40%未満",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.6,
+          "role": "b1_fly_up",
+          "details": {
+            "b1_nige_pct": 27.78
+          }
+        },
+        {
+          "id": "codex_allvenue_b1_aipred25",
+          "label": "全場: 1号艇AI予測25%未満",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.5,
+          "role": "b1_fly_up",
+          "details": {
+            "b1_ai_prediction_pct": 20.11
+          }
+        },
+        {
+          "id": "codex_allvenue_outer56_avg014",
+          "label": "全場: 5/6号艇 展示+一周平均との差+0.14以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.5,
+          "role": "outer_top3_up",
+          "details": {
+            "outer56_avg_isshu_diff": 0.3500000000000014
+          }
+        },
+        {
+          "id": "codex_allvenue_outer56_aipred12",
+          "label": "全場: 5/6号艇AI予測最大12%以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.4,
+          "role": "outer_top3_up",
+          "details": {
+            "outer56_ai_prediction_pct": 52.2
+          }
+        },
+        {
+          "id": "codex_slit_formation_b2_wall_break_3peek",
+          "label": "スリット隊形: 2壁割れ+3覗き",
+          "historical_rate_pct": 19.1,
+          "bonus_pct": 1.2,
+          "role": "head_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "b2_wall_break_3peek",
+            "candidate_b1_win_pct": 31.4,
+            "candidate_b1_fly_pct": 36.83,
+            "candidate_winner_3to6_pct": 51.12,
+            "candidate_outer56_top3_pct": 63.38,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_allvenue_outer56_aiplus110",
+          "label": "全場: 5/6号艇AI+最大110以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.2,
+          "role": "outer_top3_up",
+          "details": {
+            "outer56_ai_plus": 167.35000000000002
+          }
+        },
+        {
+          "id": "codex_allvenue_rank6_avg010",
+          "label": "全場: AI+最下位が3〜6号艇で平均との差+0.10以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.2,
+          "role": "rank6_ana",
+          "details": {
+            "rank6_boat": 4
+          }
+        },
+        {
+          "id": "codex_slit_formation_b5_left_adv",
+          "label": "スリット隊形: 5号艇が左4より0.015速い",
+          "historical_rate_pct": 20.3,
+          "bonus_pct": 1.1,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "b5_left_adv",
+            "candidate_b1_win_pct": 32.19,
+            "candidate_b1_fly_pct": 35.17,
+            "candidate_winner_3to6_pct": 45.45,
+            "candidate_outer56_top3_pct": 68.55,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_slit_formation_b3_peek_vs_12",
+          "label": "スリット隊形: 3号艇が1/2号艇より0.015速い",
+          "historical_rate_pct": 19.34,
+          "bonus_pct": 1.1,
+          "role": "head_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "b3_peek_vs_12",
+            "candidate_b1_win_pct": 31.0,
+            "candidate_b1_fly_pct": 36.96,
+            "candidate_winner_3to6_pct": 51.39,
+            "candidate_outer56_top3_pct": 63.65,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_5_0.00",
+          "label": "5号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.05,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 5,
+            "avgdiff": 0.3500000000000014,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.43,
+            "win_uplift_pp": 2.53
+          }
+        },
+        {
+          "id": "codex_allvenue_outer56_exhibit_top2",
+          "label": "全場: 5/6号艇に展示/1周2位以内",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.0,
+          "role": "outer_top3_up",
+          "details": {
+            "outer56_exhibit_top2_count": 1.0
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_4_0.00",
+          "label": "4号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.98,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 4,
+            "avgdiff": 0.240000000000002,
+            "threshold": 0.0,
+            "top3_uplift_pp": 8.83,
+            "win_uplift_pp": 3.48
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_6_0.00",
+          "label": "6号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.98,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 6,
+            "avgdiff": 0.14000000000000057,
+            "threshold": 0.0,
+            "top3_uplift_pp": 8.83,
+            "win_uplift_pp": 1.6
+          }
+        },
+        {
+          "id": "codex_slit_formation_b1_hole_vs_23",
+          "label": "スリット隊形: 1号艇が2/3号艇より0.020遅い",
+          "historical_rate_pct": 19.07,
+          "bonus_pct": 0.9,
+          "role": "b1_fly_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "b1_hole_vs_23",
+            "candidate_b1_win_pct": 30.2,
+            "candidate_b1_fly_pct": 38.18,
+            "candidate_winner_3to6_pct": 45.89,
+            "candidate_outer56_top3_pct": 63.18,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_boaters_lane_avgdiff_丸亀_4_0.00",
+          "label": "丸亀4号艇 展示+一周平均との差+0.00以上で3着内上振れ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.8,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 4,
+            "avgdiff": 0.240000000000002,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.51,
+            "win_uplift_pp": 3.98,
+            "samples": 2376
+          }
+        },
+        {
+          "id": "codex_boaters_lane_avgdiff_丸亀_6_0.00",
+          "label": "丸亀6号艇 展示+一周平均との差+0.00以上で3着内上振れ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.8,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 6,
+            "avgdiff": 0.14000000000000057,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.35,
+            "win_uplift_pp": 1.55,
+            "samples": 2349
+          }
+        },
+        {
+          "id": "codex_allvenue_early",
+          "label": "全場: 前半1〜6Rで荒れ材料あり",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.4,
+          "role": "context_up",
+          "details": {}
+        }
+      ],
+      "recent_rate_pct": null,
+      "condition": "Codex全場ランキング: 会場指定なしで1号艇弱化・外枠上振れ・スリット隊形・展示/1周・女子戦ファクターを総合評価 × Codex複合補正: 夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt / 5号艇ダブルタイム: 3着内候補上昇・消し回避",
+      "matched_logic_count": 0,
+      "metrics": {
+        "boat1_ai_prediction_pct": 20.11,
+        "boat1_ai_plus": 82.45,
+        "boat1_ai_plus_order": 3.0,
+        "boat1_nige_pct": 27.78,
+        "boat1_loss_pct": 50.0,
+        "is_joshi": 0.0,
+        "boat1_avg_isshu_diff": -0.22000000000000597,
+        "boat1_isshu_avg_diff": -0.2383,
+        "avg_isshu_time": 37.461666666666666,
+        "avg_exhibit_combo_time": 44.29,
+        "is_summer": 1.0,
+        "b1_summer_isshu_factor": "slow_fly",
+        "b1_summer_nige_delta_pp": -17.0,
+        "boat1_tenji_time": 6.81,
+        "boat1_isshu_time": 37.7,
+        "outer56_best_avg_isshu_diff": 0.3500000000000014,
+        "outer56_best_ai_prediction_pct": 52.2,
+        "outer56_best_tenji_time": 6.77,
+        "outer56_best_isshu_time": 37.17,
+        "ai_rank6_boat": 4.0,
+        "ai_rank6_avg_isshu_diff": 0.240000000000002,
+        "ai_rank6_tenji_rank": 3.0,
+        "ai_rank6_isshu_rank": 2.0,
+        "ai_rank5_boat": 3.0,
+        "ai_rank5_avg_isshu_diff": -0.3300000000000054,
+        "ai_rank5_tenji_rank": 4.0,
+        "ai_rank5_isshu_rank": 6.0,
+        "double_time_boats": "5",
+        "super_slit_boats": "",
+        "super_slit_alert_count": 0.0,
+        "mid234_super_slit_count": 0.0,
+        "outer456_super_slit_count": 0.0,
+        "outer56_super_slit_count": 0.0,
+        "slit_shape_label": "2壁割れ3覗き",
+        "b1_slit_gap_vs_23": 0.057999999999999996,
+        "b3_slit_adv_vs_12": 0.055499999999999994,
+        "b4_slit_adv_vs_123": -0.027600000000000013,
+        "outer56_slit_adv_vs_1": 0.04959999999999998,
+        "outer456_slit_adv_vs_123": -0.008400000000000019,
+        "slit_dekoboko": 1.0,
+        "slit_b1_front_wall": 0.0,
+        "slit_b1_hole_vs_23": 1.0,
+        "slit_b2_wall_break_3peek": 1.0,
+        "slit_b3_peek_vs_12": 1.0,
+        "slit_b4_cadou_peek": 0.0,
+        "slit_outer456_pressure": 1.0,
+        "slit_outer56_pressure_vs_1": 1.0,
+        "boat1_double_time": 0.0,
+        "mid234_double_time_count": 0.0,
+        "outer46_double_time_count": 1.0,
+        "outer56_double_time_count": 1.0,
+        "wind_speed": 4.0,
+        "wave_height": 4.0,
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "result": {
+        "trifecta": "1-3-4",
+        "payout_yen": 17150,
+        "manshu": true,
+        "win_method": null,
+        "weather": null,
+        "wind_speed": 4.0,
+        "wave_height": 4.0
+      }
+    },
+    {
+      "rank": 7,
+      "status": "全場スコア",
+      "date": "2026-06-21",
+      "race_id": "2026-06-211506",
+      "place_id": 15,
+      "place_name": "丸亀",
+      "round": 6,
+      "deadline_time": "2026-06-21T17:35:00+09:00",
+      "race_kind": "Rookie3rdAdd",
+      "series_title": "スカパー！ＪＬＣ杯争奪　ルーキーシリーズ第１４戦",
+      "ranking_type": "all_venue",
+      "manshu_rate_pct": 34.14,
+      "base_manshu_rate_pct": 16.82,
+      "composite_edge_base_rate_pct": 21.14,
+      "composite_edge_bonus_pct": 13.0,
+      "composite_edges": [
+        {
+          "id": "codex_summer_b1_isshu_slow_m010_fly",
+          "label": "夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt",
+          "historical_rate_pct": null,
+          "bonus_pct": 2.8,
+          "role": "b1_fly_up",
+          "details": {
+            "boat": 1,
+            "isshu_avg_diff": -0.7883,
+            "threshold": -0.1,
+            "nige_delta_pp": -17,
+            "season": "summer_6_8"
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_b1_super_debuff_丸亀",
+          "label": "1号艇 展示+一周平均との差-0.10以下: イン飛び超デバフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 2.6,
+          "role": "b1_fly_up",
+          "details": {
+            "boat": 1,
+            "avgdiff": -0.6516666666666637,
+            "threshold": -0.1,
+            "win_delta_pp": -11.21,
+            "top3_miss_delta_pp": 7.28
+          }
+        },
+        {
+          "id": "codex_slit_formation_outer56_pressure_vs_1",
+          "label": "スリット隊形: 5/6外圧",
+          "historical_rate_pct": 21.14,
+          "bonus_pct": 1.9,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "1凹み+外圧",
+            "signal": "outer56_pressure_vs_1",
+            "candidate_b1_win_pct": 29.26,
+            "candidate_b1_fly_pct": 39.18,
+            "candidate_winner_3to6_pct": 48.27,
+            "candidate_outer56_top3_pct": 68.0,
+            "b1_gap_vs_23": 0.0413,
+            "b3_adv_vs_12": -0.025599999999999984,
+            "b4_adv_vs_123": -0.0021999999999999797,
+            "outer56_adv_vs_1": 0.021200000000000024
+          }
+        },
+        {
+          "id": "codex_slit_formation_outer456_pressure",
+          "label": "スリット隊形: 4〜6外圧",
+          "historical_rate_pct": 20.87,
+          "bonus_pct": 1.8,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "1凹み+外圧",
+            "signal": "outer456_pressure",
+            "candidate_b1_win_pct": 29.76,
+            "candidate_b1_fly_pct": 38.2,
+            "candidate_winner_3to6_pct": 52.31,
+            "candidate_outer56_top3_pct": 68.77,
+            "b1_gap_vs_23": 0.0413,
+            "b3_adv_vs_12": -0.025599999999999984,
+            "b4_adv_vs_123": -0.0021999999999999797,
+            "outer56_adv_vs_1": 0.021200000000000024
+          }
+        },
+        {
+          "id": "codex_allvenue_b1_nige40",
+          "label": "全場: 1号艇逃げ率40%未満",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.6,
+          "role": "b1_fly_up",
+          "details": {
+            "b1_nige_pct": 27.27
+          }
+        },
+        {
+          "id": "codex_allvenue_outer56_avg014",
+          "label": "全場: 5/6号艇 展示+一周平均との差+0.14以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.5,
+          "role": "outer_top3_up",
+          "details": {
+            "outer56_avg_isshu_diff": 0.278333333333336
+          }
+        },
+        {
+          "id": "codex_allvenue_rank6_avg010",
+          "label": "全場: AI+最下位が3〜6号艇で平均との差+0.10以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.2,
+          "role": "rank6_ana",
+          "details": {
+            "rank6_boat": 5
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_5_0.00",
+          "label": "5号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.05,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 5,
+            "avgdiff": 0.278333333333336,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.43,
+            "win_uplift_pp": 2.53
+          }
+        },
+        {
+          "id": "codex_allvenue_outer56_exhibit_top2",
+          "label": "全場: 5/6号艇に展示/1周2位以内",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.0,
+          "role": "outer_top3_up",
+          "details": {
+            "outer56_exhibit_top2_count": 2.0
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_4_0.00",
+          "label": "4号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.98,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 4,
+            "avgdiff": 0.33833333333333826,
+            "threshold": 0.0,
+            "top3_uplift_pp": 8.83,
+            "win_uplift_pp": 3.48
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_6_0.00",
+          "label": "6号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.98,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 6,
+            "avgdiff": 0.038333333333333997,
+            "threshold": 0.0,
+            "top3_uplift_pp": 8.83,
+            "win_uplift_pp": 1.6
+          }
+        },
+        {
+          "id": "codex_slit_formation_b1_hole_vs_23",
+          "label": "スリット隊形: 1号艇が2/3号艇より0.020遅い",
+          "historical_rate_pct": 19.07,
+          "bonus_pct": 0.9,
+          "role": "b1_fly_up",
+          "details": {
+            "slit_shape": "1凹み+外圧",
+            "signal": "b1_hole_vs_23",
+            "candidate_b1_win_pct": 30.2,
+            "candidate_b1_fly_pct": 38.18,
+            "candidate_winner_3to6_pct": 45.89,
+            "candidate_outer56_top3_pct": 63.18,
+            "b1_gap_vs_23": 0.0413,
+            "b3_adv_vs_12": -0.025599999999999984,
+            "b4_adv_vs_123": -0.0021999999999999797,
+            "outer56_adv_vs_1": 0.021200000000000024
+          }
+        },
+        {
+          "id": "codex_allvenue_b1_st4",
+          "label": "全場: 1号艇平均ST順位4位以下",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.9,
+          "role": "b1_fly_up",
+          "details": {
+            "b1_st_rank_general": 4.0
+          }
+        },
+        {
+          "id": "codex_boaters_lane_avgdiff_丸亀_4_0.00",
+          "label": "丸亀4号艇 展示+一周平均との差+0.00以上で3着内上振れ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.8,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 4,
+            "avgdiff": 0.33833333333333826,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.51,
+            "win_uplift_pp": 3.98,
+            "samples": 2376
+          }
+        },
+        {
+          "id": "codex_boaters_lane_avgdiff_丸亀_6_0.00",
+          "label": "丸亀6号艇 展示+一周平均との差+0.00以上で3着内上振れ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.8,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 6,
+            "avgdiff": 0.038333333333333997,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.35,
+            "win_uplift_pp": 1.55,
+            "samples": 2349
+          }
+        },
+        {
+          "id": "codex_allvenue_early",
+          "label": "全場: 前半1〜6Rで荒れ材料あり",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.4,
+          "role": "context_up",
+          "details": {}
+        }
+      ],
+      "recent_rate_pct": null,
+      "condition": "Codex全場ランキング: 会場指定なしで1号艇弱化・外枠上振れ・スリット隊形・展示/1周・女子戦ファクターを総合評価 × Codex複合補正: 夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt / 1号艇 展示+一周平均との差-0.10以下: イン飛び超デバフ",
+      "matched_logic_count": 0,
+      "metrics": {
+        "boat1_ai_prediction_pct": 53.23,
+        "boat1_ai_plus": 154.15,
+        "boat1_ai_plus_order": 2.0,
+        "boat1_nige_pct": 27.27,
+        "boat1_loss_pct": 27.27,
+        "is_joshi": 0.0,
+        "boat1_avg_isshu_diff": -0.6516666666666637,
+        "boat1_isshu_avg_diff": -0.7883,
+        "avg_isshu_time": 37.91166666666667,
+        "avg_exhibit_combo_time": 44.708333333333336,
+        "is_summer": 1.0,
+        "b1_summer_isshu_factor": "slow_fly",
+        "b1_summer_nige_delta_pp": -17.0,
+        "boat1_tenji_time": 6.66,
+        "boat1_isshu_time": 38.7,
+        "outer56_best_avg_isshu_diff": 0.278333333333336,
+        "outer56_best_ai_prediction_pct": 3.9,
+        "outer56_best_tenji_time": 6.77,
+        "outer56_best_isshu_time": 37.6,
+        "ai_rank6_boat": 5.0,
+        "ai_rank6_avg_isshu_diff": 0.278333333333336,
+        "ai_rank6_tenji_rank": 4.0,
+        "ai_rank6_isshu_rank": 2.0,
+        "ai_rank5_boat": 3.0,
+        "ai_rank5_avg_isshu_diff": -0.05166666666666231,
+        "ai_rank5_tenji_rank": 5.0,
+        "ai_rank5_isshu_rank": 4.0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "super_slit_alert_count": 0.0,
+        "mid234_super_slit_count": 0.0,
+        "outer456_super_slit_count": 0.0,
+        "outer56_super_slit_count": 0.0,
+        "slit_shape_label": "1凹み+外圧",
+        "b1_slit_gap_vs_23": 0.0413,
+        "b3_slit_adv_vs_12": -0.025599999999999984,
+        "b4_slit_adv_vs_123": -0.0021999999999999797,
+        "outer56_slit_adv_vs_1": 0.021200000000000024,
+        "outer456_slit_adv_vs_123": -0.0021999999999999797,
+        "slit_dekoboko": 1.0,
+        "slit_b1_front_wall": 0.0,
+        "slit_b1_hole_vs_23": 1.0,
+        "slit_b2_wall_break_3peek": 0.0,
+        "slit_b3_peek_vs_12": 0.0,
+        "slit_b4_cadou_peek": 0.0,
+        "slit_outer456_pressure": 1.0,
+        "slit_outer56_pressure_vs_1": 1.0,
+        "boat1_double_time": 0.0,
+        "mid234_double_time_count": 0.0,
+        "outer46_double_time_count": 0.0,
+        "outer56_double_time_count": 0.0,
+        "wind_speed": 4.0,
+        "wave_height": 4.0,
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "result": {
+        "trifecta": "2-5-4",
+        "payout_yen": 30980,
+        "manshu": true,
+        "win_method": null,
+        "weather": null,
+        "wind_speed": 4.0,
+        "wave_height": 4.0
+      }
+    },
+    {
+      "rank": 8,
+      "status": "全場スコア",
+      "date": "2026-06-21",
       "race_id": "2026-06-211702",
       "place_id": 17,
       "place_name": "宮島",
@@ -2108,7 +2816,300 @@
       }
     },
     {
-      "rank": 7,
+      "rank": 9,
+      "status": "全場スコア",
+      "date": "2026-06-21",
+      "race_id": "2026-06-211904",
+      "place_id": 19,
+      "place_name": "下関",
+      "round": 4,
+      "deadline_time": "2026-06-21T16:57:00+09:00",
+      "race_kind": null,
+      "series_title": "オープン７周年記念モーヴィ下関杯",
+      "ranking_type": "all_venue",
+      "manshu_rate_pct": 34.14,
+      "base_manshu_rate_pct": 16.82,
+      "composite_edge_base_rate_pct": 21.14,
+      "composite_edge_bonus_pct": 13.0,
+      "composite_edges": [
+        {
+          "id": "codex_boaters_avgdiff_b1_super_debuff_下関",
+          "label": "1号艇 展示+一周平均との差+0.00以下: イン飛び超デバフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 2.6,
+          "role": "b1_fly_up",
+          "details": {
+            "boat": 1,
+            "avgdiff": -0.036666666666668846,
+            "threshold": 0.0,
+            "win_delta_pp": -10.38,
+            "top3_miss_delta_pp": 6.11
+          }
+        },
+        {
+          "id": "codex_allvenue_b1_nige25",
+          "label": "全場: 1号艇逃げ率25%未満",
+          "historical_rate_pct": null,
+          "bonus_pct": 2.5,
+          "role": "b1_fly_up",
+          "details": {
+            "b1_nige_pct": 20.69
+          }
+        },
+        {
+          "id": "codex_slit_formation_outer56_pressure_vs_1",
+          "label": "スリット隊形: 5/6外圧",
+          "historical_rate_pct": 21.14,
+          "bonus_pct": 1.9,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "3/4中凹み",
+            "signal": "outer56_pressure_vs_1",
+            "candidate_b1_win_pct": 29.26,
+            "candidate_b1_fly_pct": 39.18,
+            "candidate_winner_3to6_pct": 48.27,
+            "candidate_outer56_top3_pct": 68.0,
+            "b1_gap_vs_23": 0.011999999999999983,
+            "b3_adv_vs_12": 0.0003999999999999837,
+            "b4_adv_vs_123": -0.008699999999999986,
+            "outer56_adv_vs_1": 0.02779999999999999
+          }
+        },
+        {
+          "id": "codex_allvenue_b1_loss45",
+          "label": "全場: 1号艇差され+まくられ率45%以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.9,
+          "role": "b1_fly_up",
+          "details": {
+            "b1_loss_pct": 48.269999999999996
+          }
+        },
+        {
+          "id": "codex_allvenue_outer56_avg014",
+          "label": "全場: 5/6号艇 展示+一周平均との差+0.14以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.5,
+          "role": "outer_top3_up",
+          "details": {
+            "outer56_avg_isshu_diff": 0.21333333333333115
+          }
+        },
+        {
+          "id": "codex_allvenue_outer56_aipred12",
+          "label": "全場: 5/6号艇AI予測最大12%以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.4,
+          "role": "outer_top3_up",
+          "details": {
+            "outer56_ai_prediction_pct": 21.57
+          }
+        },
+        {
+          "id": "codex_b1_fly_avg0_tenji4",
+          "label": "1号艇 展示+一周平均との差0以下+展示4位以下",
+          "historical_rate_pct": 19.32,
+          "bonus_pct": 1.2,
+          "role": "b1_fly_up",
+          "details": {}
+        },
+        {
+          "id": "codex_allvenue_outer56_aiplus110",
+          "label": "全場: 5/6号艇AI+最大110以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.2,
+          "role": "outer_top3_up",
+          "details": {
+            "outer56_ai_plus": 118.84
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_5_0.00",
+          "label": "5号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.05,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 5,
+            "avgdiff": 0.0833333333333357,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.43,
+            "win_uplift_pp": 2.53
+          }
+        },
+        {
+          "id": "codex_slit_formation_b6_left_adv",
+          "label": "スリット隊形: 6号艇が左5より0.015速い",
+          "historical_rate_pct": 20.66,
+          "bonus_pct": 1.0,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "3/4中凹み",
+            "signal": "b6_left_adv",
+            "candidate_b1_win_pct": 31.88,
+            "candidate_b1_fly_pct": 35.96,
+            "candidate_winner_3to6_pct": 46.62,
+            "candidate_outer56_top3_pct": 63.97,
+            "b1_gap_vs_23": 0.011999999999999983,
+            "b3_adv_vs_12": 0.0003999999999999837,
+            "b4_adv_vs_123": -0.008699999999999986,
+            "outer56_adv_vs_1": 0.02779999999999999
+          }
+        },
+        {
+          "id": "codex_allvenue_outer56_exhibit_top2",
+          "label": "全場: 5/6号艇に展示/1周2位以内",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.0,
+          "role": "outer_top3_up",
+          "details": {
+            "outer56_exhibit_top2_count": 2.0
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_6_0.00",
+          "label": "6号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.98,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 6,
+            "avgdiff": 0.21333333333333115,
+            "threshold": 0.0,
+            "top3_uplift_pp": 8.83,
+            "win_uplift_pp": 1.6
+          }
+        },
+        {
+          "id": "codex_boaters_lane_avgdiff_下関_5_0.00",
+          "label": "下関5号艇 展示+一周平均との差+0.00以上で3着内上振れ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.83,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 5,
+            "avgdiff": 0.0833333333333357,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.95,
+            "win_uplift_pp": 2.11,
+            "samples": 1969
+          }
+        },
+        {
+          "id": "codex_boaters_lane_avgdiff_下関_6_0.00",
+          "label": "下関6号艇 展示+一周平均との差+0.00以上で3着内上振れ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.81,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 6,
+            "avgdiff": 0.21333333333333115,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.75,
+            "win_uplift_pp": 1.65,
+            "samples": 2177
+          }
+        },
+        {
+          "id": "codex_slit_formation_center34_dent",
+          "label": "スリット隊形: 3/4中凹み",
+          "historical_rate_pct": 20.09,
+          "bonus_pct": 0.8,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "3/4中凹み",
+            "signal": "center34_dent",
+            "candidate_b1_win_pct": 32.52,
+            "candidate_b1_fly_pct": 34.9,
+            "candidate_winner_3to6_pct": 43.68,
+            "candidate_outer56_top3_pct": 66.36,
+            "b1_gap_vs_23": 0.011999999999999983,
+            "b3_adv_vs_12": 0.0003999999999999837,
+            "b4_adv_vs_123": -0.008699999999999986,
+            "outer56_adv_vs_1": 0.02779999999999999
+          }
+        },
+        {
+          "id": "codex_allvenue_early",
+          "label": "全場: 前半1〜6Rで荒れ材料あり",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.4,
+          "role": "context_up",
+          "details": {}
+        }
+      ],
+      "recent_rate_pct": null,
+      "condition": "Codex全場ランキング: 会場指定なしで1号艇弱化・外枠上振れ・スリット隊形・展示/1周・女子戦ファクターを総合評価 × Codex複合補正: 1号艇 展示+一周平均との差+0.00以下: イン飛び超デバフ / 全場: 1号艇逃げ率25%未満",
+      "matched_logic_count": 0,
+      "metrics": {
+        "boat1_ai_prediction_pct": 35.87,
+        "boat1_ai_plus": 127.65,
+        "boat1_ai_plus_order": 1.0,
+        "boat1_nige_pct": 20.69,
+        "boat1_loss_pct": 48.269999999999996,
+        "is_joshi": 0.0,
+        "boat1_avg_isshu_diff": -0.036666666666668846,
+        "boat1_isshu_avg_diff": -0.0167,
+        "avg_isshu_time": 37.443333333333335,
+        "avg_exhibit_combo_time": 44.31333333333333,
+        "is_summer": 1.0,
+        "b1_summer_isshu_factor": "",
+        "b1_summer_nige_delta_pp": 0.0,
+        "boat1_tenji_time": 6.89,
+        "boat1_isshu_time": 37.46,
+        "outer56_best_avg_isshu_diff": 0.21333333333333115,
+        "outer56_best_ai_prediction_pct": 21.57,
+        "outer56_best_tenji_time": 6.86,
+        "outer56_best_isshu_time": 37.21,
+        "ai_rank6_boat": 5.0,
+        "ai_rank6_avg_isshu_diff": 0.0833333333333357,
+        "ai_rank6_tenji_rank": 3.0,
+        "ai_rank6_isshu_rank": 2.0,
+        "ai_rank5_boat": 2.0,
+        "ai_rank5_avg_isshu_diff": -0.19666666666666544,
+        "ai_rank5_tenji_rank": 1.0,
+        "ai_rank5_isshu_rank": 6.0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "super_slit_alert_count": 0.0,
+        "mid234_super_slit_count": 0.0,
+        "outer456_super_slit_count": 0.0,
+        "outer56_super_slit_count": 0.0,
+        "slit_shape_label": "3/4中凹み",
+        "b1_slit_gap_vs_23": 0.011999999999999983,
+        "b3_slit_adv_vs_12": 0.0003999999999999837,
+        "b4_slit_adv_vs_123": -0.008699999999999986,
+        "outer56_slit_adv_vs_1": 0.02779999999999999,
+        "outer456_slit_adv_vs_123": 0.01580000000000001,
+        "slit_dekoboko": 0.0,
+        "slit_b1_front_wall": 0.0,
+        "slit_b1_hole_vs_23": 0.0,
+        "slit_b2_wall_break_3peek": 0.0,
+        "slit_b3_peek_vs_12": 0.0,
+        "slit_b4_cadou_peek": 0.0,
+        "slit_outer456_pressure": 0.0,
+        "slit_outer56_pressure_vs_1": 1.0,
+        "boat1_double_time": 0.0,
+        "mid234_double_time_count": 0.0,
+        "outer46_double_time_count": 0.0,
+        "outer56_double_time_count": 0.0,
+        "wind_speed": 3.0,
+        "wave_height": 3.0,
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "result": {
+        "trifecta": "4-3-6",
+        "payout_yen": 4170,
+        "manshu": false,
+        "win_method": null,
+        "weather": null,
+        "wind_speed": 3.0,
+        "wave_height": 3.0
+      }
+    },
+    {
+      "rank": 10,
       "status": "全場スコア",
       "date": "2026-06-21",
       "race_id": "2026-06-211807",
@@ -2417,903 +3418,6 @@
         "wind_speed": 4.0,
         "wave_height": 4.0
       }
-    },
-    {
-      "rank": 8,
-      "status": "全場スコア",
-      "date": "2026-06-21",
-      "race_id": "2026-06-211303",
-      "place_id": 13,
-      "place_name": "尼崎",
-      "round": 3,
-      "deadline_time": "2026-06-21T11:22:00+09:00",
-      "race_kind": null,
-      "series_title": "第３７回サンスポグリーンカップ争奪戦",
-      "ranking_type": "all_venue",
-      "manshu_rate_pct": 33.72,
-      "base_manshu_rate_pct": 16.82,
-      "composite_edge_base_rate_pct": 21.14,
-      "composite_edge_bonus_pct": 12.58,
-      "composite_edges": [
-        {
-          "id": "codex_summer_b1_isshu_slow_m010_fly",
-          "label": "夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt",
-          "historical_rate_pct": null,
-          "bonus_pct": 2.8,
-          "role": "b1_fly_up",
-          "details": {
-            "boat": 1,
-            "isshu_avg_diff": -0.2067,
-            "threshold": -0.1,
-            "nige_delta_pp": -17,
-            "season": "summer_6_8"
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_b1_super_debuff_尼崎",
-          "label": "1号艇 展示+一周平均との差+0.10以下: イン飛び超デバフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 2.6,
-          "role": "b1_fly_up",
-          "details": {
-            "boat": 1,
-            "avgdiff": -0.15666666666665918,
-            "threshold": 0.1,
-            "win_delta_pp": -10.96,
-            "top3_miss_delta_pp": 8.9
-          }
-        },
-        {
-          "id": "codex_slit_formation_outer56_pressure_vs_1",
-          "label": "スリット隊形: 5/6外圧",
-          "historical_rate_pct": 21.14,
-          "bonus_pct": 1.9,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "4カド覗き",
-            "signal": "outer56_pressure_vs_1",
-            "candidate_b1_win_pct": 29.26,
-            "candidate_b1_fly_pct": 39.18,
-            "candidate_winner_3to6_pct": 48.27,
-            "candidate_outer56_top3_pct": 68.0,
-            "b1_gap_vs_23": 0.003500000000000003,
-            "b3_adv_vs_12": 0.003500000000000003,
-            "b4_adv_vs_123": 0.024400000000000005,
-            "outer56_adv_vs_1": 0.003599999999999992
-          }
-        },
-        {
-          "id": "codex_slit_formation_outer456_pressure",
-          "label": "スリット隊形: 4〜6外圧",
-          "historical_rate_pct": 20.87,
-          "bonus_pct": 1.8,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "4カド覗き",
-            "signal": "outer456_pressure",
-            "candidate_b1_win_pct": 29.76,
-            "candidate_b1_fly_pct": 38.2,
-            "candidate_winner_3to6_pct": 52.31,
-            "candidate_outer56_top3_pct": 68.77,
-            "b1_gap_vs_23": 0.003500000000000003,
-            "b3_adv_vs_12": 0.003500000000000003,
-            "b4_adv_vs_123": 0.024400000000000005,
-            "outer56_adv_vs_1": 0.003599999999999992
-          }
-        },
-        {
-          "id": "codex_slit_formation_b4_cadou_peek",
-          "label": "スリット隊形: 4カド覗き",
-          "historical_rate_pct": 19.68,
-          "bonus_pct": 1.5,
-          "role": "head_up",
-          "details": {
-            "slit_shape": "4カド覗き",
-            "signal": "b4_cadou_peek",
-            "candidate_b1_win_pct": 29.81,
-            "candidate_b1_fly_pct": 38.99,
-            "candidate_winner_3to6_pct": 52.81,
-            "candidate_outer56_top3_pct": 64.92,
-            "b1_gap_vs_23": 0.003500000000000003,
-            "b3_adv_vs_12": 0.003500000000000003,
-            "b4_adv_vs_123": 0.024400000000000005,
-            "outer56_adv_vs_1": 0.003599999999999992
-          }
-        },
-        {
-          "id": "codex_allvenue_outer56_exhibit_top2",
-          "label": "全場: 5/6号艇に展示/1周2位以内",
-          "historical_rate_pct": null,
-          "bonus_pct": 1.0,
-          "role": "outer_top3_up",
-          "details": {
-            "outer56_exhibit_top2_count": 1.0
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_4_0.00",
-          "label": "4号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.98,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 4,
-            "avgdiff": 0.3133333333333397,
-            "threshold": 0.0,
-            "top3_uplift_pp": 8.83,
-            "win_uplift_pp": 3.48
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_6_0.00",
-          "label": "6号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.98,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 6,
-            "avgdiff": 0.09333333333334082,
-            "threshold": 0.0,
-            "top3_uplift_pp": 8.83,
-            "win_uplift_pp": 1.6
-          }
-        },
-        {
-          "id": "codex_boaters_lane_avgdiff_尼崎_2_0.10",
-          "label": "尼崎2号艇 展示+一周平均との差+0.10以上で3着内上振れ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.8,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 2,
-            "avgdiff": 0.12333333333334195,
-            "threshold": 0.1,
-            "top3_uplift_pp": 9.05,
-            "win_uplift_pp": 4.64,
-            "samples": 2554
-          }
-        },
-        {
-          "id": "codex_boaters_lane_avgdiff_尼崎_4_0.00",
-          "label": "尼崎4号艇 展示+一周平均との差+0.00以上で3着内上振れ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.8,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 4,
-            "avgdiff": 0.3133333333333397,
-            "threshold": 0.0,
-            "top3_uplift_pp": 9.63,
-            "win_uplift_pp": 3.31,
-            "samples": 2297
-          }
-        },
-        {
-          "id": "codex_boaters_lane_avgdiff_尼崎_6_0.00",
-          "label": "尼崎6号艇 展示+一周平均との差+0.00以上で3着内上振れ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.8,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 6,
-            "avgdiff": 0.09333333333334082,
-            "threshold": 0.0,
-            "top3_uplift_pp": 9.35,
-            "win_uplift_pp": 1.22,
-            "samples": 2122
-          }
-        },
-        {
-          "id": "codex_allvenue_outer56_aiplus100",
-          "label": "全場: 5/6号艇AI+最大100以上",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.8,
-          "role": "outer_top3_up",
-          "details": {
-            "outer56_ai_plus": 102.73
-          }
-        },
-        {
-          "id": "codex_allvenue_wind_wave",
-          "label": "全場: 風または波5以上",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.8,
-          "role": "weather_up",
-          "details": {}
-        },
-        {
-          "id": "codex_allvenue_early",
-          "label": "全場: 前半1〜6Rで荒れ材料あり",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.4,
-          "role": "context_up",
-          "details": {}
-        }
-      ],
-      "recent_rate_pct": null,
-      "condition": "Codex全場ランキング: 会場指定なしで1号艇弱化・外枠上振れ・スリット隊形・展示/1周・女子戦ファクターを総合評価 × Codex複合補正: 夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt / 1号艇 展示+一周平均との差+0.10以下: イン飛び超デバフ",
-      "matched_logic_count": 0,
-      "metrics": {
-        "boat1_ai_prediction_pct": 50.51,
-        "boat1_ai_plus": 172.15,
-        "boat1_ai_plus_order": 1.0,
-        "boat1_nige_pct": 61.02,
-        "boat1_loss_pct": 15.25,
-        "is_joshi": 0.0,
-        "boat1_avg_isshu_diff": -0.15666666666665918,
-        "boat1_isshu_avg_diff": -0.2067,
-        "avg_isshu_time": 38.623333333333335,
-        "avg_exhibit_combo_time": 45.45333333333334,
-        "is_summer": 1.0,
-        "b1_summer_isshu_factor": "slow_fly",
-        "b1_summer_nige_delta_pp": -17.0,
-        "boat1_tenji_time": 6.78,
-        "boat1_isshu_time": 38.83,
-        "outer56_best_avg_isshu_diff": 0.09333333333334082,
-        "outer56_best_ai_prediction_pct": 3.97,
-        "outer56_best_tenji_time": 6.8,
-        "outer56_best_isshu_time": 38.56,
-        "ai_rank6_boat": 6.0,
-        "ai_rank6_avg_isshu_diff": 0.09333333333334082,
-        "ai_rank6_tenji_rank": 2.0,
-        "ai_rank6_isshu_rank": 3.0,
-        "ai_rank5_boat": 3.0,
-        "ai_rank5_avg_isshu_diff": -0.12666666666665805,
-        "ai_rank5_tenji_rank": 5.0,
-        "ai_rank5_isshu_rank": 4.0,
-        "double_time_boats": "",
-        "super_slit_boats": "",
-        "super_slit_alert_count": 0.0,
-        "mid234_super_slit_count": 0.0,
-        "outer456_super_slit_count": 0.0,
-        "outer56_super_slit_count": 0.0,
-        "slit_shape_label": "4カド覗き",
-        "b1_slit_gap_vs_23": 0.003500000000000003,
-        "b3_slit_adv_vs_12": 0.003500000000000003,
-        "b4_slit_adv_vs_123": 0.024400000000000005,
-        "outer56_slit_adv_vs_1": 0.003599999999999992,
-        "outer456_slit_adv_vs_123": 0.024400000000000005,
-        "slit_dekoboko": 1.0,
-        "slit_b1_front_wall": 0.0,
-        "slit_b1_hole_vs_23": 0.0,
-        "slit_b2_wall_break_3peek": 0.0,
-        "slit_b3_peek_vs_12": 0.0,
-        "slit_b4_cadou_peek": 1.0,
-        "slit_outer456_pressure": 1.0,
-        "slit_outer56_pressure_vs_1": 1.0,
-        "boat1_double_time": 0.0,
-        "mid234_double_time_count": 0.0,
-        "outer46_double_time_count": 0.0,
-        "outer56_double_time_count": 0.0,
-        "wind_speed": 8.0,
-        "wave_height": 6.0,
-        "tenji_boats": 6,
-        "isshu_boats": 6
-      },
-      "result": {
-        "trifecta": "1-3-5",
-        "payout_yen": 8330,
-        "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": 8.0,
-        "wave_height": 6.0
-      }
-    },
-    {
-      "rank": 9,
-      "status": "全場スコア",
-      "date": "2026-06-21",
-      "race_id": "2026-06-211501",
-      "place_id": 15,
-      "place_name": "丸亀",
-      "round": 1,
-      "deadline_time": "2026-06-21T15:23:00+09:00",
-      "race_kind": "Rookie3rdAdd",
-      "series_title": "スカパー！ＪＬＣ杯争奪　ルーキーシリーズ第１４戦",
-      "ranking_type": "all_venue",
-      "manshu_rate_pct": 33.64,
-      "base_manshu_rate_pct": 16.82,
-      "composite_edge_base_rate_pct": 21.14,
-      "composite_edge_bonus_pct": 12.5,
-      "composite_edges": [
-        {
-          "id": "codex_allvenue_b1_nige25",
-          "label": "全場: 1号艇逃げ率25%未満",
-          "historical_rate_pct": null,
-          "bonus_pct": 2.5,
-          "role": "b1_fly_up",
-          "details": {
-            "b1_nige_pct": 14.29
-          }
-        },
-        {
-          "id": "codex_slit_formation_outer56_pressure_vs_1",
-          "label": "スリット隊形: 5/6外圧",
-          "historical_rate_pct": 21.14,
-          "bonus_pct": 1.9,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "1凹み+外圧",
-            "signal": "outer56_pressure_vs_1",
-            "candidate_b1_win_pct": 29.26,
-            "candidate_b1_fly_pct": 39.18,
-            "candidate_winner_3to6_pct": 48.27,
-            "candidate_outer56_top3_pct": 68.0,
-            "b1_gap_vs_23": 0.03090000000000001,
-            "b3_adv_vs_12": 0.010899999999999993,
-            "b4_adv_vs_123": 0.04189999999999999,
-            "outer56_adv_vs_1": 0.0597
-          }
-        },
-        {
-          "id": "codex_allvenue_b1_loss45",
-          "label": "全場: 1号艇差され+まくられ率45%以上",
-          "historical_rate_pct": null,
-          "bonus_pct": 1.9,
-          "role": "b1_fly_up",
-          "details": {
-            "b1_loss_pct": 57.14
-          }
-        },
-        {
-          "id": "codex_slit_formation_outer456_pressure",
-          "label": "スリット隊形: 4〜6外圧",
-          "historical_rate_pct": 20.87,
-          "bonus_pct": 1.8,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "1凹み+外圧",
-            "signal": "outer456_pressure",
-            "candidate_b1_win_pct": 29.76,
-            "candidate_b1_fly_pct": 38.2,
-            "candidate_winner_3to6_pct": 52.31,
-            "candidate_outer56_top3_pct": 68.77,
-            "b1_gap_vs_23": 0.03090000000000001,
-            "b3_adv_vs_12": 0.010899999999999993,
-            "b4_adv_vs_123": 0.04189999999999999,
-            "outer56_adv_vs_1": 0.0597
-          }
-        },
-        {
-          "id": "codex_slit_formation_b4_cadou_peek",
-          "label": "スリット隊形: 4カド覗き",
-          "historical_rate_pct": 19.68,
-          "bonus_pct": 1.5,
-          "role": "head_up",
-          "details": {
-            "slit_shape": "1凹み+外圧",
-            "signal": "b4_cadou_peek",
-            "candidate_b1_win_pct": 29.81,
-            "candidate_b1_fly_pct": 38.99,
-            "candidate_winner_3to6_pct": 52.81,
-            "candidate_outer56_top3_pct": 64.92,
-            "b1_gap_vs_23": 0.03090000000000001,
-            "b3_adv_vs_12": 0.010899999999999993,
-            "b4_adv_vs_123": 0.04189999999999999,
-            "outer56_adv_vs_1": 0.0597
-          }
-        },
-        {
-          "id": "codex_allvenue_outer56_avg014",
-          "label": "全場: 5/6号艇 展示+一周平均との差+0.14以上",
-          "historical_rate_pct": null,
-          "bonus_pct": 1.5,
-          "role": "outer_top3_up",
-          "details": {
-            "outer56_avg_isshu_diff": 0.336666666666666
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_b1_debuff030",
-          "label": "1号艇 展示+一周平均との差+0.30以下: イン飛びデバフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 1.4,
-          "role": "b1_fly_up",
-          "details": {
-            "boat": 1,
-            "avgdiff": 0.05666666666666487,
-            "threshold": 0.3,
-            "win_delta_pp": -6.72,
-            "top3_miss_delta_pp": 4.48
-          }
-        },
-        {
-          "id": "codex_allvenue_rank6_avg010",
-          "label": "全場: AI+最下位が3〜6号艇で平均との差+0.10以上",
-          "historical_rate_pct": null,
-          "bonus_pct": 1.2,
-          "role": "rank6_ana",
-          "details": {
-            "rank6_boat": 6
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_5_0.00",
-          "label": "5号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 1.05,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 5,
-            "avgdiff": 0.27666666666666373,
-            "threshold": 0.0,
-            "top3_uplift_pp": 9.43,
-            "win_uplift_pp": 2.53
-          }
-        },
-        {
-          "id": "codex_slit_formation_b6_left_adv",
-          "label": "スリット隊形: 6号艇が左5より0.015速い",
-          "historical_rate_pct": 20.66,
-          "bonus_pct": 1.0,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "1凹み+外圧",
-            "signal": "b6_left_adv",
-            "candidate_b1_win_pct": 31.88,
-            "candidate_b1_fly_pct": 35.96,
-            "candidate_winner_3to6_pct": 46.62,
-            "candidate_outer56_top3_pct": 63.97,
-            "b1_gap_vs_23": 0.03090000000000001,
-            "b3_adv_vs_12": 0.010899999999999993,
-            "b4_adv_vs_123": 0.04189999999999999,
-            "outer56_adv_vs_1": 0.0597
-          }
-        },
-        {
-          "id": "codex_allvenue_outer56_exhibit_top2",
-          "label": "全場: 5/6号艇に展示/1周2位以内",
-          "historical_rate_pct": null,
-          "bonus_pct": 1.0,
-          "role": "outer_top3_up",
-          "details": {
-            "outer56_exhibit_top2_count": 2.0
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_6_0.00",
-          "label": "6号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.98,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 6,
-            "avgdiff": 0.336666666666666,
-            "threshold": 0.0,
-            "top3_uplift_pp": 8.83,
-            "win_uplift_pp": 1.6
-          }
-        },
-        {
-          "id": "codex_slit_formation_b1_hole_vs_23",
-          "label": "スリット隊形: 1号艇が2/3号艇より0.020遅い",
-          "historical_rate_pct": 19.07,
-          "bonus_pct": 0.9,
-          "role": "b1_fly_up",
-          "details": {
-            "slit_shape": "1凹み+外圧",
-            "signal": "b1_hole_vs_23",
-            "candidate_b1_win_pct": 30.2,
-            "candidate_b1_fly_pct": 38.18,
-            "candidate_winner_3to6_pct": 45.89,
-            "candidate_outer56_top3_pct": 63.18,
-            "b1_gap_vs_23": 0.03090000000000001,
-            "b3_adv_vs_12": 0.010899999999999993,
-            "b4_adv_vs_123": 0.04189999999999999,
-            "outer56_adv_vs_1": 0.0597
-          }
-        },
-        {
-          "id": "codex_allvenue_b1_st4",
-          "label": "全場: 1号艇平均ST順位4位以下",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.9,
-          "role": "b1_fly_up",
-          "details": {
-            "b1_st_rank_general": 4.7857
-          }
-        },
-        {
-          "id": "codex_boaters_lane_avgdiff_丸亀_6_0.00",
-          "label": "丸亀6号艇 展示+一周平均との差+0.00以上で3着内上振れ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.8,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 6,
-            "avgdiff": 0.336666666666666,
-            "threshold": 0.0,
-            "top3_uplift_pp": 9.35,
-            "win_uplift_pp": 1.55,
-            "samples": 2349
-          }
-        },
-        {
-          "id": "codex_allvenue_early",
-          "label": "全場: 前半1〜6Rで荒れ材料あり",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.4,
-          "role": "context_up",
-          "details": {}
-        }
-      ],
-      "recent_rate_pct": null,
-      "condition": "Codex全場ランキング: 会場指定なしで1号艇弱化・外枠上振れ・スリット隊形・展示/1周・女子戦ファクターを総合評価 × Codex複合補正: 全場: 1号艇逃げ率25%未満 / スリット隊形: 5/6外圧",
-      "matched_logic_count": 0,
-      "metrics": {
-        "boat1_ai_prediction_pct": 43.75,
-        "boat1_ai_plus": 113.91999999999999,
-        "boat1_ai_plus_order": 1.0,
-        "boat1_nige_pct": 14.29,
-        "boat1_loss_pct": 57.14,
-        "is_joshi": 0.0,
-        "boat1_avg_isshu_diff": 0.05666666666666487,
-        "boat1_isshu_avg_diff": 0.0617,
-        "avg_isshu_time": 37.931666666666665,
-        "avg_exhibit_combo_time": 44.776666666666664,
-        "is_summer": 1.0,
-        "b1_summer_isshu_factor": "",
-        "b1_summer_nige_delta_pp": 0.0,
-        "boat1_tenji_time": 6.85,
-        "boat1_isshu_time": 37.87,
-        "outer56_best_avg_isshu_diff": 0.336666666666666,
-        "outer56_best_ai_prediction_pct": 4.1,
-        "outer56_best_tenji_time": 6.84,
-        "outer56_best_isshu_time": 37.6,
-        "ai_rank6_boat": 6.0,
-        "ai_rank6_avg_isshu_diff": 0.336666666666666,
-        "ai_rank6_tenji_rank": 3.0,
-        "ai_rank6_isshu_rank": 1.0,
-        "ai_rank5_boat": 5.0,
-        "ai_rank5_avg_isshu_diff": 0.27666666666666373,
-        "ai_rank5_tenji_rank": 5.0,
-        "ai_rank5_isshu_rank": 2.0,
-        "double_time_boats": "",
-        "super_slit_boats": "",
-        "super_slit_alert_count": 0.0,
-        "mid234_super_slit_count": 0.0,
-        "outer456_super_slit_count": 0.0,
-        "outer56_super_slit_count": 0.0,
-        "slit_shape_label": "1凹み+外圧",
-        "b1_slit_gap_vs_23": 0.03090000000000001,
-        "b3_slit_adv_vs_12": 0.010899999999999993,
-        "b4_slit_adv_vs_123": 0.04189999999999999,
-        "outer56_slit_adv_vs_1": 0.0597,
-        "outer456_slit_adv_vs_123": 0.04189999999999999,
-        "slit_dekoboko": 1.0,
-        "slit_b1_front_wall": 0.0,
-        "slit_b1_hole_vs_23": 1.0,
-        "slit_b2_wall_break_3peek": 0.0,
-        "slit_b3_peek_vs_12": 0.0,
-        "slit_b4_cadou_peek": 1.0,
-        "slit_outer456_pressure": 1.0,
-        "slit_outer56_pressure_vs_1": 1.0,
-        "boat1_double_time": 0.0,
-        "mid234_double_time_count": 0.0,
-        "outer46_double_time_count": 0.0,
-        "outer56_double_time_count": 0.0,
-        "wind_speed": null,
-        "wave_height": null,
-        "tenji_boats": 6,
-        "isshu_boats": 6
-      },
-      "result": {
-        "trifecta": "2-4-5",
-        "payout_yen": 14630,
-        "manshu": true,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
-      }
-    },
-    {
-      "rank": 10,
-      "status": "全場スコア",
-      "date": "2026-06-21",
-      "race_id": "2026-06-210607",
-      "place_id": 6,
-      "place_name": "浜名湖",
-      "round": 7,
-      "deadline_time": "2026-06-21T14:31:00+09:00",
-      "race_kind": null,
-      "series_title": "にっぽん未来プロジェクト競走ｉｎ浜名湖",
-      "ranking_type": "all_venue",
-      "manshu_rate_pct": 32.94,
-      "base_manshu_rate_pct": 16.82,
-      "composite_edge_base_rate_pct": 21.14,
-      "composite_edge_bonus_pct": 11.8,
-      "composite_edges": [
-        {
-          "id": "codex_summer_b1_isshu_slow_m010_fly",
-          "label": "夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt",
-          "historical_rate_pct": null,
-          "bonus_pct": 2.8,
-          "role": "b1_fly_up",
-          "details": {
-            "boat": 1,
-            "isshu_avg_diff": -0.21,
-            "threshold": -0.1,
-            "nige_delta_pp": -17,
-            "season": "summer_6_8"
-          }
-        },
-        {
-          "id": "codex_double_time_4_head",
-          "label": "4号艇ダブルタイム: 頭候補上昇",
-          "historical_rate_pct": 16.15,
-          "bonus_pct": 2.6,
-          "role": "head_up",
-          "details": {
-            "boat": 4,
-            "manshu_rate_pct": 16.15,
-            "win_rate_pct": 23.34,
-            "top3_rate_pct": 66.82,
-            "win_uplift_pp": 13.78,
-            "top3_uplift_pp": 21.31
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_b1_super_debuff_浜名湖",
-          "label": "1号艇 展示+一周平均との差+0.20以下: イン飛び超デバフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 2.6,
-          "role": "b1_fly_up",
-          "details": {
-            "boat": 1,
-            "avgdiff": -0.22666666666666657,
-            "threshold": 0.2,
-            "win_delta_pp": -10.24,
-            "top3_miss_delta_pp": 6.89
-          }
-        },
-        {
-          "id": "codex_allvenue_b1_nige25",
-          "label": "全場: 1号艇逃げ率25%未満",
-          "historical_rate_pct": null,
-          "bonus_pct": 2.5,
-          "role": "b1_fly_up",
-          "details": {
-            "b1_nige_pct": 21.74
-          }
-        },
-        {
-          "id": "codex_slit_formation_outer56_pressure_vs_1",
-          "label": "スリット隊形: 5/6外圧",
-          "historical_rate_pct": 21.14,
-          "bonus_pct": 1.9,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "1凹み+外圧",
-            "signal": "outer56_pressure_vs_1",
-            "candidate_b1_win_pct": 29.26,
-            "candidate_b1_fly_pct": 39.18,
-            "candidate_winner_3to6_pct": 48.27,
-            "candidate_outer56_top3_pct": 68.0,
-            "b1_gap_vs_23": 0.028999999999999998,
-            "b3_adv_vs_12": 0.0023999999999999855,
-            "b4_adv_vs_123": 0.003500000000000003,
-            "outer56_adv_vs_1": 0.0169
-          }
-        },
-        {
-          "id": "codex_allvenue_b1_loss45",
-          "label": "全場: 1号艇差され+まくられ率45%以上",
-          "historical_rate_pct": null,
-          "bonus_pct": 1.9,
-          "role": "b1_fly_up",
-          "details": {
-            "b1_loss_pct": 52.17999999999999
-          }
-        },
-        {
-          "id": "codex_slit_formation_outer456_pressure",
-          "label": "スリット隊形: 4〜6外圧",
-          "historical_rate_pct": 20.87,
-          "bonus_pct": 1.8,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "1凹み+外圧",
-            "signal": "outer456_pressure",
-            "candidate_b1_win_pct": 29.76,
-            "candidate_b1_fly_pct": 38.2,
-            "candidate_winner_3to6_pct": 52.31,
-            "candidate_outer56_top3_pct": 68.77,
-            "b1_gap_vs_23": 0.028999999999999998,
-            "b3_adv_vs_12": 0.0023999999999999855,
-            "b4_adv_vs_123": 0.003500000000000003,
-            "outer56_adv_vs_1": 0.0169
-          }
-        },
-        {
-          "id": "codex_allvenue_b1_aipred25",
-          "label": "全場: 1号艇AI予測25%未満",
-          "historical_rate_pct": null,
-          "bonus_pct": 1.5,
-          "role": "b1_fly_up",
-          "details": {
-            "b1_ai_prediction_pct": 8.25
-          }
-        },
-        {
-          "id": "codex_b1_fly_avg0_tenji4",
-          "label": "1号艇 展示+一周平均との差0以下+展示4位以下",
-          "historical_rate_pct": 19.32,
-          "bonus_pct": 1.2,
-          "role": "b1_fly_up",
-          "details": {}
-        },
-        {
-          "id": "codex_slit_formation_b6_left_adv",
-          "label": "スリット隊形: 6号艇が左5より0.015速い",
-          "historical_rate_pct": 20.66,
-          "bonus_pct": 1.0,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "1凹み+外圧",
-            "signal": "b6_left_adv",
-            "candidate_b1_win_pct": 31.88,
-            "candidate_b1_fly_pct": 35.96,
-            "candidate_winner_3to6_pct": 46.62,
-            "candidate_outer56_top3_pct": 63.97,
-            "b1_gap_vs_23": 0.028999999999999998,
-            "b3_adv_vs_12": 0.0023999999999999855,
-            "b4_adv_vs_123": 0.003500000000000003,
-            "outer56_adv_vs_1": 0.0169
-          }
-        },
-        {
-          "id": "codex_allvenue_b1_aiplus4",
-          "label": "全場: 1号艇AI+順位4位以下",
-          "historical_rate_pct": null,
-          "bonus_pct": 1.0,
-          "role": "b1_fly_up",
-          "details": {
-            "b1_ai_plus_order": 4.0
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_4_0.00",
-          "label": "4号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.98,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 4,
-            "avgdiff": 0.23333333333333428,
-            "threshold": 0.0,
-            "top3_uplift_pp": 8.83,
-            "win_uplift_pp": 3.48
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_3_0.05",
-          "label": "3号艇 展示+一周平均との差+0.05以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.97,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 3,
-            "avgdiff": 0.10333333333333883,
-            "threshold": 0.05,
-            "top3_uplift_pp": 8.73,
-            "win_uplift_pp": 4.38
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_2_0.15",
-          "label": "2号艇 展示+一周平均との差+0.15以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.92,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 2,
-            "avgdiff": 0.19333333333333513,
-            "threshold": 0.15,
-            "top3_uplift_pp": 8.29,
-            "win_uplift_pp": 4.56
-          }
-        },
-        {
-          "id": "codex_slit_formation_b1_hole_vs_23",
-          "label": "スリット隊形: 1号艇が2/3号艇より0.020遅い",
-          "historical_rate_pct": 19.07,
-          "bonus_pct": 0.9,
-          "role": "b1_fly_up",
-          "details": {
-            "slit_shape": "1凹み+外圧",
-            "signal": "b1_hole_vs_23",
-            "candidate_b1_win_pct": 30.2,
-            "candidate_b1_fly_pct": 38.18,
-            "candidate_winner_3to6_pct": 45.89,
-            "candidate_outer56_top3_pct": 63.18,
-            "b1_gap_vs_23": 0.028999999999999998,
-            "b3_adv_vs_12": 0.0023999999999999855,
-            "b4_adv_vs_123": 0.003500000000000003,
-            "outer56_adv_vs_1": 0.0169
-          }
-        },
-        {
-          "id": "codex_rank6_keshi_outer_bad_avg",
-          "label": "AI+最下位が5/6号艇、展示+一周平均との差マイナス、展示4位以下",
-          "historical_rate_pct": 15.05,
-          "bonus_pct": -1.2,
-          "role": "rank6_keshi",
-          "details": {
-            "rank6_boat": 6
-          }
-        }
-      ],
-      "recent_rate_pct": null,
-      "condition": "Codex全場ランキング: 会場指定なしで1号艇弱化・外枠上振れ・スリット隊形・展示/1周・女子戦ファクターを総合評価 × Codex複合補正: 夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt / 4号艇ダブルタイム: 頭候補上昇",
-      "matched_logic_count": 0,
-      "metrics": {
-        "boat1_ai_prediction_pct": 8.25,
-        "boat1_ai_plus": 88.46000000000001,
-        "boat1_ai_plus_order": 4.0,
-        "boat1_nige_pct": 21.74,
-        "boat1_loss_pct": 52.17999999999999,
-        "is_joshi": 0.0,
-        "boat1_avg_isshu_diff": -0.22666666666666657,
-        "boat1_isshu_avg_diff": -0.21,
-        "avg_isshu_time": 37.92,
-        "avg_exhibit_combo_time": 44.653333333333336,
-        "is_summer": 1.0,
-        "b1_summer_isshu_factor": "slow_fly",
-        "b1_summer_nige_delta_pp": -17.0,
-        "boat1_tenji_time": 6.75,
-        "boat1_isshu_time": 38.13,
-        "outer56_best_avg_isshu_diff": -0.11666666666666003,
-        "outer56_best_ai_prediction_pct": 8.74,
-        "outer56_best_tenji_time": 6.73,
-        "outer56_best_isshu_time": 38.04,
-        "ai_rank6_boat": 6.0,
-        "ai_rank6_avg_isshu_diff": -0.18666666666666032,
-        "ai_rank6_tenji_rank": 6.0,
-        "ai_rank6_isshu_rank": 5.0,
-        "ai_rank5_boat": 3.0,
-        "ai_rank5_avg_isshu_diff": 0.10333333333333883,
-        "ai_rank5_tenji_rank": 3.0,
-        "ai_rank5_isshu_rank": 3.0,
-        "double_time_boats": "4",
-        "super_slit_boats": "",
-        "super_slit_alert_count": 0.0,
-        "mid234_super_slit_count": 0.0,
-        "outer456_super_slit_count": 0.0,
-        "outer56_super_slit_count": 0.0,
-        "slit_shape_label": "1凹み+外圧",
-        "b1_slit_gap_vs_23": 0.028999999999999998,
-        "b3_slit_adv_vs_12": 0.0023999999999999855,
-        "b4_slit_adv_vs_123": 0.003500000000000003,
-        "outer56_slit_adv_vs_1": 0.0169,
-        "outer456_slit_adv_vs_123": 0.003500000000000003,
-        "slit_dekoboko": 0.0,
-        "slit_b1_front_wall": 0.0,
-        "slit_b1_hole_vs_23": 1.0,
-        "slit_b2_wall_break_3peek": 0.0,
-        "slit_b3_peek_vs_12": 0.0,
-        "slit_b4_cadou_peek": 0.0,
-        "slit_outer456_pressure": 1.0,
-        "slit_outer56_pressure_vs_1": 1.0,
-        "boat1_double_time": 0.0,
-        "mid234_double_time_count": 1.0,
-        "outer46_double_time_count": 1.0,
-        "outer56_double_time_count": 0.0,
-        "wind_speed": 4.0,
-        "wave_height": 2.0,
-        "tenji_boats": 6,
-        "isshu_boats": 6
-      },
-      "result": {
-        "trifecta": "2-3-6",
-        "payout_yen": 5590,
-        "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": 4.0,
-        "wave_height": 2.0
-      }
     }
   ],
   "strict_races": [
@@ -3542,8 +3646,8 @@
         "mid234_double_time_count": 0.0,
         "outer46_double_time_count": 0.0,
         "outer56_double_time_count": 0.0,
-        "wind_speed": null,
-        "wave_height": null,
+        "wind_speed": 5.0,
+        "wave_height": 5.0,
         "tenji_boats": 6,
         "isshu_boats": 6
       },
@@ -3553,12 +3657,478 @@
         "manshu": true,
         "win_method": null,
         "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "wind_speed": 5.0,
+        "wave_height": 5.0
       }
     },
     {
       "rank": 2,
+      "status": "確定",
+      "date": "2026-06-21",
+      "race_id": "2026-06-211504",
+      "place_id": 15,
+      "place_name": "丸亀",
+      "round": 4,
+      "deadline_time": "2026-06-21T16:45:00+09:00",
+      "race_kind": "Rookie3rdAdd",
+      "series_title": "スカパー！ＪＬＣ杯争奪　ルーキーシリーズ第１４戦",
+      "ranking_type": "strict",
+      "manshu_rate_pct": 34.77,
+      "base_manshu_rate_pct": 29.77,
+      "composite_edge_base_rate_pct": 21.14,
+      "composite_edge_bonus_pct": 5.0,
+      "composite_edges": [
+        {
+          "id": "codex_summer_b1_isshu_slow_m010_fly",
+          "label": "夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt",
+          "historical_rate_pct": null,
+          "bonus_pct": 2.8,
+          "role": "b1_fly_up",
+          "details": {
+            "boat": 1,
+            "isshu_avg_diff": -0.2383,
+            "threshold": -0.1,
+            "nige_delta_pp": -17,
+            "season": "summer_6_8"
+          }
+        },
+        {
+          "id": "codex_double_time_5_top3",
+          "label": "5号艇ダブルタイム: 3着内候補上昇・消し回避",
+          "historical_rate_pct": 18.76,
+          "bonus_pct": 2.7,
+          "role": "outer_top3_up",
+          "details": {
+            "boat": 5,
+            "manshu_rate_pct": 18.76,
+            "win_rate_pct": 14.26,
+            "top3_rate_pct": 56.51,
+            "win_uplift_pp": 8.84,
+            "top3_uplift_pp": 22.01
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_b1_super_debuff_丸亀",
+          "label": "1号艇 展示+一周平均との差-0.10以下: イン飛び超デバフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 2.6,
+          "role": "b1_fly_up",
+          "details": {
+            "boat": 1,
+            "avgdiff": -0.22000000000000597,
+            "threshold": -0.1,
+            "win_delta_pp": -11.21,
+            "top3_miss_delta_pp": 7.28
+          }
+        },
+        {
+          "id": "codex_slit_formation_outer56_pressure_vs_1",
+          "label": "スリット隊形: 5/6外圧",
+          "historical_rate_pct": 21.14,
+          "bonus_pct": 1.9,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "outer56_pressure_vs_1",
+            "candidate_b1_win_pct": 29.26,
+            "candidate_b1_fly_pct": 39.18,
+            "candidate_winner_3to6_pct": 48.27,
+            "candidate_outer56_top3_pct": 68.0,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_slit_formation_outer456_pressure",
+          "label": "スリット隊形: 4〜6外圧",
+          "historical_rate_pct": 20.87,
+          "bonus_pct": 1.8,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "outer456_pressure",
+            "candidate_b1_win_pct": 29.76,
+            "candidate_b1_fly_pct": 38.2,
+            "candidate_winner_3to6_pct": 52.31,
+            "candidate_outer56_top3_pct": 68.77,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_slit_formation_b2_wall_break_3peek",
+          "label": "スリット隊形: 2壁割れ+3覗き",
+          "historical_rate_pct": 19.1,
+          "bonus_pct": 1.2,
+          "role": "head_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "b2_wall_break_3peek",
+            "candidate_b1_win_pct": 31.4,
+            "candidate_b1_fly_pct": 36.83,
+            "candidate_winner_3to6_pct": 51.12,
+            "candidate_outer56_top3_pct": 63.38,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_slit_formation_b5_left_adv",
+          "label": "スリット隊形: 5号艇が左4より0.015速い",
+          "historical_rate_pct": 20.3,
+          "bonus_pct": 1.1,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "b5_left_adv",
+            "candidate_b1_win_pct": 32.19,
+            "candidate_b1_fly_pct": 35.17,
+            "candidate_winner_3to6_pct": 45.45,
+            "candidate_outer56_top3_pct": 68.55,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_slit_formation_b3_peek_vs_12",
+          "label": "スリット隊形: 3号艇が1/2号艇より0.015速い",
+          "historical_rate_pct": 19.34,
+          "bonus_pct": 1.1,
+          "role": "head_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "b3_peek_vs_12",
+            "candidate_b1_win_pct": 31.0,
+            "candidate_b1_fly_pct": 36.96,
+            "candidate_winner_3to6_pct": 51.39,
+            "candidate_outer56_top3_pct": 63.65,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_5_0.00",
+          "label": "5号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.05,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 5,
+            "avgdiff": 0.3500000000000014,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.43,
+            "win_uplift_pp": 2.53
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_4_0.00",
+          "label": "4号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.98,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 4,
+            "avgdiff": 0.240000000000002,
+            "threshold": 0.0,
+            "top3_uplift_pp": 8.83,
+            "win_uplift_pp": 3.48
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_6_0.00",
+          "label": "6号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.98,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 6,
+            "avgdiff": 0.14000000000000057,
+            "threshold": 0.0,
+            "top3_uplift_pp": 8.83,
+            "win_uplift_pp": 1.6
+          }
+        },
+        {
+          "id": "codex_slit_formation_b1_hole_vs_23",
+          "label": "スリット隊形: 1号艇が2/3号艇より0.020遅い",
+          "historical_rate_pct": 19.07,
+          "bonus_pct": 0.9,
+          "role": "b1_fly_up",
+          "details": {
+            "slit_shape": "2壁割れ3覗き",
+            "signal": "b1_hole_vs_23",
+            "candidate_b1_win_pct": 30.2,
+            "candidate_b1_fly_pct": 38.18,
+            "candidate_winner_3to6_pct": 45.89,
+            "candidate_outer56_top3_pct": 63.18,
+            "b1_gap_vs_23": 0.057999999999999996,
+            "b3_adv_vs_12": 0.055499999999999994,
+            "b4_adv_vs_123": -0.027600000000000013,
+            "outer56_adv_vs_1": 0.04959999999999998
+          }
+        },
+        {
+          "id": "codex_boaters_lane_avgdiff_丸亀_4_0.00",
+          "label": "丸亀4号艇 展示+一周平均との差+0.00以上で3着内上振れ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.8,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 4,
+            "avgdiff": 0.240000000000002,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.51,
+            "win_uplift_pp": 3.98,
+            "samples": 2376
+          }
+        },
+        {
+          "id": "codex_boaters_lane_avgdiff_丸亀_6_0.00",
+          "label": "丸亀6号艇 展示+一周平均との差+0.00以上で3着内上振れ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.8,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 6,
+            "avgdiff": 0.14000000000000057,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.35,
+            "win_uplift_pp": 1.55,
+            "samples": 2349
+          }
+        }
+      ],
+      "recent_rate_pct": 30.2,
+      "condition": "会場: 丸亀 × 1号艇AI+一般3連対<140 × 1号艇差され+まくられ率>=30% × 展示: 5/6号艇に1周2位以内 × 5/6号艇AI予測最大>=10% × Codex複合補正: 夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt / 5号艇ダブルタイム: 3着内候補上昇・消し回避",
+      "matched_logic_count": 95,
+      "metrics": {
+        "boat1_ai_prediction_pct": 20.11,
+        "boat1_ai_plus": 82.45,
+        "boat1_ai_plus_order": 3.0,
+        "boat1_nige_pct": 27.78,
+        "boat1_loss_pct": 50.0,
+        "is_joshi": 0.0,
+        "boat1_avg_isshu_diff": -0.22000000000000597,
+        "boat1_isshu_avg_diff": -0.2383,
+        "avg_isshu_time": 37.461666666666666,
+        "avg_exhibit_combo_time": 44.29,
+        "is_summer": 1.0,
+        "b1_summer_isshu_factor": "slow_fly",
+        "b1_summer_nige_delta_pp": -17.0,
+        "boat1_tenji_time": 6.81,
+        "boat1_isshu_time": 37.7,
+        "outer56_best_avg_isshu_diff": 0.3500000000000014,
+        "outer56_best_ai_prediction_pct": 52.2,
+        "outer56_best_tenji_time": 6.77,
+        "outer56_best_isshu_time": 37.17,
+        "ai_rank6_boat": 4.0,
+        "ai_rank6_avg_isshu_diff": 0.240000000000002,
+        "ai_rank6_tenji_rank": 3.0,
+        "ai_rank6_isshu_rank": 2.0,
+        "ai_rank5_boat": 3.0,
+        "ai_rank5_avg_isshu_diff": -0.3300000000000054,
+        "ai_rank5_tenji_rank": 4.0,
+        "ai_rank5_isshu_rank": 6.0,
+        "double_time_boats": "5",
+        "super_slit_boats": "",
+        "super_slit_alert_count": 0.0,
+        "mid234_super_slit_count": 0.0,
+        "outer456_super_slit_count": 0.0,
+        "outer56_super_slit_count": 0.0,
+        "slit_shape_label": "2壁割れ3覗き",
+        "b1_slit_gap_vs_23": 0.057999999999999996,
+        "b3_slit_adv_vs_12": 0.055499999999999994,
+        "b4_slit_adv_vs_123": -0.027600000000000013,
+        "outer56_slit_adv_vs_1": 0.04959999999999998,
+        "outer456_slit_adv_vs_123": -0.008400000000000019,
+        "slit_dekoboko": 1.0,
+        "slit_b1_front_wall": 0.0,
+        "slit_b1_hole_vs_23": 1.0,
+        "slit_b2_wall_break_3peek": 1.0,
+        "slit_b3_peek_vs_12": 1.0,
+        "slit_b4_cadou_peek": 0.0,
+        "slit_outer456_pressure": 1.0,
+        "slit_outer56_pressure_vs_1": 1.0,
+        "boat1_double_time": 0.0,
+        "mid234_double_time_count": 0.0,
+        "outer46_double_time_count": 1.0,
+        "outer56_double_time_count": 1.0,
+        "wind_speed": 4.0,
+        "wave_height": 4.0,
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "result": {
+        "trifecta": "1-3-4",
+        "payout_yen": 17150,
+        "manshu": true,
+        "win_method": null,
+        "weather": null,
+        "wind_speed": 4.0,
+        "wave_height": 4.0
+      }
+    },
+    {
+      "rank": 3,
+      "status": "確定",
+      "date": "2026-06-21",
+      "race_id": "2026-06-211503",
+      "place_id": 15,
+      "place_name": "丸亀",
+      "round": 3,
+      "deadline_time": "2026-06-21T16:17:00+09:00",
+      "race_kind": "Rookie3rdAdd",
+      "series_title": "スカパー！ＪＬＣ杯争奪　ルーキーシリーズ第１４戦",
+      "ranking_type": "strict",
+      "manshu_rate_pct": 33.21,
+      "base_manshu_rate_pct": 29.84,
+      "composite_edge_base_rate_pct": 19.07,
+      "composite_edge_bonus_pct": 3.37,
+      "composite_edges": [
+        {
+          "id": "codex_boaters_avgdiff_b1_debuff030",
+          "label": "1号艇 展示+一周平均との差+0.30以下: イン飛びデバフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.4,
+          "role": "b1_fly_up",
+          "details": {
+            "boat": 1,
+            "avgdiff": 0.08166666666666345,
+            "threshold": 0.3,
+            "win_delta_pp": -6.72,
+            "top3_miss_delta_pp": 4.48
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_5_0.00",
+          "label": "5号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.05,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 5,
+            "avgdiff": 0.11166666666666458,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.43,
+            "win_uplift_pp": 2.53
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_2_0.15",
+          "label": "2号艇 展示+一周平均との差+0.15以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.92,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 2,
+            "avgdiff": 0.40166666666666373,
+            "threshold": 0.15,
+            "top3_uplift_pp": 8.29,
+            "win_uplift_pp": 4.56
+          }
+        },
+        {
+          "id": "codex_slit_formation_b1_hole_vs_23",
+          "label": "スリット隊形: 1号艇が2/3号艇より0.020遅い",
+          "historical_rate_pct": 19.07,
+          "bonus_pct": 0.9,
+          "role": "b1_fly_up",
+          "details": {
+            "slit_shape": "1凹み",
+            "signal": "b1_hole_vs_23",
+            "candidate_b1_win_pct": 30.2,
+            "candidate_b1_fly_pct": 38.18,
+            "candidate_winner_3to6_pct": 45.89,
+            "candidate_outer56_top3_pct": 63.18,
+            "b1_gap_vs_23": 0.020699999999999996,
+            "b3_adv_vs_12": -0.011999999999999983,
+            "b4_adv_vs_123": -0.003799999999999998,
+            "outer56_adv_vs_1": -0.01319999999999999
+          }
+        }
+      ],
+      "recent_rate_pct": 29.29,
+      "condition": "会場: 丸亀 × 1号艇逃げ率<40% × 1号艇差され+まくられ率>=45% × 展示: 5/6号艇に1周2位以内 × 展示: AI予測下位5/6号艇が展示/1周2位以内 × Codex複合補正: 1号艇 展示+一周平均との差+0.30以下: イン飛びデバフ / 5号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+      "matched_logic_count": 154,
+      "metrics": {
+        "boat1_ai_prediction_pct": 10.45,
+        "boat1_ai_plus": 97.93,
+        "boat1_ai_plus_order": 3.0,
+        "boat1_nige_pct": 25.0,
+        "boat1_loss_pct": 62.5,
+        "is_joshi": 0.0,
+        "boat1_avg_isshu_diff": 0.08166666666666345,
+        "boat1_isshu_avg_diff": 0.0967,
+        "avg_isshu_time": 37.626666666666665,
+        "avg_exhibit_combo_time": 44.431666666666665,
+        "is_summer": 1.0,
+        "b1_summer_isshu_factor": "",
+        "b1_summer_nige_delta_pp": 0.0,
+        "boat1_tenji_time": 6.82,
+        "boat1_isshu_time": 37.53,
+        "outer56_best_avg_isshu_diff": 0.11166666666666458,
+        "outer56_best_ai_prediction_pct": 11.13,
+        "outer56_best_tenji_time": 6.76,
+        "outer56_best_isshu_time": 37.53,
+        "ai_rank6_boat": 5.0,
+        "ai_rank6_avg_isshu_diff": 0.11166666666666458,
+        "ai_rank6_tenji_rank": 3.0,
+        "ai_rank6_isshu_rank": 2.0,
+        "ai_rank5_boat": 6.0,
+        "ai_rank5_avg_isshu_diff": -0.1283333333333303,
+        "ai_rank5_tenji_rank": 1.0,
+        "ai_rank5_isshu_rank": 5.0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "super_slit_alert_count": 0.0,
+        "mid234_super_slit_count": 0.0,
+        "outer456_super_slit_count": 0.0,
+        "outer56_super_slit_count": 0.0,
+        "slit_shape_label": "1凹み",
+        "b1_slit_gap_vs_23": 0.020699999999999996,
+        "b3_slit_adv_vs_12": -0.011999999999999983,
+        "b4_slit_adv_vs_123": -0.003799999999999998,
+        "outer56_slit_adv_vs_1": -0.01319999999999999,
+        "outer456_slit_adv_vs_123": -0.003799999999999998,
+        "slit_dekoboko": 1.0,
+        "slit_b1_front_wall": 0.0,
+        "slit_b1_hole_vs_23": 1.0,
+        "slit_b2_wall_break_3peek": 0.0,
+        "slit_b3_peek_vs_12": 0.0,
+        "slit_b4_cadou_peek": 0.0,
+        "slit_outer456_pressure": 0.0,
+        "slit_outer56_pressure_vs_1": 0.0,
+        "boat1_double_time": 0.0,
+        "mid234_double_time_count": 0.0,
+        "outer46_double_time_count": 0.0,
+        "outer56_double_time_count": 0.0,
+        "wind_speed": 4.0,
+        "wave_height": 4.0,
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "result": {
+        "trifecta": "3-6-2",
+        "payout_yen": 2230,
+        "manshu": false,
+        "win_method": null,
+        "weather": null,
+        "wind_speed": 4.0,
+        "wave_height": 4.0
+      }
+    },
+    {
+      "rank": 4,
       "status": "確定",
       "date": "2026-06-21",
       "race_id": "2026-06-210802",
@@ -3828,7 +4398,7 @@
       }
     },
     {
-      "rank": 3,
+      "rank": 5,
       "status": "確定",
       "date": "2026-06-21",
       "race_id": "2026-06-210605",
@@ -4053,7 +4623,7 @@
       }
     },
     {
-      "rank": 4,
+      "rank": 6,
       "status": "確定",
       "date": "2026-06-21",
       "race_id": "2026-06-210507",
@@ -4310,7 +4880,7 @@
       }
     },
     {
-      "rank": 5,
+      "rank": 7,
       "status": "複合補正",
       "date": "2026-06-21",
       "race_id": "2026-06-210202",
@@ -4687,7 +5257,7 @@
       }
     },
     {
-      "rank": 6,
+      "rank": 8,
       "status": "確定",
       "date": "2026-06-21",
       "race_id": "2026-06-211605",
@@ -4927,19 +5497,245 @@
       }
     },
     {
-      "rank": 7,
+      "rank": 9,
       "status": "確定",
       "date": "2026-06-21",
-      "race_id": "2026-06-211702",
-      "place_id": 17,
-      "place_name": "宮島",
+      "race_id": "2026-06-211502",
+      "place_id": 15,
+      "place_name": "丸亀",
       "round": 2,
-      "deadline_time": "2026-06-21T11:27:00+09:00",
-      "race_kind": null,
-      "series_title": "マスターズリーグ第２戦デイリースポーツ杯",
+      "deadline_time": "2026-06-21T15:50:00+09:00",
+      "race_kind": "Rookie3rdAdd",
+      "series_title": "スカパー！ＪＬＣ杯争奪　ルーキーシリーズ第１４戦",
       "ranking_type": "strict",
-      "manshu_rate_pct": 32.49,
-      "base_manshu_rate_pct": 27.49,
+      "manshu_rate_pct": 32.57,
+      "base_manshu_rate_pct": 29.77,
+      "composite_edge_base_rate_pct": 20.3,
+      "composite_edge_bonus_pct": 2.8,
+      "composite_edges": [
+        {
+          "id": "codex_double_time_5_top3",
+          "label": "5号艇ダブルタイム: 3着内候補上昇・消し回避",
+          "historical_rate_pct": 18.76,
+          "bonus_pct": 2.7,
+          "role": "outer_top3_up",
+          "details": {
+            "boat": 5,
+            "manshu_rate_pct": 18.76,
+            "win_rate_pct": 14.26,
+            "top3_rate_pct": 56.51,
+            "win_uplift_pp": 8.84,
+            "top3_uplift_pp": 22.01
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_b1_debuff030",
+          "label": "1号艇 展示+一周平均との差+0.30以下: イン飛びデバフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.4,
+          "role": "b1_fly_up",
+          "details": {
+            "boat": 1,
+            "avgdiff": 0.25500000000000256,
+            "threshold": 0.3,
+            "win_delta_pp": -6.72,
+            "top3_miss_delta_pp": 4.48
+          }
+        },
+        {
+          "id": "codex_slit_formation_b5_left_adv",
+          "label": "スリット隊形: 5号艇が左4より0.015速い",
+          "historical_rate_pct": 20.3,
+          "bonus_pct": 1.1,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "3/4中凹み",
+            "signal": "b5_left_adv",
+            "candidate_b1_win_pct": 32.19,
+            "candidate_b1_fly_pct": 35.17,
+            "candidate_winner_3to6_pct": 45.45,
+            "candidate_outer56_top3_pct": 68.55,
+            "b1_gap_vs_23": -0.03559999999999999,
+            "b3_adv_vs_12": -0.03559999999999999,
+            "b4_adv_vs_123": -0.04299999999999998,
+            "outer56_adv_vs_1": -0.0257
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_5_0.00",
+          "label": "5号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 1.05,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 5,
+            "avgdiff": 0.4649999999999963,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.43,
+            "win_uplift_pp": 2.53
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_6_0.00",
+          "label": "6号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.98,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 6,
+            "avgdiff": 0.15500000000000114,
+            "threshold": 0.0,
+            "top3_uplift_pp": 8.83,
+            "win_uplift_pp": 1.6
+          }
+        },
+        {
+          "id": "codex_boaters_avgdiff_global_3_0.05",
+          "label": "3号艇 展示+一周平均との差+0.05以上: 3着内超バフ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.97,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 3,
+            "avgdiff": 0.09499999999999886,
+            "threshold": 0.05,
+            "top3_uplift_pp": 8.73,
+            "win_uplift_pp": 4.38
+          }
+        },
+        {
+          "id": "codex_slit_formation_center34_dent",
+          "label": "スリット隊形: 3/4中凹み",
+          "historical_rate_pct": 20.09,
+          "bonus_pct": 0.8,
+          "role": "outer_top3_up",
+          "details": {
+            "slit_shape": "3/4中凹み",
+            "signal": "center34_dent",
+            "candidate_b1_win_pct": 32.52,
+            "candidate_b1_fly_pct": 34.9,
+            "candidate_winner_3to6_pct": 43.68,
+            "candidate_outer56_top3_pct": 66.36,
+            "b1_gap_vs_23": -0.03559999999999999,
+            "b3_adv_vs_12": -0.03559999999999999,
+            "b4_adv_vs_123": -0.04299999999999998,
+            "outer56_adv_vs_1": -0.0257
+          }
+        },
+        {
+          "id": "codex_boaters_lane_avgdiff_丸亀_6_0.00",
+          "label": "丸亀6号艇 展示+一周平均との差+0.00以上で3着内上振れ",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.8,
+          "role": "lane_top3_up",
+          "details": {
+            "boat": 6,
+            "avgdiff": 0.15500000000000114,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.35,
+            "win_uplift_pp": 1.55,
+            "samples": 2349
+          }
+        },
+        {
+          "id": "codex_summer_b1_isshu_fast010_hold",
+          "label": "夏場: 1号艇1周が6艇平均より0.10秒速いのでイン逃げ率+15pt",
+          "historical_rate_pct": null,
+          "bonus_pct": -2.2,
+          "role": "b1_hold_down",
+          "details": {
+            "boat": 1,
+            "isshu_avg_diff": 0.215,
+            "threshold": 0.1,
+            "nige_delta_pp": 15,
+            "season": "summer_6_8"
+          }
+        }
+      ],
+      "recent_rate_pct": 30.2,
+      "condition": "会場: 丸亀 × 1号艇AI+一般3連対<140 × 1号艇差され+まくられ率>=30% × 展示: 5/6号艇に1周2位以内 × 5/6号艇AI予測最大>=10% × Codex複合補正: 5号艇ダブルタイム: 3着内候補上昇・消し回避 / 1号艇 展示+一周平均との差+0.30以下: イン飛びデバフ",
+      "matched_logic_count": 82,
+      "metrics": {
+        "boat1_ai_prediction_pct": 22.03,
+        "boat1_ai_plus": 104.77000000000001,
+        "boat1_ai_plus_order": 2.0,
+        "boat1_nige_pct": 50.0,
+        "boat1_loss_pct": 50.0,
+        "is_joshi": 0.0,
+        "boat1_avg_isshu_diff": 0.25500000000000256,
+        "boat1_isshu_avg_diff": 0.215,
+        "avg_isshu_time": 38.185,
+        "avg_exhibit_combo_time": 45.025,
+        "is_summer": 1.0,
+        "b1_summer_isshu_factor": "fast_hold",
+        "b1_summer_nige_delta_pp": 15.0,
+        "boat1_tenji_time": 6.8,
+        "boat1_isshu_time": 37.97,
+        "outer56_best_avg_isshu_diff": 0.4649999999999963,
+        "outer56_best_ai_prediction_pct": 46.95,
+        "outer56_best_tenji_time": 6.79,
+        "outer56_best_isshu_time": 37.77,
+        "ai_rank6_boat": 4.0,
+        "ai_rank6_avg_isshu_diff": -1.0050000000000026,
+        "ai_rank6_tenji_rank": 3.0,
+        "ai_rank6_isshu_rank": 6.0,
+        "ai_rank5_boat": 6.0,
+        "ai_rank5_avg_isshu_diff": 0.15500000000000114,
+        "ai_rank5_tenji_rank": 6.0,
+        "ai_rank5_isshu_rank": 2.0,
+        "double_time_boats": "5",
+        "super_slit_boats": "",
+        "super_slit_alert_count": 0.0,
+        "mid234_super_slit_count": 0.0,
+        "outer456_super_slit_count": 0.0,
+        "outer56_super_slit_count": 0.0,
+        "slit_shape_label": "3/4中凹み",
+        "b1_slit_gap_vs_23": -0.03559999999999999,
+        "b3_slit_adv_vs_12": -0.03559999999999999,
+        "b4_slit_adv_vs_123": -0.04299999999999998,
+        "outer56_slit_adv_vs_1": -0.0257,
+        "outer456_slit_adv_vs_123": -0.0257,
+        "slit_dekoboko": 1.0,
+        "slit_b1_front_wall": 0.0,
+        "slit_b1_hole_vs_23": 0.0,
+        "slit_b2_wall_break_3peek": 0.0,
+        "slit_b3_peek_vs_12": 0.0,
+        "slit_b4_cadou_peek": 0.0,
+        "slit_outer456_pressure": 0.0,
+        "slit_outer56_pressure_vs_1": 0.0,
+        "boat1_double_time": 0.0,
+        "mid234_double_time_count": 0.0,
+        "outer46_double_time_count": 1.0,
+        "outer56_double_time_count": 1.0,
+        "wind_speed": 3.0,
+        "wave_height": 3.0,
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "result": {
+        "trifecta": "5-1-3",
+        "payout_yen": 1640,
+        "manshu": false,
+        "win_method": null,
+        "weather": null,
+        "wind_speed": 3.0,
+        "wave_height": 3.0
+      }
+    },
+    {
+      "rank": 10,
+      "status": "確定",
+      "date": "2026-06-21",
+      "race_id": "2026-06-211506",
+      "place_id": 15,
+      "place_name": "丸亀",
+      "round": 6,
+      "deadline_time": "2026-06-21T17:35:00+09:00",
+      "race_kind": "Rookie3rdAdd",
+      "series_title": "スカパー！ＪＬＣ杯争奪　ルーキーシリーズ第１４戦",
+      "ranking_type": "strict",
+      "manshu_rate_pct": 32.55,
+      "base_manshu_rate_pct": 27.55,
       "composite_edge_base_rate_pct": 21.14,
       "composite_edge_bonus_pct": 5.0,
       "composite_edges": [
@@ -4951,24 +5747,24 @@
           "role": "b1_fly_up",
           "details": {
             "boat": 1,
-            "isshu_avg_diff": -0.2017,
+            "isshu_avg_diff": -0.7883,
             "threshold": -0.1,
             "nige_delta_pp": -17,
             "season": "summer_6_8"
           }
         },
         {
-          "id": "codex_boaters_avgdiff_b1_super_debuff_宮島",
-          "label": "1号艇 展示+一周平均との差+0.10以下: イン飛び超デバフ",
+          "id": "codex_boaters_avgdiff_b1_super_debuff_丸亀",
+          "label": "1号艇 展示+一周平均との差-0.10以下: イン飛び超デバフ",
           "historical_rate_pct": null,
           "bonus_pct": 2.6,
           "role": "b1_fly_up",
           "details": {
             "boat": 1,
-            "avgdiff": -0.173333333333332,
-            "threshold": 0.1,
-            "win_delta_pp": -9.8,
-            "top3_miss_delta_pp": 8.2
+            "avgdiff": -0.6516666666666637,
+            "threshold": -0.1,
+            "win_delta_pp": -11.21,
+            "top3_miss_delta_pp": 7.28
           }
         },
         {
@@ -4984,10 +5780,10 @@
             "candidate_b1_fly_pct": 39.18,
             "candidate_winner_3to6_pct": 48.27,
             "candidate_outer56_top3_pct": 68.0,
-            "b1_gap_vs_23": 0.05200000000000002,
-            "b3_adv_vs_12": -0.031,
-            "b4_adv_vs_123": 0.015599999999999989,
-            "outer56_adv_vs_1": 0.023800000000000016
+            "b1_gap_vs_23": 0.0413,
+            "b3_adv_vs_12": -0.025599999999999984,
+            "b4_adv_vs_123": -0.0021999999999999797,
+            "outer56_adv_vs_1": 0.021200000000000024
           }
         },
         {
@@ -5003,29 +5799,10 @@
             "candidate_b1_fly_pct": 38.2,
             "candidate_winner_3to6_pct": 52.31,
             "candidate_outer56_top3_pct": 68.77,
-            "b1_gap_vs_23": 0.05200000000000002,
-            "b3_adv_vs_12": -0.031,
-            "b4_adv_vs_123": 0.015599999999999989,
-            "outer56_adv_vs_1": 0.023800000000000016
-          }
-        },
-        {
-          "id": "codex_slit_formation_b4_cadou_peek",
-          "label": "スリット隊形: 4カド覗き",
-          "historical_rate_pct": 19.68,
-          "bonus_pct": 1.5,
-          "role": "head_up",
-          "details": {
-            "slit_shape": "1凹み+外圧",
-            "signal": "b4_cadou_peek",
-            "candidate_b1_win_pct": 29.81,
-            "candidate_b1_fly_pct": 38.99,
-            "candidate_winner_3to6_pct": 52.81,
-            "candidate_outer56_top3_pct": 64.92,
-            "b1_gap_vs_23": 0.05200000000000002,
-            "b3_adv_vs_12": -0.031,
-            "b4_adv_vs_123": 0.015599999999999989,
-            "outer56_adv_vs_1": 0.023800000000000016
+            "b1_gap_vs_23": 0.0413,
+            "b3_adv_vs_12": -0.025599999999999984,
+            "b4_adv_vs_123": -0.0021999999999999797,
+            "outer56_adv_vs_1": 0.021200000000000024
           }
         },
         {
@@ -5036,713 +5813,10 @@
           "role": "lane_top3_up",
           "details": {
             "boat": 5,
-            "avgdiff": 0.576666666666668,
+            "avgdiff": 0.278333333333336,
             "threshold": 0.0,
             "top3_uplift_pp": 9.43,
             "win_uplift_pp": 2.53
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_3_0.05",
-          "label": "3号艇 展示+一周平均との差+0.05以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.97,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 3,
-            "avgdiff": 0.1566666666666663,
-            "threshold": 0.05,
-            "top3_uplift_pp": 8.73,
-            "win_uplift_pp": 4.38
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_2_0.15",
-          "label": "2号艇 展示+一周平均との差+0.15以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.92,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 2,
-            "avgdiff": 0.5366666666666617,
-            "threshold": 0.15,
-            "top3_uplift_pp": 8.29,
-            "win_uplift_pp": 4.56
-          }
-        },
-        {
-          "id": "codex_slit_formation_b1_hole_vs_23",
-          "label": "スリット隊形: 1号艇が2/3号艇より0.020遅い",
-          "historical_rate_pct": 19.07,
-          "bonus_pct": 0.9,
-          "role": "b1_fly_up",
-          "details": {
-            "slit_shape": "1凹み+外圧",
-            "signal": "b1_hole_vs_23",
-            "candidate_b1_win_pct": 30.2,
-            "candidate_b1_fly_pct": 38.18,
-            "candidate_winner_3to6_pct": 45.89,
-            "candidate_outer56_top3_pct": 63.18,
-            "b1_gap_vs_23": 0.05200000000000002,
-            "b3_adv_vs_12": -0.031,
-            "b4_adv_vs_123": 0.015599999999999989,
-            "outer56_adv_vs_1": 0.023800000000000016
-          }
-        }
-      ],
-      "recent_rate_pct": 30.26,
-      "condition": "会場: 宮島 × 1号艇AI+一般3連対<150 × 展示: 5/6号艇に展示/1周2位以内 × 展示: 5/6号艇の1周が1号艇より0.05秒以上速い × 5/6号艇AI+一般最大>=100 × Codex複合補正: 夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt / 1号艇 展示+一周平均との差+0.10以下: イン飛び超デバフ",
-      "matched_logic_count": 3,
-      "metrics": {
-        "boat1_ai_prediction_pct": 27.48,
-        "boat1_ai_plus": 114.16,
-        "boat1_ai_plus_order": 2.0,
-        "boat1_nige_pct": 14.29,
-        "boat1_loss_pct": 60.71,
-        "is_joshi": 0.0,
-        "boat1_avg_isshu_diff": -0.173333333333332,
-        "boat1_isshu_avg_diff": -0.2017,
-        "avg_isshu_time": 37.708333333333336,
-        "avg_exhibit_combo_time": 44.406666666666666,
-        "is_summer": 1.0,
-        "b1_summer_isshu_factor": "slow_fly",
-        "b1_summer_nige_delta_pp": -17.0,
-        "boat1_tenji_time": 6.67,
-        "boat1_isshu_time": 37.91,
-        "outer56_best_avg_isshu_diff": 0.576666666666668,
-        "outer56_best_ai_prediction_pct": 22.41,
-        "outer56_best_tenji_time": 6.68,
-        "outer56_best_isshu_time": 37.15,
-        "ai_rank6_boat": 4.0,
-        "ai_rank6_avg_isshu_diff": -0.7333333333333343,
-        "ai_rank6_tenji_rank": 6.0,
-        "ai_rank6_isshu_rank": 6.0,
-        "ai_rank5_boat": 3.0,
-        "ai_rank5_avg_isshu_diff": 0.1566666666666663,
-        "ai_rank5_tenji_rank": 3.0,
-        "ai_rank5_isshu_rank": 3.0,
-        "double_time_boats": "",
-        "super_slit_boats": "",
-        "super_slit_alert_count": 0.0,
-        "mid234_super_slit_count": 0.0,
-        "outer456_super_slit_count": 0.0,
-        "outer56_super_slit_count": 0.0,
-        "slit_shape_label": "1凹み+外圧",
-        "b1_slit_gap_vs_23": 0.05200000000000002,
-        "b3_slit_adv_vs_12": -0.031,
-        "b4_slit_adv_vs_123": 0.015599999999999989,
-        "outer56_slit_adv_vs_1": 0.023800000000000016,
-        "outer456_slit_adv_vs_123": 0.015599999999999989,
-        "slit_dekoboko": 1.0,
-        "slit_b1_front_wall": 0.0,
-        "slit_b1_hole_vs_23": 1.0,
-        "slit_b2_wall_break_3peek": 0.0,
-        "slit_b3_peek_vs_12": 0.0,
-        "slit_b4_cadou_peek": 1.0,
-        "slit_outer456_pressure": 1.0,
-        "slit_outer56_pressure_vs_1": 1.0,
-        "boat1_double_time": 0.0,
-        "mid234_double_time_count": 0.0,
-        "outer46_double_time_count": 0.0,
-        "outer56_double_time_count": 0.0,
-        "wind_speed": 2.0,
-        "wave_height": 2.0,
-        "tenji_boats": 6,
-        "isshu_boats": 6
-      },
-      "result": {
-        "trifecta": "1-2-6",
-        "payout_yen": 2870,
-        "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": 2.0,
-        "wave_height": 2.0
-      }
-    },
-    {
-      "rank": 8,
-      "status": "確定",
-      "date": "2026-06-21",
-      "race_id": "2026-06-210803",
-      "place_id": 8,
-      "place_name": "常滑",
-      "round": 3,
-      "deadline_time": "2026-06-21T11:34:00+09:00",
-      "race_kind": null,
-      "series_title": "ウィンボとこなめ開設記念・ＢＯＡＴＢｏｙカップ",
-      "ranking_type": "strict",
-      "manshu_rate_pct": 31.01,
-      "base_manshu_rate_pct": 28.08,
-      "composite_edge_base_rate_pct": 29.41,
-      "composite_edge_bonus_pct": 1.6,
-      "composite_edges": [
-        {
-          "id": "codex_buy_stable_front_wind11",
-          "label": "買い方候補: 1号艇逃げ失敗45%以上+AI予測25%未満、5/6AI予測12%以上、風波5以上、1〜3R",
-          "historical_rate_pct": 29.41,
-          "bonus_pct": 4.2,
-          "role": "buy_strategy_stable",
-          "details": {
-            "strategy_id": "codex_stable_front_wind11",
-            "train_manshu_roi_pct": 101.84,
-            "validation_manshu_roi_pct": 118.03,
-            "validation_50plus_roi_pct": 138.94,
-            "points": "10-15"
-          }
-        },
-        {
-          "id": "codex_buy_stable_rank56_exhibit10",
-          "label": "買い方候補: 1号艇逃げ率40%未満、5/6AI予測12%以上、AI+5位/最下位が展示2位以内、1〜3R",
-          "historical_rate_pct": 29.36,
-          "bonus_pct": 3.8,
-          "role": "buy_strategy_stable",
-          "details": {
-            "strategy_id": "codex_rank56_exhibit10",
-            "train_manshu_roi_pct": 117.2,
-            "validation_manshu_roi_pct": 169.43,
-            "points": "10"
-          }
-        },
-        {
-          "id": "codex_double_time_3_head",
-          "label": "3号艇ダブルタイム: 頭候補上昇",
-          "historical_rate_pct": 15.77,
-          "bonus_pct": 2.8,
-          "role": "head_up",
-          "details": {
-            "boat": 3,
-            "manshu_rate_pct": 15.77,
-            "win_rate_pct": 26.31,
-            "top3_rate_pct": 73.32,
-            "win_uplift_pp": 14.25,
-            "top3_uplift_pp": 19.8
-          }
-        },
-        {
-          "id": "codex_slit_formation_outer56_pressure_vs_1",
-          "label": "スリット隊形: 5/6外圧",
-          "historical_rate_pct": 21.14,
-          "bonus_pct": 1.9,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "1凹み",
-            "signal": "outer56_pressure_vs_1",
-            "candidate_b1_win_pct": 29.26,
-            "candidate_b1_fly_pct": 39.18,
-            "candidate_winner_3to6_pct": 48.27,
-            "candidate_outer56_top3_pct": 68.0,
-            "b1_gap_vs_23": 0.0615,
-            "b3_adv_vs_12": -0.0756,
-            "b4_adv_vs_123": -0.10650000000000001,
-            "outer56_adv_vs_1": 0.029100000000000015
-          }
-        },
-        {
-          "id": "codex_slit_formation_b5_left_adv",
-          "label": "スリット隊形: 5号艇が左4より0.015速い",
-          "historical_rate_pct": 20.3,
-          "bonus_pct": 1.1,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "1凹み",
-            "signal": "b5_left_adv",
-            "candidate_b1_win_pct": 32.19,
-            "candidate_b1_fly_pct": 35.17,
-            "candidate_winner_3to6_pct": 45.45,
-            "candidate_outer56_top3_pct": 68.55,
-            "b1_gap_vs_23": 0.0615,
-            "b3_adv_vs_12": -0.0756,
-            "b4_adv_vs_123": -0.10650000000000001,
-            "outer56_adv_vs_1": 0.029100000000000015
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_3_0.05",
-          "label": "3号艇 展示+一周平均との差+0.05以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.97,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 3,
-            "avgdiff": 0.6016666666666666,
-            "threshold": 0.05,
-            "top3_uplift_pp": 8.73,
-            "win_uplift_pp": 4.38
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_2_0.15",
-          "label": "2号艇 展示+一周平均との差+0.15以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.92,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 2,
-            "avgdiff": 0.19166666666666998,
-            "threshold": 0.15,
-            "top3_uplift_pp": 8.29,
-            "win_uplift_pp": 4.56
-          }
-        },
-        {
-          "id": "codex_slit_formation_b1_hole_vs_23",
-          "label": "スリット隊形: 1号艇が2/3号艇より0.020遅い",
-          "historical_rate_pct": 19.07,
-          "bonus_pct": 0.9,
-          "role": "b1_fly_up",
-          "details": {
-            "slit_shape": "1凹み",
-            "signal": "b1_hole_vs_23",
-            "candidate_b1_win_pct": 30.2,
-            "candidate_b1_fly_pct": 38.18,
-            "candidate_winner_3to6_pct": 45.89,
-            "candidate_outer56_top3_pct": 63.18,
-            "b1_gap_vs_23": 0.0615,
-            "b3_adv_vs_12": -0.0756,
-            "b4_adv_vs_123": -0.10650000000000001,
-            "outer56_adv_vs_1": 0.029100000000000015
-          }
-        },
-        {
-          "id": "codex_slit_formation_center34_dent",
-          "label": "スリット隊形: 3/4中凹み",
-          "historical_rate_pct": 20.09,
-          "bonus_pct": 0.8,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "1凹み",
-            "signal": "center34_dent",
-            "candidate_b1_win_pct": 32.52,
-            "candidate_b1_fly_pct": 34.9,
-            "candidate_winner_3to6_pct": 43.68,
-            "candidate_outer56_top3_pct": 66.36,
-            "b1_gap_vs_23": 0.0615,
-            "b3_adv_vs_12": -0.0756,
-            "b4_adv_vs_123": -0.10650000000000001,
-            "outer56_adv_vs_1": 0.029100000000000015
-          }
-        },
-        {
-          "id": "codex_boaters_lane_avgdiff_常滑_3_0.05",
-          "label": "常滑3号艇 展示+一周平均との差+0.05以上で3着内上振れ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.8,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 3,
-            "avgdiff": 0.6016666666666666,
-            "threshold": 0.05,
-            "top3_uplift_pp": 9.33,
-            "win_uplift_pp": 4.27,
-            "samples": 2204
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_b1_buff030",
-          "label": "1号艇 展示+一周平均との差+0.30以上: イン堅さバフ",
-          "historical_rate_pct": null,
-          "bonus_pct": -1.2,
-          "role": "b1_hold_down",
-          "details": {
-            "boat": 1,
-            "avgdiff": 0.3016666666666623,
-            "threshold": 0.3,
-            "win_delta_pp": 5.34,
-            "top3_uplift_pp": 3.56
-          }
-        },
-        {
-          "id": "codex_summer_b1_isshu_fast010_hold",
-          "label": "夏場: 1号艇1周が6艇平均より0.10秒速いのでイン逃げ率+15pt",
-          "historical_rate_pct": null,
-          "bonus_pct": -2.2,
-          "role": "b1_hold_down",
-          "details": {
-            "boat": 1,
-            "isshu_avg_diff": 0.36,
-            "threshold": 0.1,
-            "nige_delta_pp": 15,
-            "season": "summer_6_8"
-          }
-        }
-      ],
-      "recent_rate_pct": 22.5,
-      "condition": "会場: 常滑 × 1号艇AI+一般3連対<150 × 展示: AI+下位4〜6号艇が展示/1周2位以内 × 展示: 5/6号艇の展示が1号艇より0.08秒以上速い × Codex複合補正: 買い方候補: 1号艇逃げ失敗45%以上+AI予測25%未満、5/6AI予測12%以上、風波5以上、1〜3R / 買い方候補: 1号艇逃げ率40%未満、5/6AI予測12%以上、AI+5位/最下位が展示2位以内、1〜3R",
-      "matched_logic_count": 4,
-      "metrics": {
-        "boat1_ai_prediction_pct": 15.53,
-        "boat1_ai_plus": 94.7,
-        "boat1_ai_plus_order": 3.0,
-        "boat1_nige_pct": 13.33,
-        "boat1_loss_pct": 86.67,
-        "is_joshi": 0.0,
-        "boat1_avg_isshu_diff": 0.3016666666666623,
-        "boat1_isshu_avg_diff": 0.36,
-        "avg_isshu_time": 38.06,
-        "avg_exhibit_combo_time": 44.85166666666667,
-        "is_summer": 1.0,
-        "b1_summer_isshu_factor": "fast_hold",
-        "b1_summer_nige_delta_pp": 15.0,
-        "boat1_tenji_time": 6.85,
-        "boat1_isshu_time": 37.7,
-        "outer56_best_avg_isshu_diff": -0.15833333333333144,
-        "outer56_best_ai_prediction_pct": 17.6,
-        "outer56_best_tenji_time": 6.77,
-        "outer56_best_isshu_time": 38.21,
-        "ai_rank6_boat": 6.0,
-        "ai_rank6_avg_isshu_diff": -0.3883333333333283,
-        "ai_rank6_tenji_rank": 1.0,
-        "ai_rank6_isshu_rank": 5.0,
-        "ai_rank5_boat": 4.0,
-        "ai_rank5_avg_isshu_diff": -0.5483333333333391,
-        "ai_rank5_tenji_rank": 1.0,
-        "ai_rank5_isshu_rank": 6.0,
-        "double_time_boats": "3",
-        "super_slit_boats": "",
-        "super_slit_alert_count": 0.0,
-        "mid234_super_slit_count": 0.0,
-        "outer456_super_slit_count": 0.0,
-        "outer56_super_slit_count": 0.0,
-        "slit_shape_label": "1凹み",
-        "b1_slit_gap_vs_23": 0.0615,
-        "b3_slit_adv_vs_12": -0.0756,
-        "b4_slit_adv_vs_123": -0.10650000000000001,
-        "outer56_slit_adv_vs_1": 0.029100000000000015,
-        "outer456_slit_adv_vs_123": -0.032399999999999984,
-        "slit_dekoboko": 1.0,
-        "slit_b1_front_wall": 0.0,
-        "slit_b1_hole_vs_23": 1.0,
-        "slit_b2_wall_break_3peek": 0.0,
-        "slit_b3_peek_vs_12": 0.0,
-        "slit_b4_cadou_peek": 0.0,
-        "slit_outer456_pressure": 0.0,
-        "slit_outer56_pressure_vs_1": 1.0,
-        "boat1_double_time": 0.0,
-        "mid234_double_time_count": 1.0,
-        "outer46_double_time_count": 0.0,
-        "outer56_double_time_count": 0.0,
-        "wind_speed": 5.0,
-        "wave_height": 2.0,
-        "tenji_boats": 6,
-        "isshu_boats": 6
-      },
-      "result": {
-        "trifecta": "2-4-5",
-        "payout_yen": 3230,
-        "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": 5.0,
-        "wave_height": 2.0
-      }
-    },
-    {
-      "rank": 9,
-      "status": "確定",
-      "date": "2026-06-21",
-      "race_id": "2026-06-210606",
-      "place_id": 6,
-      "place_name": "浜名湖",
-      "round": 6,
-      "deadline_time": "2026-06-21T14:02:00+09:00",
-      "race_kind": null,
-      "series_title": "にっぽん未来プロジェクト競走ｉｎ浜名湖",
-      "ranking_type": "strict",
-      "manshu_rate_pct": 30.58,
-      "base_manshu_rate_pct": 29.08,
-      "composite_edge_base_rate_pct": 21.14,
-      "composite_edge_bonus_pct": 1.5,
-      "composite_edges": [
-        {
-          "id": "codex_slit_formation_outer56_pressure_vs_1",
-          "label": "スリット隊形: 5/6外圧",
-          "historical_rate_pct": 21.14,
-          "bonus_pct": 1.9,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "2壁割れ3覗き",
-            "signal": "outer56_pressure_vs_1",
-            "candidate_b1_win_pct": 29.26,
-            "candidate_b1_fly_pct": 39.18,
-            "candidate_winner_3to6_pct": 48.27,
-            "candidate_outer56_top3_pct": 68.0,
-            "b1_gap_vs_23": 0.046499999999999986,
-            "b3_adv_vs_12": 0.03509999999999999,
-            "b4_adv_vs_123": -0.009199999999999986,
-            "outer56_adv_vs_1": 0.07959999999999999
-          }
-        },
-        {
-          "id": "codex_slit_formation_outer456_pressure",
-          "label": "スリット隊形: 4〜6外圧",
-          "historical_rate_pct": 20.87,
-          "bonus_pct": 1.8,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "2壁割れ3覗き",
-            "signal": "outer456_pressure",
-            "candidate_b1_win_pct": 29.76,
-            "candidate_b1_fly_pct": 38.2,
-            "candidate_winner_3to6_pct": 52.31,
-            "candidate_outer56_top3_pct": 68.77,
-            "b1_gap_vs_23": 0.046499999999999986,
-            "b3_adv_vs_12": 0.03509999999999999,
-            "b4_adv_vs_123": -0.009199999999999986,
-            "outer56_adv_vs_1": 0.07959999999999999
-          }
-        },
-        {
-          "id": "codex_slit_formation_b2_wall_break_3peek",
-          "label": "スリット隊形: 2壁割れ+3覗き",
-          "historical_rate_pct": 19.1,
-          "bonus_pct": 1.2,
-          "role": "head_up",
-          "details": {
-            "slit_shape": "2壁割れ3覗き",
-            "signal": "b2_wall_break_3peek",
-            "candidate_b1_win_pct": 31.4,
-            "candidate_b1_fly_pct": 36.83,
-            "candidate_winner_3to6_pct": 51.12,
-            "candidate_outer56_top3_pct": 63.38,
-            "b1_gap_vs_23": 0.046499999999999986,
-            "b3_adv_vs_12": 0.03509999999999999,
-            "b4_adv_vs_123": -0.009199999999999986,
-            "outer56_adv_vs_1": 0.07959999999999999
-          }
-        },
-        {
-          "id": "codex_slit_formation_b5_left_adv",
-          "label": "スリット隊形: 5号艇が左4より0.015速い",
-          "historical_rate_pct": 20.3,
-          "bonus_pct": 1.1,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "2壁割れ3覗き",
-            "signal": "b5_left_adv",
-            "candidate_b1_win_pct": 32.19,
-            "candidate_b1_fly_pct": 35.17,
-            "candidate_winner_3to6_pct": 45.45,
-            "candidate_outer56_top3_pct": 68.55,
-            "b1_gap_vs_23": 0.046499999999999986,
-            "b3_adv_vs_12": 0.03509999999999999,
-            "b4_adv_vs_123": -0.009199999999999986,
-            "outer56_adv_vs_1": 0.07959999999999999
-          }
-        },
-        {
-          "id": "codex_slit_formation_b3_peek_vs_12",
-          "label": "スリット隊形: 3号艇が1/2号艇より0.015速い",
-          "historical_rate_pct": 19.34,
-          "bonus_pct": 1.1,
-          "role": "head_up",
-          "details": {
-            "slit_shape": "2壁割れ3覗き",
-            "signal": "b3_peek_vs_12",
-            "candidate_b1_win_pct": 31.0,
-            "candidate_b1_fly_pct": 36.96,
-            "candidate_winner_3to6_pct": 51.39,
-            "candidate_outer56_top3_pct": 63.65,
-            "b1_gap_vs_23": 0.046499999999999986,
-            "b3_adv_vs_12": 0.03509999999999999,
-            "b4_adv_vs_123": -0.009199999999999986,
-            "outer56_adv_vs_1": 0.07959999999999999
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_6_0.00",
-          "label": "6号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.98,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 6,
-            "avgdiff": 0.4166666666666643,
-            "threshold": 0.0,
-            "top3_uplift_pp": 8.83,
-            "win_uplift_pp": 1.6
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_global_2_0.15",
-          "label": "2号艇 展示+一周平均との差+0.15以上: 3着内超バフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 0.92,
-          "role": "lane_top3_up",
-          "details": {
-            "boat": 2,
-            "avgdiff": 0.5666666666666629,
-            "threshold": 0.15,
-            "top3_uplift_pp": 8.29,
-            "win_uplift_pp": 4.56
-          }
-        },
-        {
-          "id": "codex_slit_formation_b1_hole_vs_23",
-          "label": "スリット隊形: 1号艇が2/3号艇より0.020遅い",
-          "historical_rate_pct": 19.07,
-          "bonus_pct": 0.9,
-          "role": "b1_fly_up",
-          "details": {
-            "slit_shape": "2壁割れ3覗き",
-            "signal": "b1_hole_vs_23",
-            "candidate_b1_win_pct": 30.2,
-            "candidate_b1_fly_pct": 38.18,
-            "candidate_winner_3to6_pct": 45.89,
-            "candidate_outer56_top3_pct": 63.18,
-            "b1_gap_vs_23": 0.046499999999999986,
-            "b3_adv_vs_12": 0.03509999999999999,
-            "b4_adv_vs_123": -0.009199999999999986,
-            "outer56_adv_vs_1": 0.07959999999999999
-          }
-        },
-        {
-          "id": "codex_slit_formation_center34_dent",
-          "label": "スリット隊形: 3/4中凹み",
-          "historical_rate_pct": 20.09,
-          "bonus_pct": 0.8,
-          "role": "outer_top3_up",
-          "details": {
-            "slit_shape": "2壁割れ3覗き",
-            "signal": "center34_dent",
-            "candidate_b1_win_pct": 32.52,
-            "candidate_b1_fly_pct": 34.9,
-            "candidate_winner_3to6_pct": 43.68,
-            "candidate_outer56_top3_pct": 66.36,
-            "b1_gap_vs_23": 0.046499999999999986,
-            "b3_adv_vs_12": 0.03509999999999999,
-            "b4_adv_vs_123": -0.009199999999999986,
-            "outer56_adv_vs_1": 0.07959999999999999
-          }
-        },
-        {
-          "id": "codex_boaters_avgdiff_b1_buff030",
-          "label": "1号艇 展示+一周平均との差+0.30以上: イン堅さバフ",
-          "historical_rate_pct": null,
-          "bonus_pct": -1.2,
-          "role": "b1_hold_down",
-          "details": {
-            "boat": 1,
-            "avgdiff": 0.4366666666666603,
-            "threshold": 0.3,
-            "win_delta_pp": 5.34,
-            "top3_uplift_pp": 3.56
-          }
-        },
-        {
-          "id": "codex_summer_b1_isshu_fast010_hold",
-          "label": "夏場: 1号艇1周が6艇平均より0.10秒速いのでイン逃げ率+15pt",
-          "historical_rate_pct": null,
-          "bonus_pct": -2.2,
-          "role": "b1_hold_down",
-          "details": {
-            "boat": 1,
-            "isshu_avg_diff": 0.415,
-            "threshold": 0.1,
-            "nige_delta_pp": 15,
-            "season": "summer_6_8"
-          }
-        }
-      ],
-      "recent_rate_pct": 29.52,
-      "condition": "会場: 浜名湖 × 1〜6R × 1号艇AI+一般3連対<120 × 1号艇一般3連対率<60% × 展示: AI+下位4〜6号艇が展示/1周2位以内 × Codex複合補正: スリット隊形: 5/6外圧 / スリット隊形: 4〜6外圧",
-      "matched_logic_count": 55,
-      "metrics": {
-        "boat1_ai_prediction_pct": 10.25,
-        "boat1_ai_plus": 81.74000000000001,
-        "boat1_ai_plus_order": 5.0,
-        "boat1_nige_pct": 14.29,
-        "boat1_loss_pct": 42.86,
-        "is_joshi": 0.0,
-        "boat1_avg_isshu_diff": 0.4366666666666603,
-        "boat1_isshu_avg_diff": 0.415,
-        "avg_isshu_time": 38.255,
-        "avg_exhibit_combo_time": 45.06666666666666,
-        "is_summer": 1.0,
-        "b1_summer_isshu_factor": "fast_hold",
-        "b1_summer_nige_delta_pp": 15.0,
-        "boat1_tenji_time": 6.79,
-        "boat1_isshu_time": 37.84,
-        "outer56_best_avg_isshu_diff": 0.4166666666666643,
-        "outer56_best_ai_prediction_pct": 9.37,
-        "outer56_best_tenji_time": 6.78,
-        "outer56_best_isshu_time": 37.82,
-        "ai_rank6_boat": 5.0,
-        "ai_rank6_avg_isshu_diff": -0.7533333333333374,
-        "ai_rank6_tenji_rank": 1.0,
-        "ai_rank6_isshu_rank": 6.0,
-        "ai_rank5_boat": 1.0,
-        "ai_rank5_avg_isshu_diff": 0.4366666666666603,
-        "ai_rank5_tenji_rank": 2.0,
-        "ai_rank5_isshu_rank": 3.0,
-        "double_time_boats": "",
-        "super_slit_boats": "",
-        "super_slit_alert_count": 0.0,
-        "mid234_super_slit_count": 0.0,
-        "outer456_super_slit_count": 0.0,
-        "outer56_super_slit_count": 0.0,
-        "slit_shape_label": "2壁割れ3覗き",
-        "b1_slit_gap_vs_23": 0.046499999999999986,
-        "b3_slit_adv_vs_12": 0.03509999999999999,
-        "b4_slit_adv_vs_123": -0.009199999999999986,
-        "outer56_slit_adv_vs_1": 0.07959999999999999,
-        "outer456_slit_adv_vs_123": 0.033100000000000004,
-        "slit_dekoboko": 1.0,
-        "slit_b1_front_wall": 0.0,
-        "slit_b1_hole_vs_23": 1.0,
-        "slit_b2_wall_break_3peek": 1.0,
-        "slit_b3_peek_vs_12": 1.0,
-        "slit_b4_cadou_peek": 0.0,
-        "slit_outer456_pressure": 1.0,
-        "slit_outer56_pressure_vs_1": 1.0,
-        "boat1_double_time": 0.0,
-        "mid234_double_time_count": 0.0,
-        "outer46_double_time_count": 0.0,
-        "outer56_double_time_count": 0.0,
-        "wind_speed": 4.0,
-        "wave_height": 2.0,
-        "tenji_boats": 6,
-        "isshu_boats": 6
-      },
-      "result": {
-        "trifecta": "4-2-1",
-        "payout_yen": 2350,
-        "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": 4.0,
-        "wave_height": 2.0
-      }
-    },
-    {
-      "rank": 10,
-      "status": "確定",
-      "date": "2026-06-21",
-      "race_id": "2026-06-210406",
-      "place_id": 4,
-      "place_name": "平和島",
-      "round": 6,
-      "deadline_time": "2026-06-21T14:28:00+09:00",
-      "race_kind": null,
-      "series_title": "第４０回東京スポーツ賞",
-      "ranking_type": "strict",
-      "manshu_rate_pct": 28.76,
-      "base_manshu_rate_pct": 27.6,
-      "composite_edge_base_rate_pct": null,
-      "composite_edge_bonus_pct": 1.16,
-      "composite_edges": [
-        {
-          "id": "codex_boaters_avgdiff_b1_debuff030",
-          "label": "1号艇 展示+一周平均との差+0.30以下: イン飛びデバフ",
-          "historical_rate_pct": null,
-          "bonus_pct": 1.4,
-          "role": "b1_fly_up",
-          "details": {
-            "boat": 1,
-            "avgdiff": 0.045000000000001705,
-            "threshold": 0.3,
-            "win_delta_pp": -6.72,
-            "top3_miss_delta_pp": 4.48
           }
         },
         {
@@ -5753,7 +5827,7 @@
           "role": "lane_top3_up",
           "details": {
             "boat": 4,
-            "avgdiff": 0.015000000000000568,
+            "avgdiff": 0.33833333333333826,
             "threshold": 0.0,
             "top3_uplift_pp": 8.83,
             "win_uplift_pp": 3.48
@@ -5767,110 +5841,130 @@
           "role": "lane_top3_up",
           "details": {
             "boat": 6,
-            "avgdiff": 0.7450000000000045,
+            "avgdiff": 0.038333333333333997,
             "threshold": 0.0,
             "top3_uplift_pp": 8.83,
             "win_uplift_pp": 1.6
           }
         },
         {
-          "id": "codex_boaters_lane_avgdiff_平和島_4_0.00",
-          "label": "平和島4号艇 展示+一周平均との差+0.00以上で3着内上振れ",
+          "id": "codex_slit_formation_b1_hole_vs_23",
+          "label": "スリット隊形: 1号艇が2/3号艇より0.020遅い",
+          "historical_rate_pct": 19.07,
+          "bonus_pct": 0.9,
+          "role": "b1_fly_up",
+          "details": {
+            "slit_shape": "1凹み+外圧",
+            "signal": "b1_hole_vs_23",
+            "candidate_b1_win_pct": 30.2,
+            "candidate_b1_fly_pct": 38.18,
+            "candidate_winner_3to6_pct": 45.89,
+            "candidate_outer56_top3_pct": 63.18,
+            "b1_gap_vs_23": 0.0413,
+            "b3_adv_vs_12": -0.025599999999999984,
+            "b4_adv_vs_123": -0.0021999999999999797,
+            "outer56_adv_vs_1": 0.021200000000000024
+          }
+        },
+        {
+          "id": "codex_boaters_lane_avgdiff_丸亀_4_0.00",
+          "label": "丸亀4号艇 展示+一周平均との差+0.00以上で3着内上振れ",
           "historical_rate_pct": null,
           "bonus_pct": 0.8,
           "role": "lane_top3_up",
           "details": {
             "boat": 4,
-            "avgdiff": 0.015000000000000568,
+            "avgdiff": 0.33833333333333826,
             "threshold": 0.0,
-            "top3_uplift_pp": 9.18,
-            "win_uplift_pp": 3.89,
-            "samples": 2182
+            "top3_uplift_pp": 9.51,
+            "win_uplift_pp": 3.98,
+            "samples": 2376
           }
         },
         {
-          "id": "codex_summer_b1_isshu_fast010_hold",
-          "label": "夏場: 1号艇1周が6艇平均より0.10秒速いのでイン逃げ率+15pt",
+          "id": "codex_boaters_lane_avgdiff_丸亀_6_0.00",
+          "label": "丸亀6号艇 展示+一周平均との差+0.00以上で3着内上振れ",
           "historical_rate_pct": null,
-          "bonus_pct": -2.2,
-          "role": "b1_hold_down",
+          "bonus_pct": 0.8,
+          "role": "lane_top3_up",
           "details": {
-            "boat": 1,
-            "isshu_avg_diff": 0.265,
-            "threshold": 0.1,
-            "nige_delta_pp": 15,
-            "season": "summer_6_8"
+            "boat": 6,
+            "avgdiff": 0.038333333333333997,
+            "threshold": 0.0,
+            "top3_uplift_pp": 9.35,
+            "win_uplift_pp": 1.55,
+            "samples": 2349
           }
         }
       ],
-      "recent_rate_pct": 23.98,
-      "condition": "会場: 平和島 × 1〜6R × 1号艇AI+一般3連対<150 × 展示: AI+下位4〜6号艇が展示/1周2位以内 × 5/6号艇AI予測最大>=10% × Codex複合補正: 1号艇 展示+一周平均との差+0.30以下: イン飛びデバフ / 4号艇 展示+一周平均との差+0.00以上: 3着内超バフ",
-      "matched_logic_count": 4,
+      "recent_rate_pct": 28.37,
+      "condition": "会場: 丸亀 × 1〜6R × 1号艇逃げ率<40% × 展示: 5/6号艇が2艇とも展示/1周2位以内 × 展示: AI予測下位5/6号艇が展示/1周2位以内 × Codex複合補正: 夏場: 1号艇1周が6艇平均より0.10秒遅いのでイン逃げ率-17pt / 1号艇 展示+一周平均との差-0.10以下: イン飛び超デバフ",
+      "matched_logic_count": 20,
       "metrics": {
-        "boat1_ai_prediction_pct": 29.49,
-        "boat1_ai_plus": 146.57,
-        "boat1_ai_plus_order": 1.0,
-        "boat1_nige_pct": 47.5,
-        "boat1_loss_pct": 35.0,
+        "boat1_ai_prediction_pct": 53.23,
+        "boat1_ai_plus": 154.15,
+        "boat1_ai_plus_order": 2.0,
+        "boat1_nige_pct": 27.27,
+        "boat1_loss_pct": 27.27,
         "is_joshi": 0.0,
-        "boat1_avg_isshu_diff": 0.045000000000001705,
-        "boat1_isshu_avg_diff": 0.265,
-        "avg_isshu_time": 37.995,
-        "avg_exhibit_combo_time": 44.905,
+        "boat1_avg_isshu_diff": -0.6516666666666637,
+        "boat1_isshu_avg_diff": -0.7883,
+        "avg_isshu_time": 37.91166666666667,
+        "avg_exhibit_combo_time": 44.708333333333336,
         "is_summer": 1.0,
-        "b1_summer_isshu_factor": "fast_hold",
-        "b1_summer_nige_delta_pp": 15.0,
-        "boat1_tenji_time": 7.13,
-        "boat1_isshu_time": 37.73,
-        "outer56_best_avg_isshu_diff": 0.7450000000000045,
-        "outer56_best_ai_prediction_pct": 13.06,
-        "outer56_best_tenji_time": 6.87,
-        "outer56_best_isshu_time": 37.29,
-        "ai_rank6_boat": 6.0,
-        "ai_rank6_avg_isshu_diff": 0.7450000000000045,
-        "ai_rank6_tenji_rank": 3.0,
-        "ai_rank6_isshu_rank": 1.0,
-        "ai_rank5_boat": 2.0,
-        "ai_rank5_avg_isshu_diff": 0.035000000000003695,
-        "ai_rank5_tenji_rank": 1.0,
-        "ai_rank5_isshu_rank": 3.0,
+        "b1_summer_isshu_factor": "slow_fly",
+        "b1_summer_nige_delta_pp": -17.0,
+        "boat1_tenji_time": 6.66,
+        "boat1_isshu_time": 38.7,
+        "outer56_best_avg_isshu_diff": 0.278333333333336,
+        "outer56_best_ai_prediction_pct": 3.9,
+        "outer56_best_tenji_time": 6.77,
+        "outer56_best_isshu_time": 37.6,
+        "ai_rank6_boat": 5.0,
+        "ai_rank6_avg_isshu_diff": 0.278333333333336,
+        "ai_rank6_tenji_rank": 4.0,
+        "ai_rank6_isshu_rank": 2.0,
+        "ai_rank5_boat": 3.0,
+        "ai_rank5_avg_isshu_diff": -0.05166666666666231,
+        "ai_rank5_tenji_rank": 5.0,
+        "ai_rank5_isshu_rank": 4.0,
         "double_time_boats": "",
         "super_slit_boats": "",
         "super_slit_alert_count": 0.0,
         "mid234_super_slit_count": 0.0,
         "outer456_super_slit_count": 0.0,
         "outer56_super_slit_count": 0.0,
-        "slit_shape_label": "デコボコ",
-        "b1_slit_gap_vs_23": -0.010599999999999998,
-        "b3_slit_adv_vs_12": -0.010599999999999998,
-        "b4_slit_adv_vs_123": -0.010300000000000004,
-        "outer56_slit_adv_vs_1": -0.004299999999999998,
-        "outer456_slit_adv_vs_123": -0.004299999999999998,
+        "slit_shape_label": "1凹み+外圧",
+        "b1_slit_gap_vs_23": 0.0413,
+        "b3_slit_adv_vs_12": -0.025599999999999984,
+        "b4_slit_adv_vs_123": -0.0021999999999999797,
+        "outer56_slit_adv_vs_1": 0.021200000000000024,
+        "outer456_slit_adv_vs_123": -0.0021999999999999797,
         "slit_dekoboko": 1.0,
         "slit_b1_front_wall": 0.0,
-        "slit_b1_hole_vs_23": 0.0,
+        "slit_b1_hole_vs_23": 1.0,
         "slit_b2_wall_break_3peek": 0.0,
         "slit_b3_peek_vs_12": 0.0,
         "slit_b4_cadou_peek": 0.0,
-        "slit_outer456_pressure": 0.0,
-        "slit_outer56_pressure_vs_1": 0.0,
+        "slit_outer456_pressure": 1.0,
+        "slit_outer56_pressure_vs_1": 1.0,
         "boat1_double_time": 0.0,
         "mid234_double_time_count": 0.0,
         "outer46_double_time_count": 0.0,
         "outer56_double_time_count": 0.0,
-        "wind_speed": 0.0,
-        "wave_height": 3.0,
+        "wind_speed": 4.0,
+        "wave_height": 4.0,
         "tenji_boats": 6,
         "isshu_boats": 6
       },
       "result": {
-        "trifecta": "2-6-3",
-        "payout_yen": 31330,
+        "trifecta": "2-5-4",
+        "payout_yen": 30980,
         "manshu": true,
         "win_method": null,
         "weather": null,
-        "wind_speed": 0.0,
-        "wave_height": 3.0
+        "wind_speed": 4.0,
+        "wave_height": 4.0
       }
     }
   ]
