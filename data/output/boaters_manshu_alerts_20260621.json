@@ -1,7 +1,7 @@
 {
   "version": "boaters-manshu-alerts-v1",
   "date": "2026-06-21",
-  "generated_at": "2026-06-21T21:25:46+09:00",
+  "generated_at": "2026-06-21T23:56:17+09:00",
   "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260621.json",
   "top_n": 10,
   "lookahead_minutes": 20.0,
@@ -12,70 +12,70 @@
       "place_name": "戸田",
       "round": 2,
       "status": "outside_window",
-      "minutes_to_deadline": -609.8
+      "minutes_to_deadline": -760.3
     },
     {
       "race_id": "2026-06-210803",
       "place_name": "常滑",
       "round": 3,
       "status": "outside_window",
-      "minutes_to_deadline": -591.8
+      "minutes_to_deadline": -742.3
     },
     {
       "race_id": "2026-06-210802",
       "place_name": "常滑",
       "round": 2,
       "status": "outside_window",
-      "minutes_to_deadline": -619.8
+      "minutes_to_deadline": -770.3
     },
     {
       "race_id": "2026-06-210206",
       "place_name": "戸田",
       "round": 6,
       "status": "outside_window",
-      "minutes_to_deadline": -491.8
+      "minutes_to_deadline": -642.3
     },
     {
       "race_id": "2026-06-210507",
       "place_name": "多摩川",
       "round": 7,
       "status": "outside_window",
-      "minutes_to_deadline": -410.8
+      "minutes_to_deadline": -561.3
     },
     {
       "race_id": "2026-06-211504",
       "place_name": "丸亀",
       "round": 4,
       "status": "outside_window",
-      "minutes_to_deadline": -280.8
+      "minutes_to_deadline": -431.3
     },
     {
       "race_id": "2026-06-211506",
       "place_name": "丸亀",
       "round": 6,
       "status": "outside_window",
-      "minutes_to_deadline": -230.8
+      "minutes_to_deadline": -381.3
     },
     {
       "race_id": "2026-06-211702",
       "place_name": "宮島",
       "round": 2,
       "status": "outside_window",
-      "minutes_to_deadline": -598.8
+      "minutes_to_deadline": -749.3
     },
     {
       "race_id": "2026-06-211904",
       "place_name": "下関",
       "round": 4,
       "status": "outside_window",
-      "minutes_to_deadline": -268.8
+      "minutes_to_deadline": -419.3
     },
     {
       "race_id": "2026-06-211911",
       "place_name": "下関",
       "round": 11,
       "status": "outside_window",
-      "minutes_to_deadline": -69.8
+      "minutes_to_deadline": -220.3
     }
   ],
   "push": {
