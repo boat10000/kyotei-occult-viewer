@@ -1,7 +1,7 @@
 {
   "version": "boaters-manshu-alerts-v1",
   "date": "2026-06-24",
-  "generated_at": "2026-06-24T20:23:36+09:00",
+  "generated_at": "2026-06-24T22:37:14+09:00",
   "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260624.json",
   "top_n": 10,
   "lookahead_minutes": 20.0,
@@ -12,70 +12,70 @@
       "place_name": "常滑",
       "round": 2,
       "status": "outside_window",
-      "minutes_to_deadline": -556.6
+      "minutes_to_deadline": -690.2
     },
     {
       "race_id": "2026-06-241607",
       "place_name": "児島",
       "round": 7,
       "status": "outside_window",
-      "minutes_to_deadline": -377.6
+      "minutes_to_deadline": -511.2
     },
     {
       "race_id": "2026-06-241501",
       "place_name": "丸亀",
       "round": 1,
       "status": "outside_window",
-      "minutes_to_deadline": -304.6
+      "minutes_to_deadline": -438.2
     },
     {
       "race_id": "2026-06-240808",
       "place_name": "常滑",
       "round": 8,
       "status": "outside_window",
-      "minutes_to_deadline": -369.6
+      "minutes_to_deadline": -503.2
     },
     {
       "race_id": "2026-06-240602",
       "place_name": "浜名湖",
       "round": 2,
       "status": "outside_window",
-      "minutes_to_deadline": -506.6
+      "minutes_to_deadline": -640.2
     },
     {
       "race_id": "2026-06-240606",
       "place_name": "浜名湖",
       "round": 6,
       "status": "outside_window",
-      "minutes_to_deadline": -393.6
+      "minutes_to_deadline": -527.2
     },
     {
       "race_id": "2026-06-240711",
       "place_name": "蒲郡",
       "round": 11,
       "status": "outside_window",
-      "minutes_to_deadline": -6.6
+      "minutes_to_deadline": -140.2
     },
     {
       "race_id": "2026-06-241110",
       "place_name": "びわこ",
       "round": 10,
       "status": "outside_window",
-      "minutes_to_deadline": -316.6
+      "minutes_to_deadline": -450.2
     },
     {
       "race_id": "2026-06-241405",
       "place_name": "鳴門",
       "round": 5,
       "status": "outside_window",
-      "minutes_to_deadline": -459.6
+      "minutes_to_deadline": -593.2
     },
     {
       "race_id": "2026-06-242202",
       "place_name": "福岡",
       "round": 2,
       "status": "outside_window",
-      "minutes_to_deadline": -432.6
+      "minutes_to_deadline": -566.2
     }
   ],
   "push": {

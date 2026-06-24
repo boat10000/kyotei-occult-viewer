@@ -1,7 +1,7 @@
 {
   "version": "boaters-manshu-logic-v2",
   "date": "2026-06-24",
-  "generated_at": "2026-06-24T11:23:55+00:00",
+  "generated_at": "2026-06-24T13:37:36+00:00",
   "threshold_pct": 27.0,
   "logic_label": "Codex全場ランキング + 厳選ランキング",
   "logic_summary": "メインは会場指定なしで、1号艇弱化、外枠上振れ、AI+下位の穴、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクターを総合評価した全場ランキング。同一会場だけに偏らないよう全場ランキングは1会場最大2Rまで表示。下段に過去検証27%以上条件へ一致した厳選ランキングも残す。",
@@ -11,16 +11,16 @@
   },
   "summary": {
     "all_races": 180,
-    "races_with_full_tenji": 178,
-    "races_with_full_isshu": 165,
+    "races_with_full_tenji": 179,
+    "races_with_full_isshu": 167,
     "displayed_top_n": 10,
     "strict_displayed_top_n": 10,
     "settled_top_n": 10,
     "manshu_hits_top_n": 4,
     "actual_manshu_rate_top_n_pct": 40.0,
-    "strict_settled_top_n": 9,
-    "strict_manshu_hits_top_n": 5,
-    "strict_actual_manshu_rate_top_n_pct": 55.56
+    "strict_settled_top_n": 10,
+    "strict_manshu_hits_top_n": 6,
+    "strict_actual_manshu_rate_top_n_pct": 60.0
   },
   "races": [
     {
@@ -1974,6 +1974,14 @@
             "win_uplift_pp": 2.98,
             "samples": 2497
           }
+        },
+        {
+          "id": "codex_allvenue_wind_wave",
+          "label": "全場: 風または波5以上",
+          "historical_rate_pct": null,
+          "bonus_pct": 0.8,
+          "role": "weather_up",
+          "details": {}
         }
       ],
       "recent_rate_pct": null,
@@ -2031,8 +2039,8 @@
         "mid234_double_time_count": 1.0,
         "outer46_double_time_count": 1.0,
         "outer56_double_time_count": 0.0,
-        "wind_speed": null,
-        "wave_height": null,
+        "wind_speed": 5.0,
+        "wave_height": 3.0,
         "tenji_boats": 6,
         "isshu_boats": 6
       },
@@ -2042,8 +2050,8 @@
         "manshu": false,
         "win_method": null,
         "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "wind_speed": 5.0,
+        "wave_height": 3.0
       }
     },
     {
@@ -4704,19 +4712,19 @@
         "mid234_double_time_count": 0.0,
         "outer46_double_time_count": 0.0,
         "outer56_double_time_count": 0.0,
-        "wind_speed": null,
-        "wave_height": null,
+        "wind_speed": 3.0,
+        "wave_height": 3.0,
         "tenji_boats": 6,
         "isshu_boats": 6
       },
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
-        "manshu": false,
+        "trifecta": "3-5-1",
+        "payout_yen": 30320,
+        "manshu": true,
         "win_method": null,
         "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "wind_speed": 3.0,
+        "wave_height": 3.0
       }
     },
     {
