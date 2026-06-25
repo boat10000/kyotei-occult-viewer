@@ -413,25 +413,28 @@ def ensure_morning_ranking(
 
     db_path = WORK_OUT / f"boaters_today_{date_text}.sqlite"
     if rebuild or not db_path.exists():
-        run_cmd(
-            [
-                sys.executable,
-                str(BUILD_DB_SCRIPT),
-                "--mode",
-                "full-daily",
-                "--start-date",
-                date_text,
-                "--end-date",
-                date_text,
-                "--db",
-                str(db_path),
-                "--sleep",
-                "0.08",
-                "--workers",
-                "3",
-            ],
-            BUILD_DB_SCRIPT.parent,
-        )
+        cmd = [
+            sys.executable,
+            str(BUILD_DB_SCRIPT),
+            "--mode",
+            "full-daily",
+            "--start-date",
+            date_text,
+            "--end-date",
+            date_text,
+            "--db",
+            str(db_path),
+            "--sleep",
+            "0.08",
+            "--workers",
+            "3",
+        ]
+        if rebuild:
+            # BOATERS releases originalTenjis shortly before deadline.  A DB
+            # detail row fetched in the morning is still marked done, so force
+            # refetch when the monitor explicitly rebuilds the same-day ranking.
+            cmd.append("--refresh")
+        run_cmd(cmd, BUILD_DB_SCRIPT.parent)
 
     if db_race_count(db_path) == 0:
         if public_json.exists():

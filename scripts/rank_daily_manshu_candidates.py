@@ -2292,6 +2292,10 @@ def split_atoms(combo_id):
     return [part.strip() for part in str(combo_id).split("&") if part.strip()]
 
 
+def race_has_full_exhibition(race):
+    return (int_num(race.get("tenji_boats")) or 0) >= 6 and (int_num(race.get("isshu_boats")) or 0) >= 6
+
+
 def all_venue_edge_signals(race):
     signals = list(composite_edge_signals(race))
     b1_loss = num(race.get("b1_loss_pct"))
@@ -2422,7 +2426,7 @@ def build_rankings(df, logic_rows, masks, threshold=27.0):
         edge_signals = composite_edge_signals(race)
         all_factor_signals = all_venue_edge_signals(race)
         unified_matches = actual if actual else watch
-        unified_status = "厳選統合・展示待ち" if watch and not actual else "厳選統合"
+        unified_status = "厳選統合・展示待ち" if watch and not actual and not race_has_full_exhibition(race) else "厳選統合"
         unified_rows.append(
             row_summary(
                 race,

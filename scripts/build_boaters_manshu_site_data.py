@@ -325,9 +325,12 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
             normalized_metrics[out_key] = as_num(value)
     normalized_metrics["tenji_boats"] = as_int(normalized_metrics["tenji_boats"]) or 0
     normalized_metrics["isshu_boats"] = as_int(normalized_metrics["isshu_boats"]) or 0
+    status = row.get("status") or "未確定"
+    if "展示待ち" in str(status) and normalized_metrics["tenji_boats"] >= 6 and normalized_metrics["isshu_boats"] >= 6:
+        status = str(status).replace("・展示待ち", "").replace("展示待ち", "展示込み")
     return {
         "rank": rank,
-        "status": row.get("status") or "未確定",
+        "status": status,
         "date": row.get("date") or date_text,
         "race_id": row.get("race_id"),
         "place_id": place_id,

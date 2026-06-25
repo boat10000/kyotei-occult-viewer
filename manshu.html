@@ -204,6 +204,19 @@
       var payout=live&&live.payout_yen!=null?live.payout_yen:base.payout_yen;
       return {trifecta:combo||"", payout_yen:payout==null?null:Number(payout), manshu:payout!=null&&Number(payout)>=MAN};
     }
+    function raceClosed(r){
+      var res=resultOf(r);
+      if(res.trifecta||res.payout_yen!=null) return true;
+      if(STATE.date&&STATE.date<todayJst()) return true;
+      var deadlineMs=Date.parse(r.deadline_time||"");
+      return Number.isFinite(deadlineMs)&&Date.now()>deadlineMs;
+    }
+    function exhibitState(r){
+      var m=r.metrics||{}, full=Number(m.tenji_boats||0)>=6&&Number(m.isshu_boats||0)>=6;
+      if(full) return {full:true, text:"展示込み", cls:"good", kind:"ready"};
+      if(raceClosed(r)) return {full:false, text:"展示データ未取得", cls:"warn", kind:"missing_after_close"};
+      return {full:false, text:"展示待ち", cls:"warn", kind:"waiting"};
+    }
     function currentRows(){ return STATE.data?((STATE.data.strict_races||STATE.data.races||[]).slice(0,10)):[]; }
     function renderStatus(rows){
       var settled=rows.filter(function(r){return resultOf(r).payout_yen!=null;}).length;
@@ -270,8 +283,10 @@
         if(d.candidate_outer56_top3_pct!=null) addImpact(outer,"up","5・6号艇3着内率",d.candidate_outer56_top3_pct,BASELINE.outer56Top3,e.label);
       });
 
-      if(Number(m.tenji_boats||0)>=6) addTag(exhibit,"buff","展示6艇取得済み","展示込み");
-      else addTag(exhibit,"neutral","展示待ち","朝時点");
+      var ex=exhibitState(r);
+      if(ex.full) addTag(exhibit,"buff","展示6艇取得済み","展示込み");
+      else if(ex.kind==="missing_after_close") addTag(exhibit,"debuff","展示データ未取得","レース後なので再取得対象");
+      else addTag(exhibit,"neutral","展示待ち","締切前");
       if(Number(m.isshu_boats||0)>=6) addTag(exhibit,"buff","1周6艇取得済み","1周込み");
       if(m.double_time_boats) addTag(exhibit,"superbuff","ダブルタイム",boatList(m.double_time_boats));
       if(m.super_slit_boats) addTag(exhibit,"superbuff","スーパースリットアラート",boatList(m.super_slit_boats));
@@ -394,8 +409,11 @@
       if(m.double_time_boats){
         out.push({type:"good",title:"ダブルタイム",body:boatList(m.double_time_boats)+"が展示タイムと1周タイムの両方で良い数字です。"});
       }
-      if(Number(m.tenji_boats||0)<6||Number(m.isshu_boats||0)<6){
-        out.push({type:"warn",title:"展示後に変わる可能性",body:"まだ展示や1周タイムが全部そろっていません。直前データが入ると順位が上下することがあります。"});
+      var ex=exhibitState(r);
+      if(!ex.full&&ex.kind==="waiting"){
+        out.push({type:"warn",title:"展示後に変わる可能性",body:"まだ展示や1周タイムが全部そろっていません。締切15分前くらいに直前データが入ると順位が上下することがあります。"});
+      }else if(!ex.full){
+        out.push({type:"warn",title:"展示データがまだ保存されていません",body:"レースは終わっていますが、このJSONには展示や1周タイムが入っていません。自動更新でBOATERSから再取得する対象です。"});
       }
       if(!out.length) out.push({type:"warn",title:"強い材料は少なめ",body:"今の保存データでは、はっきりした押し材料は多くありません。"});
       return out.slice(0,5);
@@ -433,13 +451,12 @@
       ].join("");
     }
     function raceBadgesHtml(r){
-      var s=raceShape(r), res=resultOf(r), m=r.metrics||{}, badges=[];
+      var s=raceShape(r), res=resultOf(r), m=r.metrics||{}, ex=exhibitState(r), badges=[];
       badges.push("<span class=\"badge\">締切 "+esc(deadline(r))+"</span>");
       badges.push("<span class=\"badge "+(res.manshu?"good":"")+"\">"+(res.payout_yen!=null?"結果 "+esc(yen(res.payout_yen)):"結果待ち")+"</span>");
       if(s.b1Win!=null&&s.b1Win<=35) badges.push("<span class=\"badge bad\">1号艇きびしい</span>");
       if(s.outer56Top3!=null&&s.outer56Top3>=60) badges.push("<span class=\"badge good\">5・6絡み注意</span>");
-      if(Number(m.tenji_boats||0)>=6&&Number(m.isshu_boats||0)>=6) badges.push("<span class=\"badge good\">展示込み</span>");
-      else badges.push("<span class=\"badge warn\">展示待ち</span>");
+      badges.push("<span class=\"badge "+esc(ex.cls)+"\">"+esc(ex.text)+"</span>");
       return "<div class=\"race-badges\">"+badges.join("")+"</div>";
     }
     function raceCardHtml(r){

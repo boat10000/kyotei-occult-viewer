@@ -36,6 +36,30 @@ LANE1_PROFILE_COLUMNS = [
     "lane1_profile_label",
 ]
 
+MATCHUP_PROFILE_COLUMNS = [
+    "matchup_total_meetings",
+    "matchup_opponents_seen",
+    "matchup_coverage",
+    "matchup_win_rate",
+    "matchup_top3_rate",
+    "matchup_ahead_rate",
+    "matchup_lane1_meetings",
+    "matchup_lane1_win_rate",
+    "matchup_lane1_top3_rate",
+    "matchup_lane1_ahead_rate",
+    "matchup_head_bonus",
+    "matchup_axis_bonus",
+    "matchup_toss_bonus",
+    "matchup_label",
+]
+
+MATCHUP_RACE_COLUMNS = [
+    "matchup_lane1_pressure_score",
+    "matchup_outer_good_count",
+    "matchup_lane1_bad_flag",
+    "matchup_notes",
+]
+
 
 def as_float(value: Any) -> float | None:
     try:
@@ -103,6 +127,19 @@ def read_lane1_profiles(path: Path | None) -> dict[str, Row]:
     return profiles
 
 
+def read_matchup_profiles(path: Path | None) -> dict[tuple[str, str], Row]:
+    if path is None or not path.exists():
+        return {}
+    profiles: dict[tuple[str, str], Row] = {}
+    with path.open(encoding="utf-8", newline="") as handle:
+        for row in csv.DictReader(handle):
+            racer = normalize_registration_no(row.get("racer_registration_no"))
+            opponent = normalize_registration_no(row.get("opponent_registration_no"))
+            if racer and opponent:
+                profiles[(racer, opponent)] = row
+    return profiles
+
+
 def lane1_profile_for_race(race: Row, profiles: dict[str, Row]) -> Row | None:
     registration_no = normalize_registration_no(race.get("lane1_registration_no"))
     return profiles.get(registration_no)
@@ -153,6 +190,168 @@ def lane1_profile_metrics(profile: Row | None) -> Row:
         "lane1_profile_manshu_rate_when_missed": as_float(profile.get("manshu_rate_when_lane1_missed")),
         "lane1_profile_label": lane1_profile_label(profile),
     }
+
+
+def empty_matchup_metrics() -> Row:
+    return {
+        "matchup_total_meetings": None,
+        "matchup_opponents_seen": 0,
+        "matchup_coverage": 0.0,
+        "matchup_win_rate": None,
+        "matchup_top3_rate": None,
+        "matchup_ahead_rate": None,
+        "matchup_lane1_meetings": None,
+        "matchup_lane1_win_rate": None,
+        "matchup_lane1_top3_rate": None,
+        "matchup_lane1_ahead_rate": None,
+        "matchup_head_bonus": 0.0,
+        "matchup_axis_bonus": 0.0,
+        "matchup_toss_bonus": 0.0,
+        "matchup_label": "相性データ薄",
+    }
+
+
+def matchup_rate(numerator: float, denominator: float) -> float | None:
+    if denominator <= 0:
+        return None
+    return numerator / denominator
+
+
+def build_matchup_context(race: Row, profiles: dict[tuple[str, str], Row]) -> tuple[dict[int, Row], Row]:
+    if not profiles:
+        return ({lane: empty_matchup_metrics() for lane in range(1, 7)}, {key: None for key in MATCHUP_RACE_COLUMNS})
+
+    regs = {
+        lane: normalize_registration_no(race.get(f"lane{lane}_registration_no"))
+        for lane in range(1, 7)
+    }
+    metrics_by_lane: dict[int, Row] = {}
+    lane1_reg = regs.get(1, "")
+    pressure_score = 0.0
+    outer_good_count = 0
+    notes: list[str] = []
+
+    for lane, reg in regs.items():
+        if not reg:
+            metrics_by_lane[lane] = empty_matchup_metrics()
+            continue
+        total = wins = top3 = ahead = 0
+        opponents_seen = 0
+        lane1_meetings = lane1_wins = lane1_top3 = lane1_ahead = 0
+        for opponent_lane, opponent_reg in regs.items():
+            if opponent_lane == lane or not opponent_reg:
+                continue
+            pair = profiles.get((reg, opponent_reg))
+            if not pair:
+                continue
+            meetings = as_int(pair.get("meetings"))
+            if meetings <= 0:
+                continue
+            total += meetings
+            wins += as_int(pair.get("wins"))
+            top3 += as_int(pair.get("top3"))
+            ahead += as_int(pair.get("ahead"))
+            if meetings >= 3:
+                opponents_seen += 1
+            if opponent_lane == 1:
+                lane1_meetings += meetings
+                lane1_wins += as_int(pair.get("wins_when_opponent_lane1"))
+                lane1_top3 += as_int(pair.get("top3_when_opponent_lane1"))
+                lane1_ahead += as_int(pair.get("ahead_when_opponent_lane1"))
+
+        if total <= 0:
+            metrics_by_lane[lane] = empty_matchup_metrics()
+            continue
+
+        win_rate = matchup_rate(wins, total)
+        top3_rate = matchup_rate(top3, total)
+        ahead_rate = matchup_rate(ahead, total)
+        lane1_win_rate = matchup_rate(lane1_wins, lane1_meetings)
+        lane1_top3_rate = matchup_rate(lane1_top3, lane1_meetings)
+        lane1_ahead_rate = matchup_rate(lane1_ahead, lane1_meetings)
+        reliability = min(1.0, total / 30.0) * min(1.0, max(opponents_seen, 1) / 3.0)
+        lane1_reliability = min(1.0, lane1_meetings / 10.0)
+        head_bonus = 0.0
+        axis_bonus = 0.0
+        toss_bonus = 0.0
+
+        if total >= 8:
+            if win_rate is not None and win_rate >= 0.16:
+                head_bonus += min(5.0, (win_rate - 0.12) * 36.0) * reliability
+            if ahead_rate is not None and ahead_rate >= 0.56:
+                head_bonus += min(4.0, (ahead_rate - 0.52) * 22.0) * reliability
+                axis_bonus += min(3.0, (ahead_rate - 0.52) * 16.0) * reliability
+            if top3_rate is not None and top3_rate >= 0.54:
+                axis_bonus += min(5.0, (top3_rate - 0.48) * 22.0) * reliability
+            if top3_rate is not None and ahead_rate is not None and top3_rate <= 0.34 and ahead_rate <= 0.44:
+                toss_bonus += min(6.0, (0.38 - top3_rate) * 18.0 + (0.48 - ahead_rate) * 12.0) * reliability
+
+        if lane != 1 and lane1_reg and lane1_meetings >= 3:
+            if lane1_ahead_rate is not None and lane1_ahead_rate >= 0.55:
+                head_bonus += min(4.0, (lane1_ahead_rate - 0.50) * 20.0) * lane1_reliability
+                axis_bonus += min(3.0, (lane1_ahead_rate - 0.50) * 12.0) * lane1_reliability
+            if lane1_top3_rate is not None and lane1_top3_rate >= 0.55:
+                axis_bonus += min(2.5, (lane1_top3_rate - 0.50) * 10.0) * lane1_reliability
+            if lane1_ahead_rate is not None:
+                pressure_score += max(0.0, lane1_ahead_rate - 0.50) * 18.0 * lane1_reliability
+
+        if lane == 1 and total >= 8:
+            if ahead_rate is not None and ahead_rate <= 0.48:
+                toss_bonus += min(4.0, (0.52 - ahead_rate) * 14.0) * reliability
+            if top3_rate is not None and top3_rate <= 0.58:
+                toss_bonus += min(3.0, (0.62 - top3_rate) * 10.0) * reliability
+            if ahead_rate is not None and ahead_rate >= 0.58 and top3_rate is not None and top3_rate >= 0.72:
+                head_bonus += min(3.0, (ahead_rate - 0.54) * 12.0) * reliability
+                axis_bonus += min(3.0, (top3_rate - 0.66) * 12.0) * reliability
+
+        label = "相性標準"
+        if total < 6:
+            label = "相性データ薄"
+        elif lane != 1 and lane1_meetings >= 4 and lane1_ahead_rate is not None and lane1_ahead_rate >= 0.60:
+            label = "1号艇キラー"
+        elif head_bonus >= 4.0 and axis_bonus >= 3.0:
+            label = "相性バフ"
+        elif axis_bonus >= 4.0:
+            label = "相性軸バフ"
+        elif toss_bonus >= 4.0:
+            label = "相性デバフ"
+
+        if lane != 1 and label in {"1号艇キラー", "相性バフ", "相性軸バフ"}:
+            outer_good_count += 1
+            notes.append(f"{lane}号艇{label}")
+
+        metrics_by_lane[lane] = {
+            "matchup_total_meetings": total,
+            "matchup_opponents_seen": opponents_seen,
+            "matchup_coverage": round(opponents_seen / 5.0, 3),
+            "matchup_win_rate": round(win_rate, 5) if win_rate is not None else None,
+            "matchup_top3_rate": round(top3_rate, 5) if top3_rate is not None else None,
+            "matchup_ahead_rate": round(ahead_rate, 5) if ahead_rate is not None else None,
+            "matchup_lane1_meetings": lane1_meetings or None,
+            "matchup_lane1_win_rate": round(lane1_win_rate, 5) if lane1_win_rate is not None else None,
+            "matchup_lane1_top3_rate": round(lane1_top3_rate, 5) if lane1_top3_rate is not None else None,
+            "matchup_lane1_ahead_rate": round(lane1_ahead_rate, 5) if lane1_ahead_rate is not None else None,
+            "matchup_head_bonus": round(clamp(head_bonus, 0.0, 8.0), 3),
+            "matchup_axis_bonus": round(clamp(axis_bonus, 0.0, 8.0), 3),
+            "matchup_toss_bonus": round(clamp(toss_bonus, 0.0, 8.0), 3),
+            "matchup_label": label,
+        }
+
+    lane1 = metrics_by_lane.get(1, empty_matchup_metrics())
+    lane1_bad = bool(
+        as_int(lane1.get("matchup_total_meetings")) >= 12
+        and (
+            (as_float(lane1.get("matchup_ahead_rate")) is not None and as_float(lane1.get("matchup_ahead_rate")) <= 0.48)
+            or (as_float(lane1.get("matchup_top3_rate")) is not None and as_float(lane1.get("matchup_top3_rate")) <= 0.58)
+        )
+    )
+    summary = {
+        "matchup_lane1_pressure_score": round(clamp(pressure_score, 0.0, 10.0), 3),
+        "matchup_outer_good_count": outer_good_count,
+        "matchup_lane1_bad_flag": bool_int(lane1_bad),
+        "matchup_notes": "|".join(notes[:4]),
+    }
+    return metrics_by_lane, summary
 
 
 def parse_trifecta(value: Any) -> list[int]:
