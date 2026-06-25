@@ -1,0 +1,16 @@
+{
+  "version": "research-v2-baseline-1",
+  "git_commit": "211d1fa686ed356bacf489638908beaedbd5bbf4",
+  "manshu_html_hash": "200389a3b9505f1564b7443bcec6b77f181bb004d4c2cd06b830e53bf3239350",
+  "script_hashes": {
+    "scripts/rank_daily_manshu_candidates.py": "849d004faad58481d975fc63f03f6dd703a7db243c8ccd0073cb2b7b0da14d36",
+    "scripts/build_manshu_dataset.py": "fb808dc3ef44089b39b2f795e4e1b5c2ebf4ed4c6133e1c230093ad1453c3d06",
+    "scripts/build_boat_role_dataset.py": "a1c9119d2da6bd05c6c7e69e8ffe723baec2f2a382647d1855369f2f34b182aa",
+    "scripts/generate_manshu_role_ranking.py": "06d9ac57450cc009968483442bfd827d55ac48f1814e96f18ac96f131f191de2",
+    "scripts/backtest_role_formations.py": "534aac5cd1aa1157a5d358ecd24d82c0d18654cfcedc8b639fccbe4ee1a19443",
+    "scripts/backtest_boaters_composite_buy_strategies.py": "50049454269384945ae9d68274cffcf41c6288d1891e4eec9ad61399d83a51d0",
+    "scripts/fetch_boatrace_data.py": "5f7f13702cb2d52b7e5d8e5e2eefc63cd5389bf9970154d087b8efe6f25bf465",
+    "scripts/normalize_boatrace_data.py": "1663c360ae44ae1945a87fdf4e3f4fa6e1a2b1c60d6dea4b540077d0e05152be",
+    "scripts/validate_manshu_model.py": "0f24e5ab6c28b07fceabee28e93ce89c25339a467e3b4db5cdbbb8711b44ead9"
+  }
+}
