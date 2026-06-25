@@ -20,8 +20,8 @@
     var key = date.replace(/-/g, "");
     var prefix = assetPrefix() + "data/output/";
     return [
-      prefix + "boaters_manshu_ranking_codex_" + key + ".json?v=codex8",
-      prefix + "boaters_manshu_ranking_" + key + ".json?v=codex8"
+      prefix + "boaters_manshu_ranking_codex_" + key + ".json?v=codex9",
+      prefix + "boaters_manshu_ranking_" + key + ".json?v=codex9"
     ];
   }
 
@@ -162,18 +162,18 @@
     if (!oldRank) oldRank = document.querySelector("footer");
     if (!oldRank) return;
     var summary = data.summary || {};
-    var strictRows = (data.strict_races || []).slice(0, 5);
+    var strictRows = (data.strict_races || []).slice(0, 10);
     var strictHtml = strictRows.length ? [
       "<table class=\"bm-table\"><thead><tr><th>万舟率</th><th>レース</th><th>該当ロジック・展示根拠</th><th>結果</th></tr></thead><tbody>",
       strictRows.map(raceRow).join(""),
       "</tbody></table>"
-    ].join("") : "<p class=\"lead\">Codex厳選ランキングTOP5に表示できる該当レースがまだありません。</p>";
+    ].join("") : "<p class=\"lead\">Codex厳選ランキングTOP10に表示できる該当レースがまだありません。</p>";
     var section = document.createElement("section");
     section.id = "boaters-manshu-card";
     section.className = "card boaters-manshu";
     section.innerHTML = [
-      "<h2>Codex厳選ランキング TOP5</h2>",
-      "<p class=\"lead\"><b>" + esc(data.logic_label || "Codex厳選ランキング") + "</b>で算出。過去検証で万舟率" + esc(fmtPct(data.threshold_pct)) + "以上だった強い条件に一致したレースだけを表示します。</p>",
+      "<h2>Codex厳選ランキング TOP10</h2>",
+      "<p class=\"lead\"><b>" + esc(data.logic_label || "Codex厳選ランキング") + "</b>で算出。過去27%以上の強条件、全場補正、BOATERS AI/オッズ、展示+1周、スリット隊形、女子戦、天候、対戦相性をすべて混ぜた統合ランキングです。</p>",
       "<div class=\"bm-summary\">",
       "<span class=\"bm-chip hot\">厳選TOP" + esc(strictRows.length) + "</span>",
       "<span class=\"bm-chip\">万舟 " + esc(summary.strict_manshu_hits_top_n || 0) + "/" + esc(summary.strict_settled_top_n || 0) + "本</span>",

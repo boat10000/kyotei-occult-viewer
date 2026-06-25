@@ -216,6 +216,8 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
     metrics = row.get("metrics") or {}
     metric_map = {
         "boat1_ai_prediction_pct": "b1_ai_prediction_pct",
+        "boat1_odds_prediction_pct": "b1_odds_prediction_pct",
+        "boat1_odds_rank": "b1_odds_rank",
         "boat1_ai_plus": "b1_ai_plus",
         "boat1_ai_plus_order": "b1_ai_plus_order",
         "boat1_nige_pct": "b1_nige_pct",
@@ -236,12 +238,28 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "outer56_best_isshu_time": "outer56_best_isshu_time",
         "ai_rank6_boat": "ai_rank6_boat",
         "ai_rank6_avg_isshu_diff": "ai_rank6_avg_isshu_diff",
+        "ai_rank6_ai_prediction_pct": "ai_rank6_ai_prediction_pct",
         "ai_rank6_tenji_rank": "ai_rank6_tenji_rank",
         "ai_rank6_isshu_rank": "ai_rank6_isshu_rank",
         "ai_rank5_boat": "ai_rank5_boat",
         "ai_rank5_avg_isshu_diff": "ai_rank5_avg_isshu_diff",
+        "ai_rank5_ai_prediction_pct": "ai_rank5_ai_prediction_pct",
         "ai_rank5_tenji_rank": "ai_rank5_tenji_rank",
         "ai_rank5_isshu_rank": "ai_rank5_isshu_rank",
+        "low_outer_boat": "low_outer_boat",
+        "low_outer_ai_plus_rank": "low_outer_ai_plus_rank",
+        "low_outer_avg_isshu_diff": "low_outer_avg_isshu_diff",
+        "low_outer_ai_prediction_pct": "low_outer_ai_prediction_pct",
+        "low_outer_tenji_rank": "low_outer_tenji_rank",
+        "low_outer_isshu_rank": "low_outer_isshu_rank",
+        "low_outer_exhibit_top2": "low_outer_exhibit_top2",
+        "center_attack_wall_outer": "center_attack_wall_outer",
+        "weather_pressure": "weather_pressure",
+        "outer_isshu_priority_b1weak": "outer_isshu_priority_b1weak",
+        "b1_full_tobashi_shape": "b1_full_tobashi_shape",
+        "longshot_head_boats": "longshot_head_boats",
+        "longshot_head_candidate_count": "longshot_head_candidate_count",
+        "longshot_head_with_b1_gap": "longshot_head_with_b1_gap",
         "double_time_boats": "double_time_boats",
         "super_slit_boats": "super_slit_boats",
         "super_slit_alert_count": "super_slit_alert_count",
@@ -262,6 +280,17 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "slit_b4_cadou_peek": "slit_b4_cadou_peek",
         "slit_outer456_pressure": "slit_outer456_pressure",
         "slit_outer56_pressure_vs_1": "slit_outer56_pressure_vs_1",
+        "matchup_lane1_pressure_score": "matchup_lane1_pressure_score",
+        "matchup_outer_good_count": "matchup_outer_good_count",
+        "matchup_lane1_bad_flag": "matchup_lane1_bad_flag",
+        "matchup_notes": "matchup_notes",
+        "matchup_buff_boats": "matchup_buff_boats",
+        "b1_matchup_label": "b1_matchup_label",
+        "b2_matchup_label": "b2_matchup_label",
+        "b3_matchup_label": "b3_matchup_label",
+        "b4_matchup_label": "b4_matchup_label",
+        "b5_matchup_label": "b5_matchup_label",
+        "b6_matchup_label": "b6_matchup_label",
         "boat1_double_time": "boat1_double_time",
         "mid234_double_time_count": "mid234_double_time_count",
         "outer46_double_time_count": "outer46_double_time_count",
@@ -276,7 +305,21 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         value = metrics.get(out_key)
         if value is None:
             value = row.get(in_key)
-        if out_key in {"double_time_boats", "super_slit_boats", "b1_summer_isshu_factor", "slit_shape_label"}:
+        if out_key in {
+            "double_time_boats",
+            "super_slit_boats",
+            "b1_summer_isshu_factor",
+            "slit_shape_label",
+            "matchup_notes",
+            "matchup_buff_boats",
+            "longshot_head_boats",
+            "b1_matchup_label",
+            "b2_matchup_label",
+            "b3_matchup_label",
+            "b4_matchup_label",
+            "b5_matchup_label",
+            "b6_matchup_label",
+        }:
             normalized_metrics[out_key] = value or ""
         else:
             normalized_metrics[out_key] = as_num(value)
@@ -310,7 +353,11 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
 def build_payload(source: dict, top_n: int, results_map: dict[tuple[int, int], dict] | None = None) -> dict:
     date_text = source["date"]
     strict_source_rows = []
-    if isinstance(source.get("all_venue_rank_top"), list):
+    unified_source_rows = source.get("unified_rank_top")
+    if isinstance(unified_source_rows, list) and unified_source_rows:
+        rows = list(unified_source_rows)
+        strict_source_rows = list(unified_source_rows)
+    elif isinstance(source.get("all_venue_rank_top"), list):
         rows = list(source.get("all_venue_rank_top") or [])
         strict_source_rows = list(source.get("strict_rank_top") or [])
         if not strict_source_rows:
@@ -382,6 +429,8 @@ def fill_source_from_csv(source: dict, csv_rows: list[dict]) -> None:
         source["all_venue_rank_top"] = all_rows
     if not source.get("strict_rank_top") and strict_rows:
         source["strict_rank_top"] = strict_rows
+    if not source.get("unified_rank_top") and strict_rows:
+        source["unified_rank_top"] = strict_rows
     if (not isinstance(source.get("races"), list) or not source.get("races")) and all_rows:
         source["races"] = all_rows
 

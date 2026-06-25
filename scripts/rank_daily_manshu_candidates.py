@@ -9,12 +9,15 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from build_boat_role_dataset import build_matchup_context, read_matchup_profiles
+
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "data" / "output"
 REPORT_DIR = OUT_DIR / "boaters_report"
 HISTORY_DB = OUT_DIR / "boaters_all_races.sqlite"
 DEFAULT_LOGIC_CSV = ROOT / "data" / "model" / "manshu_condition_combo_search.csv"
+DEFAULT_MATCHUP_PROFILE = ROOT / "data" / "analysis" / "matchup_profiles.csv"
 
 FIXED_TOP6_VENUES = {"平和島", "鳴門", "戸田", "桐生", "江戸川", "浜名湖"}
 FIXED_TOP10_VENUES = FIXED_TOP6_VENUES | {"児島", "三国", "宮島", "若松"}
@@ -506,7 +509,7 @@ def historical_venue_sets(history_db):
     return set(df.head(6)["place_name"]), set(df.head(10)["place_name"])
 
 
-def daily_features(today_db, target_date):
+def daily_features(today_db, target_date, matchup_profiles=None):
     with connect_ro(today_db) as con:
         sql = """
         WITH base AS (
@@ -528,6 +531,7 @@ def daily_features(today_db, target_date):
                 r.result_payout3t1 AS payout,
                 r.winning_number3t1 AS trifecta,
                 b.boat_number,
+                b.reg_no,
                 b.is_absent,
                 b.ai_3ren_pct,
                 b.general_3ren_pct,
@@ -536,6 +540,7 @@ def daily_features(today_db, target_date):
                     THEN b.ai_3ren_pct + b.general_3ren_pct
                 END AS ai_plus,
                 b.ai_prediction_pct,
+                b.odds_prediction_pct,
                 b.st_rank_general,
                 b.st_time_avg_general,
                 b.tenji_time,
@@ -572,6 +577,10 @@ def daily_features(today_db, target_date):
                 ) AS ai_prediction_rank_raw,
                 RANK() OVER (
                     PARTITION BY race_id
+                    ORDER BY CASE WHEN odds_prediction_pct IS NULL THEN 1 ELSE 0 END, odds_prediction_pct DESC
+                ) AS odds_rank_raw,
+                RANK() OVER (
+                    PARTITION BY race_id
                     ORDER BY CASE WHEN tenji_time IS NULL THEN 1 ELSE 0 END, tenji_time ASC
                 ) AS tenji_time_rank_raw,
                 RANK() OVER (
@@ -591,6 +600,7 @@ def daily_features(today_db, target_date):
                 CASE WHEN ai_plus IS NOT NULL THEN ai_plus_rank_raw END AS ai_plus_rank,
                 CASE WHEN ai_plus IS NOT NULL THEN ai_plus_order_raw END AS ai_plus_order,
                 CASE WHEN ai_prediction_pct IS NOT NULL THEN ai_prediction_rank_raw END AS ai_prediction_rank,
+                CASE WHEN odds_prediction_pct IS NOT NULL THEN odds_rank_raw END AS odds_rank,
                 CASE WHEN tenji_time IS NOT NULL THEN tenji_time_rank_raw END AS tenji_time_rank,
                 CASE WHEN isshu_time IS NOT NULL THEN isshu_rank_raw END AS isshu_rank
             FROM ranked
@@ -614,6 +624,8 @@ def daily_features(today_db, target_date):
             MAX(trifecta) AS trifecta,
 
             MAX(CASE WHEN boat_number = 1 THEN ai_prediction_pct END) AS b1_ai_prediction_pct,
+            MAX(CASE WHEN boat_number = 1 THEN odds_prediction_pct END) AS b1_odds_prediction_pct,
+            MAX(CASE WHEN boat_number = 1 THEN odds_rank END) AS b1_odds_rank,
             MAX(CASE WHEN boat_number = 1 THEN ai_plus END) AS b1_ai_plus,
             MAX(CASE WHEN boat_number = 1 THEN ai_plus_order END) AS b1_ai_plus_order,
             MAX(CASE WHEN boat_number = 1 THEN ai_3ren_pct END) AS b1_ai_3ren_pct,
@@ -629,7 +641,28 @@ def daily_features(today_db, target_date):
             MAX(CASE WHEN boat_number = 1 THEN isshu_rank END) AS b1_isshu_rank,
             MAX(CASE WHEN boat_number = 1 THEN nige_pct_year END) AS b1_nige_pct,
             MAX(CASE WHEN boat_number = 1 THEN sasare_pct_year + makurare_pct_year END) AS b1_loss_pct,
+            MAX(CASE WHEN boat_number = 1 THEN reg_no END) AS b1_registration_no,
 
+            MAX(CASE WHEN boat_number = 2 THEN reg_no END) AS b2_registration_no,
+            MAX(CASE WHEN boat_number = 3 THEN reg_no END) AS b3_registration_no,
+            MAX(CASE WHEN boat_number = 4 THEN reg_no END) AS b4_registration_no,
+            MAX(CASE WHEN boat_number = 5 THEN reg_no END) AS b5_registration_no,
+            MAX(CASE WHEN boat_number = 6 THEN reg_no END) AS b6_registration_no,
+            MAX(CASE WHEN boat_number = 2 THEN ai_prediction_pct END) AS b2_ai_prediction_pct,
+            MAX(CASE WHEN boat_number = 3 THEN ai_prediction_pct END) AS b3_ai_prediction_pct,
+            MAX(CASE WHEN boat_number = 4 THEN ai_prediction_pct END) AS b4_ai_prediction_pct,
+            MAX(CASE WHEN boat_number = 5 THEN ai_prediction_pct END) AS b5_ai_prediction_pct,
+            MAX(CASE WHEN boat_number = 6 THEN ai_prediction_pct END) AS b6_ai_prediction_pct,
+            MAX(CASE WHEN boat_number = 2 THEN odds_prediction_pct END) AS b2_odds_prediction_pct,
+            MAX(CASE WHEN boat_number = 3 THEN odds_prediction_pct END) AS b3_odds_prediction_pct,
+            MAX(CASE WHEN boat_number = 4 THEN odds_prediction_pct END) AS b4_odds_prediction_pct,
+            MAX(CASE WHEN boat_number = 5 THEN odds_prediction_pct END) AS b5_odds_prediction_pct,
+            MAX(CASE WHEN boat_number = 6 THEN odds_prediction_pct END) AS b6_odds_prediction_pct,
+            MAX(CASE WHEN boat_number = 2 THEN odds_rank END) AS b2_odds_rank,
+            MAX(CASE WHEN boat_number = 3 THEN odds_rank END) AS b3_odds_rank,
+            MAX(CASE WHEN boat_number = 4 THEN odds_rank END) AS b4_odds_rank,
+            MAX(CASE WHEN boat_number = 5 THEN odds_rank END) AS b5_odds_rank,
+            MAX(CASE WHEN boat_number = 6 THEN odds_rank END) AS b6_odds_rank,
             MAX(CASE WHEN boat_number = 2 THEN boaters_avgdiff END) AS b2_avg_isshu_diff,
             MAX(CASE WHEN boat_number = 3 THEN boaters_avgdiff END) AS b3_avg_isshu_diff,
             MAX(CASE WHEN boat_number = 4 THEN boaters_avgdiff END) AS b4_avg_isshu_diff,
@@ -675,11 +708,13 @@ def daily_features(today_db, target_date):
             MAX(CASE WHEN boat_number = 6 THEN CASE WHEN tenji_time_rank = 1 AND isshu_rank = 1 THEN 1 ELSE 0 END END) AS b6_double_time,
             MAX(CASE WHEN ai_plus_order = 6 THEN boat_number END) AS ai_rank6_boat,
             MAX(CASE WHEN ai_plus_order = 6 THEN boaters_avgdiff END) AS ai_rank6_avg_isshu_diff,
+            MAX(CASE WHEN ai_plus_order = 6 THEN ai_prediction_pct END) AS ai_rank6_ai_prediction_pct,
             MAX(CASE WHEN ai_plus_order = 6 THEN tenji_time_rank END) AS ai_rank6_tenji_time_rank,
             MAX(CASE WHEN ai_plus_order = 6 THEN tenji_rank END) AS ai_rank6_tenji_rank,
             MAX(CASE WHEN ai_plus_order = 6 THEN isshu_rank END) AS ai_rank6_isshu_rank,
             MAX(CASE WHEN ai_plus_order = 5 THEN boat_number END) AS ai_rank5_boat,
             MAX(CASE WHEN ai_plus_order = 5 THEN boaters_avgdiff END) AS ai_rank5_avg_isshu_diff,
+            MAX(CASE WHEN ai_plus_order = 5 THEN ai_prediction_pct END) AS ai_rank5_ai_prediction_pct,
             MAX(CASE WHEN ai_plus_order = 5 THEN tenji_time_rank END) AS ai_rank5_tenji_time_rank,
             MAX(CASE WHEN ai_plus_order = 5 THEN tenji_rank END) AS ai_rank5_tenji_rank,
             MAX(CASE WHEN ai_plus_order = 5 THEN isshu_rank END) AS ai_rank5_isshu_rank,
@@ -742,6 +777,7 @@ def daily_features(today_db, target_date):
         ORDER BY place_id, round_no
         """
         df = pd.read_sql_query(sql, con, params=(target_date,))
+    add_matchup_features(df, matchup_profiles or {})
     for boat in range(2, 7):
         left = boat - 1
         df[f"b{boat}_super_slit_tenji_adv"] = df[f"b{left}_tenji_time"] - df[f"b{boat}_tenji_time"]
@@ -757,7 +793,188 @@ def daily_features(today_db, target_date):
     df["outer56_tenji_advantage"] = df["b1_tenji_time"] - df["outer56_best_tenji_time"]
     df["outer56_isshu_advantage"] = df["b1_isshu_time"] - df["outer56_best_isshu_time"]
     add_slit_formation_features(df)
+    add_low_outer_value_features(df)
+    add_next_factor_candidate_features(df)
     return df
+
+
+def add_next_factor_candidate_features(df):
+    for col in [
+        "b1_odds_prediction_pct",
+        "b1_odds_rank",
+        "b1_avg_isshu_diff",
+        "b1_isshu_avg_diff",
+        "b1_nige_pct",
+        "b1_loss_pct",
+        "outer56_best_avg_isshu_diff",
+        "outer56_best_ai_prediction_pct",
+        "outer56_tenji_top2_count",
+        "outer56_isshu_top2_count",
+        "outer456_pressure",
+        "outer56_pressure_vs_1",
+        "wind_speed",
+        "wave_height",
+    ]:
+        if col not in df.columns:
+            df[col] = np.nan
+
+    df["b1_popular40"] = df["b1_odds_rank"].eq(1) & df["b1_odds_prediction_pct"].ge(40)
+    df["b1_popular45"] = df["b1_odds_rank"].eq(1) & df["b1_odds_prediction_pct"].ge(45)
+    df["center_attack_wall_outer"] = (
+        df["b2_wall_break_3peek"].eq(1)
+        & (df["b3_peek_vs_12"].eq(1) | df["b4_cadou_peek"].eq(1))
+        & df["outer56_best_avg_isshu_diff"].ge(0.10)
+    ).fillna(False).astype(int)
+    df["weather_pressure"] = (
+        ((df["wind_speed"].fillna(0).ge(5)) | (df["wave_height"].fillna(0).ge(5)))
+        & df["b1_loss_pct"].ge(40)
+        & (df["outer456_pressure"].eq(1) | df["outer56_pressure_vs_1"].eq(1))
+    ).fillna(False).astype(int)
+    df["outer_isshu_priority_b1weak"] = (
+        df["outer56_isshu_top2_count"].ge(1)
+        & df["outer56_tenji_top2_count"].fillna(0).eq(0)
+        & df[["b5_isshu_avg_diff", "b6_isshu_avg_diff"]].max(axis=1).ge(0.10)
+        & df["b1_avg_isshu_diff"].le(0.10)
+    ).fillna(False).astype(int)
+    df["b1_full_tobashi_shape"] = (
+        df["b1_popular40"]
+        & df["b1_avg_isshu_diff"].le(-0.05)
+        & df["b1_isshu_avg_diff"].le(-0.10)
+        & (df["outer456_pressure"].eq(1) | df["outer56_pressure_vs_1"].eq(1))
+    ).fillna(False).astype(int)
+
+    longshot_boats = []
+    for _, row in df.iterrows():
+        boats = []
+        for boat in range(3, 7):
+            odds_rank = row.get(f"b{boat}_odds_rank")
+            odds_pct = row.get(f"b{boat}_odds_prediction_pct")
+            ai_pred = row.get(f"b{boat}_ai_prediction_pct")
+            avgdiff = row.get(f"b{boat}_avg_isshu_diff")
+            tenji_rank = row.get(f"b{boat}_tenji_rank")
+            isshu_rank = row.get(f"b{boat}_isshu_rank")
+            st_rank = row.get(f"b{boat}_st_rank_general")
+            value_gap = (
+                (pd.notna(odds_rank) and odds_rank >= 4)
+                or (pd.notna(odds_pct) and odds_pct <= 12)
+            )
+            data_up = (
+                pd.notna(ai_pred)
+                and ai_pred >= 8
+                and pd.notna(avgdiff)
+                and avgdiff >= 0.05
+                and (
+                    (pd.notna(tenji_rank) and tenji_rank <= 2)
+                    or (pd.notna(isshu_rank) and isshu_rank <= 2)
+                    or (pd.notna(st_rank) and st_rank <= 2)
+                )
+            )
+            if value_gap and data_up:
+                boats.append(str(boat))
+        longshot_boats.append(",".join(boats))
+    df["longshot_head_boats"] = longshot_boats
+    df["longshot_head_candidate_count"] = df["longshot_head_boats"].map(lambda text: len([part for part in str(text).split(",") if part]))
+    df["longshot_head_with_b1_gap"] = (
+        df["b1_popular40"]
+        & df["b1_avg_isshu_diff"].le(0.10)
+        & df["longshot_head_candidate_count"].ge(1)
+    ).fillna(False).astype(int)
+
+
+def add_low_outer_value_features(df):
+    """Pick the AI+ 5/6位の5・6号艇 when it has revival-value signals."""
+    for col in [
+        "ai_rank6_boat",
+        "ai_rank6_avg_isshu_diff",
+        "ai_rank6_ai_prediction_pct",
+        "ai_rank6_tenji_rank",
+        "ai_rank6_tenji_time_rank",
+        "ai_rank6_isshu_rank",
+        "ai_rank5_boat",
+        "ai_rank5_avg_isshu_diff",
+        "ai_rank5_ai_prediction_pct",
+        "ai_rank5_tenji_rank",
+        "ai_rank5_tenji_time_rank",
+        "ai_rank5_isshu_rank",
+    ]:
+        if col not in df.columns:
+            df[col] = np.nan
+
+    rank6_outer = df["ai_rank6_boat"].isin([5, 6])
+    rank5_outer = ~rank6_outer & df["ai_rank5_boat"].isin([5, 6])
+
+    df["low_outer_boat"] = np.where(
+        rank6_outer,
+        df["ai_rank6_boat"],
+        np.where(rank5_outer, df["ai_rank5_boat"], np.nan),
+    )
+    df["low_outer_ai_plus_rank"] = np.where(rank6_outer, 6, np.where(rank5_outer, 5, np.nan))
+    df["low_outer_avg_isshu_diff"] = np.where(
+        rank6_outer,
+        df["ai_rank6_avg_isshu_diff"],
+        np.where(rank5_outer, df["ai_rank5_avg_isshu_diff"], np.nan),
+    )
+    df["low_outer_ai_prediction_pct"] = np.where(
+        rank6_outer,
+        df["ai_rank6_ai_prediction_pct"],
+        np.where(rank5_outer, df["ai_rank5_ai_prediction_pct"], np.nan),
+    )
+    rank6_tenji = df["ai_rank6_tenji_rank"].combine_first(df["ai_rank6_tenji_time_rank"])
+    rank5_tenji = df["ai_rank5_tenji_rank"].combine_first(df["ai_rank5_tenji_time_rank"])
+    df["low_outer_tenji_rank"] = np.where(rank6_outer, rank6_tenji, np.where(rank5_outer, rank5_tenji, np.nan))
+    df["low_outer_isshu_rank"] = np.where(
+        rank6_outer,
+        df["ai_rank6_isshu_rank"],
+        np.where(rank5_outer, df["ai_rank5_isshu_rank"], np.nan),
+    )
+    df["low_outer_exists"] = df["low_outer_boat"].isin([5, 6]).astype(int)
+    df["low_outer_exhibit_top2"] = (
+        df["low_outer_exists"].eq(1)
+        & (
+            pd.Series(df["low_outer_tenji_rank"]).le(2)
+            | pd.Series(df["low_outer_isshu_rank"]).le(2)
+        )
+    ).fillna(False).astype(int)
+
+
+def add_matchup_features(df, matchup_profiles):
+    defaults = {
+        "matchup_lane1_pressure_score": 0.0,
+        "matchup_outer_good_count": 0,
+        "matchup_lane1_bad_flag": 0,
+        "matchup_notes": "",
+    }
+    for key, value in defaults.items():
+        df[key] = value
+    for boat in range(1, 7):
+        df[f"b{boat}_matchup_label"] = "相性データ薄"
+        df[f"b{boat}_matchup_meetings"] = np.nan
+        df[f"b{boat}_matchup_win_rate"] = np.nan
+        df[f"b{boat}_matchup_top3_rate"] = np.nan
+        df[f"b{boat}_matchup_ahead_rate"] = np.nan
+        df[f"b{boat}_matchup_lane1_ahead_rate"] = np.nan
+        df[f"b{boat}_matchup_head_bonus"] = 0.0
+        df[f"b{boat}_matchup_axis_bonus"] = 0.0
+        df[f"b{boat}_matchup_toss_bonus"] = 0.0
+    if not matchup_profiles or df.empty:
+        return
+    for idx, row in df.iterrows():
+        race = row.to_dict()
+        for boat in range(1, 7):
+            race[f"lane{boat}_registration_no"] = race.get(f"b{boat}_registration_no")
+        metrics_by_lane, summary = build_matchup_context(race, matchup_profiles)
+        for key, value in summary.items():
+            df.at[idx, key] = value
+        for boat, metrics in metrics_by_lane.items():
+            df.at[idx, f"b{boat}_matchup_label"] = metrics.get("matchup_label")
+            df.at[idx, f"b{boat}_matchup_meetings"] = metrics.get("matchup_total_meetings")
+            df.at[idx, f"b{boat}_matchup_win_rate"] = metrics.get("matchup_win_rate")
+            df.at[idx, f"b{boat}_matchup_top3_rate"] = metrics.get("matchup_top3_rate")
+            df.at[idx, f"b{boat}_matchup_ahead_rate"] = metrics.get("matchup_ahead_rate")
+            df.at[idx, f"b{boat}_matchup_lane1_ahead_rate"] = metrics.get("matchup_lane1_ahead_rate")
+            df.at[idx, f"b{boat}_matchup_head_bonus"] = metrics.get("matchup_head_bonus") or 0.0
+            df.at[idx, f"b{boat}_matchup_axis_bonus"] = metrics.get("matchup_axis_bonus") or 0.0
+            df.at[idx, f"b{boat}_matchup_toss_bonus"] = metrics.get("matchup_toss_bonus") or 0.0
 
 
 def add_slit_formation_features(df):
@@ -1121,9 +1338,15 @@ def composite_edge_signals(race):
     b1_nige = num(race.get("b1_nige_pct"))
     b1_ai_pred = num(race.get("b1_ai_prediction_pct"))
     b1_ai_order = num(race.get("b1_ai_plus_order"))
+    b1_odds_pct = num(race.get("b1_odds_prediction_pct"))
+    b1_odds_rank = int_num(race.get("b1_odds_rank"), default=9)
+    b1_popular = b1_odds_pct is not None and b1_odds_rank == 1 and b1_odds_pct >= 45
+    b1_popular40 = b1_odds_pct is not None and b1_odds_rank == 1 and b1_odds_pct >= 40
+    b1_unpopular = b1_odds_pct is not None and (b1_odds_rank != 1 or b1_odds_pct < 45)
     outer_ai_pred = num(race.get("outer56_best_ai_prediction_pct"))
     outer_avg = num(race.get("outer56_best_avg_isshu_diff"))
     outer_exhibit_top2 = num(race.get("outer56_exhibit_top2_count")) or 0
+    outer_tenji_top2 = int_num(race.get("outer56_tenji_top2_count"))
     round_no = int_num(race.get("round_no"))
     wind_wave = (num(race.get("wind_speed")) or 0) >= 5 or (num(race.get("wave_height")) or 0) >= 5
     rank6_boat = int_num(race.get("ai_rank6_boat"))
@@ -1134,6 +1357,19 @@ def composite_edge_signals(race):
     rank5_tenji = num(race.get("ai_rank5_tenji_rank"))
     if rank5_tenji is None:
         rank5_tenji = num(race.get("ai_rank5_tenji_time_rank"))
+    low_outer_boat = int_num(race.get("low_outer_boat"))
+    low_outer_avg = num(race.get("low_outer_avg_isshu_diff"))
+    low_outer_tenji = num(race.get("low_outer_tenji_rank"))
+    low_outer_isshu = num(race.get("low_outer_isshu_rank"))
+    low_outer_ai_pred = num(race.get("low_outer_ai_prediction_pct"))
+    low_outer_exhibit_top2 = int_num(race.get("low_outer_exhibit_top2"))
+    slit_outer_pressure = int_num(race.get("outer56_pressure_vs_1")) == 1
+    center_attack_wall_outer = int_num(race.get("center_attack_wall_outer")) == 1
+    weather_pressure = int_num(race.get("weather_pressure")) == 1
+    outer_isshu_priority_b1weak = int_num(race.get("outer_isshu_priority_b1weak")) == 1
+    b1_full_tobashi_shape = int_num(race.get("b1_full_tobashi_shape")) == 1
+    longshot_head_count = int_num(race.get("longshot_head_candidate_count"))
+    longshot_head_boats = [int(part) for part in str(race.get("longshot_head_boats") or "").split(",") if part.isdigit()]
     double_time_boats = [boat for boat in range(1, 7) if int_num(race.get(f"b{boat}_double_time")) == 1]
     super_slit_boats = [boat for boat in range(2, 7) if int_num(race.get(f"b{boat}_super_slit_alert")) == 1]
     slit_signal_ids = [
@@ -1247,6 +1483,314 @@ def composite_edge_signals(race):
             },
         )
 
+    if (
+        b1_popular
+        and b1_isshu_avg is not None
+        and b1_isshu_avg <= -0.10
+        and b1_nige is not None
+        and b1_nige < 45
+        and outer_avg is not None
+        and outer_avg >= 0.14
+        and outer_tenji_top2 >= 1
+    ):
+        add_edge(
+            signals,
+            "codex_popular_b1_fly_outer56_isshu_slow",
+            "人気1号艇飛び: オッズ評価45%以上1位だが、1周-0.10以下+逃げ率45未満+5/6上振れ",
+            24.46,
+            3.4,
+            "popular_b1_fly_up",
+            {
+                "b1_odds_prediction_pct": b1_odds_pct,
+                "b1_odds_rank": b1_odds_rank,
+                "b1_fly_rate_pct": 60.87,
+                "b1_top3_miss_pct": 21.74,
+                "outer56_top3_pct": 63.04,
+                "winner_3to6_pct": 42.39,
+                "b1_isshu_avg_diff": b1_isshu_avg,
+                "b1_nige_pct": b1_nige,
+                "outer56_avg_isshu_diff": outer_avg,
+                "outer56_tenji_top2_count": outer_tenji_top2,
+            },
+        )
+    elif (
+        b1_popular
+        and b1_isshu_avg is not None
+        and b1_isshu_avg <= -0.10
+        and b1_nige is not None
+        and b1_nige < 45
+        and outer_avg is not None
+        and outer_avg >= 0.10
+        and outer_tenji_top2 >= 1
+    ):
+        add_edge(
+            signals,
+            "codex_popular_b1_fly_outer56_isshu_slow_light",
+            "人気1号艇飛び: 1周-0.10以下+逃げ率45未満、5/6に平均との差+0.10以上と展示上位",
+            23.35,
+            2.7,
+            "popular_b1_fly_up",
+            {
+                "b1_odds_prediction_pct": b1_odds_pct,
+                "b1_odds_rank": b1_odds_rank,
+                "b1_fly_rate_pct": 58.88,
+                "b1_top3_miss_pct": 20.30,
+                "b1_isshu_avg_diff": b1_isshu_avg,
+                "b1_nige_pct": b1_nige,
+                "outer56_avg_isshu_diff": outer_avg,
+                "outer56_tenji_top2_count": outer_tenji_top2,
+            },
+        )
+
+    if (
+        b1_popular
+        and b1_avg is not None
+        and b1_avg <= -0.05
+        and b1_tenji_rank is not None
+        and b1_tenji_rank >= 4
+        and b1_nige is not None
+        and b1_nige < 45
+        and outer_avg is not None
+        and outer_avg >= 0.14
+    ):
+        add_edge(
+            signals,
+            "codex_popular_b1_fly_avg_bad_outer56",
+            "人気1号艇飛び: オッズ人気ありでも展示+1周平均との差-0.05以下、展示4位以下、5/6平均との差+0.14以上",
+            25.17,
+            3.2,
+            "popular_b1_fly_up",
+            {
+                "b1_odds_prediction_pct": b1_odds_pct,
+                "b1_avg_isshu_diff": b1_avg,
+                "b1_tenji_rank": b1_tenji_rank,
+                "b1_nige_pct": b1_nige,
+                "outer56_avg_isshu_diff": outer_avg,
+            },
+        )
+
+    if (
+        b1_unpopular
+        and (
+            (b1_nige is not None and b1_nige < 40)
+            or (b1_loss is not None and b1_loss >= 45)
+            or (b1_ai_pred is not None and b1_ai_pred < 35)
+        )
+    ):
+        add_edge(
+            signals,
+            "codex_b1_unpopular_fly_low_value",
+            "1号艇オッズ評価45%未満または1位外: イン飛びは織り込み済みで妙味を下げる",
+            None,
+            -1.2,
+            "low_value_b1_fly",
+            {
+                "b1_odds_prediction_pct": b1_odds_pct,
+                "b1_odds_rank": b1_odds_rank,
+            },
+        )
+
+    if (
+        low_outer_boat in {5, 6}
+        and b1_loss is not None
+        and b1_loss >= 40
+        and slit_outer_pressure
+        and low_outer_exhibit_top2
+        and low_outer_ai_pred is not None
+        and low_outer_ai_pred >= 8
+    ):
+        add_edge(
+            signals,
+            "codex_low_outer_revive_b1loss_slit",
+            "低評価外枠復活: AI+5/6位の5/6号艇が展示/1周2位以内、AI予測8%以上、1号艇逃げ失敗40%以上+外圧",
+            32.00,
+            3.8,
+            "low_outer_manshu_up",
+            {
+                "low_outer_boat": low_outer_boat,
+                "low_outer_top3_pct": 55.20,
+                "b1_fly_pct": 74.40,
+                "b1_top3_miss_pct": 51.20,
+                "outer56_top3_pct": 85.60,
+                "low_outer_avg_isshu_diff": low_outer_avg,
+                "low_outer_ai_prediction_pct": low_outer_ai_pred,
+                "low_outer_tenji_rank": low_outer_tenji,
+                "low_outer_isshu_rank": low_outer_isshu,
+            },
+        )
+    elif (
+        low_outer_boat in {5, 6}
+        and low_outer_avg is not None
+        and low_outer_avg >= 0.10
+        and low_outer_exhibit_top2
+        and low_outer_ai_pred is not None
+        and low_outer_ai_pred >= 8
+    ):
+        add_edge(
+            signals,
+            "codex_low_outer_revive_avg010",
+            "低評価外枠復活: AI+5/6位の5/6号艇が平均との差+0.10以上、展示/1周2位以内、AI予測8%以上",
+            27.63,
+            3.2,
+            "low_outer_top3_up",
+            {
+                "low_outer_boat": low_outer_boat,
+                "low_outer_top3_pct": 54.61,
+                "outer56_top3_pct": 86.84,
+                "low_outer_avg_isshu_diff": low_outer_avg,
+                "low_outer_ai_prediction_pct": low_outer_ai_pred,
+                "low_outer_tenji_rank": low_outer_tenji,
+                "low_outer_isshu_rank": low_outer_isshu,
+            },
+        )
+
+    if (
+        b1_popular
+        and low_outer_boat in {5, 6}
+        and outer_tenji_top2 >= 1
+        and low_outer_avg is not None
+        and low_outer_avg >= 0.10
+        and low_outer_ai_pred is not None
+        and low_outer_ai_pred >= 5
+    ):
+        add_edge(
+            signals,
+            "codex_popular_b1_low_outer_value_gap",
+            "人気1号艇×低評価外枠復活: 人気イン飛びと消し外枠3着内の配当ギャップ",
+            26.62,
+            2.5,
+            "value_gap_up",
+            {
+                "b1_odds_prediction_pct": b1_odds_pct,
+                "low_outer_boat": low_outer_boat,
+                "low_outer_top3_pct": 49.43,
+                "b1_fly_pct": 42.21,
+                "low_outer_avg_isshu_diff": low_outer_avg,
+                "low_outer_ai_prediction_pct": low_outer_ai_pred,
+            },
+        )
+
+    if center_attack_wall_outer:
+        add_edge(
+            signals,
+            "codex_center_attack_wall_outer",
+            "3/4攻撃+外圧: 2壁崩壊、3/4攻撃、5/6平均との差+0.10以上",
+            19.86,
+            1.7,
+            "head_up",
+            {
+                "races": 1183,
+                "b1_fly_pct": 56.13,
+                "b1_top3_miss_pct": 28.40,
+                "winner_3to6_pct": 47.42,
+                "outer56_top3_pct": 63.57,
+                "outer56_avg_isshu_diff": outer_avg,
+            },
+        )
+
+    if weather_pressure:
+        add_edge(
+            signals,
+            "codex_weather_pressure_b1_outer",
+            "会場風波: 風5m以上または波5cm以上、1号艇逃げ失敗40%以上、外圧あり",
+            20.10,
+            1.5,
+            "weather_up",
+            {
+                "races": 2682,
+                "b1_fly_pct": 69.02,
+                "b1_top3_miss_pct": 35.53,
+                "winner_3to6_pct": 47.54,
+                "outer56_top3_pct": 63.20,
+                "wind_speed": num(race.get("wind_speed")),
+                "wave_height": num(race.get("wave_height")),
+            },
+        )
+
+    if longshot_head_count >= 1:
+        bonus = 2.2 if int_num(race.get("longshot_head_with_b1_gap")) == 1 else 1.4
+        hist_rate = 21.58 if int_num(race.get("longshot_head_with_b1_gap")) == 1 else 20.08
+        label = (
+            "人気薄頭+1過信: 人気1の弱化と3〜6人気薄頭候補"
+            if int_num(race.get("longshot_head_with_b1_gap")) == 1
+            else "人気薄頭候補: 3〜6低オッズ評価艇にAI8%以上+展示/一周/ST上振れ"
+        )
+        add_edge(
+            signals,
+            "codex_longshot_head_with_b1_gap" if int_num(race.get("longshot_head_with_b1_gap")) == 1 else "codex_longshot_head_candidate",
+            label,
+            hist_rate,
+            bonus,
+            "head_up",
+            {
+                "longshot_head_boats": longshot_head_boats,
+                "races": 2150 if int_num(race.get("longshot_head_with_b1_gap")) == 1 else 15660,
+                "winner_3to6_pct": 31.44 if int_num(race.get("longshot_head_with_b1_gap")) == 1 else 37.88,
+                "outer56_top3_pct": 56.51 if int_num(race.get("longshot_head_with_b1_gap")) == 1 else 60.50,
+                "b1_odds_prediction_pct": b1_odds_pct,
+                "b1_avg_isshu_diff": b1_avg,
+            },
+        )
+
+    if outer_isshu_priority_b1weak:
+        add_edge(
+            signals,
+            "codex_outer_isshu_priority_b1weak",
+            "外枠一周優先+1弱: 5/6が展示ではなく1周上位、1号艇平均との差0.10以下",
+            18.77,
+            1.0,
+            "outer_top3_up",
+            {
+                "races": 5334,
+                "b1_fly_pct": 54.80,
+                "outer56_top3_pct": 57.87,
+                "outer56_isshu_top2_count": int_num(race.get("outer56_isshu_top2_count")),
+                "outer56_tenji_top2_count": int_num(race.get("outer56_tenji_top2_count")),
+            },
+        )
+
+    if b1_full_tobashi_shape:
+        add_edge(
+            signals,
+            "codex_b1_full_tobashi_shape",
+            "1号艇完全飛ばし型: 人気1、1平均との差-0.05以下、1周-0.10以下、外圧",
+            19.46,
+            1.4,
+            "b1_miss_up",
+            {
+                "races": 1254,
+                "b1_fly_pct": 42.03,
+                "b1_top3_miss_pct": 14.83,
+                "b1_2nd_or_3rd_pct": 27.19,
+                "b1_odds_prediction_pct": b1_odds_pct,
+                "b1_avg_isshu_diff": b1_avg,
+                "b1_isshu_avg_diff": b1_isshu_avg,
+            },
+        )
+
+    if (
+        is_joshi_race(race)
+        and b1_avg is not None
+        and b1_avg <= 0.30
+        and outer_ai_pred is not None
+        and outer_ai_pred >= 10
+    ):
+        add_edge(
+            signals,
+            "codex_joshi_outer_ai10_b1avg030",
+            "女子戦寄り: 1号艇平均との差+0.30以下、5/6AI予測10%以上",
+            19.71,
+            1.3,
+            "joshi_manshu_up",
+            {
+                "races": 619,
+                "b1_fly_pct": 59.77,
+                "outer56_top3_pct": 73.83,
+                "b1_avg_isshu_diff": b1_avg,
+                "outer56_ai_prediction_pct": outer_ai_pred,
+            },
+        )
+
     for boat in super_slit_boats:
         stats = SUPER_SLIT_ALERT_STATS[boat]
         add_edge(
@@ -1280,6 +1824,105 @@ def composite_edge_signals(race):
             "super_slit_multi",
             {"boats": super_slit_boats, "base_manshu_rate_pct": 16.74},
         )
+
+    matchup_pressure = num(race.get("matchup_lane1_pressure_score"))
+    matchup_outer_good = int_num(race.get("matchup_outer_good_count"))
+    matchup_lane1_bad = int_num(race.get("matchup_lane1_bad_flag"))
+    matchup_notes = [part for part in str(race.get("matchup_notes") or "").split("|") if part]
+    if matchup_outer_good >= 2:
+        add_edge(
+            signals,
+            "codex_matchup_outer_good2",
+            "対戦相性: 1号艇に強い相性バフ艇が2艇以上",
+            None,
+            2.2,
+            "matchup_manshu_up",
+            {
+                "matchup_outer_good_count": matchup_outer_good,
+                "matchup_lane1_pressure_score": matchup_pressure,
+                "matchup_notes": matchup_notes,
+            },
+        )
+    elif matchup_pressure is not None and matchup_pressure >= 4.0:
+        add_edge(
+            signals,
+            "codex_matchup_lane1_pressure4",
+            "対戦相性: 今回の1号艇へ相性圧力あり",
+            None,
+            1.4,
+            "b1_fly_up",
+            {
+                "matchup_lane1_pressure_score": matchup_pressure,
+                "matchup_notes": matchup_notes,
+            },
+        )
+    if matchup_lane1_bad:
+        add_edge(
+            signals,
+            "codex_matchup_lane1_bad",
+            "対戦相性: 1号艇が今回メンバー相手に劣勢",
+            None,
+            1.4,
+            "b1_fly_up",
+            {
+                "matchup_lane1_pressure_score": matchup_pressure,
+                "matchup_notes": matchup_notes,
+            },
+        )
+    for boat in range(2, 7):
+        label = str(race.get(f"b{boat}_matchup_label") or "")
+        if label == "1号艇キラー":
+            add_edge(
+                signals,
+                f"codex_matchup_lane1_killer_{boat}",
+                f"対戦相性: {boat}号艇が今回1号艇への先着率高め",
+                None,
+                1.3,
+                "head_up",
+                {
+                    "boat": boat,
+                    "label": label,
+                    "meetings": race.get(f"b{boat}_matchup_meetings"),
+                    "lane1_ahead_rate": race.get(f"b{boat}_matchup_lane1_ahead_rate"),
+                    "head_bonus": race.get(f"b{boat}_matchup_head_bonus"),
+                    "axis_bonus": race.get(f"b{boat}_matchup_axis_bonus"),
+                },
+            )
+        elif label == "相性バフ":
+            add_edge(
+                signals,
+                f"codex_matchup_buff_{boat}",
+                f"対戦相性: {boat}号艇が今回メンバー相手に上振れ",
+                None,
+                0.9,
+                "head_up",
+                {
+                    "boat": boat,
+                    "label": label,
+                    "meetings": race.get(f"b{boat}_matchup_meetings"),
+                    "ahead_rate": race.get(f"b{boat}_matchup_ahead_rate"),
+                    "top3_rate": race.get(f"b{boat}_matchup_top3_rate"),
+                    "head_bonus": race.get(f"b{boat}_matchup_head_bonus"),
+                    "axis_bonus": race.get(f"b{boat}_matchup_axis_bonus"),
+                },
+            )
+        elif label == "相性軸バフ":
+            add_edge(
+                signals,
+                f"codex_matchup_axis_buff_{boat}",
+                f"対戦相性: {boat}号艇が今回メンバー相手に3着内上振れ",
+                None,
+                0.7,
+                "outer_top3_up",
+                {
+                    "boat": boat,
+                    "label": label,
+                    "meetings": race.get(f"b{boat}_matchup_meetings"),
+                    "ahead_rate": race.get(f"b{boat}_matchup_ahead_rate"),
+                    "top3_rate": race.get(f"b{boat}_matchup_top3_rate"),
+                    "axis_bonus": race.get(f"b{boat}_matchup_axis_bonus"),
+                },
+            )
 
     for boat, manshu_rate, win_rate, top3_rate, win_uplift, top3_uplift, bonus in [
         (2, 16.08, 27.90, 73.39, 14.97, 17.10, 2.8),
@@ -1770,24 +2413,26 @@ def build_rankings(df, logic_rows, masks, threshold=27.0):
             for idx in np.flatnonzero(non_exhibit_mask):
                 watch_by_race[df.iloc[idx]["race_id"]].append(logic)
 
-    all_venue_rows = []
+    unified_rows = []
     actual_rows = []
     watch_rows = []
     for _, race in df.iterrows():
         actual = actual_by_race.get(race["race_id"], [])
         watch = watch_by_race.get(race["race_id"], [])
         edge_signals = composite_edge_signals(race)
-        all_venue_signals = all_venue_edge_signals(race)
-        all_venue_rows.append(
+        all_factor_signals = all_venue_edge_signals(race)
+        unified_matches = actual if actual else watch
+        unified_status = "厳選統合・展示待ち" if watch and not actual else "厳選統合"
+        unified_rows.append(
             row_summary(
                 race,
-                [],
-                status="全場スコア",
-                edge_signals=all_venue_signals,
+                unified_matches,
+                status=unified_status,
+                edge_signals=all_factor_signals,
                 base_rate_override=16.82,
                 adjustment_func=all_venue_adjustment,
-                condition_override="Codex全場ランキング: 会場指定なしで1号艇弱化・外枠上振れ・スリット隊形・展示/1周・女子戦ファクターを総合評価",
-                ranking_type="all_venue",
+                condition_override="Codex厳選ランキング: 過去27%以上条件、1号艇弱化、外枠上振れ、AI/オッズ、展示+1周、スリット隊形、女子戦、天候、対戦相性を全統合",
+                ranking_type="strict",
             )
         )
         if actual:
@@ -1805,10 +2450,10 @@ def build_rankings(df, logic_rows, masks, threshold=27.0):
         row["best_recent_rate_pct"] if row["best_recent_rate_pct"] is not None else -1,
         row["matched_logic_count"],
     )
-    all_venue_rows.sort(key=key, reverse=True)
+    unified_rows.sort(key=key, reverse=True)
     actual_rows.sort(key=key, reverse=True)
     watch_rows.sort(key=key, reverse=True)
-    return all_venue_rows, actual_rows, watch_rows, sorted(unknown_atoms)
+    return unified_rows, actual_rows, watch_rows, sorted(unknown_atoms)
 
 
 def row_summary(
@@ -1875,6 +2520,8 @@ def row_summary(
         "payout": race.get("payout"),
         "trifecta": race.get("trifecta"),
         "b1_ai_prediction_pct": race.get("b1_ai_prediction_pct"),
+        "b1_odds_prediction_pct": race.get("b1_odds_prediction_pct"),
+        "b1_odds_rank": race.get("b1_odds_rank"),
         "b1_ai_plus": race.get("b1_ai_plus"),
         "b1_ai_plus_order": race.get("b1_ai_plus_order"),
         "b1_nige_pct": race.get("b1_nige_pct"),
@@ -1894,12 +2541,28 @@ def row_summary(
         "outer56_best_isshu_time": race.get("outer56_best_isshu_time"),
         "ai_rank6_boat": race.get("ai_rank6_boat"),
         "ai_rank6_avg_isshu_diff": race.get("ai_rank6_avg_isshu_diff"),
+        "ai_rank6_ai_prediction_pct": race.get("ai_rank6_ai_prediction_pct"),
         "ai_rank6_tenji_rank": race.get("ai_rank6_tenji_rank"),
         "ai_rank6_isshu_rank": race.get("ai_rank6_isshu_rank"),
         "ai_rank5_boat": race.get("ai_rank5_boat"),
         "ai_rank5_avg_isshu_diff": race.get("ai_rank5_avg_isshu_diff"),
+        "ai_rank5_ai_prediction_pct": race.get("ai_rank5_ai_prediction_pct"),
         "ai_rank5_tenji_rank": race.get("ai_rank5_tenji_rank"),
         "ai_rank5_isshu_rank": race.get("ai_rank5_isshu_rank"),
+        "low_outer_boat": race.get("low_outer_boat"),
+        "low_outer_ai_plus_rank": race.get("low_outer_ai_plus_rank"),
+        "low_outer_avg_isshu_diff": race.get("low_outer_avg_isshu_diff"),
+        "low_outer_ai_prediction_pct": race.get("low_outer_ai_prediction_pct"),
+        "low_outer_tenji_rank": race.get("low_outer_tenji_rank"),
+        "low_outer_isshu_rank": race.get("low_outer_isshu_rank"),
+        "low_outer_exhibit_top2": int_num(race.get("low_outer_exhibit_top2")),
+        "center_attack_wall_outer": int_num(race.get("center_attack_wall_outer")),
+        "weather_pressure": int_num(race.get("weather_pressure")),
+        "outer_isshu_priority_b1weak": int_num(race.get("outer_isshu_priority_b1weak")),
+        "b1_full_tobashi_shape": int_num(race.get("b1_full_tobashi_shape")),
+        "longshot_head_boats": race.get("longshot_head_boats"),
+        "longshot_head_candidate_count": int_num(race.get("longshot_head_candidate_count")),
+        "longshot_head_with_b1_gap": int_num(race.get("longshot_head_with_b1_gap")),
         "double_time_boats": ",".join(str(boat) for boat in range(1, 7) if int_num(race.get(f"b{boat}_double_time")) == 1),
         "super_slit_boats": ",".join(str(boat) for boat in range(2, 7) if int_num(race.get(f"b{boat}_super_slit_alert")) == 1),
         "super_slit_alert_count": int_num(race.get("super_slit_alert_count")),
@@ -1920,6 +2583,19 @@ def row_summary(
         "slit_b4_cadou_peek": int_num(race.get("b4_cadou_peek")),
         "slit_outer456_pressure": int_num(race.get("outer456_pressure")),
         "slit_outer56_pressure_vs_1": int_num(race.get("outer56_pressure_vs_1")),
+        "matchup_lane1_pressure_score": race.get("matchup_lane1_pressure_score"),
+        "matchup_outer_good_count": int_num(race.get("matchup_outer_good_count")),
+        "matchup_lane1_bad_flag": int_num(race.get("matchup_lane1_bad_flag")),
+        "matchup_notes": race.get("matchup_notes"),
+        "matchup_buff_boats": ",".join(
+            str(boat)
+            for boat in range(1, 7)
+            if str(race.get(f"b{boat}_matchup_label") or "") in {"1号艇キラー", "相性バフ", "相性軸バフ"}
+        ),
+        **{
+            f"b{boat}_matchup_label": race.get(f"b{boat}_matchup_label")
+            for boat in range(1, 7)
+        },
         "boat1_double_time": int_num(race.get("b1_double_time")),
         "mid234_double_time_count": int_num(race.get("mid234_double_time_count")),
         "outer46_double_time_count": int_num(race.get("outer46_double_time_count")),
@@ -1974,13 +2650,13 @@ def make_report(path, date_text, all_venue_rows, strict_rows, watch_rows, top_n)
 </head>
 <body>
   <h1>{date_text} 万舟率ランキング</h1>
-  <div class="meta">上段は会場指定なしのCodex全場ランキング、下段は過去検証27%以上の厳選ランキング。全場ランキングは同一会場最大2Rまで表示。</div>
-  <h2>全場ランキング TOP{top_n}</h2>
+  <div class="meta">過去検証27%以上条件、全場補正、展示/1周、AI/オッズ、スリット隊形、女子戦、天候、対戦相性をすべて混ぜたCodex統合厳選ランキング。</div>
+  <h2>厳選ランキング TOP{top_n}（全ファクター統合）</h2>
   <table>
     <thead><tr><th>#</th><th>状態</th><th>場</th><th>R</th><th>締切</th><th>補正後</th><th>元率</th><th>補正pt</th><th>直近率</th><th>一致数</th><th>代表条件</th><th>1号艇AI</th><th>1展示</th><th>5/6最速展示</th></tr></thead>
     <tbody>{table(all_venue_rows)}</tbody>
   </table>
-  <h2>厳選ランキング TOP{top_n}</h2>
+  <h2>厳選ランキング TOP{top_n}（互換表示）</h2>
   <table>
     <thead><tr><th>#</th><th>状態</th><th>場</th><th>R</th><th>締切</th><th>補正後</th><th>元率</th><th>補正pt</th><th>直近率</th><th>一致数</th><th>代表条件</th><th>1号艇AI</th><th>1展示</th><th>5/6最速展示</th></tr></thead>
     <tbody>{table(strict_rows)}</tbody>
@@ -2003,6 +2679,7 @@ def main():
     parser.add_argument("--today-db", required=True)
     parser.add_argument("--logic-csv", default=str(DEFAULT_LOGIC_CSV))
     parser.add_argument("--history-db", default=str(HISTORY_DB))
+    parser.add_argument("--matchup-profile", default=str(DEFAULT_MATCHUP_PROFILE))
     parser.add_argument("--threshold", type=float, default=27.0)
     parser.add_argument("--top-n", type=int, default=5)
     parser.add_argument("--csv-out")
@@ -2011,7 +2688,9 @@ def main():
     args = parser.parse_args()
 
     top6, top10 = historical_venue_sets(args.history_db)
-    df = daily_features(args.today_db, args.date)
+    matchup_profile = Path(args.matchup_profile) if args.matchup_profile else None
+    matchup_profiles = read_matchup_profiles(matchup_profile) if matchup_profile and matchup_profile.exists() else {}
+    df = daily_features(args.today_db, args.date, matchup_profiles=matchup_profiles)
     logic_df = pd.read_csv(args.logic_csv)
     logic_df = logic_df[logic_df["manshu_rate_pct"] >= args.threshold].copy()
     masks = atom_masks(df, top6, top10)
@@ -2027,20 +2706,23 @@ def main():
     json_path = Path(args.json_out) if args.json_out else OUT_DIR / f"{base_name}.json"
     html_path = Path(args.html_out) if args.html_out else REPORT_DIR / f"{base_name}.html"
 
-    all_venue_top = take_diverse_rows(all_venue_rows, args.top_n, max_per_place=2)
-    strict_rows = actual_rows + watch_rows
-    combined = all_venue_top + strict_rows
+    unified_top = all_venue_rows[: args.top_n]
+    strict_rows = unified_top
+    combined = unified_top
     write_csv(csv_path, combined)
     payload = {
         "date": args.date,
         "threshold_pct": args.threshold,
-        "logic_label": "Codex全場ランキング + 厳選ランキング",
-        "logic_summary": "メインは会場指定なしで、1号艇弱化、外枠上振れ、AI+下位の穴、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクターを総合評価した全場ランキング。同一会場だけに偏らないよう全場ランキングは1会場最大2Rまで表示。下段に過去検証27%以上条件へ一致した厳選ランキングも残す。",
+        "logic_label": "Codex厳選ランキング（全ファクター統合）",
+        "logic_summary": "過去検証27%以上の強条件、1号艇弱化、外枠上振れ、AI+下位の穴、AI/オッズ評価、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクター、天候/風波、今回メンバー同士の対戦相性をすべて同じスコアに混ぜた統合厳選ランキング。",
+        "matchup_profile": str(matchup_profile) if matchup_profile else None,
+        "matchup_pairs_loaded": len(matchup_profiles),
         "races": int(len(df)),
         "races_with_full_tenji": int((df["tenji_boats"] >= 6).sum()),
         "races_with_full_isshu": int((df["isshu_boats"] >= 6).sum()),
-        "all_venue_rank_top": all_venue_top,
-        "strict_rank_top": strict_rows[: args.top_n],
+        "unified_rank_top": unified_top,
+        "all_venue_rank_top": unified_top,
+        "strict_rank_top": unified_top,
         "actual_rank_top": actual_rows[: args.top_n],
         "watch_rank_top": watch_rows[: args.top_n],
         "unknown_atoms": unknown_atoms,
@@ -2052,7 +2734,7 @@ def main():
     }
     safe_payload = json_safe(payload)
     json_path.write_text(json.dumps(safe_payload, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
-    make_report(html_path, args.date, all_venue_top, strict_rows[: args.top_n], watch_rows, args.top_n)
+    make_report(html_path, args.date, unified_top, strict_rows[: args.top_n], watch_rows, args.top_n)
     print(json.dumps(safe_payload, ensure_ascii=False, indent=2, allow_nan=False))
 
 

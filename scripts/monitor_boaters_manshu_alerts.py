@@ -786,6 +786,7 @@ def boat_score_live(row, mode):
     double_time = bool(row.get("double_time"))
     summer_bonus = row.get("summer_b1_score_bonus") or 0
     super_slit_bonus = row.get("super_slit_score_bonus") or 0
+    matchup_bonus = row.get("matchup_score_bonus") or 0
     double_bonus = 0
     if double_time:
         boat = row.get("boat_number")
@@ -798,15 +799,48 @@ def boat_score_live(row, mode):
         elif boat == 6:
             double_bonus = 8
     if mode == "ai_pred":
-        return ai_pred + (double_bonus * 0.25) + (summer_bonus * 0.25) + (super_slit_bonus * 0.25)
+        return (
+            ai_pred
+            + (double_bonus * 0.25)
+            + (summer_bonus * 0.25)
+            + (super_slit_bonus * 0.25)
+            + (matchup_bonus * 0.22)
+        )
     if mode == "ai_plus":
-        return ai_plus + double_bonus + summer_bonus + super_slit_bonus
+        return ai_plus + double_bonus + summer_bonus + super_slit_bonus + matchup_bonus
     if mode == "exhibit":
-        return avgdiff * 55 + (7 - tenji) * 6 + (7 - isshu) * 4 + ai_pred * 0.25 + double_bonus + summer_bonus + super_slit_bonus
+        return (
+            avgdiff * 55
+            + (7 - tenji) * 6
+            + (7 - isshu) * 4
+            + ai_pred * 0.25
+            + double_bonus
+            + summer_bonus
+            + super_slit_bonus
+            + matchup_bonus
+        )
     if mode == "st_exhibit":
-        return (7 - st_rank) * 8 + avgdiff * 40 + (7 - tenji) * 5 + ai_pred * 0.2 + double_bonus + summer_bonus + super_slit_bonus
+        return (
+            (7 - st_rank) * 8
+            + avgdiff * 40
+            + (7 - tenji) * 5
+            + ai_pred * 0.2
+            + double_bonus
+            + summer_bonus
+            + super_slit_bonus
+            + matchup_bonus
+        )
     if mode == "worst_ai_plus":
-        return -(ai_plus * 0.45 + ai_pred * 0.35 + avgdiff * 40 + (7 - tenji) * 4 + double_bonus + summer_bonus + super_slit_bonus)
+        return -(
+            ai_plus * 0.45
+            + ai_pred * 0.35
+            + avgdiff * 40
+            + (7 - tenji) * 4
+            + double_bonus
+            + summer_bonus
+            + super_slit_bonus
+            + matchup_bonus
+        )
     return 0
 
 
@@ -893,6 +927,7 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
         general = as_num(source.get("general_3ren_pct"))
         row = {
             "boat_number": boat,
+            "_morning_metrics": morning_metrics,
             "ai_3ren_pct": ai_3ren,
             "general_3ren_pct": general,
             "st_rank_general": as_num(source.get("st_rank_general")),
@@ -908,6 +943,16 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
             if row["ai_3ren_pct"] is not None and row["general_3ren_pct"] is not None
             else None
         )
+        matchup_label = str(morning_metrics.get(f"b{boat}_matchup_label") or "")
+        row["matchup_label"] = matchup_label
+        row["matchup_score_bonus"] = {
+            "1号艇キラー": 12,
+            "相性バフ": 10,
+            "相性軸バフ": 7,
+            "相性デバフ": -8,
+        }.get(matchup_label, 0)
+        if boat == 1 and morning_metrics.get("matchup_lane1_bad_flag"):
+            row["matchup_score_bonus"] -= 6
         rows.append(row)
 
     isshu_values = [row["isshu_time"] for row in rows if row.get("isshu_time") is not None]
@@ -948,6 +993,22 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
     rank_values(rows, "tenji_time", ascending=True)
     rank_values(rows, "isshu_time", ascending=True)
 
+    low_outer_boat = int(as_num(morning_metrics.get("low_outer_boat")) or 0)
+    if low_outer_boat not in {5, 6}:
+        low_outer_candidates = [
+            row
+            for row in rows
+            if row["boat_number"] in {5, 6}
+            and int(as_num(row.get("ai_plus_rank")) or 0) in {5, 6}
+        ]
+        low_outer_candidates.sort(key=lambda row: row.get("ai_plus_rank", 9), reverse=True)
+        low_outer_boat = low_outer_candidates[0]["boat_number"] if low_outer_candidates else 0
+    longshot_head_boats = {
+        int(part)
+        for part in str(morning_metrics.get("longshot_head_boats") or "").split(",")
+        if part.isdigit()
+    }
+
     by_number = {row["boat_number"]: row for row in rows}
     for boat in range(1, 7):
         row = by_number[boat]
@@ -987,6 +1048,26 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
             row["summer_b1_score_bonus"] = summer_factor["score_bonus"]
         row["exhibit_rank"] = min(row["tenji_time_rank"], row["isshu_time_rank"])
         row["outer_good"] = int(row["boat_number"] in {5, 6} and row["exhibit_rank"] <= 2)
+        row["low_outer_revive"] = False
+        row["low_outer_score_bonus"] = 0.0
+        row["longshot_head_candidate"] = row["boat_number"] in longshot_head_boats
+        row["longshot_head_score_bonus"] = 0.75 if row["longshot_head_candidate"] else 0.0
+        if row["boat_number"] == low_outer_boat:
+            row["low_outer_revive"] = True
+            if (
+                (row.get("avg_isshu_diff") or -9) >= 0.10
+                and row.get("exhibit_rank", 9) <= 2
+                and (row.get("ai_prediction_pct") or -1) >= 8
+            ):
+                row["low_outer_score_bonus"] = 1.10
+            elif (
+                (row.get("avg_isshu_diff") or -9) >= 0.10
+                and row.get("exhibit_rank", 9) <= 2
+                and (row.get("ai_prediction_pct") or -1) >= 5
+            ):
+                row["low_outer_score_bonus"] = 0.85
+            elif row.get("exhibit_rank", 9) <= 2:
+                row["low_outer_score_bonus"] = 0.55
         st_rank = row["st_rank_general"] if row["st_rank_general"] is not None else 4
         double_score = 0
         if row["double_time"]:
@@ -1012,6 +1093,17 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
                 super_slit_score = 0.95
             elif row["boat_number"] == 6:
                 super_slit_score = 0.75
+        matchup_score = 0
+        if row["matchup_label"] == "1号艇キラー":
+            matchup_score = 0.90
+        elif row["matchup_label"] == "相性バフ":
+            matchup_score = 0.75
+        elif row["matchup_label"] == "相性軸バフ":
+            matchup_score = 0.55
+        elif row["matchup_label"] == "相性デバフ":
+            matchup_score = -0.70
+        if row["boat_number"] == 1 and morning_metrics.get("matchup_lane1_bad_flag"):
+            matchup_score -= 0.45
         row["comp_score"] = (
             row["ai_prediction_pct_rank"] * 0.34
             + row["ai_plus_rank"] * 0.30
@@ -1021,6 +1113,9 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
             - double_score
             - summer_score
             - super_slit_score
+            - matchup_score
+            - row["low_outer_score_bonus"]
+            - row["longshot_head_score_bonus"]
         )
         row["value_score"] = (
             row["comp_score"]
@@ -1028,6 +1123,9 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
             - (0.70 if row["outer_good"] else 0)
             - (0.30 if row["double_time"] and row["boat_number"] in {5, 6} else 0)
             - (0.35 if row["super_slit_alert"] and row["boat_number"] in {4, 5, 6} else 0)
+            - (0.35 if row["matchup_label"] in {"1号艇キラー", "相性バフ"} else 0)
+            - (0.25 if row["low_outer_revive"] else 0)
+            - (0.25 if row["longshot_head_candidate"] else 0)
         )
     return rows
 
@@ -1093,6 +1191,7 @@ def slit_rank_metrics(rows):
 
 
 def race_metrics(rows, date_text=None):
+    morning_metrics = rows[0].get("_morning_metrics") or {}
     b1 = next(row for row in rows if row["boat_number"] == 1)
     outer = [row for row in rows if row["boat_number"] in {5, 6}]
     outer46 = [row for row in rows if row["boat_number"] in {4, 5, 6}]
@@ -1110,6 +1209,13 @@ def race_metrics(rows, date_text=None):
     b1_isshu = b1.get("isshu_time")
     rank6 = next((row for row in rows if row.get("ai_plus_rank") == 6), {})
     rank5 = next((row for row in rows if row.get("ai_plus_rank") == 5), {})
+    low_outer_boat = int(as_num(morning_metrics.get("low_outer_boat")) or 0)
+    if low_outer_boat not in {5, 6}:
+        if rank6.get("boat_number") in {5, 6}:
+            low_outer_boat = rank6.get("boat_number")
+        elif rank5.get("boat_number") in {5, 6}:
+            low_outer_boat = rank5.get("boat_number")
+    low_outer = next((row for row in rows if row.get("boat_number") == low_outer_boat), {})
     double_time_boats = [row["boat_number"] for row in rows if row.get("double_time")]
     super_slit_boats = [row["boat_number"] for row in rows if row.get("super_slit_alert")]
     isshu_boats = sum(1 for row in rows if row.get("isshu_time") is not None)
@@ -1117,6 +1223,8 @@ def race_metrics(rows, date_text=None):
     slit_metrics = slit_rank_metrics(rows)
     return {
         "boat1_ai_prediction_pct": b1.get("ai_prediction_pct"),
+        "boat1_odds_prediction_pct": as_num(morning_metrics.get("boat1_odds_prediction_pct")),
+        "boat1_odds_rank": as_num(morning_metrics.get("boat1_odds_rank")),
         "boat1_ai_plus": b1.get("ai_plus"),
         "boat1_ai_plus_order": b1.get("ai_plus_rank"),
         "boat1_nige_pct": b1.get("nige_pct"),
@@ -1141,10 +1249,28 @@ def race_metrics(rows, date_text=None):
         "outer56_best_ai_prediction_pct": max(outer_ai_pred) if outer_ai_pred else None,
         "ai_rank6_boat": rank6.get("boat_number"),
         "ai_rank6_avg_isshu_diff": rank6.get("avg_isshu_diff"),
+        "ai_rank6_ai_prediction_pct": rank6.get("ai_prediction_pct"),
         "ai_rank6_tenji_rank": rank6.get("tenji_rank"),
+        "ai_rank6_isshu_rank": rank6.get("isshu_rank"),
         "ai_rank5_boat": rank5.get("boat_number"),
         "ai_rank5_avg_isshu_diff": rank5.get("avg_isshu_diff"),
+        "ai_rank5_ai_prediction_pct": rank5.get("ai_prediction_pct"),
         "ai_rank5_tenji_rank": rank5.get("tenji_rank"),
+        "ai_rank5_isshu_rank": rank5.get("isshu_rank"),
+        "low_outer_boat": low_outer_boat if low_outer_boat in {5, 6} else None,
+        "low_outer_ai_plus_rank": low_outer.get("ai_plus_rank"),
+        "low_outer_avg_isshu_diff": low_outer.get("avg_isshu_diff"),
+        "low_outer_ai_prediction_pct": low_outer.get("ai_prediction_pct"),
+        "low_outer_tenji_rank": low_outer.get("tenji_rank"),
+        "low_outer_isshu_rank": low_outer.get("isshu_rank"),
+        "low_outer_exhibit_top2": bool(low_outer.get("exhibit_rank", 9) <= 2),
+        "center_attack_wall_outer": bool(morning_metrics.get("center_attack_wall_outer")),
+        "weather_pressure": bool(morning_metrics.get("weather_pressure")),
+        "outer_isshu_priority_b1weak": bool(morning_metrics.get("outer_isshu_priority_b1weak")),
+        "b1_full_tobashi_shape": bool(morning_metrics.get("b1_full_tobashi_shape")),
+        "longshot_head_boats": morning_metrics.get("longshot_head_boats") or "",
+        "longshot_head_candidate_count": int(as_num(morning_metrics.get("longshot_head_candidate_count")) or 0),
+        "longshot_head_with_b1_gap": bool(morning_metrics.get("longshot_head_with_b1_gap")),
         "double_time_boats": double_time_boats,
         "super_slit_boats": super_slit_boats,
         "super_slit_alert_count": len(super_slit_boats),
@@ -1183,6 +1309,17 @@ def race_metrics(rows, date_text=None):
         "outer46_low_aiplus_exhibit_top2_count": sum(
             1 for row in outer46 if row.get("ai_plus_rank", 9) >= 5 and row.get("exhibit_rank", 9) <= 2
         ),
+        "matchup_lane1_pressure_score": as_num(morning_metrics.get("matchup_lane1_pressure_score")),
+        "matchup_outer_good_count": int(as_num(morning_metrics.get("matchup_outer_good_count")) or 0),
+        "matchup_lane1_bad_flag": bool(morning_metrics.get("matchup_lane1_bad_flag")),
+        "matchup_notes": morning_metrics.get("matchup_notes") or "",
+        "matchup_buff_boats": morning_metrics.get("matchup_buff_boats") or "",
+        "b1_matchup_label": morning_metrics.get("b1_matchup_label") or "",
+        "b2_matchup_label": morning_metrics.get("b2_matchup_label") or "",
+        "b3_matchup_label": morning_metrics.get("b3_matchup_label") or "",
+        "b4_matchup_label": morning_metrics.get("b4_matchup_label") or "",
+        "b5_matchup_label": morning_metrics.get("b5_matchup_label") or "",
+        "b6_matchup_label": morning_metrics.get("b6_matchup_label") or "",
         "tenji_boats": sum(1 for row in rows if row.get("tenji_time") is not None),
         "isshu_boats": isshu_boats,
     }
@@ -1220,6 +1357,51 @@ def condition_confirmed(condition, metrics):
         elif "0.10以上" in text:
             checks.append(("5/6 展示+一周平均との差0.10以上", (metrics.get("outer56_best_avg_isshu_diff") or -9) >= 0.10))
 
+    if "人気1号艇" in text:
+        checks.append(
+            (
+                "1号艇オッズ評価45%以上1位",
+                (metrics.get("boat1_odds_prediction_pct") or -1) >= 45
+                and int(metrics.get("boat1_odds_rank") or 9) == 1,
+            )
+        )
+        if "1周-0.10以下" in text:
+            checks.append(("1号艇1周平均との差-0.10以下", (metrics.get("boat1_isshu_avg_diff") or 9) <= -0.10))
+        if "逃げ率45未満" in text:
+            checks.append(("1号艇逃げ率45%未満", (metrics.get("boat1_nige_pct") or 999) < 45))
+
+    if "低評価外枠" in text:
+        checks.append(("低評価外枠が5/6号艇", int(metrics.get("low_outer_boat") or 0) in {5, 6}))
+        if "AI予測8%以上" in text:
+            checks.append(("低評価外枠AI予測8%以上", (metrics.get("low_outer_ai_prediction_pct") or -1) >= 8))
+        elif "AI予測5%以上" in text:
+            checks.append(("低評価外枠AI予測5%以上", (metrics.get("low_outer_ai_prediction_pct") or -1) >= 5))
+        if "平均との差+0.10以上" in text:
+            checks.append(("低評価外枠 展示+一周平均との差+0.10以上", (metrics.get("low_outer_avg_isshu_diff") or -9) >= 0.10))
+        if "展示/1周2位以内" in text:
+            checks.append(("低評価外枠 展示/1周2位以内", bool(metrics.get("low_outer_exhibit_top2"))))
+        if "1号艇逃げ失敗40%以上" in text:
+            checks.append(("1号艇逃げ失敗40%以上", (metrics.get("boat1_loss_pct") or -1) >= 40))
+        if "外圧" in text:
+            checks.append(("スリット5/6外圧", bool(metrics.get("slit_outer56_pressure_vs_1"))))
+
+    if "人気薄頭" in text:
+        checks.append(("3〜6人気薄頭候補あり", metrics.get("longshot_head_candidate_count", 0) >= 1))
+        if "1過信" in text:
+            checks.append(("人気薄頭+1過信", bool(metrics.get("longshot_head_with_b1_gap"))))
+
+    if "3/4攻撃" in text:
+        checks.append(("3/4攻撃+外圧", bool(metrics.get("center_attack_wall_outer"))))
+
+    if "会場風波" in text:
+        checks.append(("風波+1弱+外圧", bool(metrics.get("weather_pressure"))))
+
+    if "外枠一周優先" in text:
+        checks.append(("外枠一周優先+1弱", bool(metrics.get("outer_isshu_priority_b1weak"))))
+
+    if "1号艇完全飛ばし" in text:
+        checks.append(("1号艇完全飛ばし型", bool(metrics.get("b1_full_tobashi_shape"))))
+
     if "AI+最下位の平均との差0.10以上" in text or "AI+最下位の展示+一周平均との差0.10以上" in text:
         checks.append(("AI+最下位 展示+一周平均との差0.10以上", (metrics.get("ai_rank6_avg_isshu_diff") or -9) >= 0.10))
 
@@ -1249,6 +1431,23 @@ def condition_confirmed(condition, metrics):
             checks.append(("スリット隊形外圧", bool(metrics.get("slit_outer456_pressure")) or bool(metrics.get("slit_outer56_pressure_vs_1"))))
         else:
             checks.append(("スリット隊形あり", bool(metrics.get("slit_shape_label"))))
+
+    if "対戦相性" in text:
+        if "2艇以上" in text:
+            checks.append(("対戦相性バフ艇2艇以上", metrics.get("matchup_outer_good_count", 0) >= 2))
+        elif "1号艇" in text and "劣勢" in text:
+            checks.append(("対戦相性1号艇劣勢", bool(metrics.get("matchup_lane1_bad_flag"))))
+        elif "相性バフ" in text:
+            checks.append(("対戦相性バフ艇あり", bool(metrics.get("matchup_buff_boats"))))
+        else:
+            checks.append(
+                (
+                    "対戦相性あり",
+                    bool(metrics.get("matchup_buff_boats"))
+                    or bool(metrics.get("matchup_lane1_bad_flag"))
+                    or (metrics.get("matchup_outer_good_count", 0) >= 1),
+                )
+            )
 
     if "AI+最下位" in text and "展示4位以下" in text:
         checks.append(("AI+最下位展示4位以下", (metrics.get("ai_rank6_tenji_rank") or 9) >= 4))
@@ -1346,6 +1545,74 @@ def roi_strategies(race, metrics, rows):
             (
                 "codex_logic29_late_outer12",
                 "Codex: 万舟率29%+後半 value頭 5/6絡み 10〜15点",
+                codex_logic29_outer_required,
+            )
+        )
+    if (
+        (race.get("manshu_rate_pct") or 0) >= 27
+        and metrics.get("tenji_boats", 0) >= 6
+        and metrics.get("isshu_boats", 0) >= 6
+        and not b1_summer_fast
+        and (
+            metrics.get("matchup_outer_good_count", 0) >= 2
+            or bool(metrics.get("matchup_lane1_bad_flag"))
+        )
+    ):
+        strategies.append(
+            (
+                "codex_matchup_outer_good12",
+                "Codex相性型: 1劣勢+相性バフ艇 10〜15点",
+                codex_logic29_outer_required,
+            )
+        )
+    if (
+        (race.get("manshu_rate_pct") or 0) >= 27
+        and metrics.get("tenji_boats", 0) >= 6
+        and metrics.get("isshu_boats", 0) >= 6
+        and metrics.get("longshot_head_candidate_count", 0) >= 1
+        and not b1_summer_fast
+    ):
+        strategies.append(
+            (
+                "codex_longshot_head12",
+                "Codex妙味型: 人気薄頭候補+外枠絡み 10〜15点",
+                codex_logic29_outer_required,
+            )
+        )
+    if (
+        (race.get("manshu_rate_pct") or 0) >= 27
+        and metrics.get("tenji_boats", 0) >= 6
+        and metrics.get("isshu_boats", 0) >= 6
+        and (metrics.get("boat1_odds_prediction_pct") or -1) >= 45
+        and int(metrics.get("boat1_odds_rank") or 9) == 1
+        and int(metrics.get("low_outer_boat") or 0) in {5, 6}
+        and (metrics.get("low_outer_avg_isshu_diff") or -9) >= 0.10
+        and (metrics.get("low_outer_ai_prediction_pct") or -1) >= 5
+        and metrics.get("low_outer_exhibit_top2")
+        and not b1_summer_fast
+    ):
+        strategies.append(
+            (
+                "codex_popular_b1_low_outer12",
+                "Codex妙味型: 人気1号艇飛び+低評価外枠復活 10〜15点",
+                codex_logic29_outer_required,
+            )
+        )
+    if (
+        (race.get("manshu_rate_pct") or 0) >= 27
+        and metrics.get("tenji_boats", 0) >= 6
+        and metrics.get("isshu_boats", 0) >= 6
+        and (metrics.get("boat1_loss_pct") or -1) >= 40
+        and metrics.get("slit_outer56_pressure_vs_1")
+        and int(metrics.get("low_outer_boat") or 0) in {5, 6}
+        and (metrics.get("low_outer_ai_prediction_pct") or -1) >= 8
+        and metrics.get("low_outer_exhibit_top2")
+        and not b1_summer_fast
+    ):
+        strategies.append(
+            (
+                "codex_low_outer_revive12",
+                "Codex穴外枠型: 1弱+外圧+低評価外枠復活 10〜15点",
                 codex_logic29_outer_required,
             )
         )
@@ -1454,6 +1721,48 @@ def fmt_slit_shape(metrics):
     return f", 隊形{label}"
 
 
+def fmt_matchup(metrics):
+    boats = str(metrics.get("matchup_buff_boats") or "").strip()
+    notes = str(metrics.get("matchup_notes") or "").strip()
+    lane1_bad = bool(metrics.get("matchup_lane1_bad_flag"))
+    if boats:
+        return f", 相性バフ{boats}"
+    if lane1_bad:
+        return ", 相性1劣勢"
+    if notes:
+        return f", 相性{notes}"
+    return ""
+
+
+def fmt_b1_odds(metrics):
+    pct = metrics.get("boat1_odds_prediction_pct")
+    rank = metrics.get("boat1_odds_rank")
+    if pct is None and rank is None:
+        return ""
+    rank_text = "-" if rank is None else f"{int(rank)}位"
+    return f", 1オッズ評価{fmt_pct(pct)}({rank_text})"
+
+
+def fmt_low_outer(metrics):
+    boat = int(metrics.get("low_outer_boat") or 0)
+    if boat not in {5, 6}:
+        return ""
+    return (
+        f", 低外{boat}号"
+        f" AI{fmt_pct(metrics.get('low_outer_ai_prediction_pct'))}"
+        f" 差{fmt_time(metrics.get('low_outer_avg_isshu_diff'))}"
+        f" 展{fmt_role(metrics.get('low_outer_tenji_rank'))}位"
+        f"/周{fmt_role(metrics.get('low_outer_isshu_rank'))}位"
+    )
+
+
+def fmt_longshot_head(metrics):
+    boats = str(metrics.get("longshot_head_boats") or "").strip()
+    if not boats:
+        return ""
+    return f", 人気薄頭候補{boats}"
+
+
 def fetch_live_race(race, refresh=True):
     place = race.get("place_name")
     slug = race.get("slug") or PLACE_SLUGS.get(place)
@@ -1487,10 +1796,14 @@ def make_message(race, alert_type, metrics, checks, strategies):
         f"1展示{fmt_time(metrics.get('boat1_tenji_time'))}"
         f"({metrics.get('boat1_tenji_time_rank')}位), "
         f"5/6展示+1周平均との差{fmt_time(metrics.get('outer56_best_avg_isshu_diff'))}"
+        f"{fmt_b1_odds(metrics)}"
+        f"{fmt_low_outer(metrics)}"
+        f"{fmt_longshot_head(metrics)}"
         f"{fmt_double_time(metrics)}"
         f"{fmt_super_slit(metrics)}"
         f"{fmt_summer_b1_isshu(metrics)}"
         f"{fmt_slit_shape(metrics)}"
+        f"{fmt_matchup(metrics)}"
     )
     if alert_type == "buy_ok" and strategies:
         s = strategies[0]
@@ -1669,7 +1982,7 @@ def main():
     )
     parser.add_argument(
         "--ranking-url-base",
-        default="https://boat10000.github.io/kyotei-occult-viewer/data/output",
+        default="https://mm1601.github.io/kyotei-occult-viewer/data/output",
         help="Public base URL for daily ranking JSON fallback.",
     )
     parser.add_argument("--no-refresh", action="store_true", help="Use cached BOATERS pages when available.")

@@ -32,7 +32,7 @@ MBRACE_URL = "https://www1.mbrace.or.jp"
 OPENAPI_URL = "https://boatraceopenapi.github.io"
 DEFAULT_USER_AGENT = (
     "kyotei-occult-viewer-data-fetcher/0.1 "
-    "(local cache; low frequency; https://boat10000.github.io/kyotei-occult-viewer/)"
+    "(local cache; low frequency; https://mm1601.github.io/kyotei-occult-viewer/)"
 )
 JST = dt.timezone(dt.timedelta(hours=9), name="JST")
 

@@ -9,7 +9,7 @@
 - **サイン検証図鑑（`index.html`・部分データ版スナップショット）**
   検証した全サイン候補（採用/暫定/データ待ち/棄却）の一覧・絞り込み。
 
-**公開URL（GitHub Pages）**: https://boat10000.github.io/kyotei-occult-viewer/sign_today.html
+**公開URL（GitHub Pages / 万舟率ランキング）**: https://mm1601.github.io/kyotei-occult-viewer/manshu.html
 
 ## 検証の規律（なぜ信用できるか）
 
