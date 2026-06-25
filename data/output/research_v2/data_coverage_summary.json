@@ -1,0 +1,174 @@
+{
+  "version": "research-v2-coverage-1",
+  "generated_at": "2026-06-25T11:03:27+09:00",
+  "coverage": [
+    {
+      "item": "展示タイム",
+      "complete_rows": 21106,
+      "total_rows": 21576,
+      "coverage_pct": 97.82,
+      "status": "collected"
+    },
+    {
+      "item": "展示ST",
+      "complete_rows": 21106,
+      "total_rows": 21576,
+      "coverage_pct": 97.82,
+      "status": "collected"
+    },
+    {
+      "item": "1周タイム",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "not_collected"
+    },
+    {
+      "item": "まわり足",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "not_collected"
+    },
+    {
+      "item": "直線タイム",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "not_collected"
+    },
+    {
+      "item": "チルト",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "collected"
+    },
+    {
+      "item": "展示進入",
+      "complete_rows": 21106,
+      "total_rows": 21576,
+      "coverage_pct": 97.82,
+      "status": "collected"
+    },
+    {
+      "item": "本番進入",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "not_collected"
+    },
+    {
+      "item": "風向",
+      "complete_rows": 21324,
+      "total_rows": 21576,
+      "coverage_pct": 98.83,
+      "status": "collected"
+    },
+    {
+      "item": "風速",
+      "complete_rows": 21324,
+      "total_rows": 21576,
+      "coverage_pct": 98.83,
+      "status": "collected"
+    },
+    {
+      "item": "波高",
+      "complete_rows": 21324,
+      "total_rows": 21576,
+      "coverage_pct": 98.83,
+      "status": "collected"
+    },
+    {
+      "item": "気温",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "not_collected"
+    },
+    {
+      "item": "水温",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "not_collected"
+    },
+    {
+      "item": "天候",
+      "complete_rows": 21324,
+      "total_rows": 21576,
+      "coverage_pct": 98.83,
+      "status": "collected"
+    },
+    {
+      "item": "潮位",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "not_collected"
+    },
+    {
+      "item": "潮回り",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "not_collected"
+    },
+    {
+      "item": "満潮/干潮",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "not_collected"
+    },
+    {
+      "item": "モーター2連率",
+      "complete_rows": 21426,
+      "total_rows": 21576,
+      "coverage_pct": 99.3,
+      "status": "collected"
+    },
+    {
+      "item": "モーター3連率",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "collected"
+    },
+    {
+      "item": "ボート2連率",
+      "complete_rows": 21426,
+      "total_rows": 21576,
+      "coverage_pct": 99.3,
+      "status": "collected"
+    },
+    {
+      "item": "ボート3連率",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "collected"
+    },
+    {
+      "item": "フライング/出遅れ",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "collected"
+    },
+    {
+      "item": "欠場・返還",
+      "complete_rows": 21576,
+      "total_rows": 21576,
+      "coverage_pct": 100.0,
+      "status": "collected"
+    },
+    {
+      "item": "オッズ時刻別",
+      "complete_rows": 0,
+      "total_rows": 21576,
+      "coverage_pct": 0.0,
+      "status": "not_collected"
+    }
+  ]
+}

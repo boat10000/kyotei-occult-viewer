@@ -1,0 +1,1258 @@
+{
+  "version": "research-v2-cluster-assignment-1",
+  "date": "2026-06-16",
+  "generated_at": "2026-06-25T11:03:27+09:00",
+  "assignments": [
+    {
+      "race_id": "2026-06-16_01_01",
+      "date": "2026-06-16",
+      "venue_name": "桐生",
+      "race_no": 1,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.4063,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_01_02",
+      "date": "2026-06-16",
+      "venue_name": "桐生",
+      "race_no": 2,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.2939,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_01_03",
+      "date": "2026-06-16",
+      "venue_name": "桐生",
+      "race_no": 3,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.469,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_01_04",
+      "date": "2026-06-16",
+      "venue_name": "桐生",
+      "race_no": 4,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.2858,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_01_05",
+      "date": "2026-06-16",
+      "venue_name": "桐生",
+      "race_no": 5,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3561,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_01_06",
+      "date": "2026-06-16",
+      "venue_name": "桐生",
+      "race_no": 6,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1378,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_01_07",
+      "date": "2026-06-16",
+      "venue_name": "桐生",
+      "race_no": 7,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.4651,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_01_08",
+      "date": "2026-06-16",
+      "venue_name": "桐生",
+      "race_no": 8,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3446,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_01_09",
+      "date": "2026-06-16",
+      "venue_name": "桐生",
+      "race_no": 9,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2493,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_01_10",
+      "date": "2026-06-16",
+      "venue_name": "桐生",
+      "race_no": 10,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3283,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_01_11",
+      "date": "2026-06-16",
+      "venue_name": "桐生",
+      "race_no": 11,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2794,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_03_01",
+      "date": "2026-06-16",
+      "venue_name": "江戸川",
+      "race_no": 1,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.168,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_03_02",
+      "date": "2026-06-16",
+      "venue_name": "江戸川",
+      "race_no": 2,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.1073,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_03_04",
+      "date": "2026-06-16",
+      "venue_name": "江戸川",
+      "race_no": 4,
+      "cluster_id": "unknown",
+      "cluster_similarity": 0.0,
+      "unknown": true
+    },
+    {
+      "race_id": "2026-06-16_03_05",
+      "date": "2026-06-16",
+      "venue_name": "江戸川",
+      "race_no": 5,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.1131,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_03_06",
+      "date": "2026-06-16",
+      "venue_name": "江戸川",
+      "race_no": 6,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1601,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_03_07",
+      "date": "2026-06-16",
+      "venue_name": "江戸川",
+      "race_no": 7,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.1129,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_03_08",
+      "date": "2026-06-16",
+      "venue_name": "江戸川",
+      "race_no": 8,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.246,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_03_09",
+      "date": "2026-06-16",
+      "venue_name": "江戸川",
+      "race_no": 9,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.1063,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_03_10",
+      "date": "2026-06-16",
+      "venue_name": "江戸川",
+      "race_no": 10,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.2401,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_03_11",
+      "date": "2026-06-16",
+      "venue_name": "江戸川",
+      "race_no": 11,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1993,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_03_12",
+      "date": "2026-06-16",
+      "venue_name": "江戸川",
+      "race_no": 12,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1221,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_01",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 1,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3302,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_02",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 2,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3021,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_03",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 3,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3655,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_04",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 4,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1317,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_05",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 5,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.4016,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_06",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 6,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.304,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_07",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 7,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2394,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_08",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 8,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2172,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_09",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 9,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3931,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_10",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 10,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3603,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_11",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 11,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.383,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_06_12",
+      "date": "2026-06-16",
+      "venue_name": "浜名湖",
+      "race_no": 12,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.3059,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_01",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 1,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.3466,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_02",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 2,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.353,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_03",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 3,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.4643,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_04",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 4,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.1603,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_05",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 5,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.5682,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_06",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 6,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.5253,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_07",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 7,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.5724,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_08",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 8,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.5165,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_09",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 9,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.5276,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_10",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 10,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.4081,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_11",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 11,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.5093,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_08_12",
+      "date": "2026-06-16",
+      "venue_name": "常滑",
+      "race_no": 12,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.4989,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_09_01",
+      "date": "2026-06-16",
+      "venue_name": "津",
+      "race_no": 1,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1404,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_09_02",
+      "date": "2026-06-16",
+      "venue_name": "津",
+      "race_no": 2,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.216,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_09_03",
+      "date": "2026-06-16",
+      "venue_name": "津",
+      "race_no": 3,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.2356,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_09_04",
+      "date": "2026-06-16",
+      "venue_name": "津",
+      "race_no": 4,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.4259,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_09_05",
+      "date": "2026-06-16",
+      "venue_name": "津",
+      "race_no": 5,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2502,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_09_06",
+      "date": "2026-06-16",
+      "venue_name": "津",
+      "race_no": 6,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.4662,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_09_07",
+      "date": "2026-06-16",
+      "venue_name": "津",
+      "race_no": 7,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.4712,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_09_09",
+      "date": "2026-06-16",
+      "venue_name": "津",
+      "race_no": 9,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.4291,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_09_10",
+      "date": "2026-06-16",
+      "venue_name": "津",
+      "race_no": 10,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.4239,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_09_11",
+      "date": "2026-06-16",
+      "venue_name": "津",
+      "race_no": 11,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.4055,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_09_12",
+      "date": "2026-06-16",
+      "venue_name": "津",
+      "race_no": 12,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.4676,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_01",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 1,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1533,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_02",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 2,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.1999,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_03",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 3,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1733,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_04",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 4,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3164,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_05",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 5,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.383,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_06",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 6,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3838,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_07",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 7,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.0991,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_08",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 8,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3228,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_09",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 9,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.362,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_10",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 10,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2162,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_11",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 11,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3238,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_10_12",
+      "date": "2026-06-16",
+      "venue_name": "三国",
+      "race_no": 12,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.1925,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_12_02",
+      "date": "2026-06-16",
+      "venue_name": "住之江",
+      "race_no": 2,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.397,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_12_03",
+      "date": "2026-06-16",
+      "venue_name": "住之江",
+      "race_no": 3,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.2974,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_12_04",
+      "date": "2026-06-16",
+      "venue_name": "住之江",
+      "race_no": 4,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.4061,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_12_05",
+      "date": "2026-06-16",
+      "venue_name": "住之江",
+      "race_no": 5,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.35,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_12_06",
+      "date": "2026-06-16",
+      "venue_name": "住之江",
+      "race_no": 6,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3294,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_12_07",
+      "date": "2026-06-16",
+      "venue_name": "住之江",
+      "race_no": 7,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3826,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_12_08",
+      "date": "2026-06-16",
+      "venue_name": "住之江",
+      "race_no": 8,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.2273,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_12_09",
+      "date": "2026-06-16",
+      "venue_name": "住之江",
+      "race_no": 9,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3109,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_12_10",
+      "date": "2026-06-16",
+      "venue_name": "住之江",
+      "race_no": 10,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.0677,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_12_11",
+      "date": "2026-06-16",
+      "venue_name": "住之江",
+      "race_no": 11,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.1908,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_12_12",
+      "date": "2026-06-16",
+      "venue_name": "住之江",
+      "race_no": 12,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1094,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_01",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 1,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1831,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_02",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 2,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2245,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_03",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 3,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.371,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_04",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 4,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3266,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_05",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 5,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.4707,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_06",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 6,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.1726,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_07",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 7,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.4329,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_08",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 8,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.496,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_09",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 9,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3642,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_10",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 10,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3455,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_11",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 11,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.2006,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_16_12",
+      "date": "2026-06-16",
+      "venue_name": "児島",
+      "race_no": 12,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.4153,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_01",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 1,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2109,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_02",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 2,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.228,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_03",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 3,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.348,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_04",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 4,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.331,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_05",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 5,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2981,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_06",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 6,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.2895,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_07",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 7,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3276,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_08",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 8,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3217,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_09",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 9,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.4317,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_10",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 10,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3688,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_11",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 11,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.2404,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_18_12",
+      "date": "2026-06-16",
+      "venue_name": "徳山",
+      "race_no": 12,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.4843,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_19_01",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 1,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.2263,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_19_02",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 2,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3271,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_19_03",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 3,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.0639,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_19_04",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 4,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3355,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_19_05",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 5,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2098,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_19_06",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 6,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.0461,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_19_07",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 7,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2144,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_19_08",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 8,
+      "cluster_id": "unknown",
+      "cluster_similarity": 0.0,
+      "unknown": true
+    },
+    {
+      "race_id": "2026-06-16_19_09",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 9,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2962,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_19_10",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 10,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1983,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_19_11",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 11,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.1607,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_19_12",
+      "date": "2026-06-16",
+      "venue_name": "下関",
+      "race_no": 12,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2315,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_21_01",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 1,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.1989,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_21_02",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 2,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.207,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_21_03",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 3,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3985,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_21_04",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 4,
+      "cluster_id": "unknown",
+      "cluster_similarity": 0.0,
+      "unknown": true
+    },
+    {
+      "race_id": "2026-06-16_21_05",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 5,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3772,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_21_06",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 6,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.308,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_21_07",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 7,
+      "cluster_id": "unknown",
+      "cluster_similarity": 0.0,
+      "unknown": true
+    },
+    {
+      "race_id": "2026-06-16_21_08",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 8,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3669,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_21_09",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 9,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.4174,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_21_10",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 10,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2748,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_21_11",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 11,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3233,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_21_12",
+      "date": "2026-06-16",
+      "venue_name": "芦屋",
+      "race_no": 12,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3391,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_22_02",
+      "date": "2026-06-16",
+      "venue_name": "福岡",
+      "race_no": 2,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.236,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_22_03",
+      "date": "2026-06-16",
+      "venue_name": "福岡",
+      "race_no": 3,
+      "cluster_id": "C0",
+      "cluster_similarity": 0.3016,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_22_04",
+      "date": "2026-06-16",
+      "venue_name": "福岡",
+      "race_no": 4,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2697,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_22_05",
+      "date": "2026-06-16",
+      "venue_name": "福岡",
+      "race_no": 5,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3832,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_22_06",
+      "date": "2026-06-16",
+      "venue_name": "福岡",
+      "race_no": 6,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.3436,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_22_07",
+      "date": "2026-06-16",
+      "venue_name": "福岡",
+      "race_no": 7,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.4409,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_22_08",
+      "date": "2026-06-16",
+      "venue_name": "福岡",
+      "race_no": 8,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.4056,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_22_09",
+      "date": "2026-06-16",
+      "venue_name": "福岡",
+      "race_no": 9,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.4459,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_22_10",
+      "date": "2026-06-16",
+      "venue_name": "福岡",
+      "race_no": 10,
+      "cluster_id": "C2",
+      "cluster_similarity": 0.2956,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_22_11",
+      "date": "2026-06-16",
+      "venue_name": "福岡",
+      "race_no": 11,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.5148,
+      "unknown": false
+    },
+    {
+      "race_id": "2026-06-16_22_12",
+      "date": "2026-06-16",
+      "venue_name": "福岡",
+      "race_no": 12,
+      "cluster_id": "C1",
+      "cluster_similarity": 0.4533,
+      "unknown": false
+    }
+  ]
+}
