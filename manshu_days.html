@@ -32,6 +32,19 @@
     .miss{color:#64748b;font-weight:800}
     .cond{color:#374151;font-size:12px;line-height:1.45;max-width:520px}
     .mini{color:#64748b;font-size:12px;line-height:1.45}
+    .plan{font-size:12px;line-height:1.45;min-width:190px}
+    .plan b{color:#111827}
+    .plan .buy{color:#dc2626;font-weight:900}
+    .plan .watch{color:#64748b;font-weight:900}
+    .plan-line{display:block;margin:1px 0}
+    .roi{font-size:12px;line-height:1.45;white-space:nowrap}
+    .roi b{font-size:14px}
+    .roi .plus{color:#059669}
+    .roi .minus{color:#dc2626}
+    details.tickets{margin-top:4px}
+    details.tickets summary{cursor:pointer;color:#2563eb;font-weight:800}
+    .ticket-list{margin-top:4px;color:#334155;max-width:300px;white-space:normal}
+    .warn{color:#9a3412;font-size:11.5px}
     .grid{display:grid;grid-template-columns:1fr;gap:14px}
     .days tbody tr{cursor:pointer}
     .days tbody tr:hover{background:#f8fafc}
@@ -49,7 +62,7 @@
 </head>
 <body>
   <h1>Codex厳選ランキング 過去検証</h1>
-  <p class="muted">今のCodex厳選ランキングを過去日付に当てた結果です。今日分は取得できている結果までを反映します。</p>
+  <p class="muted">今のCodex厳選ランキングと買い目の作り方を、保存済みの過去日付で検証した結果です。今日分は取得できている結果までを反映します。</p>
   <div class="nav">
     <a href="manshu.html">本日のランキング</a>
     <a href="manshu_codex.html">Codex版</a>
@@ -74,7 +87,7 @@
       <div>
         <h2>Codex厳選ランキング</h2>
         <table>
-          <thead><tr><th>#</th><th>レース</th><th>万舟率</th><th>結果</th><th>根拠</th></tr></thead>
+          <thead><tr><th>#</th><th>レース</th><th>万舟率</th><th>予想</th><th>結果</th><th>回収</th><th>根拠</th></tr></thead>
           <tbody id="strictBody"></tbody>
         </table>
       </div>
@@ -106,7 +119,7 @@ const fmtPct = v => v == null ? "--" : Number(v).toFixed(2).replace(/\.00$/,"") 
 const fmtYen = v => v == null ? "--" : Number(v).toLocaleString("ja-JP") + "円";
 function dataUrl(item){
   const path = item.codex_path || item.path || ("data/output/boaters_manshu_ranking_codex_" + ymd(item.date) + ".json");
-  return path + "?v=codex-history-3";
+  return path + "?v=codex-history-4";
 }
 function statLine(s){
   if(!s) return "--";
@@ -116,10 +129,188 @@ function metric(label, s){
   const tail = s && s.day_hit_rate_pct != null ? ` / 日的中 ${fmtPct(s.day_hit_rate_pct)}` : "";
   return `<div class="metric"><b>${esc(statLine(s))}</b><span>${esc(label + tail)}</span></div>`;
 }
+function strategyMetric(label, s){
+  if(!s) return `<div class="metric"><b>--</b><span>${esc(label)}</span></div>`;
+  const roi = s.roi_pct == null ? "--" : fmtPct(s.roi_pct);
+  const hit = `${s.hit_count || 0}/${s.buy_races || 0}R`;
+  const manshu = `${s.manshu_hit_count || 0}万舟`;
+  return `<div class="metric"><b>${esc(roi)}</b><span>${esc(label + " / 的中 " + hit + " / " + manshu)}</span></div>`;
+}
+function hasNum(v){ return v !== null && v !== undefined && v !== "" && !Number.isNaN(Number(v)); }
+function asNum(v){ return hasNum(v) ? Number(v) : null; }
+function asInt(v){ const n = asNum(v); return n == null ? null : Math.trunc(n); }
+function boatNums(text){
+  const out = [];
+  String(text || "").split(/[,\s、]+/).forEach(part => {
+    const boat = Number(part);
+    if(Number.isInteger(boat) && boat >= 1 && boat <= 6 && !out.includes(boat)) out.push(boat);
+  });
+  return out;
+}
+function resultObj(r){
+  const res = r.result || {};
+  return {trifecta:res.trifecta || r.trifecta || "", payout_yen:asInt(res.payout_yen != null ? res.payout_yen : (r.payout_yen != null ? r.payout_yen : r.payout))};
+}
+function boatRows(r){
+  const m = r.metrics || {};
+  const rows = Array.isArray(m.boats) ? m.boats.map(b => ({
+    boat: asInt(b.boat_number),
+    win: asNum(b.composite_win_pct != null ? b.composite_win_pct : b.win_pct),
+    top3: asNum(b.composite_top3_pct != null ? b.composite_top3_pct : b.top3_pct),
+    generalTop3: asNum(b.general_top3_pct),
+    aiPlus: asNum(b.ai_plus),
+    aiPlusRank: asInt(b.ai_plus_rank)
+  })).filter(b => b.boat) : [];
+  const seen = new Set(rows.map(b => b.boat));
+  for(let boat=1; boat<=6; boat+=1){
+    if(seen.has(boat)) continue;
+    rows.push({
+      boat,
+      win: asNum(m["boat"+boat+"_composite_win_pct"] != null ? m["boat"+boat+"_composite_win_pct"] : m["boat"+boat+"_ai_prediction_pct"]),
+      top3: asNum(m["boat"+boat+"_composite_top3_pct"] != null ? m["boat"+boat+"_composite_top3_pct"] : m["boat"+boat+"_ai_3ren_pct"]),
+      generalTop3: asNum(m["boat"+boat+"_general_3ren_pct"]),
+      aiPlus: asNum(m["boat"+boat+"_ai_plus"]),
+      aiPlusRank: asInt(m["boat"+boat+"_ai_plus_order"])
+    });
+  }
+  return rows.sort((a,b) => a.boat - b.boat);
+}
+function predictionPlan(r){
+  const m = r.metrics || {};
+  const rows = boatRows(r);
+  const byBoat = {};
+  rows.forEach(b => { byBoat[b.boat] = b; });
+  const winScore = boat => asNum((byBoat[boat] || {}).win) || 0;
+  const top3Score = boat => asNum((byBoat[boat] || {}).top3) || asNum((byBoat[boat] || {}).aiPlus) || winScore(boat);
+  const aiRanked = rows.filter(b => b.aiPlusRank != null);
+  let axis = [], axisAlt = [], toss = null, axisSource = "ai_plus_rank";
+  if(aiRanked.length >= 3){
+    const ordered = aiRanked.slice().sort((a,b) => (a.aiPlusRank - b.aiPlusRank) || (a.boat - b.boat));
+    axis = ordered.filter(b => b.aiPlusRank === 1 || b.aiPlusRank === 3).map(b => b.boat).slice(0,2);
+    axisAlt = ordered.filter(b => b.aiPlusRank === 2 || b.aiPlusRank === 3).map(b => b.boat).slice(0,2);
+    const tossRow = ordered.find(b => b.aiPlusRank === 6);
+    toss = tossRow ? tossRow.boat : null;
+  }else{
+    const scored = rows.slice().sort((a,b) => (top3Score(b.boat) - top3Score(a.boat)) || (winScore(b.boat) - winScore(a.boat)));
+    axis = scored.slice(0,3).filter((_, i) => i === 0 || i === 2).map(b => b.boat);
+    axisAlt = scored.slice(1,3).map(b => b.boat);
+    toss = scored.length ? scored[scored.length - 1].boat : null;
+    axisSource = "fallback_ai_win_rank";
+  }
+  while(axis.length < 2){
+    const next = rows.slice().sort((a,b) => top3Score(b.boat) - top3Score(a.boat)).find(b => !axis.includes(b.boat));
+    if(!next) break;
+    axis.push(next.boat);
+  }
+  while(axisAlt.length < 2){
+    const next = rows.slice().sort((a,b) => top3Score(b.boat) - top3Score(a.boat)).find(b => !axisAlt.includes(b.boat));
+    if(!next) break;
+    axisAlt.push(next.boat);
+  }
+  const superSlit = new Set(boatNums(m.super_slit_boats));
+  const doubleTime = new Set(boatNums(m.double_time_boats));
+  const matchup = new Set(boatNums(m.matchup_buff_boats));
+  function headScore(boat){
+    let score = winScore(boat);
+    if(superSlit.has(boat)) score += 3;
+    if(doubleTime.has(boat)) score += 2.5;
+    if(matchup.has(boat)) score += 2;
+    if((boat === 5 || boat === 6) && (asNum(m.outer56_best_avg_isshu_diff) || -9) >= 0.14) score += 2;
+    if(boat === 1) score -= 20;
+    return score;
+  }
+  const heads = [];
+  boatNums(m.longshot_head_boats).forEach(boat => {
+    if(boat !== toss && !heads.includes(boat)) heads.push(boat);
+  });
+  [3,4,5,6].sort((a,b) => headScore(b) - headScore(a)).forEach(boat => {
+    if(heads.length < 2 && boat !== toss && !heads.includes(boat)) heads.push(boat);
+  });
+  [2,3,4,5,6].sort((a,b) => headScore(b) - headScore(a)).forEach(boat => {
+    if(heads.length < 2 && boat !== toss && !heads.includes(boat)) heads.push(boat);
+  });
+  const pool = [1,2,3,4,5,6].filter(boat => boat !== toss);
+  const ticketScores = {};
+  const raw = new Set();
+  heads.slice(0,2).forEach(head => {
+    axis.slice(0,2).forEach(ax => {
+      if(ax === head || ax === toss) return;
+      pool.forEach(partner => {
+        if(partner === head || partner === ax) return;
+        [[head, ax, partner], [head, partner, ax]].forEach(combo => {
+          const ticket = combo.join("-");
+          raw.add(ticket);
+          ticketScores[ticket] = headScore(head) * 2 + top3Score(ax) + top3Score(partner) * 0.65 + (partner >= 5 ? 8 : 0) + (ax >= 5 ? 4 : 0);
+        });
+      });
+    });
+  });
+  const tickets = Array.from(raw).sort((a,b) => (ticketScores[b] || 0) - (ticketScores[a] || 0)).slice(0,15);
+  const res = resultObj(r);
+  const resultBoats = String(res.trifecta || "").split("-").map(Number).filter(Number.isFinite);
+  const hit = !!res.trifecta && tickets.includes(res.trifecta);
+  const investment = tickets.length * 100;
+  const payout = hit && res.payout_yen != null ? res.payout_yen : 0;
+  return {
+    decision: tickets.length ? "買い" : "見送り",
+    heads: heads.slice(0,2),
+    axis: axis.slice(0,2),
+    axisAlt: axisAlt.slice(0,2),
+    toss,
+    tickets,
+    points: tickets.length,
+    hit,
+    headHit: resultBoats.length ? heads.slice(0,2).includes(resultBoats[0]) : false,
+    axisHit: resultBoats.some(boat => axis.slice(0,2).includes(boat)),
+    axisAltHit: resultBoats.some(boat => axisAlt.slice(0,2).includes(boat)),
+    tossCame: toss ? resultBoats.includes(toss) : false,
+    investment,
+    payout,
+    profit: payout - investment,
+    warning: axisSource !== "ai_plus_rank" ? "AI+6艇不足のためAI1着率順で代替" : ""
+  };
+}
+function fmtBoats(boats){ return (boats || []).map(boat => boat + "号艇").join("・") || "--"; }
+function planHtml(r){
+  const p = predictionPlan(r);
+  const cls = p.decision === "買い" ? "buy" : "watch";
+  return `<div class="plan">`+
+    `<span class="${cls}">${esc(p.decision)}</span> <span>${esc(p.points)}点</span>`+
+    `<span class="plan-line"><b>頭</b> ${esc(fmtBoats(p.heads))}</span>`+
+    `<span class="plan-line"><b>軸</b> ${esc(fmtBoats(p.axis))}</span>`+
+    `<span class="plan-line"><b>消し</b> ${esc(p.toss ? p.toss + "号艇" : "--")}</span>`+
+    (p.warning ? `<span class="warn">${esc(p.warning)}</span>` : "")+
+    `<details class="tickets"><summary>買い目</summary><div class="ticket-list">${esc(p.tickets.join(" / ") || "--")}</div></details>`+
+    `</div>`;
+}
+function recoveryHtml(r){
+  const p = predictionPlan(r), res = resultObj(r);
+  if(res.payout_yen == null) return `<span class="miss">結果待ち</span>`;
+  const roi = p.investment ? p.payout / p.investment * 100 : null;
+  const cls = p.profit >= 0 ? "plus" : "minus";
+  return `<div class="roi"><b class="${cls}">${esc(fmtPct(roi))}</b><br>`+
+    `${esc(p.hit ? "的中" : "不的中")} / ${esc(fmtYen(p.profit))}<br>`+
+    `<span class="mini">頭${p.headHit ? "○" : "×"} 軸1+3${p.axisHit ? "○" : "×"} 軸2+3${p.axisAltHit ? "○" : "×"} 消し${p.tossCame ? "来た" : "来ず"}</span></div>`;
+}
+function strategyStats(rows, n){
+  const picked = rows.slice(0, n);
+  let buy = 0, hit = 0, manshuHit = 0, invest = 0, payout = 0;
+  picked.forEach(r => {
+    const res = resultObj(r);
+    if(res.payout_yen == null) return;
+    const p = predictionPlan(r);
+    if(p.decision !== "買い") return;
+    buy += 1; invest += p.investment; payout += p.payout;
+    if(p.hit) hit += 1;
+    if(p.hit && res.payout_yen >= 10000) manshuHit += 1;
+  });
+  return {buy_races:buy, hit_count:hit, manshu_hit_count:manshuHit, roi_pct:invest ? payout / invest * 100 : null};
+}
 function renderSummary(){
   const agg = STATE.index.aggregate || {};
   $("periodText").textContent = `${STATE.index.start_date}〜${STATE.index.end_date} / ${STATE.index.logic_label || ""}`;
   $("summary").innerHTML = [
+    strategyMetric("買い目検証 厳選TOP10", agg.strategy && agg.strategy.top10),
     metric("厳選TOP10", agg.strict && agg.strict.top10),
     metric("厳選TOP5", agg.strict && agg.strict.top5),
     metric("厳選TOP3", agg.strict && agg.strict.top3),
@@ -156,8 +347,19 @@ function edgeText(r){
   const base = labels.length ? labels.join(" / ") : (r.condition || "");
   return base;
 }
-function raceRow(r, i){
+function raceRow(r, i, withPlan){
   const deadline = r.deadline_time ? String(r.deadline_time).slice(11,16) : "--:--";
+  if(withPlan){
+    return `<tr>`+
+      `<td class="num">${i+1}</td>`+
+      `<td><b>${esc(r.place_name)}${esc(r.round)}R</b><br><span class="mini">${esc(deadline)}締切 / ${esc(r.status || "")}</span></td>`+
+      `<td class="num rate">${esc(fmtPct(r.manshu_rate_pct))}</td>`+
+      `<td>${planHtml(r)}</td>`+
+      `<td>${resultHtml(r)}</td>`+
+      `<td>${recoveryHtml(r)}</td>`+
+      `<td class="cond">${esc(edgeText(r))}</td>`+
+      `</tr>`;
+  }
   return `<tr>`+
     `<td class="num">${i+1}</td>`+
     `<td><b>${esc(r.place_name)}${esc(r.round)}R</b><br><span class="mini">${esc(deadline)}締切 / ${esc(r.status || "")}</span></td>`+
@@ -184,13 +386,14 @@ function renderDaily(data){
   $("dayTitle").textContent = `${data.date} の厳選ランキング結果`;
   const races = data.races || [], strict = strictRows(data);
   $("daySummary").innerHTML = [
+    strategyMetric("買い目検証 TOP10", strategyStats(strict, 10)),
     metric("厳選TOP10", dayStats(strict, 10)),
     metric("厳選TOP5", dayStats(strict, 5)),
     metric("厳選TOP3", dayStats(strict, 3)),
     metric("厳選TOP1", dayStats(strict, 1)),
     metric("参考 全場TOP10", dayStats(races, 10))
   ].join("");
-  $("strictBody").innerHTML = strict.slice(0, 10).map(raceRow).join("") || `<tr><td colspan="5">厳選データなし</td></tr>`;
+  $("strictBody").innerHTML = strict.slice(0, 10).map((r, i) => raceRow(r, i, true)).join("") || `<tr><td colspan="7">厳選データなし</td></tr>`;
   $("raceBody").innerHTML = races.slice(0, 10).map(raceRow).join("") || `<tr><td colspan="5">データなし</td></tr>`;
 }
 async function chooseDate(date){
@@ -207,7 +410,7 @@ async function chooseDate(date){
   renderDaily(STATE.daily[date]);
 }
 async function init(){
-  const res = await fetch("data/output/boaters_manshu_history_index.json?v=codex-history-3", {cache:"no-store"});
+  const res = await fetch("data/output/boaters_manshu_history_index.json?v=codex-history-4", {cache:"no-store"});
   if(!res.ok) throw new Error("history index not found");
   STATE.index = await res.json();
   const dates = (STATE.index.dates || []).map(x => x.date).sort();
