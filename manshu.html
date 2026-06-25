@@ -401,11 +401,15 @@
     }
     function raceSentence(r){
       var s=raceShape(r), parts=[];
+      var edgeCount=(r.composite_edges||[]).filter(function(e){return Number(e.bonus_pct||0)>0;}).length;
+      var matched=Number(r.matched_logic_count||0);
+      if(s.manshu!=null&&s.manshu>=35) parts.push("万舟条件がかなり強い");
+      else if((s.manshu!=null&&s.manshu>=27)||matched>0||edgeCount>0) parts.push("過去の高万舟条件に一致");
       if(s.b1Win!=null&&s.b1Win<=35) parts.push("1号艇が勝ちにくい");
       else if(s.b1Fly!=null&&s.b1Fly>=38) parts.push("1号艇が残りにくい");
       if(s.winner36!=null&&s.winner36>=45) parts.push("3〜6号艇の1着が見える");
       if(s.outer56Top3!=null&&s.outer56Top3>=60) parts.push("5・6号艇が入りやすい");
-      if(!parts.length) parts.push("荒れ材料は少なめ");
+      if(!parts.length) parts.push("今の保存データでは大きな荒れ材料は少なめ");
       return parts.join("、")+"形です";
     }
     function boatRows(r){
