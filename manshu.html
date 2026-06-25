@@ -45,6 +45,20 @@
     .metric{border:1px solid var(--line);border-radius:8px;padding:10px;background:#fbfcff}
     .metric b{display:block;font-size:20px;color:#111827}
     .metric span{display:block;color:var(--muted);font-size:12px}
+    .factor-summary{border:1px solid #a7f3d0;background:#f0fdf4;border-radius:8px;padding:10px;margin-top:10px}
+    .factor-summary h3{margin:0 0 4px;color:#065f46;font-size:15px}
+    .factor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+    .factor-box{border:1px solid #dbe3ef;border-radius:8px;background:#fff;padding:9px}
+    .factor-title{font-weight:900;color:#111827;margin-bottom:4px}
+    .factor-tag{display:inline-block;margin:3px 4px 0 0;border-radius:999px;border:1px solid var(--line);padding:2px 7px;font-size:11px;font-weight:900}
+    .factor-tag.buff{background:#ecfdf3;border-color:#bbf7d0;color:#047857}
+    .factor-tag.superbuff{background:#dcfce7;border-color:#86efac;color:#166534}
+    .factor-tag.debuff{background:#fff7ed;border-color:#fed7aa;color:#9a3412}
+    .factor-tag.superdebuff{background:#fff1f2;border-color:#fecdd3;color:#be123c}
+    .factor-tag.neutral{background:#f8fafc;color:#475467}
+    .factor-detail{display:block;color:var(--muted);font-size:12px;margin-top:5px}
+    .factor-panel{border-left:6px solid var(--green)}
+    .factor-panel h2{color:#065f46}
     .notice{border-left-color:var(--amber)}
     footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:22px}
     @media(max-width:760px){
@@ -57,6 +71,7 @@
       td{border:0;padding:4px 0}
       .rank{text-align:left;width:auto}
       .cards{grid-template-columns:1fr}
+      .factor-grid{grid-template-columns:1fr}
       .reason{max-width:none}
     }
   </style>
@@ -84,9 +99,13 @@
         <h2>厳選ランキング TOP10</h2>
         <p class="lead">今日のCodex BOATERSランキングJSONを読み込んでいます。</p>
       </section>
+      <section class="panel factor-panel" id="buff-panel">
+        <h2>バフ/デバフ分析</h2>
+        <p class="lead">ランキングJSONを読み込むと、1号艇デバフ・外枠バフ・展示/スリットの材料をTOP10で表示します。</p>
+      </section>
       <section class="panel notice">
         <h2>このページの見方</h2>
-        <p class="lead">通常ページもCodex版と同じランキングだけを表示します。古い静的ランキングはこの画面では使いません。結果と配当は確定後に自動で反映されます。</p>
+        <p class="lead">通常ページもCodex版と同じランキングだけを表示します。古い静的ランキングはこの画面では使いません。結果と配当は確定後に自動で反映されます。バフ/デバフ分析は、万舟率ランキングに入っている各レースの理由を見える化した補助表示です。</p>
       </section>
     </main>
     <footer>研究・記録用。的中や利益を保証するものではありません。</footer>
@@ -151,6 +170,94 @@
         return "<span class=\"edge\">"+esc(e.label)+"</span>";
       }).join("");
     }
+    function has(v){ return v!==null&&v!==undefined&&v!==""&&!Number.isNaN(Number(v)); }
+    function num(v){ return has(v)?Number(v):null; }
+    function boatList(text){
+      return String(text||"").split(/[,\s、]+/).map(function(v){return v.trim();}).filter(Boolean).map(function(v){return v+"号艇";}).join("・");
+    }
+    function addTag(list,type,label,detail){ list.push({type:type,label:label,detail:detail||""}); }
+    function factorSignals(r){
+      var m=r.metrics||{}, edges=r.composite_edges||[], b1=[], outer=[], exhibit=[];
+      var b1Nige=num(m.boat1_nige_pct), b1Loss=num(m.boat1_loss_pct), b1Ai=num(m.boat1_ai_prediction_pct), b1Plus=num(m.boat1_ai_plus), b1Order=num(m.boat1_ai_plus_order);
+      if(b1Nige!==null&&b1Nige<25) addTag(b1,"superdebuff","1号艇逃げ率25%未満","逃げ率 "+pct(b1Nige));
+      else if(b1Nige!==null&&b1Nige<40) addTag(b1,"debuff","1号艇逃げ率40%未満","逃げ率 "+pct(b1Nige));
+      if(b1Loss!==null&&b1Loss>=60) addTag(b1,"superdebuff","1号艇差され+まくられ60%以上","飛び圧 "+pct(b1Loss));
+      else if(b1Loss!==null&&b1Loss>=45) addTag(b1,"debuff","1号艇差され+まくられ45%以上","飛び圧 "+pct(b1Loss));
+      if(b1Ai!==null&&b1Ai<25) addTag(b1,"debuff","1号艇AI予測25%未満","AI "+pct(b1Ai));
+      if(b1Plus!==null&&b1Plus<80) addTag(b1,"debuff","1号艇AI+一般80未満","AI+ "+pct(b1Plus));
+      if(b1Order!==null&&b1Order>=4) addTag(b1,"debuff","1号艇AI+順位4位以下","順位 "+b1Order+"位");
+      if(Number(m.slit_b1_hole_vs_23||0)>0) addTag(b1,"debuff","スリットで1号艇が2/3に遅れ","隊形 "+(m.slit_shape_label||""));
+      if(Number(m.matchup_lane1_bad_flag||0)>0) addTag(b1,"debuff","対戦相性で1号艇マイナス",m.matchup_notes||"");
+
+      var outerDiff=num(m.outer56_best_avg_isshu_diff), outerAi=num(m.outer56_best_ai_prediction_pct);
+      if(outerDiff!==null&&outerDiff>=0.14) addTag(outer,"superbuff","5/6号艇 展示+1周平均との差+0.14以上","差 "+sec(outerDiff));
+      else if(outerDiff!==null&&outerDiff>=0.10) addTag(outer,"buff","5/6号艇 展示+1周平均との差+0.10以上","差 "+sec(outerDiff));
+      if(outerAi!==null&&outerAi>=12) addTag(outer,"buff","5/6号艇AI予測12%以上","AI "+pct(outerAi));
+      if(m.low_outer_boat) addTag(outer,"buff","低評価外枠の浮上候補",m.low_outer_boat+"号艇");
+      if(m.longshot_head_boats) addTag(outer,"superbuff","人気薄の頭候補",boatList(m.longshot_head_boats));
+      if(Number(m.matchup_outer_good_count||0)>0) addTag(outer,"buff","対戦相性で外枠プラス",m.matchup_buff_boats?boatList(m.matchup_buff_boats):"");
+      edges.filter(function(e){return e.role==="outer_top3_up"&&Number(e.bonus_pct||0)>0;}).slice(0,2).forEach(function(e){
+        addTag(outer,"buff",e.label,"補正 "+pct(e.bonus_pct));
+      });
+
+      if(Number(m.tenji_boats||0)>=6) addTag(exhibit,"buff","展示6艇取得済み","展示込み");
+      else addTag(exhibit,"neutral","展示待ち","朝時点");
+      if(Number(m.isshu_boats||0)>=6) addTag(exhibit,"buff","1周6艇取得済み","1周込み");
+      if(m.double_time_boats) addTag(exhibit,"superbuff","ダブルタイム",boatList(m.double_time_boats));
+      if(m.super_slit_boats) addTag(exhibit,"superbuff","スーパースリットアラート",boatList(m.super_slit_boats));
+      if(m.slit_shape_label) addTag(exhibit,"buff","スリット隊形 "+m.slit_shape_label,"");
+      if(Number(m.slit_outer56_pressure_vs_1||0)>0) addTag(exhibit,"buff","5/6外圧が1号艇へ","外圧あり");
+      if(Number(m.slit_outer456_pressure||0)>0) addTag(exhibit,"buff","4〜6外圧","外圧あり");
+      return {b1:b1,outer:outer,exhibit:exhibit};
+    }
+    function tagHtml(tags,limit){
+      var shown=(tags||[]).slice(0,limit||4);
+      if(!shown.length) return "<span class=\"factor-tag neutral\">強い材料なし</span>";
+      return shown.map(function(t){
+        return "<span class=\"factor-tag "+esc(t.type)+"\">"+esc(t.label)+"</span>"+(t.detail?"<span class=\"factor-detail\">"+esc(t.detail)+"</span>":"");
+      }).join("");
+    }
+    function buffSummaryHtml(rows){
+      var top=rows.slice(0,3);
+      return [
+        "<section class=\"factor-summary\">",
+        "<h3>バフ/デバフ分析も表示中</h3>",
+        "<p class=\"lead\">各レースの万舟率を上げている材料を、1号艇デバフ・外枠バフ・展示/スリットに分けて見える化しています。</p>",
+        "<div class=\"factor-grid\">",
+        top.map(function(r){
+          var sig=factorSignals(r);
+          return "<div class=\"factor-box\"><div class=\"factor-title\">"+esc(label(r))+" / "+esc(pct(r.manshu_rate_pct))+"</div>"+tagHtml(sig.b1,2)+tagHtml(sig.outer,2)+"</div>";
+        }).join(""),
+        "</div>",
+        "</section>"
+      ].join("");
+    }
+    function buffRowHtml(r){
+      var sig=factorSignals(r);
+      return [
+        "<tr>",
+        "<td><span class=\"race\">"+esc(label(r))+"</span><span class=\"mini\">"+esc(pct(r.manshu_rate_pct))+" / "+esc(r.status||"")+"</span></td>",
+        "<td>"+tagHtml(sig.b1,4)+"</td>",
+        "<td>"+tagHtml(sig.outer,4)+"</td>",
+        "<td>"+tagHtml(sig.exhibit,4)+"</td>",
+        "</tr>"
+      ].join("");
+    }
+    function renderBuffPanel(rows){
+      var panel=document.getElementById("buff-panel");
+      if(!panel) return;
+      if(!rows.length){
+        panel.innerHTML="<h2>バフ/デバフ分析</h2><p class=\"lead\">ランキングJSONが空なので表示できません。</p>";
+        return;
+      }
+      panel.innerHTML=[
+        "<h2>バフ/デバフ分析 TOP10</h2>",
+        "<p class=\"lead\">万舟率ランキングの各レースについて、どの材料が上げ/下げに効いているかを表示します。これは予想の説明用で、利益保証ではありません。</p>",
+        "<table><thead><tr><th>レース</th><th>1号艇デバフ</th><th>外枠/穴バフ</th><th>展示・スリット</th></tr></thead><tbody>",
+        rows.map(buffRowHtml).join(""),
+        "</tbody></table>"
+      ].join("");
+    }
     function rowHtml(r){
       var m=r.metrics||{}, res=resultOf(r), status=(r.status||"").indexOf("展示待ち")>=0?"wait":"ready";
       return [
@@ -172,6 +279,7 @@
       var panel=document.getElementById("ranking-panel");
       if(!rows.length){
         panel.innerHTML="<h2>厳選ランキング TOP10</h2><p class=\"lead\">今日のランキングJSONは空です。</p>";
+        renderBuffPanel(rows);
         return;
       }
       panel.innerHTML=[
@@ -182,10 +290,12 @@
         "<div class=\"metric\"><b>"+esc(label(rows[0]))+"</b><span>TOP1 レース</span></div>",
         "<div class=\"metric\"><b>"+esc((STATE.data.races||[]).length)+"R</b><span>表示候補</span></div>",
         "</div>",
+        buffSummaryHtml(rows),
         "<table><thead><tr><th>#</th><th>レース</th><th>万舟率</th><th>根拠</th><th>結果</th></tr></thead><tbody>",
         rows.map(rowHtml).join(""),
         "</tbody></table>"
       ].join("");
+      renderBuffPanel(rows);
     }
     async function loadResults(){
       try{
@@ -212,6 +322,7 @@
       if(!payload){
         document.getElementById("status").innerHTML="<strong>ランキングJSONが見つかりません</strong><div class=\"chips\"><span class=\"chip hot\">"+esc(STATE.date)+"</span></div>";
         document.getElementById("ranking-panel").innerHTML="<h2>厳選ランキング TOP10</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
+        document.getElementById("buff-panel").innerHTML="<h2>バフ/デバフ分析</h2><p class=\"lead\">ランキングJSONが見つからないため表示できません。</p>";
         return;
       }
       STATE.data=payload;
