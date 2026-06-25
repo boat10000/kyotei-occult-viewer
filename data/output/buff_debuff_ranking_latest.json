@@ -1,0 +1,10 @@
+{
+  "version": "buff-debuff-ranking-latest-v1",
+  "generated_at": "2026-06-25T14:22:34+09:00",
+  "date": "2026-06-18",
+  "phases": {
+    "morning": "buff_debuff_ranking_morning_20260618.json",
+    "preview": "buff_debuff_ranking_preview_20260618.json"
+  },
+  "note": "Fallback manifest for the ranking page. Date-specific JSON should be preferred when available."
+}
