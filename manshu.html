@@ -92,7 +92,7 @@
     .boat-rate-top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:7px}
     .boat-rate-top b{font-size:15px;color:#111827}
     .boat-rate-top span{font-size:11px;color:#64748b;font-weight:900}
-    .boat-rate-pair{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    .boat-rate-pair{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
     .boat-rate-num{border:1px solid #edf1f7;border-radius:7px;background:#f8fafc;padding:6px}
     .boat-rate-num strong{display:block;font-size:18px;line-height:1.2;color:#111827}
     .boat-rate-num span{display:block;font-size:11px;color:#64748b;font-weight:900}
@@ -430,20 +430,24 @@
     }
     function boatRatesHtml(r){
       var rows=boatRows(r);
+      var ex=exhibitState(r);
+      var title=ex.full?"各号艇の展示込み複合確率":"各号艇の朝時点 複合確率";
       return [
-        "<h4 class=\"subhead\">各号艇の複合確率</h4>",
+        "<h4 class=\"subhead\">"+esc(title)+"</h4>",
         "<div class=\"boat-rate-list\">",
         rows.map(function(b){
           var win=b.composite_win_pct!=null?b.composite_win_pct:b.win_pct;
           var top3=b.composite_top3_pct!=null?b.composite_top3_pct:b.top3_pct;
+          var threeRen=b.three_ren_pct!=null?b.three_ren_pct:(b.ai_plus!=null?b.ai_plus:(b.top3_pct!=null?b.top3_pct:b.general_top3_pct));
           var reasons=(b.composite_rate_reasons||[]).slice(0,3).join(" / ");
-          var raw="元AI1着 "+pctShort(b.win_pct)+"・元AI3連対 "+pctShort(b.top3_pct)+"・一般3連対 "+pctShort(b.general_top3_pct)+"・AI+順位 "+(b.ai_plus_rank?b.ai_plus_rank+"位":"--");
+          var raw="元AI1着 "+pctShort(b.win_pct)+"・AI3連対 "+pctShort(b.top3_pct)+"・一般3連対 "+pctShort(b.general_top3_pct)+"・AI+順位 "+(b.ai_plus_rank?b.ai_plus_rank+"位":"--");
           return [
             "<div class=\"boat-rate-card\">",
             "<div class=\"boat-rate-top\"><b>"+esc(b.boat_number)+"号艇</b><span>"+esc(b.ai_plus_rank?"AI+"+b.ai_plus_rank+"位":"AI+--")+"</span></div>",
             "<div class=\"boat-rate-pair\">",
             "<div class=\"boat-rate-num\"><strong>"+esc(pctShort(win))+"</strong><span>複合1着率</span></div>",
             "<div class=\"boat-rate-num\"><strong>"+esc(pctShort(top3))+"</strong><span>複合3着内率</span></div>",
+            "<div class=\"boat-rate-num\"><strong>"+esc(pctShort(threeRen))+"</strong><span>AI+一般3連対</span></div>",
             "</div>",
             "<p class=\"boat-rate-reason\">"+esc(reasons||"強い補正材料なし")+"</p>",
             "<p class=\"mini\">"+esc(raw)+"</p>",
@@ -451,7 +455,7 @@
           ].join("");
         }).join(""),
         "</div>",
-        "<p class=\"mini\">複合率は、BOATERS AI、AI3連対率、一般3連対率、AI+順位、展示/1周、平均との差、平均ST順位、ダブルタイム、スーパースリット、夏場1周、相性、低評価外枠復活を混ぜた推定値です。1着率は6艇合計100%、3着内率は6艇合計300%になるように調整しています。</p>"
+        "<p class=\"mini\">複合率は、AI1着率だけではなく、AI3連対率、一般3連対率、AI+順位、展示/1周、平均との差、平均ST順位、ダブルタイム、スーパースリット、夏場1周、相性、低評価外枠復活を混ぜた推定値です。1着率は6艇合計100%、3着内率は6艇合計300%になるように調整しています。</p>"
       ].join("");
     }
     function probabilityHtml(r){
