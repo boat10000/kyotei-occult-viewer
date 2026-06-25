@@ -218,6 +218,13 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "boat1_ai_prediction_pct": "b1_ai_prediction_pct",
         "boat1_odds_prediction_pct": "b1_odds_prediction_pct",
         "boat1_odds_rank": "b1_odds_rank",
+        "b1_trifecta_top5_1head": "b1_trifecta_top5_1head",
+        "trifecta_top5_head1_count": "trifecta_top5_head1_count",
+        "trifecta_top5_count": "trifecta_top5_count",
+        "trifecta_top1_odds": "trifecta_top1_odds",
+        "trifecta_top5_avg_odds": "trifecta_top5_avg_odds",
+        "trifecta_top5_combos": "trifecta_top5_combos",
+        "trifecta_odds_snapshot_at": "trifecta_odds_snapshot_at",
         "boat1_ai_plus": "b1_ai_plus",
         "boat1_ai_plus_order": "b1_ai_plus_order",
         "boat1_nige_pct": "b1_nige_pct",
@@ -329,6 +336,8 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
             "b4_matchup_label",
             "b5_matchup_label",
             "b6_matchup_label",
+            "trifecta_top5_combos",
+            "trifecta_odds_snapshot_at",
         }:
             normalized_metrics[out_key] = value or ""
         else:

@@ -83,12 +83,6 @@
     .race-body{border-top:1px solid #edf1f7;padding:12px 14px;background:#fcfdff}
     .simple-box{border:1px solid #dbe3ef;border-radius:8px;background:#fff;padding:10px;margin-bottom:10px}
     .simple-box h3{margin:0 0 6px;font-size:15px;color:#111827}
-    .simple-list{display:grid;gap:7px;margin:0;padding:0;list-style:none}
-    .simple-list li{border-left:4px solid #dbe3ef;padding-left:8px;color:#344054;font-size:13px}
-    .simple-list li.good{border-left-color:#16a34a}
-    .simple-list li.bad{border-left-color:#e11d48}
-    .simple-list li.warn{border-left-color:#f59e0b}
-    .simple-list b{display:block;color:#111827}
     .boat-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}
     .boat-table th,.boat-table td{padding:7px 6px;border-top:1px solid #edf1f7;text-align:right}
     .boat-table th:first-child,.boat-table td:first-child{text-align:left;font-weight:900}
@@ -103,10 +97,6 @@
     .boat-rate-num strong{display:block;font-size:18px;line-height:1.2;color:#111827}
     .boat-rate-num span{display:block;font-size:11px;color:#64748b;font-weight:900}
     .boat-rate-reason{margin:7px 0 0;color:#344054;font-size:12px}
-    .role-box{border:1px solid #bfdbfe;background:#eff6ff;border-radius:8px;padding:9px;margin-top:8px}
-    .role-box b{color:#0f3f91}
-    .tickets{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
-    .ticket{display:inline-block;border:1px solid #dbe3ef;background:#fff;border-radius:6px;padding:2px 6px;font-size:12px;font-weight:900;color:#111827}
     .detail-fold{margin-top:10px}
     .detail-fold summary{cursor:pointer;color:#1d4ed8;font-size:13px;font-weight:900}
     .detail-fold .factor-grid{margin-top:8px}
@@ -418,56 +408,6 @@
       if(!parts.length) parts.push("荒れ材料は少なめ");
       return parts.join("、")+"形です";
     }
-    function simpleReasons(r){
-      var s=raceShape(r), m=r.metrics||{}, out=[];
-      if(s.b1Win!=null){
-        out.push({
-          type:s.b1Win<=35?"bad":"warn",
-          title:"1号艇の複合1着率",
-          body:"AI・展示・1周・ST順位・相性を混ぜると、1号艇の1着率は"+pctShort(s.b1Win)+"です。目安の55%と比べると、"+pointText(s.b1Win,BASELINE.b1Win)+"です。"
-        });
-      }
-      if(s.b1Fly!=null&&s.b1Fly>=35){
-        out.push({
-          type:"bad",
-          title:"1号艇が前に残れない心配",
-          body:"差されたり、まくられたりする形が"+pctShort(s.b1Fly)+"あります。数字が高いほど、1号艇を1着固定にしにくいです。"
-        });
-      }
-      if(s.winner36!=null){
-        out.push({
-          type:s.winner36>=45?"good":"warn",
-          title:"3〜6号艇が1着になるチャンス",
-          body:"各艇の複合1着率を足すと、3〜6号艇の1着率は"+pctShort(s.winner36)+"です。目安の30%より"+pointText(s.winner36,BASELINE.winner36).replace("通常より","")+"です。"
-        });
-      }
-      if(s.outer56Top3!=null){
-        out.push({
-          type:s.outer56Top3>=60?"good":"warn",
-          title:"5・6号艇が舟券に入るチャンス",
-          body:"5号艇か6号艇のどちらかが3着以内に入る近似率は"+pctShort(s.outer56Top3)+"です。外の艇が入ると配当が高くなりやすいです。"
-        });
-      }
-      if(m.super_slit_boats){
-        out.push({type:"good",title:"スーパースリットアラート",body:boatList(m.super_slit_boats)+"が「左の艇より展示0.10秒速い」かつ「平均ST順位も左より良い」形です。まくりや連対の材料になります。"});
-      }
-      if(m.double_time_boats){
-        out.push({type:"good",title:"ダブルタイム",body:boatList(m.double_time_boats)+"が展示タイムと1周タイムの両方で良い数字です。"});
-      }
-      var ex=exhibitState(r);
-      if(!ex.full&&ex.kind==="waiting"){
-        out.push({type:"warn",title:"展示後に変わる可能性",body:"まだ展示や1周タイムが全部そろっていません。締切15分前くらいに直前データが入ると順位が上下することがあります。"});
-      }else if(!ex.full){
-        out.push({type:"warn",title:"展示データがまだ保存されていません",body:"レースは終わっていますが、このJSONには展示や1周タイムが入っていません。自動更新でBOATERSから再取得する対象です。"});
-      }
-      if(!out.length) out.push({type:"warn",title:"強い材料は少なめ",body:"今の保存データでは、はっきりした押し材料は多くありません。"});
-      return out.slice(0,5);
-    }
-    function simpleReasonsHtml(r){
-      return "<ul class=\"simple-list\">"+simpleReasons(r).map(function(x){
-        return "<li class=\""+esc(x.type)+"\"><b>"+esc(x.title)+"</b>"+esc(x.body)+"</li>";
-      }).join("")+"</ul>";
-    }
     function boatRows(r){
       var m=r.metrics||{};
       var rows=Array.isArray(m.boats)?m.boats.slice():[];
@@ -514,43 +454,11 @@
         "<p class=\"mini\">複合率は、BOATERS AI、AI3連対率、一般3連対率、AI+順位、展示/1周、平均との差、平均ST順位、ダブルタイム、スーパースリット、夏場1周、相性、低評価外枠復活を混ぜた推定値です。1着率は6艇合計100%、3着内率は6艇合計300%になるように調整しています。</p>"
       ].join("");
     }
-    function selectionOf(r){
-      var m=r.metrics||{};
-      return r.selection&&Object.keys(r.selection).length?r.selection:{
-        label:"スーパーあるなし舟券3",
-        heads:[],
-        axes:m.axis_primary_boats||[],
-        alt_axes:m.axis_alt_boats||[],
-        keshi:m.keshi_boat,
-        keshi_reason:m.keshi_reason,
-        tickets:[]
-      };
-    }
-    function listText(values){
-      return (values||[]).length?values.join(","):"--";
-    }
-    function selectionHtml(r){
-      var s=selectionOf(r);
-      if(!s.axes || !s.axes.length){
-        return "<p class=\"mini\">直前データ取得後に、頭・軸・消し・買い目を表示します。</p>";
-      }
-      return [
-        "<div class=\"role-box\">",
-        "<div><b>買い方:</b> "+esc(s.label||"スーパーあるなし舟券3")+" / "+esc(s.points||0)+"点</div>",
-        "<div><b>頭候補:</b> "+esc(listText(s.heads))+"号艇</div>",
-        "<div><b>軸:</b> "+esc(listText(s.axes))+"号艇 <span class=\"mini\">AI3連対率+一般3連対率の1位と3位。どちらかが3着以内なら軸成功。</span></div>",
-        "<div><b>比較用軸:</b> "+esc(listText(s.alt_axes))+"号艇 <span class=\"mini\">2位と3位でも記録して、的中率と回収率を比べます。</span></div>",
-        "<div><b>消し:</b> "+esc(s.keshi?s.keshi+"号艇":"--")+" <span class=\"mini\">"+esc(s.keshi_reason||"AI3連対率+一般3連対率の6位を基本に、展示・一周・スリットの復活材料を見て決めます。")+"</span></div>",
-        (s.tickets&&s.tickets.length?"<details class=\"detail-fold\"><summary>買い目を見る</summary><div class=\"tickets\">"+s.tickets.map(function(t){return "<span class=\"ticket\">"+esc(t)+"</span>";}).join("")+"</div></details>":""),
-        "</div>"
-      ].join("");
-    }
     function probabilityHtml(r){
       var res=resultOf(r);
       return [
         boatRatesHtml(r),
-        "<p class=\"mini\">決まり目: <b>"+esc(res.trifecta||"--")+"</b> / 配当: <b>"+esc(yen(res.payout_yen))+"</b>"+(res.manshu?" <span class=\"manshu\">万舟</span>":"")+"</p>",
-        selectionHtml(r)
+        "<p class=\"mini\">決まり目: <b>"+esc(res.trifecta||"--")+"</b> / 配当: <b>"+esc(yen(res.payout_yen))+"</b>"+(res.manshu?" <span class=\"manshu\">万舟</span>":"")+"</p>"
       ].join("");
     }
     function detailFactorsHtml(r){
@@ -586,7 +494,6 @@
         "</div>",
         "</summary>",
         "<div class=\"race-body\">",
-        "<div class=\"simple-box\"><h3>かんたん説明</h3>"+simpleReasonsHtml(r)+"</div>",
         "<div class=\"simple-box\"><h3>数字で見る</h3>"+probabilityHtml(r)+"</div>",
         detailFactorsHtml(r),
         "</div>",

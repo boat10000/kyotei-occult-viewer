@@ -1,0 +1,409 @@
+{
+  "data_summary": {
+    "start_date": "2026-06-02",
+    "end_date": "2026-06-25",
+    "joined_races": 2301,
+    "min_sample_used": 20,
+    "odds_db": "/Users/ohyabumasaya/Desktop/kyotei_occult/data/live_odds.db",
+    "boaters_db": "/Users/ohyabumasaya/Desktop/price_action_analysis/outputs/boaters_all_races.sqlite"
+  },
+  "base_summary": {
+    "popular_b1_top5_races": 1255,
+    "base_b1_not_win_rate_pct": 31.87,
+    "base_b1_top3_miss_rate_pct": 10.28,
+    "base_manshu_rate_pct": 15.62,
+    "base_winner_3to6_pct": 21.75,
+    "base_outer56_top3_pct": 52.59
+  },
+  "conditions": [
+    {
+      "condition_id": "b1_nige_lt50&b1_avgdiff_le015&outer56_exhibit_top2&round_1to6",
+      "condition": "1号艇逃げ率50%未満 × 1号艇 展示+1周平均との差+0.15以下 × 5/6号艇が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_nige_lt50",
+        "b1_avgdiff_le015",
+        "outer56_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 21,
+      "b1_not_win_rate_pct": 71.43,
+      "b1_not_win_lift_pp": 39.56,
+      "b1_top3_miss_rate_pct": 28.57,
+      "manshu_rate_pct": 28.57,
+      "manshu_lift_pp": 12.95,
+      "winner_3to6_pct": 57.14,
+      "outer56_top3_pct": 52.38,
+      "score": 48.0103
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&outer56_ai_pred_ge10&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 5/6号艇どちらかAI1着予測10%以上 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "outer56_ai_pred_ge10",
+        "round_1to6"
+      ],
+      "sample_races": 23,
+      "b1_not_win_rate_pct": 69.57,
+      "b1_not_win_lift_pp": 37.69,
+      "b1_top3_miss_rate_pct": 30.43,
+      "manshu_rate_pct": 30.43,
+      "manshu_lift_pp": 14.82,
+      "winner_3to6_pct": 47.83,
+      "outer56_top3_pct": 65.22,
+      "score": 47.2355
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&b1_tenji_rank_ge4&outer56_avg_ge010&rank6_exhibit_top2&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 1号艇展示タイム順位4位以下 × 5/6号艇どちらか 展示+1周平均との差+0.10以上 × AI+6位が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "b1_tenji_rank_ge4",
+        "outer56_avg_ge010",
+        "rank6_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 21,
+      "b1_not_win_rate_pct": 66.67,
+      "b1_not_win_lift_pp": 34.79,
+      "b1_top3_miss_rate_pct": 42.86,
+      "manshu_rate_pct": 33.33,
+      "manshu_lift_pp": 17.72,
+      "winner_3to6_pct": 42.86,
+      "outer56_top3_pct": 47.62,
+      "score": 45.3913
+    },
+    {
+      "condition_id": "b1_nige_lt50&b1_avgdiff_le015&outer56_avg_ge005&outer56_exhibit_top2&round_1to6",
+      "condition": "1号艇逃げ率50%未満 × 1号艇 展示+1周平均との差+0.15以下 × 5/6号艇どちらか 展示+1周平均との差+0.05以上 × 5/6号艇が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_nige_lt50",
+        "b1_avgdiff_le015",
+        "outer56_avg_ge005",
+        "outer56_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 20,
+      "b1_not_win_rate_pct": 70.0,
+      "b1_not_win_lift_pp": 38.13,
+      "b1_top3_miss_rate_pct": 30.0,
+      "manshu_rate_pct": 25.0,
+      "manshu_lift_pp": 9.38,
+      "winner_3to6_pct": 55.0,
+      "outer56_top3_pct": 50.0,
+      "score": 44.8496
+    },
+    {
+      "condition_id": "b1_avgdiff_le015&b1_tenji_rank_ge4&outer56_avg_ge005&rank5_exhibit_top2&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.15以下 × 1号艇展示タイム順位4位以下 × 5/6号艇どちらか 展示+1周平均との差+0.05以上 × AI+5位が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le015",
+        "b1_tenji_rank_ge4",
+        "outer56_avg_ge005",
+        "rank5_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 20,
+      "b1_not_win_rate_pct": 65.0,
+      "b1_not_win_lift_pp": 33.13,
+      "b1_top3_miss_rate_pct": 35.0,
+      "manshu_rate_pct": 35.0,
+      "manshu_lift_pp": 19.38,
+      "winner_3to6_pct": 45.0,
+      "outer56_top3_pct": 40.0,
+      "score": 44.3496
+    },
+    {
+      "condition_id": "b1_avgdiff_le015&b1_tenji_rank_ge4&outer56_avg_ge010&rank5_exhibit_top2&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.15以下 × 1号艇展示タイム順位4位以下 × 5/6号艇どちらか 展示+1周平均との差+0.10以上 × AI+5位が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le015",
+        "b1_tenji_rank_ge4",
+        "outer56_avg_ge010",
+        "rank5_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 20,
+      "b1_not_win_rate_pct": 65.0,
+      "b1_not_win_lift_pp": 33.13,
+      "b1_top3_miss_rate_pct": 35.0,
+      "manshu_rate_pct": 35.0,
+      "manshu_lift_pp": 19.38,
+      "winner_3to6_pct": 45.0,
+      "outer56_top3_pct": 40.0,
+      "score": 44.3496
+    },
+    {
+      "condition_id": "b1_nige_lt50&b1_avgdiff_le015&outer56_avg_ge005&round_1to6",
+      "condition": "1号艇逃げ率50%未満 × 1号艇 展示+1周平均との差+0.15以下 × 5/6号艇どちらか 展示+1周平均との差+0.05以上 × 1〜6R",
+      "atoms": [
+        "b1_nige_lt50",
+        "b1_avgdiff_le015",
+        "outer56_avg_ge005",
+        "round_1to6"
+      ],
+      "sample_races": 22,
+      "b1_not_win_rate_pct": 68.18,
+      "b1_not_win_lift_pp": 36.31,
+      "b1_top3_miss_rate_pct": 31.82,
+      "manshu_rate_pct": 27.27,
+      "manshu_lift_pp": 11.66,
+      "winner_3to6_pct": 54.55,
+      "outer56_top3_pct": 50.0,
+      "score": 44.3041
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&outer56_ai_pred_ge10&outer56_exhibit_top2&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 5/6号艇どちらかAI1着予測10%以上 × 5/6号艇が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "outer56_ai_pred_ge10",
+        "outer56_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 22,
+      "b1_not_win_rate_pct": 68.18,
+      "b1_not_win_lift_pp": 36.31,
+      "b1_top3_miss_rate_pct": 31.82,
+      "manshu_rate_pct": 27.27,
+      "manshu_lift_pp": 11.66,
+      "winner_3to6_pct": 45.45,
+      "outer56_top3_pct": 68.18,
+      "score": 44.3041
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&b1_tenji_rank_ge4&outer56_avg_ge005&rank6_exhibit_top2&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 1号艇展示タイム順位4位以下 × 5/6号艇どちらか 展示+1周平均との差+0.05以上 × AI+6位が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "b1_tenji_rank_ge4",
+        "outer56_avg_ge005",
+        "rank6_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 23,
+      "b1_not_win_rate_pct": 65.22,
+      "b1_not_win_lift_pp": 33.34,
+      "b1_top3_miss_rate_pct": 39.13,
+      "manshu_rate_pct": 30.43,
+      "manshu_lift_pp": 14.82,
+      "winner_3to6_pct": 43.48,
+      "outer56_top3_pct": 47.83,
+      "score": 42.8876
+    },
+    {
+      "condition_id": "b1_loss_ge35&b1_avgdiff_le030&outer56_exhibit_top2&round_1to6",
+      "condition": "1号艇差され+まくられ35%以上 × 1号艇 展示+1周平均との差+0.30以下 × 5/6号艇が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_loss_ge35",
+        "b1_avgdiff_le030",
+        "outer56_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 22,
+      "b1_not_win_rate_pct": 59.09,
+      "b1_not_win_lift_pp": 27.22,
+      "b1_top3_miss_rate_pct": 40.91,
+      "manshu_rate_pct": 40.91,
+      "manshu_lift_pp": 25.29,
+      "winner_3to6_pct": 45.45,
+      "outer56_top3_pct": 54.55,
+      "score": 41.3496
+    },
+    {
+      "condition_id": "b1_avgdiff_le015&b1_tenji_rank_ge3&outer56_avg_ge005&rank6_exhibit_top2&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.15以下 × 1号艇展示タイム順位3位以下 × 5/6号艇どちらか 展示+1周平均との差+0.05以上 × AI+6位が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le015",
+        "b1_tenji_rank_ge3",
+        "outer56_avg_ge005",
+        "rank6_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 21,
+      "b1_not_win_rate_pct": 66.67,
+      "b1_not_win_lift_pp": 34.79,
+      "b1_top3_miss_rate_pct": 42.86,
+      "manshu_rate_pct": 23.81,
+      "manshu_lift_pp": 8.19,
+      "winner_3to6_pct": 42.86,
+      "outer56_top3_pct": 42.86,
+      "score": 41.1056
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&outer56_ai_pred_ge10&rank6_outer56",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 5/6号艇どちらかAI1着予測10%以上 × AI+6位が5/6号艇",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "outer56_ai_pred_ge10",
+        "rank6_outer56"
+      ],
+      "sample_races": 31,
+      "b1_not_win_rate_pct": 61.29,
+      "b1_not_win_lift_pp": 29.42,
+      "b1_top3_miss_rate_pct": 22.58,
+      "manshu_rate_pct": 32.26,
+      "manshu_lift_pp": 16.64,
+      "winner_3to6_pct": 45.16,
+      "outer56_top3_pct": 64.52,
+      "score": 40.7811
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&outer56_ai_pred_ge10&outer56_exhibit_top2&rank6_outer56",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 5/6号艇どちらかAI1着予測10%以上 × 5/6号艇が展示・1周どちらか2位以内 × AI+6位が5/6号艇",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "outer56_ai_pred_ge10",
+        "outer56_exhibit_top2",
+        "rank6_outer56"
+      ],
+      "sample_races": 29,
+      "b1_not_win_rate_pct": 62.07,
+      "b1_not_win_lift_pp": 30.2,
+      "b1_top3_miss_rate_pct": 24.14,
+      "manshu_rate_pct": 31.03,
+      "manshu_lift_pp": 15.42,
+      "winner_3to6_pct": 44.83,
+      "outer56_top3_pct": 65.52,
+      "score": 40.7591
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&b1_tenji_rank_ge3&outer56_avg_ge010&rank6_exhibit_top2&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 1号艇展示タイム順位3位以下 × 5/6号艇どちらか 展示+1周平均との差+0.10以上 × AI+6位が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "b1_tenji_rank_ge3",
+        "outer56_avg_ge010",
+        "rank6_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 29,
+      "b1_not_win_rate_pct": 62.07,
+      "b1_not_win_lift_pp": 30.2,
+      "b1_top3_miss_rate_pct": 41.38,
+      "manshu_rate_pct": 31.03,
+      "manshu_lift_pp": 15.42,
+      "winner_3to6_pct": 44.83,
+      "outer56_top3_pct": 44.83,
+      "score": 40.7591
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&b1_tenji_rank_ge3&rank6_avg_ge010&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 1号艇展示タイム順位3位以下 × AI+6位が平均との差+0.10以上 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "b1_tenji_rank_ge3",
+        "rank6_avg_ge010",
+        "round_1to6"
+      ],
+      "sample_races": 21,
+      "b1_not_win_rate_pct": 61.9,
+      "b1_not_win_lift_pp": 30.03,
+      "b1_top3_miss_rate_pct": 42.86,
+      "manshu_rate_pct": 33.33,
+      "manshu_lift_pp": 17.72,
+      "winner_3to6_pct": 42.86,
+      "outer56_top3_pct": 47.62,
+      "score": 40.6294
+    },
+    {
+      "condition_id": "b1_tenji_rank_ge4&rank6_avg_ge010&rank6_exhibit_top2&round_1to6",
+      "condition": "1号艇展示タイム順位4位以下 × AI+6位が平均との差+0.10以上 × AI+6位が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_tenji_rank_ge4",
+        "rank6_avg_ge010",
+        "rank6_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 21,
+      "b1_not_win_rate_pct": 61.9,
+      "b1_not_win_lift_pp": 30.03,
+      "b1_top3_miss_rate_pct": 42.86,
+      "manshu_rate_pct": 33.33,
+      "manshu_lift_pp": 17.72,
+      "winner_3to6_pct": 42.86,
+      "outer56_top3_pct": 47.62,
+      "score": 40.6294
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&b1_tenji_rank_ge3&outer56_avg_ge005&rank6_avg_ge010&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 1号艇展示タイム順位3位以下 × 5/6号艇どちらか 展示+1周平均との差+0.05以上 × AI+6位が平均との差+0.10以上 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "b1_tenji_rank_ge3",
+        "outer56_avg_ge005",
+        "rank6_avg_ge010",
+        "round_1to6"
+      ],
+      "sample_races": 21,
+      "b1_not_win_rate_pct": 61.9,
+      "b1_not_win_lift_pp": 30.03,
+      "b1_top3_miss_rate_pct": 42.86,
+      "manshu_rate_pct": 33.33,
+      "manshu_lift_pp": 17.72,
+      "winner_3to6_pct": 42.86,
+      "outer56_top3_pct": 47.62,
+      "score": 40.6294
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&b1_tenji_rank_ge3&outer56_avg_ge010&rank6_avg_ge010&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 1号艇展示タイム順位3位以下 × 5/6号艇どちらか 展示+1周平均との差+0.10以上 × AI+6位が平均との差+0.10以上 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "b1_tenji_rank_ge3",
+        "outer56_avg_ge010",
+        "rank6_avg_ge010",
+        "round_1to6"
+      ],
+      "sample_races": 21,
+      "b1_not_win_rate_pct": 61.9,
+      "b1_not_win_lift_pp": 30.03,
+      "b1_top3_miss_rate_pct": 42.86,
+      "manshu_rate_pct": 33.33,
+      "manshu_lift_pp": 17.72,
+      "winner_3to6_pct": 42.86,
+      "outer56_top3_pct": 47.62,
+      "score": 40.6294
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&b1_tenji_rank_ge3&outer56_exhibit_top2&rank6_avg_ge010&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 1号艇展示タイム順位3位以下 × 5/6号艇が展示・1周どちらか2位以内 × AI+6位が平均との差+0.10以上 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "b1_tenji_rank_ge3",
+        "outer56_exhibit_top2",
+        "rank6_avg_ge010",
+        "round_1to6"
+      ],
+      "sample_races": 21,
+      "b1_not_win_rate_pct": 61.9,
+      "b1_not_win_lift_pp": 30.03,
+      "b1_top3_miss_rate_pct": 42.86,
+      "manshu_rate_pct": 33.33,
+      "manshu_lift_pp": 17.72,
+      "winner_3to6_pct": 42.86,
+      "outer56_top3_pct": 47.62,
+      "score": 40.6294
+    },
+    {
+      "condition_id": "b1_avgdiff_le030&b1_tenji_rank_ge3&rank6_avg_ge010&rank6_exhibit_top2&round_1to6",
+      "condition": "1号艇 展示+1周平均との差+0.30以下 × 1号艇展示タイム順位3位以下 × AI+6位が平均との差+0.10以上 × AI+6位が展示・1周どちらか2位以内 × 1〜6R",
+      "atoms": [
+        "b1_avgdiff_le030",
+        "b1_tenji_rank_ge3",
+        "rank6_avg_ge010",
+        "rank6_exhibit_top2",
+        "round_1to6"
+      ],
+      "sample_races": 21,
+      "b1_not_win_rate_pct": 61.9,
+      "b1_not_win_lift_pp": 30.03,
+      "b1_top3_miss_rate_pct": 42.86,
+      "manshu_rate_pct": 33.33,
+      "manshu_lift_pp": 17.72,
+      "winner_3to6_pct": 42.86,
+      "outer56_top3_pct": 47.62,
+      "score": 40.6294
+    }
+  ]
+}

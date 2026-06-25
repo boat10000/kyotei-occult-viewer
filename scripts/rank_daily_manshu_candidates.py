@@ -18,6 +18,10 @@ REPORT_DIR = OUT_DIR / "boaters_report"
 HISTORY_DB = OUT_DIR / "boaters_all_races.sqlite"
 DEFAULT_LOGIC_CSV = ROOT / "data" / "model" / "manshu_condition_combo_search.csv"
 DEFAULT_MATCHUP_PROFILE = ROOT / "data" / "analysis" / "matchup_profiles.csv"
+TRIFECTA_ODDS_DB_CANDIDATES = [
+    ROOT / "data" / "live_odds.db",
+    Path.home() / "Desktop" / "kyotei_occult" / "data" / "live_odds.db",
+]
 
 FIXED_TOP6_VENUES = {"平和島", "鳴門", "戸田", "桐生", "江戸川", "浜名湖"}
 FIXED_TOP10_VENUES = FIXED_TOP6_VENUES | {"児島", "三国", "宮島", "若松"}
@@ -27,6 +31,13 @@ SUMMER_B1_SLOW_DIFF = -0.10
 SUMMER_B1_FAST_NIGE_DELTA_PP = 15
 SUMMER_B1_SLOW_NIGE_DELTA_PP = -17
 SUPER_SLIT_TENJI_ADV = 0.10
+
+
+def default_trifecta_odds_db():
+    for path in TRIFECTA_ODDS_DB_CANDIDATES:
+        if path.exists():
+            return path
+    return None
 
 SLIT_FORMATION_STATS = {
     "b1_front_wall": {
@@ -490,6 +501,87 @@ def write_csv(path, rows):
         writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         writer.writeheader()
         writer.writerows(rows)
+
+
+def add_empty_trifecta_odds_features(df):
+    defaults = {
+        "b1_trifecta_top5_1head": 0,
+        "trifecta_top5_head1_count": np.nan,
+        "trifecta_top5_count": np.nan,
+        "trifecta_top1_odds": np.nan,
+        "trifecta_top5_avg_odds": np.nan,
+        "trifecta_top5_combos": "",
+        "trifecta_odds_snapshot_at": "",
+    }
+    for col, value in defaults.items():
+        if col not in df.columns:
+            df[col] = value
+    return df
+
+
+def add_trifecta_odds_features(df, odds_db, target_date):
+    df = add_empty_trifecta_odds_features(df)
+    if not odds_db:
+        return df
+    odds_path = Path(odds_db)
+    if not odds_path.exists():
+        return df
+    sql = """
+    WITH latest AS (
+      SELECT date, venue_code, race_no, MAX(snapshot_at) AS snapshot_at
+      FROM odds_trifecta
+      WHERE date = ?
+      GROUP BY date, venue_code, race_no
+    )
+    SELECT o.date, o.venue_code, o.race_no, o.combo, o.odds, o.snapshot_at
+    FROM odds_trifecta o
+    JOIN latest l
+      ON l.date = o.date
+     AND l.venue_code = o.venue_code
+     AND l.race_no = o.race_no
+     AND l.snapshot_at = o.snapshot_at
+    """
+    try:
+        with connect_ro(odds_path) as con:
+            odds = pd.read_sql_query(sql, con, params=(target_date,))
+    except sqlite3.Error:
+        return df
+    if odds.empty:
+        return df
+    odds["odds"] = pd.to_numeric(odds["odds"], errors="coerce")
+    odds = odds.sort_values(["date", "venue_code", "race_no", "odds", "combo"])
+    odds["odds_rank"] = odds.groupby(["date", "venue_code", "race_no"]).cumcount() + 1
+    top5 = odds[odds["odds_rank"] <= 5]
+    features = top5.groupby(["date", "venue_code", "race_no"], as_index=False).agg(
+        trifecta_top5_combos=("combo", lambda values: " ".join(map(str, values))),
+        trifecta_top5_avg_odds=("odds", "mean"),
+        trifecta_top1_odds=("odds", "min"),
+        trifecta_top5_head1_count=("combo", lambda values: sum(str(value).startswith("1-") for value in values)),
+        trifecta_top5_count=("combo", "count"),
+        trifecta_odds_snapshot_at=("snapshot_at", "max"),
+    )
+    features["b1_trifecta_top5_1head"] = (
+        features["trifecta_top5_count"].eq(5) & features["trifecta_top5_head1_count"].eq(5)
+    ).astype(int)
+    features["place_id"] = pd.to_numeric(features["venue_code"], errors="coerce")
+    features["round_no"] = pd.to_numeric(features["race_no"], errors="coerce")
+    features = features.drop(columns=["venue_code", "race_no"])
+    merged = df.merge(features, on=["date", "place_id", "round_no"], how="left", suffixes=("", "_odds"))
+    for col in [
+        "b1_trifecta_top5_1head",
+        "trifecta_top5_head1_count",
+        "trifecta_top5_count",
+        "trifecta_top1_odds",
+        "trifecta_top5_avg_odds",
+        "trifecta_top5_combos",
+        "trifecta_odds_snapshot_at",
+    ]:
+        odds_col = f"{col}_odds"
+        if odds_col in merged.columns:
+            merged[col] = merged[odds_col].combine_first(merged[col])
+            merged = merged.drop(columns=[odds_col])
+    merged["b1_trifecta_top5_1head"] = merged["b1_trifecta_top5_1head"].fillna(0).astype(int)
+    return merged
 
 
 def historical_venue_sets(history_db):
@@ -1340,8 +1432,12 @@ def composite_edge_signals(race):
     b1_ai_order = num(race.get("b1_ai_plus_order"))
     b1_odds_pct = num(race.get("b1_odds_prediction_pct"))
     b1_odds_rank = int_num(race.get("b1_odds_rank"), default=9)
-    b1_popular = b1_odds_pct is not None and b1_odds_rank == 1 and b1_odds_pct >= 45
-    b1_popular40 = b1_odds_pct is not None and b1_odds_rank == 1 and b1_odds_pct >= 40
+    has_trifecta_top5 = int_num(race.get("trifecta_top5_count"), default=0) == 5
+    b1_trifecta_top5_1head = int_num(race.get("b1_trifecta_top5_1head"), default=0) == 1
+    b1_odds_popular45 = b1_odds_pct is not None and b1_odds_rank == 1 and b1_odds_pct >= 45
+    b1_odds_popular40 = b1_odds_pct is not None and b1_odds_rank == 1 and b1_odds_pct >= 40
+    b1_popular = b1_trifecta_top5_1head or (not has_trifecta_top5 and b1_odds_popular45)
+    b1_popular40 = b1_trifecta_top5_1head or (not has_trifecta_top5 and b1_odds_popular40)
     b1_unpopular = b1_odds_pct is not None and (b1_odds_rank != 1 or b1_odds_pct < 45)
     outer_ai_pred = num(race.get("outer56_best_ai_prediction_pct"))
     outer_avg = num(race.get("outer56_best_avg_isshu_diff"))
@@ -1354,9 +1450,19 @@ def composite_edge_signals(race):
     rank6_tenji = num(race.get("ai_rank6_tenji_rank"))
     if rank6_tenji is None:
         rank6_tenji = num(race.get("ai_rank6_tenji_time_rank"))
+    rank6_isshu = num(race.get("ai_rank6_isshu_rank"))
+    rank6_exhibit_top2 = (
+        (rank6_tenji is not None and rank6_tenji <= 2)
+        or (rank6_isshu is not None and rank6_isshu <= 2)
+    )
     rank5_tenji = num(race.get("ai_rank5_tenji_rank"))
     if rank5_tenji is None:
         rank5_tenji = num(race.get("ai_rank5_tenji_time_rank"))
+    rank5_isshu = num(race.get("ai_rank5_isshu_rank"))
+    rank5_exhibit_top2 = (
+        (rank5_tenji is not None and rank5_tenji <= 2)
+        or (rank5_isshu is not None and rank5_isshu <= 2)
+    )
     low_outer_boat = int_num(race.get("low_outer_boat"))
     low_outer_avg = num(race.get("low_outer_avg_isshu_diff"))
     low_outer_tenji = num(race.get("low_outer_tenji_rank"))
@@ -1480,6 +1586,166 @@ def composite_edge_signals(race):
                 "threshold": SUMMER_B1_SLOW_DIFF,
                 "nige_delta_pp": SUMMER_B1_SLOW_NIGE_DELTA_PP,
                 "season": "summer_6_8",
+            },
+        )
+
+    popular_details = {
+        "b1_trifecta_top5_1head": int(b1_trifecta_top5_1head),
+        "trifecta_top5_head1_count": int_num(race.get("trifecta_top5_head1_count")),
+        "trifecta_top5_combos": race.get("trifecta_top5_combos"),
+        "b1_odds_prediction_pct": b1_odds_pct,
+        "b1_odds_rank": b1_odds_rank,
+        "popular_source": "trifecta_top5" if b1_trifecta_top5_1head else "boaters_odds_prediction",
+    }
+    if (
+        b1_popular
+        and b1_nige is not None
+        and b1_nige < 50
+        and b1_avg is not None
+        and b1_avg <= 0.15
+        and outer_exhibit_top2 >= 1
+        and round_no is not None
+        and round_no <= 6
+    ):
+        add_edge(
+            signals,
+            "codex_popular_b1_top5_fly_nige50_avg015_outertop2_early",
+            "人気1号艇飛び再構築: 1が売れ過ぎでも逃げ率50%未満+平均との差0.15以下、5/6展示上位、1〜6R",
+            28.57,
+            3.8,
+            "popular_b1_fly_up",
+            {
+                **popular_details,
+                "sample_races": 21,
+                "b1_not_win_rate_pct": 71.43,
+                "b1_top3_miss_pct": 28.57,
+                "manshu_rate_pct": 28.57,
+                "b1_nige_pct": b1_nige,
+                "b1_avg_isshu_diff": b1_avg,
+                "outer56_exhibit_top2_count": outer_exhibit_top2,
+            },
+        )
+
+    if (
+        b1_popular
+        and b1_avg is not None
+        and b1_avg <= 0.30
+        and outer_ai_pred is not None
+        and outer_ai_pred >= 10
+        and round_no is not None
+        and round_no <= 6
+    ):
+        add_edge(
+            signals,
+            "codex_popular_b1_top5_fly_avg030_outerai10_early",
+            "人気1号艇飛び再構築: 1が売れ過ぎでも平均との差0.30以下、5/6にAI1着10%以上、1〜6R",
+            30.43,
+            4.0,
+            "popular_b1_fly_up",
+            {
+                **popular_details,
+                "sample_races": 23,
+                "b1_not_win_rate_pct": 69.57,
+                "b1_top3_miss_pct": 30.43,
+                "manshu_rate_pct": 30.43,
+                "b1_avg_isshu_diff": b1_avg,
+                "outer56_ai_prediction_pct": outer_ai_pred,
+            },
+        )
+
+    if (
+        b1_popular
+        and b1_avg is not None
+        and b1_avg <= 0.30
+        and b1_tenji_rank is not None
+        and b1_tenji_rank >= 4
+        and outer_avg is not None
+        and outer_avg >= 0.10
+        and rank6_exhibit_top2
+        and round_no is not None
+        and round_no <= 6
+    ):
+        add_edge(
+            signals,
+            "codex_popular_b1_top5_fly_b1bad_rank6revive_early",
+            "人気1号艇飛び再構築: 1の平均との差0.30以下+展示4位以下、5/6上振れ、AI+6位が展示上位、1〜6R",
+            33.33,
+            4.4,
+            "popular_b1_fly_up",
+            {
+                **popular_details,
+                "sample_races": 21,
+                "b1_not_win_rate_pct": 66.67,
+                "b1_top3_miss_pct": 42.86,
+                "manshu_rate_pct": 33.33,
+                "b1_tenji_rank": b1_tenji_rank,
+                "outer56_avg_isshu_diff": outer_avg,
+                "ai_rank6_tenji_rank": rank6_tenji,
+                "ai_rank6_isshu_rank": rank6_isshu,
+            },
+        )
+
+    if (
+        b1_popular
+        and b1_nige is not None
+        and b1_nige < 50
+        and b1_avg is not None
+        and b1_avg <= 0.15
+        and outer_avg is not None
+        and outer_avg >= 0.05
+        and outer_exhibit_top2 >= 1
+        and round_no is not None
+        and round_no <= 6
+    ):
+        add_edge(
+            signals,
+            "codex_popular_b1_top5_fly_nige50_outeravg005_early",
+            "人気1号艇飛び再構築: 逃げ率50%未満+1の平均との差0.15以下、5/6平均との差0.05以上+展示上位、1〜6R",
+            25.00,
+            3.2,
+            "popular_b1_fly_up",
+            {
+                **popular_details,
+                "sample_races": 20,
+                "b1_not_win_rate_pct": 70.00,
+                "b1_top3_miss_pct": 30.00,
+                "manshu_rate_pct": 25.00,
+                "b1_nige_pct": b1_nige,
+                "b1_avg_isshu_diff": b1_avg,
+                "outer56_avg_isshu_diff": outer_avg,
+                "outer56_exhibit_top2_count": outer_exhibit_top2,
+            },
+        )
+
+    if (
+        b1_popular
+        and b1_avg is not None
+        and b1_avg <= 0.15
+        and b1_tenji_rank is not None
+        and b1_tenji_rank >= 4
+        and outer_avg is not None
+        and outer_avg >= 0.05
+        and rank5_exhibit_top2
+        and round_no is not None
+        and round_no <= 6
+    ):
+        add_edge(
+            signals,
+            "codex_popular_b1_top5_fly_b1bad_rank5revive_early",
+            "人気1号艇飛び再構築: 1の平均との差0.15以下+展示4位以下、5/6上振れ、AI+5位が展示上位、1〜6R",
+            35.00,
+            4.6,
+            "popular_b1_fly_up",
+            {
+                **popular_details,
+                "sample_races": 20,
+                "b1_not_win_rate_pct": 65.00,
+                "b1_top3_miss_pct": 35.00,
+                "manshu_rate_pct": 35.00,
+                "b1_tenji_rank": b1_tenji_rank,
+                "outer56_avg_isshu_diff": outer_avg,
+                "ai_rank5_tenji_rank": rank5_tenji,
+                "ai_rank5_isshu_rank": rank5_isshu,
             },
         )
 
@@ -2526,6 +2792,13 @@ def row_summary(
         "b1_ai_prediction_pct": race.get("b1_ai_prediction_pct"),
         "b1_odds_prediction_pct": race.get("b1_odds_prediction_pct"),
         "b1_odds_rank": race.get("b1_odds_rank"),
+        "b1_trifecta_top5_1head": int_num(race.get("b1_trifecta_top5_1head")),
+        "trifecta_top5_head1_count": int_num(race.get("trifecta_top5_head1_count")),
+        "trifecta_top5_count": int_num(race.get("trifecta_top5_count")),
+        "trifecta_top1_odds": race.get("trifecta_top1_odds"),
+        "trifecta_top5_avg_odds": race.get("trifecta_top5_avg_odds"),
+        "trifecta_top5_combos": race.get("trifecta_top5_combos"),
+        "trifecta_odds_snapshot_at": race.get("trifecta_odds_snapshot_at"),
         "b1_ai_plus": race.get("b1_ai_plus"),
         "b1_ai_plus_order": race.get("b1_ai_plus_order"),
         "b1_nige_pct": race.get("b1_nige_pct"),
@@ -2699,11 +2972,13 @@ def make_report(path, date_text, all_venue_rows, strict_rows, watch_rows, top_n)
 
 def main():
     parser = argparse.ArgumentParser()
+    default_odds_db = default_trifecta_odds_db()
     parser.add_argument("--date", required=True)
     parser.add_argument("--today-db", required=True)
     parser.add_argument("--logic-csv", default=str(DEFAULT_LOGIC_CSV))
     parser.add_argument("--history-db", default=str(HISTORY_DB))
     parser.add_argument("--matchup-profile", default=str(DEFAULT_MATCHUP_PROFILE))
+    parser.add_argument("--trifecta-odds-db", default=str(default_odds_db) if default_odds_db else "")
     parser.add_argument("--threshold", type=float, default=27.0)
     parser.add_argument("--top-n", type=int, default=5)
     parser.add_argument("--csv-out")
@@ -2715,6 +2990,7 @@ def main():
     matchup_profile = Path(args.matchup_profile) if args.matchup_profile else None
     matchup_profiles = read_matchup_profiles(matchup_profile) if matchup_profile and matchup_profile.exists() else {}
     df = daily_features(args.today_db, args.date, matchup_profiles=matchup_profiles)
+    df = add_trifecta_odds_features(df, args.trifecta_odds_db, args.date)
     logic_df = pd.read_csv(args.logic_csv)
     logic_df = logic_df[logic_df["manshu_rate_pct"] >= args.threshold].copy()
     masks = atom_masks(df, top6, top10)
@@ -2738,9 +3014,12 @@ def main():
         "date": args.date,
         "threshold_pct": args.threshold,
         "logic_label": "Codex厳選ランキング（全ファクター統合）",
-        "logic_summary": "過去検証27%以上の強条件、1号艇弱化、外枠上振れ、AI+下位の穴、AI/オッズ評価、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクター、天候/風波、今回メンバー同士の対戦相性をすべて同じスコアに混ぜた統合厳選ランキング。",
+        "logic_summary": "過去検証27%以上の強条件、三連単人気1〜5が1号艇頭の売れ過ぎイン飛び、1号艇弱化、外枠上振れ、AI+下位の穴、AI/オッズ評価、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクター、天候/風波、今回メンバー同士の対戦相性をすべて同じスコアに混ぜた統合厳選ランキング。",
         "matchup_profile": str(matchup_profile) if matchup_profile else None,
         "matchup_pairs_loaded": len(matchup_profiles),
+        "trifecta_odds_db": args.trifecta_odds_db,
+        "races_with_trifecta_top5": int(df["trifecta_top5_count"].fillna(0).eq(5).sum()),
+        "races_with_b1_trifecta_top5_1head": int(df["b1_trifecta_top5_1head"].fillna(0).eq(1).sum()),
         "races": int(len(df)),
         "races_with_full_tenji": int((df["tenji_boats"] >= 6).sum()),
         "races_with_full_isshu": int((df["isshu_boats"] >= 6).sum()),
