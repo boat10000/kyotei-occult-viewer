@@ -1,8 +1,8 @@
 {
   "version": "boaters-manshu-history-index-v3",
-  "generated_at": "2026-06-25T12:06:50+00:00",
+  "generated_at": "2026-06-25T17:31:40+00:00",
   "start_date": "2026-05-01",
-  "end_date": "2026-06-25",
+  "end_date": "2026-06-26",
   "top_n": 10,
   "logic_label": "Codex厳選ランキング（全ファクター統合）結果集計",
   "dates": [
@@ -8511,7 +8511,7 @@
       "path": "data/output/boaters_manshu_ranking_20260625.json",
       "codex_path": "data/output/boaters_manshu_ranking_codex_20260625.json",
       "logic_label": "Codex厳選ランキング（全ファクター統合）",
-      "generated_at": "2026-06-25T12:06:50+00:00",
+      "generated_at": "2026-06-25T23:37:38+09:00",
       "all_venue": {
         "top1": {
           "selected": 1,
@@ -8532,18 +8532,48 @@
         "top5": {
           "selected": 5,
           "settled": 5,
-          "manshu_hits": 0,
-          "manshu_rate_pct": 0.0,
-          "max_payout_yen": 5910,
-          "hit_races": []
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 23580,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "児島5R",
+              "trifecta": "2-6-5",
+              "payout_yen": 23580,
+              "manshu_rate_pct": 40.0
+            }
+          ]
         },
         "top10": {
           "selected": 10,
           "settled": 10,
-          "manshu_hits": 0,
-          "manshu_rate_pct": 0.0,
-          "max_payout_yen": 5910,
-          "hit_races": []
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 102140,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "児島5R",
+              "trifecta": "2-6-5",
+              "payout_yen": 23580,
+              "manshu_rate_pct": 40.0
+            },
+            {
+              "rank": 6,
+              "race": "常滑4R",
+              "trifecta": "2-4-1",
+              "payout_yen": 12720,
+              "manshu_rate_pct": 40.0
+            },
+            {
+              "rank": 7,
+              "race": "唐津5R",
+              "trifecta": "5-1-6",
+              "payout_yen": 102140,
+              "manshu_rate_pct": 40.0
+            }
+          ]
         }
       },
       "strict": {
@@ -8566,17 +8596,124 @@
         "top5": {
           "selected": 5,
           "settled": 5,
-          "manshu_hits": 0,
-          "manshu_rate_pct": 0.0,
-          "max_payout_yen": 5910,
-          "hit_races": []
+          "manshu_hits": 1,
+          "manshu_rate_pct": 20.0,
+          "max_payout_yen": 23580,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "児島5R",
+              "trifecta": "2-6-5",
+              "payout_yen": 23580,
+              "manshu_rate_pct": 40.0
+            }
+          ]
         },
         "top10": {
           "selected": 10,
           "settled": 10,
+          "manshu_hits": 3,
+          "manshu_rate_pct": 30.0,
+          "max_payout_yen": 102140,
+          "hit_races": [
+            {
+              "rank": 5,
+              "race": "児島5R",
+              "trifecta": "2-6-5",
+              "payout_yen": 23580,
+              "manshu_rate_pct": 40.0
+            },
+            {
+              "rank": 6,
+              "race": "常滑4R",
+              "trifecta": "2-4-1",
+              "payout_yen": 12720,
+              "manshu_rate_pct": 40.0
+            },
+            {
+              "rank": 7,
+              "race": "唐津5R",
+              "trifecta": "5-1-6",
+              "payout_yen": 102140,
+              "manshu_rate_pct": 40.0
+            }
+          ]
+        },
+        "fallback_from_all_venue": false
+      }
+    },
+    {
+      "date": "2026-06-26",
+      "key": "20260626",
+      "path": "data/output/boaters_manshu_ranking_20260626.json",
+      "codex_path": "data/output/boaters_manshu_ranking_codex_20260626.json",
+      "logic_label": "Codex厳選ランキング（全ファクター統合）",
+      "generated_at": "2026-06-25T17:31:40+00:00",
+      "all_venue": {
+        "top1": {
+          "selected": 1,
+          "settled": 0,
           "manshu_hits": 0,
-          "manshu_rate_pct": 0.0,
-          "max_payout_yen": 5910,
+          "manshu_rate_pct": null,
+          "max_payout_yen": null,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 0,
+          "manshu_hits": 0,
+          "manshu_rate_pct": null,
+          "max_payout_yen": null,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 0,
+          "manshu_hits": 0,
+          "manshu_rate_pct": null,
+          "max_payout_yen": null,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 0,
+          "manshu_hits": 0,
+          "manshu_rate_pct": null,
+          "max_payout_yen": null,
+          "hit_races": []
+        }
+      },
+      "strict": {
+        "top1": {
+          "selected": 1,
+          "settled": 0,
+          "manshu_hits": 0,
+          "manshu_rate_pct": null,
+          "max_payout_yen": null,
+          "hit_races": []
+        },
+        "top3": {
+          "selected": 3,
+          "settled": 0,
+          "manshu_hits": 0,
+          "manshu_rate_pct": null,
+          "max_payout_yen": null,
+          "hit_races": []
+        },
+        "top5": {
+          "selected": 5,
+          "settled": 0,
+          "manshu_hits": 0,
+          "manshu_rate_pct": null,
+          "max_payout_yen": null,
+          "hit_races": []
+        },
+        "top10": {
+          "selected": 10,
+          "settled": 0,
+          "manshu_hits": 0,
+          "manshu_rate_pct": null,
+          "max_payout_yen": null,
           "hit_races": []
         },
         "fallback_from_all_venue": false
@@ -8586,93 +8723,93 @@
   "aggregate": {
     "all_venue": {
       "top1": {
-        "selected": 56,
+        "selected": 57,
         "settled": 56,
         "manshu_hits": 23,
         "manshu_rate_pct": 41.07,
         "hit_days": 23,
         "days": 56,
-        "calendar_days": 56,
+        "calendar_days": 57,
         "day_hit_rate_pct": 41.07,
         "max_payout_yen": 102650
       },
       "top3": {
-        "selected": 168,
+        "selected": 171,
         "settled": 167,
         "manshu_hits": 46,
         "manshu_rate_pct": 27.54,
         "hit_days": 33,
         "days": 56,
-        "calendar_days": 56,
+        "calendar_days": 57,
         "day_hit_rate_pct": 58.93,
         "max_payout_yen": 102650
       },
       "top5": {
-        "selected": 280,
+        "selected": 285,
         "settled": 279,
-        "manshu_hits": 69,
-        "manshu_rate_pct": 24.73,
-        "hit_days": 39,
+        "manshu_hits": 70,
+        "manshu_rate_pct": 25.09,
+        "hit_days": 40,
         "days": 56,
-        "calendar_days": 56,
-        "day_hit_rate_pct": 69.64,
+        "calendar_days": 57,
+        "day_hit_rate_pct": 71.43,
         "max_payout_yen": 102650
       },
       "top10": {
-        "selected": 560,
+        "selected": 570,
         "settled": 557,
-        "manshu_hits": 122,
-        "manshu_rate_pct": 21.9,
-        "hit_days": 48,
+        "manshu_hits": 125,
+        "manshu_rate_pct": 22.44,
+        "hit_days": 49,
         "days": 56,
-        "calendar_days": 56,
-        "day_hit_rate_pct": 85.71,
+        "calendar_days": 57,
+        "day_hit_rate_pct": 87.5,
         "max_payout_yen": 259950
       }
     },
     "strict": {
       "top1": {
-        "selected": 56,
+        "selected": 57,
         "settled": 56,
         "manshu_hits": 21,
         "manshu_rate_pct": 37.5,
         "hit_days": 21,
         "days": 56,
-        "calendar_days": 56,
+        "calendar_days": 57,
         "day_hit_rate_pct": 37.5,
         "max_payout_yen": 102650
       },
       "top3": {
-        "selected": 168,
+        "selected": 171,
         "settled": 167,
         "manshu_hits": 51,
         "manshu_rate_pct": 30.54,
         "hit_days": 38,
         "days": 56,
-        "calendar_days": 56,
+        "calendar_days": 57,
         "day_hit_rate_pct": 67.86,
         "max_payout_yen": 102650
       },
       "top5": {
-        "selected": 280,
+        "selected": 285,
         "settled": 279,
-        "manshu_hits": 83,
-        "manshu_rate_pct": 29.75,
-        "hit_days": 47,
+        "manshu_hits": 84,
+        "manshu_rate_pct": 30.11,
+        "hit_days": 48,
         "days": 56,
-        "calendar_days": 56,
-        "day_hit_rate_pct": 83.93,
+        "calendar_days": 57,
+        "day_hit_rate_pct": 85.71,
         "max_payout_yen": 126040
       },
       "top10": {
-        "selected": 550,
+        "selected": 560,
         "settled": 548,
-        "manshu_hits": 151,
-        "manshu_rate_pct": 27.55,
-        "hit_days": 53,
+        "manshu_hits": 154,
+        "manshu_rate_pct": 28.1,
+        "hit_days": 54,
         "days": 56,
-        "calendar_days": 56,
-        "day_hit_rate_pct": 94.64,
+        "calendar_days": 57,
+        "day_hit_rate_pct": 96.43,
         "max_payout_yen": 126040
       }
     }

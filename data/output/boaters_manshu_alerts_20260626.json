@@ -1,0 +1,101 @@
+{
+  "version": "boaters-manshu-alerts-v1",
+  "date": "2026-06-26",
+  "generated_at": "2026-06-26T02:31:04+09:00",
+  "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_morning_ranking_20260626.json",
+  "public_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260626.json",
+  "live_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_live_ranking_20260626.json",
+  "public_metrics_updated": false,
+  "top_n": 10,
+  "riser_top_n": 10,
+  "lookahead_minutes": 20.0,
+  "alerts": [],
+  "inspected": [
+    {
+      "race_id": "2026-06-261602",
+      "place_name": "児島",
+      "round": 2,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 538.9
+    },
+    {
+      "race_id": "2026-06-261704",
+      "place_name": "宮島",
+      "round": 4,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 579.9
+    },
+    {
+      "race_id": "2026-06-261706",
+      "place_name": "宮島",
+      "round": 6,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 640.9
+    },
+    {
+      "race_id": "2026-06-261702",
+      "place_name": "宮島",
+      "round": 2,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 519.9
+    },
+    {
+      "race_id": "2026-06-261707",
+      "place_name": "宮島",
+      "round": 7,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 682.9
+    },
+    {
+      "race_id": "2026-06-261608",
+      "place_name": "児島",
+      "round": 8,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 728.9
+    },
+    {
+      "race_id": "2026-06-260304",
+      "place_name": "江戸川",
+      "round": 4,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 603.9
+    },
+    {
+      "race_id": "2026-06-261703",
+      "place_name": "宮島",
+      "round": 3,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 547.9
+    },
+    {
+      "race_id": "2026-06-262304",
+      "place_name": "唐津",
+      "round": 4,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 445.9
+    },
+    {
+      "race_id": "2026-06-261609",
+      "place_name": "児島",
+      "round": 9,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 759.9
+    }
+  ],
+  "push": {
+    "enabled": true,
+    "sent": 0,
+    "attempted": 0,
+    "errors": []
+  }
+}
