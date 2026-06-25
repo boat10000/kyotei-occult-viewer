@@ -1,0 +1,219 @@
+{
+  "version": "research-v2-exhibition-adjustment-1",
+  "date": "2026-06-25",
+  "generated_at": "2026-06-25T11:00:11+09:00",
+  "source_ranking": "/private/tmp/kyotei-mm1601-publish/data/output/boaters_manshu_ranking_20260625.json",
+  "fallback_rule": "展示情報が欠損する場合は朝版相当のbase_manshu_rate_pctを参照し、0埋めしない。",
+  "races": [
+    {
+      "rank": 1,
+      "place_name": "丸亀",
+      "round": 9,
+      "morning_manshu_probability_pct": 29.84,
+      "preview_manshu_probability_pct": 39.04,
+      "exhibition_adjustment_pct": 9.2,
+      "used_exhibition": {
+        "tenji_boats": 0,
+        "isshu_boats": 0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "slit_shape_label": "1凹み"
+      },
+      "missing_warning": "preview_data_missing",
+      "race_deadline": "2026-06-25T19:05:00+09:00",
+      "fetched_at": "2026-06-25T10:20:01+09:00",
+      "available_at": "2026-06-25T10:20:01+09:00",
+      "source": "/private/tmp/kyotei-mm1601-publish/data/output/boaters_manshu_ranking_20260625.json",
+      "schema_version": "research-v2-exhibition-1"
+    },
+    {
+      "rank": 2,
+      "place_name": "丸亀",
+      "round": 10,
+      "morning_manshu_probability_pct": 27.52,
+      "preview_manshu_probability_pct": 36.82,
+      "exhibition_adjustment_pct": 9.3,
+      "used_exhibition": {
+        "tenji_boats": 0,
+        "isshu_boats": 0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "slit_shape_label": "外圧"
+      },
+      "missing_warning": "preview_data_missing",
+      "race_deadline": "2026-06-25T19:31:00+09:00",
+      "fetched_at": "2026-06-25T10:20:01+09:00",
+      "available_at": "2026-06-25T10:20:01+09:00",
+      "source": "/private/tmp/kyotei-mm1601-publish/data/output/boaters_manshu_ranking_20260625.json",
+      "schema_version": "research-v2-exhibition-1"
+    },
+    {
+      "rank": 3,
+      "place_name": "丸亀",
+      "round": 2,
+      "morning_manshu_probability_pct": 27.55,
+      "preview_manshu_probability_pct": 36.75,
+      "exhibition_adjustment_pct": 9.2,
+      "used_exhibition": {
+        "tenji_boats": 0,
+        "isshu_boats": 0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "slit_shape_label": "2壁割れ3覗き"
+      },
+      "missing_warning": "preview_data_missing",
+      "race_deadline": "2026-06-25T15:45:00+09:00",
+      "fetched_at": "2026-06-25T10:20:01+09:00",
+      "available_at": "2026-06-25T10:20:01+09:00",
+      "source": "/private/tmp/kyotei-mm1601-publish/data/output/boaters_manshu_ranking_20260625.json",
+      "schema_version": "research-v2-exhibition-1"
+    },
+    {
+      "rank": 4,
+      "place_name": "浜名湖",
+      "round": 3,
+      "morning_manshu_probability_pct": 28.97,
+      "preview_manshu_probability_pct": 36.07,
+      "exhibition_adjustment_pct": 7.1,
+      "used_exhibition": {
+        "tenji_boats": 0,
+        "isshu_boats": 0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "slit_shape_label": "外圧"
+      },
+      "missing_warning": "preview_data_missing",
+      "race_deadline": "2026-06-25T12:25:00+09:00",
+      "fetched_at": "2026-06-25T10:20:01+09:00",
+      "available_at": "2026-06-25T10:20:01+09:00",
+      "source": "/private/tmp/kyotei-mm1601-publish/data/output/boaters_manshu_ranking_20260625.json",
+      "schema_version": "research-v2-exhibition-1"
+    },
+    {
+      "rank": 5,
+      "place_name": "児島",
+      "round": 2,
+      "morning_manshu_probability_pct": 27.61,
+      "preview_manshu_probability_pct": 35.71,
+      "exhibition_adjustment_pct": 8.1,
+      "used_exhibition": {
+        "tenji_boats": 0,
+        "isshu_boats": 0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "slit_shape_label": "3/4中凹み"
+      },
+      "missing_warning": "preview_data_missing",
+      "race_deadline": "2026-06-25T11:29:00+09:00",
+      "fetched_at": "2026-06-25T10:20:01+09:00",
+      "available_at": "2026-06-25T10:20:01+09:00",
+      "source": "/private/tmp/kyotei-mm1601-publish/data/output/boaters_manshu_ranking_20260625.json",
+      "schema_version": "research-v2-exhibition-1"
+    },
+    {
+      "rank": 6,
+      "place_name": "丸亀",
+      "round": 1,
+      "morning_manshu_probability_pct": 29.84,
+      "preview_manshu_probability_pct": 34.54,
+      "exhibition_adjustment_pct": 4.7,
+      "used_exhibition": {
+        "tenji_boats": 0,
+        "isshu_boats": 0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "slit_shape_label": "3/4中凹み"
+      },
+      "missing_warning": "preview_data_missing",
+      "race_deadline": "2026-06-25T15:19:00+09:00",
+      "fetched_at": "2026-06-25T10:20:01+09:00",
+      "available_at": "2026-06-25T10:20:01+09:00",
+      "source": "/private/tmp/kyotei-mm1601-publish/data/output/boaters_manshu_ranking_20260625.json",
+      "schema_version": "research-v2-exhibition-1"
+    },
+    {
+      "rank": 7,
+      "place_name": "芦屋",
+      "round": 7,
+      "morning_manshu_probability_pct": 16.82,
+      "preview_manshu_probability_pct": 34.04,
+      "exhibition_adjustment_pct": 17.22,
+      "used_exhibition": {
+        "tenji_boats": 0,
+        "isshu_boats": 0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "slit_shape_label": "1凹み+外圧"
+      },
+      "missing_warning": "preview_data_missing",
+      "race_deadline": "2026-06-25T11:13:00+09:00",
+      "fetched_at": "2026-06-25T10:20:01+09:00",
+      "available_at": "2026-06-25T10:20:01+09:00",
+      "source": "/private/tmp/kyotei-mm1601-publish/data/output/boaters_manshu_ranking_20260625.json",
+      "schema_version": "research-v2-exhibition-1"
+    },
+    {
+      "rank": 8,
+      "place_name": "尼崎",
+      "round": 3,
+      "morning_manshu_probability_pct": 16.82,
+      "preview_manshu_probability_pct": 33.54,
+      "exhibition_adjustment_pct": 16.72,
+      "used_exhibition": {
+        "tenji_boats": 0,
+        "isshu_boats": 0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "slit_shape_label": "2壁割れ3覗き"
+      },
+      "missing_warning": "preview_data_missing",
+      "race_deadline": "2026-06-25T11:27:00+09:00",
+      "fetched_at": "2026-06-25T10:20:01+09:00",
+      "available_at": "2026-06-25T10:20:01+09:00",
+      "source": "/private/tmp/kyotei-mm1601-publish/data/output/boaters_manshu_ranking_20260625.json",
+      "schema_version": "research-v2-exhibition-1"
+    },
+    {
+      "rank": 9,
+      "place_name": "江戸川",
+      "round": 1,
+      "morning_manshu_probability_pct": 16.82,
+      "preview_manshu_probability_pct": 33.34,
+      "exhibition_adjustment_pct": 16.52,
+      "used_exhibition": {
+        "tenji_boats": 0,
+        "isshu_boats": 0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "slit_shape_label": "2壁割れ3覗き"
+      },
+      "missing_warning": "preview_data_missing",
+      "race_deadline": "2026-06-25T11:14:00+09:00",
+      "fetched_at": "2026-06-25T10:20:01+09:00",
+      "available_at": "2026-06-25T10:20:01+09:00",
+      "source": "/private/tmp/kyotei-mm1601-publish/data/output/boaters_manshu_ranking_20260625.json",
+      "schema_version": "research-v2-exhibition-1"
+    },
+    {
+      "rank": 10,
+      "place_name": "尼崎",
+      "round": 5,
+      "morning_manshu_probability_pct": 16.82,
+      "preview_manshu_probability_pct": 33.34,
+      "exhibition_adjustment_pct": 16.52,
+      "used_exhibition": {
+        "tenji_boats": 0,
+        "isshu_boats": 0,
+        "double_time_boats": "",
+        "super_slit_boats": "",
+        "slit_shape_label": "2壁割れ3覗き"
+      },
+      "missing_warning": "preview_data_missing",
+      "race_deadline": "2026-06-25T12:22:00+09:00",
+      "fetched_at": "2026-06-25T10:20:01+09:00",
+      "available_at": "2026-06-25T10:20:01+09:00",
+      "source": "/private/tmp/kyotei-mm1601-publish/data/output/boaters_manshu_ranking_20260625.json",
+      "schema_version": "research-v2-exhibition-1"
+    }
+  ]
+}
