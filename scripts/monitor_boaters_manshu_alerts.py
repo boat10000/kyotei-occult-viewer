@@ -899,9 +899,9 @@ def select_keshi_boat(rows, protected=None):
     candidates = sorted(
         rows,
         key=lambda row: (
+            row.get("ai_plus") if row.get("ai_plus") is not None else 999,
             row.get("ai_3ren_pct") if row.get("ai_3ren_pct") is not None else 999,
             row.get("ai_prediction_pct") if row.get("ai_prediction_pct") is not None else 999,
-            row.get("ai_plus") if row.get("ai_plus") is not None else 999,
             row["boat_number"],
         ),
     )
@@ -918,17 +918,17 @@ def select_keshi_boat(rows, protected=None):
     last_boat = last["boat_number"]
     if chosen["boat_number"] == last_boat:
         reason = (
-            f"AI3連対率が最下位({fmt_pct(last.get('ai_3ren_pct'))})で、"
+            f"AI3連対率+一般3連対率が6位({fmt_pct(last.get('ai_plus'))})で、"
             f"展示・一周・スリットの復活材料が弱い"
         )
     elif last_boat in protected:
         reason = (
-            f"AI3連対率最下位の{last_boat}号艇は軸候補なので消さない。"
+            f"AI3連対率+一般3連対率6位の{last_boat}号艇は軸候補なので消さない。"
             f"次に消せる根拠が強い{chosen['boat_number']}号艇を消し"
         )
     else:
         reason = (
-            f"AI3連対率最下位の{last_boat}号艇は"
+            f"AI3連対率+一般3連対率6位の{last_boat}号艇は"
             f"{'、'.join(last_revival)}があり残す。"
             f"代わりに{chosen['boat_number']}号艇を消し"
         )
@@ -938,7 +938,7 @@ def select_keshi_boat(rows, protected=None):
 def super_arunashi3(rows):
     axes = axis_boats_by_ai_plus(rows, ranks=(1, 3))
     alt_axes = axis_boats_by_ai_plus(rows, ranks=(2, 3))
-    keshi, keshi_reason, ai_3ren_last_boat, ai_3ren_last_revival = select_keshi_boat(rows, protected=axes)
+    keshi, keshi_reason, ai_plus_rank6_boat, ai_plus_rank6_revival = select_keshi_boat(rows, protected=axes)
     heads = head_boats_for_arunashi(rows, exclude=set(axes + ([keshi] if keshi else [])))
     if len(heads) < 2 or len(axes) < 2 or keshi is None:
         return set(), None
@@ -964,8 +964,8 @@ def super_arunashi3(rows):
         "supports": pool,
         "keshi": keshi,
         "keshi_reason": keshi_reason,
-        "ai_3ren_last_boat": ai_3ren_last_boat,
-        "ai_3ren_last_revival": ai_3ren_last_revival,
+        "ai_plus_rank6_boat": ai_plus_rank6_boat,
+        "ai_plus_rank6_revival": ai_plus_rank6_revival,
         "role_note": (
             f"頭{heads[0]},{heads[1]} / 軸はAI+1位と3位の{axes[0]},{axes[1]} / "
             f"2・3着は軸どちらか必須で消し{keshi}以外へ折り返し"
@@ -1000,8 +1000,8 @@ def selection_payload(rows, race=None, strategies=None):
         "supports": roles.get("supports") or [],
         "keshi": roles.get("keshi"),
         "keshi_reason": roles.get("keshi_reason"),
-        "ai_3ren_last_boat": roles.get("ai_3ren_last_boat"),
-        "ai_3ren_last_revival": roles.get("ai_3ren_last_revival") or [],
+        "ai_plus_rank6_boat": roles.get("ai_plus_rank6_boat"),
+        "ai_plus_rank6_revival": roles.get("ai_plus_rank6_revival") or [],
         "points": len(tickets),
         "tickets": [fmt_ticket(ticket) for ticket in sorted(tickets)],
         "role_note": roles.get("role_note"),
@@ -1667,8 +1667,8 @@ def race_metrics(rows, date_text=None):
         "axis_alt_boats": (selection_roles or {}).get("alt_axes") or [],
         "keshi_boat": (selection_roles or {}).get("keshi"),
         "keshi_reason": (selection_roles or {}).get("keshi_reason"),
-        "ai_3ren_last_boat": (selection_roles or {}).get("ai_3ren_last_boat"),
-        "ai_3ren_last_revival": (selection_roles or {}).get("ai_3ren_last_revival") or [],
+        "ai_plus_rank6_boat": (selection_roles or {}).get("ai_plus_rank6_boat"),
+        "ai_plus_rank6_revival": (selection_roles or {}).get("ai_plus_rank6_revival") or [],
         "tenji_boats": sum(1 for row in rows if row.get("tenji_time") is not None),
         "isshu_boats": isshu_boats,
     }
@@ -2025,8 +2025,8 @@ def roi_strategies(race, metrics, rows):
                 "supports": roles.get("supports", []),
                 "keshi": roles["keshi"],
                 "keshi_reason": roles.get("keshi_reason"),
-                "ai_3ren_last_boat": roles.get("ai_3ren_last_boat"),
-                "ai_3ren_last_revival": roles.get("ai_3ren_last_revival", []),
+                "ai_plus_rank6_boat": roles.get("ai_plus_rank6_boat"),
+                "ai_plus_rank6_revival": roles.get("ai_plus_rank6_revival", []),
                 "role_note": roles["role_note"],
                 "tickets": [fmt_ticket(ticket) for ticket in sorted(tickets)],
                 "odds_filter": "3連単50倍未満は買わない",

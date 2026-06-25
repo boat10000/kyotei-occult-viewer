@@ -491,7 +491,7 @@
         "<div><b>頭候補:</b> "+esc(listText(s.heads))+"号艇</div>",
         "<div><b>軸:</b> "+esc(listText(s.axes))+"号艇 <span class=\"mini\">AI3連対率+一般3連対率の1位と3位。どちらかが3着以内なら軸成功。</span></div>",
         "<div><b>比較用軸:</b> "+esc(listText(s.alt_axes))+"号艇 <span class=\"mini\">2位と3位でも記録して、的中率と回収率を比べます。</span></div>",
-        "<div><b>消し:</b> "+esc(s.keshi?s.keshi+"号艇":"--")+" <span class=\"mini\">"+esc(s.keshi_reason||"AI3連対率最下位を基本に、展示・一周・スリットの復活材料を見て決めます。")+"</span></div>",
+        "<div><b>消し:</b> "+esc(s.keshi?s.keshi+"号艇":"--")+" <span class=\"mini\">"+esc(s.keshi_reason||"AI3連対率+一般3連対率の6位を基本に、展示・一周・スリットの復活材料を見て決めます。")+"</span></div>",
         (s.tickets&&s.tickets.length?"<details class=\"detail-fold\"><summary>買い目を見る</summary><div class=\"tickets\">"+s.tickets.map(function(t){return "<span class=\"ticket\">"+esc(t)+"</span>";}).join("")+"</div></details>":""),
         "</div>"
       ].join("");
