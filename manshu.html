@@ -57,6 +57,14 @@
     .factor-tag.superdebuff{background:#fff1f2;border-color:#fecdd3;color:#be123c}
     .factor-tag.neutral{background:#f8fafc;color:#475467}
     .factor-detail{display:block;color:var(--muted);font-size:12px;margin-top:5px}
+    .impact{display:block;border:1px solid var(--line);border-radius:8px;background:#fff;padding:8px;margin:6px 0}
+    .impact-title{display:block;font-size:12px;font-weight:900;color:#334155}
+    .impact-value{display:block;font-size:16px;font-weight:900;color:#111827;line-height:1.35}
+    .impact-delta{display:inline-block;margin-left:4px;font-size:12px;font-weight:900}
+    .impact.up .impact-delta{color:#047857}
+    .impact.down .impact-delta{color:#be123c}
+    .impact.neutral .impact-delta{color:#475467}
+    .impact-detail{display:block;color:var(--muted);font-size:11px;margin-top:3px}
     .factor-panel{border-left:6px solid var(--green)}
     .factor-panel h2{color:#065f46}
     .notice{border-left-color:var(--amber)}
@@ -175,29 +183,37 @@
     function boatList(text){
       return String(text||"").split(/[,\s、]+/).map(function(v){return v.trim();}).filter(Boolean).map(function(v){return v+"号艇";}).join("・");
     }
+    var BASELINE={b1Win:55,b1Fly:30,winner36:30,outer56Top3:38,manshu:16.6};
+    function pp(v){ if(v==null) return "--"; return (v>=0?"+":"")+Number(v).toFixed(1).replace(/\.0$/,"")+"pt"; }
+    function addImpact(list,type,label,value,base,detail){
+      var val=num(value), bas=num(base), delta=(val!==null&&bas!==null)?val-bas:null;
+      list.push({type:type,label:label,value:val,base:bas,delta:delta,detail:detail||""});
+    }
     function addTag(list,type,label,detail){ list.push({type:type,label:label,detail:detail||""}); }
     function factorSignals(r){
       var m=r.metrics||{}, edges=r.composite_edges||[], b1=[], outer=[], exhibit=[];
       var b1Nige=num(m.boat1_nige_pct), b1Loss=num(m.boat1_loss_pct), b1Ai=num(m.boat1_ai_prediction_pct), b1Plus=num(m.boat1_ai_plus), b1Order=num(m.boat1_ai_plus_order);
-      if(b1Nige!==null&&b1Nige<25) addTag(b1,"superdebuff","1号艇逃げ率25%未満","逃げ率 "+pct(b1Nige));
-      else if(b1Nige!==null&&b1Nige<40) addTag(b1,"debuff","1号艇逃げ率40%未満","逃げ率 "+pct(b1Nige));
-      if(b1Loss!==null&&b1Loss>=60) addTag(b1,"superdebuff","1号艇差され+まくられ60%以上","飛び圧 "+pct(b1Loss));
-      else if(b1Loss!==null&&b1Loss>=45) addTag(b1,"debuff","1号艇差され+まくられ45%以上","飛び圧 "+pct(b1Loss));
-      if(b1Ai!==null&&b1Ai<25) addTag(b1,"debuff","1号艇AI予測25%未満","AI "+pct(b1Ai));
-      if(b1Plus!==null&&b1Plus<80) addTag(b1,"debuff","1号艇AI+一般80未満","AI+ "+pct(b1Plus));
-      if(b1Order!==null&&b1Order>=4) addTag(b1,"debuff","1号艇AI+順位4位以下","順位 "+b1Order+"位");
-      if(Number(m.slit_b1_hole_vs_23||0)>0) addTag(b1,"debuff","スリットで1号艇が2/3に遅れ","隊形 "+(m.slit_shape_label||""));
+      if(b1Nige!==null) addImpact(b1,"down","1号艇1着率",b1Nige,BASELINE.b1Win,"通常目安55%との比較");
+      if(b1Loss!==null) addImpact(b1,"up","1号艇飛び圧",b1Loss,BASELINE.b1Fly,"差され+まくられ率。通常目安30%との比較");
+      if(b1Ai!==null) addImpact(b1,b1Ai<25?"down":"neutral","1号艇AI勝ち目",b1Ai,35,"AI予測の目安35%との比較");
+      if(b1Plus!==null&&b1Plus<80) addTag(b1,"superdebuff","AI+一般が弱い","AI+ "+pct(b1Plus));
+      if(b1Order!==null&&b1Order>=4) addTag(b1,"superdebuff","AI+順位が下位","1号艇 "+b1Order+"位");
+      if(Number(m.slit_b1_hole_vs_23||0)>0) addTag(b1,"debuff","スリットで1号艇遅れ","隊形 "+(m.slit_shape_label||""));
       if(Number(m.matchup_lane1_bad_flag||0)>0) addTag(b1,"debuff","対戦相性で1号艇マイナス",m.matchup_notes||"");
 
       var outerDiff=num(m.outer56_best_avg_isshu_diff), outerAi=num(m.outer56_best_ai_prediction_pct);
-      if(outerDiff!==null&&outerDiff>=0.14) addTag(outer,"superbuff","5/6号艇 展示+1周平均との差+0.14以上","差 "+sec(outerDiff));
-      else if(outerDiff!==null&&outerDiff>=0.10) addTag(outer,"buff","5/6号艇 展示+1周平均との差+0.10以上","差 "+sec(outerDiff));
-      if(outerAi!==null&&outerAi>=12) addTag(outer,"buff","5/6号艇AI予測12%以上","AI "+pct(outerAi));
+      if(outerDiff!==null&&outerDiff>=0.14) addTag(outer,"superbuff","5/6の展示+1周が強い","平均との差 "+sec(outerDiff));
+      else if(outerDiff!==null&&outerDiff>=0.10) addTag(outer,"buff","5/6の展示+1周が良い","平均との差 "+sec(outerDiff));
+      if(outerAi!==null) addImpact(outer,outerAi>=12?"up":"neutral","5/6号艇AI絡み率",outerAi,10,"外枠AI予測の目安10%との比較");
       if(m.low_outer_boat) addTag(outer,"buff","低評価外枠の浮上候補",m.low_outer_boat+"号艇");
       if(m.longshot_head_boats) addTag(outer,"superbuff","人気薄の頭候補",boatList(m.longshot_head_boats));
       if(Number(m.matchup_outer_good_count||0)>0) addTag(outer,"buff","対戦相性で外枠プラス",m.matchup_buff_boats?boatList(m.matchup_buff_boats):"");
-      edges.filter(function(e){return e.role==="outer_top3_up"&&Number(e.bonus_pct||0)>0;}).slice(0,2).forEach(function(e){
-        addTag(outer,"buff",e.label,"補正 "+pct(e.bonus_pct));
+      edges.filter(function(e){return Number(e.bonus_pct||0)>0;}).slice(0,5).forEach(function(e){
+        var d=e.details||{};
+        if(d.candidate_b1_win_pct!=null) addImpact(b1,"down","過去同条件の1号艇1着率",d.candidate_b1_win_pct,BASELINE.b1Win,e.label);
+        if(d.candidate_b1_fly_pct!=null) addImpact(b1,"up","過去同条件の1号艇飛び率",d.candidate_b1_fly_pct,BASELINE.b1Fly,e.label);
+        if(d.candidate_winner_3to6_pct!=null) addImpact(outer,"up","3〜6号艇1着率",d.candidate_winner_3to6_pct,BASELINE.winner36,e.label);
+        if(d.candidate_outer56_top3_pct!=null) addImpact(outer,"up","5・6号艇3着内率",d.candidate_outer56_top3_pct,BASELINE.outer56Top3,e.label);
       });
 
       if(Number(m.tenji_boats||0)>=6) addTag(exhibit,"buff","展示6艇取得済み","展示込み");
@@ -210,10 +226,25 @@
       if(Number(m.slit_outer456_pressure||0)>0) addTag(exhibit,"buff","4〜6外圧","外圧あり");
       return {b1:b1,outer:outer,exhibit:exhibit};
     }
+    function compactImpacts(items){
+      var seen={}, out=[];
+      (items||[]).forEach(function(t){
+        var key=t.label+"|"+(t.detail||"");
+        if(seen[key]) return;
+        seen[key]=1; out.push(t);
+      });
+      out.sort(function(a,b){return Math.abs(b.delta||0)-Math.abs(a.delta||0);});
+      return out;
+    }
     function tagHtml(tags,limit){
-      var shown=(tags||[]).slice(0,limit||4);
+      var shown=compactImpacts(tags||[]).slice(0,limit||4);
       if(!shown.length) return "<span class=\"factor-tag neutral\">強い材料なし</span>";
       return shown.map(function(t){
+        if(t.value!==undefined){
+          var cls=t.delta==null?"neutral":(t.delta>=0?"up":"down");
+          var word=t.delta==null?"":(t.delta>=0?pp(t.delta)+"アップ":pp(t.delta)+"低下");
+          return "<span class=\"impact "+cls+"\"><span class=\"impact-title\">"+esc(t.label)+"</span><span class=\"impact-value\">"+esc(pct(t.value))+(word?" <span class=\"impact-delta\">通常比"+esc(word)+"</span>":"")+"</span>"+(t.detail?"<span class=\"impact-detail\">"+esc(t.detail)+"</span>":"")+"</span>";
+        }
         return "<span class=\"factor-tag "+esc(t.type)+"\">"+esc(t.label)+"</span>"+(t.detail?"<span class=\"factor-detail\">"+esc(t.detail)+"</span>":"");
       }).join("");
     }
@@ -221,8 +252,8 @@
       var top=rows.slice(0,3);
       return [
         "<section class=\"factor-summary\">",
-        "<h3>バフ/デバフ分析も表示中</h3>",
-        "<p class=\"lead\">各レースの万舟率を上げている材料を、1号艇デバフ・外枠バフ・展示/スリットに分けて見える化しています。</p>",
+        "<h3>1着率・3着内率の変化で表示中</h3>",
+        "<p class=\"lead\">レースの材料を、通常目安との差で表示します。例：3〜6号艇1着率48%（通常比+18ptアップ）。</p>",
         "<div class=\"factor-grid\">",
         top.map(function(r){
           var sig=factorSignals(r);
@@ -252,8 +283,8 @@
       }
       panel.innerHTML=[
         "<h2>バフ/デバフ分析 TOP10</h2>",
-        "<p class=\"lead\">万舟率ランキングの各レースについて、どの材料が上げ/下げに効いているかを表示します。これは予想の説明用で、利益保証ではありません。</p>",
-        "<table><thead><tr><th>レース</th><th>1号艇デバフ</th><th>外枠/穴バフ</th><th>展示・スリット</th></tr></thead><tbody>",
+        "<p class=\"lead\">万舟率ランキングの各レースについて、通常目安より何ポイント上がる/下がる材料かを表示します。目安は1号艇1着55%、1号艇飛び30%、3〜6号艇1着30%、5・6号艇3着内38%で比較しています。</p>",
+        "<table><thead><tr><th>レース</th><th>1号艇の1着率/飛び率</th><th>外枠・穴の1着率/3着内率</th><th>展示・スリット</th></tr></thead><tbody>",
         rows.map(buffRowHtml).join(""),
         "</tbody></table>"
       ].join("");
