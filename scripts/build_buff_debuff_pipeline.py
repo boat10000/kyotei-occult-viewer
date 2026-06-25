@@ -854,6 +854,13 @@ def build_outputs(args: argparse.Namespace) -> None:
     if args.rank_date:
         date_rows = query_rows(conn, start=args.rank_date, end=args.rank_date)
         date_records = build_race_records(date_rows)
+        latest_manifest = {
+            "version": "buff-debuff-ranking-latest-v1",
+            "generated_at": JST_NOW,
+            "date": args.rank_date,
+            "phases": {},
+            "note": "Fallback manifest for the ranking page. Date-specific JSON should be preferred when available.",
+        }
         for phase in ["morning", "preview"]:
             ranked = rank_records(date_records, dictionary_rows, phase, target_date=args.rank_date)
             out = {
@@ -863,7 +870,10 @@ def build_outputs(args: argparse.Namespace) -> None:
                 "phase": phase,
                 "races": ranked[: args.top_n],
             }
-            write_json(OUTPUT_DIR / f"buff_debuff_ranking_{phase}_{args.rank_date.replace('-', '')}.json", out)
+            filename = f"buff_debuff_ranking_{phase}_{args.rank_date.replace('-', '')}.json"
+            write_json(OUTPUT_DIR / filename, out)
+            latest_manifest["phases"][phase] = filename
+        write_json(OUTPUT_DIR / "buff_debuff_ranking_latest.json", latest_manifest)
 
 
 def parse_args() -> argparse.Namespace:
