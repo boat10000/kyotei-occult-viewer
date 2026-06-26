@@ -1090,11 +1090,11 @@ def axis_boats_by_ai_plus(rows, ranks=(1, 3)):
 
 def axis_boats_for_roles(rows, ranks=(1, 3)):
     rank_label = "と".join(f"{rank}位" for rank in ranks)
-    if sum(1 for row in rows if row.get("ai_3ren_pct") is not None) >= max(ranks):
-        return rank_boats_for_key(rows, "ai_3ren_pct", ranks), f"AI3連対率の{rank_label}"
     if sum(1 for row in rows if row.get("ai_plus") is not None) >= max(ranks):
-        return rank_boats_for_key(rows, "ai_plus", ranks), f"AI3連対率が不足したためAI+一般3連対の{rank_label}"
-    return rank_boats_for_key(rows, "composite_top3_actual_pct", ranks), f"AI3連対率が不足したため複合3着内率の{rank_label}"
+        return rank_boats_for_key(rows, "ai_plus", ranks), f"AI3連対率+一般3連対率の{rank_label}"
+    if sum(1 for row in rows if row.get("ai_3ren_pct") is not None) >= max(ranks):
+        return rank_boats_for_key(rows, "ai_3ren_pct", ranks), f"AI+一般3連対が不足したためAI3連対率の{rank_label}"
+    return rank_boats_for_key(rows, "composite_top3_actual_pct", ranks), f"AI+一般3連対が不足したため複合3着内率の{rank_label}"
 
 
 def edge_head_boost(boat, metrics):
@@ -2477,6 +2477,27 @@ def roi_strategies(race, metrics, rows):
     strategies = []
     wind_wave = (weather_value(race, "wind_speed") or 0) >= 5 or (weather_value(race, "wave_height") or 0) >= 5
     b1_summer_fast = (metrics.get("b1_summer_isshu_factor") or metrics.get("boat1_summer_isshu_factor")) == "fast_hold"
+    base_tickets, base_roles = super_arunashi3(rows)
+    late_outer_head_keshi_signal = (
+        round_no >= 9
+        and (race.get("manshu_rate_pct") or 0) >= 27
+        and metrics.get("tenji_boats", 0) >= 6
+        and metrics.get("isshu_boats", 0) >= 6
+        and bool(base_tickets)
+        and base_roles is not None
+        and set(base_roles.get("heads") or []).issubset({3, 4, 5, 6})
+        and len(base_roles.get("heads") or []) == 2
+        and int(base_roles.get("keshi") or 0) in {3, 4, 5, 6}
+        and 10 <= len(base_tickets) <= 15
+    )
+    if late_outer_head_keshi_signal:
+        strategies.append(
+            (
+                "codex_late_outer_head_keshi15",
+                "Codex本命型: 9〜12R 外頭2艇+外消し 10〜15点",
+                super_arunashi3,
+            )
+        )
     if (
         round_no <= 3
         and (metrics.get("boat1_nige_pct") or 999) < 40
@@ -2640,7 +2661,7 @@ def roi_strategies(race, metrics, rows):
         out.append(
             {
                 "strategy_id": strategy_id,
-                "label": f"{label} / スーパーあるなし舟券3",
+                "label": label,
                 "points": len(tickets),
                 "heads": roles["heads"],
                 "axes": roles["axes"],

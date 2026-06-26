@@ -690,11 +690,11 @@ def rank_boats_for_key(rows: list[dict], key: str, ranks: tuple[int, ...]) -> li
 
 def visible_axis_candidates(rows: list[dict], ranks: tuple[int, ...] = (1, 3)) -> tuple[list[int], str]:
     rank_label = "と".join(f"{rank}位" for rank in ranks)
-    if sum(1 for row in rows if as_num(row.get("top3_pct")) is not None) >= max(ranks):
-        return rank_boats_for_key(rows, "top3_pct", ranks), f"AI3連対率の{rank_label}"
     if sum(1 for row in rows if as_num(row.get("ai_plus")) is not None) >= max(ranks):
-        return rank_boats_for_key(rows, "ai_plus", ranks), f"AI3連対率が不足したためAI+一般3連対の{rank_label}"
-    return rank_boats_for_key(rows, "composite_top3_actual_pct", ranks), f"AI3連対率が不足したため複合3着内率の{rank_label}"
+        return rank_boats_for_key(rows, "ai_plus", ranks), f"AI3連対率+一般3連対率の{rank_label}"
+    if sum(1 for row in rows if as_num(row.get("top3_pct")) is not None) >= max(ranks):
+        return rank_boats_for_key(rows, "top3_pct", ranks), f"AI+一般3連対が不足したためAI3連対率の{rank_label}"
+    return rank_boats_for_key(rows, "composite_top3_actual_pct", ranks), f"AI+一般3連対が不足したため複合3着内率の{rank_label}"
 
 
 def edge_head_boost(boat: int, metrics: dict) -> tuple[float, list[str]]:
