@@ -250,6 +250,213 @@ def normalize_total(values: list[float], total: float, low: float, high: float) 
     return [round(value, 2) for value in rates]
 
 
+POPULAR_B1_BASE_NOT_WIN = 31.87
+POPULAR_B1_BASE_TOP3_MISS = 10.28
+POPULAR_B1_BASE_MANSHU = 15.62
+
+
+def best_popular_b1_edges(edges: list[dict]) -> list[dict]:
+    popular_edges = []
+    for edge in edges or []:
+        if edge.get("role") != "popular_b1_fly_up":
+            continue
+        details = edge.get("details") or {}
+        popular_edges.append(
+            {
+                "id": edge.get("id") or "",
+                "label": edge.get("label") or "人気1号艇飛び条件",
+                "sample_races": as_int(details.get("sample_races")),
+                "b1_not_win_rate_pct": as_num(details.get("b1_not_win_rate_pct")),
+                "b1_top3_miss_rate_pct": as_num(details.get("b1_top3_miss_pct")),
+                "manshu_rate_pct": as_num(details.get("manshu_rate_pct")),
+            }
+        )
+    return sorted(
+        popular_edges,
+        key=lambda item: (
+            item.get("b1_not_win_rate_pct") or 0,
+            item.get("manshu_rate_pct") or 0,
+            item.get("sample_races") or 0,
+        ),
+        reverse=True,
+    )
+
+
+def estimated_popular_b1_rate(score: float, base: float, slope: float, high: float) -> float:
+    return round(bounded(base + max(0.0, score - 40.0) * slope, base, high), 2)
+
+
+def build_popular_b1_fly_logic(metrics: dict, edges: list[dict], round_no: int | None) -> dict:
+    boats = metrics.get("boats") if isinstance(metrics.get("boats"), list) else []
+    by_boat = {as_int(item.get("boat_number")): item for item in boats}
+    b1 = by_boat.get(1) or {}
+    b5 = by_boat.get(5) or {}
+    b6 = by_boat.get(6) or {}
+
+    trifecta_top5 = as_int(metrics.get("b1_trifecta_top5_1head")) == 1
+    top5_head_count = as_int(metrics.get("trifecta_top5_head1_count")) or 0
+    top5_count = as_int(metrics.get("trifecta_top5_count")) or 0
+    odds_rank = as_int(metrics.get("boat1_odds_rank"))
+    odds_pct = as_num(metrics.get("boat1_odds_prediction_pct"))
+    odds_popular45 = odds_rank == 1 and odds_pct is not None and odds_pct >= 45
+    odds_popular40 = odds_rank == 1 and odds_pct is not None and odds_pct >= 40
+    top5_almost = top5_count >= 5 and top5_head_count >= 4
+
+    if trifecta_top5:
+        popular_source = "三連単人気上位5点がすべて1号艇頭"
+        popular_strength = 42
+    elif odds_popular45:
+        popular_source = "BOATERSのAIオッズ評価で1号艇が45%以上の1位"
+        popular_strength = 36
+    elif odds_popular40:
+        popular_source = "BOATERSのAIオッズ評価で1号艇が40%以上の1位"
+        popular_strength = 30
+    elif top5_almost:
+        popular_source = "三連単人気上位5点のうち4点以上が1号艇頭"
+        popular_strength = 26
+    else:
+        return {
+            "popular_b1_is_popular": False,
+            "popular_b1_source": "",
+            "popular_b1_fly_score": 0,
+            "popular_b1_fly_level": "人気不足",
+            "popular_b1_not_win_rate_pct": None,
+            "popular_b1_top3_miss_rate_pct": None,
+            "popular_b1_manshu_rate_pct": None,
+            "popular_b1_rate_source": "",
+            "popular_b1_reasons": [],
+            "popular_b1_matched_conditions": [],
+        }
+
+    score = float(popular_strength)
+    reasons = [popular_source]
+    checks = []
+
+    def add(points: float, reason: str, check_id: str) -> None:
+        nonlocal score
+        score += points
+        reasons.append(reason)
+        checks.append(check_id)
+
+    b1_nige = as_num(metrics.get("boat1_nige_pct"))
+    if b1_nige is not None:
+        if b1_nige < 45:
+            add(18, f"1号艇の逃げ率が{b1_nige:.1f}%で低い", "b1_nige_lt45")
+        elif b1_nige < 50:
+            add(12, f"1号艇の逃げ率が{b1_nige:.1f}%で50%を切っている", "b1_nige_lt50")
+
+    b1_loss = as_num(metrics.get("boat1_loss_pct"))
+    if b1_loss is not None:
+        if b1_loss >= 50:
+            add(16, f"1号艇の差され・まくられ率が{b1_loss:.1f}%で高い", "b1_loss_ge50")
+        elif b1_loss >= 40:
+            add(10, f"1号艇の差され・まくられ率が{b1_loss:.1f}%で高め", "b1_loss_ge40")
+
+    b1_avg = as_num(metrics.get("boat1_avg_isshu_diff"))
+    if b1_avg is None:
+        b1_avg = as_num(b1.get("avg_isshu_diff"))
+    if b1_avg is not None:
+        if b1_avg <= 0:
+            add(18, f"1号艇の展示+1周が6艇平均より悪い（平均との差{b1_avg:.2f}）", "b1_avgdiff_le000")
+        elif b1_avg <= 0.15:
+            add(14, f"1号艇の展示+1周が強くない（平均との差{b1_avg:.2f}）", "b1_avgdiff_le015")
+        elif b1_avg <= 0.30:
+            add(8, f"1号艇の展示+1周が平均より少し良い程度（平均との差{b1_avg:.2f}）", "b1_avgdiff_le030")
+
+    b1_isshu = as_num(metrics.get("boat1_isshu_avg_diff"))
+    if b1_isshu is not None:
+        if b1_isshu <= -0.10:
+            add(12, f"1号艇の1周タイムが平均より{abs(b1_isshu):.2f}秒遅い", "b1_isshu_le_m010")
+        elif b1_isshu <= -0.05:
+            add(8, f"1号艇の1周タイムが平均より{abs(b1_isshu):.2f}秒遅い", "b1_isshu_le_m005")
+
+    b1_exhibit_rank = min(
+        as_int(b1.get("tenji_time_rank")) or 9,
+        as_int(b1.get("isshu_time_rank")) or 9,
+        as_int(b1.get("exhibit_rank")) or 9,
+    )
+    if b1_exhibit_rank >= 4 and b1_exhibit_rank < 9:
+        add(12, f"1号艇の展示順位が{b1_exhibit_rank}位で目立たない", "b1_exhibit_rank_ge4")
+    elif b1_exhibit_rank == 3:
+        add(7, "1号艇の展示順位が3位で抜けていない", "b1_exhibit_rank_ge3")
+
+    outer56_avg = as_num(metrics.get("outer56_best_avg_isshu_diff"))
+    if outer56_avg is None:
+        outer56_avg = max(
+            as_num(b5.get("avg_isshu_diff")) or -99,
+            as_num(b6.get("avg_isshu_diff")) or -99,
+        )
+        if outer56_avg == -99:
+            outer56_avg = None
+    if outer56_avg is not None:
+        if outer56_avg >= 0.14:
+            add(14, f"5/6号艇に展示+1周がかなり良い艇がいる（平均との差+{outer56_avg:.2f}）", "outer56_avg_ge014")
+        elif outer56_avg >= 0.10:
+            add(10, f"5/6号艇に展示+1周が良い艇がいる（平均との差+{outer56_avg:.2f}）", "outer56_avg_ge010")
+        elif outer56_avg >= 0.05:
+            add(6, f"5/6号艇に展示+1周が少し良い艇がいる（平均との差+{outer56_avg:.2f}）", "outer56_avg_ge005")
+
+    outer56_ai = as_num(metrics.get("outer56_best_ai_prediction_pct"))
+    if outer56_ai is not None:
+        if outer56_ai >= 12:
+            add(10, f"5/6号艇にAI1着予測{outer56_ai:.1f}%以上の艇がいる", "outer56_ai_ge12")
+        elif outer56_ai >= 10:
+            add(8, f"5/6号艇にAI1着予測{outer56_ai:.1f}%の艇がいる", "outer56_ai_ge10")
+
+    outer56_top2 = any((as_int((by_boat.get(boat) or {}).get("exhibit_rank")) or 9) <= 2 for boat in (5, 6))
+    if outer56_top2:
+        add(10, "5/6号艇のどちらかが展示か1周で2位以内", "outer56_exhibit_top2")
+
+    if (as_int(metrics.get("outer56_super_slit_count")) or 0) >= 1:
+        add(10, "5/6号艇にスーパースリットアラート", "outer56_super_slit")
+    elif (as_int(metrics.get("outer456_super_slit_count")) or 0) >= 1:
+        add(7, "4〜6号艇にスーパースリットアラート", "outer456_super_slit")
+    if (as_int(metrics.get("slit_outer56_pressure_vs_1")) or 0) >= 1:
+        add(8, "スリット隊形で5/6号艇が1号艇に圧をかける形", "outer56_pressure_vs_1")
+
+    if round_no is not None and round_no <= 6:
+        add(6, "前半1〜6Rで荒れやすい時間帯", "round_1to6")
+
+    matched = best_popular_b1_edges(edges)
+    if matched:
+        add(15, "保存済みの人気1号艇飛び条件に一致", "matched_popular_b1_condition")
+
+    score = round(bounded(score, 0.0, 100.0), 1)
+    if score >= 75:
+        level = "超危険"
+    elif score >= 60:
+        level = "危険"
+    elif score >= 45:
+        level = "注意"
+    else:
+        level = "人気だが鉄板寄り"
+
+    if matched:
+        not_win = max((item.get("b1_not_win_rate_pct") or 0 for item in matched), default=0) or None
+        top3_miss = max((item.get("b1_top3_miss_rate_pct") or 0 for item in matched), default=0) or None
+        manshu = max((item.get("manshu_rate_pct") or 0 for item in matched), default=0) or None
+        rate_source = "保存済み同型条件"
+    else:
+        not_win = estimated_popular_b1_rate(score, POPULAR_B1_BASE_NOT_WIN, 0.62, 72.0)
+        top3_miss = estimated_popular_b1_rate(score, POPULAR_B1_BASE_TOP3_MISS, 0.36, 43.0)
+        manshu = estimated_popular_b1_rate(score, POPULAR_B1_BASE_MANSHU, 0.25, 36.0)
+        rate_source = "危険度からの目安"
+
+    return {
+        "popular_b1_is_popular": True,
+        "popular_b1_source": popular_source,
+        "popular_b1_fly_score": score,
+        "popular_b1_fly_level": level,
+        "popular_b1_not_win_rate_pct": round(not_win, 2) if not_win is not None else None,
+        "popular_b1_top3_miss_rate_pct": round(top3_miss, 2) if top3_miss is not None else None,
+        "popular_b1_manshu_rate_pct": round(manshu, 2) if manshu is not None else None,
+        "popular_b1_rate_source": rate_source,
+        "popular_b1_reasons": reasons[:7],
+        "popular_b1_checks": checks,
+        "popular_b1_matched_conditions": matched[:3],
+    }
+
+
 def rank_rows(rows: list[dict], key: str, ascending: bool) -> None:
     values = sorted(
         {row.get(key) for row in rows if as_num(row.get(key)) is not None},
@@ -604,6 +811,9 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
     normalized_metrics["tenji_boats"] = as_int(normalized_metrics["tenji_boats"]) or 0
     normalized_metrics["isshu_boats"] = as_int(normalized_metrics["isshu_boats"]) or 0
     normalized_metrics["boats"] = build_boat_rows(normalized_metrics, metrics)
+    normalized_metrics.update(
+        build_popular_b1_fly_logic(normalized_metrics, row.get("composite_edges") or [], round_no)
+    )
     status = row.get("status") or "未確定"
     if "展示待ち" in str(status) and normalized_metrics["tenji_boats"] >= 6 and normalized_metrics["isshu_boats"] >= 6:
         status = str(status).replace("・展示待ち", "").replace("展示待ち", "展示込み")

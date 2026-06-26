@@ -1,12 +1,12 @@
 {
   "version": "boaters-manshu-logic-v2",
   "date": "2026-06-26",
-  "generated_at": "2026-06-26T00:16:30+00:00",
+  "generated_at": "2026-06-26T09:36:35+09:00",
   "threshold_pct": 27.0,
   "logic_label": "Codex厳選ランキング（全ファクター統合）",
   "logic_summary": "過去検証27%以上の強条件、三連単人気1〜5が1号艇頭の売れ過ぎイン飛び、1号艇弱化、外枠上振れ、AI+下位の穴、AI/オッズ評価、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクター、天候/風波、今回メンバー同士の対戦相性をすべて同じスコアに混ぜた統合厳選ランキング。",
   "source": {
-    "ranking_json": "",
+    "ranking_json": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/manshu_daily_rank_2026-06-26.json",
     "database": "/Users/ohyabumasaya/Desktop/price_action_analysis/outputs/boaters_all_races.sqlite"
   },
   "summary": {
@@ -459,7 +459,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -921,7 +931,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -1364,7 +1384,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -1779,7 +1809,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -2214,7 +2254,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -2668,7 +2718,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -3169,7 +3229,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -3622,7 +3692,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -4094,7 +4174,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -4538,7 +4628,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -4993,7 +5093,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -5455,7 +5565,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -5898,7 +6018,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -6313,7 +6443,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -6748,7 +6888,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -7202,7 +7352,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -7703,7 +7863,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -8156,7 +8326,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -8628,7 +8808,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -9072,7 +9262,17 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,

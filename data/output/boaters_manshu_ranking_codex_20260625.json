@@ -1,7 +1,7 @@
 {
   "version": "boaters-manshu-logic-v2",
   "date": "2026-06-25",
-  "generated_at": "2026-06-26T08:18:07+09:00",
+  "generated_at": "2026-06-26T09:36:49+09:00",
   "threshold_pct": 27.0,
   "logic_label": "Codex厳選ランキング（全ファクター統合）",
   "logic_summary": "過去検証27%以上の強条件、三連単人気1〜5が1号艇頭の売れ過ぎイン飛び、1号艇弱化、外枠上振れ、AI+下位の穴、AI/オッズ評価、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクター、天候/風波、今回メンバー同士の対戦相性をすべて同じスコアに混ぜた統合厳選ランキング。",
@@ -711,7 +711,17 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -1244,7 +1254,17 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -1802,7 +1822,27 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "三連単人気上位5点がすべて1号艇頭",
+        "popular_b1_fly_score": 86.0,
+        "popular_b1_fly_level": "超危険",
+        "popular_b1_not_win_rate_pct": 60.39,
+        "popular_b1_top3_miss_rate_pct": 26.84,
+        "popular_b1_manshu_rate_pct": 27.12,
+        "popular_b1_rate_source": "危険度からの目安",
+        "popular_b1_reasons": [
+          "三連単人気上位5点がすべて1号艇頭",
+          "1号艇の展示+1周が6艇平均より悪い（平均との差-0.12）",
+          "1号艇の1周タイムが平均より0.17秒遅い",
+          "5/6号艇に展示+1周がかなり良い艇がいる（平均との差+0.36）"
+        ],
+        "popular_b1_checks": [
+          "b1_avgdiff_le000",
+          "b1_isshu_le_m010",
+          "outer56_avg_ge014"
+        ],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -2360,7 +2400,17 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -2946,6 +2996,41 @@
             "composite_rate_reasons": [
               "低評価外枠だが展示で復活"
             ]
+          }
+        ],
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "三連単人気上位5点がすべて1号艇頭",
+        "popular_b1_fly_score": 100.0,
+        "popular_b1_fly_level": "超危険",
+        "popular_b1_not_win_rate_pct": 69.57,
+        "popular_b1_top3_miss_rate_pct": 30.43,
+        "popular_b1_manshu_rate_pct": 30.43,
+        "popular_b1_rate_source": "保存済み同型条件",
+        "popular_b1_reasons": [
+          "三連単人気上位5点がすべて1号艇頭",
+          "1号艇の展示+1周が平均より少し良い程度（平均との差0.22）",
+          "5/6号艇に展示+1周がかなり良い艇がいる（平均との差+0.20）",
+          "5/6号艇にAI1着予測11.1%の艇がいる",
+          "スリット隊形で5/6号艇が1号艇に圧をかける形",
+          "前半1〜6Rで荒れやすい時間帯",
+          "保存済みの人気1号艇飛び条件に一致"
+        ],
+        "popular_b1_checks": [
+          "b1_avgdiff_le030",
+          "outer56_avg_ge014",
+          "outer56_ai_ge10",
+          "outer56_pressure_vs_1",
+          "round_1to6",
+          "matched_popular_b1_condition"
+        ],
+        "popular_b1_matched_conditions": [
+          {
+            "id": "codex_popular_b1_top5_fly_avg030_outerai10_early",
+            "label": "人気1号艇飛び再構築: 1が売れ過ぎでも平均との差0.30以下、5/6にAI1着10%以上、1〜6R",
+            "sample_races": 23,
+            "b1_not_win_rate_pct": 69.57,
+            "b1_top3_miss_rate_pct": 30.43,
+            "manshu_rate_pct": 30.43
           }
         ]
       },
@@ -3573,6 +3658,57 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
+        ],
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "三連単人気上位5点がすべて1号艇頭",
+        "popular_b1_fly_score": 100.0,
+        "popular_b1_fly_level": "超危険",
+        "popular_b1_not_win_rate_pct": 71.43,
+        "popular_b1_top3_miss_rate_pct": 42.86,
+        "popular_b1_manshu_rate_pct": 35.0,
+        "popular_b1_rate_source": "保存済み同型条件",
+        "popular_b1_reasons": [
+          "三連単人気上位5点がすべて1号艇頭",
+          "1号艇の逃げ率が40.5%で低い",
+          "1号艇の展示+1周が6艇平均より悪い（平均との差-0.31）",
+          "1号艇の1周タイムが平均より0.28秒遅い",
+          "5/6号艇に展示+1周がかなり良い艇がいる（平均との差+0.31）",
+          "前半1〜6Rで荒れやすい時間帯",
+          "保存済みの人気1号艇飛び条件に一致"
+        ],
+        "popular_b1_checks": [
+          "b1_nige_lt45",
+          "b1_avgdiff_le000",
+          "b1_isshu_le_m010",
+          "outer56_avg_ge014",
+          "round_1to6",
+          "matched_popular_b1_condition"
+        ],
+        "popular_b1_matched_conditions": [
+          {
+            "id": "codex_popular_b1_top5_fly_nige50_avg015_outertop2_early",
+            "label": "人気1号艇飛び再構築: 1が売れ過ぎでも逃げ率50%未満+平均との差0.15以下、5/6展示上位、1〜6R",
+            "sample_races": 21,
+            "b1_not_win_rate_pct": 71.43,
+            "b1_top3_miss_rate_pct": 28.57,
+            "manshu_rate_pct": 28.57
+          },
+          {
+            "id": "codex_popular_b1_top5_fly_nige50_outeravg005_early",
+            "label": "人気1号艇飛び再構築: 逃げ率50%未満+1の平均との差0.15以下、5/6平均との差0.05以上+展示上位、1〜6R",
+            "sample_races": 20,
+            "b1_not_win_rate_pct": 70.0,
+            "b1_top3_miss_rate_pct": 30.0,
+            "manshu_rate_pct": 25.0
+          },
+          {
+            "id": "codex_popular_b1_top5_fly_b1bad_rank6revive_early",
+            "label": "人気1号艇飛び再構築: 1の平均との差0.30以下+展示4位以下、5/6上振れ、AI+6位が展示上位、1〜6R",
+            "sample_races": 21,
+            "b1_not_win_rate_pct": 66.67,
+            "b1_top3_miss_rate_pct": 42.86,
+            "manshu_rate_pct": 33.33
+          }
         ]
       },
       "selection": {},
@@ -4088,6 +4224,37 @@
             "composite_rate_reasons": [
               "低評価外枠だが展示で復活"
             ]
+          }
+        ],
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "三連単人気上位5点がすべて1号艇頭",
+        "popular_b1_fly_score": 85.0,
+        "popular_b1_fly_level": "超危険",
+        "popular_b1_not_win_rate_pct": 66.67,
+        "popular_b1_top3_miss_rate_pct": 42.86,
+        "popular_b1_manshu_rate_pct": 33.33,
+        "popular_b1_rate_source": "保存済み同型条件",
+        "popular_b1_reasons": [
+          "三連単人気上位5点がすべて1号艇頭",
+          "1号艇の展示+1周が平均より少し良い程度（平均との差0.21）",
+          "5/6号艇に展示+1周がかなり良い艇がいる（平均との差+0.51）",
+          "前半1〜6Rで荒れやすい時間帯",
+          "保存済みの人気1号艇飛び条件に一致"
+        ],
+        "popular_b1_checks": [
+          "b1_avgdiff_le030",
+          "outer56_avg_ge014",
+          "round_1to6",
+          "matched_popular_b1_condition"
+        ],
+        "popular_b1_matched_conditions": [
+          {
+            "id": "codex_popular_b1_top5_fly_b1bad_rank6revive_early",
+            "label": "人気1号艇飛び再構築: 1の平均との差0.30以下+展示4位以下、5/6上振れ、AI+6位が展示上位、1〜6R",
+            "sample_races": 21,
+            "b1_not_win_rate_pct": 66.67,
+            "b1_top3_miss_rate_pct": 42.86,
+            "manshu_rate_pct": 33.33
           }
         ]
       },
@@ -4665,7 +4832,17 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -5262,7 +5439,31 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "三連単人気上位5点がすべて1号艇頭",
+        "popular_b1_fly_score": 100.0,
+        "popular_b1_fly_level": "超危険",
+        "popular_b1_not_win_rate_pct": 69.07,
+        "popular_b1_top3_miss_rate_pct": 31.88,
+        "popular_b1_manshu_rate_pct": 30.62,
+        "popular_b1_rate_source": "危険度からの目安",
+        "popular_b1_reasons": [
+          "三連単人気上位5点がすべて1号艇頭",
+          "1号艇の逃げ率が21.4%で低い",
+          "1号艇の差され・まくられ率が60.7%で高い",
+          "1号艇の展示+1周が平均より少し良い程度（平均との差0.23）",
+          "5/6号艇に展示+1周がかなり良い艇がいる（平均との差+0.53）",
+          "スリット隊形で5/6号艇が1号艇に圧をかける形"
+        ],
+        "popular_b1_checks": [
+          "b1_nige_lt45",
+          "b1_loss_ge50",
+          "b1_avgdiff_le030",
+          "outer56_avg_ge014",
+          "outer56_pressure_vs_1"
+        ],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -5844,7 +6045,17 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -6551,7 +6762,17 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -7084,7 +7305,17 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -7642,7 +7873,27 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "三連単人気上位5点がすべて1号艇頭",
+        "popular_b1_fly_score": 86.0,
+        "popular_b1_fly_level": "超危険",
+        "popular_b1_not_win_rate_pct": 60.39,
+        "popular_b1_top3_miss_rate_pct": 26.84,
+        "popular_b1_manshu_rate_pct": 27.12,
+        "popular_b1_rate_source": "危険度からの目安",
+        "popular_b1_reasons": [
+          "三連単人気上位5点がすべて1号艇頭",
+          "1号艇の展示+1周が6艇平均より悪い（平均との差-0.12）",
+          "1号艇の1周タイムが平均より0.17秒遅い",
+          "5/6号艇に展示+1周がかなり良い艇がいる（平均との差+0.36）"
+        ],
+        "popular_b1_checks": [
+          "b1_avgdiff_le000",
+          "b1_isshu_le_m010",
+          "outer56_avg_ge014"
+        ],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -8200,7 +8451,17 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -8786,6 +9047,41 @@
             "composite_rate_reasons": [
               "低評価外枠だが展示で復活"
             ]
+          }
+        ],
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "三連単人気上位5点がすべて1号艇頭",
+        "popular_b1_fly_score": 100.0,
+        "popular_b1_fly_level": "超危険",
+        "popular_b1_not_win_rate_pct": 69.57,
+        "popular_b1_top3_miss_rate_pct": 30.43,
+        "popular_b1_manshu_rate_pct": 30.43,
+        "popular_b1_rate_source": "保存済み同型条件",
+        "popular_b1_reasons": [
+          "三連単人気上位5点がすべて1号艇頭",
+          "1号艇の展示+1周が平均より少し良い程度（平均との差0.22）",
+          "5/6号艇に展示+1周がかなり良い艇がいる（平均との差+0.20）",
+          "5/6号艇にAI1着予測11.1%の艇がいる",
+          "スリット隊形で5/6号艇が1号艇に圧をかける形",
+          "前半1〜6Rで荒れやすい時間帯",
+          "保存済みの人気1号艇飛び条件に一致"
+        ],
+        "popular_b1_checks": [
+          "b1_avgdiff_le030",
+          "outer56_avg_ge014",
+          "outer56_ai_ge10",
+          "outer56_pressure_vs_1",
+          "round_1to6",
+          "matched_popular_b1_condition"
+        ],
+        "popular_b1_matched_conditions": [
+          {
+            "id": "codex_popular_b1_top5_fly_avg030_outerai10_early",
+            "label": "人気1号艇飛び再構築: 1が売れ過ぎでも平均との差0.30以下、5/6にAI1着10%以上、1〜6R",
+            "sample_races": 23,
+            "b1_not_win_rate_pct": 69.57,
+            "b1_top3_miss_rate_pct": 30.43,
+            "manshu_rate_pct": 30.43
           }
         ]
       },
@@ -9413,6 +9709,57 @@
               "AI・3連対率・展示/スリット材料を総合"
             ]
           }
+        ],
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "三連単人気上位5点がすべて1号艇頭",
+        "popular_b1_fly_score": 100.0,
+        "popular_b1_fly_level": "超危険",
+        "popular_b1_not_win_rate_pct": 71.43,
+        "popular_b1_top3_miss_rate_pct": 42.86,
+        "popular_b1_manshu_rate_pct": 35.0,
+        "popular_b1_rate_source": "保存済み同型条件",
+        "popular_b1_reasons": [
+          "三連単人気上位5点がすべて1号艇頭",
+          "1号艇の逃げ率が40.5%で低い",
+          "1号艇の展示+1周が6艇平均より悪い（平均との差-0.31）",
+          "1号艇の1周タイムが平均より0.28秒遅い",
+          "5/6号艇に展示+1周がかなり良い艇がいる（平均との差+0.31）",
+          "前半1〜6Rで荒れやすい時間帯",
+          "保存済みの人気1号艇飛び条件に一致"
+        ],
+        "popular_b1_checks": [
+          "b1_nige_lt45",
+          "b1_avgdiff_le000",
+          "b1_isshu_le_m010",
+          "outer56_avg_ge014",
+          "round_1to6",
+          "matched_popular_b1_condition"
+        ],
+        "popular_b1_matched_conditions": [
+          {
+            "id": "codex_popular_b1_top5_fly_nige50_avg015_outertop2_early",
+            "label": "人気1号艇飛び再構築: 1が売れ過ぎでも逃げ率50%未満+平均との差0.15以下、5/6展示上位、1〜6R",
+            "sample_races": 21,
+            "b1_not_win_rate_pct": 71.43,
+            "b1_top3_miss_rate_pct": 28.57,
+            "manshu_rate_pct": 28.57
+          },
+          {
+            "id": "codex_popular_b1_top5_fly_nige50_outeravg005_early",
+            "label": "人気1号艇飛び再構築: 逃げ率50%未満+1の平均との差0.15以下、5/6平均との差0.05以上+展示上位、1〜6R",
+            "sample_races": 20,
+            "b1_not_win_rate_pct": 70.0,
+            "b1_top3_miss_rate_pct": 30.0,
+            "manshu_rate_pct": 25.0
+          },
+          {
+            "id": "codex_popular_b1_top5_fly_b1bad_rank6revive_early",
+            "label": "人気1号艇飛び再構築: 1の平均との差0.30以下+展示4位以下、5/6上振れ、AI+6位が展示上位、1〜6R",
+            "sample_races": 21,
+            "b1_not_win_rate_pct": 66.67,
+            "b1_top3_miss_rate_pct": 42.86,
+            "manshu_rate_pct": 33.33
+          }
         ]
       },
       "selection": {},
@@ -9928,6 +10275,37 @@
             "composite_rate_reasons": [
               "低評価外枠だが展示で復活"
             ]
+          }
+        ],
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "三連単人気上位5点がすべて1号艇頭",
+        "popular_b1_fly_score": 85.0,
+        "popular_b1_fly_level": "超危険",
+        "popular_b1_not_win_rate_pct": 66.67,
+        "popular_b1_top3_miss_rate_pct": 42.86,
+        "popular_b1_manshu_rate_pct": 33.33,
+        "popular_b1_rate_source": "保存済み同型条件",
+        "popular_b1_reasons": [
+          "三連単人気上位5点がすべて1号艇頭",
+          "1号艇の展示+1周が平均より少し良い程度（平均との差0.21）",
+          "5/6号艇に展示+1周がかなり良い艇がいる（平均との差+0.51）",
+          "前半1〜6Rで荒れやすい時間帯",
+          "保存済みの人気1号艇飛び条件に一致"
+        ],
+        "popular_b1_checks": [
+          "b1_avgdiff_le030",
+          "outer56_avg_ge014",
+          "round_1to6",
+          "matched_popular_b1_condition"
+        ],
+        "popular_b1_matched_conditions": [
+          {
+            "id": "codex_popular_b1_top5_fly_b1bad_rank6revive_early",
+            "label": "人気1号艇飛び再構築: 1の平均との差0.30以下+展示4位以下、5/6上振れ、AI+6位が展示上位、1〜6R",
+            "sample_races": 21,
+            "b1_not_win_rate_pct": 66.67,
+            "b1_top3_miss_rate_pct": 42.86,
+            "manshu_rate_pct": 33.33
           }
         ]
       },
@@ -10505,7 +10883,17 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -11102,7 +11490,31 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "三連単人気上位5点がすべて1号艇頭",
+        "popular_b1_fly_score": 100.0,
+        "popular_b1_fly_level": "超危険",
+        "popular_b1_not_win_rate_pct": 69.07,
+        "popular_b1_top3_miss_rate_pct": 31.88,
+        "popular_b1_manshu_rate_pct": 30.62,
+        "popular_b1_rate_source": "危険度からの目安",
+        "popular_b1_reasons": [
+          "三連単人気上位5点がすべて1号艇頭",
+          "1号艇の逃げ率が21.4%で低い",
+          "1号艇の差され・まくられ率が60.7%で高い",
+          "1号艇の展示+1周が平均より少し良い程度（平均との差0.23）",
+          "5/6号艇に展示+1周がかなり良い艇がいる（平均との差+0.53）",
+          "スリット隊形で5/6号艇が1号艇に圧をかける形"
+        ],
+        "popular_b1_checks": [
+          "b1_nige_lt45",
+          "b1_loss_ge50",
+          "b1_avgdiff_le030",
+          "outer56_avg_ge014",
+          "outer56_pressure_vs_1"
+        ],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,
@@ -11684,7 +12096,17 @@
               "低評価外枠だが展示で復活"
             ]
           }
-        ]
+        ],
+        "popular_b1_is_popular": false,
+        "popular_b1_source": "",
+        "popular_b1_fly_score": 0,
+        "popular_b1_fly_level": "人気不足",
+        "popular_b1_not_win_rate_pct": null,
+        "popular_b1_top3_miss_rate_pct": null,
+        "popular_b1_manshu_rate_pct": null,
+        "popular_b1_rate_source": "",
+        "popular_b1_reasons": [],
+        "popular_b1_matched_conditions": []
       },
       "selection": {},
       "last_minute_checked_at": null,

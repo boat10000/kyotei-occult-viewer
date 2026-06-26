@@ -83,6 +83,16 @@
     .race-body{border-top:1px solid #edf1f7;padding:12px 14px;background:#fcfdff}
     .simple-box{border:1px solid #dbe3ef;border-radius:8px;background:#fff;padding:10px;margin-bottom:10px}
     .simple-box h3{margin:0 0 6px;font-size:15px;color:#111827}
+    .b1-danger-card{border:1px solid #fed7aa;border-left:6px solid #f59e0b;border-radius:8px;background:#fff7ed;padding:10px;margin:10px 0}
+    .b1-danger-card.danger,.b1-danger-card.super{border-color:#fecdd3;border-left-color:#be123c;background:#fff1f2}
+    .b1-danger-top{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+    .b1-danger-top b{font-size:15px;color:#111827}
+    .b1-danger-score{font-size:13px;font-weight:900;color:#be123c}
+    .b1-danger-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:8px 0}
+    .b1-danger-metric{border:1px solid rgba(0,0,0,.08);border-radius:7px;background:#fff;padding:7px}
+    .b1-danger-metric strong{display:block;font-size:18px;line-height:1.2;color:#111827}
+    .b1-danger-metric span{display:block;font-size:11px;color:#64748b;font-weight:900}
+    .b1-danger-card ul{margin:6px 0 0;padding-left:18px;color:#344054;font-size:12px}
     .boat-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}
     .boat-table th,.boat-table td{padding:7px 6px;border-top:1px solid #edf1f7;text-align:right}
     .boat-table th:first-child,.boat-table td:first-child{text-align:left;font-weight:900}
@@ -128,6 +138,7 @@
       .boat-table tr{display:table-row;border:0;padding:0}
       .boat-table th,.boat-table td{display:table-cell;padding:6px 4px}
       .boat-rate-list{grid-template-columns:1fr}
+      .b1-danger-grid{grid-template-columns:1fr}
       .venue-grid{grid-template-columns:1fr}
       .reason{max-width:none}
     }
@@ -226,6 +237,10 @@
     function renderStatus(rows){
       var settled=rows.filter(function(r){return resultOf(r).payout_yen!=null;}).length;
       var hits=rows.filter(function(r){return resultOf(r).manshu;}).length;
+      var popularB1Danger=rows.filter(function(r){
+        var m=r.metrics||{};
+        return m.popular_b1_is_popular&&Number(m.popular_b1_fly_score||0)>=60;
+      }).length;
       var fullTenji=(STATE.data.summary&&STATE.data.summary.races_with_full_tenji)||0;
       var fullIsshu=(STATE.data.summary&&STATE.data.summary.races_with_full_isshu)||0;
       var allDone=rows.length>0&&settled>=rows.length;
@@ -237,6 +252,7 @@
         "<span class=\"chip hot\">TOP"+rows.length+"</span>",
         "<span class=\"chip\">結果 "+settled+"/"+rows.length+"R</span>",
         "<span class=\"chip "+(hits?"hot":"")+"\">万舟 "+hits+"件</span>",
+        "<span class=\"chip "+(popularB1Danger?"hot":"")+"\">人気1号艇危険 "+popularB1Danger+"R</span>",
         "<span class=\"chip ok\">"+esc(autoText)+"</span>",
         "<span class=\"chip\">"+esc(checkText)+"</span>",
         STATE.resultFetchError?"<span class=\"chip hot\">結果取得エラー</span>":"",
@@ -265,6 +281,11 @@
     function factorSignals(r){
       var m=r.metrics||{}, edges=r.composite_edges||[], b1=[], outer=[], exhibit=[];
       var b1Nige=num(m.boat1_nige_pct), b1Loss=num(m.boat1_loss_pct), b1Ai=num(m.boat1_ai_prediction_pct), b1Plus=num(m.boat1_ai_plus), b1Order=num(m.boat1_ai_plus_order);
+      if(m.popular_b1_is_popular){
+        addTag(b1,Number(m.popular_b1_fly_score||0)>=60?"superdebuff":"debuff","人気1号艇 "+(m.popular_b1_fly_level||"注意"),"みんなが1号艇を買っている前提で判定");
+        if(m.popular_b1_not_win_rate_pct!=null) addImpact(b1,"up","人気1号艇の1着失敗目安",m.popular_b1_not_win_rate_pct,31.87,m.popular_b1_rate_source||"");
+        if(m.popular_b1_top3_miss_rate_pct!=null) addImpact(b1,"up","人気1号艇の3着外目安",m.popular_b1_top3_miss_rate_pct,10.28,m.popular_b1_rate_source||"");
+      }
       if(b1Nige!==null) addImpact(b1,"down","1号艇1着率",b1Nige,BASELINE.b1Win,"通常目安55%との比較");
       if(b1Loss!==null) addImpact(b1,"up","1号艇が飛ぶ心配",b1Loss,BASELINE.b1Fly,"差され+まくられ率。通常目安30%との比較");
       if(b1Ai!==null) addImpact(b1,b1Ai<25?"down":"neutral","1号艇AI勝ち目",b1Ai,35,"AI予測の目安35%との比較");
@@ -400,11 +421,13 @@
       };
     }
     function raceSentence(r){
-      var s=raceShape(r), parts=[];
+      var s=raceShape(r), parts=[], m=r.metrics||{};
       var edgeCount=(r.composite_edges||[]).filter(function(e){return Number(e.bonus_pct||0)>0;}).length;
       var matched=Number(r.matched_logic_count||0);
       if(s.manshu!=null&&s.manshu>=35) parts.push("万舟条件がかなり強い");
       else if((s.manshu!=null&&s.manshu>=27)||matched>0||edgeCount>0) parts.push("過去の高万舟条件に一致");
+      if(m.popular_b1_is_popular&&Number(m.popular_b1_fly_score||0)>=60) parts.push("人気1号艇が飛びやすい");
+      else if(m.popular_b1_is_popular&&Number(m.popular_b1_fly_score||0)>=45) parts.push("人気1号艇に不安あり");
       if(s.b1Win!=null&&s.b1Win<=35) parts.push("1号艇が勝ちにくい");
       else if(s.b1Fly!=null&&s.b1Fly>=38) parts.push("1号艇が残りにくい");
       if(s.winner36!=null&&s.winner36>=45) parts.push("3〜6号艇の1着が見える");
@@ -462,10 +485,50 @@
         "<p class=\"mini\">複合率は、AI1着率だけではなく、AI3連対率、一般3連対率、AI+順位、展示/1周、平均との差、平均ST順位、ダブルタイム、スーパースリット、夏場1周、相性、低評価外枠復活を混ぜた推定値です。1着率は6艇合計100%、3着内率は6艇合計300%になるように調整しています。</p>"
       ].join("");
     }
+    function popularB1Class(level){
+      if(level==="超危険") return "super";
+      if(level==="危険") return "danger";
+      if(level==="注意") return "warn";
+      return "hold";
+    }
+    function popularB1Html(r){
+      var m=r.metrics||{};
+      if(!m.popular_b1_is_popular) return "";
+      var reasons=Array.isArray(m.popular_b1_reasons)?m.popular_b1_reasons:[];
+      var conditions=Array.isArray(m.popular_b1_matched_conditions)?m.popular_b1_matched_conditions:[];
+      var level=m.popular_b1_fly_level||"注意";
+      var plain=reasons.slice(0,3).join("。");
+      if(plain) plain+="。";
+      var condHtml=conditions.length?[
+        "<details class=\"detail-fold\">",
+        "<summary>同じ形の過去データを見る</summary>",
+        "<ul>",
+        conditions.map(function(c){
+          return "<li>過去"+esc(c.sample_races||"--")+"R: 1着外 "+esc(pctShort(c.b1_not_win_rate_pct))+" / 3着外 "+esc(pctShort(c.b1_top3_miss_rate_pct))+" / 万舟 "+esc(pctShort(c.manshu_rate_pct))+"</li>";
+        }).join(""),
+        "</ul>",
+        "</details>"
+      ].join(""):"";
+      return [
+        "<div class=\"b1-danger-card "+esc(popularB1Class(level))+"\">",
+        "<div class=\"b1-danger-top\"><b>人気1号艇飛びロジック: "+esc(level)+"</b><span class=\"b1-danger-score\">危険度 "+esc(m.popular_b1_fly_score)+"点</span></div>",
+        "<p class=\"lead\">"+esc(plain||"1号艇人気はありますが、強い不安材料は少なめです。")+"</p>",
+        "<div class=\"b1-danger-grid\">",
+        "<div class=\"b1-danger-metric\"><strong>"+esc(pctShort(m.popular_b1_not_win_rate_pct))+"</strong><span>1号艇が1着を外す目安</span></div>",
+        "<div class=\"b1-danger-metric\"><strong>"+esc(pctShort(m.popular_b1_top3_miss_rate_pct))+"</strong><span>1号艇が3着外の目安</span></div>",
+        "<div class=\"b1-danger-metric\"><strong>"+esc(pctShort(m.popular_b1_manshu_rate_pct))+"</strong><span>同型の万舟目安</span></div>",
+        "</div>",
+        "<p class=\"mini\">人気判定: "+esc(m.popular_b1_source||"--")+" / 数字の元: "+esc(m.popular_b1_rate_source||"--")+"</p>",
+        reasons.length?"<ul>"+reasons.slice(0,7).map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+"</ul>":"",
+        condHtml,
+        "</div>"
+      ].join("");
+    }
     function probabilityHtml(r){
       var res=resultOf(r);
       return [
         boatRatesHtml(r),
+        popularB1Html(r),
         "<p class=\"mini\">決まり目: <b>"+esc(res.trifecta||"--")+"</b> / 配当: <b>"+esc(yen(res.payout_yen))+"</b>"+(res.manshu?" <span class=\"manshu\">万舟</span>":"")+"</p>"
       ].join("");
     }
@@ -486,6 +549,8 @@
       var s=raceShape(r), res=resultOf(r), m=r.metrics||{}, ex=exhibitState(r), badges=[];
       badges.push("<span class=\"badge\">締切 "+esc(deadline(r))+"</span>");
       badges.push("<span class=\"badge "+(res.manshu?"good":"")+"\">"+(res.payout_yen!=null?"結果 "+esc(res.trifecta||"--")+" / "+esc(yen(res.payout_yen)):"結果待ち")+"</span>");
+      if(m.popular_b1_is_popular&&Number(m.popular_b1_fly_score||0)>=60) badges.push("<span class=\"badge bad\">人気1号艇 "+esc(m.popular_b1_fly_level||"危険")+"</span>");
+      else if(m.popular_b1_is_popular&&Number(m.popular_b1_fly_score||0)>=45) badges.push("<span class=\"badge warn\">人気1号艇 注意</span>");
       if(s.b1Win!=null&&s.b1Win<=35) badges.push("<span class=\"badge bad\">1号艇きびしい</span>");
       if(s.outer56Top3!=null&&s.outer56Top3>=60) badges.push("<span class=\"badge good\">5・6絡み注意</span>");
       badges.push("<span class=\"badge "+esc(ex.cls)+"\">"+esc(ex.text)+"</span>");
@@ -509,18 +574,19 @@
       ].join("");
     }
     function venueSummaryText(rows){
-      var lowB1=0, flyB1=0, outer=0, head36=0, tenji=0;
+      var lowB1=0, flyB1=0, popularB1=0, outer=0, head36=0, tenji=0;
       rows.forEach(function(r){
         var s=raceShape(r), m=r.metrics||{};
         if(s.b1Win!=null&&s.b1Win<=40) lowB1+=1;
         if(s.b1Fly!=null&&s.b1Fly>=35) flyB1+=1;
+        if(m.popular_b1_is_popular&&Number(m.popular_b1_fly_score||0)>=60) popularB1+=1;
         if(s.outer56Top3!=null&&s.outer56Top3>=60) outer+=1;
         if(s.winner36!=null&&s.winner36>=45) head36+=1;
         if(Number(m.tenji_boats||0)>=6&&Number(m.isshu_boats||0)>=6) tenji+=1;
       });
       return {
         buff:["5・6号艇が入りやすい "+outer+"R","3〜6号艇が1着になりやすい "+head36+"R","展示込み "+tenji+"R"],
-        debuff:["1号艇が勝ちにくい "+lowB1+"R","1号艇が飛びやすい "+flyB1+"R"]
+        debuff:["人気1号艇が危険 "+popularB1+"R","1号艇が勝ちにくい "+lowB1+"R","1号艇が飛びやすい "+flyB1+"R"]
       };
     }
     function renderBuffPanel(rows){
