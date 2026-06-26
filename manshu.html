@@ -488,8 +488,11 @@
     function boatsText(boats){
       return (boats||[]).filter(function(b){return b!=null&&b!=="";}).map(function(b){return b+"号艇";}).join("・")||"--";
     }
-    function boatsByMetric(rows, key, ranks){
-      var ranked=rows.filter(function(b){return b[key]!=null&&!isNaN(Number(b[key]));}).sort(function(a,b){
+    function boatsByMetric(rows, key, ranks, pool){
+      var allowed=pool?new Set(pool.map(Number)):null;
+      var ranked=rows.filter(function(b){
+        return (!allowed||allowed.has(Number(b.boat_number)))&&b[key]!=null&&!isNaN(Number(b[key]));
+      }).sort(function(a,b){
         var diff=Number(b[key])-Number(a[key]);
         return diff!==0?diff:Number(a.boat_number)-Number(b.boat_number);
       });
@@ -499,8 +502,9 @@
       var s=Object.assign({},r.selection||{});
       var rows=boatRows(r);
       if(!Array.isArray(s.heads)||s.heads.length<2){
-        s.heads=boatsByMetric(rows,"composite_win_pct",[1,2]);
-        s.head_rule="複合1着率が高い2艇";
+        var outerHeads=boatsByMetric(rows,"composite_win_pct",[1,2],[3,4,5,6]);
+        s.heads=outerHeads.length>=2?outerHeads:boatsByMetric(rows,"composite_win_pct",[1,2]);
+        s.head_rule=outerHeads.length>=2?"万舟は3〜6号艇頭が多いので3〜6号艇から優先":"複合1着率が高い2艇";
       }
       if(!Array.isArray(s.axes)||s.axes.length<2){
         var axes=boatsByMetric(rows,"top3_pct",[1,3]);
@@ -524,7 +528,7 @@
       var axes=(s.axes||[]).slice(0,2);
       return [
         "<div class=\"quick-roles\">",
-        "<div class=\"quick-role head\"><b>1着候補2艇</b><strong>"+esc(boatsText(heads))+"</strong><span>"+esc(s.head_rule||"複合1着率で選定")+"</span></div>",
+        "<div class=\"quick-role head\"><b>万舟1着候補2艇</b><strong>"+esc(boatsText(heads))+"</strong><span>"+esc(s.head_rule||"3〜6号艇優先で選定")+"</span></div>",
         "<div class=\"quick-role axis\"><b>軸候補2艇</b><strong>"+esc(boatsText(axes))+"</strong><span>"+esc(s.axis_rule||"AI3連対率の1位と3位")+"</span></div>",
         "</div>"
       ].join("");
@@ -539,7 +543,7 @@
       }).join("<br>");
       return [
         "<div class=\"role-detail-grid\">",
-        "<div class=\"role-detail-card\"><b>1着候補</b><p>"+(headText||esc(boatsText(s.heads)))+"</p></div>",
+        "<div class=\"role-detail-card\"><b>万舟1着候補</b><p>"+(headText||esc(boatsText(s.heads)))+"</p></div>",
         "<div class=\"role-detail-card\"><b>軸候補</b><p>"+esc(boatsText(s.axes))+"<br>"+esc(s.axis_rule||"AI3連対率の1位と3位")+"</p></div>",
         "</div>"
       ].join("");

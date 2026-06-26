@@ -1052,7 +1052,55 @@ def axis_boats_for_roles(rows, ranks=(1, 3)):
     return rank_boats_for_key(rows, "composite_top3_actual_pct", ranks), f"AI3連対率が不足したため複合3着内率の{rank_label}"
 
 
-def head_candidate_score(row):
+def edge_head_boost(boat, metrics):
+    boost = 0.0
+    reasons = []
+    longshot_boats = {
+        int(part)
+        for part in str(metrics.get("longshot_head_boats") or "").replace("、", ",").split(",")
+        if str(part).strip().isdigit()
+    }
+    if boat in longshot_boats:
+        boost += 7
+        reasons.append("穴頭候補に一致")
+    if int(as_num(metrics.get("low_outer_boat")) or 0) == boat:
+        boost += 5
+        reasons.append("低評価外枠の復活候補")
+    for edge in metrics.get("composite_edges") or []:
+        details = edge.get("details") or {}
+        signal = str(details.get("signal") or edge.get("id") or "")
+        role = str(edge.get("role") or "")
+        if signal == "b5_left_adv" and boat == 5:
+            boost += 7
+            reasons.append("スリットで5号艇が左より良い")
+        elif signal == "b6_left_adv" and boat == 6:
+            boost += 7
+            reasons.append("スリットで6号艇が左より良い")
+        elif signal in {"b2_wall_break_3peek", "b3_peek_vs_12"} and boat == 3:
+            boost += 5
+            reasons.append("3号艇がのぞく形")
+        elif signal == "b4_cadou_peek" and boat == 4:
+            boost += 5
+            reasons.append("4カドがのぞく形")
+        elif signal == "outer56_pressure_vs_1" and boat in {5, 6}:
+            boost += 4
+            reasons.append("5/6外圧")
+        elif signal == "outer456_pressure" and boat in {4, 5, 6}:
+            boost += 3
+            reasons.append("4〜6外圧")
+        elif signal == "center34_dent" and boat in {5, 6}:
+            boost += 3
+            reasons.append("3/4中凹みで外が入りやすい")
+        elif signal == "b1_hole_vs_23" and boat == 3:
+            boost += 3
+            reasons.append("1号艇が凹み3に出番")
+        if role == "head_up" and boat in {3, 4, 5, 6}:
+            boost += 3
+            reasons.append("過去条件で穴頭寄り")
+    return boost, reasons[:3]
+
+
+def head_candidate_score(row, manshu_head_mode=False):
     boat = row["boat_number"]
     metrics = row.get("_morning_metrics") or {}
     score = row.get("composite_win_pct")
@@ -1061,6 +1109,13 @@ def head_candidate_score(row):
     if score is None:
         score = {1: 53, 2: 14, 3: 13, 4: 10, 5: 6, 6: 4}.get(boat, 10)
     reasons = [f"複合1着率{score:.1f}%"]
+    if manshu_head_mode and boat in {3, 4, 5, 6}:
+        score += 8
+        reasons.append("万舟は3〜6号艇頭が多い")
+        edge_boost, edge_reasons = edge_head_boost(boat, metrics)
+        if edge_boost:
+            score += edge_boost
+            reasons.extend(edge_reasons)
     if boat == 1:
         danger = as_num(metrics.get("popular_b1_fly_score")) or 0
         loss = as_num(metrics.get("boat1_loss_pct"))
@@ -1118,16 +1173,61 @@ def head_candidate_score(row):
     return round(score, 3), reasons[:4]
 
 
+def inner_head_exception(row, outer_cut_score):
+    boat = row["boat_number"]
+    metrics = row.get("_morning_metrics") or {}
+    raw_score, _ = head_candidate_score(row, manshu_head_mode=False)
+    if raw_score < outer_cut_score + 10:
+        return False
+    if boat == 1:
+        danger = as_num(metrics.get("popular_b1_fly_score")) or 0
+        loss = as_num(metrics.get("boat1_loss_pct"))
+        nige = as_num(metrics.get("boat1_nige_pct"))
+        return (
+            raw_score >= 42
+            and danger < 45
+            and (loss is None or loss < 45)
+            and (nige is None or nige >= 50)
+        )
+    if boat == 2:
+        avg_diff = row.get("avg_isshu_diff")
+        exhibit_rank = row.get("exhibit_rank") or 9
+        ai_plus_rank = row.get("ai_plus_rank") or 9
+        has_strong_push = (
+            bool(row.get("double_time"))
+            or bool(row.get("super_slit_alert"))
+            or exhibit_rank == 1
+            or (avg_diff is not None and avg_diff >= 0.20)
+            or ai_plus_rank == 1
+        )
+        return raw_score >= 30 and has_strong_push
+    return False
+
+
 def head_boats_for_arunashi(rows, exclude=None):
     exclude = set(exclude or [])
-    scored = []
+    outer_scored = []
+    inner_scored = []
     for row in rows:
         if row["boat_number"] in exclude:
             continue
-        score, _ = head_candidate_score(row)
-        scored.append((score, row["boat_number"]))
-    scored.sort(key=lambda item: (-item[0], item[1]))
-    return [boat for _, boat in scored[:2]]
+        score, _ = head_candidate_score(row, manshu_head_mode=True)
+        if row["boat_number"] in {3, 4, 5, 6}:
+            outer_scored.append((score, row["boat_number"]))
+        else:
+            inner_scored.append((score, row["boat_number"]))
+    outer_scored.sort(key=lambda item: (-item[0], item[1]))
+    inner_scored.sort(key=lambda item: (-item[0], item[1]))
+    heads = [boat for _, boat in outer_scored[:2]]
+    if len(heads) < 2:
+        return unique(heads + [boat for _, boat in inner_scored])[:2]
+    if inner_scored:
+        cut_score = outer_scored[1][0]
+        for _, boat in inner_scored:
+            row = next((item for item in rows if item["boat_number"] == boat), {})
+            if inner_head_exception(row, cut_score):
+                return [heads[0], boat]
+    return heads
 
 
 def head_score_details(rows, heads):
@@ -1136,7 +1236,9 @@ def head_score_details(rows, heads):
         boat = row["boat_number"]
         if boat not in set(heads):
             continue
-        score, reasons = head_candidate_score(row)
+        score, reasons = head_candidate_score(row, manshu_head_mode=True)
+        if boat in {1, 2}:
+            reasons = reasons[:3] + ["例外的に内側の頭力が高い"]
         details[str(boat)] = {"score": score, "reasons": reasons}
     return details
 
@@ -1203,6 +1305,34 @@ def select_keshi_boat(rows, protected=None):
     return chosen["boat_number"], reason, last_boat, last_revival
 
 
+def ticket_priority(ticket, heads, axes):
+    boats = combo_boats(ticket)
+    if len(boats) != 3:
+        return -999
+    head = boats[0]
+    score = 0
+    if head in heads:
+        score += 8 - heads.index(head)
+    if head in {3, 4, 5, 6}:
+        score += 4
+    if any(boat in {5, 6} for boat in boats):
+        score += 3
+    if any(boat in set(axes or []) for boat in boats[1:]):
+        score += 2
+    if boats[1] in set(axes or []):
+        score += 1
+    if boats[1] == 1 and boats[2] == 2:
+        score -= 2
+    return score
+
+
+def trim_tickets(tickets, heads, axes, max_points=15):
+    if len(tickets) <= max_points:
+        return tickets
+    ordered = sorted(tickets, key=lambda ticket: (-ticket_priority(ticket, heads, axes), ticket))
+    return set(ordered[:max_points])
+
+
 def super_arunashi3(rows):
     axes, axis_rule = axis_boats_for_roles(rows, ranks=(1, 3))
     alt_axes, alt_axis_rule = axis_boats_for_roles(rows, ranks=(2, 3))
@@ -1225,9 +1355,11 @@ def super_arunashi3(rows):
                 tickets.add(f"{head}{other}{axis}")
     if not tickets:
         return set(), None
+    tickets = trim_tickets(tickets, heads, axes)
     return tickets, {
         "heads": heads,
-        "head_rule": "複合1着率に展示・1周・スリット・外枠復活・人気1号艇危険度を加味した2艇",
+        "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
+        "head_mode": "manshu_3to6_priority",
         "head_scores": head_score_details(rows, heads),
         "axes": axes,
         "axis_rule": axis_rule,

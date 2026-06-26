@@ -689,7 +689,55 @@ def visible_axis_candidates(rows: list[dict], ranks: tuple[int, ...] = (1, 3)) -
     return rank_boats_for_key(rows, "composite_top3_actual_pct", ranks), f"AI3連対率が不足したため複合3着内率の{rank_label}"
 
 
-def head_candidate_score(row: dict, metrics: dict) -> tuple[float, list[str]]:
+def edge_head_boost(boat: int, metrics: dict) -> tuple[float, list[str]]:
+    boost = 0.0
+    reasons = []
+    longshot_boats = {
+        as_int(part)
+        for part in str(metrics.get("longshot_head_boats") or "").replace("、", ",").split(",")
+        if as_int(part) is not None
+    }
+    if boat in longshot_boats:
+        boost += 7.0
+        reasons.append("穴頭候補に一致")
+    if as_int(metrics.get("low_outer_boat")) == boat:
+        boost += 5.0
+        reasons.append("低評価外枠の復活候補")
+    for edge in metrics.get("composite_edges") or []:
+        details = edge.get("details") or {}
+        signal = str(details.get("signal") or edge.get("id") or "")
+        role = str(edge.get("role") or "")
+        if signal == "b5_left_adv" and boat == 5:
+            boost += 7.0
+            reasons.append("スリットで5号艇が左より良い")
+        elif signal == "b6_left_adv" and boat == 6:
+            boost += 7.0
+            reasons.append("スリットで6号艇が左より良い")
+        elif signal in {"b2_wall_break_3peek", "b3_peek_vs_12"} and boat == 3:
+            boost += 5.0
+            reasons.append("3号艇がのぞく形")
+        elif signal == "b4_cadou_peek" and boat == 4:
+            boost += 5.0
+            reasons.append("4カドがのぞく形")
+        elif signal == "outer56_pressure_vs_1" and boat in {5, 6}:
+            boost += 4.0
+            reasons.append("5/6外圧")
+        elif signal == "outer456_pressure" and boat in {4, 5, 6}:
+            boost += 3.0
+            reasons.append("4〜6外圧")
+        elif signal == "center34_dent" and boat in {5, 6}:
+            boost += 3.0
+            reasons.append("3/4中凹みで外が入りやすい")
+        elif signal == "b1_hole_vs_23" and boat == 3:
+            boost += 3.0
+            reasons.append("1号艇が凹み3に出番")
+        if role == "head_up" and boat in {3, 4, 5, 6}:
+            boost += 3.0
+            reasons.append("過去条件で穴頭寄り")
+    return boost, reasons[:3]
+
+
+def head_candidate_score(row: dict, metrics: dict, manshu_head_mode: bool = False) -> tuple[float, list[str]]:
     boat = row["boat_number"]
     score = as_num(row.get("composite_win_pct"))
     if score is None:
@@ -697,6 +745,13 @@ def head_candidate_score(row: dict, metrics: dict) -> tuple[float, list[str]]:
     if score is None:
         score = LANE_WIN_PRIOR.get(boat, 10.0)
     reasons = [f"複合1着率{score:.1f}%"]
+    if manshu_head_mode and boat in {3, 4, 5, 6}:
+        score += 8.0
+        reasons.append("万舟は3〜6号艇頭が多い")
+        edge_boost, edge_reasons = edge_head_boost(boat, metrics)
+        if edge_boost:
+            score += edge_boost
+            reasons.extend(edge_reasons)
     if boat == 1:
         danger = as_num(metrics.get("popular_b1_fly_score")) or 0.0
         loss = as_num(metrics.get("boat1_loss_pct"))
@@ -755,25 +810,73 @@ def head_candidate_score(row: dict, metrics: dict) -> tuple[float, list[str]]:
     return round(score, 3), reasons[:4]
 
 
-def visible_head_candidates(metrics: dict) -> tuple[list[int], dict[int, dict]]:
+def inner_head_exception(row: dict, outer_cut_score: float, metrics: dict) -> bool:
+    boat = row["boat_number"]
+    raw_score, _ = head_candidate_score(row, metrics, manshu_head_mode=False)
+    if raw_score < outer_cut_score + 10.0:
+        return False
+    if boat == 1:
+        danger = as_num(metrics.get("popular_b1_fly_score")) or 0.0
+        loss = as_num(metrics.get("boat1_loss_pct"))
+        nige = as_num(metrics.get("boat1_nige_pct"))
+        return (
+            raw_score >= 42.0
+            and danger < 45.0
+            and (loss is None or loss < 45.0)
+            and (nige is None or nige >= 50.0)
+        )
+    if boat == 2:
+        avg_diff = as_num(row.get("avg_isshu_diff"))
+        exhibit_rank = as_int(row.get("exhibit_rank")) or 9
+        ai_plus_rank = as_int(row.get("ai_plus_rank")) or 9
+        has_strong_push = (
+            bool(row.get("double_time"))
+            or bool(row.get("super_slit_alert"))
+            or exhibit_rank == 1
+            or (avg_diff is not None and avg_diff >= 0.20)
+            or ai_plus_rank == 1
+        )
+        return raw_score >= 30.0 and has_strong_push
+    return False
+
+
+def visible_head_candidates(metrics: dict) -> tuple[list[int], dict[int, dict], str]:
     rows = metrics.get("boats") if isinstance(metrics.get("boats"), list) else []
-    scored = []
+    outer_scored = []
+    inner_scored = []
     details = {}
     for row in rows:
-        score, reasons = head_candidate_score(row, metrics)
+        score, reasons = head_candidate_score(row, metrics, manshu_head_mode=True)
         boat = row["boat_number"]
         details[boat] = {"score": score, "reasons": reasons}
-        scored.append((score, boat))
-    scored.sort(key=lambda item: (-item[0], item[1]))
-    heads = [boat for _, boat in scored[:2]]
-    return heads, details
+        if boat in {3, 4, 5, 6}:
+            outer_scored.append((score, boat))
+        else:
+            inner_scored.append((score, boat))
+    outer_scored.sort(key=lambda item: (-item[0], item[1]))
+    inner_scored.sort(key=lambda item: (-item[0], item[1]))
+    heads = [boat for _, boat in outer_scored[:2]]
+    rule = "万舟は3〜6号艇頭が多いので、3〜6号艇から2艇を優先"
+    if len(heads) < 2:
+        heads = list(dict.fromkeys(heads + [boat for _, boat in inner_scored]))[:2]
+        rule = "3〜6号艇が不足したため、内側も含めて2艇"
+    elif inner_scored:
+        cut_score = outer_scored[1][0]
+        for _, boat in inner_scored:
+            row = next((item for item in rows if item["boat_number"] == boat), {})
+            if inner_head_exception(row, cut_score, metrics):
+                heads = [heads[0], boat]
+                details[boat]["reasons"] = (details[boat].get("reasons") or [])[:3] + ["例外的に内側の頭力が高い"]
+                rule = "3〜6号艇優先。ただし内側に強い1着根拠があるため例外採用"
+                break
+    return heads, details, rule
 
 
 def build_visible_selection(metrics: dict) -> dict:
     rows = metrics.get("boats") if isinstance(metrics.get("boats"), list) else []
     if not rows:
         return {}
-    heads, head_details = visible_head_candidates(metrics)
+    heads, head_details, head_rule = visible_head_candidates(metrics)
     axes, axis_rule = visible_axis_candidates(rows, ranks=(1, 3))
     alt_axes, alt_axis_rule = visible_axis_candidates(rows, ranks=(2, 3))
     if len(heads) < 2 or len(axes) < 2:
@@ -782,7 +885,8 @@ def build_visible_selection(metrics: dict) -> dict:
         "version": "codex_visible_roles_v1",
         "label": "Codex候補",
         "heads": heads,
-        "head_rule": "複合1着率に展示・1周・スリット・外枠復活・人気1号艇危険度を加味した2艇",
+        "head_rule": head_rule,
+        "head_mode": "manshu_3to6_priority",
         "head_scores": {str(boat): head_details.get(boat, {}) for boat in heads},
         "axes": axes,
         "axis_rule": axis_rule,
@@ -935,6 +1039,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
             normalized_metrics[out_key] = as_num(value)
     normalized_metrics["tenji_boats"] = as_int(normalized_metrics["tenji_boats"]) or 0
     normalized_metrics["isshu_boats"] = as_int(normalized_metrics["isshu_boats"]) or 0
+    normalized_metrics["composite_edges"] = row.get("composite_edges") or metrics.get("composite_edges") or []
     normalized_metrics["boats"] = build_boat_rows(normalized_metrics, metrics)
     normalized_metrics.update(
         build_popular_b1_fly_logic(normalized_metrics, row.get("composite_edges") or [], round_no)
