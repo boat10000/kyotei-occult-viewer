@@ -737,6 +737,51 @@ def edge_head_boost(boat: int, metrics: dict) -> tuple[float, list[str]]:
     return boost, reasons[:3]
 
 
+def b1_unpopular_head_signal(row: dict, metrics: dict) -> tuple[bool, str]:
+    trifecta_top5 = as_int(metrics.get("b1_trifecta_top5_1head")) == 1
+    top5_head_count = as_int(metrics.get("trifecta_top5_head1_count")) or 0
+    top5_count = as_int(metrics.get("trifecta_top5_count")) or 0
+    odds_rank = as_int(metrics.get("boat1_odds_rank"))
+    odds_pct = as_num(metrics.get("boat1_odds_prediction_pct"))
+    has_popularity_data = top5_count >= 5 or odds_rank is not None or odds_pct is not None
+    if not has_popularity_data:
+        return False, ""
+    top5_almost = top5_count >= 5 and top5_head_count >= 4
+    odds_heavy = odds_rank == 1 and odds_pct is not None and odds_pct >= 40
+    is_unpopular = (not trifecta_top5) and (not top5_almost) and (not odds_heavy)
+    if not is_unpopular:
+        return False, ""
+
+    raw_win = as_num(row.get("composite_win_pct"))
+    if raw_win is None:
+        raw_win = as_num(row.get("win_pct"))
+    ai_pred = as_num(row.get("win_pct")) or as_num(metrics.get("boat1_ai_prediction_pct"))
+    nige = as_num(metrics.get("boat1_nige_pct"))
+    loss = as_num(metrics.get("boat1_loss_pct"))
+    avg_diff = as_num(row.get("avg_isshu_diff")) or as_num(metrics.get("boat1_avg_isshu_diff"))
+    ai_plus_rank = as_int(row.get("ai_plus_rank")) or as_int(metrics.get("boat1_ai_plus_order")) or 9
+    strong_time = (
+        bool(row.get("double_time"))
+        or (avg_diff is not None and avg_diff >= 0.10)
+        or metrics.get("b1_summer_isshu_factor") == "fast_hold"
+    )
+    strong_head = (
+        (raw_win is not None and raw_win >= 42.0 and (loss is None or loss < 55.0))
+        or ((ai_pred or 0) >= 45.0 and (nige or 0) >= 50.0 and (loss is None or loss < 45.0))
+        or ((nige or 0) >= 55.0 and (loss is None or loss < 35.0))
+        or ((raw_win or 0) >= 35.0 and strong_time and (loss is None or loss < 50.0))
+        or (ai_plus_rank <= 2 and (nige or 0) >= 50.0 and (loss is None or loss < 45.0))
+    )
+    if not strong_head:
+        return False, ""
+    popularity_text = "人気薄"
+    if odds_rank == 1 and odds_pct is not None:
+        popularity_text = f"1号艇オッズ評価{odds_pct:.1f}%"
+    elif top5_count >= 5:
+        popularity_text = f"人気上位5点中1号艇頭{top5_head_count}点"
+    return True, f"{popularity_text}で売れすぎではないが逃げ材料が強い"
+
+
 def head_candidate_score(row: dict, metrics: dict, manshu_head_mode: bool = False) -> tuple[float, list[str]]:
     boat = row["boat_number"]
     score = as_num(row.get("composite_win_pct"))
@@ -755,6 +800,10 @@ def head_candidate_score(row: dict, metrics: dict, manshu_head_mode: bool = Fals
     if boat == 1:
         danger = as_num(metrics.get("popular_b1_fly_score")) or 0.0
         loss = as_num(metrics.get("boat1_loss_pct"))
+        unpopular_hold, unpopular_reason = b1_unpopular_head_signal(row, metrics)
+        if unpopular_hold:
+            score += 12.0
+            reasons.append(unpopular_reason)
         if danger >= 75:
             score -= 18.0
             reasons.append("人気1号艇の超危険で頭評価を下げ")
@@ -813,9 +862,12 @@ def head_candidate_score(row: dict, metrics: dict, manshu_head_mode: bool = Fals
 def inner_head_exception(row: dict, outer_cut_score: float, metrics: dict) -> bool:
     boat = row["boat_number"]
     raw_score, _ = head_candidate_score(row, metrics, manshu_head_mode=False)
-    if raw_score < outer_cut_score + 10.0:
-        return False
     if boat == 1:
+        unpopular_hold, _ = b1_unpopular_head_signal(row, metrics)
+        if unpopular_hold and raw_score >= outer_cut_score + 4.0:
+            return True
+        if raw_score < outer_cut_score + 10.0:
+            return False
         danger = as_num(metrics.get("popular_b1_fly_score")) or 0.0
         loss = as_num(metrics.get("boat1_loss_pct"))
         nige = as_num(metrics.get("boat1_nige_pct"))
@@ -825,6 +877,8 @@ def inner_head_exception(row: dict, outer_cut_score: float, metrics: dict) -> bo
             and (loss is None or loss < 45.0)
             and (nige is None or nige >= 50.0)
         )
+    if raw_score < outer_cut_score + 10.0:
+        return False
     if boat == 2:
         avg_diff = as_num(row.get("avg_isshu_diff"))
         exhibit_rank = as_int(row.get("exhibit_rank")) or 9
