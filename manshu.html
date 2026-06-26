@@ -560,7 +560,8 @@
           var top3=b.composite_top3_pct!=null?b.composite_top3_pct:b.top3_pct;
           var threeRen=b.three_ren_pct!=null?b.three_ren_pct:(b.ai_plus!=null?b.ai_plus:(b.top3_pct!=null?b.top3_pct:b.general_top3_pct));
           var reasons=(b.composite_rate_reasons||[]).slice(0,3).join(" / ");
-          var raw="元AI1着 "+pctShort(b.win_pct)+"・AI3連対 "+pctShort(b.top3_pct)+"・一般3連対 "+pctShort(b.general_top3_pct)+"・AI+順位 "+(b.ai_plus_rank?b.ai_plus_rank+"位":"--");
+          var oddsRank=b.odds_prediction_rank||b.odds_prediction_pct_rank;
+          var raw="元AI1着 "+pctShort(b.win_pct)+"・オッズ評価 "+pctShort(b.odds_prediction_pct)+(oddsRank?"("+oddsRank+"位)":"")+"・AI3連対 "+pctShort(b.top3_pct)+"・一般3連対 "+pctShort(b.general_top3_pct)+"・AI+順位 "+(b.ai_plus_rank?b.ai_plus_rank+"位":"--");
           return [
             "<div class=\"boat-rate-card\">",
             "<div class=\"boat-rate-top\"><b>"+esc(b.boat_number)+"号艇</b><span>"+esc(b.ai_plus_rank?"AI+"+b.ai_plus_rank+"位":"AI+--")+"</span></div>",

@@ -530,6 +530,8 @@ def build_boat_rows(normalized_metrics: dict, source_metrics: dict) -> list[dict
             "general_top3_pct": general if general is not None else as_num(normalized_metrics.get(f"boat{boat}_general_3ren_pct")),
             "ai_plus": ai_plus if ai_plus is not None else as_num(normalized_metrics.get(f"boat{boat}_ai_plus")),
             "ai_plus_rank": as_int(item.get("ai_plus_rank")) if item.get("ai_plus_rank") is not None else as_int(normalized_metrics.get(f"boat{boat}_ai_plus_order")),
+            "odds_prediction_pct": as_num(item.get("odds_prediction_pct")) if item.get("odds_prediction_pct") is not None else as_num(normalized_metrics.get(f"boat{boat}_odds_prediction_pct")),
+            "odds_prediction_rank": as_int(item.get("odds_prediction_rank")) if item.get("odds_prediction_rank") is not None else as_int(normalized_metrics.get(f"boat{boat}_odds_rank")),
             "st_rank_general": as_num(item.get("st_rank_general")) if item.get("st_rank_general") is not None else as_num(normalized_metrics.get(f"boat{boat}_st_rank_general")),
             "tenji_time": as_num(item.get("tenji_time")) if item.get("tenji_time") is not None else as_num(normalized_metrics.get(f"boat{boat}_tenji_time")),
             "tenji_rank": as_int(item.get("tenji_rank")) if item.get("tenji_rank") is not None else as_int(normalized_metrics.get(f"boat{boat}_tenji_rank")),
@@ -550,7 +552,9 @@ def build_boat_rows(normalized_metrics: dict, source_metrics: dict) -> list[dict
         rows.append(row)
 
     explicit_ai_plus_ranks = {row["boat_number"]: row.get("ai_plus_rank") for row in rows}
+    explicit_odds_ranks = {row["boat_number"]: row.get("odds_prediction_rank") for row in rows}
     rank_rows(rows, "win_pct", ascending=False)
+    rank_rows(rows, "odds_prediction_pct", ascending=False)
     rank_rows(rows, "top3_pct", ascending=False)
     rank_rows(rows, "general_top3_pct", ascending=False)
     if sum(1 for row in rows if row.get("ai_plus") is not None) >= 2:
@@ -561,6 +565,10 @@ def build_boat_rows(normalized_metrics: dict, source_metrics: dict) -> list[dict
     for row in rows:
         if explicit_ai_plus_ranks.get(row["boat_number"]) is not None:
             row["ai_plus_rank"] = explicit_ai_plus_ranks[row["boat_number"]]
+        if explicit_odds_ranks.get(row["boat_number"]) is not None:
+            row["odds_prediction_rank"] = explicit_odds_ranks[row["boat_number"]]
+        else:
+            row["odds_prediction_rank"] = row.get("odds_prediction_pct_rank")
     rank_rows(rows, "tenji_time", ascending=True)
     rank_rows(rows, "isshu_time", ascending=True)
     for row in rows:
@@ -967,6 +975,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "boat1_ai_prediction_pct": "b1_ai_prediction_pct",
         "boat1_odds_prediction_pct": "b1_odds_prediction_pct",
         "boat1_odds_rank": "b1_odds_rank",
+        "odds_snapshot_source": "odds_snapshot_source",
         "b1_trifecta_top5_1head": "b1_trifecta_top5_1head",
         "trifecta_top5_head1_count": "trifecta_top5_head1_count",
         "trifecta_top5_count": "trifecta_top5_count",
@@ -1064,6 +1073,8 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
                 f"boat{boat}_general_3ren_pct": f"b{boat}_general_3ren_pct",
                 f"boat{boat}_ai_plus": f"b{boat}_ai_plus",
                 f"boat{boat}_ai_plus_order": f"b{boat}_ai_plus_order",
+                f"boat{boat}_odds_prediction_pct": f"b{boat}_odds_prediction_pct",
+                f"boat{boat}_odds_rank": f"b{boat}_odds_rank",
             }
         )
     normalized_metrics = {}
@@ -1087,10 +1098,18 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
             "b6_matchup_label",
             "trifecta_top5_combos",
             "trifecta_odds_snapshot_at",
+            "odds_snapshot_source",
         }:
             normalized_metrics[out_key] = value or ""
         else:
             normalized_metrics[out_key] = as_num(value)
+    normalized_metrics["odds_boats"] = (
+        metrics.get("odds_boats")
+        if isinstance(metrics.get("odds_boats"), dict)
+        else row.get("odds_boats")
+        if isinstance(row.get("odds_boats"), dict)
+        else {}
+    )
     normalized_metrics["tenji_boats"] = as_int(normalized_metrics["tenji_boats"]) or 0
     normalized_metrics["isshu_boats"] = as_int(normalized_metrics["isshu_boats"]) or 0
     normalized_metrics["composite_edges"] = row.get("composite_edges") or metrics.get("composite_edges") or []

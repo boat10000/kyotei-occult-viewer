@@ -4886,8 +4886,8 @@
       "matched_logic_count": 0,
       "metrics": {
         "boat1_ai_prediction_pct": 18.92,
-        "boat1_odds_prediction_pct": null,
-        "boat1_odds_rank": null,
+        "boat1_odds_prediction_pct": 18.69,
+        "boat1_odds_rank": 4.0,
         "b1_trifecta_top5_1head": 0.0,
         "trifecta_top5_head1_count": 0.0,
         "trifecta_top5_count": 0.0,
@@ -5115,6 +5115,8 @@
             "win_pct": 18.92,
             "top3_pct": 51.28,
             "general_top3_pct": 39.13,
+            "odds_prediction_pct": 18.69,
+            "odds_prediction_rank": 4,
             "composite_win_pct": 15.92,
             "composite_top3_pct": 16.52,
             "composite_top3_actual_pct": 49.15,
@@ -5141,6 +5143,8 @@
             "win_pct": 22.93,
             "top3_pct": 65.56,
             "general_top3_pct": 60.0,
+            "odds_prediction_pct": 28.97,
+            "odds_prediction_rank": 1,
             "composite_win_pct": 19.53,
             "composite_top3_pct": 22.85,
             "composite_top3_actual_pct": 68.16,
@@ -5167,6 +5171,8 @@
             "win_pct": 5.96,
             "top3_pct": 33.05,
             "general_top3_pct": 44.44,
+            "odds_prediction_pct": 7.09,
+            "odds_prediction_rank": 5,
             "composite_win_pct": 3.47,
             "composite_top3_pct": 10.2,
             "composite_top3_actual_pct": 30.2,
@@ -5194,6 +5200,8 @@
             "win_pct": 24.94,
             "top3_pct": 66.97,
             "general_top3_pct": 53.33,
+            "odds_prediction_pct": 19.99,
+            "odds_prediction_rank": 3,
             "composite_win_pct": 16.21,
             "composite_top3_pct": 19.74,
             "composite_top3_actual_pct": 58.81,
@@ -5220,6 +5228,8 @@
             "win_pct": 0.14,
             "top3_pct": 2.57,
             "general_top3_pct": 0.0,
+            "odds_prediction_pct": 4.19,
+            "odds_prediction_rank": 6,
             "composite_win_pct": 1.0,
             "composite_top3_pct": 1.0,
             "composite_top3_actual_pct": 5.0,
@@ -5248,6 +5258,8 @@
             "win_pct": 27.11,
             "top3_pct": 80.56,
             "general_top3_pct": 62.5,
+            "odds_prediction_pct": 21.07,
+            "odds_prediction_rank": 2,
             "composite_win_pct": 43.87,
             "composite_top3_pct": 29.69,
             "composite_top3_actual_pct": 88.68,
@@ -5273,14 +5285,16 @@
           }
         ],
         "popular_b1_is_popular": false,
-        "popular_b1_source": "",
+        "popular_b1_source": "展示後BOATERSオッズ評価",
         "popular_b1_fly_score": 0,
         "popular_b1_fly_level": "人気不足",
         "popular_b1_not_win_rate_pct": null,
         "popular_b1_top3_miss_rate_pct": null,
         "popular_b1_manshu_rate_pct": null,
-        "popular_b1_rate_source": "",
-        "popular_b1_reasons": [],
+        "popular_b1_rate_source": "展示後オッズ評価で人気不足",
+        "popular_b1_reasons": [
+          "展示後オッズ評価18.7%(4位)で1号艇が売れすぎではない"
+        ],
         "popular_b1_matched_conditions": [],
         "boat1_summer_isshu_factor": "",
         "boat1_summer_nige_delta_pp": 0,
@@ -5317,7 +5331,44 @@
         "ai_plus_rank6_revival": [
           "低評価外枠の展示復活",
           "展示か1周が2位以内"
-        ]
+        ],
+        "odds_snapshot_source": "boaters_after_exhibition",
+        "odds_boats": {
+          "1": {
+            "odds_prediction_pct": 18.69,
+            "odds_prediction_rank": 4.0
+          },
+          "2": {
+            "odds_prediction_pct": 28.97,
+            "odds_prediction_rank": 1.0
+          },
+          "3": {
+            "odds_prediction_pct": 7.09,
+            "odds_prediction_rank": 5.0
+          },
+          "4": {
+            "odds_prediction_pct": 19.99,
+            "odds_prediction_rank": 3.0
+          },
+          "5": {
+            "odds_prediction_pct": 4.19,
+            "odds_prediction_rank": 6.0
+          },
+          "6": {
+            "odds_prediction_pct": 21.07,
+            "odds_prediction_rank": 2.0
+          }
+        },
+        "boat2_odds_prediction_pct": 28.97,
+        "boat2_odds_rank": 1.0,
+        "boat3_odds_prediction_pct": 7.09,
+        "boat3_odds_rank": 5.0,
+        "boat4_odds_prediction_pct": 19.99,
+        "boat4_odds_rank": 3.0,
+        "boat5_odds_prediction_pct": 4.19,
+        "boat5_odds_rank": 6.0,
+        "boat6_odds_prediction_pct": 21.07,
+        "boat6_odds_rank": 2.0
       },
       "selection": {
         "version": "codex_roles_v2",
@@ -10852,8 +10903,8 @@
       "matched_logic_count": 0,
       "metrics": {
         "boat1_ai_prediction_pct": 18.92,
-        "boat1_odds_prediction_pct": null,
-        "boat1_odds_rank": null,
+        "boat1_odds_prediction_pct": 18.69,
+        "boat1_odds_rank": 4.0,
         "b1_trifecta_top5_1head": 0.0,
         "trifecta_top5_head1_count": 0.0,
         "trifecta_top5_count": 0.0,
@@ -11081,6 +11132,8 @@
             "win_pct": 18.92,
             "top3_pct": 51.28,
             "general_top3_pct": 39.13,
+            "odds_prediction_pct": 18.69,
+            "odds_prediction_rank": 4,
             "composite_win_pct": 15.92,
             "composite_top3_pct": 16.52,
             "composite_top3_actual_pct": 49.15,
@@ -11107,6 +11160,8 @@
             "win_pct": 22.93,
             "top3_pct": 65.56,
             "general_top3_pct": 60.0,
+            "odds_prediction_pct": 28.97,
+            "odds_prediction_rank": 1,
             "composite_win_pct": 19.53,
             "composite_top3_pct": 22.85,
             "composite_top3_actual_pct": 68.16,
@@ -11133,6 +11188,8 @@
             "win_pct": 5.96,
             "top3_pct": 33.05,
             "general_top3_pct": 44.44,
+            "odds_prediction_pct": 7.09,
+            "odds_prediction_rank": 5,
             "composite_win_pct": 3.47,
             "composite_top3_pct": 10.2,
             "composite_top3_actual_pct": 30.2,
@@ -11160,6 +11217,8 @@
             "win_pct": 24.94,
             "top3_pct": 66.97,
             "general_top3_pct": 53.33,
+            "odds_prediction_pct": 19.99,
+            "odds_prediction_rank": 3,
             "composite_win_pct": 16.21,
             "composite_top3_pct": 19.74,
             "composite_top3_actual_pct": 58.81,
@@ -11186,6 +11245,8 @@
             "win_pct": 0.14,
             "top3_pct": 2.57,
             "general_top3_pct": 0.0,
+            "odds_prediction_pct": 4.19,
+            "odds_prediction_rank": 6,
             "composite_win_pct": 1.0,
             "composite_top3_pct": 1.0,
             "composite_top3_actual_pct": 5.0,
@@ -11214,6 +11275,8 @@
             "win_pct": 27.11,
             "top3_pct": 80.56,
             "general_top3_pct": 62.5,
+            "odds_prediction_pct": 21.07,
+            "odds_prediction_rank": 2,
             "composite_win_pct": 43.87,
             "composite_top3_pct": 29.69,
             "composite_top3_actual_pct": 88.68,
@@ -11239,14 +11302,16 @@
           }
         ],
         "popular_b1_is_popular": false,
-        "popular_b1_source": "",
+        "popular_b1_source": "展示後BOATERSオッズ評価",
         "popular_b1_fly_score": 0,
         "popular_b1_fly_level": "人気不足",
         "popular_b1_not_win_rate_pct": null,
         "popular_b1_top3_miss_rate_pct": null,
         "popular_b1_manshu_rate_pct": null,
-        "popular_b1_rate_source": "",
-        "popular_b1_reasons": [],
+        "popular_b1_rate_source": "展示後オッズ評価で人気不足",
+        "popular_b1_reasons": [
+          "展示後オッズ評価18.7%(4位)で1号艇が売れすぎではない"
+        ],
         "popular_b1_matched_conditions": [],
         "boat1_summer_isshu_factor": "",
         "boat1_summer_nige_delta_pp": 0,
@@ -11283,7 +11348,44 @@
         "ai_plus_rank6_revival": [
           "低評価外枠の展示復活",
           "展示か1周が2位以内"
-        ]
+        ],
+        "odds_snapshot_source": "boaters_after_exhibition",
+        "odds_boats": {
+          "1": {
+            "odds_prediction_pct": 18.69,
+            "odds_prediction_rank": 4.0
+          },
+          "2": {
+            "odds_prediction_pct": 28.97,
+            "odds_prediction_rank": 1.0
+          },
+          "3": {
+            "odds_prediction_pct": 7.09,
+            "odds_prediction_rank": 5.0
+          },
+          "4": {
+            "odds_prediction_pct": 19.99,
+            "odds_prediction_rank": 3.0
+          },
+          "5": {
+            "odds_prediction_pct": 4.19,
+            "odds_prediction_rank": 6.0
+          },
+          "6": {
+            "odds_prediction_pct": 21.07,
+            "odds_prediction_rank": 2.0
+          }
+        },
+        "boat2_odds_prediction_pct": 28.97,
+        "boat2_odds_rank": 1.0,
+        "boat3_odds_prediction_pct": 7.09,
+        "boat3_odds_rank": 5.0,
+        "boat4_odds_prediction_pct": 19.99,
+        "boat4_odds_rank": 3.0,
+        "boat5_odds_prediction_pct": 4.19,
+        "boat5_odds_rank": 6.0,
+        "boat6_odds_prediction_pct": 21.07,
+        "boat6_odds_rank": 2.0
       },
       "selection": {
         "version": "codex_roles_v2",

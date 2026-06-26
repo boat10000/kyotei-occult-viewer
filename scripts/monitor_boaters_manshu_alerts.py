@@ -191,6 +191,7 @@ except Exception:
                     "startTimeRankAvgWithWaku"
                 ),
                 "ai_prediction_pct": pct(racer_ai.get(f"racerAiProba{boat}")),
+                "odds_prediction_pct": pct(racer_ai.get(f"racerOddsProba{boat}")),
             }
         by_boat[1].update(
             {
@@ -281,6 +282,50 @@ def pct(value):
     if -1 <= number <= 1:
         number *= 100
     return round(number, 2)
+
+
+def _live_next_data(text):
+    match = re.search(
+        r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>',
+        text,
+    )
+    if not match:
+        return None
+    return json.loads(html.unescape(match.group(1)))
+
+
+def _live_deref(state, item):
+    if isinstance(item, dict) and "__ref" in item:
+        return state.get(item["__ref"])
+    return item
+
+
+def _live_race_from_state(state):
+    root = state.get("ROOT_QUERY", {})
+    for key, value in root.items():
+        if key.startswith("raceRoundDetail("):
+            return _live_deref(state, value)
+    return None
+
+
+def extract_live_odds_page(text):
+    """Read BOATERS AI odds probabilities from the data page.
+
+    The normal page parser may come from an adjacent project, so this local
+    helper keeps the monitor able to refresh odds after exhibition independently.
+    """
+    next_data = _live_next_data(text)
+    if not next_data:
+        return {}
+    state = next_data.get("props", {}).get("pageProps", {}).get("initialApolloState") or {}
+    race = _live_race_from_state(state) or {}
+    odds_proba = race.get("racerOddsProba") or {}
+    by_boat = {}
+    for boat in range(1, 7):
+        by_boat[boat] = {
+            "odds_prediction_pct": pct(odds_proba.get(f"racerOddsProba{boat}")),
+        }
+    return by_boat
 
 
 def fmt_pct(value):
@@ -1713,6 +1758,7 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
             "general_3ren_pct": general,
             "st_rank_general": as_num(source.get("st_rank_general")),
             "ai_prediction_pct": as_num(source.get("ai_prediction_pct")),
+            "odds_prediction_pct": as_num(source.get("odds_prediction_pct")),
             "tenji_time": as_num(source.get("tenji_time")),
             "isshu_time": as_num(source.get("isshu_time")),
             "nige_pct": as_num(source.get("nige_pct")),
@@ -1769,6 +1815,7 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
             rows[0]["makurare_pct"] = 0.0
 
     rank_values(rows, "ai_prediction_pct", ascending=False)
+    rank_values(rows, "odds_prediction_pct", ascending=False)
     rank_values(rows, "ai_3ren_pct", ascending=False)
     rank_values(rows, "ai_plus", ascending=False)
     rank_values(rows, "general_3ren_pct", ascending=False)
@@ -2003,6 +2050,99 @@ def race_metrics(rows, date_text=None):
     isshu_boats = sum(1 for row in rows if row.get("isshu_time") is not None)
     summer_factor = summer_b1_isshu_factor(date_text, b1.get("isshu_avg_diff"), isshu_boats)
     slit_metrics = slit_rank_metrics(rows)
+    live_odds_context = {}
+    live_odds_boats = {}
+    for row in rows:
+        boat = row["boat_number"]
+        odds_pct = as_num(row.get("odds_prediction_pct"))
+        odds_rank = as_num(row.get("odds_prediction_pct_rank"))
+        if odds_pct is None:
+            continue
+        live_odds_context[f"boat{boat}_odds_prediction_pct"] = odds_pct
+        live_odds_context[f"boat{boat}_odds_rank"] = odds_rank
+        live_odds_boats[str(boat)] = {
+            "odds_prediction_pct": odds_pct,
+            "odds_prediction_rank": odds_rank,
+        }
+    boat1_odds_pct = (
+        as_num(b1.get("odds_prediction_pct"))
+        if as_num(b1.get("odds_prediction_pct")) is not None
+        else as_num(morning_metrics.get("boat1_odds_prediction_pct"))
+    )
+    boat1_odds_rank = (
+        as_num(b1.get("odds_prediction_pct_rank"))
+        if as_num(b1.get("odds_prediction_pct_rank")) is not None
+        else as_num(morning_metrics.get("boat1_odds_rank"))
+    )
+    live_odds_context["boat1_odds_prediction_pct"] = boat1_odds_pct
+    live_odds_context["boat1_odds_rank"] = boat1_odds_rank
+    live_odds_context["odds_snapshot_source"] = (
+        "boaters_after_exhibition" if live_odds_boats else morning_metrics.get("odds_snapshot_source") or "morning_saved"
+    )
+    if live_odds_boats:
+        live_odds_context["odds_boats"] = live_odds_boats
+    if live_odds_boats and boat1_odds_pct is not None:
+        boat1_odds_rank_int = int(boat1_odds_rank or 9)
+        if boat1_odds_rank_int == 1 and boat1_odds_pct >= 40:
+            popular_score = 35 + max(0, boat1_odds_pct - 40) * 1.2
+            popular_reasons = [f"展示後オッズ評価で1号艇が1位{boat1_odds_pct:.1f}%"]
+            if b1_loss is not None and b1_loss >= 45:
+                popular_score += 13 if b1_loss < 55 else 20
+                popular_reasons.append(f"逃げ失敗率{b1_loss:.1f}%")
+            if b1.get("avg_isshu_diff") is not None and b1.get("avg_isshu_diff") <= 0:
+                popular_score += 10 if b1.get("avg_isshu_diff") > -0.10 else 16
+                popular_reasons.append(f"展示+1周平均との差{b1.get('avg_isshu_diff'):.2f}")
+            if outer56_best_avgdiff is not None and outer56_best_avgdiff >= 0.10:
+                popular_score += 8
+                popular_reasons.append(f"5/6号艇の展示+1周平均との差+{outer56_best_avgdiff:.2f}")
+            if slit_metrics.get("slit_outer56_pressure_vs_1") or slit_metrics.get("slit_b1_hole_vs_23"):
+                popular_score += 8
+                popular_reasons.append("スリットで1号艇に外圧")
+            if summer_factor["signal"] == "slow_fly":
+                popular_score += 9
+                popular_reasons.append("夏場1周が悪い")
+            popular_score = max(popular_score, as_num(morning_metrics.get("popular_b1_fly_score")) or 0)
+            popular_score = round(bounded(popular_score, 0, 100), 1)
+            if popular_score >= 75:
+                popular_level = "超危険"
+            elif popular_score >= 60:
+                popular_level = "危険"
+            elif popular_score >= 45:
+                popular_level = "注意"
+            else:
+                popular_level = "人気だが鉄板寄り"
+            live_odds_context.update(
+                {
+                    "popular_b1_is_popular": True,
+                    "popular_b1_source": "展示後BOATERSオッズ評価",
+                    "popular_b1_fly_score": popular_score,
+                    "popular_b1_fly_level": popular_level,
+                    "popular_b1_not_win_rate_pct": round(bounded(31.87 + (popular_score - 45) * 0.62, 31.87, 72.0), 2),
+                    "popular_b1_top3_miss_rate_pct": round(bounded(10.28 + (popular_score - 45) * 0.36, 10.28, 43.0), 2),
+                    "popular_b1_manshu_rate_pct": round(bounded(16.6 + (popular_score - 45) * 0.25, 16.6, 36.0), 2),
+                    "popular_b1_rate_source": "展示後オッズ評価+直前展示からの目安",
+                    "popular_b1_reasons": popular_reasons[:7],
+                    "popular_b1_matched_conditions": morning_metrics.get("popular_b1_matched_conditions") or [],
+                }
+            )
+        else:
+            live_odds_context.update(
+                {
+                    "popular_b1_is_popular": False,
+                    "popular_b1_source": "展示後BOATERSオッズ評価",
+                    "popular_b1_fly_score": 0,
+                    "popular_b1_fly_level": "人気不足",
+                    "popular_b1_not_win_rate_pct": None,
+                    "popular_b1_top3_miss_rate_pct": None,
+                    "popular_b1_manshu_rate_pct": None,
+                    "popular_b1_rate_source": "展示後オッズ評価で人気不足",
+                    "popular_b1_reasons": [f"展示後オッズ評価{fmt_pct(boat1_odds_pct)}({boat1_odds_rank_int}位)で1号艇が売れすぎではない"],
+                    "popular_b1_matched_conditions": [],
+                }
+            )
+    for row in rows:
+        row["_morning_metrics"] = {**morning_metrics, **live_odds_context}
+    morning_metrics = rows[0].get("_morning_metrics") or {}
     compute_composite_boat_rates(rows)
     _, selection_roles = super_arunashi3(rows)
     boats = []
@@ -2013,6 +2153,8 @@ def race_metrics(rows, date_text=None):
                 "win_pct": row.get("ai_prediction_pct"),
                 "top3_pct": row.get("ai_3ren_pct"),
                 "general_top3_pct": row.get("general_3ren_pct"),
+                "odds_prediction_pct": row.get("odds_prediction_pct"),
+                "odds_prediction_rank": row.get("odds_prediction_pct_rank"),
                 "composite_win_pct": row.get("composite_win_pct"),
                 "composite_top3_pct": row.get("composite_top3_pct"),
                 "composite_top3_actual_pct": row.get("composite_top3_actual_pct"),
@@ -2036,8 +2178,20 @@ def race_metrics(rows, date_text=None):
     return {
         "boats": boats,
         "boat1_ai_prediction_pct": b1.get("ai_prediction_pct"),
-        "boat1_odds_prediction_pct": as_num(morning_metrics.get("boat1_odds_prediction_pct")),
-        "boat1_odds_rank": as_num(morning_metrics.get("boat1_odds_rank")),
+        "boat1_odds_prediction_pct": boat1_odds_pct,
+        "boat1_odds_rank": boat1_odds_rank,
+        "odds_snapshot_source": live_odds_context.get("odds_snapshot_source"),
+        "odds_boats": live_odds_context.get("odds_boats") or {},
+        **{
+            key: value
+            for key, value in live_odds_context.items()
+            if re.match(r"boat[1-6]_odds_(prediction_pct|rank)$", key)
+        },
+        **{
+            key: value
+            for key, value in live_odds_context.items()
+            if key.startswith("popular_b1_")
+        },
         "boat1_ai_plus": b1.get("ai_plus"),
         "boat1_ai_plus_order": b1.get("ai_plus_rank"),
         "boat1_nige_pct": b1.get("nige_pct"),
@@ -2596,12 +2750,15 @@ def fetch_live_race(race, refresh=True):
         raise RuntimeError(f"unknown place slug: {place}")
     date_text = race.get("date")
     round_no = int(race.get("round"))
-    data = extract_data_page(fetch_boaters_page(slug, date_text, round_no, "data", refresh=refresh))
+    data_text = fetch_boaters_page(slug, date_text, round_no, "data", refresh=refresh)
+    data = extract_data_page(data_text)
+    odds = extract_live_odds_page(data_text)
     last = extract_last_minute_page(fetch_boaters_page(slug, date_text, round_no, "last-minute", refresh=refresh))
     by_boat = {}
     for boat in range(1, 7):
         row = {}
         row.update(data.get(boat, {}))
+        row.update({k: v for k, v in (odds.get(boat) or {}).items() if v is not None})
         row.update(last.get(boat, {}))
         by_boat[boat] = row
     return by_boat
