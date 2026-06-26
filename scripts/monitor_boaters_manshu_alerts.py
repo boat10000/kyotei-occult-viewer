@@ -873,6 +873,191 @@ def codex_rank56_exhibit10(rows):
     }
 
 
+def row_by_boat(rows, boat):
+    return next((row for row in rows if row.get("boat_number") == boat), {})
+
+
+def rank_boats_for_key(rows, key, ranks=(1, 2)):
+    ranked = sorted(
+        [row for row in rows if row.get(key) is not None],
+        key=lambda row: (-(row.get(key) or 0), row["boat_number"]),
+    )
+    return unique(ranked[rank_no - 1]["boat_number"] for rank_no in ranks if 1 <= rank_no <= len(ranked))
+
+
+def revive_reasons(row):
+    reasons = []
+    if row.get("double_time"):
+        reasons.append("ダブルタイム")
+    if row.get("super_slit_alert"):
+        reasons.append("スーパースリット")
+    if row.get("low_outer_revive"):
+        reasons.append("低評価外枠の展示復活")
+    if row.get("exhibit_rank", 9) <= 2:
+        reasons.append("展示か1周が2位以内")
+    if (row.get("avg_isshu_diff") or -9) >= 0.10:
+        reasons.append("展示+1周平均との差が良い")
+    return reasons
+
+
+def select_keshi_boat(rows, protected=None):
+    protected = set(protected or [])
+    candidates = sorted(
+        rows,
+        key=lambda row: (
+            row.get("ai_plus") if row.get("ai_plus") is not None else 999,
+            row.get("ai_3ren_pct") if row.get("ai_3ren_pct") is not None else 999,
+            row.get("ai_prediction_pct") if row.get("ai_prediction_pct") is not None else 999,
+            row["boat_number"],
+        ),
+    )
+    if not candidates:
+        return None, "消し候補を作れるデータがありません", None, []
+    ai_plus_last = candidates[0]
+    ai_plus_last_revival = revive_reasons(ai_plus_last)
+    chosen = next((row for row in candidates if row["boat_number"] not in protected), ai_plus_last)
+    if ai_plus_last_revival and len(candidates) >= 2:
+        for candidate in candidates[1:]:
+            if candidate["boat_number"] not in protected and len(revive_reasons(candidate)) < len(ai_plus_last_revival):
+                chosen = candidate
+                break
+    last_boat = ai_plus_last["boat_number"]
+    if chosen["boat_number"] == last_boat:
+        reason = "AI3連対率+一般3連対率が6位で、展示・一周・スリットの復活材料が弱い"
+    elif last_boat in protected:
+        reason = f"AI+6位の{last_boat}号艇は頭/軸候補なので消さず、次に弱い{chosen['boat_number']}号艇を消し"
+    else:
+        reason = f"AI+6位の{last_boat}号艇は{','.join(ai_plus_last_revival)}があり残す。代わりに{chosen['boat_number']}号艇を消し"
+    return chosen["boat_number"], reason, last_boat, ai_plus_last_revival
+
+
+def b1_infly_signal(rows, metrics=None, min_score=2, min_loss=50):
+    metrics = metrics or {}
+    b1 = row_by_boat(rows, 1)
+    loss = as_num(metrics.get("boat1_loss_pct"))
+    if loss is None:
+        loss = (as_num(b1.get("sasare_pct")) or 0) + (as_num(b1.get("makurare_pct")) or 0)
+
+    b1_avg_diff = as_num(metrics.get("boat1_avg_isshu_diff"))
+    if b1_avg_diff is None:
+        b1_avg_diff = as_num(b1.get("avg_isshu_diff"))
+    b1_exhibit_rank = (
+        as_num(metrics.get("boat1_tenji_rank"))
+        or as_num(metrics.get("boat1_tenji_time_rank"))
+        or as_num(b1.get("exhibit_rank"))
+        or 9
+    )
+    b1_isshu_rank = as_num(metrics.get("boat1_isshu_rank")) or as_num(b1.get("isshu_rank")) or 9
+    b1_double = bool(b1.get("double_time")) or 1 in set(metrics.get("double_time_boats") or [])
+
+    outer_push = any(
+        bool(row.get("super_slit_alert"))
+        or bool(row.get("double_time"))
+        or ((as_num(row.get("avg_isshu_diff")) or -9) >= 0.10)
+        or ((as_num(row.get("ai_prediction_pct")) or 0) >= 15)
+        for row in (row_by_boat(rows, boat) for boat in (3, 4, 5, 6))
+    )
+    center_push = any(
+        bool(row.get("super_slit_alert"))
+        or ((as_num(row.get("ai_prediction_pct")) or 0) >= 15)
+        or ((as_num(row.get("avg_isshu_diff")) or -9) >= 0.10)
+        for row in (row_by_boat(rows, boat) for boat in (3, 4))
+    )
+    exhibit_bad = (
+        (b1_avg_diff is not None and b1_avg_diff < 0)
+        or b1_exhibit_rank >= 3
+        or b1_isshu_rank >= 4
+        or not b1_double
+    )
+
+    score = 0
+    score += 2 if loss >= 55 else 1 if loss >= 45 else 0
+    score += 1 if exhibit_bad else 0
+    score += 1 if outer_push else 0
+    score += 1 if center_push else 0
+    if b1_double and b1_avg_diff is not None and b1_avg_diff >= 0.10:
+        score -= 1
+
+    checks = [
+        f"1号艇逃げ失敗{loss:.1f}%{'OK' if loss >= min_loss else 'NG'}",
+        f"1号艇展示/1周弱め{'OK' if exhibit_bad else 'NG'}",
+        f"3〜6号艇の押し上げ{'OK' if outer_push else 'NG'}",
+        f"3/4攻撃材料{'OK' if center_push else 'NG'}",
+        f"イン飛び点{score}点{'OK' if score >= min_score else 'NG'}",
+    ]
+    return loss >= min_loss and score >= min_score, score, loss, checks
+
+
+def codex_infly_head2_axis12(rows):
+    ok, score, loss, checks = b1_infly_signal(rows)
+    if not ok:
+        return set(), None
+
+    heads = top_boats_live(rows, {3, 4, 5, 6}, "ai_pred", 2)
+    if len(heads) < 2:
+        return set(), None
+
+    b2 = row_by_boat(rows, 2)
+    second_head = row_by_boat(rows, heads[1])
+    b2_score = boat_score_live(b2, "ai_pred")
+    second_score = boat_score_live(second_head, "ai_pred")
+    if (
+        b2
+        and b2.get("boat_number") not in heads
+        and b2_score >= second_score + 8
+        and ((as_num(b2.get("composite_win_pct")) or 0) >= 25 or bool(b2.get("super_slit_alert")))
+    ):
+        heads = unique([heads[0], 2])[:2]
+
+    axes = rank_boats_for_key(rows, "ai_plus", (1, 2))
+    if len(axes) < 2:
+        axes = rank_boats_for_key(rows, "ai_3ren_pct", (1, 2))
+    if len(axes) < 2:
+        axes = rank_boats_for_key(rows, "composite_top3_actual_pct", (1, 2))
+
+    keshi, keshi_reason, ai_plus_rank6_boat, ai_plus_rank6_revival = select_keshi_boat(
+        rows, protected=set(heads + axes)
+    )
+    if len(axes) < 2 or keshi is None:
+        return set(), None
+
+    pool = [boat for boat in range(1, 7) if boat != keshi]
+    tickets = set()
+    for head in heads:
+        if head in {1, keshi}:
+            continue
+        for axis in axes:
+            if axis in {head, keshi}:
+                continue
+            for other in pool:
+                if other in {head, axis}:
+                    continue
+                tickets.add(f"{head}{axis}{other}")
+                tickets.add(f"{head}{other}{axis}")
+
+    if not (8 <= len(tickets) <= 24):
+        return set(), None
+
+    return tickets, {
+        "heads": heads,
+        "axes": axes,
+        "supports": pool,
+        "keshi": keshi,
+        "keshi_reason": keshi_reason,
+        "ai_plus_rank6_boat": ai_plus_rank6_boat,
+        "ai_plus_rank6_revival": ai_plus_rank6_revival,
+        "axis_rule": "AI3連対率+一般3連対率の1位と2位",
+        "in_fly_score": score,
+        "in_fly_loss_pct": loss,
+        "in_fly_checks": checks,
+        "role_note": (
+            f"イン飛び判定{score}点/逃げ失敗{loss:.1f}%なので1号艇は頭切り。"
+            f"頭{heads[0]},{heads[1]} / 軸はAI+一般3連対1位2位の{axes[0]},{axes[1]} / "
+            f"1号艇は2・3着相手に残し、消し{keshi}以外へ折り返し"
+        ),
+    }
+
+
 def weather_value(race, key):
     value = as_num(race.get(key))
     if value is not None:
@@ -1296,6 +1481,7 @@ def condition_confirmed(condition, metrics):
 def roi_strategies(race, metrics, rows):
     place = race.get("place_name")
     round_no = int(race.get("round") or 0)
+    rank_no = int(race.get("rank") or race.get("morning_rank") or race.get("live_rank") or 99)
     b1_bad = (
         (metrics.get("boat1_tenji_rank", 9) >= 4)
         or (metrics.get("boat1_tenji_time_rank", 9) >= 4)
@@ -1304,6 +1490,26 @@ def roi_strategies(race, metrics, rows):
     strategies = []
     wind_wave = (weather_value(race, "wind_speed") or 0) >= 5 or (weather_value(race, "wave_height") or 0) >= 5
     b1_summer_fast = (metrics.get("b1_summer_isshu_factor") or metrics.get("boat1_summer_isshu_factor")) == "fast_hold"
+    in_fly_ok, in_fly_score, in_fly_loss, _in_fly_checks = b1_infly_signal(rows, metrics=metrics)
+    if (
+        rank_no <= 7
+        and place not in {"宮島", "芦屋"}
+        and 9 <= round_no <= 12
+        and (race.get("manshu_rate_pct") or 0) >= 27
+        and metrics.get("tenji_boats", 0) >= 6
+        and metrics.get("isshu_boats", 0) >= 6
+        and in_fly_ok
+    ):
+        strategies.append(
+            (
+                "codex_infly_head2_axis12",
+                (
+                    "Codexイン飛び型: TOP7 9〜12R 宮島芦屋除外 "
+                    f"1頭切り 外頭2艇+AI+軸1/2 {in_fly_score}点/{in_fly_loss:.0f}%"
+                ),
+                codex_infly_head2_axis12,
+            )
+        )
     if (
         round_no <= 3
         and (metrics.get("boat1_nige_pct") or 999) < 40
@@ -1401,11 +1607,18 @@ def roi_strategies(race, metrics, rows):
                 "strategy_id": strategy_id,
                 "label": label,
                 "points": len(tickets),
-                "heads": roles["heads"],
-                "axes": roles["axes"],
+                "heads": roles.get("heads", []),
+                "axes": roles.get("axes", []),
+                "axis_rule": roles.get("axis_rule"),
                 "supports": roles.get("supports", []),
-                "keshi": roles["keshi"],
-                "role_note": roles["role_note"],
+                "keshi": roles.get("keshi"),
+                "keshi_reason": roles.get("keshi_reason"),
+                "ai_plus_rank6_boat": roles.get("ai_plus_rank6_boat"),
+                "ai_plus_rank6_revival": roles.get("ai_plus_rank6_revival", []),
+                "in_fly_score": roles.get("in_fly_score"),
+                "in_fly_loss_pct": roles.get("in_fly_loss_pct"),
+                "in_fly_checks": roles.get("in_fly_checks", []),
+                "role_note": roles.get("role_note"),
                 "tickets": [fmt_ticket(ticket) for ticket in sorted(tickets)],
                 "odds_filter": "3連単50倍未満は買わない",
             }
@@ -1495,12 +1708,18 @@ def make_message(race, alert_type, metrics, checks, strategies):
     if alert_type == "buy_ok" and strategies:
         s = strategies[0]
         support_text = f" / 相手: {fmt_list(s.get('supports'))}" if s.get("supports") else ""
+        axis_rule = f"({s.get('axis_rule')})" if s.get("axis_rule") else ""
+        infly_text = ""
+        if s.get("in_fly_score") is not None:
+            infly_text = f"\nイン飛び判定: {s.get('in_fly_score')}点 / 逃げ失敗{fmt_pct(s.get('in_fly_loss_pct'))}"
+        keshi_reason = f"\n消し理由: {s.get('keshi_reason')}" if s.get("keshi_reason") else ""
         return (
             f"【買い候補】{base}\n"
             f"{metric_text}\n"
             f"直前条件: {' / '.join(checks)}\n"
             f"買い方: {s['label']} / {s['points']}点 / {s['odds_filter']}\n"
-            f"頭候補: {fmt_list(s['heads'])} / 軸: {fmt_list(s['axes'])}{support_text} / 消し: {fmt_role(s['keshi'])}\n"
+            f"頭候補: {fmt_list(s['heads'])} / 軸: {fmt_list(s['axes'])}{axis_rule}{support_text} / 消し: {fmt_role(s['keshi'])}"
+            f"{infly_text}{keshi_reason}\n"
             f"買い目: {' '.join(s['tickets'])}"
         )
     return (
