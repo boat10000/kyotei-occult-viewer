@@ -1,7 +1,7 @@
 {
   "version": "boaters-manshu-logic-v2",
   "date": "2026-06-26",
-  "generated_at": "2026-06-26T04:51:24+00:00",
+  "generated_at": "2026-06-26T08:32:19+00:00",
   "threshold_pct": 27.0,
   "logic_label": "Codex厳選ランキング（全ファクター統合）",
   "logic_summary": "過去検証27%以上の強条件、三連単人気1〜5が1号艇頭の売れ過ぎイン飛び、1号艇弱化、外枠上振れ、AI+下位の穴、AI/オッズ評価、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクター、天候/風波、今回メンバー同士の対戦相性をすべて同じスコアに混ぜた統合厳選ランキング。",
@@ -15,12 +15,12 @@
     "races_with_full_isshu": 0,
     "displayed_top_n": 10,
     "strict_displayed_top_n": 10,
-    "settled_top_n": 1,
-    "manshu_hits_top_n": 0,
-    "actual_manshu_rate_top_n_pct": 0.0,
-    "strict_settled_top_n": 1,
-    "strict_manshu_hits_top_n": 0,
-    "strict_actual_manshu_rate_top_n_pct": 0.0
+    "settled_top_n": 8,
+    "manshu_hits_top_n": 2,
+    "actual_manshu_rate_top_n_pct": 25.0,
+    "strict_settled_top_n": 8,
+    "strict_manshu_hits_top_n": 2,
+    "strict_actual_manshu_rate_top_n_pct": 25.0
   },
   "races": [
     {
@@ -638,13 +638,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
-        "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "trifecta": "4-3-5",
+        "payout_yen": 23450,
+        "manshu": true,
+        "win_method": 3,
+        "weather": 3,
+        "wind_speed": 2.0,
+        "wave_height": 3.0
       }
     },
     {
@@ -1281,13 +1281,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "2-1-4",
+        "payout_yen": 1280,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 2,
+        "weather": 3,
+        "wind_speed": 1.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -1886,13 +1886,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-2-3",
+        "payout_yen": 1880,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 1,
+        "weather": 3,
+        "wind_speed": 1.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -2431,13 +2431,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "4-1-6",
+        "payout_yen": 3760,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 2,
+        "weather": 3,
+        "wind_speed": 0.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -3052,12 +3052,12 @@
           1,
           4
         ],
-        "axis_rule": "AI3連対率+一般3連対率の1位と3位",
+        "axis_rule": "AI3連対率の1位と3位",
         "alt_axes": [
           3,
           4
         ],
-        "alt_axis_rule": "AI3連対率+一般3連対率の2位と3位",
+        "alt_axis_rule": "AI3連対率の2位と3位",
         "tickets": [
           "3-1-2",
           "3-1-4",
@@ -3087,13 +3087,13 @@
         "codex_logic29_late_outer12"
       ],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
-        "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "trifecta": "1-5-3",
+        "payout_yen": 15530,
+        "manshu": true,
+        "win_method": 1,
+        "weather": 3,
+        "wind_speed": 1.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -3714,13 +3714,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "4-6-5",
+        "payout_yen": 8600,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 3,
+        "weather": 3,
+        "wind_speed": 3.0,
+        "wave_height": 3.0
       }
     },
     {
@@ -4434,13 +4434,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
+        "trifecta": "1-2-4",
         "payout_yen": null,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 1,
+        "weather": 2,
+        "wind_speed": 2.0,
+        "wave_height": 5.0
       }
     },
     {
@@ -5057,13 +5057,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "3-1-2",
+        "payout_yen": 5200,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 5,
+        "weather": 3,
+        "wind_speed": 0.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -5736,14 +5736,14 @@
         },
         "axes": [
           6,
-          4
+          2
         ],
-        "axis_rule": "AI3連対率+一般3連対率の1位と3位",
+        "axis_rule": "AI3連対率の1位と3位",
         "alt_axes": [
-          2,
-          4
+          4,
+          2
         ],
-        "alt_axis_rule": "AI3連対率+一般3連対率の2位と3位",
+        "alt_axis_rule": "AI3連対率の2位と3位",
         "tickets": [
           "4-1-6",
           "4-2-1",
@@ -7003,13 +7003,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
-        "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "trifecta": "4-3-5",
+        "payout_yen": 23450,
+        "manshu": true,
+        "win_method": 3,
+        "weather": 3,
+        "wind_speed": 2.0,
+        "wave_height": 3.0
       }
     },
     {
@@ -7646,13 +7646,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "2-1-4",
+        "payout_yen": 1280,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 2,
+        "weather": 3,
+        "wind_speed": 1.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -8251,13 +8251,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-2-3",
+        "payout_yen": 1880,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 1,
+        "weather": 3,
+        "wind_speed": 1.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -8796,13 +8796,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "4-1-6",
+        "payout_yen": 3760,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 2,
+        "weather": 3,
+        "wind_speed": 0.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -9417,12 +9417,12 @@
           1,
           4
         ],
-        "axis_rule": "AI3連対率+一般3連対率の1位と3位",
+        "axis_rule": "AI3連対率の1位と3位",
         "alt_axes": [
           3,
           4
         ],
-        "alt_axis_rule": "AI3連対率+一般3連対率の2位と3位",
+        "alt_axis_rule": "AI3連対率の2位と3位",
         "tickets": [
           "3-1-2",
           "3-1-4",
@@ -9452,13 +9452,13 @@
         "codex_logic29_late_outer12"
       ],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
-        "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "trifecta": "1-5-3",
+        "payout_yen": 15530,
+        "manshu": true,
+        "win_method": 1,
+        "weather": 3,
+        "wind_speed": 1.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -10079,13 +10079,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "4-6-5",
+        "payout_yen": 8600,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 3,
+        "weather": 3,
+        "wind_speed": 3.0,
+        "wave_height": 3.0
       }
     },
     {
@@ -10799,13 +10799,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
+        "trifecta": "1-2-4",
         "payout_yen": null,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 1,
+        "weather": 2,
+        "wind_speed": 2.0,
+        "wave_height": 5.0
       }
     },
     {
@@ -11422,13 +11422,13 @@
       "last_minute_checks": [],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "3-1-2",
+        "payout_yen": 5200,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 5,
+        "weather": 3,
+        "wind_speed": 0.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -12101,14 +12101,14 @@
         },
         "axes": [
           6,
-          4
+          2
         ],
-        "axis_rule": "AI3連対率+一般3連対率の1位と3位",
+        "axis_rule": "AI3連対率の1位と3位",
         "alt_axes": [
-          2,
-          4
+          4,
+          2
         ],
-        "alt_axis_rule": "AI3連対率+一般3連対率の2位と3位",
+        "alt_axis_rule": "AI3連対率の2位と3位",
         "tickets": [
           "4-1-6",
           "4-2-1",
