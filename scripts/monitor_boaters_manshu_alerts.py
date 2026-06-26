@@ -1090,10 +1090,10 @@ def axis_boats_by_ai_plus(rows, ranks=(1, 3)):
 
 def axis_boats_for_roles(rows, ranks=(1, 3)):
     rank_label = "と".join(f"{rank}位" for rank in ranks)
-    if sum(1 for row in rows if row.get("ai_plus") is not None) >= max(ranks):
-        return rank_boats_for_key(rows, "ai_plus", ranks), f"AI3連対率+一般3連対率の{rank_label}"
     if sum(1 for row in rows if row.get("ai_3ren_pct") is not None) >= max(ranks):
-        return rank_boats_for_key(rows, "ai_3ren_pct", ranks), f"AI+一般3連対が不足したためAI3連対率の{rank_label}"
+        return rank_boats_for_key(rows, "ai_3ren_pct", ranks), f"AI3連対率の{rank_label}"
+    if sum(1 for row in rows if row.get("ai_plus") is not None) >= max(ranks):
+        return rank_boats_for_key(rows, "ai_plus", ranks), f"AI3連対率が不足したためAI+一般3連対の{rank_label}"
     return rank_boats_for_key(rows, "composite_top3_actual_pct", ranks), f"AI+一般3連対が不足したため複合3着内率の{rank_label}"
 
 
@@ -2469,6 +2469,7 @@ def condition_confirmed(condition, metrics):
 def roi_strategies(race, metrics, rows):
     place = race.get("place_name")
     round_no = int(race.get("round") or 0)
+    rank_no = int(race.get("rank") or race.get("morning_rank") or race.get("live_rank") or 99)
     b1_bad = (
         (metrics.get("boat1_tenji_rank", 9) >= 4)
         or (metrics.get("boat1_tenji_time_rank", 9) >= 4)
@@ -2479,10 +2480,10 @@ def roi_strategies(race, metrics, rows):
     b1_summer_fast = (metrics.get("b1_summer_isshu_factor") or metrics.get("boat1_summer_isshu_factor")) == "fast_hold"
     base_tickets, base_roles = super_arunashi3(rows)
     late_outer_head_keshi_signal = (
-        round_no >= 9
+        rank_no <= 7
+        and place != "宮島"
+        and round_no >= 10
         and (race.get("manshu_rate_pct") or 0) >= 27
-        and metrics.get("tenji_boats", 0) >= 6
-        and metrics.get("isshu_boats", 0) >= 6
         and bool(base_tickets)
         and base_roles is not None
         and set(base_roles.get("heads") or []).issubset({3, 4, 5, 6})
@@ -2494,7 +2495,7 @@ def roi_strategies(race, metrics, rows):
         strategies.append(
             (
                 "codex_late_outer_head_keshi15",
-                "Codex本命型: 9〜12R 外頭2艇+外消し 10〜15点",
+                "Codex本命型: TOP7 10〜12R 宮島除外 外頭2艇+外消し AI3軸 10〜15点",
                 super_arunashi3,
             )
         )
