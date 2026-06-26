@@ -1,15 +1,505 @@
 {
   "version": "boaters-manshu-alerts-v1",
   "date": "2026-06-26",
-  "generated_at": "2026-06-26T09:16:11+09:00",
+  "generated_at": "2026-06-26T13:50:45+09:00",
   "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_morning_ranking_20260626.json",
   "public_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260626.json",
   "live_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_live_ranking_20260626.json",
-  "public_metrics_updated": false,
+  "public_metrics_updated": true,
   "top_n": 10,
   "riser_top_n": 10,
   "lookahead_minutes": 20.0,
-  "alerts": [],
+  "alerts": [
+    {
+      "alert_type": "buy_ok",
+      "race_id": "2026-06-261707",
+      "date": "2026-06-26",
+      "rank": 5,
+      "morning_rank": 5,
+      "live_rank": null,
+      "place_name": "宮島",
+      "round": 7,
+      "deadline_time": "2026-06-26T13:54:00+09:00",
+      "manshu_rate_pct": 33.5,
+      "recent_rate_pct": 34.04,
+      "condition": "Codex厳選ランキング: 過去27%以上条件、1号艇弱化、外枠上振れ、AI/オッズ、展示+1周、スリット隊形、女子戦、天候、対戦相性を全統合 × Codex複合補正: スリット隊形: 5/6外圧 / スリット隊形: 4〜6外圧",
+      "checks": [
+        "スリット隊形外圧:OK",
+        "対戦相性あり:NG"
+      ],
+      "metrics": {
+        "boats": [
+          {
+            "boat_number": 1,
+            "win_pct": 76.29,
+            "top3_pct": 95.16,
+            "general_top3_pct": 75.0,
+            "odds_prediction_pct": 52.23,
+            "odds_prediction_rank": 1,
+            "composite_win_pct": 70.0,
+            "composite_top3_pct": 32.63,
+            "composite_top3_actual_pct": 92.0,
+            "composite_rate_reasons": [
+              "AI+1位で基本力が高い",
+              "展示タイムと1周タイムが両方1位",
+              "展示+1周が平均より0.55秒速い",
+              "夏場の1周タイムが平均より速くイン残り寄り"
+            ],
+            "ai_plus": 170.16,
+            "ai_prediction_rank": 1,
+            "top3_rank": 1,
+            "ai_plus_rank": 1,
+            "st_rank_general": 3.4062,
+            "tenji_time": 6.62,
+            "tenji_rank": 1,
+            "isshu_time": 37.51,
+            "isshu_rank": 1,
+            "avg_isshu_diff": 0.5467,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": null,
+            "super_slit_st_rank_adv": null,
+            "double_time": true
+          },
+          {
+            "boat_number": 2,
+            "win_pct": 4.23,
+            "top3_pct": 52.38,
+            "general_top3_pct": 50.0,
+            "odds_prediction_pct": 12.33,
+            "odds_prediction_rank": 4,
+            "composite_win_pct": 5.43,
+            "composite_top3_pct": 19.28,
+            "composite_top3_actual_pct": 58.58,
+            "composite_rate_reasons": [
+              "展示か1周が2位以内",
+              "展示+1周が平均より0.13秒速い"
+            ],
+            "ai_plus": 102.38,
+            "ai_prediction_rank": 4,
+            "top3_rank": 4,
+            "ai_plus_rank": 4,
+            "st_rank_general": 3.1364,
+            "tenji_time": 6.72,
+            "tenji_rank": 5,
+            "isshu_time": 37.83,
+            "isshu_rank": 2,
+            "avg_isshu_diff": 0.1267,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": -0.1,
+            "super_slit_st_rank_adv": 0.27,
+            "double_time": false
+          },
+          {
+            "boat_number": 3,
+            "win_pct": 8.12,
+            "top3_pct": 70.24,
+            "general_top3_pct": 48.28,
+            "odds_prediction_pct": 12.94,
+            "odds_prediction_rank": 3,
+            "composite_win_pct": 7.93,
+            "composite_top3_pct": 24.44,
+            "composite_top3_actual_pct": 74.06,
+            "composite_rate_reasons": [
+              "AI+2位で基本力が高い",
+              "展示か1周が2位以内",
+              "展示+1周が平均より0.15秒速い"
+            ],
+            "ai_plus": 118.52,
+            "ai_prediction_rank": 3,
+            "top3_rank": 2,
+            "ai_plus_rank": 2,
+            "st_rank_general": 3.7586,
+            "tenji_time": 6.65,
+            "tenji_rank": 2,
+            "isshu_time": 37.88,
+            "isshu_rank": 3,
+            "avg_isshu_diff": 0.1467,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": 0.07,
+            "super_slit_st_rank_adv": -0.622,
+            "double_time": false
+          },
+          {
+            "boat_number": 4,
+            "win_pct": 10.49,
+            "top3_pct": 67.27,
+            "general_top3_pct": 48.0,
+            "odds_prediction_pct": 17.54,
+            "odds_prediction_rank": 2,
+            "composite_win_pct": 7.78,
+            "composite_top3_pct": 21.26,
+            "composite_top3_actual_pct": 64.52,
+            "composite_rate_reasons": [],
+            "ai_plus": 115.27,
+            "ai_prediction_rank": 2,
+            "top3_rank": 3,
+            "ai_plus_rank": 3,
+            "st_rank_general": 2.76,
+            "tenji_time": 6.66,
+            "tenji_rank": 3,
+            "isshu_time": 38.03,
+            "isshu_rank": 4,
+            "avg_isshu_diff": -0.0133,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": -0.01,
+            "super_slit_st_rank_adv": 0.999,
+            "double_time": false
+          },
+          {
+            "boat_number": 5,
+            "win_pct": 0.66,
+            "top3_pct": 11.11,
+            "general_top3_pct": 5.0,
+            "odds_prediction_pct": 3.58,
+            "odds_prediction_rank": 5,
+            "composite_win_pct": 4.43,
+            "composite_top3_pct": 1.39,
+            "composite_top3_actual_pct": 5.42,
+            "composite_rate_reasons": [
+              "AI+5位で基本力は低め",
+              "展示+1周が平均より0.52秒遅い"
+            ],
+            "ai_plus": 16.11,
+            "ai_prediction_rank": 5,
+            "top3_rank": 5,
+            "ai_plus_rank": 5,
+            "st_rank_general": 2.7619,
+            "tenji_time": 6.76,
+            "tenji_rank": 6,
+            "isshu_time": 38.44,
+            "isshu_rank": 6,
+            "avg_isshu_diff": -0.5233,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": -0.1,
+            "super_slit_st_rank_adv": -0.002,
+            "double_time": false
+          },
+          {
+            "boat_number": 6,
+            "win_pct": 0.22,
+            "top3_pct": 3.85,
+            "general_top3_pct": 0.0,
+            "odds_prediction_pct": 1.37,
+            "odds_prediction_rank": 6,
+            "composite_win_pct": 4.43,
+            "composite_top3_pct": 1.0,
+            "composite_top3_actual_pct": 5.42,
+            "composite_rate_reasons": [
+              "AI+6位で基本力は低め",
+              "展示+1周が平均より0.28秒遅い",
+              "低評価外枠だが展示で復活"
+            ],
+            "ai_plus": 3.85,
+            "ai_prediction_rank": 6,
+            "top3_rank": 6,
+            "ai_plus_rank": 6,
+            "st_rank_general": 4.3913,
+            "tenji_time": 6.71,
+            "tenji_rank": 4,
+            "isshu_time": 38.25,
+            "isshu_rank": 5,
+            "avg_isshu_diff": -0.2833,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": 0.05,
+            "super_slit_st_rank_adv": -1.629,
+            "double_time": false
+          }
+        ],
+        "boat1_ai_prediction_pct": 76.29,
+        "boat1_odds_prediction_pct": 52.23,
+        "boat1_odds_rank": 1.0,
+        "odds_snapshot_source": "boaters_after_exhibition",
+        "odds_boats": {
+          "1": {
+            "odds_prediction_pct": 52.23,
+            "odds_prediction_rank": 1.0
+          },
+          "2": {
+            "odds_prediction_pct": 12.33,
+            "odds_prediction_rank": 4.0
+          },
+          "3": {
+            "odds_prediction_pct": 12.94,
+            "odds_prediction_rank": 3.0
+          },
+          "4": {
+            "odds_prediction_pct": 17.54,
+            "odds_prediction_rank": 2.0
+          },
+          "5": {
+            "odds_prediction_pct": 3.58,
+            "odds_prediction_rank": 5.0
+          },
+          "6": {
+            "odds_prediction_pct": 1.37,
+            "odds_prediction_rank": 6.0
+          }
+        },
+        "boat2_odds_prediction_pct": 12.33,
+        "boat2_odds_rank": 4.0,
+        "boat3_odds_prediction_pct": 12.94,
+        "boat3_odds_rank": 3.0,
+        "boat4_odds_prediction_pct": 17.54,
+        "boat4_odds_rank": 2.0,
+        "boat5_odds_prediction_pct": 3.58,
+        "boat5_odds_rank": 5.0,
+        "boat6_odds_prediction_pct": 1.37,
+        "boat6_odds_rank": 6.0,
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "展示後BOATERSオッズ評価",
+        "popular_b1_fly_score": 57.7,
+        "popular_b1_fly_level": "注意",
+        "popular_b1_not_win_rate_pct": 39.74,
+        "popular_b1_top3_miss_rate_pct": 14.85,
+        "popular_b1_manshu_rate_pct": 19.78,
+        "popular_b1_rate_source": "展示後オッズ評価+直前展示からの目安",
+        "popular_b1_reasons": [
+          "展示後オッズ評価で1号艇が1位52.2%",
+          "スリットで1号艇に外圧"
+        ],
+        "popular_b1_matched_conditions": [],
+        "boat1_ai_plus": 170.16,
+        "boat1_ai_plus_order": 1,
+        "boat1_nige_pct": 30.95,
+        "boat1_loss_pct": 38.09,
+        "boat1_avg_isshu_diff": 0.5467,
+        "boat1_isshu_avg_diff": 0.48,
+        "avg_isshu_time": 37.99,
+        "avg_exhibit_combo_time": 44.67666666666667,
+        "is_summer": true,
+        "b1_summer_isshu_factor": "fast_hold",
+        "b1_summer_nige_delta_pp": 15,
+        "boat1_summer_isshu_factor": "fast_hold",
+        "boat1_summer_nige_delta_pp": 15,
+        "boat1_tenji_time": 6.62,
+        "boat1_isshu_time": 37.51,
+        "boat1_tenji_rank": 1,
+        "boat1_tenji_time_rank": 1,
+        "boat1_isshu_rank": 1,
+        "outer56_best_tenji_time": 6.71,
+        "outer56_best_isshu_time": 38.25,
+        "outer56_best_avg_isshu_diff": -0.2833,
+        "outer56_best_ai_prediction_pct": 0.66,
+        "ai_rank6_boat": 6,
+        "ai_rank6_avg_isshu_diff": -0.2833,
+        "ai_rank6_ai_prediction_pct": 0.22,
+        "ai_rank6_tenji_rank": 4,
+        "ai_rank6_isshu_rank": 5,
+        "ai_rank5_boat": 5,
+        "ai_rank5_avg_isshu_diff": -0.5233,
+        "ai_rank5_ai_prediction_pct": 0.66,
+        "ai_rank5_tenji_rank": 6,
+        "ai_rank5_isshu_rank": 6,
+        "low_outer_boat": 6,
+        "low_outer_ai_plus_rank": 6,
+        "low_outer_avg_isshu_diff": -0.2833,
+        "low_outer_ai_prediction_pct": 0.22,
+        "low_outer_tenji_rank": 4,
+        "low_outer_isshu_rank": 5,
+        "low_outer_exhibit_top2": false,
+        "center_attack_wall_outer": false,
+        "weather_pressure": false,
+        "outer_isshu_priority_b1weak": false,
+        "b1_full_tobashi_shape": false,
+        "longshot_head_boats": "",
+        "longshot_head_candidate_count": 0,
+        "longshot_head_with_b1_gap": false,
+        "double_time_boats": [
+          1
+        ],
+        "super_slit_boats": [],
+        "super_slit_alert_count": 0,
+        "mid234_super_slit_count": 0,
+        "outer456_super_slit_count": 0,
+        "outer56_super_slit_count": 0,
+        "slit_shape_label": "外圧",
+        "slit_b1_front_wall": false,
+        "slit_b1_hole_vs_23": false,
+        "slit_b2_wall_break_3peek": false,
+        "slit_b3_peek_vs_12": false,
+        "slit_b4_cadou_peek": false,
+        "slit_outer456_pressure": true,
+        "slit_outer56_pressure_vs_1": true,
+        "slit_b5_left_adv": false,
+        "slit_b6_left_adv": false,
+        "slit_center34_dent": false,
+        "slit_dekoboko": false,
+        "boat1_double_time": true,
+        "mid234_double_time_count": 0,
+        "outer46_double_time_count": 0,
+        "outer56_double_time_count": 0,
+        "outer56_tenji_advantage": -0.08999999999999986,
+        "outer56_isshu_advantage": -0.740000000000002,
+        "outer56_tenji_top2_count": 0,
+        "outer56_isshu_top2_count": 0,
+        "outer56_exhibit_top2_count": 0,
+        "outer56_low_aiplus_exhibit_top2_count": 0,
+        "outer56_low_aipred_exhibit_top2_count": 0,
+        "outer46_exhibit_top2_count": 0,
+        "outer46_low_aiplus_exhibit_top2_count": 0,
+        "matchup_lane1_pressure_score": 0.0,
+        "matchup_outer_good_count": 0,
+        "matchup_lane1_bad_flag": false,
+        "matchup_notes": "",
+        "matchup_buff_boats": "",
+        "b1_matchup_label": "相性データ薄",
+        "b2_matchup_label": "相性データ薄",
+        "b3_matchup_label": "相性データ薄",
+        "b4_matchup_label": "相性データ薄",
+        "b5_matchup_label": "相性データ薄",
+        "b6_matchup_label": "相性データ薄",
+        "head_primary_boats": [
+          3,
+          4
+        ],
+        "axis_primary_boats": [
+          1,
+          4
+        ],
+        "axis_alt_boats": [
+          3,
+          4
+        ],
+        "keshi_boat": 5,
+        "keshi_reason": "AI3連対率+一般3連対率6位の6号艇は低評価外枠の展示復活があり残す。代わりに5号艇を消し",
+        "ai_plus_rank6_boat": 6,
+        "ai_plus_rank6_revival": [
+          "低評価外枠の展示復活"
+        ],
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "selection": {
+        "version": "codex_roles_v2",
+        "label": "Codex候補",
+        "heads": [
+          3,
+          4
+        ],
+        "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
+        "head_scores": {
+          "3": {
+            "score": 23.93,
+            "reasons": [
+              "複合1着率7.9%",
+              "万舟は3〜6号艇頭が多い",
+              "展示+1周平均との差+0.15",
+              "展示か1周が2位以内"
+            ]
+          },
+          "4": {
+            "score": 15.78,
+            "reasons": [
+              "複合1着率7.8%",
+              "万舟は3〜6号艇頭が多い"
+            ]
+          }
+        },
+        "axes": [
+          1,
+          4
+        ],
+        "axis_rule": "AI3連対率+一般3連対率の1位と3位",
+        "alt_axes": [
+          3,
+          4
+        ],
+        "alt_axis_rule": "比較用: AI3連対率+一般3連対率の2位と3位",
+        "supports": [
+          1,
+          2,
+          3,
+          4,
+          6
+        ],
+        "keshi": 5,
+        "keshi_reason": "AI3連対率+一般3連対率6位の6号艇は低評価外枠の展示復活があり残す。代わりに5号艇を消し",
+        "ai_plus_rank6_boat": 6,
+        "ai_plus_rank6_revival": [
+          "低評価外枠の展示復活"
+        ],
+        "points": 15,
+        "tickets": [
+          "3-1-2",
+          "3-1-4",
+          "3-1-6",
+          "3-2-1",
+          "3-2-4",
+          "3-4-1",
+          "3-4-2",
+          "3-4-6",
+          "3-6-1",
+          "3-6-4",
+          "4-1-3",
+          "4-1-6",
+          "4-2-1",
+          "4-3-1",
+          "4-6-1"
+        ],
+        "role_note": "頭3,4 / 軸はAI3連対率+一般3連対率の1位と3位の1,4 / 2・3着は軸どちらか必須で消し5以外へ折り返し",
+        "axis_hit": null,
+        "alt_axis_hit": null,
+        "odds_filter": "3連単50倍未満は買わない",
+        "source_strategy_ids": [
+          "codex_logic29_late_outer12"
+        ]
+      },
+      "strategies": [
+        {
+          "strategy_id": "codex_logic29_late_outer12",
+          "label": "Codex: 万舟率29%+後半 value頭 5/6絡み 10〜15点",
+          "points": 15,
+          "heads": [
+            3,
+            4
+          ],
+          "axes": [
+            1,
+            4
+          ],
+          "alt_axes": [
+            3,
+            4
+          ],
+          "axis_rule": "AI3連対率+一般3連対率の1位と3位",
+          "alt_axis_rule": "比較用: AI3連対率+一般3連対率の2位と3位",
+          "supports": [
+            1,
+            2,
+            3,
+            4,
+            6
+          ],
+          "keshi": 5,
+          "keshi_reason": "AI3連対率+一般3連対率6位の6号艇は低評価外枠の展示復活があり残す。代わりに5号艇を消し",
+          "ai_plus_rank6_boat": 6,
+          "ai_plus_rank6_revival": [
+            "低評価外枠の展示復活"
+          ],
+          "role_note": "頭3,4 / 軸はAI3連対率+一般3連対率の1位と3位の1,4 / 2・3着は軸どちらか必須で消し5以外へ折り返し",
+          "tickets": [
+            "3-1-2",
+            "3-1-4",
+            "3-1-6",
+            "3-2-1",
+            "3-2-4",
+            "3-4-1",
+            "3-4-2",
+            "3-4-6",
+            "3-6-1",
+            "3-6-4",
+            "4-1-3",
+            "4-1-6",
+            "4-2-1",
+            "4-3-1",
+            "4-6-1"
+          ],
+          "odds_filter": "3連単50倍未満は買わない"
+        }
+      ],
+      "message": "【買い候補】宮島7R 万舟率33.5% / 朝5位\n締切13:54 / 1号艇逃げ30.9%, 逃げ失敗38.1%, 1展示+1周平均との差0.55, 展示+1周平均44.68, 1展示6.62(1位), 5/6展示+1周平均との差-0.28, 1オッズ評価52.2%(1位), 低外6号 AI0.2% 差-0.28 展4位/周5位, DT1, 夏1周逃げ+15pt, 隊形外圧\n直前条件: スリット隊形外圧:OK / 対戦相性あり:NG\n買い方: Codex: 万舟率29%+後半 value頭 5/6絡み 10〜15点 / 15点 / 3連単50倍未満は買わない\n頭候補: 3,4 / 軸: 1,4(AI3連対率+一般3連対率の1位と3位) / 比較軸: 3,4 / 相手: 1,2,3,4,6 / 消し: 5\n消し理由: AI3連対率+一般3連対率6位の6号艇は低評価外枠の展示復活があり残す。代わりに5号艇を消し\n買い目: 3-1-2 3-1-4 3-1-6 3-2-1 3-2-4 3-4-1 3-4-2 3-4-6 3-6-1 3-6-4 4-1-3 4-1-6 4-2-1 4-3-1 4-6-1"
+    }
+  ],
   "inspected": [
     {
       "race_id": "2026-06-261602",
@@ -17,7 +507,7 @@
       "round": 2,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 133.8
+      "minutes_to_deadline": -140.8
     },
     {
       "race_id": "2026-06-261704",
@@ -25,7 +515,7 @@
       "round": 4,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 174.8
+      "minutes_to_deadline": -99.8
     },
     {
       "race_id": "2026-06-261706",
@@ -33,7 +523,7 @@
       "round": 6,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 235.8
+      "minutes_to_deadline": -38.8
     },
     {
       "race_id": "2026-06-261702",
@@ -41,15 +531,442 @@
       "round": 2,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 114.8
+      "minutes_to_deadline": -159.8
     },
     {
       "race_id": "2026-06-261707",
       "place_name": "宮島",
       "round": 7,
       "source": "morning_top",
-      "status": "outside_window",
-      "minutes_to_deadline": 277.8
+      "status": "checked",
+      "minutes_to_deadline": 3.2,
+      "condition_confirmed": false,
+      "checks": [
+        "スリット隊形外圧:OK",
+        "対戦相性あり:NG"
+      ],
+      "strategies": [
+        "codex_logic29_late_outer12"
+      ],
+      "selection": {
+        "version": "codex_roles_v2",
+        "label": "Codex候補",
+        "heads": [
+          3,
+          4
+        ],
+        "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
+        "head_scores": {
+          "3": {
+            "score": 23.93,
+            "reasons": [
+              "複合1着率7.9%",
+              "万舟は3〜6号艇頭が多い",
+              "展示+1周平均との差+0.15",
+              "展示か1周が2位以内"
+            ]
+          },
+          "4": {
+            "score": 15.78,
+            "reasons": [
+              "複合1着率7.8%",
+              "万舟は3〜6号艇頭が多い"
+            ]
+          }
+        },
+        "axes": [
+          1,
+          4
+        ],
+        "axis_rule": "AI3連対率+一般3連対率の1位と3位",
+        "alt_axes": [
+          3,
+          4
+        ],
+        "alt_axis_rule": "比較用: AI3連対率+一般3連対率の2位と3位",
+        "supports": [
+          1,
+          2,
+          3,
+          4,
+          6
+        ],
+        "keshi": 5,
+        "keshi_reason": "AI3連対率+一般3連対率6位の6号艇は低評価外枠の展示復活があり残す。代わりに5号艇を消し",
+        "ai_plus_rank6_boat": 6,
+        "ai_plus_rank6_revival": [
+          "低評価外枠の展示復活"
+        ],
+        "points": 15,
+        "tickets": [
+          "3-1-2",
+          "3-1-4",
+          "3-1-6",
+          "3-2-1",
+          "3-2-4",
+          "3-4-1",
+          "3-4-2",
+          "3-4-6",
+          "3-6-1",
+          "3-6-4",
+          "4-1-3",
+          "4-1-6",
+          "4-2-1",
+          "4-3-1",
+          "4-6-1"
+        ],
+        "role_note": "頭3,4 / 軸はAI3連対率+一般3連対率の1位と3位の1,4 / 2・3着は軸どちらか必須で消し5以外へ折り返し",
+        "axis_hit": null,
+        "alt_axis_hit": null,
+        "odds_filter": "3連単50倍未満は買わない",
+        "source_strategy_ids": [
+          "codex_logic29_late_outer12"
+        ]
+      },
+      "metrics": {
+        "boats": [
+          {
+            "boat_number": 1,
+            "win_pct": 76.29,
+            "top3_pct": 95.16,
+            "general_top3_pct": 75.0,
+            "odds_prediction_pct": 52.23,
+            "odds_prediction_rank": 1,
+            "composite_win_pct": 70.0,
+            "composite_top3_pct": 32.63,
+            "composite_top3_actual_pct": 92.0,
+            "composite_rate_reasons": [
+              "AI+1位で基本力が高い",
+              "展示タイムと1周タイムが両方1位",
+              "展示+1周が平均より0.55秒速い",
+              "夏場の1周タイムが平均より速くイン残り寄り"
+            ],
+            "ai_plus": 170.16,
+            "ai_prediction_rank": 1,
+            "top3_rank": 1,
+            "ai_plus_rank": 1,
+            "st_rank_general": 3.4062,
+            "tenji_time": 6.62,
+            "tenji_rank": 1,
+            "isshu_time": 37.51,
+            "isshu_rank": 1,
+            "avg_isshu_diff": 0.5467,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": null,
+            "super_slit_st_rank_adv": null,
+            "double_time": true
+          },
+          {
+            "boat_number": 2,
+            "win_pct": 4.23,
+            "top3_pct": 52.38,
+            "general_top3_pct": 50.0,
+            "odds_prediction_pct": 12.33,
+            "odds_prediction_rank": 4,
+            "composite_win_pct": 5.43,
+            "composite_top3_pct": 19.28,
+            "composite_top3_actual_pct": 58.58,
+            "composite_rate_reasons": [
+              "展示か1周が2位以内",
+              "展示+1周が平均より0.13秒速い"
+            ],
+            "ai_plus": 102.38,
+            "ai_prediction_rank": 4,
+            "top3_rank": 4,
+            "ai_plus_rank": 4,
+            "st_rank_general": 3.1364,
+            "tenji_time": 6.72,
+            "tenji_rank": 5,
+            "isshu_time": 37.83,
+            "isshu_rank": 2,
+            "avg_isshu_diff": 0.1267,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": -0.1,
+            "super_slit_st_rank_adv": 0.27,
+            "double_time": false
+          },
+          {
+            "boat_number": 3,
+            "win_pct": 8.12,
+            "top3_pct": 70.24,
+            "general_top3_pct": 48.28,
+            "odds_prediction_pct": 12.94,
+            "odds_prediction_rank": 3,
+            "composite_win_pct": 7.93,
+            "composite_top3_pct": 24.44,
+            "composite_top3_actual_pct": 74.06,
+            "composite_rate_reasons": [
+              "AI+2位で基本力が高い",
+              "展示か1周が2位以内",
+              "展示+1周が平均より0.15秒速い"
+            ],
+            "ai_plus": 118.52,
+            "ai_prediction_rank": 3,
+            "top3_rank": 2,
+            "ai_plus_rank": 2,
+            "st_rank_general": 3.7586,
+            "tenji_time": 6.65,
+            "tenji_rank": 2,
+            "isshu_time": 37.88,
+            "isshu_rank": 3,
+            "avg_isshu_diff": 0.1467,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": 0.07,
+            "super_slit_st_rank_adv": -0.622,
+            "double_time": false
+          },
+          {
+            "boat_number": 4,
+            "win_pct": 10.49,
+            "top3_pct": 67.27,
+            "general_top3_pct": 48.0,
+            "odds_prediction_pct": 17.54,
+            "odds_prediction_rank": 2,
+            "composite_win_pct": 7.78,
+            "composite_top3_pct": 21.26,
+            "composite_top3_actual_pct": 64.52,
+            "composite_rate_reasons": [],
+            "ai_plus": 115.27,
+            "ai_prediction_rank": 2,
+            "top3_rank": 3,
+            "ai_plus_rank": 3,
+            "st_rank_general": 2.76,
+            "tenji_time": 6.66,
+            "tenji_rank": 3,
+            "isshu_time": 38.03,
+            "isshu_rank": 4,
+            "avg_isshu_diff": -0.0133,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": -0.01,
+            "super_slit_st_rank_adv": 0.999,
+            "double_time": false
+          },
+          {
+            "boat_number": 5,
+            "win_pct": 0.66,
+            "top3_pct": 11.11,
+            "general_top3_pct": 5.0,
+            "odds_prediction_pct": 3.58,
+            "odds_prediction_rank": 5,
+            "composite_win_pct": 4.43,
+            "composite_top3_pct": 1.39,
+            "composite_top3_actual_pct": 5.42,
+            "composite_rate_reasons": [
+              "AI+5位で基本力は低め",
+              "展示+1周が平均より0.52秒遅い"
+            ],
+            "ai_plus": 16.11,
+            "ai_prediction_rank": 5,
+            "top3_rank": 5,
+            "ai_plus_rank": 5,
+            "st_rank_general": 2.7619,
+            "tenji_time": 6.76,
+            "tenji_rank": 6,
+            "isshu_time": 38.44,
+            "isshu_rank": 6,
+            "avg_isshu_diff": -0.5233,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": -0.1,
+            "super_slit_st_rank_adv": -0.002,
+            "double_time": false
+          },
+          {
+            "boat_number": 6,
+            "win_pct": 0.22,
+            "top3_pct": 3.85,
+            "general_top3_pct": 0.0,
+            "odds_prediction_pct": 1.37,
+            "odds_prediction_rank": 6,
+            "composite_win_pct": 4.43,
+            "composite_top3_pct": 1.0,
+            "composite_top3_actual_pct": 5.42,
+            "composite_rate_reasons": [
+              "AI+6位で基本力は低め",
+              "展示+1周が平均より0.28秒遅い",
+              "低評価外枠だが展示で復活"
+            ],
+            "ai_plus": 3.85,
+            "ai_prediction_rank": 6,
+            "top3_rank": 6,
+            "ai_plus_rank": 6,
+            "st_rank_general": 4.3913,
+            "tenji_time": 6.71,
+            "tenji_rank": 4,
+            "isshu_time": 38.25,
+            "isshu_rank": 5,
+            "avg_isshu_diff": -0.2833,
+            "super_slit_alert": false,
+            "super_slit_tenji_adv": 0.05,
+            "super_slit_st_rank_adv": -1.629,
+            "double_time": false
+          }
+        ],
+        "boat1_ai_prediction_pct": 76.29,
+        "boat1_odds_prediction_pct": 52.23,
+        "boat1_odds_rank": 1.0,
+        "odds_snapshot_source": "boaters_after_exhibition",
+        "odds_boats": {
+          "1": {
+            "odds_prediction_pct": 52.23,
+            "odds_prediction_rank": 1.0
+          },
+          "2": {
+            "odds_prediction_pct": 12.33,
+            "odds_prediction_rank": 4.0
+          },
+          "3": {
+            "odds_prediction_pct": 12.94,
+            "odds_prediction_rank": 3.0
+          },
+          "4": {
+            "odds_prediction_pct": 17.54,
+            "odds_prediction_rank": 2.0
+          },
+          "5": {
+            "odds_prediction_pct": 3.58,
+            "odds_prediction_rank": 5.0
+          },
+          "6": {
+            "odds_prediction_pct": 1.37,
+            "odds_prediction_rank": 6.0
+          }
+        },
+        "boat2_odds_prediction_pct": 12.33,
+        "boat2_odds_rank": 4.0,
+        "boat3_odds_prediction_pct": 12.94,
+        "boat3_odds_rank": 3.0,
+        "boat4_odds_prediction_pct": 17.54,
+        "boat4_odds_rank": 2.0,
+        "boat5_odds_prediction_pct": 3.58,
+        "boat5_odds_rank": 5.0,
+        "boat6_odds_prediction_pct": 1.37,
+        "boat6_odds_rank": 6.0,
+        "popular_b1_is_popular": true,
+        "popular_b1_source": "展示後BOATERSオッズ評価",
+        "popular_b1_fly_score": 57.7,
+        "popular_b1_fly_level": "注意",
+        "popular_b1_not_win_rate_pct": 39.74,
+        "popular_b1_top3_miss_rate_pct": 14.85,
+        "popular_b1_manshu_rate_pct": 19.78,
+        "popular_b1_rate_source": "展示後オッズ評価+直前展示からの目安",
+        "popular_b1_reasons": [
+          "展示後オッズ評価で1号艇が1位52.2%",
+          "スリットで1号艇に外圧"
+        ],
+        "popular_b1_matched_conditions": [],
+        "boat1_ai_plus": 170.16,
+        "boat1_ai_plus_order": 1,
+        "boat1_nige_pct": 30.95,
+        "boat1_loss_pct": 38.09,
+        "boat1_avg_isshu_diff": 0.5467,
+        "boat1_isshu_avg_diff": 0.48,
+        "avg_isshu_time": 37.99,
+        "avg_exhibit_combo_time": 44.67666666666667,
+        "is_summer": true,
+        "b1_summer_isshu_factor": "fast_hold",
+        "b1_summer_nige_delta_pp": 15,
+        "boat1_summer_isshu_factor": "fast_hold",
+        "boat1_summer_nige_delta_pp": 15,
+        "boat1_tenji_time": 6.62,
+        "boat1_isshu_time": 37.51,
+        "boat1_tenji_rank": 1,
+        "boat1_tenji_time_rank": 1,
+        "boat1_isshu_rank": 1,
+        "outer56_best_tenji_time": 6.71,
+        "outer56_best_isshu_time": 38.25,
+        "outer56_best_avg_isshu_diff": -0.2833,
+        "outer56_best_ai_prediction_pct": 0.66,
+        "ai_rank6_boat": 6,
+        "ai_rank6_avg_isshu_diff": -0.2833,
+        "ai_rank6_ai_prediction_pct": 0.22,
+        "ai_rank6_tenji_rank": 4,
+        "ai_rank6_isshu_rank": 5,
+        "ai_rank5_boat": 5,
+        "ai_rank5_avg_isshu_diff": -0.5233,
+        "ai_rank5_ai_prediction_pct": 0.66,
+        "ai_rank5_tenji_rank": 6,
+        "ai_rank5_isshu_rank": 6,
+        "low_outer_boat": 6,
+        "low_outer_ai_plus_rank": 6,
+        "low_outer_avg_isshu_diff": -0.2833,
+        "low_outer_ai_prediction_pct": 0.22,
+        "low_outer_tenji_rank": 4,
+        "low_outer_isshu_rank": 5,
+        "low_outer_exhibit_top2": false,
+        "center_attack_wall_outer": false,
+        "weather_pressure": false,
+        "outer_isshu_priority_b1weak": false,
+        "b1_full_tobashi_shape": false,
+        "longshot_head_boats": "",
+        "longshot_head_candidate_count": 0,
+        "longshot_head_with_b1_gap": false,
+        "double_time_boats": [
+          1
+        ],
+        "super_slit_boats": [],
+        "super_slit_alert_count": 0,
+        "mid234_super_slit_count": 0,
+        "outer456_super_slit_count": 0,
+        "outer56_super_slit_count": 0,
+        "slit_shape_label": "外圧",
+        "slit_b1_front_wall": false,
+        "slit_b1_hole_vs_23": false,
+        "slit_b2_wall_break_3peek": false,
+        "slit_b3_peek_vs_12": false,
+        "slit_b4_cadou_peek": false,
+        "slit_outer456_pressure": true,
+        "slit_outer56_pressure_vs_1": true,
+        "slit_b5_left_adv": false,
+        "slit_b6_left_adv": false,
+        "slit_center34_dent": false,
+        "slit_dekoboko": false,
+        "boat1_double_time": true,
+        "mid234_double_time_count": 0,
+        "outer46_double_time_count": 0,
+        "outer56_double_time_count": 0,
+        "outer56_tenji_advantage": -0.08999999999999986,
+        "outer56_isshu_advantage": -0.740000000000002,
+        "outer56_tenji_top2_count": 0,
+        "outer56_isshu_top2_count": 0,
+        "outer56_exhibit_top2_count": 0,
+        "outer56_low_aiplus_exhibit_top2_count": 0,
+        "outer56_low_aipred_exhibit_top2_count": 0,
+        "outer46_exhibit_top2_count": 0,
+        "outer46_low_aiplus_exhibit_top2_count": 0,
+        "matchup_lane1_pressure_score": 0.0,
+        "matchup_outer_good_count": 0,
+        "matchup_lane1_bad_flag": false,
+        "matchup_notes": "",
+        "matchup_buff_boats": "",
+        "b1_matchup_label": "相性データ薄",
+        "b2_matchup_label": "相性データ薄",
+        "b3_matchup_label": "相性データ薄",
+        "b4_matchup_label": "相性データ薄",
+        "b5_matchup_label": "相性データ薄",
+        "b6_matchup_label": "相性データ薄",
+        "head_primary_boats": [
+          3,
+          4
+        ],
+        "axis_primary_boats": [
+          1,
+          4
+        ],
+        "axis_alt_boats": [
+          3,
+          4
+        ],
+        "keshi_boat": 5,
+        "keshi_reason": "AI3連対率+一般3連対率6位の6号艇は低評価外枠の展示復活があり残す。代わりに5号艇を消し",
+        "ai_plus_rank6_boat": 6,
+        "ai_plus_rank6_revival": [
+          "低評価外枠の展示復活"
+        ],
+        "tenji_boats": 6,
+        "isshu_boats": 6
+      },
+      "morning_rank": 5,
+      "live_rank": null
     },
     {
       "race_id": "2026-06-261608",
@@ -57,7 +974,7 @@
       "round": 8,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 323.8
+      "minutes_to_deadline": 49.2
     },
     {
       "race_id": "2026-06-260304",
@@ -65,7 +982,7 @@
       "round": 4,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 198.8
+      "minutes_to_deadline": -75.8
     },
     {
       "race_id": "2026-06-261703",
@@ -73,7 +990,7 @@
       "round": 3,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 142.8
+      "minutes_to_deadline": -131.8
     },
     {
       "race_id": "2026-06-262304",
@@ -81,7 +998,7 @@
       "round": 4,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 40.8
+      "minutes_to_deadline": -233.8
     },
     {
       "race_id": "2026-06-261609",
@@ -89,7 +1006,31 @@
       "round": 9,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 354.8
+      "minutes_to_deadline": 80.2
+    },
+    {
+      "race_id": "2026-06-262109",
+      "place_name": "芦屋",
+      "round": 9,
+      "source": "late_riser",
+      "status": "outside_window",
+      "minutes_to_deadline": -91.8
+    },
+    {
+      "race_id": "2026-06-261804",
+      "place_name": "徳山",
+      "round": 4,
+      "source": "late_riser",
+      "status": "outside_window",
+      "minutes_to_deadline": -220.8
+    },
+    {
+      "race_id": "2026-06-262305",
+      "place_name": "唐津",
+      "round": 5,
+      "source": "late_riser",
+      "status": "outside_window",
+      "minutes_to_deadline": -207.8
     },
     {
       "race_id": "2026-06-262101",
@@ -97,13 +1038,43 @@
       "round": 1,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -44.2
+      "minutes_to_deadline": -318.8
+    },
+    {
+      "race_id": "2026-06-261402",
+      "place_name": "鳴門",
+      "round": 2,
+      "source": "late_riser",
+      "status": "outside_window",
+      "minutes_to_deadline": -153.8
+    },
+    {
+      "race_id": "2026-06-261407",
+      "place_name": "鳴門",
+      "round": 7,
+      "source": "late_riser",
+      "status": "outside_window",
+      "minutes_to_deadline": -5.8
+    },
+    {
+      "race_id": "2026-06-261406",
+      "place_name": "鳴門",
+      "round": 6,
+      "source": "late_riser",
+      "status": "outside_window",
+      "minutes_to_deadline": -35.8
     }
   ],
   "push": {
     "enabled": true,
     "sent": 0,
-    "attempted": 0,
-    "errors": []
+    "attempted": 1,
+    "errors": [
+      {
+        "key": "alert:2026-06-261707:buy_ok",
+        "error": "'latin-1' codec can't encode characters in position 7-10: ordinal not in range(256)",
+        "status": null
+      }
+    ]
   }
 }
