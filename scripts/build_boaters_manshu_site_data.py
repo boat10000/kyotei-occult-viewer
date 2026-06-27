@@ -1128,7 +1128,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
             status = str(status).replace("・展示待ち", "").replace("展示待ち", "展示込み")
         elif "展示込み" not in str(status):
             status = f"{status}・展示込み"
-    return {
+    normalized = {
         "rank": rank,
         "status": status,
         "date": row.get("date") or date_text,
@@ -1156,6 +1156,17 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "last_minute_strategy_ids": row.get("last_minute_strategy_ids") or [],
         "result": normalize_result(row, live_result),
     }
+    if any(row.get(key) is not None for key in ("candidate_type", "candidate_phase", "candidate_score", "finalize_rule")) or row.get("candidate_reasons"):
+        normalized.update(
+            {
+                "candidate_type": row.get("candidate_type"),
+                "candidate_phase": row.get("candidate_phase"),
+                "candidate_score": as_num(row.get("candidate_score")),
+                "candidate_reasons": row.get("candidate_reasons") or [],
+                "finalize_rule": row.get("finalize_rule"),
+            }
+        )
+    return normalized
 
 
 def build_payload(source: dict, top_n: int, results_map: dict[tuple[int, int], dict] | None = None) -> dict:
@@ -1177,8 +1188,34 @@ def build_payload(source: dict, top_n: int, results_map: dict[tuple[int, int], d
         rows = list(source.get("actual_rank_top") or []) + list(source.get("watch_rank_top") or [])
     rows = unique_rows(rows, top_n)
     strict_rows = unique_rows(strict_source_rows, top_n) if strict_source_rows else []
+    morning_source_rows = (
+        source.get("morning_candidate_top")
+        if isinstance(source.get("morning_candidate_top"), list)
+        else source.get("morning_candidates")
+        if isinstance(source.get("morning_candidates"), list)
+        else []
+    )
+    if not morning_source_rows:
+        morning_source_rows = [
+            {
+                **row,
+                "status": "朝候補",
+                "candidate_type": "朝候補",
+                "candidate_phase": "morning",
+                "candidate_score": row.get("candidate_score") or row.get("best_manshu_rate_pct") or row.get("manshu_rate_pct"),
+                "candidate_reasons": [
+                    "既存ランキング上位",
+                    "展示前候補JSON未生成日のフォールバック",
+                ],
+                "finalize_rule": "展示タイム・1周・平均との差・スーパースリットを取得して、買い/見送りへ更新",
+                "ranking_type": "morning_candidate",
+            }
+            for row in (strict_source_rows or rows)
+        ]
+    morning_rows = unique_rows(list(morning_source_rows or []), top_n)
     races = [normalize_row(row, idx + 1, date_text, results_map) for idx, row in enumerate(rows)]
     strict_races = [normalize_row(row, idx + 1, date_text, results_map) for idx, row in enumerate(strict_rows)]
+    morning_candidates = [normalize_row(row, idx + 1, date_text, results_map) for idx, row in enumerate(morning_rows)]
     settled = [race for race in races if race["result"].get("payout_yen") is not None]
     manshu_hits = [race for race in settled if race["result"].get("manshu")]
     strict_settled = [race for race in strict_races if race["result"].get("payout_yen") is not None]
@@ -1220,9 +1257,11 @@ def build_payload(source: dict, top_n: int, results_map: dict[tuple[int, int], d
             "strict_settled_top_n": len(strict_settled),
             "strict_manshu_hits_top_n": len(strict_manshu_hits),
             "strict_actual_manshu_rate_top_n_pct": round(len(strict_manshu_hits) / len(strict_settled) * 100, 2) if strict_settled else None,
+            "morning_candidate_count": len(morning_candidates),
         },
         "races": races,
         "strict_races": strict_races,
+        "morning_candidates": morning_candidates,
     }
 
 

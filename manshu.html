@@ -128,6 +128,11 @@
     .venue-line b{color:#111827}
     .factor-panel{border-left:6px solid var(--green)}
     .factor-panel h2{color:#065f46}
+    .candidate-panel{border-left:6px solid var(--blue)}
+    .candidate-panel h2{color:#0f3f91}
+    .candidate-note{margin:0 0 10px;color:#475467;font-size:13px}
+    .candidate-score{font-size:20px;font-weight:900;color:#1d4ed8;text-align:right;white-space:nowrap}
+    .candidate-score span{display:block;color:var(--muted);font-size:11px;font-weight:800}
     .notice{border-left-color:var(--amber)}
     footer{color:#8a93a6;font-size:11.5px;text-align:center;margin-top:22px}
     @media(max-width:760px){
@@ -176,6 +181,10 @@
       <div class="chips"><span class="chip">JSON確認中</span></div>
     </section>
     <main class="layout">
+      <section class="panel candidate-panel" id="morning-candidate-panel">
+        <h2>朝候補レース（展示前）</h2>
+        <p class="lead">万舟率ランキングとは別枠です。朝の時点で候補を出し、展示後に買い/見送りへ更新します。</p>
+      </section>
       <section class="panel" id="ranking-panel">
         <h2>厳選ランキング TOP10</h2>
         <p class="lead">今日のCodex BOATERSランキングJSONを読み込んでいます。</p>
@@ -247,6 +256,19 @@
       return {full:false, text:"展示待ち", cls:"warn", kind:"waiting"};
     }
     function currentRows(){ return STATE.data?((STATE.data.strict_races||STATE.data.races||[]).slice(0,10)):[]; }
+    function currentMorningRows(){
+      if(!STATE.data) return [];
+      var rows=(STATE.data.morning_candidates||[]).slice(0,10);
+      if(rows.length) return rows;
+      return currentRows().slice(0,5).map(function(r){
+        return Object.assign({},r,{
+          candidate_type:"朝候補",
+          candidate_score:r.candidate_score||r.manshu_rate_pct,
+          candidate_reasons:["既存ランキング上位","朝候補JSON未生成日のフォールバック"],
+          finalize_rule:"展示タイム・1周・平均との差・スーパースリットを取得して、買い/見送りへ更新"
+        });
+      });
+    }
     function renderStatus(rows){
       var settled=rows.filter(function(r){return resultOf(r).payout_yen!=null;}).length;
       var hits=rows.filter(function(r){return resultOf(r).manshu;}).length;
@@ -668,6 +690,37 @@
         "</details>"
       ].join("");
     }
+    function candidateCardHtml(r){
+      var m=r.metrics||{}, res=resultOf(r), reasons=(r.candidate_reasons||[]).slice(0,4);
+      return [
+        "<details class=\"race-card\">",
+        "<summary>",
+        "<div class=\"race-head\">",
+        "<div class=\"race-rank\">"+esc(r.rank)+"</div>",
+        "<div>",
+        "<div class=\"race-main-title\">"+esc(label(r))+"</div>",
+        "<div class=\"race-one-line\">"+esc(r.candidate_type||"朝候補")+"。展示前データで荒れ候補に入っています。</div>",
+        "<div class=\"race-badges\">",
+        "<span class=\"badge\">締切 "+esc(deadline(r))+"</span>",
+        "<span class=\"badge good\">展示後に最終判定</span>",
+        "<span class=\"badge "+(res.manshu?"good":"")+"\">"+(res.payout_yen!=null?"結果 "+esc(res.trifecta||"--")+" / "+esc(yen(res.payout_yen)):"結果待ち")+"</span>",
+        "</div>",
+        "</div>",
+        "<div class=\"candidate-score\">"+esc(r.candidate_score==null?"--":Number(r.candidate_score).toFixed(1).replace(/\.0$/,""))+"<span>候補スコア</span></div>",
+        "</div>",
+        "</summary>",
+        "<div class=\"race-body\">",
+        "<div class=\"simple-box\"><h3>朝候補理由</h3><p class=\"lead\">"+esc(reasons.join(" / ")||r.condition||"朝データで候補")+"</p></div>",
+        "<div class=\"cards\">",
+        "<div class=\"metric\"><b>"+esc(pct(m.boat1_ai_prediction_pct))+"</b><span>1号艇AI予測</span></div>",
+        "<div class=\"metric\"><b>"+esc(pct(m.boat1_loss_pct))+"</b><span>1号艇逃げ失敗</span></div>",
+        "<div class=\"metric\"><b>"+esc(pct(m.outer56_best_ai_prediction_pct))+"</b><span>5/6号艇AI最大</span></div>",
+        "</div>",
+        "<p class=\"lead\" style=\"margin-top:10px\">展示後: "+esc(r.finalize_rule||"展示後に買い/見送りへ更新")+"</p>",
+        "</div>",
+        "</details>"
+      ].join("");
+    }
     function venueSummaryText(rows){
       var lowB1=0, flyB1=0, popularB1=0, outer=0, head36=0, tenji=0;
       rows.forEach(function(r){
@@ -711,12 +764,34 @@
         "</div>"
       ].join("");
     }
+    function renderMorningCandidatePanel(){
+      var panel=document.getElementById("morning-candidate-panel");
+      if(!panel) return;
+      var rows=currentMorningRows();
+      if(!rows.length){
+        panel.innerHTML="<h2>朝候補レース（展示前）</h2><p class=\"lead\">朝候補レースはまだありません。</p>";
+        return;
+      }
+      panel.innerHTML=[
+        "<h2>朝候補レース（展示前）</h2>",
+        "<p class=\"candidate-note\">万舟率ランキングとは別枠です。朝の時点で荒れそう・後半で狙えそうなレースを先に出し、展示後に買い/見送りへ更新します。</p>",
+        "<div class=\"cards\">",
+        "<div class=\"metric\"><b>"+esc(rows.length)+"R</b><span>朝候補</span></div>",
+        "<div class=\"metric\"><b>"+esc(label(rows[0]))+"</b><span>最上位候補</span></div>",
+        "<div class=\"metric\"><b>"+esc(rows[0].candidate_type||"朝候補")+"</b><span>候補タイプ</span></div>",
+        "</div>",
+        "<div class=\"race-list\">",
+        rows.map(candidateCardHtml).join(""),
+        "</div>"
+      ].join("");
+    }
     function render(){
       var rows=(STATE.data.strict_races||STATE.data.races||[]).slice(0,10);
       document.title="Codex万舟率ランキング "+STATE.date;
       document.getElementById("page-title").textContent=STATE.date+" 万舟率 厳選ランキング TOP10";
       document.getElementById("posts-link").href="manshu_posts.html?date="+STATE.date;
       renderStatus(rows);
+      renderMorningCandidatePanel();
       var panel=document.getElementById("ranking-panel");
       if(!rows.length){
         panel.innerHTML="<h2>厳選ランキング TOP10</h2><p class=\"lead\">今日のランキングJSONは空です。</p>";
