@@ -1,0 +1,101 @@
+{
+  "version": "boaters-manshu-alerts-v1",
+  "date": "2026-06-28",
+  "generated_at": "2026-06-28T01:08:09+09:00",
+  "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_morning_ranking_20260628.json",
+  "public_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260628.json",
+  "live_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_live_ranking_20260628.json",
+  "public_metrics_updated": false,
+  "top_n": 10,
+  "riser_top_n": 10,
+  "lookahead_minutes": 20.0,
+  "alerts": [],
+  "inspected": [
+    {
+      "race_id": "2026-06-280101",
+      "place_name": "桐生",
+      "round": 1,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 859.8
+    },
+    {
+      "race_id": "2026-06-280102",
+      "place_name": "桐生",
+      "round": 2,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 893.8
+    },
+    {
+      "race_id": "2026-06-280103",
+      "place_name": "桐生",
+      "round": 3,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 922.8
+    },
+    {
+      "race_id": "2026-06-280104",
+      "place_name": "桐生",
+      "round": 4,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 960.8
+    },
+    {
+      "race_id": "2026-06-280105",
+      "place_name": "桐生",
+      "round": 5,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 984.8
+    },
+    {
+      "race_id": "2026-06-280106",
+      "place_name": "桐生",
+      "round": 6,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 1011.8
+    },
+    {
+      "race_id": "2026-06-280107",
+      "place_name": "桐生",
+      "round": 7,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 1035.8
+    },
+    {
+      "race_id": "2026-06-280108",
+      "place_name": "桐生",
+      "round": 8,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 1061.8
+    },
+    {
+      "race_id": "2026-06-280109",
+      "place_name": "桐生",
+      "round": 9,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 1090.8
+    },
+    {
+      "race_id": "2026-06-280110",
+      "place_name": "桐生",
+      "round": 10,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 1117.8
+    }
+  ],
+  "push": {
+    "enabled": true,
+    "sent": 0,
+    "attempted": 0,
+    "errors": []
+  }
+}
