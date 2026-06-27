@@ -130,6 +130,8 @@
     .factor-panel h2{color:#065f46}
     .candidate-panel{border-left:6px solid var(--blue)}
     .candidate-panel h2{color:#0f3f91}
+    .late-panel{border-left-color:var(--amber)}
+    .late-panel h2{color:#92400e}
     .candidate-note{margin:0 0 10px;color:#475467;font-size:13px}
     .candidate-score{font-size:20px;font-weight:900;color:#1d4ed8;text-align:right;white-space:nowrap}
     .candidate-score span{display:block;color:var(--muted);font-size:11px;font-weight:800}
@@ -166,8 +168,8 @@
   <div class="shell">
     <header class="header">
       <p class="eyebrow">CODEX UNIFIED MANSHU LOGIC</p>
-      <h1 id="page-title">万舟率 厳選ランキング TOP10</h1>
-      <p>過去27%以上条件、全場補正、BOATERS AI/オッズ、展示+1周、スリット隊形、女子戦、天候、対戦相性を全部混ぜたCodex版だけを表示します。</p>
+      <h1 id="page-title">万舟狙い候補レース</h1>
+      <p>朝のうちに見る候補と、後半で狙えそうな候補を分けて表示します。展示後に買い/見送りへ更新します。</p>
     </header>
     <nav class="nav">
       <a id="posts-link" href="manshu_posts.html">投稿センター</a>
@@ -177,17 +179,17 @@
       <button id="reload-btn" type="button">再読み込み</button>
     </nav>
     <section class="status" id="status">
-      <strong>Codexランキングを読み込み中</strong>
+      <strong>Codex候補レースを読み込み中</strong>
       <div class="chips"><span class="chip">JSON確認中</span></div>
     </section>
     <main class="layout">
-      <section class="panel candidate-panel" id="morning-candidate-panel">
-        <h2>朝候補レース（展示前）</h2>
-        <p class="lead">万舟率ランキングとは別枠です。朝の時点で候補を出し、展示後に買い/見送りへ更新します。</p>
+      <section class="panel candidate-panel" id="early-candidate-panel">
+        <h2>朝の候補レース（1〜6R）</h2>
+        <p class="lead">朝のうちに先に見ておくレースです。展示後に買い/見送りへ更新します。</p>
       </section>
-      <section class="panel" id="ranking-panel">
-        <h2>厳選ランキング TOP10</h2>
-        <p class="lead">今日のCodex BOATERSランキングJSONを読み込んでいます。</p>
+      <section class="panel candidate-panel late-panel" id="late-candidate-panel">
+        <h2>後半で狙えそうなレース（7〜12R）</h2>
+        <p class="lead">後半で荒れそうなレースだけを別枠で見ます。展示後に買い/見送りへ更新します。</p>
       </section>
       <section class="panel factor-panel" id="buff-panel">
         <h2>場別まとめ</h2>
@@ -195,7 +197,7 @@
       </section>
       <section class="panel notice">
         <h2>このページの見方</h2>
-        <p class="lead">通常ページもCodex版と同じランキングだけを表示します。古い静的ランキングはこの画面では使いません。結果と配当は確定後に自動で反映されます。カードを開くと、なぜ荒れそうなのかをやさしい言葉と数字で確認できます。</p>
+        <p class="lead">この画面では古いランキング表示を使いません。朝候補と後半候補だけを表示し、結果と配当は確定後に自動で反映されます。カードを開くと、なぜ荒れそうなのかを数字で確認できます。</p>
       </section>
     </main>
     <footer>研究・記録用。的中や利益を保証するものではありません。</footer>
@@ -255,19 +257,30 @@
       if(raceClosed(r)) return {full:false, text:"展示再取得中", cls:"warn", kind:"missing_after_close"};
       return {full:false, text:"展示待ち", cls:"warn", kind:"waiting"};
     }
-    function currentRows(){ return STATE.data?((STATE.data.strict_races||STATE.data.races||[]).slice(0,10)):[]; }
-    function currentMorningRows(){
+    function rawRankRows(){ return STATE.data?((STATE.data.strict_races||STATE.data.races||[]).slice(0,10)):[]; }
+    function currentCandidateRows(){
       if(!STATE.data) return [];
       var rows=(STATE.data.morning_candidates||[]).slice(0,10);
       if(rows.length) return rows;
-      return currentRows().slice(0,5).map(function(r){
+      return rawRankRows().map(function(r){
         return Object.assign({},r,{
-          candidate_type:"朝候補",
+          candidate_type:candidateType(r),
           candidate_score:r.candidate_score||r.manshu_rate_pct,
           candidate_reasons:["既存ランキング上位","朝候補JSON未生成日のフォールバック"],
           finalize_rule:"展示タイム・1周・平均との差・スーパースリットを取得して、買い/見送りへ更新"
         });
       });
+    }
+    function currentRows(){ return currentCandidateRows(); }
+    function candidateType(r){
+      var round=Number(r.round||0);
+      return round>=7?"後半狙い候補":"朝荒れ候補";
+    }
+    function earlyRows(){
+      return currentCandidateRows().filter(function(r){ return Number(r.round||0)<=6; });
+    }
+    function lateRows(){
+      return currentCandidateRows().filter(function(r){ return Number(r.round||0)>=7; });
     }
     function renderStatus(rows){
       var settled=rows.filter(function(r){return resultOf(r).payout_yen!=null;}).length;
@@ -282,9 +295,11 @@
       var autoText=STATE.date===todayJst()?(allDone?"結果取得完了":"結果自動更新 30秒"):"過去結果を表示";
       var checkText=STATE.lastResultCheck?("結果確認 "+STATE.lastResultCheck):"結果確認待ち";
       document.getElementById("status").innerHTML=[
-        "<strong>"+esc(STATE.date)+" Codex厳選ランキングを表示中</strong>",
+        "<strong>"+esc(STATE.date)+" 朝候補・後半候補を表示中</strong>",
         "<div class=\"chips\">",
-        "<span class=\"chip hot\">TOP"+rows.length+"</span>",
+        "<span class=\"chip hot\">候補 "+rows.length+"R</span>",
+        "<span class=\"chip\">朝 "+earlyRows().length+"R</span>",
+        "<span class=\"chip\">後半 "+lateRows().length+"R</span>",
         "<span class=\"chip\">結果 "+settled+"/"+rows.length+"R</span>",
         "<span class=\"chip "+(hits?"hot":"")+"\">万舟 "+hits+"件</span>",
         "<span class=\"chip "+(popularB1Danger?"hot":"")+"\">人気1号艇危険 "+popularB1Danger+"R</span>",
@@ -692,6 +707,7 @@
     }
     function candidateCardHtml(r){
       var m=r.metrics||{}, res=resultOf(r), reasons=(r.candidate_reasons||[]).slice(0,4);
+      var type=candidateType(r);
       return [
         "<details class=\"race-card\">",
         "<summary>",
@@ -699,7 +715,7 @@
         "<div class=\"race-rank\">"+esc(r.rank)+"</div>",
         "<div>",
         "<div class=\"race-main-title\">"+esc(label(r))+"</div>",
-        "<div class=\"race-one-line\">"+esc(r.candidate_type||"朝候補")+"。展示前データで荒れ候補に入っています。</div>",
+        "<div class=\"race-one-line\">"+esc(type)+"。展示前データで荒れ候補に入っています。</div>",
         "<div class=\"race-badges\">",
         "<span class=\"badge\">締切 "+esc(deadline(r))+"</span>",
         "<span class=\"badge good\">展示後に最終判定</span>",
@@ -764,52 +780,49 @@
         "</div>"
       ].join("");
     }
-    function renderMorningCandidatePanel(){
-      var panel=document.getElementById("morning-candidate-panel");
+    function renderCandidateSection(panelId,title,note,rows,emptyText){
+      var panel=document.getElementById(panelId);
       if(!panel) return;
-      var rows=currentMorningRows();
       if(!rows.length){
-        panel.innerHTML="<h2>朝候補レース（展示前）</h2><p class=\"lead\">朝候補レースはまだありません。</p>";
+        panel.innerHTML="<h2>"+esc(title)+"</h2><p class=\"lead\">"+esc(emptyText)+"</p>";
         return;
       }
       panel.innerHTML=[
-        "<h2>朝候補レース（展示前）</h2>",
-        "<p class=\"candidate-note\">万舟率ランキングとは別枠です。朝の時点で荒れそう・後半で狙えそうなレースを先に出し、展示後に買い/見送りへ更新します。</p>",
+        "<h2>"+esc(title)+"</h2>",
+        "<p class=\"candidate-note\">"+esc(note)+"</p>",
         "<div class=\"cards\">",
-        "<div class=\"metric\"><b>"+esc(rows.length)+"R</b><span>朝候補</span></div>",
+        "<div class=\"metric\"><b>"+esc(rows.length)+"R</b><span>候補数</span></div>",
         "<div class=\"metric\"><b>"+esc(label(rows[0]))+"</b><span>最上位候補</span></div>",
-        "<div class=\"metric\"><b>"+esc(rows[0].candidate_type||"朝候補")+"</b><span>候補タイプ</span></div>",
+        "<div class=\"metric\"><b>"+esc(candidateType(rows[0]))+"</b><span>候補タイプ</span></div>",
         "</div>",
         "<div class=\"race-list\">",
         rows.map(candidateCardHtml).join(""),
         "</div>"
       ].join("");
     }
+    function renderCandidatePanels(){
+      renderCandidateSection(
+        "early-candidate-panel",
+        "朝の候補レース（1〜6R）",
+        "朝のうちに先に見ておく候補です。展示が入ったら買い/見送りへ更新します。",
+        earlyRows(),
+        "朝の候補レースはまだありません。"
+      );
+      renderCandidateSection(
+        "late-candidate-panel",
+        "後半で狙えそうなレース（7〜12R）",
+        "後半で荒れそうな候補です。展示が入ったら買い/見送りへ更新します。",
+        lateRows(),
+        "後半で狙えそうなレースはまだありません。"
+      );
+    }
     function render(){
-      var rows=(STATE.data.strict_races||STATE.data.races||[]).slice(0,10);
-      document.title="Codex万舟率ランキング "+STATE.date;
-      document.getElementById("page-title").textContent=STATE.date+" 万舟率 厳選ランキング TOP10";
+      var rows=currentCandidateRows();
+      document.title="Codex万舟候補 "+STATE.date;
+      document.getElementById("page-title").textContent=STATE.date+" 万舟狙い候補レース";
       document.getElementById("posts-link").href="manshu_posts.html?date="+STATE.date;
       renderStatus(rows);
-      renderMorningCandidatePanel();
-      var panel=document.getElementById("ranking-panel");
-      if(!rows.length){
-        panel.innerHTML="<h2>厳選ランキング TOP10</h2><p class=\"lead\">今日のランキングJSONは空です。</p>";
-        renderBuffPanel(rows);
-        return;
-      }
-      panel.innerHTML=[
-        "<h2>厳選ランキング TOP10</h2>",
-        "<p class=\"lead\"><b>"+esc(STATE.data.logic_label||"Codex厳選ランキング")+"</b>。1レースを1枚のカードにまとめました。タップすると、やさしい説明と数字が開きます。</p>",
-        "<div class=\"cards\">",
-        "<div class=\"metric\"><b>"+esc(pct(rows[0].manshu_rate_pct))+"</b><span>TOP1 万舟率</span></div>",
-        "<div class=\"metric\"><b>"+esc(label(rows[0]))+"</b><span>TOP1 レース</span></div>",
-        "<div class=\"metric\"><b>"+esc((STATE.data.races||[]).length)+"R</b><span>表示候補</span></div>",
-        "</div>",
-        "<div class=\"race-list\">",
-        rows.map(raceCardHtml).join(""),
-        "</div>"
-      ].join("");
+      renderCandidatePanels();
       renderBuffPanel(rows);
     }
     function stopResultPolling(){
@@ -868,7 +881,8 @@
       }
       if(!payload){
         document.getElementById("status").innerHTML="<strong>ランキングJSONが見つかりません</strong><div class=\"chips\"><span class=\"chip hot\">"+esc(STATE.date)+"</span></div>";
-        document.getElementById("ranking-panel").innerHTML="<h2>厳選ランキング TOP10</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
+        document.getElementById("early-candidate-panel").innerHTML="<h2>朝の候補レース（1〜6R）</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
+        document.getElementById("late-candidate-panel").innerHTML="<h2>後半で狙えそうなレース（7〜12R）</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
         document.getElementById("buff-panel").innerHTML="<h2>場別まとめ</h2><p class=\"lead\">ランキングJSONが見つからないため表示できません。</p>";
         return;
       }

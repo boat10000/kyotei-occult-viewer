@@ -1200,12 +1200,14 @@ def build_payload(source: dict, top_n: int, results_map: dict[tuple[int, int], d
             {
                 **row,
                 "status": "朝候補",
-                "candidate_type": "朝候補",
+                "candidate_type": "後半狙い候補"
+                if (as_int(row.get("round")) or as_int(row.get("round_no")) or 0) >= 7
+                else "朝荒れ候補",
                 "candidate_phase": "morning",
                 "candidate_score": row.get("candidate_score") or row.get("best_manshu_rate_pct") or row.get("manshu_rate_pct"),
                 "candidate_reasons": [
                     "既存ランキング上位",
-                    "展示前候補JSON未生成日のフォールバック",
+                    "レース番号で朝/後半を分類",
                 ],
                 "finalize_rule": "展示タイム・1周・平均との差・スーパースリットを取得して、買い/見送りへ更新",
                 "ranking_type": "morning_candidate",
