@@ -1,7 +1,7 @@
 {
   "version": "boaters-manshu-alerts-v1",
   "date": "2026-06-27",
-  "generated_at": "2026-06-27T18:51:43+09:00",
+  "generated_at": "2026-06-27T20:37:21+09:00",
   "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_morning_ranking_20260627.json",
   "public_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260627.json",
   "live_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_live_ranking_20260627.json",
@@ -17,13 +17,14 @@
       "round": 2,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -460.7,
+      "minutes_to_deadline": -566.4,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:NG",
         "対戦相性あり:NG"
       ],
       "strategies": [],
+      "candidate_strategy_ids": [],
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -453,13 +454,14 @@
       "round": 3,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -143.7,
+      "minutes_to_deadline": -249.4,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
         "対戦相性あり:NG"
       ],
       "strategies": [],
+      "candidate_strategy_ids": [],
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -889,13 +891,14 @@
       "round": 9,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -240.7,
+      "minutes_to_deadline": -346.4,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
         "対戦相性あり:NG"
       ],
-      "strategies": [
+      "strategies": [],
+      "candidate_strategy_ids": [
         "codex_logic29_late_outer12"
       ],
       "selection": {
@@ -973,9 +976,7 @@
         "axis_hit": null,
         "alt_axis_hit": null,
         "odds_filter": "3連単50倍未満は買わない",
-        "source_strategy_ids": [
-          "codex_logic29_late_outer12"
-        ]
+        "source_strategy_ids": []
       },
       "metrics": {
         "boats": [
@@ -1329,16 +1330,14 @@
       "round": 6,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -340.7,
+      "minutes_to_deadline": -446.4,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
         "対戦相性あり:NG"
       ],
-      "strategies": [
-        "codex_post_b1aipred30_outeraiplus1_superslit",
-        "codex_post_outer56_ai10_outerhead_b1avg0"
-      ],
+      "strategies": [],
+      "candidate_strategy_ids": [],
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -1410,10 +1409,7 @@
         "axis_hit": null,
         "alt_axis_hit": null,
         "odds_filter": "3連単50倍未満は買わない",
-        "source_strategy_ids": [
-          "codex_post_b1aipred30_outeraiplus1_superslit",
-          "codex_post_outer56_ai10_outerhead_b1avg0"
-        ]
+        "source_strategy_ids": []
       },
       "metrics": {
         "boats": [
@@ -1768,13 +1764,14 @@
       "round": 4,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -400.7,
+      "minutes_to_deadline": -506.4,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
         "対戦相性あり:NG"
       ],
       "strategies": [],
+      "candidate_strategy_ids": [],
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -2202,13 +2199,14 @@
       "round": 3,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -432.7,
+      "minutes_to_deadline": -538.4,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
         "対戦相性あり:NG"
       ],
       "strategies": [],
+      "candidate_strategy_ids": [],
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -2640,13 +2638,14 @@
       "round": 10,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -204.7,
+      "minutes_to_deadline": -310.4,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形1前+2壁:NG",
         "対戦相性あり:NG"
       ],
-      "strategies": [
+      "strategies": [],
+      "candidate_strategy_ids": [
         "codex_logic29_late_outer12"
       ],
       "selection": {
@@ -2722,9 +2721,7 @@
         "axis_hit": null,
         "alt_axis_hit": null,
         "odds_filter": "3連単50倍未満は買わない",
-        "source_strategy_ids": [
-          "codex_logic29_late_outer12"
-        ]
+        "source_strategy_ids": []
       },
       "metrics": {
         "boats": [
@@ -3076,13 +3073,14 @@
       "round": 11,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -170.7,
+      "minutes_to_deadline": -276.4,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
         "対戦相性あり:NG"
       ],
       "strategies": [],
+      "candidate_strategy_ids": [],
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -3457,13 +3455,14 @@
       "round": 8,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -180.7,
+      "minutes_to_deadline": -286.4,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
         "対戦相性あり:NG"
       ],
-      "strategies": [
+      "strategies": [],
+      "candidate_strategy_ids": [
         "codex_logic29_late_outer12"
       ],
       "selection": {
@@ -3540,9 +3539,7 @@
         "axis_hit": null,
         "alt_axis_hit": null,
         "odds_filter": "3連単50倍未満は買わない",
-        "source_strategy_ids": [
-          "codex_logic29_late_outer12"
-        ]
+        "source_strategy_ids": []
       },
       "metrics": {
         "boats": [
@@ -3895,13 +3892,14 @@
       "round": 2,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -172.7,
+      "minutes_to_deadline": -278.4,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:NG",
         "対戦相性あり:NG"
       ],
       "strategies": [],
+      "candidate_strategy_ids": [],
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -4271,7 +4269,7 @@
       "round": 1,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -619.7
+      "minutes_to_deadline": -725.4
     },
     {
       "race_id": "2026-06-272112",
@@ -4279,7 +4277,7 @@
       "round": 12,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -291.7
+      "minutes_to_deadline": -397.4
     },
     {
       "race_id": "2026-06-271401",
@@ -4287,7 +4285,7 @@
       "round": 1,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -481.7
+      "minutes_to_deadline": -587.4
     },
     {
       "race_id": "2026-06-270102",
@@ -4295,7 +4293,7 @@
       "round": 2,
       "source": "late_riser",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -169.7,
+      "minutes_to_deadline": -275.4,
       "condition_confirmed": false,
       "checks": [
         "低評価外枠が5/6号艇:OK",
@@ -4308,6 +4306,7 @@
         "5/6号艇に展示上位:OK"
       ],
       "strategies": [],
+      "candidate_strategy_ids": [],
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -4728,7 +4727,7 @@
       "round": 3,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -550.7
+      "minutes_to_deadline": -656.4
     },
     {
       "race_id": "2026-06-272301",
@@ -4736,7 +4735,7 @@
       "round": 1,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -612.7
+      "minutes_to_deadline": -718.4
     },
     {
       "race_id": "2026-06-272303",
@@ -4744,7 +4743,7 @@
       "round": 3,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -560.7
+      "minutes_to_deadline": -666.4
     },
     {
       "race_id": "2026-06-272306",
@@ -4752,7 +4751,7 @@
       "round": 6,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -478.7
+      "minutes_to_deadline": -584.4
     }
   ],
   "push": {
