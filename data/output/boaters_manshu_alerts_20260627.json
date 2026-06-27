@@ -1,7 +1,7 @@
 {
   "version": "boaters-manshu-alerts-v1",
   "date": "2026-06-27",
-  "generated_at": "2026-06-27T16:36:15+09:00",
+  "generated_at": "2026-06-27T18:51:43+09:00",
   "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_morning_ranking_20260627.json",
   "public_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260627.json",
   "live_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_live_ranking_20260627.json",
@@ -17,7 +17,7 @@
       "round": 2,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -325.3,
+      "minutes_to_deadline": -460.7,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:NG",
@@ -354,6 +354,7 @@
         "outer56_best_isshu_time": 37.6,
         "outer56_best_avg_isshu_diff": 0.3167,
         "outer56_best_ai_prediction_pct": 8.97,
+        "outer56_best_ai_plus": 60.769999999999996,
         "ai_rank6_boat": 6,
         "ai_rank6_avg_isshu_diff": 0.3167,
         "ai_rank6_ai_prediction_pct": 0.77,
@@ -452,7 +453,7 @@
       "round": 3,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -8.3,
+      "minutes_to_deadline": -143.7,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
@@ -787,6 +788,7 @@
         "outer56_best_isshu_time": 37.72,
         "outer56_best_avg_isshu_diff": 0.175,
         "outer56_best_ai_prediction_pct": 22.6,
+        "outer56_best_ai_plus": 144.47,
         "ai_rank6_boat": 6,
         "ai_rank6_avg_isshu_diff": 0.175,
         "ai_rank6_ai_prediction_pct": 5.62,
@@ -887,7 +889,7 @@
       "round": 9,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -105.3,
+      "minutes_to_deadline": -240.7,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
@@ -1228,6 +1230,7 @@
         "outer56_best_isshu_time": 37.46,
         "outer56_best_avg_isshu_diff": 0.3533,
         "outer56_best_ai_prediction_pct": 9.79,
+        "outer56_best_ai_plus": 96.97,
         "ai_rank6_boat": 5,
         "ai_rank6_avg_isshu_diff": 0.3533,
         "ai_rank6_ai_prediction_pct": 0.3,
@@ -1326,13 +1329,16 @@
       "round": 6,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -205.3,
+      "minutes_to_deadline": -340.7,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
         "対戦相性あり:NG"
       ],
-      "strategies": [],
+      "strategies": [
+        "codex_post_b1aipred30_outeraiplus1_superslit",
+        "codex_post_outer56_ai10_outerhead_b1avg0"
+      ],
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -1404,7 +1410,10 @@
         "axis_hit": null,
         "alt_axis_hit": null,
         "odds_filter": "3連単50倍未満は買わない",
-        "source_strategy_ids": []
+        "source_strategy_ids": [
+          "codex_post_b1aipred30_outeraiplus1_superslit",
+          "codex_post_outer56_ai10_outerhead_b1avg0"
+        ]
       },
       "metrics": {
         "boats": [
@@ -1660,6 +1669,7 @@
         "outer56_best_isshu_time": 37.49,
         "outer56_best_avg_isshu_diff": 0.5317,
         "outer56_best_ai_prediction_pct": 11.36,
+        "outer56_best_ai_plus": 73.02000000000001,
         "ai_rank6_boat": 2,
         "ai_rank6_avg_isshu_diff": -0.3583,
         "ai_rank6_ai_prediction_pct": 6.57,
@@ -1758,7 +1768,7 @@
       "round": 4,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -265.3,
+      "minutes_to_deadline": -400.7,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
@@ -2093,6 +2103,7 @@
         "outer56_best_isshu_time": 37.61,
         "outer56_best_avg_isshu_diff": 0.1883,
         "outer56_best_ai_prediction_pct": 5.78,
+        "outer56_best_ai_plus": 86.99000000000001,
         "ai_rank6_boat": 6,
         "ai_rank6_avg_isshu_diff": -0.1817,
         "ai_rank6_ai_prediction_pct": 0.11,
@@ -2191,7 +2202,7 @@
       "round": 3,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -297.3,
+      "minutes_to_deadline": -432.7,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
@@ -2529,6 +2540,7 @@
         "outer56_best_isshu_time": 38.4,
         "outer56_best_avg_isshu_diff": -0.2133,
         "outer56_best_ai_prediction_pct": 36.62,
+        "outer56_best_ai_plus": 151.78,
         "ai_rank6_boat": 4,
         "ai_rank6_avg_isshu_diff": 0.4167,
         "ai_rank6_ai_prediction_pct": 0.88,
@@ -2628,7 +2640,7 @@
       "round": 10,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -69.3,
+      "minutes_to_deadline": -204.7,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形1前+2壁:NG",
@@ -2967,6 +2979,7 @@
         "outer56_best_isshu_time": 38.17,
         "outer56_best_avg_isshu_diff": -0.3083,
         "outer56_best_ai_prediction_pct": 3.5,
+        "outer56_best_ai_plus": 80.63,
         "ai_rank6_boat": 6,
         "ai_rank6_avg_isshu_diff": -0.8083,
         "ai_rank6_ai_prediction_pct": 0.18,
@@ -3063,7 +3076,7 @@
       "round": 11,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -35.3,
+      "minutes_to_deadline": -170.7,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
@@ -3347,6 +3360,7 @@
         "outer56_best_isshu_time": 37.22,
         "outer56_best_avg_isshu_diff": 0.428,
         "outer56_best_ai_prediction_pct": null,
+        "outer56_best_ai_plus": null,
         "ai_rank6_boat": null,
         "ai_rank6_avg_isshu_diff": null,
         "ai_rank6_ai_prediction_pct": null,
@@ -3443,7 +3457,7 @@
       "round": 8,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -45.3,
+      "minutes_to_deadline": -180.7,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形外圧:OK",
@@ -3783,6 +3797,7 @@
         "outer56_best_isshu_time": 37.7,
         "outer56_best_avg_isshu_diff": 0.68,
         "outer56_best_ai_prediction_pct": 34.7,
+        "outer56_best_ai_plus": 147.51,
         "ai_rank6_boat": 6,
         "ai_rank6_avg_isshu_diff": -0.29,
         "ai_rank6_ai_prediction_pct": 0.43,
@@ -3880,7 +3895,7 @@
       "round": 2,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -37.3,
+      "minutes_to_deadline": -172.7,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:NG",
@@ -4161,6 +4176,7 @@
         "outer56_best_isshu_time": null,
         "outer56_best_avg_isshu_diff": null,
         "outer56_best_ai_prediction_pct": null,
+        "outer56_best_ai_plus": null,
         "ai_rank6_boat": null,
         "ai_rank6_avg_isshu_diff": null,
         "ai_rank6_ai_prediction_pct": null,
@@ -4255,7 +4271,7 @@
       "round": 1,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -484.3
+      "minutes_to_deadline": -619.7
     },
     {
       "race_id": "2026-06-272112",
@@ -4263,7 +4279,7 @@
       "round": 12,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -156.3
+      "minutes_to_deadline": -291.7
     },
     {
       "race_id": "2026-06-271401",
@@ -4271,7 +4287,7 @@
       "round": 1,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -346.3
+      "minutes_to_deadline": -481.7
     },
     {
       "race_id": "2026-06-270102",
@@ -4279,7 +4295,7 @@
       "round": 2,
       "source": "late_riser",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -34.3,
+      "minutes_to_deadline": -169.7,
       "condition_confirmed": false,
       "checks": [
         "低評価外枠が5/6号艇:OK",
@@ -4614,6 +4630,7 @@
         "outer56_best_isshu_time": null,
         "outer56_best_avg_isshu_diff": null,
         "outer56_best_ai_prediction_pct": 10.26,
+        "outer56_best_ai_plus": 92.72,
         "ai_rank6_boat": 5,
         "ai_rank6_avg_isshu_diff": null,
         "ai_rank6_ai_prediction_pct": 10.26,
@@ -4711,7 +4728,7 @@
       "round": 3,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -415.3
+      "minutes_to_deadline": -550.7
     },
     {
       "race_id": "2026-06-272301",
@@ -4719,7 +4736,7 @@
       "round": 1,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -477.3
+      "minutes_to_deadline": -612.7
     },
     {
       "race_id": "2026-06-272303",
@@ -4727,7 +4744,7 @@
       "round": 3,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -425.3
+      "minutes_to_deadline": -560.7
     },
     {
       "race_id": "2026-06-272306",
@@ -4735,7 +4752,7 @@
       "round": 6,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -343.3
+      "minutes_to_deadline": -478.7
     }
   ],
   "push": {

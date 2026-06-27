@@ -1,7 +1,7 @@
 {
   "version": "boaters-manshu-logic-v2",
   "date": "2026-06-27",
-  "generated_at": "2026-06-27T07:37:01+00:00",
+  "generated_at": "2026-06-27T09:52:38+00:00",
   "threshold_pct": 27.0,
   "logic_label": "Codex厳選ランキング（全ファクター統合）",
   "logic_summary": "過去検証27%以上の強条件、三連単人気1〜5が1号艇頭の売れ過ぎイン飛び、1号艇弱化、外枠上振れ、AI+下位の穴、AI/オッズ評価、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクター、天候/風波、今回メンバー同士の対戦相性をすべて同じスコアに混ぜた統合厳選ランキング。",
@@ -15,10 +15,10 @@
     "races_with_full_isshu": 92,
     "displayed_top_n": 10,
     "strict_displayed_top_n": 10,
-    "settled_top_n": 9,
+    "settled_top_n": 10,
     "manshu_hits_top_n": 0,
     "actual_manshu_rate_top_n_pct": 0.0,
-    "strict_settled_top_n": 9,
+    "strict_settled_top_n": 10,
     "strict_manshu_hits_top_n": 0,
     "strict_actual_manshu_rate_top_n_pct": 0.0,
     "morning_candidate_count": 5
@@ -280,6 +280,7 @@
         "boat1_isshu_time": 37.13,
         "outer56_best_avg_isshu_diff": 0.4233333333333249,
         "outer56_best_ai_prediction_pct": 3.32,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.78,
         "outer56_best_isshu_time": 36.59,
         "ai_rank6_boat": 6.0,
@@ -1273,6 +1274,7 @@
         "boat1_isshu_time": 37.92,
         "outer56_best_avg_isshu_diff": 0.3167,
         "outer56_best_ai_prediction_pct": 8.97,
+        "outer56_best_ai_plus": 60.769999999999996,
         "outer56_best_tenji_time": 6.77,
         "outer56_best_isshu_time": 37.6,
         "ai_rank6_boat": 6.0,
@@ -2009,7 +2011,7 @@
         ],
         "points": 15
       },
-      "last_minute_checked_at": "2026-06-27T16:36:15+09:00",
+      "last_minute_checked_at": "2026-06-27T18:51:43+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:NG",
@@ -2232,6 +2234,7 @@
         "boat1_isshu_time": 37.08,
         "outer56_best_avg_isshu_diff": 0.4799999999999969,
         "outer56_best_ai_prediction_pct": 8.62,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.75,
         "outer56_best_isshu_time": 36.49,
         "ai_rank6_boat": 6.0,
@@ -2817,8 +2820,8 @@
         "trifecta": "1-4-2",
         "payout_yen": 1900,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
+        "win_method": 1,
+        "weather": 1,
         "wind_speed": 4.0,
         "wave_height": 4.0
       }
@@ -3151,6 +3154,7 @@
         "boat1_isshu_time": 36.77,
         "outer56_best_avg_isshu_diff": 0.16833333333332945,
         "outer56_best_ai_prediction_pct": 5.83,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.84,
         "outer56_best_isshu_time": 36.5,
         "ai_rank6_boat": 4.0,
@@ -4099,6 +4103,7 @@
         "boat1_isshu_time": 38.21,
         "outer56_best_avg_isshu_diff": 0.011666666666670267,
         "outer56_best_ai_prediction_pct": 1.59,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.94,
         "outer56_best_isshu_time": 38.04,
         "ai_rank6_boat": 6.0,
@@ -4947,6 +4952,7 @@
         "boat1_isshu_time": 37.7,
         "outer56_best_avg_isshu_diff": 0.9450000000000003,
         "outer56_best_ai_prediction_pct": 0.8,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.81,
         "outer56_best_isshu_time": 37.05,
         "ai_rank6_boat": 5.0,
@@ -5870,6 +5876,7 @@
         "boat1_isshu_time": 38.2,
         "outer56_best_avg_isshu_diff": 0.15833333333333854,
         "outer56_best_ai_prediction_pct": 1.34,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.84,
         "outer56_best_isshu_time": 37.77,
         "ai_rank6_boat": 5.0,
@@ -6904,6 +6911,7 @@
         "boat1_isshu_time": 37.71,
         "outer56_best_avg_isshu_diff": 0.35999999999999943,
         "outer56_best_ai_prediction_pct": 0.65,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.75,
         "outer56_best_isshu_time": 37.43,
         "ai_rank6_boat": 6.0,
@@ -7796,6 +7804,7 @@
         "boat1_isshu_time": 37.27,
         "outer56_best_avg_isshu_diff": 0.175,
         "outer56_best_ai_prediction_pct": 22.6,
+        "outer56_best_ai_plus": 144.47,
         "outer56_best_tenji_time": 6.87,
         "outer56_best_isshu_time": 37.72,
         "ai_rank6_boat": 6.0,
@@ -8374,7 +8383,7 @@
         ],
         "points": 15
       },
-      "last_minute_checked_at": "2026-06-27T16:36:15+09:00",
+      "last_minute_checked_at": "2026-06-27T18:51:43+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形外圧:OK",
@@ -8382,13 +8391,13 @@
       ],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-2-3",
+        "payout_yen": 2420,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 1,
+        "weather": 2,
+        "wind_speed": 1.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -8741,6 +8750,7 @@
         "boat1_isshu_time": 38.4,
         "outer56_best_avg_isshu_diff": 0.5317,
         "outer56_best_ai_prediction_pct": 11.36,
+        "outer56_best_ai_plus": 73.02000000000001,
         "outer56_best_tenji_time": 6.73,
         "outer56_best_isshu_time": 37.49,
         "ai_rank6_boat": 2.0,
@@ -9502,13 +9512,16 @@
         ],
         "points": 15
       },
-      "last_minute_checked_at": "2026-06-27T16:36:15+09:00",
+      "last_minute_checked_at": "2026-06-27T18:51:43+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形外圧:OK",
         "対戦相性あり:NG"
       ],
-      "last_minute_strategy_ids": [],
+      "last_minute_strategy_ids": [
+        "codex_post_b1aipred30_outeraiplus1_superslit",
+        "codex_post_outer56_ai10_outerhead_b1avg0"
+      ],
       "result": {
         "trifecta": "3-2-4",
         "payout_yen": 8150,
@@ -9777,6 +9790,7 @@
         "boat1_isshu_time": 37.13,
         "outer56_best_avg_isshu_diff": 0.4233333333333249,
         "outer56_best_ai_prediction_pct": 3.32,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.78,
         "outer56_best_isshu_time": 36.59,
         "ai_rank6_boat": 6.0,
@@ -10770,6 +10784,7 @@
         "boat1_isshu_time": 37.92,
         "outer56_best_avg_isshu_diff": 0.3167,
         "outer56_best_ai_prediction_pct": 8.97,
+        "outer56_best_ai_plus": 60.769999999999996,
         "outer56_best_tenji_time": 6.77,
         "outer56_best_isshu_time": 37.6,
         "ai_rank6_boat": 6.0,
@@ -11506,7 +11521,7 @@
         ],
         "points": 15
       },
-      "last_minute_checked_at": "2026-06-27T16:36:15+09:00",
+      "last_minute_checked_at": "2026-06-27T18:51:43+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:NG",
@@ -11729,6 +11744,7 @@
         "boat1_isshu_time": 37.08,
         "outer56_best_avg_isshu_diff": 0.4799999999999969,
         "outer56_best_ai_prediction_pct": 8.62,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.75,
         "outer56_best_isshu_time": 36.49,
         "ai_rank6_boat": 6.0,
@@ -12314,8 +12330,8 @@
         "trifecta": "1-4-2",
         "payout_yen": 1900,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
+        "win_method": 1,
+        "weather": 1,
         "wind_speed": 4.0,
         "wave_height": 4.0
       }
@@ -12648,6 +12664,7 @@
         "boat1_isshu_time": 36.77,
         "outer56_best_avg_isshu_diff": 0.16833333333332945,
         "outer56_best_ai_prediction_pct": 5.83,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.84,
         "outer56_best_isshu_time": 36.5,
         "ai_rank6_boat": 4.0,
@@ -13596,6 +13613,7 @@
         "boat1_isshu_time": 38.21,
         "outer56_best_avg_isshu_diff": 0.011666666666670267,
         "outer56_best_ai_prediction_pct": 1.59,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.94,
         "outer56_best_isshu_time": 38.04,
         "ai_rank6_boat": 6.0,
@@ -14444,6 +14462,7 @@
         "boat1_isshu_time": 37.7,
         "outer56_best_avg_isshu_diff": 0.9450000000000003,
         "outer56_best_ai_prediction_pct": 0.8,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.81,
         "outer56_best_isshu_time": 37.05,
         "ai_rank6_boat": 5.0,
@@ -15367,6 +15386,7 @@
         "boat1_isshu_time": 38.2,
         "outer56_best_avg_isshu_diff": 0.15833333333333854,
         "outer56_best_ai_prediction_pct": 1.34,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.84,
         "outer56_best_isshu_time": 37.77,
         "ai_rank6_boat": 5.0,
@@ -16401,6 +16421,7 @@
         "boat1_isshu_time": 37.71,
         "outer56_best_avg_isshu_diff": 0.35999999999999943,
         "outer56_best_ai_prediction_pct": 0.65,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.75,
         "outer56_best_isshu_time": 37.43,
         "ai_rank6_boat": 6.0,
@@ -17293,6 +17314,7 @@
         "boat1_isshu_time": 37.27,
         "outer56_best_avg_isshu_diff": 0.175,
         "outer56_best_ai_prediction_pct": 22.6,
+        "outer56_best_ai_plus": 144.47,
         "outer56_best_tenji_time": 6.87,
         "outer56_best_isshu_time": 37.72,
         "ai_rank6_boat": 6.0,
@@ -17871,7 +17893,7 @@
         ],
         "points": 15
       },
-      "last_minute_checked_at": "2026-06-27T16:36:15+09:00",
+      "last_minute_checked_at": "2026-06-27T18:51:43+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形外圧:OK",
@@ -17879,13 +17901,13 @@
       ],
       "last_minute_strategy_ids": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-2-3",
+        "payout_yen": 2420,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 1,
+        "weather": 2,
+        "wind_speed": 1.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -18238,6 +18260,7 @@
         "boat1_isshu_time": 38.4,
         "outer56_best_avg_isshu_diff": 0.5317,
         "outer56_best_ai_prediction_pct": 11.36,
+        "outer56_best_ai_plus": 73.02000000000001,
         "outer56_best_tenji_time": 6.73,
         "outer56_best_isshu_time": 37.49,
         "ai_rank6_boat": 2.0,
@@ -18999,13 +19022,16 @@
         ],
         "points": 15
       },
-      "last_minute_checked_at": "2026-06-27T16:36:15+09:00",
+      "last_minute_checked_at": "2026-06-27T18:51:43+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形外圧:OK",
         "対戦相性あり:NG"
       ],
-      "last_minute_strategy_ids": [],
+      "last_minute_strategy_ids": [
+        "codex_post_b1aipred30_outeraiplus1_superslit",
+        "codex_post_outer56_ai10_outerhead_b1avg0"
+      ],
       "result": {
         "trifecta": "3-2-4",
         "payout_yen": 8150,
@@ -19155,6 +19181,7 @@
         "boat1_isshu_time": 37.53,
         "outer56_best_avg_isshu_diff": -0.006666666666660603,
         "outer56_best_ai_prediction_pct": 10.06,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.87,
         "outer56_best_isshu_time": 37.86,
         "ai_rank6_boat": 4.0,
@@ -19803,6 +19830,7 @@
         "boat1_isshu_time": 37.62,
         "outer56_best_avg_isshu_diff": 0.1316666666666677,
         "outer56_best_ai_prediction_pct": 11.55,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.97,
         "outer56_best_isshu_time": 38.2,
         "ai_rank6_boat": 1.0,
@@ -20445,6 +20473,7 @@
         "boat1_isshu_time": 37.96,
         "outer56_best_avg_isshu_diff": 0.4383333333333397,
         "outer56_best_ai_prediction_pct": 21.08,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": 6.9,
         "outer56_best_isshu_time": 37.45,
         "ai_rank6_boat": 6.0,
@@ -20937,8 +20966,8 @@
         "trifecta": "5-2-4",
         "payout_yen": 8600,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
+        "win_method": 4,
+        "weather": 3,
         "wind_speed": 4.0,
         "wave_height": 0.0
       },
@@ -21072,6 +21101,7 @@
         "boat1_isshu_time": null,
         "outer56_best_avg_isshu_diff": null,
         "outer56_best_ai_prediction_pct": null,
+        "outer56_best_ai_plus": null,
         "outer56_best_tenji_time": null,
         "outer56_best_isshu_time": null,
         "ai_rank6_boat": null,
@@ -21689,6 +21719,7 @@
         "boat1_isshu_time": 37.97,
         "outer56_best_avg_isshu_diff": 0.68,
         "outer56_best_ai_prediction_pct": 34.7,
+        "outer56_best_ai_plus": 147.51,
         "outer56_best_tenji_time": 6.83,
         "outer56_best_isshu_time": 37.7,
         "ai_rank6_boat": 6.0,
@@ -22214,7 +22245,7 @@
         ],
         "points": 15
       },
-      "last_minute_checked_at": "2026-06-27T16:36:15+09:00",
+      "last_minute_checked_at": "2026-06-27T18:51:43+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形外圧:OK",
@@ -22224,13 +22255,13 @@
         "codex_logic29_late_outer12"
       ],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-4-3",
+        "payout_yen": 7850,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null
+        "win_method": 1,
+        "weather": 2,
+        "wind_speed": 3.0,
+        "wave_height": 3.0
       },
       "candidate_type": "重点監視",
       "candidate_phase": "morning_watchlist",
