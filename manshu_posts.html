@@ -63,8 +63,9 @@
     function dataUrls(date){
       var key=ymd(date), stamp=Date.now();
       return [
-        "data/output/boaters_manshu_ranking_codex_"+key+".json?v=codex10&_="+stamp,
-        "data/output/boaters_manshu_ranking_"+key+".json?v=codex10&_="+stamp
+        "data/output/boaters_manshu_live_ranking_"+key+".json?v=codex11&_="+stamp,
+        "data/output/boaters_manshu_ranking_codex_"+key+".json?v=codex11&_="+stamp,
+        "data/output/boaters_manshu_ranking_"+key+".json?v=codex11&_="+stamp
       ];
     }
     function resultUrl(date){return "https://boatraceopenapi.github.io/results/v2/"+date.slice(0,4)+"/"+ymd(date)+".json";}
