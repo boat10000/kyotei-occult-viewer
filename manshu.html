@@ -814,11 +814,6 @@
       panel.innerHTML=[
         "<h2>"+esc(title)+"</h2>",
         "<p class=\"candidate-note\">"+esc(note)+"</p>",
-        "<div class=\"cards\">",
-        "<div class=\"metric\"><b>"+esc(rows.length)+"R</b><span>監視数</span></div>",
-        "<div class=\"metric\"><b>"+esc(label(rows[0]))+"</b><span>最上位監視</span></div>",
-        "<div class=\"metric\"><b>"+esc(candidateType(rows[0]))+"</b><span>監視強度</span></div>",
-        "</div>",
         "<div class=\"race-list\">",
         rows.map(candidateCardHtml).join(""),
         "</div>"
