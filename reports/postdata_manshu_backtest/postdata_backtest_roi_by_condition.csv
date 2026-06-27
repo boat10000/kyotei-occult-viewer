@@ -1,0 +1,9 @@
+condition_id,buy_races,manshu_rate_pct,hit_rate_pct,manshu_hit_rate_pct,stake_yen,payback_yen,profit_yen,roi_pct
+codex_post_ai_exh_b1aipred30_outer56_ai12_outerdouble,155,27.1,31.61,3.87,221100,251000,29900,113.52
+codex_post_ai_exh_b1aipred30_outeraiplus1_superslit,314,23.25,29.3,1.59,452400,455370,2970,100.66
+codex_post_ai_exh_outer56_ai12_avg010_outerdouble,157,26.75,28.66,2.55,226200,216670,-9530,95.79
+codex_post_ai_exh_b1aipred30_outer10_rank6exh,582,23.2,25.09,2.58,836400,717170,-119230,85.74
+codex_post_ai_exh_outer56_ai10_aiplus100_isshu2,857,23.34,27.42,2.1,1229400,990580,-238820,80.57
+codex_post_ai_exh_rank6_outer_ai5_rank6exh,242,26.03,23.14,1.65,347100,275710,-71390,79.43
+codex_post_ai_exh_outer56_ai10_outerhead_b1avg0,197,27.41,29.44,2.03,282300,218880,-63420,77.53
+codex_post_ai_exh_rank6_outer_ai5_outertenji2,362,24.31,22.38,1.66,518700,373950,-144750,72.09

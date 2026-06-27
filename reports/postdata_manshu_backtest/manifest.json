@@ -1,0 +1,16 @@
+{
+  "source_db": "/Users/ohyabumasaya/Desktop/price_action_analysis/outputs/boaters_all_races.sqlite",
+  "date_start": "2020-01-01",
+  "date_end": "2026-06-18",
+  "days": 2361,
+  "morning_top5_races": 11805,
+  "morning_top5_manshu_rate_pct": 19.76,
+  "outputs": {
+    "picks": "reports/postdata_manshu_backtest/postdata_backtest_picks.csv",
+    "summary": "reports/postdata_manshu_backtest/postdata_backtest_summary.csv",
+    "conditions": "reports/postdata_manshu_backtest/postdata_backtest_conditions.csv",
+    "by_year": "reports/postdata_manshu_backtest/postdata_backtest_by_year.csv",
+    "roi": "reports/postdata_manshu_backtest/postdata_backtest_roi.csv"
+  },
+  "elapsed_sec": 470.1
+}

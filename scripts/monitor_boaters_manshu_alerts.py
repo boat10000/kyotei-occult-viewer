@@ -44,6 +44,7 @@ SUMMER_B1_SLOW_DIFF = -0.10
 SUMMER_B1_FAST_NIGE_DELTA_PP = 15
 SUMMER_B1_SLOW_NIGE_DELTA_PP = -17
 SUPER_SLIT_TENJI_ADV = 0.10
+VALIDATED_BUY_STRATEGY_IDS = {"codex_post_core_ab_rank3"}
 
 SUPER_SLIT_ALERT_STATS = {
     2: {"win_rate_pct": 29.56, "top3_rate_pct": 70.91, "makuri_win_rate_pct": 11.53, "score_bonus": 11},
@@ -2504,6 +2505,34 @@ def roi_strategies(race, metrics, rows):
         row.get("boat_number") in {3, 4, 5, 6} and row.get("double_time")
         for row in rows
     )
+    post_core_a = (
+        full_exhibition
+        and not b1_summer_fast
+        and rank_no <= 3
+        and b1_ai_pred < 30
+        and outer56_ai_pred >= 12
+        and outer36_double_time
+    )
+    post_core_b = (
+        full_exhibition
+        and not b1_summer_fast
+        and rank_no <= 3
+        and round_no <= 6
+        and b1_ai_pred < 30
+        and outer36_ai_plus_top1
+        and metrics.get("super_slit_alert_count", 0) >= 1
+    )
+    if post_core_a or post_core_b:
+        strategies.append(
+            (
+                "codex_post_core_ab_rank3",
+                "Codex直前本命: 朝TOP3+1AI30未満+外上昇A/B 10〜15点",
+                codex_logic29_outer_required,
+            )
+        )
+    # These post-data signals are still used by the ranking lift model, but the
+    # long backtest showed that buying all of them is too broad.
+    allow_exploratory_post_strategies = False
     base_tickets, base_roles = super_arunashi3(rows)
     late_outer_head_keshi_signal = (
         rank_no <= 7
@@ -2557,7 +2586,7 @@ def roi_strategies(race, metrics, rows):
                 codex_stable_front_wind11,
             )
         )
-    if full_exhibition and not b1_summer_fast and outer56_ai_pred >= 10 and outer56_ai_plus >= 100 and metrics.get("outer56_isshu_top2_count", 0) >= 1:
+    if allow_exploratory_post_strategies and full_exhibition and not b1_summer_fast and outer56_ai_pred >= 10 and outer56_ai_plus >= 100 and metrics.get("outer56_isshu_top2_count", 0) >= 1:
         strategies.append(
             (
                 "codex_post_outer56_ai10_aiplus100_isshu2",
@@ -2565,7 +2594,7 @@ def roi_strategies(race, metrics, rows):
                 codex_logic29_outer_required,
             )
         )
-    if full_exhibition and not b1_summer_fast and b1_ai_pred < 30 and outer56_ai_pred >= 10 and rank6_boat in {5, 6} and rank6_exhibit_top2:
+    if allow_exploratory_post_strategies and full_exhibition and not b1_summer_fast and b1_ai_pred < 30 and outer56_ai_pred >= 10 and rank6_boat in {5, 6} and rank6_exhibit_top2:
         strategies.append(
             (
                 "codex_post_b1aipred30_outer10_rank6exh",
@@ -2573,7 +2602,7 @@ def roi_strategies(race, metrics, rows):
                 codex_logic29_outer_required,
             )
         )
-    if full_exhibition and not b1_summer_fast and b1_ai_pred < 30 and outer36_ai_plus_top1 and metrics.get("super_slit_alert_count", 0) >= 1:
+    if allow_exploratory_post_strategies and full_exhibition and not b1_summer_fast and b1_ai_pred < 30 and outer36_ai_plus_top1 and metrics.get("super_slit_alert_count", 0) >= 1:
         strategies.append(
             (
                 "codex_post_b1aipred30_outeraiplus1_superslit",
@@ -2581,7 +2610,7 @@ def roi_strategies(race, metrics, rows):
                 codex_logic29_outer_required,
             )
         )
-    if full_exhibition and not b1_summer_fast and outer56_ai_pred >= 12 and outer56_avgdiff >= 0.10 and outer36_double_time:
+    if allow_exploratory_post_strategies and full_exhibition and not b1_summer_fast and outer56_ai_pred >= 12 and outer56_avgdiff >= 0.10 and outer36_double_time:
         strategies.append(
             (
                 "codex_post_outer56_ai12_avg010_outerdouble",
@@ -2589,7 +2618,7 @@ def roi_strategies(race, metrics, rows):
                 codex_logic29_outer_required,
             )
         )
-    if full_exhibition and not b1_summer_fast and b1_ai_pred < 30 and outer56_ai_pred >= 12 and outer36_double_time:
+    if allow_exploratory_post_strategies and full_exhibition and not b1_summer_fast and b1_ai_pred < 30 and outer56_ai_pred >= 12 and outer36_double_time:
         strategies.append(
             (
                 "codex_post_b1aipred30_outer56_ai12_outerdouble",
@@ -2597,7 +2626,7 @@ def roi_strategies(race, metrics, rows):
                 codex_logic29_outer_required,
             )
         )
-    if full_exhibition and not b1_summer_fast and outer56_ai_pred >= 10 and outer36_ai_pred_top1 and b1_avgdiff <= 0:
+    if allow_exploratory_post_strategies and full_exhibition and not b1_summer_fast and outer56_ai_pred >= 10 and outer36_ai_pred_top1 and b1_avgdiff <= 0:
         strategies.append(
             (
                 "codex_post_outer56_ai10_outerhead_b1avg0",
@@ -2605,7 +2634,7 @@ def roi_strategies(race, metrics, rows):
                 codex_logic29_outer_required,
             )
         )
-    if full_exhibition and not b1_summer_fast and rank6_boat in {5, 6} and rank6_ai_pred >= 5 and metrics.get("outer56_tenji_top2_count", 0) >= 1:
+    if allow_exploratory_post_strategies and full_exhibition and not b1_summer_fast and rank6_boat in {5, 6} and rank6_ai_pred >= 5 and metrics.get("outer56_tenji_top2_count", 0) >= 1:
         strategies.append(
             (
                 "codex_post_rank6_outer_ai5_outertenji2",
@@ -2613,7 +2642,7 @@ def roi_strategies(race, metrics, rows):
                 codex_logic29_outer_required,
             )
         )
-    if full_exhibition and not b1_summer_fast and rank6_boat in {5, 6} and rank6_ai_pred >= 5 and rank6_exhibit_top2:
+    if allow_exploratory_post_strategies and full_exhibition and not b1_summer_fast and rank6_boat in {5, 6} and rank6_ai_pred >= 5 and rank6_exhibit_top2:
         strategies.append(
             (
                 "codex_post_rank6_outer_ai5_rank6exh",
@@ -2907,7 +2936,10 @@ def make_message(race, alert_type, metrics, checks, strategies):
     if alert_type in {"buy_ok", "late_riser_buy_ok"} and strategies:
         s = strategies[0]
         support_text = f" / 相手: {fmt_list(s.get('supports'))}" if s.get("supports") else ""
-        title = "【急浮上 買い候補】" if alert_type == "late_riser_buy_ok" else "【買い候補】"
+        if s.get("strategy_id") == "codex_post_core_ab_rank3":
+            title = "【本命買い候補】"
+        else:
+            title = "【急浮上 買い候補】" if alert_type == "late_riser_buy_ok" else "【買い候補】"
         return (
             f"{title}{base}\n"
             f"{metric_text}\n"
@@ -3041,7 +3073,12 @@ def monitor(args):
             rows = enrich_rows(by_boat, race.get("metrics") or {}, date_text=race.get("date"))
             metrics = race_metrics(rows, date_text=race.get("date"))
             confirmed, checks = condition_confirmed(race.get("condition"), metrics)
-            strategies = roi_strategies(race, metrics, rows)
+            all_strategies = roi_strategies(race, metrics, rows)
+            strategies = [
+                strategy
+                for strategy in all_strategies
+                if strategy.get("strategy_id") in VALIDATED_BUY_STRATEGY_IDS
+            ]
             selection = selection_payload(rows, race=race, strategies=strategies)
             if backfill_only:
                 alert_type = None
@@ -3062,6 +3099,7 @@ def monitor(args):
                 "alert_type": alert_type,
                 "checks": checks,
                 "strategy_ids": strategy_ids,
+                "candidate_strategy_ids": [s["strategy_id"] for s in all_strategies],
             }
             inspected.append(
                 {
@@ -3074,6 +3112,7 @@ def monitor(args):
                     "condition_confirmed": confirmed,
                     "checks": checks,
                     "strategies": strategy_ids,
+                    "candidate_strategy_ids": [s["strategy_id"] for s in all_strategies],
                     "selection": selection,
                     "metrics": metrics,
                     "morning_rank": morning_rank,
