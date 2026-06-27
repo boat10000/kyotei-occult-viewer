@@ -183,13 +183,9 @@
       <div class="chips"><span class="chip">JSON確認中</span></div>
     </section>
     <main class="layout">
-      <section class="panel candidate-panel" id="early-candidate-panel">
-        <h2>朝の監視リスト（1〜6R）</h2>
-        <p class="lead">展示前・BOATERS AI前に、直前確認する前半レースです。</p>
-      </section>
-      <section class="panel candidate-panel late-panel" id="late-candidate-panel">
-        <h2>後半の監視リスト（7〜12R）</h2>
-        <p class="lead">朝の時点で、後半に直前確認するレースです。</p>
+      <section class="panel candidate-panel" id="watchlist-panel">
+        <h2>朝の荒れ監視TOP5</h2>
+        <p class="lead">全レースを同じ朝データで分析し、直前確認する価値が高い上位5レースだけを表示します。</p>
       </section>
       <section class="panel factor-panel" id="buff-panel">
         <h2>場別まとめ</h2>
@@ -260,7 +256,7 @@
     function rawRankRows(){ return STATE.data?((STATE.data.strict_races||STATE.data.races||[]).slice(0,10)):[]; }
     function currentCandidateRows(){
       if(!STATE.data) return [];
-      var rows=(STATE.data.morning_candidates||[]).slice(0,10);
+      var rows=(STATE.data.morning_candidates||[]).slice(0,5);
       if(rows.length) return rows;
       return rawRankRows().map(function(r){
         return Object.assign({},r,{
@@ -277,12 +273,6 @@
       var round=Number(r.round||0);
       return round>=7?"後半軽監視":"軽監視";
     }
-    function earlyRows(){
-      return currentCandidateRows().filter(function(r){ return Number(r.round||0)<=6; }).slice(0,5);
-    }
-    function lateRows(){
-      return currentCandidateRows().filter(function(r){ return Number(r.round||0)>=7; }).slice(0,5);
-    }
     function renderStatus(rows){
       var settled=rows.filter(function(r){return resultOf(r).payout_yen!=null;}).length;
       var hits=rows.filter(function(r){return resultOf(r).manshu;}).length;
@@ -296,9 +286,8 @@
       document.getElementById("status").innerHTML=[
         "<strong>"+esc(STATE.date)+" 朝の荒れ監視リストを表示中</strong>",
         "<div class=\"chips\">",
-        "<span class=\"chip hot\">監視 "+rows.length+"R</span>",
-        "<span class=\"chip\">朝 "+earlyRows().length+"R</span>",
-        "<span class=\"chip\">後半 "+lateRows().length+"R</span>",
+        "<span class=\"chip hot\">TOP"+rows.length+"</span>",
+        "<span class=\"chip\">全レース分析</span>",
         "<span class=\"chip ok\">AI/展示/直前オッズなし</span>",
         "<span class=\"chip\">結果 "+settled+"/"+rows.length+"R</span>",
         "<span class=\"chip "+(hits?"hot":"")+"\">万舟 "+hits+"件</span>",
@@ -825,18 +814,11 @@
     }
     function renderCandidatePanels(){
       renderCandidateSection(
-        "early-candidate-panel",
-        "朝の監視リスト（1〜6R）",
-        "朝データだけで、直前に見る価値がある前半レースです。ここでは買い目を出しません。",
-        earlyRows(),
+        "watchlist-panel",
+        "朝の荒れ監視TOP5",
+        "全レースを同じ朝データで分析し、直前に見る価値が高い5レースだけを表示します。ここでは買い目を出しません。",
+        currentCandidateRows(),
         "朝の監視レースはまだありません。"
-      );
-      renderCandidateSection(
-        "late-candidate-panel",
-        "後半の監視リスト（7〜12R）",
-        "朝データだけで、後半に直前確認するレースです。買い判断は直前データ取得後です。",
-        lateRows(),
-        "後半の監視レースはまだありません。"
       );
     }
     function render(){
@@ -904,8 +886,7 @@
       }
       if(!payload){
         document.getElementById("status").innerHTML="<strong>ランキングJSONが見つかりません</strong><div class=\"chips\"><span class=\"chip hot\">"+esc(STATE.date)+"</span></div>";
-        document.getElementById("early-candidate-panel").innerHTML="<h2>朝の監視リスト（1〜6R）</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
-        document.getElementById("late-candidate-panel").innerHTML="<h2>後半の監視リスト（7〜12R）</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
+        document.getElementById("watchlist-panel").innerHTML="<h2>朝の荒れ監視TOP5</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
         document.getElementById("buff-panel").innerHTML="<h2>場別まとめ</h2><p class=\"lead\">ランキングJSONが見つからないため表示できません。</p>";
         return;
       }
