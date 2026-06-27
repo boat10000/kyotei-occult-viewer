@@ -45,6 +45,7 @@ SUMMER_B1_FAST_NIGE_DELTA_PP = 15
 SUMMER_B1_SLOW_NIGE_DELTA_PP = -17
 SUPER_SLIT_TENJI_ADV = 0.10
 VALIDATED_BUY_STRATEGY_IDS = {"codex_post_core_ab_rank3"}
+SUBCORE_WATCH_STRATEGY_IDS = {"codex_post_subcore_rank6_outer_exhibit_top2"}
 
 SUPER_SLIT_ALERT_STATS = {
     2: {"win_rate_pct": 29.56, "top3_rate_pct": 70.91, "makuri_win_rate_pct": 11.53, "score_bonus": 11},
@@ -689,6 +690,8 @@ def merge_live_metrics_into_ranking_path(path, updates, now):
             race["last_minute_alert_type"] = update.get("alert_type")
             race["last_minute_checks"] = update.get("checks") or []
             race["last_minute_strategy_ids"] = update.get("strategy_ids") or []
+            race["last_minute_subcore_strategy_ids"] = update.get("subcore_strategy_ids") or []
+            race["last_minute_candidate_strategy_ids"] = update.get("candidate_strategy_ids") or []
             after = json.dumps(metrics, sort_keys=True, ensure_ascii=False)
             changed = changed or before != after
     if changed:
@@ -764,6 +767,8 @@ def push_notifications(payload, state, now):
             continue
         if alert.get("alert_type") == "late_riser_buy_ok":
             title = "BOATERS急浮上買い候補"
+        elif alert.get("alert_type") in {"subcore_watch", "late_riser_subcore_watch"}:
+            title = "BOATERS準本命候補"
         elif alert.get("alert_type") == "late_riser":
             title = "BOATERS急浮上"
         elif alert.get("alert_type") == "buy_ok":
@@ -2530,6 +2535,23 @@ def roi_strategies(race, metrics, rows):
                 codex_logic29_outer_required,
             )
         )
+    subcore_rank6_outer_exhibit = (
+        full_exhibition
+        and not b1_summer_fast
+        and not (post_core_a or post_core_b)
+        and rank_no <= 5
+        and rank6_boat in {5, 6}
+        and rank6_ai_pred >= 5
+        and (rank6_exhibit_top2 or metrics.get("outer56_tenji_top2_count", 0) >= 1)
+    )
+    if subcore_rank6_outer_exhibit:
+        strategies.append(
+            (
+                "codex_post_subcore_rank6_outer_exhibit_top2",
+                "Codex準本命B: AI+最下位5/6が展示浮上 監視",
+                codex_logic29_outer_required,
+            )
+        )
     # These post-data signals are still used by the ranking lift model, but the
     # long backtest showed that buying all of them is too broad.
     allow_exploratory_post_strategies = False
@@ -2933,11 +2955,13 @@ def make_message(race, alert_type, metrics, checks, strategies):
         f"{fmt_slit_shape(metrics)}"
         f"{fmt_matchup(metrics)}"
     )
-    if alert_type in {"buy_ok", "late_riser_buy_ok"} and strategies:
+    if alert_type in {"buy_ok", "late_riser_buy_ok", "subcore_watch", "late_riser_subcore_watch"} and strategies:
         s = strategies[0]
         support_text = f" / 相手: {fmt_list(s.get('supports'))}" if s.get("supports") else ""
         if s.get("strategy_id") == "codex_post_core_ab_rank3":
             title = "【本命買い候補】"
+        elif s.get("strategy_id") in SUBCORE_WATCH_STRATEGY_IDS:
+            title = "【準本命候補】"
         else:
             title = "【急浮上 買い候補】" if alert_type == "late_riser_buy_ok" else "【買い候補】"
         return (
@@ -3074,24 +3098,38 @@ def monitor(args):
             metrics = race_metrics(rows, date_text=race.get("date"))
             confirmed, checks = condition_confirmed(race.get("condition"), metrics)
             all_strategies = roi_strategies(race, metrics, rows)
-            strategies = [
+            buy_strategies = [
                 strategy
                 for strategy in all_strategies
                 if strategy.get("strategy_id") in VALIDATED_BUY_STRATEGY_IDS
             ]
-            selection = selection_payload(rows, race=race, strategies=strategies)
+            subcore_strategies = [
+                strategy
+                for strategy in all_strategies
+                if strategy.get("strategy_id") in SUBCORE_WATCH_STRATEGY_IDS
+            ]
+            selection_strategies = buy_strategies or subcore_strategies
+            selection = selection_payload(rows, race=race, strategies=selection_strategies)
             if backfill_only:
                 alert_type = None
             elif source_type == "morning_top":
-                alert_type = "buy_ok" if strategies else None
-            elif strategies:
+                if buy_strategies:
+                    alert_type = "buy_ok"
+                elif subcore_strategies:
+                    alert_type = "subcore_watch"
+                else:
+                    alert_type = None
+            elif buy_strategies:
                 alert_type = "late_riser_buy_ok"
+            elif subcore_strategies:
+                alert_type = "late_riser_subcore_watch"
             elif confirmed or ((race.get("manshu_rate_pct") or 0) >= args.riser_threshold and has_full_exhibition(metrics)):
                 alert_type = "late_riser"
             else:
                 alert_type = None
 
-            strategy_ids = [s["strategy_id"] for s in strategies]
+            strategy_ids = [s["strategy_id"] for s in buy_strategies]
+            subcore_strategy_ids = [s["strategy_id"] for s in subcore_strategies]
             public_updates[race.get("race_id")] = {
                 "metrics": metrics,
                 "selection": selection,
@@ -3099,6 +3137,7 @@ def monitor(args):
                 "alert_type": alert_type,
                 "checks": checks,
                 "strategy_ids": strategy_ids,
+                "subcore_strategy_ids": subcore_strategy_ids,
                 "candidate_strategy_ids": [s["strategy_id"] for s in all_strategies],
             }
             inspected.append(
@@ -3112,6 +3151,7 @@ def monitor(args):
                     "condition_confirmed": confirmed,
                     "checks": checks,
                     "strategies": strategy_ids,
+                    "subcore_strategies": subcore_strategy_ids,
                     "candidate_strategy_ids": [s["strategy_id"] for s in all_strategies],
                     "selection": selection,
                     "metrics": metrics,
@@ -3121,7 +3161,8 @@ def monitor(args):
             )
             if alert_type is None:
                 return
-            key = f"{race.get('race_id')}:{alert_type}:{','.join(s['strategy_id'] for s in strategies)}"
+            alert_strategies = selection_strategies
+            key = f"{race.get('race_id')}:{alert_type}:{','.join(s['strategy_id'] for s in alert_strategies)}"
             if sent.get(key):
                 return
             message_race = dict(race)
@@ -3145,8 +3186,8 @@ def monitor(args):
                 "checks": checks,
                 "metrics": metrics,
                 "selection": selection,
-                "strategies": strategies,
-                "message": make_message(message_race, alert_type, metrics, checks, strategies),
+                "strategies": alert_strategies,
+                "message": make_message(message_race, alert_type, metrics, checks, alert_strategies),
             }
             alerts.append(alert)
             sent[key] = now.isoformat(timespec="seconds")
