@@ -745,6 +745,16 @@ def daily_features(today_db, target_date, matchup_profiles=None):
             MAX(CASE WHEN boat_number = 4 THEN ai_prediction_pct END) AS b4_ai_prediction_pct,
             MAX(CASE WHEN boat_number = 5 THEN ai_prediction_pct END) AS b5_ai_prediction_pct,
             MAX(CASE WHEN boat_number = 6 THEN ai_prediction_pct END) AS b6_ai_prediction_pct,
+            MAX(CASE WHEN boat_number = 2 THEN ai_plus END) AS b2_ai_plus,
+            MAX(CASE WHEN boat_number = 3 THEN ai_plus END) AS b3_ai_plus,
+            MAX(CASE WHEN boat_number = 4 THEN ai_plus END) AS b4_ai_plus,
+            MAX(CASE WHEN boat_number = 5 THEN ai_plus END) AS b5_ai_plus,
+            MAX(CASE WHEN boat_number = 6 THEN ai_plus END) AS b6_ai_plus,
+            MAX(CASE WHEN boat_number = 2 THEN ai_plus_order END) AS b2_ai_plus_order,
+            MAX(CASE WHEN boat_number = 3 THEN ai_plus_order END) AS b3_ai_plus_order,
+            MAX(CASE WHEN boat_number = 4 THEN ai_plus_order END) AS b4_ai_plus_order,
+            MAX(CASE WHEN boat_number = 5 THEN ai_plus_order END) AS b5_ai_plus_order,
+            MAX(CASE WHEN boat_number = 6 THEN ai_plus_order END) AS b6_ai_plus_order,
             MAX(CASE WHEN boat_number = 2 THEN ai_3ren_pct END) AS b2_ai_3ren_pct,
             MAX(CASE WHEN boat_number = 3 THEN ai_3ren_pct END) AS b3_ai_3ren_pct,
             MAX(CASE WHEN boat_number = 4 THEN ai_3ren_pct END) AS b4_ai_3ren_pct,
@@ -1085,6 +1095,7 @@ def add_slit_formation_features(df):
     for col in st_cols + rank_cols:
         if col not in df.columns:
             df[col] = np.nan
+        df[col] = pd.to_numeric(df[col], errors="coerce")
     df["slit_range"] = df[st_cols].max(axis=1) - df[st_cols].min(axis=1)
     df["b1_slit_gap_vs_23"] = df["b1_st_time_avg_general"] - df[["b2_st_time_avg_general", "b3_st_time_avg_general"]].min(axis=1)
     df["b1_slit_gap_vs_all"] = df["b1_st_time_avg_general"] - df[[f"b{boat}_st_time_avg_general" for boat in range(2, 7)]].min(axis=1)
@@ -1450,13 +1461,16 @@ def composite_edge_signals(race):
     b1_popular40 = b1_trifecta_top5_1head or (not has_trifecta_top5 and b1_odds_popular40)
     b1_unpopular = b1_odds_pct is not None and (b1_odds_rank != 1 or b1_odds_pct < 45)
     outer_ai_pred = num(race.get("outer56_best_ai_prediction_pct"))
+    outer_ai_plus = num(race.get("outer56_best_ai_plus"))
     outer_avg = num(race.get("outer56_best_avg_isshu_diff"))
     outer_exhibit_top2 = num(race.get("outer56_exhibit_top2_count")) or 0
     outer_tenji_top2 = int_num(race.get("outer56_tenji_top2_count"))
+    outer_isshu_top2 = int_num(race.get("outer56_isshu_top2_count")) or 0
     round_no = int_num(race.get("round_no"))
     wind_wave = (num(race.get("wind_speed")) or 0) >= 5 or (num(race.get("wave_height")) or 0) >= 5
     rank6_boat = int_num(race.get("ai_rank6_boat"))
     rank6_avg = num(race.get("ai_rank6_avg_isshu_diff"))
+    rank6_ai_pred = num(race.get("ai_rank6_ai_prediction_pct"))
     rank6_tenji = num(race.get("ai_rank6_tenji_rank"))
     if rank6_tenji is None:
         rank6_tenji = num(race.get("ai_rank6_tenji_time_rank"))
@@ -1488,6 +1502,15 @@ def composite_edge_signals(race):
     longshot_head_boats = [int(part) for part in str(race.get("longshot_head_boats") or "").split(",") if part.isdigit()]
     double_time_boats = [boat for boat in range(1, 7) if int_num(race.get(f"b{boat}_double_time")) == 1]
     super_slit_boats = [boat for boat in range(2, 7) if int_num(race.get(f"b{boat}_super_slit_alert")) == 1]
+    outer36_double_time = any(boat in {3, 4, 5, 6} for boat in double_time_boats)
+    ai_pred_values = {boat: num(race.get(f"b{boat}_ai_prediction_pct")) for boat in range(1, 7)}
+    ai_pred_available = [value for value in ai_pred_values.values() if value is not None]
+    ai_pred_max = max(ai_pred_available) if ai_pred_available else None
+    outer36_ai_pred_top1 = any(
+        ai_pred_max is not None and ai_pred_values.get(boat) is not None and ai_pred_values[boat] == ai_pred_max
+        for boat in (3, 4, 5, 6)
+    )
+    outer36_ai_plus_top1 = any(num(race.get(f"b{boat}_ai_plus_order")) == 1 for boat in (3, 4, 5, 6))
     slit_signal_ids = [
         "b1_front_wall",
         "b1_hole_vs_23",
@@ -1943,6 +1966,168 @@ def composite_edge_signals(race):
                 "b1_fly_pct": 42.21,
                 "low_outer_avg_isshu_diff": low_outer_avg,
                 "low_outer_ai_prediction_pct": low_outer_ai_pred,
+            },
+        )
+
+    if (
+        outer_ai_pred is not None
+        and outer_ai_pred >= 10
+        and outer_ai_plus is not None
+        and outer_ai_plus >= 100
+        and outer_isshu_top2 >= 1
+    ):
+        add_edge(
+            signals,
+            "codex_post_ai_exh_outer56_ai10_aiplus100_isshu2",
+            "直前上げ: 5/6号艇AI10%以上+AI+100以上+1周2位以内",
+            23.31,
+            2.8,
+            "postdata_manshu_up",
+            {
+                "races": 858,
+                "recent_manshu_rate_pct": 24.34,
+                "outer56_ai_prediction_pct": outer_ai_pred,
+                "outer56_ai_plus": outer_ai_plus,
+                "outer56_isshu_top2_count": outer_isshu_top2,
+            },
+        )
+
+    if (
+        b1_ai_pred is not None
+        and b1_ai_pred < 30
+        and outer_ai_pred is not None
+        and outer_ai_pred >= 10
+        and rank6_boat in {5, 6}
+        and rank6_exhibit_top2
+    ):
+        add_edge(
+            signals,
+            "codex_post_ai_exh_b1aipred30_outer10_rank6exh",
+            "直前上げ: 1号艇AI30%未満+5/6AI10%以上+AI+最下位5/6が展示/1周2位以内",
+            23.20,
+            2.7,
+            "postdata_manshu_up",
+            {
+                "races": 582,
+                "recent_manshu_rate_pct": 24.02,
+                "b1_ai_prediction_pct": b1_ai_pred,
+                "outer56_ai_prediction_pct": outer_ai_pred,
+                "ai_rank6_boat": rank6_boat,
+                "ai_rank6_tenji_rank": rank6_tenji,
+                "ai_rank6_isshu_rank": rank6_isshu,
+            },
+        )
+
+    if b1_ai_pred is not None and b1_ai_pred < 30 and outer36_ai_plus_top1 and super_slit_boats:
+        add_edge(
+            signals,
+            "codex_post_ai_exh_b1aipred30_outeraiplus1_superslit",
+            "直前上げ: 1号艇AI30%未満+3〜6号艇にAI+1位+スーパースリット",
+            23.25,
+            2.8,
+            "postdata_manshu_up",
+            {
+                "races": 314,
+                "recent_manshu_rate_pct": 24.36,
+                "b1_ai_prediction_pct": b1_ai_pred,
+                "super_slit_boats": super_slit_boats,
+            },
+        )
+
+    if (
+        outer_ai_pred is not None
+        and outer_ai_pred >= 12
+        and outer_avg is not None
+        and outer_avg >= 0.10
+        and outer36_double_time
+    ):
+        add_edge(
+            signals,
+            "codex_post_ai_exh_outer56_ai12_avg010_outerdouble",
+            "直前強上げ: 5/6号艇AI12%以上+平均との差0.10以上+3〜6号艇ダブルタイム",
+            26.92,
+            4.2,
+            "postdata_manshu_strong_up",
+            {
+                "races": 156,
+                "recent_manshu_rate_pct": 30.61,
+                "outer56_ai_prediction_pct": outer_ai_pred,
+                "outer56_avg_isshu_diff": outer_avg,
+                "double_time_boats": double_time_boats,
+            },
+        )
+
+    if b1_ai_pred is not None and b1_ai_pred < 30 and outer_ai_pred is not None and outer_ai_pred >= 12 and outer36_double_time:
+        add_edge(
+            signals,
+            "codex_post_ai_exh_b1aipred30_outer56_ai12_outerdouble",
+            "直前強上げ: 1号艇AI30%未満+5/6号艇AI12%以上+3〜6号艇ダブルタイム",
+            27.10,
+            4.2,
+            "postdata_manshu_strong_up",
+            {
+                "races": 155,
+                "recent_manshu_rate_pct": 29.29,
+                "b1_ai_prediction_pct": b1_ai_pred,
+                "outer56_ai_prediction_pct": outer_ai_pred,
+                "double_time_boats": double_time_boats,
+            },
+        )
+
+    if (
+        outer_ai_pred is not None
+        and outer_ai_pred >= 10
+        and outer36_ai_pred_top1
+        and b1_avg is not None
+        and b1_avg <= 0
+    ):
+        add_edge(
+            signals,
+            "codex_post_ai_exh_outer56_ai10_outerhead_b1avg0",
+            "直前強上げ: 5/6号艇AI10%以上+3〜6号艇にAI予測1位+1号艇平均との差0以下",
+            26.67,
+            3.9,
+            "postdata_manshu_strong_up",
+            {
+                "races": 195,
+                "recent_manshu_rate_pct": 26.23,
+                "outer56_ai_prediction_pct": outer_ai_pred,
+                "b1_avg_isshu_diff": b1_avg,
+            },
+        )
+
+    if rank6_boat in {5, 6} and rank6_ai_pred is not None and rank6_ai_pred >= 5 and outer_tenji_top2 >= 1:
+        add_edge(
+            signals,
+            "codex_post_ai_exh_rank6_outer_ai5_outertenji2",
+            "直前上げ: AI+最下位5/6号艇がAI予測5%以上+5/6展示2位以内",
+            24.31,
+            3.0,
+            "rank6_outer_revive",
+            {
+                "races": 362,
+                "recent_manshu_rate_pct": 41.51,
+                "ai_rank6_boat": rank6_boat,
+                "ai_rank6_ai_prediction_pct": rank6_ai_pred,
+                "outer56_tenji_top2_count": outer_tenji_top2,
+            },
+        )
+
+    if rank6_boat in {5, 6} and rank6_ai_pred is not None and rank6_ai_pred >= 5 and rank6_exhibit_top2:
+        add_edge(
+            signals,
+            "codex_post_ai_exh_rank6_outer_ai5_rank6exh",
+            "直前強上げ: AI+最下位5/6号艇がAI予測5%以上+本人が展示/1周2位以内",
+            26.03,
+            3.6,
+            "rank6_outer_revive",
+            {
+                "races": 242,
+                "recent_manshu_rate_pct": 40.00,
+                "ai_rank6_boat": rank6_boat,
+                "ai_rank6_ai_prediction_pct": rank6_ai_pred,
+                "ai_rank6_tenji_rank": rank6_tenji,
+                "ai_rank6_isshu_rank": rank6_isshu,
             },
         )
 
@@ -2964,6 +3149,7 @@ def row_summary(
         "b1_isshu_time": race.get("b1_isshu_time"),
         "outer56_best_avg_isshu_diff": race.get("outer56_best_avg_isshu_diff"),
         "outer56_best_ai_prediction_pct": race.get("outer56_best_ai_prediction_pct"),
+        "outer56_best_ai_plus": race.get("outer56_best_ai_plus"),
         "outer56_best_tenji_time": race.get("outer56_best_tenji_time"),
         "outer56_best_isshu_time": race.get("outer56_best_isshu_time"),
         "ai_rank6_boat": race.get("ai_rank6_boat"),

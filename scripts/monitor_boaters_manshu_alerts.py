@@ -2031,6 +2031,7 @@ def race_metrics(rows, date_text=None):
     outer_isshu = [row["isshu_time"] for row in outer if row.get("isshu_time") is not None]
     outer_avgdiff = [row["avg_isshu_diff"] for row in outer if row.get("avg_isshu_diff") is not None]
     outer_ai_pred = [row["ai_prediction_pct"] for row in outer if row.get("ai_prediction_pct") is not None]
+    outer_ai_plus = [row["ai_plus"] for row in outer if row.get("ai_plus") is not None]
     outer56_best_tenji = min(outer_tenji) if outer_tenji else None
     outer56_best_isshu = min(outer_isshu) if outer_isshu else None
     outer56_best_avgdiff = max(outer_avgdiff) if outer_avgdiff else None
@@ -2214,6 +2215,7 @@ def race_metrics(rows, date_text=None):
         "outer56_best_isshu_time": outer56_best_isshu,
         "outer56_best_avg_isshu_diff": outer56_best_avgdiff,
         "outer56_best_ai_prediction_pct": max(outer_ai_pred) if outer_ai_pred else None,
+        "outer56_best_ai_plus": max(outer_ai_plus) if outer_ai_plus else None,
         "ai_rank6_boat": rank6.get("boat_number"),
         "ai_rank6_avg_isshu_diff": rank6.get("avg_isshu_diff"),
         "ai_rank6_ai_prediction_pct": rank6.get("ai_prediction_pct"),
@@ -2478,6 +2480,30 @@ def roi_strategies(race, metrics, rows):
     strategies = []
     wind_wave = (weather_value(race, "wind_speed") or 0) >= 5 or (weather_value(race, "wave_height") or 0) >= 5
     b1_summer_fast = (metrics.get("b1_summer_isshu_factor") or metrics.get("boat1_summer_isshu_factor")) == "fast_hold"
+    full_exhibition = metrics.get("tenji_boats", 0) >= 6 and metrics.get("isshu_boats", 0) >= 6
+    outer56_ai_pred = metrics.get("outer56_best_ai_prediction_pct") or -1
+    outer56_ai_plus = metrics.get("outer56_best_ai_plus") or -1
+    outer56_avgdiff = metrics.get("outer56_best_avg_isshu_diff") or -9
+    b1_ai_pred = metrics.get("boat1_ai_prediction_pct") or 999
+    b1_avgdiff = metrics.get("boat1_avg_isshu_diff") if metrics.get("boat1_avg_isshu_diff") is not None else 9
+    rank6_boat = int(metrics.get("ai_rank6_boat") or 0)
+    rank6_ai_pred = metrics.get("ai_rank6_ai_prediction_pct") or -1
+    rank6_exhibit_top2 = (
+        (metrics.get("ai_rank6_tenji_rank") or 9) <= 2
+        or (metrics.get("ai_rank6_isshu_rank") or 9) <= 2
+    )
+    outer36_ai_plus_top1 = any(
+        row.get("boat_number") in {3, 4, 5, 6} and row.get("ai_plus_rank") == 1
+        for row in rows
+    )
+    outer36_ai_pred_top1 = any(
+        row.get("boat_number") in {3, 4, 5, 6} and row.get("ai_prediction_pct_rank") == 1
+        for row in rows
+    )
+    outer36_double_time = any(
+        row.get("boat_number") in {3, 4, 5, 6} and row.get("double_time")
+        for row in rows
+    )
     base_tickets, base_roles = super_arunashi3(rows)
     late_outer_head_keshi_signal = (
         rank_no <= 7
@@ -2529,6 +2555,70 @@ def roi_strategies(race, metrics, rows):
                 "codex_stable_front_wind11",
                 "Codex安定型: 1弱+5/6AI+風波 前半10〜15点",
                 codex_stable_front_wind11,
+            )
+        )
+    if full_exhibition and not b1_summer_fast and outer56_ai_pred >= 10 and outer56_ai_plus >= 100 and metrics.get("outer56_isshu_top2_count", 0) >= 1:
+        strategies.append(
+            (
+                "codex_post_outer56_ai10_aiplus100_isshu2",
+                "Codex直前上げ: 5/6AI10%+AI+100+1周2位以内",
+                codex_logic29_outer_required,
+            )
+        )
+    if full_exhibition and not b1_summer_fast and b1_ai_pred < 30 and outer56_ai_pred >= 10 and rank6_boat in {5, 6} and rank6_exhibit_top2:
+        strategies.append(
+            (
+                "codex_post_b1aipred30_outer10_rank6exh",
+                "Codex直前上げ: 1AI30未満+5/6AI10+AI+最下位5/6展示浮上",
+                codex_logic29_outer_required,
+            )
+        )
+    if full_exhibition and not b1_summer_fast and b1_ai_pred < 30 and outer36_ai_plus_top1 and metrics.get("super_slit_alert_count", 0) >= 1:
+        strategies.append(
+            (
+                "codex_post_b1aipred30_outeraiplus1_superslit",
+                "Codex直前上げ: 1AI30未満+外AI+1位+スーパースリット",
+                codex_logic29_outer_required,
+            )
+        )
+    if full_exhibition and not b1_summer_fast and outer56_ai_pred >= 12 and outer56_avgdiff >= 0.10 and outer36_double_time:
+        strategies.append(
+            (
+                "codex_post_outer56_ai12_avg010_outerdouble",
+                "Codex直前強上げ: 5/6AI12+平均との差0.10+外ダブルタイム",
+                codex_logic29_outer_required,
+            )
+        )
+    if full_exhibition and not b1_summer_fast and b1_ai_pred < 30 and outer56_ai_pred >= 12 and outer36_double_time:
+        strategies.append(
+            (
+                "codex_post_b1aipred30_outer56_ai12_outerdouble",
+                "Codex直前強上げ: 1AI30未満+5/6AI12+外ダブルタイム",
+                codex_logic29_outer_required,
+            )
+        )
+    if full_exhibition and not b1_summer_fast and outer56_ai_pred >= 10 and outer36_ai_pred_top1 and b1_avgdiff <= 0:
+        strategies.append(
+            (
+                "codex_post_outer56_ai10_outerhead_b1avg0",
+                "Codex直前強上げ: 5/6AI10+外AI頭1位+1平均との差0以下",
+                codex_logic29_outer_required,
+            )
+        )
+    if full_exhibition and not b1_summer_fast and rank6_boat in {5, 6} and rank6_ai_pred >= 5 and metrics.get("outer56_tenji_top2_count", 0) >= 1:
+        strategies.append(
+            (
+                "codex_post_rank6_outer_ai5_outertenji2",
+                "Codex直前上げ: AI+最下位5/6がAI5%+外展示2位以内",
+                codex_logic29_outer_required,
+            )
+        )
+    if full_exhibition and not b1_summer_fast and rank6_boat in {5, 6} and rank6_ai_pred >= 5 and rank6_exhibit_top2:
+        strategies.append(
+            (
+                "codex_post_rank6_outer_ai5_rank6exh",
+                "Codex直前強上げ: AI+最下位5/6がAI5%+本人展示/1周2位以内",
+                codex_logic29_outer_required,
             )
         )
     if (

@@ -999,6 +999,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "boat1_isshu_time": "b1_isshu_time",
         "outer56_best_avg_isshu_diff": "outer56_best_avg_isshu_diff",
         "outer56_best_ai_prediction_pct": "outer56_best_ai_prediction_pct",
+        "outer56_best_ai_plus": "outer56_best_ai_plus",
         "outer56_best_tenji_time": "outer56_best_tenji_time",
         "outer56_best_isshu_time": "outer56_best_isshu_time",
         "ai_rank6_boat": "ai_rank6_boat",

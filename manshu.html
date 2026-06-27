@@ -521,15 +521,15 @@
     function buyDecision(r){
       var ex=exhibitState(r), ids=strategyIds(r);
       if(!ex.full) return {label:"判定前", cls:"warn", detail:"展示タイム・1周・平均との差・スーパースリット取得後に買い/見送り判定"};
-      if(ids.length) return {label:"買い", cls:"good", detail:"回収率100%超えを狙う検証済み条件に該当: "+ids.join(" / ")};
-      return {label:"見送り", cls:"bad", detail:"展示後データでは、回収率100%超え検証済み条件が揃っていません"};
+      if(ids.length) return {label:"買い候補", cls:"good", detail:"展示・AI後に万舟率が上がる直前条件に該当: "+ids.join(" / ")};
+      return {label:"見送り", cls:"bad", detail:"展示後データでは、万舟率が上がる直前条件が揃っていません"};
     }
     function buyDecisionHtml(r){
       var d=buyDecision(r), tickets=((r.selection||{}).tickets||[]).slice(0,20);
       return [
         "<div class=\"simple-box\"><h3>買い / 見送り</h3>",
         "<p class=\"lead\"><b class=\"badge "+esc(d.cls)+"\">"+esc(d.label)+"</b> "+esc(d.detail)+"</p>",
-        d.label==="買い"&&tickets.length?"<p class=\"mini\">買い目: "+esc(tickets.join(" / "))+"</p>":"<p class=\"mini\">買い判定になった時だけ、10〜15点の買い目を表示します。</p>",
+        d.cls==="good"&&tickets.length?"<p class=\"mini\">買い目: "+esc(tickets.join(" / "))+"</p>":"<p class=\"mini\">買い候補になった時だけ、10〜15点の買い目を表示します。</p>",
         "</div>"
       ].join("");
     }
