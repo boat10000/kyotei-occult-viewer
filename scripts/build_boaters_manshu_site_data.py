@@ -1238,7 +1238,11 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
     if old_selection.get("tickets"):
         selection["tickets"] = old_selection.get("tickets")
         selection["points"] = old_selection.get("points")
-    if normalized_metrics["tenji_boats"] >= 6 and normalized_metrics["isshu_boats"] >= 6:
+    if (
+        row.get("ranking_type") != "morning_watchlist"
+        and normalized_metrics["tenji_boats"] >= 6
+        and normalized_metrics["isshu_boats"] >= 6
+    ):
         if "展示待ち" in str(status):
             status = str(status).replace("・展示待ち", "").replace("展示待ち", "展示込み")
         elif "展示込み" not in str(status):
@@ -1280,6 +1284,8 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
                 "candidate_score": as_num(row.get("candidate_score")),
                 "candidate_material_count": as_int(row.get("candidate_material_count")) or 0,
                 "candidate_material_score": as_num(row.get("candidate_material_score")),
+                "pre_exhibition_manshu_score": as_num(row.get("pre_exhibition_manshu_score")),
+                "pre_exhibition_logic": row.get("pre_exhibition_logic"),
                 "candidate_reasons": row.get("candidate_reasons") or [],
                 "finalize_rule": row.get("finalize_rule"),
             }

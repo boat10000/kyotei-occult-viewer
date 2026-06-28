@@ -169,9 +169,9 @@
 <body>
   <div class="shell">
     <header class="header">
-      <p class="eyebrow">CODEX ARARE WATCHLIST</p>
-      <h1 id="page-title">朝の荒れ監視リスト</h1>
-      <p>朝は買いません。BOATERS AI・展示・直前オッズが出る前のデータだけで、直前に見る価値があるレースを並べます。</p>
+      <p class="eyebrow">CODEX PRE-EXHIBITION MANSHU RANKING</p>
+      <h1 id="page-title">展示前 万舟率ランキング</h1>
+      <p>展示前に使えるデータだけを点数化し、荒れる下地が強いレースを万舟率順に並べます。直前にBOATERS AI・展示・オッズで最終判定します。</p>
     </header>
     <nav class="nav">
       <a id="posts-link" href="manshu_posts.html">投稿センター</a>
@@ -181,13 +181,13 @@
       <button id="reload-btn" type="button">再読み込み</button>
     </nav>
     <section class="status" id="status">
-      <strong>Codex朝の監視リストを読み込み中</strong>
+      <strong>Codex展示前 万舟率ランキングを読み込み中</strong>
       <div class="chips"><span class="chip">JSON確認中</span></div>
     </section>
     <main class="layout">
       <section class="panel candidate-panel" id="watchlist-panel">
-        <h2>朝の荒れ監視TOP5</h2>
-        <p class="lead">全レースを同じ朝データで分析し、直前確認する価値が高い上位5レースだけを表示します。</p>
+        <h2>展示前 万舟率ランキングTOP5</h2>
+        <p class="lead">全レースを展示前データだけで点数化し、万舟になりやすい上位5レースだけを表示します。</p>
       </section>
       <section class="panel core-panel" id="core-forward-panel">
         <h2>本命買い 前向き検証</h2>
@@ -199,7 +199,7 @@
       </section>
       <section class="panel notice">
         <h2>このページの見方</h2>
-        <p class="lead">朝の監視リストは買い目ではありません。締切10〜15分前にBOATERS AI・展示・実オッズを入れて、そこで初めて買い/見送りを決めます。</p>
+        <p class="lead">展示前ランキングは買い目ではありません。締切10〜15分前にBOATERS AI・展示・実オッズを入れて、そこで初めて買い/見送りを決めます。</p>
       </section>
     </main>
     <footer>研究・記録用。的中や利益を保証するものではありません。</footer>
@@ -284,10 +284,10 @@
       var autoText=STATE.date===todayJst()?(allDone?"結果取得完了":"結果自動更新 30秒"):"過去結果を表示";
       var checkText=STATE.lastResultCheck?("結果確認 "+STATE.lastResultCheck):"結果確認待ち";
       document.getElementById("status").innerHTML=[
-        "<strong>"+esc(STATE.date)+" 朝の荒れ監視リストを表示中</strong>",
+        "<strong>"+esc(STATE.date)+" 展示前 万舟率ランキングを表示中</strong>",
         "<div class=\"chips\">",
         "<span class=\"chip hot\">TOP"+rows.length+"</span>",
-        "<span class=\"chip\">全レース分析</span>",
+        "<span class=\"chip\">展示前データ得点式</span>",
         "<span class=\"chip ok\">AI/展示/直前オッズなし</span>",
         "<span class=\"chip\">結果 "+settled+"/"+rows.length+"R</span>",
         "<span class=\"chip "+(hits?"hot":"")+"\">万舟 "+hits+"件</span>",
@@ -739,25 +739,25 @@
         "<div class=\"race-rank\">"+esc(r.rank)+"</div>",
         "<div>",
         "<div class=\"race-main-title\">"+esc(label(r))+"</div>",
-        "<div class=\"race-one-line\">"+esc(type)+"。朝データだけで、直前確認するレースです。</div>",
+        "<div class=\"race-one-line\">"+esc(type)+"。展示前データだけで荒れる下地を点数化したレースです。</div>",
         "<div class=\"race-badges\">",
         "<span class=\"badge\">締切 "+esc(deadline(r))+"</span>",
-        "<span class=\"badge warn\">監視</span>",
+        "<span class=\"badge warn\">展示前</span>",
         "<span class=\"badge "+(res.manshu?"good":"")+"\">"+(res.payout_yen!=null?"結果 "+esc(res.trifecta||"--")+" / "+esc(yen(res.payout_yen)):"結果待ち")+"</span>",
         "</div>",
         "</div>",
-        "<div class=\"candidate-score\">"+esc(r.candidate_score==null?"--":Number(r.candidate_score).toFixed(1).replace(/\.0$/,""))+"<span>候補スコア</span></div>",
+        "<div class=\"candidate-score\">"+esc(pctShort(r.manshu_rate_pct))+"<span>展示前万舟率 / 点数 "+esc(r.candidate_score==null?"--":Number(r.candidate_score).toFixed(1).replace(/\.0$/,""))+"</span></div>",
         "</div>",
         "</summary>",
         "<div class=\"race-body\">",
-        "<div class=\"simple-box\"><h3>監視理由</h3><p class=\"lead\">"+esc(reasons.join(" / ")||r.condition||"朝データで監視")+"</p></div>",
+        "<div class=\"simple-box\"><h3>点数が上がった理由</h3><p class=\"lead\">"+esc(reasons.join(" / ")||r.condition||"展示前データで判定")+"</p></div>",
         "<div class=\"cards\">",
         "<div class=\"metric\"><b>"+esc(pct(m.boat1_nige_pct))+"</b><span>1号艇逃げ率</span></div>",
         "<div class=\"metric\"><b>"+esc(pct(m.boat1_loss_pct))+"</b><span>1号艇逃げ失敗</span></div>",
         "<div class=\"metric\"><b>"+esc(b1St==null?'--':Number(b1St).toFixed(1).replace(/\\.0$/,''))+"</b><span>1号艇平均ST順位</span></div>",
         "<div class=\"metric\"><b>"+esc(outerGen<0?'--':pct(outerGen))+"</b><span>5/6一般3連対最大</span></div>",
         "</div>",
-        "<p class=\"lead\" style=\"margin-top:10px\">使用データ: 一般成績・平均ST・1号艇の逃げ/差され/まくられ・風波・対戦相性。BOATERS AI、展示、直前オッズは未使用。</p>",
+        "<p class=\"lead\" style=\"margin-top:10px\">使用データ: 一般3連対率・平均ST順位・1号艇の逃げ/差され/まくられ・スリット隊形近似・風波・対戦相性・展示前オッズ。BOATERS AI、展示、1周、直前AIオッズ評価は未使用。</p>",
         "<p class=\"lead\" style=\"margin-top:6px\">直前: "+esc(r.finalize_rule||"BOATERS AI・展示・実オッズ取得後に買い/見送りへ更新")+"</p>",
         "</div>",
         "</details>"
@@ -824,10 +824,10 @@
     function renderCandidatePanels(){
       renderCandidateSection(
         "watchlist-panel",
-        "朝の荒れ監視TOP5",
-        "全レースを同じ朝データで分析し、直前に見る価値が高い5レースだけを表示します。ここでは買い目を出しません。",
+        "展示前 万舟率ランキングTOP5",
+        "全レースを展示前データだけで点数化し、点数が高い順に万舟率へ変換しています。ここでは買い目を出しません。",
         currentCandidateRows(),
-        "実材料が足りないため、基準値だけのレースは表示していません。展示・AI・オッズ取得後に再判定します。"
+        "展示前データのランキングJSONがまだありません。生成後にTOP5を表示します。"
       );
     }
     function renderCoreForwardPanel(){
@@ -857,8 +857,8 @@
     }
     function render(){
       var rows=currentCandidateRows();
-      document.title="Codex朝の荒れ監視 "+STATE.date;
-      document.getElementById("page-title").textContent=STATE.date+" 朝の荒れ監視リスト";
+      document.title="Codex展示前 万舟率ランキング "+STATE.date;
+      document.getElementById("page-title").textContent=STATE.date+" 展示前 万舟率ランキング";
       document.getElementById("posts-link").href="manshu_posts.html?date="+STATE.date;
       renderStatus(rows);
       renderCandidatePanels();
@@ -921,7 +921,7 @@
       }
       if(!payload){
         document.getElementById("status").innerHTML="<strong>ランキングJSONが見つかりません</strong><div class=\"chips\"><span class=\"chip hot\">"+esc(STATE.date)+"</span></div>";
-        document.getElementById("watchlist-panel").innerHTML="<h2>朝の荒れ監視TOP5</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
+        document.getElementById("watchlist-panel").innerHTML="<h2>展示前 万舟率ランキングTOP5</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
         document.getElementById("buff-panel").innerHTML="<h2>場別まとめ</h2><p class=\"lead\">ランキングJSONが見つからないため表示できません。</p>";
         return;
       }
