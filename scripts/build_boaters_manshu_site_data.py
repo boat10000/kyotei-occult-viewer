@@ -1256,6 +1256,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "place_name": row.get("place_name"),
         "round": round_no,
         "deadline_time": row.get("deadline_time"),
+        "race_grade": row.get("race_grade"),
         "race_kind": row.get("race_kind"),
         "series_title": row.get("series_title"),
         "ranking_type": row.get("ranking_type"),

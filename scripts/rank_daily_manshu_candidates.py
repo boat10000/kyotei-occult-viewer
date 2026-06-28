@@ -1407,6 +1407,10 @@ def is_joshi_race(race):
     return race_kind in JOSHI_RACE_KINDS or text_has_any(text, JOSHI_KEYWORDS)
 
 
+def is_general_grade_race(race):
+    return str(race.get("race_grade") or "").strip() == "Ippan"
+
+
 def joshi_atom_flags(race):
     rank6_boat = int_num(race.get("ai_rank6_boat"))
     rank6_tenji = num(race.get("ai_rank6_tenji_rank"))
@@ -3122,6 +3126,8 @@ def diversify_morning_candidates(rows, top_n):
 def build_morning_candidates(df, top_n, pre_exhibition_calibration=None):
     rows = []
     for _, race in df.iterrows():
+        if not is_general_grade_race(race):
+            continue
         signals = morning_candidate_signals(race)
         score = morning_scored_total(signals)
         material_score = material_signal_score(signals)
@@ -3144,7 +3150,7 @@ def build_morning_candidates(df, top_n, pre_exhibition_calibration=None):
         )
         row["candidate_type"] = candidate_type
         row["candidate_phase"] = "morning_watchlist"
-        row["candidate_source_scope"] = "pre_boaters_ai_pre_exhibition_pre_live_odds"
+        row["candidate_source_scope"] = "general_only_pre_boaters_ai_pre_exhibition_pre_live_odds"
         row["candidate_score"] = score
         row["candidate_material_count"] = material_count
         row["candidate_material_score"] = material_score
@@ -3159,7 +3165,7 @@ def build_morning_candidates(df, top_n, pre_exhibition_calibration=None):
         row["pre_exhibition_logic_version"] = calibrated["model_version"]
         row["best_manshu_rate_pct"] = calibrated["probability_pct"]
         row["pre_exhibition_manshu_rate_pct"] = calibrated["probability_pct"]
-        row["pre_exhibition_logic"] = "展示前データだけを点数化し、2025年の実測万舟率で表示確率を校正。1号艇不安と外/中枠浮上が重なるほど順位を上げる。"
+        row["pre_exhibition_logic"] = "一般戦だけを対象に、展示前データを点数化。2025年の実測万舟率で表示確率を校正し、1号艇不安と外/中枠浮上が重なるほど順位を上げる。"
         row["candidate_reasons"] = reasons
         row["finalize_rule"] = "締切10〜15分前にBOATERS AI・展示・実オッズを取得して、買い/見送りへ更新"
         rows.append(row)
@@ -3335,6 +3341,7 @@ def row_summary(
         "round": int(race["round_no"]),
         "deadline_time": race.get("deadline_time"),
         "race_id": race["race_id"],
+        "race_grade": race.get("race_grade"),
         "race_kind": race.get("race_kind"),
         "series_title": race.get("series_title"),
         "is_joshi": int(is_joshi_race(race)),
