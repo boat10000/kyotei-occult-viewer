@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Codex BOATERS 厳選ランキングTOP10</title>
+  <title>Codex BOATERS 展示後 本命/準本命ランキング</title>
   <style>
     body{font-family:-apple-system,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;background:#f6f7fb;color:#172033;max-width:940px;margin:0 auto;padding:16px;line-height:1.65}
     h1{font-size:22px;margin:0 0 8px}
@@ -21,8 +21,8 @@
   </style>
 </head>
 <body>
-  <h1>Codex BOATERS 厳選ランキングTOP10</h1>
-  <p class="sub">当日分 / BOATERSのAI・一般3連対率、1号艇逃げ失敗率、直前オリジナル展示、複合条件で算出</p>
+  <h1>Codex BOATERS 展示後 本命/準本命ランキング</h1>
+  <p class="sub">当日分 / 展示後40%以上は本命、38〜39.9%は1号艇危険・外頭強・5/6絡み・内軸残りが揃えば準本命</p>
   <div class="nav">
     <a href="manshu.html">通常ページ</a>
     <a id="posts-link" href="manshu_posts.html">投稿センター</a>
@@ -36,14 +36,14 @@
   <footer>Codex BOATERS manshu ranking / 研究・記録用。的中や利益を保証するものではありません。</footer>
   <script>
     var RDATE=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Tokyo'}), MAN=10000;
-    document.title='Codex BOATERS 厳選ランキングTOP10 '+RDATE;
+    document.title='Codex BOATERS 展示後 本命/準本命ランキング '+RDATE;
     document.addEventListener('DOMContentLoaded',function(){
       var p=document.querySelector('.sub');
-      if(p) p.textContent=RDATE+' / BOATERSのAI・一般3連対率、1号艇逃げ失敗率、直前オリジナル展示、複合条件で算出';
+      if(p) p.textContent=RDATE+' / 展示後40%以上は本命、38〜39.9%は1号艇危険・外頭強・5/6絡み・内軸残りが揃えば準本命';
       var a=document.getElementById('posts-link');
       if(a) a.href='manshu_posts.html?date='+RDATE;
     });
   </script>
-  <script src="scripts/boaters_manshu_widget.js?v=codex9"></script>
+  <script src="scripts/boaters_manshu_widget.js?v=codex12"></script>
 </body>
 </html>

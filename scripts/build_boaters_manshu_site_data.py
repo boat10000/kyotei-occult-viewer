@@ -1246,6 +1246,27 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
     if old_selection.get("tickets"):
         selection["tickets"] = old_selection.get("tickets")
         selection["points"] = old_selection.get("points")
+    rate_num = as_num(rate) or 0.0
+    preview_full = normalized_metrics["tenji_boats"] >= 6 and normalized_metrics["isshu_boats"] >= 6
+    alert_type = row.get("last_minute_alert_type")
+    buy_decision = row.get("buy_decision")
+    final_decision_checks = list(row.get("final_decision_checks") or [])
+    if alert_type in {"buy_ok", "late_riser_buy_ok"}:
+        buy_decision = "本命"
+        final_decision_checks.append(f"展示後40%以上:OK({rate_num:.2f}%)")
+    elif alert_type in {"subcore_watch", "late_riser_subcore_watch"}:
+        buy_decision = "準本命"
+    elif preview_full and rate_num >= 40.0:
+        buy_decision = "本命"
+        final_decision_checks.append(f"展示後40%以上:OK({rate_num:.2f}%)")
+    elif preview_full and 38.0 <= rate_num < 40.0:
+        buy_decision = "準本命判定"
+        final_decision_checks.append(f"展示後38〜39.9%:OK({rate_num:.2f}%)")
+        final_decision_checks.append("5条件は締切前監視で最終確認")
+    elif not preview_full:
+        buy_decision = "展示待ち"
+    else:
+        buy_decision = "見送り"
     if (
         row.get("ranking_type") != "morning_watchlist"
         and normalized_metrics["tenji_boats"] >= 6
@@ -1290,6 +1311,9 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "last_minute_alert_type": row.get("last_minute_alert_type"),
         "last_minute_checks": row.get("last_minute_checks") or [],
         "last_minute_strategy_ids": row.get("last_minute_strategy_ids") or [],
+        "last_minute_subcore_strategy_ids": row.get("last_minute_subcore_strategy_ids") or [],
+        "buy_decision": buy_decision,
+        "final_decision_checks": list(dict.fromkeys(final_decision_checks)),
         "result": normalize_result(row, live_result),
     }
     if any(row.get(key) is not None for key in ("candidate_type", "candidate_phase", "candidate_score", "finalize_rule")) or row.get("candidate_reasons"):

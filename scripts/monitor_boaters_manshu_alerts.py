@@ -51,10 +51,11 @@ SUMMER_B1_SLOW_DIFF = -0.10
 SUMMER_B1_FAST_NIGE_DELTA_PP = 15
 SUMMER_B1_SLOW_NIGE_DELTA_PP = -17
 SUPER_SLIT_TENJI_ADV = 0.10
-VALIDATED_BUY_STRATEGY_IDS = {"codex_post_core_ab_rank3"}
+CORE_ALERT_RATE = 40.0
+SUBCORE_ALERT_RATE_MIN = 38.0
+VALIDATED_BUY_STRATEGY_IDS = {"codex_post_core_rate40"}
 SUBCORE_WATCH_STRATEGY_IDS = {
-    "codex_post_subcore_rank6_outer_exhibit_top2",
-    "codex_popular_b1_exhibition_fly_watch",
+    "codex_post_subcore_rate38_conditions",
 }
 
 SUPER_SLIT_ALERT_STATS = {
@@ -827,7 +828,7 @@ def push_notifications(payload, state, now):
         elif alert.get("alert_type") == "late_riser":
             title = "BOATERS急浮上"
         elif alert.get("alert_type") == "buy_ok":
-            title = "BOATERS買い候補"
+            title = "BOATERS本命候補"
         else:
             title = "BOATERS万舟率上昇"
         result = send_ntfy(config, title, alert.get("message") or "", tags="moneybag,boat")
@@ -2664,6 +2665,87 @@ def condition_confirmed(condition, metrics):
     return all(ok for _label, ok in checks), [f"{label}:{'OK' if ok else 'NG'}" for label, ok in checks]
 
 
+def b1_danger_for_subcore(metrics):
+    checks = []
+    b1_ai_pred = as_num(metrics.get("boat1_ai_prediction_pct"))
+    b1_nige = as_num(metrics.get("boat1_nige_pct"))
+    b1_loss = as_num(metrics.get("boat1_loss_pct"))
+    b1_avg = as_num(metrics.get("boat1_avg_isshu_diff"))
+    b1_tenji_rank = int(as_num(metrics.get("boat1_tenji_rank")) or 9)
+    b1_isshu_rank = int(as_num(metrics.get("boat1_isshu_rank")) or 9)
+    popular_score = as_num(metrics.get("popular_b1_fly_score")) or 0
+    danger = (
+        (b1_ai_pred is not None and b1_ai_pred < 35)
+        or (b1_nige is not None and b1_nige < 40)
+        or (b1_loss is not None and b1_loss >= 40)
+        or (b1_avg is not None and b1_avg <= 0.10)
+        or b1_tenji_rank >= 4
+        or b1_isshu_rank >= 4
+        or popular_score >= 60
+    )
+    checks.append(f"1号艇危険:{'OK' if danger else 'NG'}")
+    checks.append(f"1AI予測{fmt_pct(b1_ai_pred)}")
+    checks.append(f"1逃げ{fmt_pct(b1_nige)}")
+    checks.append(f"1逃げ失敗{fmt_pct(b1_loss)}")
+    checks.append(f"1展示+周平均との差{fmt_time(b1_avg)}")
+    return danger, checks
+
+
+def subcore_outer_head_checks(rows, heads):
+    head_rows = [row_by_boat(rows, boat) for boat in heads]
+    head_scores = [head_candidate_score(row, manshu_head_mode=True)[0] for row in head_rows if row]
+    second_score = min(head_scores) if len(head_scores) >= 2 else 0
+    outer_heads = len(heads) >= 2 and set(heads).issubset({3, 4, 5, 6})
+    has_material = any(
+        row
+        and (
+            (row.get("ai_prediction_pct") or 0) >= 10
+            or (row.get("avg_isshu_diff") is not None and row.get("avg_isshu_diff") >= 0.05)
+            or row.get("double_time")
+            or row.get("super_slit_alert")
+            or (row.get("exhibit_rank") or 9) <= 2
+        )
+        for row in head_rows
+    )
+    has_56 = any(boat in {5, 6} for boat in heads)
+    outer_strong = outer_heads and second_score >= 30 and has_material
+    return outer_strong, has_56, [
+        f"外頭が強い:{'OK' if outer_strong else 'NG'}(頭{','.join(map(str, heads or [])) or '-'},下限{second_score:.1f})",
+        f"5/6絡み:{'OK' if has_56 else 'NG'}",
+    ]
+
+
+def subcore_inner_axis_checks(rows, heads):
+    axes, axis_rule = axis_boats_for_roles(rows, ranks=(1, 3))
+    if any(axis in set(heads or []) for axis in axes) or len(axes) < 2:
+        fallback, fallback_rule = axis_boats_for_roles(rows, ranks=(2, 3))
+        fill = [boat for boat in fallback if boat not in set(heads or [])]
+        axes = unique([boat for boat in axes if boat not in set(heads or [])] + fill)
+        axis_rule = f"{axis_rule}（頭と重なる時は{fallback_rule}で補完）"
+    axes = axes[:2]
+    inner_axis = len(axes) >= 2 and any(axis in {1, 2} for axis in axes)
+    return inner_axis, axes, [
+        f"内軸残り:{'OK' if inner_axis else 'NG'}(軸{','.join(map(str, axes or [])) or '-'})",
+        f"軸ルール:{axis_rule}",
+    ]
+
+
+def subcore_entry_checks(race, metrics, rows):
+    rate = as_num(race.get("manshu_rate_pct")) or 0
+    rate_ok = SUBCORE_ALERT_RATE_MIN <= rate < CORE_ALERT_RATE
+    heads = head_boats_for_arunashi(rows)
+    b1_ok, b1_checks = b1_danger_for_subcore(metrics)
+    outer_ok, has_56, outer_checks = subcore_outer_head_checks(rows, heads)
+    inner_axis_ok, _axes, axis_checks = subcore_inner_axis_checks(rows, heads)
+    checks = [
+        f"展示後38〜39.9%:{'OK' if rate_ok else 'NG'}({rate:.2f}%)",
+        *b1_checks,
+        *outer_checks,
+        *axis_checks,
+    ]
+    return rate_ok and b1_ok and outer_ok and has_56 and inner_axis_ok, checks
+
+
 def roi_strategies(race, metrics, rows):
     place = race.get("place_name")
     round_no = int(race.get("round") or 0)
@@ -2684,6 +2766,7 @@ def roi_strategies(race, metrics, rows):
     b1_avgdiff = metrics.get("boat1_avg_isshu_diff") if metrics.get("boat1_avg_isshu_diff") is not None else 9
     rank6_boat = int(metrics.get("ai_rank6_boat") or 0)
     rank6_ai_pred = metrics.get("ai_rank6_ai_prediction_pct") or -1
+    post_rate = as_num(race.get("manshu_rate_pct")) or 0
     rank6_exhibit_top2 = (
         (metrics.get("ai_rank6_tenji_rank") or 9) <= 2
         or (metrics.get("ai_rank6_isshu_rank") or 9) <= 2
@@ -2700,6 +2783,32 @@ def roi_strategies(race, metrics, rows):
         row.get("boat_number") in {3, 4, 5, 6} and row.get("double_time")
         for row in rows
     )
+    if full_exhibition and post_rate >= CORE_ALERT_RATE:
+        strategies.append(
+            (
+                "codex_post_core_rate40",
+                "Codex本命: 展示後40%以上 外頭2艇+軸2艇 10〜15点",
+                super_arunashi3,
+                {
+                    "tier": "core",
+                    "entry_checks": [f"展示後40%以上:OK({post_rate:.2f}%)"],
+                },
+            )
+        )
+    elif full_exhibition and SUBCORE_ALERT_RATE_MIN <= post_rate < CORE_ALERT_RATE:
+        subcore_ok, subcore_checks = subcore_entry_checks(race, metrics, rows)
+        if subcore_ok:
+            strategies.append(
+                (
+                    "codex_post_subcore_rate38_conditions",
+                    "Codex準本命: 38〜39.9%+1危険+外頭強+5/6絡み+内軸残り 10〜15点",
+                    super_arunashi3,
+                    {
+                        "tier": "subcore",
+                        "entry_checks": subcore_checks,
+                    },
+                )
+            )
     post_core_a = (
         full_exhibition
         and not b1_summer_fast
@@ -3004,30 +3113,32 @@ def roi_strategies(race, metrics, rows):
         strategies.append(("marugame_outer_no1", "丸亀: 1弱+外低評価浮上 1号艇全消し 12点", mid_heads_outer_no1))
 
     out = []
-    for strategy_id, label, _ticket_func in strategies:
+    for item in strategies:
+        strategy_id, label, _ticket_func = item[:3]
+        meta = item[3] if len(item) >= 4 and isinstance(item[3], dict) else {}
         tickets, roles = super_arunashi3(rows)
         if not tickets or roles is None:
             continue
-        out.append(
-            {
-                "strategy_id": strategy_id,
-                "label": label,
-                "points": len(tickets),
-                "heads": roles["heads"],
-                "axes": roles["axes"],
-                "alt_axes": roles.get("alt_axes", []),
-                "axis_rule": "AI3連対率+一般3連対率の1位と3位",
-                "alt_axis_rule": "比較用: AI3連対率+一般3連対率の2位と3位",
-                "supports": roles.get("supports", []),
-                "keshi": roles["keshi"],
-                "keshi_reason": roles.get("keshi_reason"),
-                "ai_plus_rank6_boat": roles.get("ai_plus_rank6_boat"),
-                "ai_plus_rank6_revival": roles.get("ai_plus_rank6_revival", []),
-                "role_note": roles["role_note"],
-                "tickets": [fmt_ticket(ticket) for ticket in sorted(tickets)],
-                "odds_filter": "3連単50倍未満は買わない",
-            }
-        )
+        payload = {
+            "strategy_id": strategy_id,
+            "label": label,
+            "points": len(tickets),
+            "heads": roles["heads"],
+            "axes": roles["axes"],
+            "alt_axes": roles.get("alt_axes", []),
+            "axis_rule": "AI3連対率+一般3連対率の1位と3位",
+            "alt_axis_rule": "比較用: AI3連対率+一般3連対率の2位と3位",
+            "supports": roles.get("supports", []),
+            "keshi": roles["keshi"],
+            "keshi_reason": roles.get("keshi_reason"),
+            "ai_plus_rank6_boat": roles.get("ai_plus_rank6_boat"),
+            "ai_plus_rank6_revival": roles.get("ai_plus_rank6_revival", []),
+            "role_note": roles["role_note"],
+            "tickets": [fmt_ticket(ticket) for ticket in sorted(tickets)],
+            "odds_filter": "3連単50倍未満は買わない",
+        }
+        payload.update(meta)
+        out.append(payload)
     return out
 
 
@@ -3166,7 +3277,9 @@ def make_message(race, alert_type, metrics, checks, strategies):
     if alert_type in {"buy_ok", "late_riser_buy_ok", "subcore_watch", "late_riser_subcore_watch"} and strategies:
         s = strategies[0]
         support_text = f" / 相手: {fmt_list(s.get('supports'))}" if s.get("supports") else ""
-        if s.get("strategy_id") == "codex_post_core_ab_rank3":
+        entry_checks = s.get("entry_checks") or []
+        all_checks = list(entry_checks or checks or [])
+        if s.get("strategy_id") in VALIDATED_BUY_STRATEGY_IDS:
             title = "【本命買い候補】"
         elif s.get("strategy_id") in SUBCORE_WATCH_STRATEGY_IDS:
             title = "【準本命候補】"
@@ -3175,7 +3288,7 @@ def make_message(race, alert_type, metrics, checks, strategies):
         return (
             f"{title}{base}\n"
             f"{metric_text}\n"
-            f"直前条件: {' / '.join(checks)}\n"
+            f"直前条件: {' / '.join(all_checks)}\n"
             f"買い方: {s['label']} / {s['points']}点 / {s['odds_filter']}\n"
             f"頭候補: {fmt_list(s['heads'])} / 軸: {fmt_list(s['axes'])}"
             f"({s.get('axis_rule','AI+1位3位')}) / 比較軸: {fmt_list(s.get('alt_axes'))}"
@@ -3337,7 +3450,9 @@ def monitor(args):
             selection = selection_payload(rows, race=race, strategies=selection_strategies)
             preview_ready = has_full_exhibition(metrics)
             post_rate = as_num(race.get("manshu_rate_pct")) or 0
-            alert_rate_ready = post_rate >= args.alert_threshold
+            core_rate_ready = post_rate >= args.core_alert_threshold
+            subcore_rate_ready = SUBCORE_ALERT_RATE_MIN <= post_rate < args.core_alert_threshold
+            alert_rate_ready = core_rate_ready or subcore_rate_ready
             can_send_alert = preview_ready and alert_rate_ready
             if backfill_only:
                 alert_type = None
@@ -3377,6 +3492,10 @@ def monitor(args):
                 "strategy_ids": strategy_ids,
                 "subcore_strategy_ids": subcore_strategy_ids,
                 "candidate_strategy_ids": [s["strategy_id"] for s in all_strategies],
+                "core_rate_ready": core_rate_ready,
+                "subcore_rate_ready": subcore_rate_ready,
+                "core_alert_threshold_pct": args.core_alert_threshold,
+                "subcore_alert_threshold_min_pct": SUBCORE_ALERT_RATE_MIN,
             }
             inspected.append(
                 {
@@ -3393,7 +3512,10 @@ def monitor(args):
                     "candidate_strategy_ids": [s["strategy_id"] for s in all_strategies],
                     "preview_ready": preview_ready,
                     "alert_rate_ready": alert_rate_ready,
-                    "alert_threshold_pct": args.alert_threshold,
+                    "core_rate_ready": core_rate_ready,
+                    "subcore_rate_ready": subcore_rate_ready,
+                    "core_alert_threshold_pct": args.core_alert_threshold,
+                    "subcore_alert_threshold_min_pct": SUBCORE_ALERT_RATE_MIN,
                     "morning_manshu_rate_pct": race.get("morning_manshu_rate_pct"),
                     "post_exhibition_manshu_rate_pct": post_rate,
                     "rate_source": race.get("rate_source"),
@@ -3486,12 +3608,15 @@ def monitor(args):
         "live_top_n": args.live_top_n,
         "riser_top_n": args.riser_top_n,
         "lookahead_minutes": args.lookahead_minutes,
-        "alert_threshold_pct": args.alert_threshold,
+        "alert_threshold_pct": SUBCORE_ALERT_RATE_MIN,
+        "core_alert_threshold_pct": args.core_alert_threshold,
+        "subcore_alert_threshold_min_pct": SUBCORE_ALERT_RATE_MIN,
         "alert_policy": {
-            "primary": "morning_top_only_post_exhibition_threshold",
-            "description": "朝TOPリストに入った荒れ下地ありレースだけを、展示/AI取得後の万舟率で最終確認する",
+            "primary": "morning_top_then_post_exhibition_core_subcore",
+            "description": "朝TOPリストに入った荒れ下地ありレースを、展示/AI取得後に40%以上は本命、38〜39.9%は5条件一致時だけ準本命にする",
             "morning_top_n": args.top_n,
-            "post_exhibition_threshold_pct": args.alert_threshold,
+            "post_exhibition_core_threshold_pct": args.core_alert_threshold,
+            "post_exhibition_subcore_range_pct": [SUBCORE_ALERT_RATE_MIN, args.core_alert_threshold],
             "full_exhibition_required": True,
             "notify_late_risers": bool(args.notify_risers),
         },
@@ -3514,11 +3639,22 @@ def main():
     parser.add_argument("--threshold", type=float, default=27.0)
     parser.add_argument("--lookahead-minutes", type=float, default=20.0)
     parser.add_argument("--grace-minutes", type=float, default=2.0)
-    parser.add_argument("--alert-threshold", type=float, default=35.0, help="Minimum post-exhibition manshu rate required before sending smartphone alerts.")
+    parser.add_argument(
+        "--alert-threshold",
+        type=float,
+        default=SUBCORE_ALERT_RATE_MIN,
+        help="Backward-compatible floor for post-exhibition alerts. Current policy uses 38.0-39.9 subcore and 40.0+ core.",
+    )
+    parser.add_argument(
+        "--core-alert-threshold",
+        type=float,
+        default=CORE_ALERT_RATE,
+        help="Post-exhibition manshu rate that becomes a core buy alert.",
+    )
     parser.add_argument("--scan-risers", action="store_true", help="Build a separate live ranking and log races rising from outside the morning TOP list.")
     parser.add_argument("--live-top-n", type=int, default=200, help="Live ranking depth used to attach post-exhibition rates to morning watchlist races.")
     parser.add_argument("--riser-top-n", type=int, default=10, help="Live ranking depth used for late-riser detection.")
-    parser.add_argument("--riser-threshold", type=float, default=35.0, help="Minimum live manshu rate for late-riser alerts.")
+    parser.add_argument("--riser-threshold", type=float, default=CORE_ALERT_RATE, help="Minimum live manshu rate for late-riser alerts.")
     parser.add_argument(
         "--notify-risers",
         action="store_true",

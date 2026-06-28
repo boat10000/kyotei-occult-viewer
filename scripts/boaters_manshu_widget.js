@@ -20,8 +20,8 @@
     var key = date.replace(/-/g, "");
     var prefix = assetPrefix() + "data/output/";
     return [
-      prefix + "boaters_manshu_ranking_codex_" + key + ".json?v=codex11",
-      prefix + "boaters_manshu_ranking_" + key + ".json?v=codex11"
+      prefix + "boaters_manshu_ranking_codex_" + key + ".json?v=codex12",
+      prefix + "boaters_manshu_ranking_" + key + ".json?v=codex12"
     ];
   }
 
@@ -56,6 +56,11 @@
 
   function easyReason(r, metrics, lap) {
     var parts = [];
+    if (Number(r.manshu_rate_pct || 0) >= 40) {
+      parts.push("展示後40%以上なので本命候補");
+    } else if (Number(r.manshu_rate_pct || 0) >= 38) {
+      parts.push("38〜39.9%帯なので準本命条件を確認");
+    }
     if (Number(metrics.boat1_ai_prediction_pct || 0) > 0 && Number(metrics.boat1_ai_prediction_pct) < 35) {
       parts.push("1号艇の勝ち切る力が弱め");
     }
@@ -75,7 +80,7 @@
       parts.push("今回メンバーの相性で1号艇に圧力");
     }
     if (!parts.length && r.condition) parts.push(String(r.condition).split(" × ")[0]);
-    return parts.slice(0, 3).join("。");
+    return parts.slice(0, 4).join("。");
   }
 
   function raceKey(r) {
@@ -136,6 +141,10 @@
       ".boaters-manshu .bm-race{font-weight:800;color:#111827;white-space:nowrap}",
       ".boaters-manshu .bm-status{display:inline-block;border-radius:999px;background:#fee2e2;color:#991b1b;font-size:11px;font-weight:800;padding:2px 7px;margin-top:4px}",
       ".boaters-manshu .bm-status.wait{background:#e0f2fe;color:#0369a1}",
+      ".boaters-manshu .bm-decision{display:inline-block;border-radius:999px;background:#f1f5f9;color:#334155;font-size:11px;font-weight:900;padding:2px 7px;margin:4px 4px 0 0}",
+      ".boaters-manshu .bm-decision.core{background:#fee2e2;color:#991b1b}",
+      ".boaters-manshu .bm-decision.subcore{background:#fef3c7;color:#92400e}",
+      ".boaters-manshu .bm-decision.skip{background:#f1f5f9;color:#64748b}",
       ".boaters-manshu .bm-cond{color:#374151;font-size:13px;line-height:1.45;max-width:680px}",
       ".boaters-manshu .bm-mini{color:#64748b;font-size:12px;line-height:1.55}",
       ".boaters-manshu .bm-subhead{font-size:15px;font-weight:900;color:#334155;margin:18px 0 4px}",
@@ -154,6 +163,9 @@
     var lap = lapLabel(r, metrics);
     var status = r.status || (metrics.tenji_boats >= 6 || metrics.isshu_boats >= 6 ? "確定" : "展示待ち");
     var statusClass = status === "展示待ち" ? " wait" : "";
+    var decision = r.buy_decision || (Number(r.manshu_rate_pct || 0) >= 40 ? "本命" : Number(r.manshu_rate_pct || 0) >= 38 ? "準本命判定" : "見送り");
+    var decisionClass = decision === "本命" ? " core" : (decision === "準本命" || decision === "準本命判定") ? " subcore" : decision === "見送り" ? " skip" : "";
+    var decisionChecks = (r.final_decision_checks || []).join(" / ");
     var edgeText = "";
     var doubleText = "";
     var superSlitText = "";
@@ -194,8 +206,8 @@
     return [
       "<tr>",
       "<td><span class=\"bm-rate\">" + esc(fmtPct(r.manshu_rate_pct)) + "</span><br><span class=\"bm-mini\">直近 " + esc(fmtPct(r.recent_rate_pct)) + "</span>" + edgeText + "</td>",
-      "<td><span class=\"bm-race\">" + esc(r.rank) + ". " + esc(r.place_name) + esc(r.round) + "R</span><br><span class=\"bm-mini\">" + esc(deadline) + "締切 / ロジック" + esc(r.matched_logic_count) + "件</span><br><span class=\"bm-status" + statusClass + "\">" + esc(status) + "</span></td>",
-      "<td class=\"bm-cond\"><b>見るポイント</b><br><span class=\"bm-mini\">" + esc(easyReason(r, metrics, lap)) + "</span><details><summary>詳しい根拠を見る</summary>" + esc(r.condition) + "<br><span class=\"bm-mini\">" + esc(detail) + joshiText + doubleText + superSlitText + summerText + slitText + (matchup ? " / " + esc(matchup) : "") + "</span></details></td>",
+      "<td><span class=\"bm-race\">" + esc(r.rank) + ". " + esc(r.place_name) + esc(r.round) + "R</span><br><span class=\"bm-mini\">" + esc(deadline) + "締切 / ロジック" + esc(r.matched_logic_count) + "件</span><br><span class=\"bm-decision" + decisionClass + "\">" + esc(decision) + "</span><span class=\"bm-status" + statusClass + "\">" + esc(status) + "</span></td>",
+      "<td class=\"bm-cond\"><b>見るポイント</b><br><span class=\"bm-mini\">" + esc(easyReason(r, metrics, lap)) + "</span>" + (decisionChecks ? "<br><b>本命/準本命チェック</b><br><span class=\"bm-mini\">" + esc(decisionChecks) + "</span>" : "") + "<details><summary>詳しい根拠を見る</summary>" + esc(r.condition) + "<br><span class=\"bm-mini\">" + esc(detail) + joshiText + doubleText + superSlitText + summerText + slitText + (matchup ? " / " + esc(matchup) : "") + "</span></details></td>",
       "<td><b>" + esc(result.trifecta || "--") + "</b><br><span class=\"" + (manshu ? "bm-hit" : "bm-miss") + "\">" + esc(fmtYen(result.payout_yen)) + (manshu ? " 万舟" : "") + "</span></td>",
       "</tr>"
     ].join("");
@@ -211,6 +223,8 @@
     if (!oldRank) return;
     var summary = data.summary || {};
     var strictRows = (data.strict_races || []).slice(0, 10);
+    var coreCount = strictRows.filter(function (r) { return r.buy_decision === "本命"; }).length;
+    var subcoreCount = strictRows.filter(function (r) { return r.buy_decision === "準本命" || r.buy_decision === "準本命判定"; }).length;
     var strictHtml = strictRows.length ? [
       "<table class=\"bm-table\"><thead><tr><th>万舟率</th><th>レース</th><th>該当ロジック・展示根拠</th><th>結果</th></tr></thead><tbody>",
       strictRows.map(raceRow).join(""),
@@ -224,6 +238,8 @@
       "<p class=\"lead\"><b>" + esc(data.logic_label || "Codex厳選ランキング") + "</b>で算出。過去27%以上の強条件、全場補正、BOATERS AI/オッズ、展示+有効ラップ、スリット隊形、女子戦、天候、対戦相性をすべて混ぜた統合ランキングです。</p>",
       "<div class=\"bm-summary\">",
       "<span class=\"bm-chip hot\">厳選TOP" + esc(strictRows.length) + "</span>",
+      "<span class=\"bm-chip hot\">本命40%以上 " + esc(coreCount) + "R</span>",
+      "<span class=\"bm-chip\">準本命38台 " + esc(subcoreCount) + "R</span>",
       "<span class=\"bm-chip\">万舟 " + esc(summary.strict_manshu_hits_top_n || 0) + "/" + esc(summary.strict_settled_top_n || 0) + "本</span>",
       "<span class=\"bm-chip\">展示6艇取得 " + esc(summary.races_with_full_tenji || 0) + "R</span>",
       "<span class=\"bm-chip\">有効ラップ6艇取得 " + esc(summary.races_with_full_isshu || 0) + "R</span>",
