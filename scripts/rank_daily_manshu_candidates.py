@@ -18,6 +18,7 @@ REPORT_DIR = OUT_DIR / "boaters_report"
 HISTORY_DB = OUT_DIR / "boaters_all_races.sqlite"
 DEFAULT_LOGIC_CSV = ROOT / "data" / "model" / "manshu_condition_combo_search.csv"
 DEFAULT_MATCHUP_PROFILE = ROOT / "data" / "analysis" / "matchup_profiles.csv"
+DEFAULT_PRE_EXHIBITION_CALIBRATION = ROOT / "data" / "model" / "pre_exhibition_manshu_v2_calibration.json"
 TRIFECTA_ODDS_DB_CANDIDATES = [
     ROOT / "data" / "live_odds.db",
     Path.home() / "Desktop" / "kyotei_occult" / "data" / "live_odds.db",
@@ -38,6 +39,80 @@ def default_trifecta_odds_db():
         if path.exists():
             return path
     return None
+
+
+def read_pre_exhibition_calibration(path):
+    if not path:
+        return None
+    path = Path(path)
+    if not path.exists():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    calibration = data.get("calibration") if isinstance(data, dict) else None
+    if not calibration and isinstance(data, dict) and "global_rate_pct" in data:
+        calibration = data
+    return calibration if isinstance(calibration, dict) else None
+
+
+def pre_exhibition_score_bin(score):
+    score = float(score or 0)
+    if score >= 20:
+        return "20+"
+    if score >= 18:
+        return "18-20"
+    if score >= 16:
+        return "16-18"
+    if score >= 14:
+        return "14-16"
+    if score >= 12:
+        return "12-14"
+    return "<12"
+
+
+def pre_exhibition_material_key(material_count):
+    count = int(material_count or 0)
+    if count >= 10:
+        return "10+"
+    if count >= 7:
+        return "7-9"
+    if count >= 4:
+        return "4-6"
+    return "<4"
+
+
+def calibrated_pre_exhibition_probability(race, score, material_count, calibration):
+    if not calibration:
+        v1_prob = round(max(0.0, min(40.0, 16.82 + float(score or 0))), 2)
+        return {
+            "probability_pct": v1_prob,
+            "rank_score": round(v1_prob, 3),
+            "score_bin": pre_exhibition_score_bin(score),
+            "venue_adjust_pp": 0.0,
+            "material_adjust_pp": 0.0,
+            "global_rate_pct": None,
+            "model_version": "pre_exhibition_manshu_v1_score_only",
+        }
+    global_rate = float(calibration.get("global_rate_pct") or 16.82)
+    score_bin = pre_exhibition_score_bin(score)
+    score_rate = float((calibration.get("score_bins") or {}).get(score_bin, {}).get("rate_pct", global_rate))
+    venue = race.get("place_name") or "不明"
+    venue_adjust = float((calibration.get("venues") or {}).get(venue, {}).get("adjust_pp", 0.0))
+    material_key = pre_exhibition_material_key(material_count)
+    material_adjust = float((calibration.get("material_bins") or {}).get(material_key, {}).get("adjust_pp", 0.0))
+    probability = max(8.0, min(32.0, score_rate + venue_adjust + 0.5 * material_adjust))
+    rank_score = probability + min(1.5, max(0.0, float(score or 0) - 16.0) * 0.12)
+    return {
+        "probability_pct": round(probability, 2),
+        "rank_score": round(rank_score, 3),
+        "score_bin": score_bin,
+        "venue_adjust_pp": round(venue_adjust, 3),
+        "material_adjust_pp": round(material_adjust, 3),
+        "global_rate_pct": round(global_rate, 3),
+        "model_version": "pre_exhibition_manshu_v2_calibrated_2025_train",
+    }
 
 SLIT_FORMATION_STATS = {
     "b1_front_wall": {
@@ -3006,7 +3081,7 @@ def morning_candidate_type(race, signals):
     return "軽監視"
 
 
-def build_morning_candidates(df, top_n):
+def build_morning_candidates(df, top_n, pre_exhibition_calibration=None):
     rows = []
     for _, race in df.iterrows():
         signals = morning_candidate_signals(race)
@@ -3016,6 +3091,7 @@ def build_morning_candidates(df, top_n):
         candidate_type = morning_candidate_type(race, signals)
         if score <= 0:
             continue
+        calibrated = calibrated_pre_exhibition_probability(race, score, material_count, pre_exhibition_calibration)
 
         reasons = [signal["label"] for signal in signals if signal["bonus_pct"] > 0][:5]
         row = row_summary(
@@ -3035,13 +3111,25 @@ def build_morning_candidates(df, top_n):
         row["candidate_material_count"] = material_count
         row["candidate_material_score"] = material_score
         row["pre_exhibition_manshu_score"] = score
-        row["pre_exhibition_logic"] = "展示前データだけを点数化。1号艇不安と外/中枠浮上が重なるほど万舟率を上げる。"
+        row["pre_exhibition_v1_probability_pct"] = row.get("best_manshu_rate_pct")
+        row["pre_exhibition_v2_probability_pct"] = calibrated["probability_pct"]
+        row["pre_exhibition_v2_rank_score"] = calibrated["rank_score"]
+        row["pre_exhibition_v2_score_bin"] = calibrated["score_bin"]
+        row["pre_exhibition_v2_venue_adjust_pp"] = calibrated["venue_adjust_pp"]
+        row["pre_exhibition_v2_material_adjust_pp"] = calibrated["material_adjust_pp"]
+        row["pre_exhibition_v2_global_rate_pct"] = calibrated["global_rate_pct"]
+        row["pre_exhibition_logic_version"] = calibrated["model_version"]
+        row["best_manshu_rate_pct"] = calibrated["probability_pct"]
+        row["pre_exhibition_manshu_rate_pct"] = calibrated["probability_pct"]
+        row["pre_exhibition_logic"] = "展示前データだけを点数化し、2025年の実測万舟率で表示確率を校正。1号艇不安と外/中枠浮上が重なるほど順位を上げる。"
         row["candidate_reasons"] = reasons
         row["finalize_rule"] = "締切10〜15分前にBOATERS AI・展示・実オッズを取得して、買い/見送りへ更新"
         rows.append(row)
 
     rows.sort(
         key=lambda row: (
+            row.get("pre_exhibition_manshu_rate_pct") or 0,
+            row.get("pre_exhibition_v2_rank_score") or row.get("candidate_score") or 0,
             row.get("candidate_score") or 0,
             row.get("best_manshu_rate_pct") or 0,
             row.get("matched_logic_count") or 0,
@@ -3429,6 +3517,7 @@ def main():
     parser.add_argument("--logic-csv", default=str(DEFAULT_LOGIC_CSV))
     parser.add_argument("--history-db", default=str(HISTORY_DB))
     parser.add_argument("--matchup-profile", default=str(DEFAULT_MATCHUP_PROFILE))
+    parser.add_argument("--pre-exhibition-calibration", default=str(DEFAULT_PRE_EXHIBITION_CALIBRATION))
     parser.add_argument("--trifecta-odds-db", default=str(default_odds_db) if default_odds_db else "")
     parser.add_argument("--threshold", type=float, default=27.0)
     parser.add_argument("--top-n", type=int, default=5)
@@ -3440,6 +3529,8 @@ def main():
     top6, top10 = historical_venue_sets(args.history_db)
     matchup_profile = Path(args.matchup_profile) if args.matchup_profile else None
     matchup_profiles = read_matchup_profiles(matchup_profile) if matchup_profile and matchup_profile.exists() else {}
+    pre_exhibition_calibration_path = Path(args.pre_exhibition_calibration) if args.pre_exhibition_calibration else None
+    pre_exhibition_calibration = read_pre_exhibition_calibration(pre_exhibition_calibration_path)
     df = daily_features(args.today_db, args.date, matchup_profiles=matchup_profiles)
     df = add_trifecta_odds_features(df, args.trifecta_odds_db, args.date)
     logic_df = pd.read_csv(args.logic_csv)
@@ -3451,7 +3542,7 @@ def main():
         masks,
         threshold=args.threshold,
     )
-    morning_candidates = build_morning_candidates(df, args.top_n)
+    morning_candidates = build_morning_candidates(df, args.top_n, pre_exhibition_calibration=pre_exhibition_calibration)
 
     base_name = f"manshu_daily_rank_{args.date}"
     csv_path = Path(args.csv_out) if args.csv_out else OUT_DIR / f"{base_name}.csv"
@@ -3470,6 +3561,8 @@ def main():
         "logic_summary": "過去検証27%以上の強条件、三連単人気1〜5が1号艇頭の売れ過ぎイン飛び、1号艇弱化、外枠上振れ、AI+下位の穴、AI/オッズ評価、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクター、天候/風波、今回メンバー同士の対戦相性をすべて同じスコアに混ぜた統合厳選ランキング。",
         "matchup_profile": str(matchup_profile) if matchup_profile else None,
         "matchup_pairs_loaded": len(matchup_profiles),
+        "pre_exhibition_calibration": str(pre_exhibition_calibration_path) if pre_exhibition_calibration_path else None,
+        "pre_exhibition_calibration_loaded": bool(pre_exhibition_calibration),
         "trifecta_odds_db": args.trifecta_odds_db,
         "races_with_trifecta_top5": int(df["trifecta_top5_count"].fillna(0).eq(5).sum()),
         "races_with_b1_trifecta_top5_1head": int(df["b1_trifecta_top5_1head"].fillna(0).eq(1).sum()),

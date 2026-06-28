@@ -1,0 +1,324 @@
+{
+  "generated_at": "2026-06-28T16:32:19",
+  "logic_version": "pre_exhibition_manshu_v2_calibrated",
+  "train_period": {
+    "start": "2025-01-01",
+    "end": "2025-12-31"
+  },
+  "test_period": {
+    "start": "2026-01-01",
+    "end": "2026-06-18"
+  },
+  "train_baseline": {
+    "races": 55172,
+    "manshu": 9196,
+    "manshu_rate_pct": 16.67
+  },
+  "test_baseline": {
+    "races": 25665,
+    "manshu": 4198,
+    "manshu_rate_pct": 16.36
+  },
+  "train_candidate_rows": 8760,
+  "test_candidate_rows": 4056,
+  "train_errors": [],
+  "test_errors": [],
+  "calibration": {
+    "global_rate_pct": 18.904,
+    "score_bins": {
+      "20+": {
+        "total": 568,
+        "hits": 111,
+        "rate_pct": 19.376
+      },
+      "18-20": {
+        "total": 931,
+        "hits": 181,
+        "rate_pct": 19.346
+      },
+      "16-18": {
+        "total": 1615,
+        "hits": 303,
+        "rate_pct": 18.777
+      },
+      "14-16": {
+        "total": 2495,
+        "hits": 482,
+        "rate_pct": 19.288
+      },
+      "12-14": {
+        "total": 2349,
+        "hits": 441,
+        "rate_pct": 18.784
+      },
+      "<12": {
+        "total": 802,
+        "hits": 138,
+        "rate_pct": 17.546
+      }
+    },
+    "venues": {
+      "鳴門": {
+        "total": 402,
+        "hits": 89,
+        "rate_pct": 20.634,
+        "adjust_pp": 1.729
+      },
+      "常滑": {
+        "total": 391,
+        "hits": 65,
+        "rate_pct": 17.701,
+        "adjust_pp": -1.203
+      },
+      "桐生": {
+        "total": 373,
+        "hits": 75,
+        "rate_pct": 19.525,
+        "adjust_pp": 0.621
+      },
+      "宮島": {
+        "total": 370,
+        "hits": 71,
+        "rate_pct": 19.051,
+        "adjust_pp": 0.146
+      },
+      "浜名湖": {
+        "total": 413,
+        "hits": 74,
+        "rate_pct": 18.37,
+        "adjust_pp": -0.534
+      },
+      "丸亀": {
+        "total": 369,
+        "hits": 92,
+        "rate_pct": 21.998,
+        "adjust_pp": 3.094
+      },
+      "若松": {
+        "total": 323,
+        "hits": 66,
+        "rate_pct": 19.638,
+        "adjust_pp": 0.734
+      },
+      "大村": {
+        "total": 271,
+        "hits": 52,
+        "rate_pct": 19.028,
+        "adjust_pp": 0.124
+      },
+      "下関": {
+        "total": 311,
+        "hits": 54,
+        "rate_pct": 18.179,
+        "adjust_pp": -0.725
+      },
+      "徳山": {
+        "total": 281,
+        "hits": 45,
+        "rate_pct": 17.617,
+        "adjust_pp": -1.287
+      },
+      "津": {
+        "total": 378,
+        "hits": 63,
+        "rate_pct": 17.742,
+        "adjust_pp": -1.162
+      },
+      "唐津": {
+        "total": 318,
+        "hits": 43,
+        "rate_pct": 16.342,
+        "adjust_pp": -2.562
+      },
+      "住之江": {
+        "total": 344,
+        "hits": 57,
+        "rate_pct": 17.747,
+        "adjust_pp": -1.157
+      },
+      "江戸川": {
+        "total": 642,
+        "hits": 125,
+        "rate_pct": 19.271,
+        "adjust_pp": 0.366
+      },
+      "芦屋": {
+        "total": 209,
+        "hits": 40,
+        "rate_pct": 18.992,
+        "adjust_pp": 0.088
+      },
+      "多摩川": {
+        "total": 436,
+        "hits": 82,
+        "rate_pct": 18.85,
+        "adjust_pp": -0.054
+      },
+      "戸田": {
+        "total": 461,
+        "hits": 81,
+        "rate_pct": 18.146,
+        "adjust_pp": -0.758
+      },
+      "福岡": {
+        "total": 366,
+        "hits": 59,
+        "rate_pct": 17.481,
+        "adjust_pp": -1.423
+      },
+      "平和島": {
+        "total": 405,
+        "hits": 69,
+        "rate_pct": 17.903,
+        "adjust_pp": -1.002
+      },
+      "びわこ": {
+        "total": 355,
+        "hits": 75,
+        "rate_pct": 20.023,
+        "adjust_pp": 1.119
+      },
+      "蒲郡": {
+        "total": 354,
+        "hits": 72,
+        "rate_pct": 19.626,
+        "adjust_pp": 0.722
+      },
+      "三国": {
+        "total": 410,
+        "hits": 92,
+        "rate_pct": 20.811,
+        "adjust_pp": 1.907
+      },
+      "尼崎": {
+        "total": 315,
+        "hits": 64,
+        "rate_pct": 19.574,
+        "adjust_pp": 0.669
+      },
+      "児島": {
+        "total": 263,
+        "hits": 51,
+        "rate_pct": 19.113,
+        "adjust_pp": 0.209
+      }
+    },
+    "material_bins": {
+      "10+": {
+        "total": 1113,
+        "hits": 220,
+        "rate_pct": 19.608,
+        "adjust_pp": 0.704
+      },
+      "7-9": {
+        "total": 5242,
+        "hits": 999,
+        "rate_pct": 19.051,
+        "adjust_pp": 0.147
+      },
+      "4-6": {
+        "total": 2401,
+        "hits": 437,
+        "rate_pct": 18.267,
+        "adjust_pp": -0.637
+      },
+      "<4": {
+        "total": 4,
+        "hits": 0,
+        "rate_pct": 18.606,
+        "adjust_pp": -0.298
+      }
+    }
+  },
+  "v1_test_summary": [
+    {
+      "rank_group": "TOP1",
+      "selected_races": 169,
+      "manshu_hits": 31,
+      "actual_manshu_rate_pct": 18.34,
+      "lift_vs_all": 1.12,
+      "avg_probability_pct": 19.72,
+      "avg_score": 19.85,
+      "avg_payout_yen": 7583.0
+    },
+    {
+      "rank_group": "TOP3",
+      "selected_races": 507,
+      "manshu_hits": 98,
+      "actual_manshu_rate_pct": 19.33,
+      "lift_vs_all": 1.18,
+      "avg_probability_pct": 19.66,
+      "avg_score": 19.43,
+      "avg_payout_yen": 7363.0
+    },
+    {
+      "rank_group": "TOP5",
+      "selected_races": 845,
+      "manshu_hits": 159,
+      "actual_manshu_rate_pct": 18.82,
+      "lift_vs_all": 1.15,
+      "avg_probability_pct": 19.51,
+      "avg_score": 18.87,
+      "avg_payout_yen": 7463.0
+    },
+    {
+      "rank_group": "TOP10",
+      "selected_races": 1690,
+      "manshu_hits": 317,
+      "actual_manshu_rate_pct": 18.76,
+      "lift_vs_all": 1.15,
+      "avg_probability_pct": 19.35,
+      "avg_score": 17.69,
+      "avg_payout_yen": 7182.0
+    }
+  ],
+  "v2_test_summary": [
+    {
+      "rank_group": "TOP1",
+      "selected_races": 169,
+      "manshu_hits": 45,
+      "actual_manshu_rate_pct": 26.63,
+      "lift_vs_all": 1.63,
+      "avg_probability_pct": 21.68,
+      "avg_score": 17.21,
+      "avg_payout_yen": 8160.0
+    },
+    {
+      "rank_group": "TOP3",
+      "selected_races": 507,
+      "manshu_hits": 119,
+      "actual_manshu_rate_pct": 23.47,
+      "lift_vs_all": 1.43,
+      "avg_probability_pct": 21.19,
+      "avg_score": 16.5,
+      "avg_payout_yen": 8014.0
+    },
+    {
+      "rank_group": "TOP5",
+      "selected_races": 845,
+      "manshu_hits": 170,
+      "actual_manshu_rate_pct": 20.12,
+      "lift_vs_all": 1.23,
+      "avg_probability_pct": 20.81,
+      "avg_score": 16.51,
+      "avg_payout_yen": 7192.0
+    },
+    {
+      "rank_group": "TOP10",
+      "selected_races": 1690,
+      "manshu_hits": 344,
+      "actual_manshu_rate_pct": 20.36,
+      "lift_vs_all": 1.24,
+      "avg_probability_pct": 20.2,
+      "avg_score": 16.1,
+      "avg_payout_yen": 7400.0
+    }
+  ],
+  "decision": "PROMOTE_CANDIDATE",
+  "notes": [
+    "Training uses only 2025. Test uses 2026 through 2026-06-18.",
+    "v2 display probability is calibrated from 2025 empirical score bands plus shrinked venue/material adjustments.",
+    "v2 ranking sorts by calibrated probability first so the public ranking matches the displayed manshu rate.",
+    "v2 ranking is not allowed to use 2026 outcomes for weight selection."
+  ]
+}
