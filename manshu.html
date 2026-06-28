@@ -26,6 +26,7 @@
     .chip.ok{border-color:#bbf7d0;background:#f0fdf4;color:#047857}
     .layout{display:grid;grid-template-columns:1fr;gap:12px}
     .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px}
+    #buff-panel,.factor-panel{display:none!important}
     .panel h2{margin:0 0 8px;font-size:18px;color:#111827}
     .lead{margin:0;color:var(--muted);font-size:13px}
     table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
@@ -121,11 +122,6 @@
     .detail-fold{margin-top:10px}
     .detail-fold summary{cursor:pointer;color:#1d4ed8;font-size:13px;font-weight:900}
     .detail-fold .factor-grid{margin-top:8px}
-    .venue-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
-    .venue-card{border:1px solid var(--line);border-radius:8px;background:#fff;padding:10px}
-    .venue-card h3{margin:0 0 6px;font-size:15px;color:#111827}
-    .venue-line{display:block;color:#344054;font-size:13px;margin-top:4px}
-    .venue-line b{color:#111827}
     .factor-panel{border-left:6px solid var(--green)}
     .factor-panel h2{color:#065f46}
     .candidate-panel{border-left:6px solid var(--blue)}
@@ -161,7 +157,6 @@
       .quick-roles{grid-template-columns:1fr}
       .role-detail-grid{grid-template-columns:1fr}
       .b1-danger-grid{grid-template-columns:1fr}
-      .venue-grid{grid-template-columns:1fr}
       .reason{max-width:none}
     }
   </style>
@@ -230,6 +225,13 @@
     }
     function label(r){ return (r.place_name||"")+r.round+"R"; }
     function deadline(r){ return r.deadline_time?String(r.deadline_time).slice(11,16):"--:--"; }
+    function removeVenueSummary(){
+      var stale=document.getElementById("buff-panel");
+      if(stale&&stale.parentNode) stale.parentNode.removeChild(stale);
+      document.querySelectorAll(".factor-panel").forEach(function(node){
+        if(node&&node.parentNode) node.parentNode.removeChild(node);
+      });
+    }
     function trifectaOf(row){
       var t=(row.payouts&&row.payouts.trifecta&&row.payouts.trifecta[0])||null;
       if(t&&t.payout!=null) return {combination:t.combination,payout_yen:t.payout};
@@ -825,6 +827,7 @@
       ].join("");
     }
     function render(){
+      removeVenueSummary();
       var rows=currentCandidateRows();
       document.title="Codex朝の荒れ監視リスト "+STATE.date;
       document.getElementById("page-title").textContent=STATE.date+" 朝の荒れ監視リスト";
@@ -875,6 +878,7 @@
       }
     }
     async function load(){
+      removeVenueSummary();
       stopResultPolling();
       STATE.date=q("date")||todayJst();
       STATE.resultMap={};
