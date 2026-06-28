@@ -1,7 +1,7 @@
 {
   "version": "boaters-manshu-alerts-v1",
   "date": "2026-06-29",
-  "generated_at": "2026-06-29T07:44:14+09:00",
+  "generated_at": "2026-06-29T08:52:52+09:00",
   "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_morning_ranking_20260629.json",
   "public_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260629.json",
   "live_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_live_ranking_20260629.json",
@@ -10,12 +10,18 @@
   "live_top_n": 200,
   "riser_top_n": 10,
   "lookahead_minutes": 20.0,
-  "alert_threshold_pct": 35.0,
+  "alert_threshold_pct": 38.0,
+  "core_alert_threshold_pct": 40.0,
+  "subcore_alert_threshold_min_pct": 38.0,
   "alert_policy": {
-    "primary": "morning_top_only_post_exhibition_threshold",
-    "description": "朝TOPリストに入った荒れ下地ありレースだけを、展示/AI取得後の万舟率で最終確認する",
+    "primary": "morning_top_then_post_exhibition_core_subcore",
+    "description": "朝TOPリストに入った荒れ下地ありレースを、展示/AI取得後に40%以上は本命、38〜39.9%は5条件一致時だけ準本命にする",
     "morning_top_n": 10,
-    "post_exhibition_threshold_pct": 35.0,
+    "post_exhibition_core_threshold_pct": 40.0,
+    "post_exhibition_subcore_range_pct": [
+      38.0,
+      40.0
+    ],
     "full_exhibition_required": true,
     "notify_late_risers": false
   },
@@ -27,7 +33,7 @@
       "round": 4,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 255.8
+      "minutes_to_deadline": 187.1
     },
     {
       "race_id": "2026-06-290307",
@@ -35,7 +41,7 @@
       "round": 7,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 371.8
+      "minutes_to_deadline": 303.1
     },
     {
       "race_id": "2026-06-290306",
@@ -43,7 +49,7 @@
       "round": 6,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 344.8
+      "minutes_to_deadline": 276.1
     },
     {
       "race_id": "2026-06-291102",
@@ -51,7 +57,7 @@
       "round": 2,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 206.8
+      "minutes_to_deadline": 138.1
     },
     {
       "race_id": "2026-06-291203",
@@ -59,7 +65,7 @@
       "round": 3,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 535.8
+      "minutes_to_deadline": 467.1
     },
     {
       "race_id": "2026-06-291204",
@@ -67,7 +73,7 @@
       "round": 4,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 561.8
+      "minutes_to_deadline": 493.1
     },
     {
       "race_id": "2026-06-291305",
@@ -75,7 +81,7 @@
       "round": 5,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 283.8
+      "minutes_to_deadline": 215.1
     },
     {
       "race_id": "2026-06-290302",
@@ -83,7 +89,7 @@
       "round": 2,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 236.8
+      "minutes_to_deadline": 168.1
     },
     {
       "race_id": "2026-06-290210",
@@ -91,7 +97,7 @@
       "round": 10,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 456.8
+      "minutes_to_deadline": 388.1
     },
     {
       "race_id": "2026-06-290312",
@@ -99,7 +105,7 @@
       "round": 12,
       "source": "morning_top",
       "status": "outside_window",
-      "minutes_to_deadline": 520.8
+      "minutes_to_deadline": 452.1
     },
     {
       "race_id": "2026-06-292001",
@@ -107,7 +113,7 @@
       "round": 1,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": 596.8
+      "minutes_to_deadline": 528.1
     },
     {
       "race_id": "2026-06-292003",
@@ -115,7 +121,7 @@
       "round": 3,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": 649.8
+      "minutes_to_deadline": 581.1
     },
     {
       "race_id": "2026-06-292006",
@@ -123,7 +129,7 @@
       "round": 6,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": 731.8
+      "minutes_to_deadline": 663.1
     },
     {
       "race_id": "2026-06-292010",
@@ -131,7 +137,7 @@
       "round": 10,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": 852.8
+      "minutes_to_deadline": 784.1
     },
     {
       "race_id": "2026-06-291702",
@@ -139,7 +145,7 @@
       "round": 2,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": 223.8
+      "minutes_to_deadline": 155.1
     },
     {
       "race_id": "2026-06-292401",
@@ -147,7 +153,7 @@
       "round": 1,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": 459.8
+      "minutes_to_deadline": 391.1
     },
     {
       "race_id": "2026-06-291707",
@@ -155,7 +161,7 @@
       "round": 7,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": 369.8
+      "minutes_to_deadline": 301.1
     },
     {
       "race_id": "2026-06-292004",
@@ -163,7 +169,7 @@
       "round": 4,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": 678.8
+      "minutes_to_deadline": 610.1
     },
     {
       "race_id": "2026-06-291712",
@@ -171,7 +177,7 @@
       "round": 12,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": 548.8
+      "minutes_to_deadline": 480.1
     }
   ],
   "push": {
