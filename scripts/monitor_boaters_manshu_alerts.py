@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Monitor Codex BOATERS manshu TOP10 races and emit deadline alerts."""
+"""Monitor Codex BOATERS morning watchlist races and emit deadline alerts.
+
+The betting flow is intentionally two-step:
+
+1. Freeze a morning TOP list using only pre-exhibition data.
+2. Near deadline, fetch BOATERS AI/exhibition/odds and alert only when the
+   same morning-watch race still clears the post-exhibition threshold.
+"""
 
 from __future__ import annotations
 
@@ -426,6 +433,41 @@ def ranking_rows(payload, top_n):
     return list(rows)[:top_n]
 
 
+def morning_race_with_live_rate(morning_race, live_race):
+    """Keep the morning order, but replace rate/metrics with live final checks.
+
+    The public page and notification flow use the morning list as the race
+    universe.  When a refreshed live ranking exists, this helper carries the
+    live post-exhibition rate into that fixed morning row without changing its
+    morning rank.
+    """
+    if not live_race:
+        row = dict(morning_race)
+        row.setdefault("rate_source", "morning_pre_exhibition")
+        return row
+    row = dict(morning_race)
+    row["morning_manshu_rate_pct"] = morning_race.get("manshu_rate_pct")
+    row["morning_rate_source"] = "pre_exhibition_watchlist"
+    row["last_minute_manshu_rate_pct"] = live_race.get("manshu_rate_pct")
+    row["rate_source"] = "post_exhibition_live_ranking"
+    row["live_rank"] = live_race.get("rank")
+    for key in (
+        "manshu_rate_pct",
+        "base_manshu_rate_pct",
+        "recent_rate_pct",
+        "condition",
+        "matched_logic_count",
+        "composite_edges",
+        "metrics",
+        "selection",
+        "candidate_reasons",
+        "candidate_score",
+    ):
+        if live_race.get(key) is not None:
+            row[key] = live_race.get(key)
+    return row
+
+
 def snapshot_morning_ranking(date_text, source_path):
     """Freeze the first available morning order for monitoring comparisons."""
     target = morning_ranking_path(date_text)
@@ -691,6 +733,16 @@ def merge_live_metrics_into_ranking_path(path, updates, now):
                     race["status"] = f"{status_text}・展示込み" if status_text else "展示込み"
             race["last_minute_checked_at"] = update.get("checked_at")
             race["last_minute_alert_type"] = update.get("alert_type")
+            if update.get("last_minute_manshu_rate_pct") is not None:
+                race["last_minute_manshu_rate_pct"] = update.get("last_minute_manshu_rate_pct")
+            if update.get("morning_manshu_rate_pct") is not None:
+                race["morning_manshu_rate_pct"] = update.get("morning_manshu_rate_pct")
+            if update.get("rate_source"):
+                race["last_minute_rate_source"] = update.get("rate_source")
+            if update.get("source_type"):
+                race["last_minute_source_type"] = update.get("source_type")
+            if update.get("live_rank") is not None:
+                race["last_minute_live_rank"] = update.get("live_rank")
             race["last_minute_checks"] = update.get("checks") or []
             race["last_minute_strategy_ids"] = update.get("strategy_ids") or []
             race["last_minute_subcore_strategy_ids"] = update.get("subcore_strategy_ids") or []
@@ -3187,6 +3239,23 @@ def monitor(args):
 
     inspected = []
     alerts = []
+    live_path = None
+    live_rows = []
+    live_by_id = {}
+    if args.scan_risers and not args.offline:
+        try:
+            live_path = build_live_ranking(date_text, top_n=args.live_top_n, threshold=args.threshold)
+            live_ranking = load_json(live_path, {})
+            live_rows = ranking_rows(live_ranking, args.live_top_n)
+            live_by_id = {race.get("race_id"): race for race in live_rows if race.get("race_id")}
+        except Exception as exc:
+            inspected.append(
+                {
+                    "status": "live_ranking_failed",
+                    "source": "post_exhibition_refresh",
+                    "error": str(exc),
+                }
+            )
 
     def inspect_window(race, source_type):
         deadline = parse_dt(race.get("deadline_time"))
@@ -3267,7 +3336,8 @@ def monitor(args):
             selection_strategies = buy_strategies or subcore_strategies
             selection = selection_payload(rows, race=race, strategies=selection_strategies)
             preview_ready = has_full_exhibition(metrics)
-            alert_rate_ready = (race.get("manshu_rate_pct") or 0) >= args.alert_threshold
+            post_rate = as_num(race.get("manshu_rate_pct")) or 0
+            alert_rate_ready = post_rate >= args.alert_threshold
             can_send_alert = preview_ready and alert_rate_ready
             if backfill_only:
                 alert_type = None
@@ -3278,6 +3348,8 @@ def monitor(args):
                     alert_type = "subcore_watch"
                 else:
                     alert_type = None
+            elif source_type != "morning_top" and not args.notify_risers:
+                alert_type = None
             elif not can_send_alert:
                 alert_type = None
             elif buy_strategies:
@@ -3296,6 +3368,11 @@ def monitor(args):
                 "selection": selection,
                 "checked_at": now.isoformat(timespec="seconds"),
                 "alert_type": alert_type,
+                "last_minute_manshu_rate_pct": post_rate,
+                "morning_manshu_rate_pct": race.get("morning_manshu_rate_pct"),
+                "rate_source": race.get("rate_source"),
+                "source_type": source_type,
+                "live_rank": live_rank or race.get("live_rank"),
                 "checks": checks,
                 "strategy_ids": strategy_ids,
                 "subcore_strategy_ids": subcore_strategy_ids,
@@ -3317,6 +3394,9 @@ def monitor(args):
                     "preview_ready": preview_ready,
                     "alert_rate_ready": alert_rate_ready,
                     "alert_threshold_pct": args.alert_threshold,
+                    "morning_manshu_rate_pct": race.get("morning_manshu_rate_pct"),
+                    "post_exhibition_manshu_rate_pct": post_rate,
+                    "rate_source": race.get("rate_source"),
                     "selection": selection,
                     "metrics": metrics,
                     "morning_rank": morning_rank,
@@ -3369,14 +3449,13 @@ def monitor(args):
             )
 
     for rank, race in enumerate(races, start=1):
-        inspect_race(race, "morning_top", morning_rank=rank)
+        live_race = live_by_id.get(race.get("race_id"))
+        merged_race = morning_race_with_live_rate(race, live_race)
+        inspect_race(merged_race, "morning_top", morning_rank=rank, live_rank=merged_race.get("live_rank"))
 
-    live_path = None
-    if args.scan_risers and not args.offline:
+    if args.scan_risers and not args.offline and live_rows:
         try:
-            live_path = build_live_ranking(date_text, top_n=args.riser_top_n, threshold=args.threshold)
-            live_ranking = load_json(live_path, {})
-            for live_rank, race in enumerate(ranking_rows(live_ranking, args.riser_top_n), start=1):
+            for live_rank, race in enumerate(live_rows[: args.riser_top_n], start=1):
                 if race.get("race_id") in morning_ids:
                     continue
                 if (race.get("manshu_rate_pct") or 0) < args.riser_threshold:
@@ -3404,9 +3483,18 @@ def monitor(args):
         "live_ranking_path": str(live_path) if live_path else None,
         "public_metrics_updated": public_metrics_updated,
         "top_n": args.top_n,
+        "live_top_n": args.live_top_n,
         "riser_top_n": args.riser_top_n,
         "lookahead_minutes": args.lookahead_minutes,
         "alert_threshold_pct": args.alert_threshold,
+        "alert_policy": {
+            "primary": "morning_top_only_post_exhibition_threshold",
+            "description": "朝TOPリストに入った荒れ下地ありレースだけを、展示/AI取得後の万舟率で最終確認する",
+            "morning_top_n": args.top_n,
+            "post_exhibition_threshold_pct": args.alert_threshold,
+            "full_exhibition_required": True,
+            "notify_late_risers": bool(args.notify_risers),
+        },
         "alerts": alerts,
         "inspected": inspected,
     }
@@ -3427,9 +3515,15 @@ def main():
     parser.add_argument("--lookahead-minutes", type=float, default=20.0)
     parser.add_argument("--grace-minutes", type=float, default=2.0)
     parser.add_argument("--alert-threshold", type=float, default=40.0, help="Minimum post-exhibition manshu rate required before sending smartphone alerts.")
-    parser.add_argument("--scan-risers", action="store_true", help="Build a separate live ranking and notify races rising from outside the morning TOP list.")
+    parser.add_argument("--scan-risers", action="store_true", help="Build a separate live ranking and log races rising from outside the morning TOP list.")
+    parser.add_argument("--live-top-n", type=int, default=200, help="Live ranking depth used to attach post-exhibition rates to morning watchlist races.")
     parser.add_argument("--riser-top-n", type=int, default=10, help="Live ranking depth used for late-riser detection.")
     parser.add_argument("--riser-threshold", type=float, default=40.0, help="Minimum live manshu rate for late-riser alerts.")
+    parser.add_argument(
+        "--notify-risers",
+        action="store_true",
+        help="Also send smartphone alerts for races outside the morning TOP list. Default keeps them as research logs only.",
+    )
     parser.add_argument("--rebuild-morning", action="store_true")
     parser.add_argument(
         "--no-build-morning",
