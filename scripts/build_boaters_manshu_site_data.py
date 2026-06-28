@@ -442,18 +442,18 @@ def build_popular_b1_fly_logic(metrics: dict, edges: list[dict], round_no: int |
         b1_avg = as_num(b1.get("avg_isshu_diff"))
     if b1_avg is not None:
         if b1_avg <= 0:
-            add(18, f"1号艇の展示+1周が6艇平均より悪い（平均との差{b1_avg:.2f}）", "b1_avgdiff_le000")
+            add(18, f"1号艇の展示+有効ラップが6艇平均より悪い（平均との差{b1_avg:.2f}）", "b1_avgdiff_le000")
         elif b1_avg <= 0.15:
-            add(14, f"1号艇の展示+1周が強くない（平均との差{b1_avg:.2f}）", "b1_avgdiff_le015")
+            add(14, f"1号艇の展示+有効ラップが強くない（平均との差{b1_avg:.2f}）", "b1_avgdiff_le015")
         elif b1_avg <= 0.30:
-            add(8, f"1号艇の展示+1周が平均より少し良い程度（平均との差{b1_avg:.2f}）", "b1_avgdiff_le030")
+            add(8, f"1号艇の展示+有効ラップが平均より少し良い程度（平均との差{b1_avg:.2f}）", "b1_avgdiff_le030")
 
     b1_isshu = as_num(metrics.get("boat1_isshu_avg_diff"))
     if b1_isshu is not None:
         if b1_isshu <= -0.10:
-            add(12, f"1号艇の1周タイムが平均より{abs(b1_isshu):.2f}秒遅い", "b1_isshu_le_m010")
+            add(12, f"1号艇の有効ラップが平均より{abs(b1_isshu):.2f}秒遅い", "b1_isshu_le_m010")
         elif b1_isshu <= -0.05:
-            add(8, f"1号艇の1周タイムが平均より{abs(b1_isshu):.2f}秒遅い", "b1_isshu_le_m005")
+            add(8, f"1号艇の有効ラップが平均より{abs(b1_isshu):.2f}秒遅い", "b1_isshu_le_m005")
 
     b1_exhibit_rank = min(
         as_int(b1.get("tenji_time_rank")) or 9,
@@ -475,11 +475,11 @@ def build_popular_b1_fly_logic(metrics: dict, edges: list[dict], round_no: int |
             outer56_avg = None
     if outer56_avg is not None:
         if outer56_avg >= 0.14:
-            add(14, f"5/6号艇に展示+1周がかなり良い艇がいる（平均との差+{outer56_avg:.2f}）", "outer56_avg_ge014")
+            add(14, f"5/6号艇に展示+有効ラップがかなり良い艇がいる（平均との差+{outer56_avg:.2f}）", "outer56_avg_ge014")
         elif outer56_avg >= 0.10:
-            add(10, f"5/6号艇に展示+1周が良い艇がいる（平均との差+{outer56_avg:.2f}）", "outer56_avg_ge010")
+            add(10, f"5/6号艇に展示+有効ラップが良い艇がいる（平均との差+{outer56_avg:.2f}）", "outer56_avg_ge010")
         elif outer56_avg >= 0.05:
-            add(6, f"5/6号艇に展示+1周が少し良い艇がいる（平均との差+{outer56_avg:.2f}）", "outer56_avg_ge005")
+            add(6, f"5/6号艇に展示+有効ラップが少し良い艇がいる（平均との差+{outer56_avg:.2f}）", "outer56_avg_ge005")
 
     outer56_ai = as_num(metrics.get("outer56_best_ai_prediction_pct"))
     if outer56_ai is not None:
@@ -582,24 +582,24 @@ def composite_rate_reasons(row: dict, by_boat: dict[int, dict]) -> list[str]:
     elif ai_plus_rank and ai_plus_rank >= 5:
         reasons.append(f"AI+一般3連対が{ai_plus_rank}位で弱め")
     if row.get("double_time"):
-        reasons.append("展示タイムと1周タイムが両方1位")
+        reasons.append("展示タイムと有効ラップが両方1位")
     elif (as_int(row.get("exhibit_rank")) or 9) <= 2:
         reasons.append("展示か1周が2位以内")
     avg_diff = as_num(row.get("avg_isshu_diff"))
     if avg_diff is not None:
         if avg_diff >= 0.10:
-            reasons.append(f"展示+1周が平均より{avg_diff:.2f}秒速い")
+            reasons.append(f"展示+有効ラップが平均より{avg_diff:.2f}秒速い")
         elif avg_diff <= -0.10:
-            reasons.append(f"展示+1周が平均より{abs(avg_diff):.2f}秒遅い")
+            reasons.append(f"展示+有効ラップが平均より{abs(avg_diff):.2f}秒遅い")
     if row.get("super_slit_alert"):
         reasons.append("スーパースリットアラート")
     right = by_boat.get(boat + 1)
     if right and right.get("super_slit_alert"):
         reasons.append(f"{boat + 1}号艇のスリット圧を受ける")
     if row.get("summer_b1_isshu_factor") == "fast_hold":
-        reasons.append("夏場の1周タイムが良くイン残り寄り")
+        reasons.append("夏場の有効ラップが良くイン残り寄り")
     elif row.get("summer_b1_isshu_factor") == "slow_fly":
-        reasons.append("夏場の1周タイムが悪くイン飛び寄り")
+        reasons.append("夏場の有効ラップが悪くイン飛び寄り")
     if row.get("matchup_label") in {"1号艇キラー", "相性バフ", "相性軸バフ", "相性デバフ"}:
         reasons.append(str(row.get("matchup_label")))
     if row.get("low_outer_revive"):
@@ -949,13 +949,13 @@ def head_candidate_score(row: dict, metrics: dict, manshu_head_mode: bool = Fals
     if avg_diff is not None:
         if avg_diff >= 0.20:
             score += 5.0
-            reasons.append(f"展示+1周平均との差+{avg_diff:.2f}")
+            reasons.append(f"展示+有効ラップ平均との差+{avg_diff:.2f}")
         elif avg_diff >= 0.10:
             score += 3.0
-            reasons.append(f"展示+1周平均との差+{avg_diff:.2f}")
+            reasons.append(f"展示+有効ラップ平均との差+{avg_diff:.2f}")
         elif avg_diff <= -0.10:
             score -= 3.0
-            reasons.append(f"展示+1周平均との差{avg_diff:.2f}")
+            reasons.append(f"展示+有効ラップ平均との差{avg_diff:.2f}")
     exhibit_rank = as_int(row.get("exhibit_rank")) or 9
     if exhibit_rank <= 2:
         score += 3.0
@@ -1098,6 +1098,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "boat1_isshu_avg_diff": "b1_isshu_avg_diff",
         "avg_isshu_time": "avg_isshu_time",
         "avg_exhibit_combo_time": "avg_exhibit_combo_time",
+        "lap_time_type": "lap_time_type",
         "is_summer": "is_summer",
         "b1_summer_isshu_factor": "b1_summer_isshu_factor",
         "b1_summer_nige_delta_pp": "b1_summer_nige_delta_pp",
@@ -1176,6 +1177,8 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "wind_speed": "wind_speed",
         "wave_height": "wave_height",
         "tenji_boats": "tenji_boats",
+        "raw_isshu_boats": "raw_isshu_boats",
+        "hanshu_boats": "hanshu_boats",
         "isshu_boats": "isshu_boats",
     }
     for boat in range(1, 7):
@@ -1214,6 +1217,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
             "trifecta_top5_combos",
             "trifecta_odds_snapshot_at",
             "odds_snapshot_source",
+            "lap_time_type",
         }:
             normalized_metrics[out_key] = value or ""
         else:
@@ -1226,7 +1230,11 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         else {}
     )
     normalized_metrics["tenji_boats"] = as_int(normalized_metrics["tenji_boats"]) or 0
+    normalized_metrics["raw_isshu_boats"] = as_int(normalized_metrics.get("raw_isshu_boats")) or 0
+    normalized_metrics["hanshu_boats"] = as_int(normalized_metrics.get("hanshu_boats")) or 0
     normalized_metrics["isshu_boats"] = as_int(normalized_metrics["isshu_boats"]) or 0
+    if not normalized_metrics.get("lap_time_type"):
+        normalized_metrics["lap_time_type"] = "半周" if row.get("place_name") == "江戸川" else "1周"
     normalized_metrics["composite_edges"] = row.get("composite_edges") or metrics.get("composite_edges") or []
     normalized_metrics["boats"] = build_boat_rows(normalized_metrics, metrics)
     normalized_metrics.update(
@@ -1251,9 +1259,10 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         row.get("ranking_type") != "morning_watchlist"
         and normalized_metrics["tenji_boats"] >= 6
         and normalized_metrics["isshu_boats"] < 6
-        and "一周未取得" not in str(status)
+        and "未取得" not in str(status)
     ):
-        status = f"{status}・一周未取得"
+        missing_lap = "半周未取得" if normalized_metrics.get("lap_time_type") == "半周" else "一周未取得"
+        status = f"{status}・{missing_lap}"
     normalized = {
         "rank": rank,
         "status": status,
@@ -1362,6 +1371,12 @@ def build_payload(source: dict, top_n: int, results_map: dict[tuple[int, int], d
     with_isshu = source.get("races_with_full_isshu")
     if with_isshu is None:
         with_isshu = source_summary.get("races_with_full_isshu")
+    with_raw_isshu = source.get("races_with_full_raw_isshu")
+    if with_raw_isshu is None:
+        with_raw_isshu = source_summary.get("races_with_full_raw_isshu")
+    with_hanshu = source.get("races_with_full_hanshu")
+    if with_hanshu is None:
+        with_hanshu = source_summary.get("races_with_full_hanshu")
     return {
         "version": "boaters-manshu-logic-v2",
         "date": date_text,
@@ -1369,7 +1384,7 @@ def build_payload(source: dict, top_n: int, results_map: dict[tuple[int, int], d
         "threshold_pct": as_num(source.get("threshold_pct")) or 27.0,
         "logic_label": source.get("logic_label") or "Codex BOATERS展示込み 万舟率ロジック",
         "logic_summary": source.get("logic_summary")
-        or "BOATERS DBのAI3連対率・一般3連対率、1号艇の逃げ/差され/まくられ傾向、オリジナル展示の展示タイム・1周タイムを組み合わせたCodex側ランキング。",
+        or "BOATERS DBのAI3連対率・一般3連対率、1号艇の逃げ/差され/まくられ傾向、オリジナル展示の展示タイム・有効ラップ（通常は1周、江戸川は半周）を組み合わせたCodex側ランキング。",
         "source": {
             "ranking_json": str(source.get("outputs", {}).get("json") or ""),
             "database": "/Users/ohyabumasaya/Desktop/price_action_analysis/outputs/boaters_all_races.sqlite",
@@ -1377,6 +1392,8 @@ def build_payload(source: dict, top_n: int, results_map: dict[tuple[int, int], d
         "summary": {
             "all_races": all_races,
             "races_with_full_tenji": as_int(with_tenji) or 0,
+            "races_with_full_raw_isshu": as_int(with_raw_isshu) or 0,
+            "races_with_full_hanshu": as_int(with_hanshu) or 0,
             "races_with_full_isshu": as_int(with_isshu) or 0,
             "displayed_top_n": len(races),
             "strict_displayed_top_n": len(strict_races),

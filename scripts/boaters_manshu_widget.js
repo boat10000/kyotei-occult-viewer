@@ -20,8 +20,8 @@
     var key = date.replace(/-/g, "");
     var prefix = assetPrefix() + "data/output/";
     return [
-      prefix + "boaters_manshu_ranking_codex_" + key + ".json?v=codex9",
-      prefix + "boaters_manshu_ranking_" + key + ".json?v=codex9"
+      prefix + "boaters_manshu_ranking_codex_" + key + ".json?v=codex11",
+      prefix + "boaters_manshu_ranking_" + key + ".json?v=codex11"
     ];
   }
 
@@ -39,6 +39,43 @@
 
   function fmtYen(v) {
     return v == null ? "結果待ち" : Number(v).toLocaleString("ja-JP") + "円";
+  }
+
+  function lapLabel(r, metrics) {
+    if (metrics.lap_time_type) return String(metrics.lap_time_type);
+    return r.place_name === "江戸川" ? "半周" : "1周";
+  }
+
+  function matchupText(metrics) {
+    var parts = [];
+    if (Number(metrics.matchup_lane1_bad_flag || 0)) parts.push("1号艇が今回メンバー相手に苦しい");
+    if (Number(metrics.matchup_outer_good_count || 0) >= 2) parts.push("外側に相性が良い艇が2艇以上");
+    if (metrics.matchup_buff_boats) parts.push("相性バフ " + String(metrics.matchup_buff_boats) + "号艇");
+    return parts.join(" / ");
+  }
+
+  function easyReason(r, metrics, lap) {
+    var parts = [];
+    if (Number(metrics.boat1_ai_prediction_pct || 0) > 0 && Number(metrics.boat1_ai_prediction_pct) < 35) {
+      parts.push("1号艇の勝ち切る力が弱め");
+    }
+    if (Number(metrics.boat1_avg_isshu_diff || 0) < 0) {
+      parts.push("1号艇の展示+" + lap + "が平均より悪い");
+    }
+    if (Number(metrics.outer56_best_avg_isshu_diff || 0) >= 0.1) {
+      parts.push("5・6号艇に足の良い艇がいる");
+    }
+    if (Number(metrics.outer56_exhibit_top2_count || 0) > 0) {
+      parts.push("外枠が展示で上位");
+    }
+    if (metrics.super_slit_boats) {
+      parts.push("スリットで前に出そうな艇がいる");
+    }
+    if (matchupText(metrics)) {
+      parts.push("今回メンバーの相性で1号艇に圧力");
+    }
+    if (!parts.length && r.condition) parts.push(String(r.condition).split(" × ")[0]);
+    return parts.slice(0, 3).join("。");
   }
 
   function raceKey(r) {
@@ -114,6 +151,7 @@
     var metrics = r.metrics || {};
     var manshu = result.manshu;
     var deadline = r.deadline_time ? String(r.deadline_time).slice(11, 16) : "--:--";
+    var lap = lapLabel(r, metrics);
     var status = r.status || (metrics.tenji_boats >= 6 || metrics.isshu_boats >= 6 ? "確定" : "展示待ち");
     var statusClass = status === "展示待ち" ? " wait" : "";
     var edgeText = "";
@@ -130,7 +168,7 @@
     }
     if (metrics.b1_summer_isshu_factor) {
       var delta = Number(metrics.b1_summer_nige_delta_pp || 0);
-      summerText = " / 夏1周 逃げ" + (delta > 0 ? "+" : "") + esc(String(delta)) + "pt";
+      summerText = " / 夏ラップ 逃げ" + (delta > 0 ? "+" : "") + esc(String(delta)) + "pt";
     }
     if (metrics.slit_shape_label) {
       slitText = " / 隊形 " + esc(String(metrics.slit_shape_label));
@@ -143,11 +181,21 @@
         .join(" / ");
       edgeText = "<br><span class=\"bm-mini\">Codex複合補正 " + esc(fmtPct(r.composite_edge_bonus_pct)) + " / 元率 " + esc(fmtPct(r.base_manshu_rate_pct || r.composite_edge_base_rate_pct)) + (edges ? " / " + esc(edges) : "") + "</span>";
     }
+    var matchup = matchupText(metrics);
+    var detail = [
+      "1号艇 AI予測 " + fmtPct(metrics.boat1_ai_prediction_pct),
+      "AI+一般3連対 " + fmtPct(metrics.boat1_ai_plus),
+      "展示+" + lap + "平均との差 " + fmtSec(metrics.boat1_avg_isshu_diff),
+      "展示+" + lap + "平均 " + fmtSec(metrics.avg_exhibit_combo_time),
+      "展示 " + fmtSec(metrics.boat1_tenji_time),
+      lap + " " + fmtSec(metrics.boat1_isshu_time),
+      "5・6号艇 展示+" + lap + "平均との差 " + fmtSec(metrics.outer56_best_avg_isshu_diff)
+    ].join(" / ");
     return [
       "<tr>",
       "<td><span class=\"bm-rate\">" + esc(fmtPct(r.manshu_rate_pct)) + "</span><br><span class=\"bm-mini\">直近 " + esc(fmtPct(r.recent_rate_pct)) + "</span>" + edgeText + "</td>",
       "<td><span class=\"bm-race\">" + esc(r.rank) + ". " + esc(r.place_name) + esc(r.round) + "R</span><br><span class=\"bm-mini\">" + esc(deadline) + "締切 / ロジック" + esc(r.matched_logic_count) + "件</span><br><span class=\"bm-status" + statusClass + "\">" + esc(status) + "</span></td>",
-      "<td class=\"bm-cond\">" + esc(r.condition) + "<br><span class=\"bm-mini\">1号艇 AI予測 " + esc(fmtPct(metrics.boat1_ai_prediction_pct)) + " / AI+一般3連対 " + esc(fmtPct(metrics.boat1_ai_plus)) + " / 展示+1周平均との差 " + esc(fmtSec(metrics.boat1_avg_isshu_diff)) + " / 展示+1周平均 " + esc(fmtSec(metrics.avg_exhibit_combo_time)) + " / 展示 " + esc(fmtSec(metrics.boat1_tenji_time)) + " / 1周 " + esc(fmtSec(metrics.boat1_isshu_time)) + " / 5・6号艇 展示+1周平均との差 " + esc(fmtSec(metrics.outer56_best_avg_isshu_diff)) + joshiText + doubleText + superSlitText + summerText + slitText + "</span></td>",
+      "<td class=\"bm-cond\"><b>見るポイント</b><br><span class=\"bm-mini\">" + esc(easyReason(r, metrics, lap)) + "</span><details><summary>詳しい根拠を見る</summary>" + esc(r.condition) + "<br><span class=\"bm-mini\">" + esc(detail) + joshiText + doubleText + superSlitText + summerText + slitText + (matchup ? " / " + esc(matchup) : "") + "</span></details></td>",
       "<td><b>" + esc(result.trifecta || "--") + "</b><br><span class=\"" + (manshu ? "bm-hit" : "bm-miss") + "\">" + esc(fmtYen(result.payout_yen)) + (manshu ? " 万舟" : "") + "</span></td>",
       "</tr>"
     ].join("");
@@ -173,12 +221,12 @@
     section.className = "card boaters-manshu";
     section.innerHTML = [
       "<h2>Codex厳選ランキング TOP10</h2>",
-      "<p class=\"lead\"><b>" + esc(data.logic_label || "Codex厳選ランキング") + "</b>で算出。過去27%以上の強条件、全場補正、BOATERS AI/オッズ、展示+1周、スリット隊形、女子戦、天候、対戦相性をすべて混ぜた統合ランキングです。</p>",
+      "<p class=\"lead\"><b>" + esc(data.logic_label || "Codex厳選ランキング") + "</b>で算出。過去27%以上の強条件、全場補正、BOATERS AI/オッズ、展示+有効ラップ、スリット隊形、女子戦、天候、対戦相性をすべて混ぜた統合ランキングです。</p>",
       "<div class=\"bm-summary\">",
       "<span class=\"bm-chip hot\">厳選TOP" + esc(strictRows.length) + "</span>",
       "<span class=\"bm-chip\">万舟 " + esc(summary.strict_manshu_hits_top_n || 0) + "/" + esc(summary.strict_settled_top_n || 0) + "本</span>",
       "<span class=\"bm-chip\">展示6艇取得 " + esc(summary.races_with_full_tenji || 0) + "R</span>",
-      "<span class=\"bm-chip\">1周6艇取得 " + esc(summary.races_with_full_isshu || 0) + "R</span>",
+      "<span class=\"bm-chip\">有効ラップ6艇取得 " + esc(summary.races_with_full_isshu || 0) + "R</span>",
       "<span class=\"bm-chip\">基準値のみ非表示 " + esc(summary.baseline_only_hidden_count || 0) + "R</span>",
       "</div>",
       strictHtml,

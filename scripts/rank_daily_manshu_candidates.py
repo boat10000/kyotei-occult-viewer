@@ -18,6 +18,7 @@ REPORT_DIR = OUT_DIR / "boaters_report"
 HISTORY_DB = OUT_DIR / "boaters_all_races.sqlite"
 DEFAULT_LOGIC_CSV = ROOT / "data" / "model" / "manshu_condition_combo_search.csv"
 DEFAULT_MATCHUP_PROFILE = ROOT / "data" / "analysis" / "matchup_profiles.csv"
+DEFAULT_MATCHUP_PROFILE_GZ = ROOT / "data" / "analysis" / "matchup_profiles.csv.gz"
 DEFAULT_PRE_EXHIBITION_CALIBRATION = ROOT / "data" / "model" / "pre_exhibition_manshu_v2_calibration.json"
 TRIFECTA_ODDS_DB_CANDIDATES = [
     ROOT / "data" / "live_odds.db",
@@ -385,7 +386,7 @@ JOSHI_STRATEGY_FACTORS = [
     },
     {
         "id": "joshi_b1_aiplus4_rank6_avg010_top2_dekoboko",
-        "label": "女子戦攻略: 1号艇AI+4位以下、4〜6展示上位、AI最下位の平均との差+0.10以上かつ展示/1周2位以内、デコボコ",
+        "label": "女子戦攻略: 1号艇AI+4位以下、4〜6展示上位、AI最下位の平均との差+0.10以上かつ展示/有効ラップ2位以内、デコボコ",
         "atom_ids": [
             "b1_aiplus_ge4",
             "outer46_exhibit_top2",
@@ -553,6 +554,20 @@ def connect_ro(path):
     return sqlite3.connect(f"file:{Path(path)}?mode=ro", uri=True)
 
 
+def resolve_matchup_profile(path):
+    if not path:
+        return None
+    profile = Path(path)
+    if profile.exists():
+        return profile
+    if profile == DEFAULT_MATCHUP_PROFILE and DEFAULT_MATCHUP_PROFILE_GZ.exists():
+        return DEFAULT_MATCHUP_PROFILE_GZ
+    gz_profile = profile.with_suffix(profile.suffix + ".gz")
+    if gz_profile.exists():
+        return gz_profile
+    return profile
+
+
 def fmt_num(value):
     if value is None or pd.isna(value):
         return "-"
@@ -682,7 +697,9 @@ def historical_venue_sets(history_db):
 
 def daily_features(today_db, target_date, matchup_profiles=None):
     with connect_ro(today_db) as con:
-        sql = """
+        boat_cols = {row[1] for row in con.execute("PRAGMA table_info(race_boats)").fetchall()}
+        hanshu_expr = "b.hanshu_time" if "hanshu_time" in boat_cols else "NULL"
+        sql = f"""
         WITH base AS (
             SELECT
                 r.race_id,
@@ -715,11 +732,24 @@ def daily_features(today_db, target_date, matchup_profiles=None):
                 b.st_rank_general,
                 b.st_time_avg_general,
                 b.tenji_time,
-                b.isshu_time,
-                b.avg_isshu_diff AS isshu_avg_diff,
+                b.isshu_time AS raw_isshu_time,
+                {hanshu_expr} AS hanshu_time,
                 CASE
-                    WHEN b.tenji_time IS NOT NULL AND b.isshu_time IS NOT NULL
-                    THEN b.tenji_time + b.isshu_time
+                    WHEN b.isshu_time IS NOT NULL THEN b.isshu_time
+                    WHEN r.place_name = '江戸川' AND {hanshu_expr} IS NOT NULL THEN {hanshu_expr}
+                END AS isshu_time,
+                CASE
+                    WHEN b.isshu_time IS NOT NULL THEN '1周'
+                    WHEN r.place_name = '江戸川' AND {hanshu_expr} IS NOT NULL THEN '半周'
+                END AS lap_time_type,
+                b.avg_isshu_diff AS source_isshu_avg_diff,
+                CASE
+                    WHEN b.tenji_time IS NOT NULL
+                         AND (
+                           b.isshu_time IS NOT NULL
+                           OR (r.place_name = '江戸川' AND {hanshu_expr} IS NOT NULL)
+                         )
+                    THEN b.tenji_time + COALESCE(b.isshu_time, CASE WHEN r.place_name = '江戸川' THEN {hanshu_expr} END)
                 END AS exhibit_combo_time,
                 b.tenji_rank,
                 b.start_tenji_rank,
@@ -758,12 +788,17 @@ def daily_features(today_db, target_date, matchup_profiles=None):
                     PARTITION BY race_id
                     ORDER BY CASE WHEN isshu_time IS NULL THEN 1 ELSE 0 END, isshu_time ASC
                 ) AS isshu_rank_raw,
+                AVG(isshu_time) OVER (PARTITION BY race_id) AS avg_isshu_time,
                 AVG(exhibit_combo_time) OVER (PARTITION BY race_id) AS avg_exhibit_combo_time
             FROM base
         ),
         rb AS (
             SELECT
                 *,
+                CASE
+                    WHEN isshu_time IS NOT NULL AND avg_isshu_time IS NOT NULL
+                    THEN avg_isshu_time - isshu_time
+                END AS effective_isshu_avg_diff,
                 CASE
                     WHEN exhibit_combo_time IS NOT NULL AND avg_exhibit_combo_time IS NOT NULL
                     THEN avg_exhibit_combo_time - exhibit_combo_time
@@ -806,7 +841,7 @@ def daily_features(today_db, target_date, matchup_profiles=None):
             MAX(CASE WHEN boat_number = 1 THEN tenji_time END) AS b1_tenji_time,
             MAX(CASE WHEN boat_number = 1 THEN isshu_time END) AS b1_isshu_time,
             MAX(CASE WHEN boat_number = 1 THEN boaters_avgdiff END) AS b1_avg_isshu_diff,
-            MAX(CASE WHEN boat_number = 1 THEN isshu_avg_diff END) AS b1_isshu_avg_diff,
+            MAX(CASE WHEN boat_number = 1 THEN effective_isshu_avg_diff END) AS b1_isshu_avg_diff,
             MAX(CASE WHEN boat_number = 1 THEN tenji_rank END) AS b1_tenji_rank,
             MAX(CASE WHEN boat_number = 1 THEN tenji_time_rank END) AS b1_tenji_time_rank,
             MAX(CASE WHEN boat_number = 1 THEN isshu_rank END) AS b1_isshu_rank,
@@ -859,13 +894,14 @@ def daily_features(today_db, target_date, matchup_profiles=None):
             MAX(CASE WHEN boat_number = 4 THEN boaters_avgdiff END) AS b4_avg_isshu_diff,
             MAX(CASE WHEN boat_number = 5 THEN boaters_avgdiff END) AS b5_avg_isshu_diff,
             MAX(CASE WHEN boat_number = 6 THEN boaters_avgdiff END) AS b6_avg_isshu_diff,
-            MAX(CASE WHEN boat_number = 2 THEN isshu_avg_diff END) AS b2_isshu_avg_diff,
-            MAX(CASE WHEN boat_number = 3 THEN isshu_avg_diff END) AS b3_isshu_avg_diff,
-            MAX(CASE WHEN boat_number = 4 THEN isshu_avg_diff END) AS b4_isshu_avg_diff,
-            MAX(CASE WHEN boat_number = 5 THEN isshu_avg_diff END) AS b5_isshu_avg_diff,
-            MAX(CASE WHEN boat_number = 6 THEN isshu_avg_diff END) AS b6_isshu_avg_diff,
+            MAX(CASE WHEN boat_number = 2 THEN effective_isshu_avg_diff END) AS b2_isshu_avg_diff,
+            MAX(CASE WHEN boat_number = 3 THEN effective_isshu_avg_diff END) AS b3_isshu_avg_diff,
+            MAX(CASE WHEN boat_number = 4 THEN effective_isshu_avg_diff END) AS b4_isshu_avg_diff,
+            MAX(CASE WHEN boat_number = 5 THEN effective_isshu_avg_diff END) AS b5_isshu_avg_diff,
+            MAX(CASE WHEN boat_number = 6 THEN effective_isshu_avg_diff END) AS b6_isshu_avg_diff,
             AVG(isshu_time) AS avg_isshu_time,
             AVG(exhibit_combo_time) AS avg_exhibit_combo_time,
+            MAX(lap_time_type) AS lap_time_type,
             MAX(CASE WHEN boat_number = 2 THEN tenji_time END) AS b2_tenji_time,
             MAX(CASE WHEN boat_number = 3 THEN tenji_time END) AS b3_tenji_time,
             MAX(CASE WHEN boat_number = 4 THEN tenji_time END) AS b4_tenji_time,
@@ -962,6 +998,8 @@ def daily_features(today_db, target_date, matchup_profiles=None):
                        AND isshu_rank = 1 THEN 1 ELSE 0 END) AS outer56_double_time_count,
 
             SUM(CASE WHEN tenji_time IS NOT NULL THEN 1 ELSE 0 END) AS tenji_boats,
+            SUM(CASE WHEN raw_isshu_time IS NOT NULL THEN 1 ELSE 0 END) AS raw_isshu_boats,
+            SUM(CASE WHEN hanshu_time IS NOT NULL THEN 1 ELSE 0 END) AS hanshu_boats,
             SUM(CASE WHEN isshu_time IS NOT NULL THEN 1 ELSE 0 END) AS isshu_boats
         FROM rb
         GROUP BY race_id
@@ -1938,7 +1976,7 @@ def composite_edge_signals(race):
         add_edge(
             signals,
             "codex_popular_b1_fly_avg_bad_outer56",
-            "人気1号艇飛び: オッズ人気ありでも展示+1周平均との差-0.05以下、展示4位以下、5/6平均との差+0.14以上",
+            "人気1号艇飛び: オッズ人気ありでも展示+有効ラップ平均との差-0.05以下、展示4位以下、5/6平均との差+0.14以上",
             25.17,
             3.2,
             "popular_b1_fly_up",
@@ -1984,7 +2022,7 @@ def composite_edge_signals(race):
         add_edge(
             signals,
             "codex_low_outer_revive_b1loss_slit",
-            "低評価外枠復活: AI+5/6位の5/6号艇が展示/1周2位以内、AI予測8%以上、1号艇逃げ失敗40%以上+外圧",
+            "低評価外枠復活: AI+5/6位の5/6号艇が展示/有効ラップ2位以内、AI予測8%以上、1号艇逃げ失敗40%以上+外圧",
             32.00,
             3.8,
             "low_outer_manshu_up",
@@ -2011,7 +2049,7 @@ def composite_edge_signals(race):
         add_edge(
             signals,
             "codex_low_outer_revive_avg010",
-            "低評価外枠復活: AI+5/6位の5/6号艇が平均との差+0.10以上、展示/1周2位以内、AI予測8%以上",
+            "低評価外枠復活: AI+5/6位の5/6号艇が平均との差+0.10以上、展示/有効ラップ2位以内、AI予測8%以上",
             27.63,
             3.2,
             "low_outer_top3_up",
@@ -2086,7 +2124,7 @@ def composite_edge_signals(race):
         add_edge(
             signals,
             "codex_post_ai_exh_b1aipred30_outer10_rank6exh",
-            "直前上げ: 1号艇AI30%未満+5/6AI10%以上+AI+最下位5/6が展示/1周2位以内",
+            "直前上げ: 1号艇AI30%未満+5/6AI10%以上+AI+最下位5/6が展示/有効ラップ2位以内",
             23.20,
             2.7,
             "postdata_manshu_up",
@@ -2200,7 +2238,7 @@ def composite_edge_signals(race):
         add_edge(
             signals,
             "codex_post_ai_exh_rank6_outer_ai5_rank6exh",
-            "直前強上げ: AI+最下位5/6号艇がAI予測5%以上+本人が展示/1周2位以内",
+            "直前強上げ: AI+最下位5/6号艇がAI予測5%以上+本人が展示/有効ラップ2位以内",
             26.03,
             3.6,
             "rank6_outer_revive",
@@ -2897,7 +2935,7 @@ def all_venue_edge_signals(race):
         add_edge(signals, "codex_allvenue_outer56_avg010", "全場: 5/6号艇 展示+一周平均との差+0.10以上", None, 1.0, "outer_top3_up", {"outer56_avg_isshu_diff": outer_avg})
 
     if outer_exhibit_top2 >= 1:
-        add_edge(signals, "codex_allvenue_outer56_exhibit_top2", "全場: 5/6号艇に展示/1周2位以内", None, 1.0, "outer_top3_up", {"outer56_exhibit_top2_count": outer_exhibit_top2})
+        add_edge(signals, "codex_allvenue_outer56_exhibit_top2", "全場: 5/6号艇に展示/有効ラップ2位以内", None, 1.0, "outer_top3_up", {"outer56_exhibit_top2_count": outer_exhibit_top2})
     if rank6_boat in {3, 4, 5, 6} and rank6_avg is not None and rank6_avg >= 0.10:
         add_edge(signals, "codex_allvenue_rank6_avg010", "全場: AI+最下位が3〜6号艇で平均との差+0.10以上", None, 1.2, "rank6_ana", {"rank6_boat": rank6_boat})
     if wind_wave:
@@ -3271,7 +3309,7 @@ def build_rankings(df, logic_rows, masks, threshold=27.0):
                 edge_signals=all_factor_signals,
                 base_rate_override=16.82,
                 adjustment_func=all_venue_adjustment,
-                condition_override="Codex厳選ランキング: 過去27%以上条件、1号艇弱化、外枠上振れ、AI/オッズ、展示+1周、スリット隊形、女子戦、天候、対戦相性を全統合",
+                condition_override="Codex厳選ランキング: 過去27%以上条件、1号艇弱化、外枠上振れ、AI/オッズ、展示+有効ラップ、スリット隊形、女子戦、天候、対戦相性を全統合",
                 ranking_type="strict",
             )
         )
@@ -3378,6 +3416,7 @@ def row_summary(
         "b1_isshu_avg_diff": race.get("b1_isshu_avg_diff"),
         "avg_isshu_time": race.get("avg_isshu_time"),
         "avg_exhibit_combo_time": race.get("avg_exhibit_combo_time"),
+        "lap_time_type": race.get("lap_time_type"),
         "is_summer": int(is_summer_date(race.get("date"))),
         "b1_summer_isshu_factor": summer_factor["signal"],
         "b1_summer_nige_delta_pp": summer_factor["nige_delta_pp"],
@@ -3486,6 +3525,8 @@ def row_summary(
         "wind_speed": race.get("wind_speed"),
         "wave_height": race.get("wave_height"),
         "tenji_boats": int_num(race.get("tenji_boats")),
+        "raw_isshu_boats": int_num(race.get("raw_isshu_boats")),
+        "hanshu_boats": int_num(race.get("hanshu_boats")),
         "isshu_boats": int_num(race.get("isshu_boats")),
     }
 
@@ -3533,7 +3574,7 @@ def make_report(path, date_text, all_venue_rows, strict_rows, watch_rows, top_n)
 </head>
 <body>
   <h1>{date_text} 万舟率ランキング</h1>
-  <div class="meta">過去検証27%以上条件、全場補正、展示/1周、AI/オッズ、スリット隊形、女子戦、天候、対戦相性をすべて混ぜたCodex統合厳選ランキング。</div>
+  <div class="meta">過去検証27%以上条件、全場補正、展示/有効ラップ、AI/オッズ、スリット隊形、女子戦、天候、対戦相性をすべて混ぜたCodex統合厳選ランキング。</div>
   <h2>厳選ランキング TOP{top_n}（全ファクター統合）</h2>
   <table>
     <thead><tr><th>#</th><th>状態</th><th>場</th><th>R</th><th>締切</th><th>補正後</th><th>元率</th><th>補正pt</th><th>直近率</th><th>一致数</th><th>代表条件</th><th>1号艇AI</th><th>1展示</th><th>5/6最速展示</th></tr></thead>
@@ -3574,7 +3615,7 @@ def main():
     args = parser.parse_args()
 
     top6, top10 = historical_venue_sets(args.history_db)
-    matchup_profile = Path(args.matchup_profile) if args.matchup_profile else None
+    matchup_profile = resolve_matchup_profile(args.matchup_profile)
     matchup_profiles = read_matchup_profiles(matchup_profile) if matchup_profile and matchup_profile.exists() else {}
     pre_exhibition_calibration_path = Path(args.pre_exhibition_calibration) if args.pre_exhibition_calibration else None
     pre_exhibition_calibration = read_pre_exhibition_calibration(pre_exhibition_calibration_path)
@@ -3605,7 +3646,7 @@ def main():
         "date": args.date,
         "threshold_pct": args.threshold,
         "logic_label": "Codex厳選ランキング（全ファクター統合）",
-        "logic_summary": "過去検証27%以上の強条件、三連単人気1〜5が1号艇頭の売れ過ぎイン飛び、1号艇弱化、外枠上振れ、AI+下位の穴、AI/オッズ評価、展示タイム+1周タイム、夏場1周補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクター、天候/風波、今回メンバー同士の対戦相性をすべて同じスコアに混ぜた統合厳選ランキング。",
+        "logic_summary": "過去検証27%以上の強条件、三連単人気1〜5が1号艇頭の売れ過ぎイン飛び、1号艇弱化、外枠上振れ、AI+下位の穴、AI/オッズ評価、展示タイム+有効ラップ（通常は1周、江戸川は半周対応）、夏場ラップ補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクター、天候/風波、今回メンバー同士の対戦相性をすべて同じスコアに混ぜた統合厳選ランキング。",
         "matchup_profile": str(matchup_profile) if matchup_profile else None,
         "matchup_pairs_loaded": len(matchup_profiles),
         "pre_exhibition_calibration": str(pre_exhibition_calibration_path) if pre_exhibition_calibration_path else None,
@@ -3615,6 +3656,8 @@ def main():
         "races_with_b1_trifecta_top5_1head": int(df["b1_trifecta_top5_1head"].fillna(0).eq(1).sum()),
         "races": int(len(df)),
         "races_with_full_tenji": int((df["tenji_boats"] >= 6).sum()),
+        "races_with_full_raw_isshu": int((df["raw_isshu_boats"] >= 6).sum()),
+        "races_with_full_hanshu": int((df["hanshu_boats"] >= 6).sum()),
         "races_with_full_isshu": int((df["isshu_boats"] >= 6).sum()),
         "baseline_only_hidden_count": int(len(all_venue_rows) - len(rankable_rows)),
         "unified_rank_top": unified_top,

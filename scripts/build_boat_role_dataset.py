@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
 import json
 import math
 import statistics
@@ -131,7 +132,8 @@ def read_matchup_profiles(path: Path | None) -> dict[tuple[str, str], Row]:
     if path is None or not path.exists():
         return {}
     profiles: dict[tuple[str, str], Row] = {}
-    with path.open(encoding="utf-8", newline="") as handle:
+    opener = gzip.open if path.suffix == ".gz" else open
+    with opener(path, mode="rt", encoding="utf-8", newline="") as handle:
         for row in csv.DictReader(handle):
             racer = normalize_registration_no(row.get("racer_registration_no"))
             opponent = normalize_registration_no(row.get("opponent_registration_no"))
