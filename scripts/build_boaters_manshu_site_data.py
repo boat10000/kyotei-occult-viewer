@@ -1278,6 +1278,8 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
                 "candidate_phase": row.get("candidate_phase"),
                 "candidate_source_scope": row.get("candidate_source_scope"),
                 "candidate_score": as_num(row.get("candidate_score")),
+                "candidate_material_count": as_int(row.get("candidate_material_count")) or 0,
+                "candidate_material_score": as_num(row.get("candidate_material_score")),
                 "candidate_reasons": row.get("candidate_reasons") or [],
                 "finalize_rule": row.get("finalize_rule"),
             }
@@ -1311,25 +1313,6 @@ def build_payload(source: dict, top_n: int, results_map: dict[tuple[int, int], d
         if isinstance(source.get("morning_candidates"), list)
         else []
     )
-    if not morning_source_rows:
-        morning_source_rows = [
-            {
-                **row,
-                "status": "朝監視",
-                "candidate_type": "後半軽監視"
-                if (as_int(row.get("round")) or as_int(row.get("round_no")) or 0) >= 7
-                else "軽監視",
-                "candidate_phase": "morning_watchlist",
-                "candidate_score": row.get("candidate_score") or row.get("best_manshu_rate_pct") or row.get("manshu_rate_pct"),
-                "candidate_reasons": [
-                    "既存ランキング上位",
-                    "レース番号で朝/後半を分類",
-                ],
-                "finalize_rule": "BOATERS AI・展示・実オッズ取得後に買い/見送りへ更新",
-                "ranking_type": "morning_watchlist",
-            }
-            for row in (strict_source_rows or rows)
-        ]
     morning_rows = unique_rows(list(morning_source_rows or []), top_n)
     races = [normalize_row(row, idx + 1, date_text, results_map) for idx, row in enumerate(rows)]
     strict_races = [normalize_row(row, idx + 1, date_text, results_map) for idx, row in enumerate(strict_rows)]
@@ -1376,6 +1359,7 @@ def build_payload(source: dict, top_n: int, results_map: dict[tuple[int, int], d
             "strict_manshu_hits_top_n": len(strict_manshu_hits),
             "strict_actual_manshu_rate_top_n_pct": round(len(strict_manshu_hits) / len(strict_settled) * 100, 2) if strict_settled else None,
             "morning_candidate_count": len(morning_candidates),
+            "baseline_only_hidden_count": as_int(source.get("baseline_only_hidden_count")) or 0,
         },
         "races": races,
         "strict_races": strict_races,

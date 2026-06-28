@@ -167,7 +167,7 @@
       "<table class=\"bm-table\"><thead><tr><th>万舟率</th><th>レース</th><th>該当ロジック・展示根拠</th><th>結果</th></tr></thead><tbody>",
       strictRows.map(raceRow).join(""),
       "</tbody></table>"
-    ].join("") : "<p class=\"lead\">Codex厳選ランキングTOP10に表示できる該当レースがまだありません。</p>";
+    ].join("") : "<p class=\"lead\">実材料が足りないため、基準値だけのレースは表示していません。展示・AI・オッズ取得後に再判定します。</p>";
     var section = document.createElement("section");
     section.id = "boaters-manshu-card";
     section.className = "card boaters-manshu";
@@ -179,6 +179,7 @@
       "<span class=\"bm-chip\">万舟 " + esc(summary.strict_manshu_hits_top_n || 0) + "/" + esc(summary.strict_settled_top_n || 0) + "本</span>",
       "<span class=\"bm-chip\">展示6艇取得 " + esc(summary.races_with_full_tenji || 0) + "R</span>",
       "<span class=\"bm-chip\">1周6艇取得 " + esc(summary.races_with_full_isshu || 0) + "R</span>",
+      "<span class=\"bm-chip\">基準値のみ非表示 " + esc(summary.baseline_only_hidden_count || 0) + "R</span>",
       "</div>",
       strictHtml,
       "<p class=\"muted\">※これは万舟が出やすい条件のランキングです。買い目や利益を保証するものではありません。</p>"

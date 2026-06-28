@@ -2913,14 +2913,41 @@ def morning_candidate_adjustment(signals):
     return round(max(-4.0, min(12.0, bonus)), 2)
 
 
+def material_signals(signals):
+    return [
+        signal
+        for signal in signals
+        if signal.get("bonus_pct", 0) > 0 and signal.get("role") != "context_up"
+    ]
+
+
+def material_signal_score(signals):
+    return round(sum(signal.get("bonus_pct", 0) for signal in material_signals(signals)), 2)
+
+
+def has_morning_core_shape(signals):
+    materials = material_signals(signals)
+    roles = {signal.get("role") for signal in materials}
+    ids = {signal.get("id") for signal in materials}
+    if len(materials) < 2:
+        return False
+    if {"b1_fly_up", "outer_up"} & roles:
+        return True
+    if {"ai_value_gap", "matchup_manshu_up", "weather_up"} & roles and len(materials) >= 3:
+        return True
+    if {"morning_b1_loss35", "morning_b1_nige_low50", "morning_outer_ai_bottom2"} & ids:
+        return True
+    return False
+
+
 def morning_candidate_type(race, signals):
     round_no = int_num(race.get("round_no"))
-    score = sum(signal["bonus_pct"] for signal in signals if signal["bonus_pct"] > 0)
+    score = material_signal_score(signals)
     if score >= 7.0:
         return "重点監視"
     if score >= 4.5:
         return "監視"
-    if 9 <= round_no <= 12 and race.get("place_name") != "宮島":
+    if has_morning_core_shape(signals) and 9 <= round_no <= 12 and race.get("place_name") != "宮島":
         return "後半軽監視"
     return "軽監視"
 
@@ -2932,8 +2959,15 @@ def build_morning_candidates(df, top_n):
         positive_score = sum(signal["bonus_pct"] for signal in signals if signal["bonus_pct"] > 0)
         negative_score = sum(signal["bonus_pct"] for signal in signals if signal["bonus_pct"] < 0)
         score = round(min(12.0, positive_score) + negative_score, 2)
+        material_score = material_signal_score(signals)
+        material_count = len(material_signals(signals))
+        core_shape = has_morning_core_shape(signals)
         candidate_type = morning_candidate_type(race, signals)
         if score <= 0:
+            continue
+        if not core_shape or material_count < 2:
+            continue
+        if material_score < 4.0:
             continue
 
         reasons = [signal["label"] for signal in signals if signal["bonus_pct"] > 0][:5]
@@ -2951,6 +2985,8 @@ def build_morning_candidates(df, top_n):
         row["candidate_phase"] = "morning_watchlist"
         row["candidate_source_scope"] = "pre_boaters_ai_pre_exhibition_pre_live_odds"
         row["candidate_score"] = score
+        row["candidate_material_count"] = material_count
+        row["candidate_material_score"] = material_score
         row["candidate_reasons"] = reasons
         row["finalize_rule"] = "締切10〜15分前にBOATERS AI・展示・実オッズを取得して、買い/見送りへ更新"
         rows.append(row)
@@ -2964,6 +3000,22 @@ def build_morning_candidates(df, top_n):
         reverse=True,
     )
     return rows[:5]
+
+
+def rankable_final_row(row, threshold):
+    if row.get("matched_logic_count", 0) > 0:
+        return True
+    edge_signals = row.get("composite_edges") or []
+    materials = material_signals(edge_signals)
+    material_score = material_signal_score(edge_signals)
+    edge_base = row.get("composite_edge_base_rate_pct")
+    edge_bonus = row.get("composite_edge_bonus_pct") or 0
+    rate = row.get("best_manshu_rate_pct") or 0
+    if edge_base is not None and material_score >= 3.0 and rate >= threshold:
+        return True
+    if len(materials) >= 2 and material_score >= 5.0 and edge_bonus >= 4.0:
+        return True
+    return False
 
 
 def take_diverse_rows(rows, top_n, max_per_place=2):
@@ -3357,7 +3409,8 @@ def main():
     json_path = Path(args.json_out) if args.json_out else OUT_DIR / f"{base_name}.json"
     html_path = Path(args.html_out) if args.html_out else REPORT_DIR / f"{base_name}.html"
 
-    unified_top = all_venue_rows[: args.top_n]
+    rankable_rows = [row for row in all_venue_rows if rankable_final_row(row, args.threshold)]
+    unified_top = rankable_rows[: args.top_n]
     strict_rows = unified_top
     combined = unified_top
     write_csv(csv_path, combined)
@@ -3374,6 +3427,7 @@ def main():
         "races": int(len(df)),
         "races_with_full_tenji": int((df["tenji_boats"] >= 6).sum()),
         "races_with_full_isshu": int((df["isshu_boats"] >= 6).sum()),
+        "baseline_only_hidden_count": int(len(all_venue_rows) - len(rankable_rows)),
         "unified_rank_top": unified_top,
         "all_venue_rank_top": unified_top,
         "strict_rank_top": unified_top,

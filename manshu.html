@@ -264,15 +264,7 @@
     function currentCandidateRows(){
       if(!STATE.data) return [];
       var rows=(STATE.data.morning_candidates||[]).slice(0,5);
-      if(rows.length) return rows;
-      return rawRankRows().map(function(r){
-        return Object.assign({},r,{
-          candidate_type:candidateType(r),
-          candidate_score:r.candidate_score||r.manshu_rate_pct,
-          candidate_reasons:["既存ランキング上位","朝監視JSON未生成日のフォールバック"],
-          finalize_rule:"BOATERS AI・展示・実オッズ取得後に買い/見送りへ更新"
-        });
-      });
+      return rows;
     }
     function currentRows(){ return currentCandidateRows(); }
     function candidateType(r){
@@ -281,6 +273,7 @@
       return round>=7?"後半軽監視":"軽監視";
     }
     function renderStatus(rows){
+      var summary=(STATE.data&&STATE.data.summary)||{};
       var settled=rows.filter(function(r){return resultOf(r).payout_yen!=null;}).length;
       var hits=rows.filter(function(r){return resultOf(r).manshu;}).length;
       var popularB1Danger=rows.filter(function(r){
@@ -299,6 +292,7 @@
         "<span class=\"chip\">結果 "+settled+"/"+rows.length+"R</span>",
         "<span class=\"chip "+(hits?"hot":"")+"\">万舟 "+hits+"件</span>",
         "<span class=\"chip "+(popularB1Danger?"hot":"")+"\">人気1号艇危険 "+popularB1Danger+"R</span>",
+        "<span class=\"chip\">基準値のみ非表示 "+esc(summary.baseline_only_hidden_count||0)+"R</span>",
         "<span class=\"chip ok\">"+esc(autoText)+"</span>",
         "<span class=\"chip\">"+esc(checkText)+"</span>",
         STATE.resultFetchError?"<span class=\"chip hot\">結果取得エラー</span>":"",
@@ -833,7 +827,7 @@
         "朝の荒れ監視TOP5",
         "全レースを同じ朝データで分析し、直前に見る価値が高い5レースだけを表示します。ここでは買い目を出しません。",
         currentCandidateRows(),
-        "朝の監視レースはまだありません。"
+        "実材料が足りないため、基準値だけのレースは表示していません。展示・AI・オッズ取得後に再判定します。"
       );
     }
     function renderCoreForwardPanel(){
