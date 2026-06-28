@@ -1,14 +1,24 @@
 {
   "version": "boaters-manshu-alerts-v1",
   "date": "2026-06-28",
-  "generated_at": "2026-06-28T20:26:31+09:00",
+  "generated_at": "2026-06-28T23:53:10+09:00",
   "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_morning_ranking_20260628.json",
   "public_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260628.json",
   "live_ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_live_ranking_20260628.json",
   "public_metrics_updated": true,
   "top_n": 10,
+  "live_top_n": 200,
   "riser_top_n": 10,
   "lookahead_minutes": 20.0,
+  "alert_threshold_pct": 35.0,
+  "alert_policy": {
+    "primary": "morning_top_only_post_exhibition_threshold",
+    "description": "朝TOPリストに入った荒れ下地ありレースだけを、展示/AI取得後の万舟率で最終確認する",
+    "morning_top_n": 10,
+    "post_exhibition_threshold_pct": 35.0,
+    "full_exhibition_required": true,
+    "notify_late_risers": false
+  },
   "alerts": [],
   "inspected": [
     {
@@ -17,7 +27,7 @@
       "round": 1,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -298.5,
+      "minutes_to_deadline": -505.2,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:NG",
@@ -26,6 +36,12 @@
       "strategies": [],
       "subcore_strategies": [],
       "candidate_strategy_ids": [],
+      "preview_ready": false,
+      "alert_rate_ready": false,
+      "alert_threshold_pct": 35.0,
+      "morning_manshu_rate_pct": null,
+      "post_exhibition_manshu_rate_pct": 16.82,
+      "rate_source": "morning_pre_exhibition",
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -446,7 +462,7 @@
       "round": 2,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -264.5,
+      "minutes_to_deadline": -471.2,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:NG",
@@ -455,6 +471,12 @@
       "strategies": [],
       "subcore_strategies": [],
       "candidate_strategy_ids": [],
+      "preview_ready": false,
+      "alert_rate_ready": false,
+      "alert_threshold_pct": 35.0,
+      "morning_manshu_rate_pct": null,
+      "post_exhibition_manshu_rate_pct": 16.82,
+      "rate_source": "morning_pre_exhibition",
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -872,7 +894,7 @@
       "round": 3,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -235.5,
+      "minutes_to_deadline": -442.2,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:OK",
@@ -881,6 +903,12 @@
       "strategies": [],
       "subcore_strategies": [],
       "candidate_strategy_ids": [],
+      "preview_ready": false,
+      "alert_rate_ready": false,
+      "alert_threshold_pct": 35.0,
+      "morning_manshu_rate_pct": null,
+      "post_exhibition_manshu_rate_pct": 16.82,
+      "rate_source": "morning_pre_exhibition",
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -1302,7 +1330,7 @@
       "round": 4,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -197.5,
+      "minutes_to_deadline": -404.2,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:OK",
@@ -1311,6 +1339,12 @@
       "strategies": [],
       "subcore_strategies": [],
       "candidate_strategy_ids": [],
+      "preview_ready": false,
+      "alert_rate_ready": false,
+      "alert_threshold_pct": 35.0,
+      "morning_manshu_rate_pct": null,
+      "post_exhibition_manshu_rate_pct": 16.82,
+      "rate_source": "morning_pre_exhibition",
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -1733,7 +1767,7 @@
       "round": 5,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -173.5,
+      "minutes_to_deadline": -380.2,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:NG",
@@ -1742,6 +1776,12 @@
       "strategies": [],
       "subcore_strategies": [],
       "candidate_strategy_ids": [],
+      "preview_ready": false,
+      "alert_rate_ready": false,
+      "alert_threshold_pct": 35.0,
+      "morning_manshu_rate_pct": null,
+      "post_exhibition_manshu_rate_pct": 16.82,
+      "rate_source": "morning_pre_exhibition",
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -2158,7 +2198,7 @@
       "round": 6,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -146.5,
+      "minutes_to_deadline": -353.2,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:NG",
@@ -2167,6 +2207,12 @@
       "strategies": [],
       "subcore_strategies": [],
       "candidate_strategy_ids": [],
+      "preview_ready": false,
+      "alert_rate_ready": false,
+      "alert_threshold_pct": 35.0,
+      "morning_manshu_rate_pct": null,
+      "post_exhibition_manshu_rate_pct": 16.82,
+      "rate_source": "morning_pre_exhibition",
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -2584,7 +2630,7 @@
       "round": 7,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -122.5,
+      "minutes_to_deadline": -329.2,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:NG",
@@ -2593,6 +2639,12 @@
       "strategies": [],
       "subcore_strategies": [],
       "candidate_strategy_ids": [],
+      "preview_ready": false,
+      "alert_rate_ready": false,
+      "alert_threshold_pct": 35.0,
+      "morning_manshu_rate_pct": null,
+      "post_exhibition_manshu_rate_pct": 16.82,
+      "rate_source": "morning_pre_exhibition",
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -3012,7 +3064,7 @@
       "round": 8,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -96.5,
+      "minutes_to_deadline": -303.2,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:OK",
@@ -3021,6 +3073,12 @@
       "strategies": [],
       "subcore_strategies": [],
       "candidate_strategy_ids": [],
+      "preview_ready": false,
+      "alert_rate_ready": false,
+      "alert_threshold_pct": 35.0,
+      "morning_manshu_rate_pct": null,
+      "post_exhibition_manshu_rate_pct": 16.82,
+      "rate_source": "morning_pre_exhibition",
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -3439,7 +3497,7 @@
       "round": 9,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -67.5,
+      "minutes_to_deadline": -274.2,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:NG",
@@ -3448,6 +3506,12 @@
       "strategies": [],
       "subcore_strategies": [],
       "candidate_strategy_ids": [],
+      "preview_ready": false,
+      "alert_rate_ready": false,
+      "alert_threshold_pct": 35.0,
+      "morning_manshu_rate_pct": null,
+      "post_exhibition_manshu_rate_pct": 16.82,
+      "rate_source": "morning_pre_exhibition",
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -3859,7 +3923,7 @@
       "round": 10,
       "source": "morning_top",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -40.5,
+      "minutes_to_deadline": -247.2,
       "condition_confirmed": false,
       "checks": [
         "スリット隊形あり:NG",
@@ -3868,6 +3932,12 @@
       "strategies": [],
       "subcore_strategies": [],
       "candidate_strategy_ids": [],
+      "preview_ready": false,
+      "alert_rate_ready": false,
+      "alert_threshold_pct": 35.0,
+      "morning_manshu_rate_pct": null,
+      "post_exhibition_manshu_rate_pct": 16.82,
+      "rate_source": "morning_pre_exhibition",
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -4284,7 +4354,15 @@
       "round": 3,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -243.5
+      "minutes_to_deadline": -450.2
+    },
+    {
+      "race_id": "2026-06-282006",
+      "place_name": "若松",
+      "round": 6,
+      "source": "late_riser",
+      "status": "outside_window",
+      "minutes_to_deadline": -237.2
     },
     {
       "race_id": "2026-06-282002",
@@ -4292,7 +4370,7 @@
       "round": 2,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -138.5
+      "minutes_to_deadline": -345.2
     },
     {
       "race_id": "2026-06-281806",
@@ -4300,15 +4378,7 @@
       "round": 6,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -566.5
-    },
-    {
-      "race_id": "2026-06-280506",
-      "place_name": "多摩川",
-      "round": 6,
-      "source": "late_riser",
-      "status": "outside_window",
-      "minutes_to_deadline": -382.5
+      "minutes_to_deadline": -773.2
     },
     {
       "race_id": "2026-06-280304",
@@ -4316,15 +4386,21 @@
       "round": 4,
       "source": "late_riser",
       "status": "backfilled_missing_exhibition",
-      "minutes_to_deadline": -471.5,
-      "condition_confirmed": false,
+      "minutes_to_deadline": -678.2,
+      "condition_confirmed": true,
       "checks": [
         "スリット隊形外圧:OK",
-        "対戦相性あり:NG"
+        "対戦相性あり:OK"
       ],
       "strategies": [],
       "subcore_strategies": [],
       "candidate_strategy_ids": [],
+      "preview_ready": false,
+      "alert_rate_ready": true,
+      "alert_threshold_pct": 35.0,
+      "morning_manshu_rate_pct": null,
+      "post_exhibition_manshu_rate_pct": 39.77,
+      "rate_source": null,
       "selection": {
         "version": "codex_roles_v2",
         "label": "Codex候補",
@@ -4335,16 +4411,16 @@
         "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_scores": {
           "5": {
-            "score": 42.51,
+            "score": 46.24,
             "reasons": [
-              "複合1着率20.0%",
+              "複合1着率20.7%",
               "万舟は3〜6号艇頭が多い",
               "5/6外圧",
               "4〜6外圧"
             ]
           },
           "6": {
-            "score": 26.5,
+            "score": 29.5,
             "reasons": [
               "複合1着率1.0%",
               "万舟は3〜6号艇頭が多い",
@@ -4409,9 +4485,9 @@
             "general_top3_pct": 37.5,
             "odds_prediction_pct": 29.17,
             "odds_prediction_rank": 1,
-            "composite_win_pct": 49.23,
-            "composite_top3_pct": 24.8,
-            "composite_top3_actual_pct": 74.41,
+            "composite_win_pct": 44.38,
+            "composite_top3_pct": 24.7,
+            "composite_top3_actual_pct": 74.11,
             "composite_rate_reasons": [
               "AI+2位で基本力が高い",
               "展示か1周が2位以内"
@@ -4438,10 +4514,12 @@
             "general_top3_pct": 48.28,
             "odds_prediction_pct": 25.37,
             "odds_prediction_rank": 2,
-            "composite_win_pct": 15.01,
-            "composite_top3_pct": 20.62,
-            "composite_top3_actual_pct": 61.87,
-            "composite_rate_reasons": [],
+            "composite_win_pct": 18.62,
+            "composite_top3_pct": 21.61,
+            "composite_top3_actual_pct": 64.84,
+            "composite_rate_reasons": [
+              "相性バフ"
+            ],
             "ai_plus": 107.93,
             "ai_prediction_rank": 2,
             "top3_rank": 3,
@@ -4464,9 +4542,9 @@
             "general_top3_pct": 35.48,
             "odds_prediction_pct": 17.17,
             "odds_prediction_rank": 3,
-            "composite_win_pct": 8.75,
-            "composite_top3_pct": 14.9,
-            "composite_top3_actual_pct": 44.71,
+            "composite_win_pct": 9.06,
+            "composite_top3_pct": 14.84,
+            "composite_top3_actual_pct": 44.52,
             "composite_rate_reasons": [],
             "ai_plus": 81.05,
             "ai_prediction_rank": 4,
@@ -4490,9 +4568,9 @@
             "general_top3_pct": 25.0,
             "odds_prediction_pct": 8.28,
             "odds_prediction_rank": 5,
-            "composite_win_pct": 6.01,
-            "composite_top3_pct": 9.57,
-            "composite_top3_actual_pct": 28.72,
+            "composite_win_pct": 6.21,
+            "composite_top3_pct": 9.53,
+            "composite_top3_actual_pct": 28.6,
             "composite_rate_reasons": [
               "AI+5位で基本力は低め"
             ],
@@ -4518,9 +4596,9 @@
             "general_top3_pct": 48.28,
             "odds_prediction_pct": 16.65,
             "odds_prediction_rank": 4,
-            "composite_win_pct": 20.01,
-            "composite_top3_pct": 24.97,
-            "composite_top3_actual_pct": 74.9,
+            "composite_win_pct": 20.74,
+            "composite_top3_pct": 24.86,
+            "composite_top3_actual_pct": 74.59,
             "composite_rate_reasons": [
               "AI+1位で基本力が高い",
               "展示か1周が2位以内"
@@ -4548,10 +4626,11 @@
             "odds_prediction_pct": 3.35,
             "odds_prediction_rank": 6,
             "composite_win_pct": 1.0,
-            "composite_top3_pct": 5.13,
-            "composite_top3_actual_pct": 15.39,
+            "composite_top3_pct": 4.45,
+            "composite_top3_actual_pct": 13.34,
             "composite_rate_reasons": [
               "AI+6位で基本力は低め",
+              "相性デバフ",
               "低評価外枠だが展示で復活"
             ],
             "ai_plus": 33.14,
@@ -4701,16 +4780,16 @@
         "outer46_exhibit_top2_count": 1,
         "outer46_low_aiplus_exhibit_top2_count": 0,
         "matchup_lane1_pressure_score": 0.0,
-        "matchup_outer_good_count": 0,
-        "matchup_lane1_bad_flag": false,
-        "matchup_notes": "",
-        "matchup_buff_boats": "",
-        "b1_matchup_label": "相性データ薄",
-        "b2_matchup_label": "相性データ薄",
-        "b3_matchup_label": "相性データ薄",
-        "b4_matchup_label": "相性データ薄",
-        "b5_matchup_label": "相性データ薄",
-        "b6_matchup_label": "相性データ薄",
+        "matchup_outer_good_count": 1,
+        "matchup_lane1_bad_flag": true,
+        "matchup_notes": "2号艇相性バフ",
+        "matchup_buff_boats": "2",
+        "b1_matchup_label": "相性標準",
+        "b2_matchup_label": "相性バフ",
+        "b3_matchup_label": "相性標準",
+        "b4_matchup_label": "相性標準",
+        "b5_matchup_label": "相性標準",
+        "b6_matchup_label": "相性デバフ",
         "head_primary_boats": [
           5,
           6
@@ -4736,12 +4815,12 @@
       "live_rank": 5
     },
     {
-      "race_id": "2026-06-281008",
-      "place_name": "三国",
-      "round": 8,
+      "race_id": "2026-06-280506",
+      "place_name": "多摩川",
+      "round": 6,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -516.5
+      "minutes_to_deadline": -589.2
     },
     {
       "race_id": "2026-06-280503",
@@ -4749,7 +4828,15 @@
       "round": 3,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -476.5
+      "minutes_to_deadline": -683.2
+    },
+    {
+      "race_id": "2026-06-281008",
+      "place_name": "三国",
+      "round": 8,
+      "source": "late_riser",
+      "status": "outside_window",
+      "minutes_to_deadline": -723.2
     },
     {
       "race_id": "2026-06-281010",
@@ -4757,7 +4844,7 @@
       "round": 10,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -451.5
+      "minutes_to_deadline": -658.2
     },
     {
       "race_id": "2026-06-281703",
@@ -4765,15 +4852,7 @@
       "round": 3,
       "source": "late_riser",
       "status": "outside_window",
-      "minutes_to_deadline": -514.5
-    },
-    {
-      "race_id": "2026-06-280202",
-      "place_name": "戸田",
-      "round": 2,
-      "source": "late_riser",
-      "status": "outside_window",
-      "minutes_to_deadline": -550.5
+      "minutes_to_deadline": -721.2
     }
   ],
   "push": {
