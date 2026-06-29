@@ -436,6 +436,30 @@ def ranking_rows(payload, top_n):
     return list(rows)[:top_n]
 
 
+def morning_watch_rows(payload, top_n):
+    rows = payload.get("morning_candidates") or []
+    if not rows:
+        rows = [
+            row
+            for row in payload.get("races") or []
+            if str(row.get("ranking_type") or "") == "morning_watchlist"
+            or str(row.get("candidate_phase") or "") == "morning_watchlist"
+        ]
+    if not rows:
+        rows = ranking_rows(payload, top_n)
+    unique = []
+    seen = set()
+    for row in rows:
+        race_id = row.get("race_id") or (row.get("place_id"), row.get("round"))
+        if race_id in seen:
+            continue
+        seen.add(race_id)
+        unique.append(row)
+        if len(unique) >= top_n:
+            break
+    return unique
+
+
 def morning_race_with_live_rate(morning_race, live_race):
     """Keep the morning order, but replace rate/metrics with live final checks.
 
@@ -3771,8 +3795,9 @@ def monitor(args):
         save_json(state_path(date_text), state)
         return payload
     ranking = load_json(ranking_path, {})
-    races = ranking_rows(ranking, args.top_n)
+    races = morning_watch_rows(ranking, args.top_n)
     morning_ids = {race.get("race_id") for race in races}
+    only_race_ids = {str(race_id) for race_id in getattr(args, "only_race_id", []) if race_id}
     state = load_json(state_path(date_text), {"sent": {}})
     pushed = state.setdefault("pushed", {})
 
@@ -4007,6 +4032,8 @@ def monitor(args):
             )
 
     for rank, race in enumerate(races, start=1):
+        if only_race_ids and str(race.get("race_id") or "") not in only_race_ids:
+            continue
         live_race = live_by_id.get(race.get("race_id"))
         merged_race = morning_race_with_live_rate(race, live_race)
         inspect_race(merged_race, "morning_top", morning_rank=rank, live_rank=merged_race.get("live_rank"))
@@ -4014,6 +4041,8 @@ def monitor(args):
     if args.scan_risers and not args.offline and live_rows:
         try:
             for live_rank, race in enumerate(live_rows[: args.riser_top_n], start=1):
+                if only_race_ids and str(race.get("race_id") or "") not in only_race_ids:
+                    continue
                 if race.get("race_id") in morning_ids:
                     continue
                 if (race.get("manshu_rate_pct") or 0) < args.riser_threshold:
@@ -4093,6 +4122,12 @@ def main():
     parser.add_argument("--live-top-n", type=int, default=200, help="Live ranking depth used to attach post-exhibition rates to morning watchlist races.")
     parser.add_argument("--riser-top-n", type=int, default=10, help="Live ranking depth used for late-riser detection.")
     parser.add_argument("--riser-threshold", type=float, default=CORE_ALERT_RATE, help="Minimum live manshu rate for late-riser alerts.")
+    parser.add_argument(
+        "--only-race-id",
+        action="append",
+        default=[],
+        help="Inspect only the given race_id. Can be passed multiple times by deadline dispatchers.",
+    )
     parser.add_argument(
         "--notify-risers",
         action="store_true",
