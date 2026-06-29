@@ -842,7 +842,7 @@ def push_notifications(payload, state, now):
         elif alert.get("alert_type") in {"subcore_watch", "late_riser_subcore_watch"}:
             title = "BOATERS準本命候補"
         elif alert.get("alert_type") == "late_riser":
-            title = "BOATERS急浮上"
+            title = "BOATERS急浮上参考"
         elif alert.get("alert_type") == "buy_ok":
             title = "BOATERS本命候補"
         else:
@@ -3335,9 +3335,10 @@ def make_message(race, alert_type, metrics, checks, strategies):
         )
     if alert_type == "late_riser":
         return (
-            f"【急浮上】{base}\n"
+            f"【急浮上参考】{base}\n"
             f"{metric_text}\n"
-            f"直前条件: {' / '.join(checks)}"
+            f"直前条件: 朝監視TOP10外 / 展示後40%以上 / {' / '.join(checks)}\n"
+            f"扱い: 本命ではなく参考枠です。買うならかなり慎重に。"
         )
     if alert_type in {"subcore_watch", "late_riser_subcore_watch"}:
         return (
@@ -3516,11 +3517,7 @@ def monitor(args):
                 alert_type = None
             elif not can_send_alert:
                 alert_type = None
-            elif core_rate_ready:
-                alert_type = "late_riser_buy_ok"
-            elif subcore_rate_ready:
-                alert_type = "late_riser_subcore_watch"
-            elif confirmed or (race.get("manshu_rate_pct") or 0) >= args.riser_threshold:
+            elif source_type != "morning_top" and core_rate_ready:
                 alert_type = "late_riser"
             else:
                 alert_type = None
@@ -3543,7 +3540,15 @@ def monitor(args):
                 "candidate_strategy_ids": [s["strategy_id"] for s in all_strategies],
                 "core_rate_ready": core_rate_ready,
                 "subcore_rate_ready": subcore_rate_ready,
-                "buy_decision": "本命" if core_rate_ready else ("準本命" if subcore_rate_ready else ("見送り" if preview_ready else None)),
+                "buy_decision": (
+                    "本命"
+                    if source_type == "morning_top" and core_rate_ready
+                    else (
+                        "準本命"
+                        if source_type == "morning_top" and subcore_rate_ready
+                        else ("急浮上参考" if source_type != "morning_top" and core_rate_ready else ("見送り" if preview_ready else None))
+                    )
+                ),
                 "core_alert_threshold_pct": args.core_alert_threshold,
                 "subcore_alert_threshold_min_pct": SUBCORE_ALERT_RATE_MIN,
             }
@@ -3662,7 +3667,7 @@ def monitor(args):
         "subcore_alert_threshold_min_pct": SUBCORE_ALERT_RATE_MIN,
         "alert_policy": {
             "primary": "morning_top_then_post_exhibition_core_subcore",
-            "description": "朝TOPリストに入った荒れ下地ありレースを、展示/AI取得後に40%以上は本命、38〜39.9%は準本命にする",
+            "description": "朝TOPリストに入った荒れ下地ありレースだけを、展示/AI取得後に40%以上は本命、38〜39.9%は準本命にする。朝TOP外の40%以上は急浮上参考に分離する",
             "morning_top_n": args.top_n,
             "post_exhibition_core_threshold_pct": args.core_alert_threshold,
             "post_exhibition_subcore_range_pct": [SUBCORE_ALERT_RATE_MIN, args.core_alert_threshold],
