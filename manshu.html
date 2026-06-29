@@ -198,7 +198,7 @@
     "use strict";
     var MAN = 10000;
     var RESULT_REFRESH_MS = 30000;
-    var STATE = { date: "", data: null, resultMap: {}, resultPollTimer: null, lastResultCheck: "", resultFetchError: "" };
+    var STATE = { date: "", data: null, liveData: null, resultMap: {}, resultPollTimer: null, lastResultCheck: "", resultFetchError: "" };
     function q(name){ return new URLSearchParams(location.search).get(name); }
     function todayJst(){ return new Date().toLocaleDateString("sv-SE",{timeZone:"Asia/Tokyo"}); }
     function ymd(date){ return date.replace(/-/g,""); }
@@ -209,6 +209,7 @@
         "data/output/boaters_manshu_ranking_"+key+".json?v=codex12&_="+stamp
       ];
     }
+    function liveDataUrl(date){ return "data/output/boaters_manshu_live_ranking_"+ymd(date)+".json?v=live1&_="+Date.now(); }
     function resultUrl(date){ return "https://boatraceopenapi.github.io/results/v2/"+date.slice(0,4)+"/"+ymd(date)+".json"; }
     function liveResultUrl(date){ return resultUrl(date)+"?_="+Date.now(); }
     function timeJst(){ return new Date().toLocaleTimeString("ja-JP",{timeZone:"Asia/Tokyo",hour12:false}); }
@@ -266,15 +267,52 @@
     function lastMinuteRate(r){
       return num(r.last_minute_manshu_rate_pct);
     }
+    function allLiveRows(){
+      var src=STATE.liveData||STATE.data||{};
+      return (src.strict_races||src.races||[]).concat(src.morning_candidates||[]);
+    }
+    function liveRowFor(r){
+      var key=raceKey(r), id=r.race_id||"", place=r.place_name||"", round=Number(r.round||0);
+      var rows=allLiveRows();
+      for(var i=0;i<rows.length;i+=1){
+        var x=rows[i];
+        if(id&&x.race_id===id) return x;
+        if(key&&raceKey(x)===key) return x;
+        if(place&&round&&x.place_name===place&&Number(x.round||0)===round) return x;
+      }
+      return null;
+    }
+    function mergeMorningWithLive(r){
+      var live=liveRowFor(r);
+      if(!live||live===r) return r;
+      var merged=Object.assign({}, r, live);
+      merged.rank=r.rank;
+      merged.morning_rank=r.rank;
+      merged.live_rank=live.rank;
+      merged.candidate_type=r.candidate_type;
+      merged.candidate_phase=r.candidate_phase||"morning_watchlist";
+      merged.ranking_type=r.ranking_type||"morning_watchlist";
+      merged.candidate_reasons=r.candidate_reasons||live.candidate_reasons||[];
+      merged.candidate_score=r.candidate_score;
+      merged.morning_manshu_rate_pct=morningRate(r);
+      if((!live.result||(!live.result.trifecta&&live.result.payout_yen==null))&&r.result){
+        merged.result=r.result;
+      }
+      if((live.metrics||{}).tenji_boats>=6&&(live.metrics||{}).isshu_boats>=6&&live.manshu_rate_pct!=null){
+        merged.last_minute_manshu_rate_pct=live.manshu_rate_pct;
+      }
+      return merged;
+    }
     function rawRankRows(){ return STATE.data?((STATE.data.strict_races||STATE.data.races||[]).slice(0,10)):[]; }
     function currentFinalRows(){
-      if(!STATE.data) return [];
-      return (STATE.data.strict_races||STATE.data.races||[]).slice(0,10);
+      var src=STATE.liveData||STATE.data;
+      if(!src) return [];
+      return (src.strict_races||src.races||[]).slice(0,10);
     }
     function currentCandidateRows(){
       if(!STATE.data) return [];
       var rows=(STATE.data.morning_candidates||[]).slice(0,10);
-      return rows;
+      return rows.map(mergeMorningWithLive);
     }
     function currentRows(){ return currentCandidateRows(); }
     function isMorningWatch(r){
@@ -555,6 +593,19 @@
     function finalCheckText(r){
       var checks=(r.final_decision_checks||[]).filter(Boolean);
       if(!checks.length&&Array.isArray(r.last_minute_checks)) checks=r.last_minute_checks.filter(Boolean);
+      if(!checks.length){
+        var ex=exhibitState(r), rate=lastMinuteRate(r);
+        if(rate===null) rate=num(r.manshu_rate_pct);
+        if(ex.full&&rate!==null&&rate<38){
+          checks.push("展示後38%未満:NG("+pctShort(rate)+")");
+          checks.push("本命40%以上:NG");
+        }else if(ex.full&&rate!==null&&rate<40){
+          checks.push("展示後38〜39.9%:OK("+pctShort(rate)+")");
+          checks.push("準本命は1号艇危険・外頭2艇(5/6含む)・内軸残り・12点生成が必要");
+        }else if(!ex.full){
+          checks.push(ex.text);
+        }
+      }
       return checks.slice(0,10).join(" / ");
     }
     function buyDecision(r){
@@ -922,11 +973,21 @@
         else if(STATE.data) renderStatus(currentRows());
       }
     }
+    async function loadLiveData(){
+      STATE.liveData=null;
+      try{
+        var res=await fetch(liveDataUrl(STATE.date),{cache:"no-store"});
+        if(res.ok) STATE.liveData=await res.json();
+      }catch(e){
+        STATE.liveData=null;
+      }
+    }
     async function load(){
       removeVenueSummary();
       stopResultPolling();
       STATE.date=q("date")||todayJst();
       STATE.resultMap={};
+      STATE.liveData=null;
       STATE.lastResultCheck="";
       STATE.resultFetchError="";
       var urls=dataUrls(STATE.date), payload=null;
@@ -942,6 +1003,7 @@
         return;
       }
       STATE.data=payload;
+      await loadLiveData();
       render();
       loadResults();
       startResultPolling();
