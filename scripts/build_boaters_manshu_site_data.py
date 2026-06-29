@@ -1251,24 +1251,24 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
     alert_type = row.get("last_minute_alert_type")
     buy_decision = row.get("buy_decision")
     final_decision_checks = list(row.get("final_decision_checks") or [])
-    subcore_strategy_ids = set(row.get("last_minute_subcore_strategy_ids") or [])
-    has_subcore_buy = "codex_post_subcore_rate38_conditions" in subcore_strategy_ids
-    if alert_type in {"buy_ok", "late_riser_buy_ok"}:
+    strategy_ids = set(row.get("last_minute_strategy_ids") or [])
+    has_core_buy = "codex_post_core_front_head2_no1_outer56" in strategy_ids
+    if alert_type in {"buy_ok", "late_riser_buy_ok"} and has_core_buy:
         buy_decision = "本命"
         final_decision_checks.append(f"展示後40%以上:OK({rate_num:.2f}%)")
-    elif alert_type in {"subcore_watch", "late_riser_subcore_watch"} and has_subcore_buy:
-        buy_decision = "準本命"
+        final_decision_checks.append("本命絞り条件:OK(前半1〜3R・外頭2番手・1号艇消し・5/6絡み)")
+    elif preview_full and rate_num >= 40.0 and has_core_buy:
+        buy_decision = "本命"
+        final_decision_checks.append(f"展示後40%以上:OK({rate_num:.2f}%)")
+        final_decision_checks.append("本命絞り条件:OK(前半1〜3R・外頭2番手・1号艇消し・5/6絡み)")
     elif preview_full and rate_num >= 40.0:
-        buy_decision = "本命"
+        buy_decision = "見送り"
         final_decision_checks.append(f"展示後40%以上:OK({rate_num:.2f}%)")
-    elif preview_full and 38.0 <= rate_num < 40.0 and has_subcore_buy:
-        buy_decision = "準本命"
-        final_decision_checks.append(f"展示後38〜39.9%:OK({rate_num:.2f}%)")
-        final_decision_checks.append("準本命条件:OK")
+        final_decision_checks.append("本命絞り条件不足: 前半1〜3R・外頭2番手・1号艇消し・5/6絡みまで揃わず")
     elif preview_full and 38.0 <= rate_num < 40.0:
         buy_decision = "見送り"
         final_decision_checks.append(f"展示後38〜39.9%:OK({rate_num:.2f}%)")
-        final_decision_checks.append("準本命条件不足: 1号艇危険・外頭2艇(5/6含む)・内軸残り・12点生成まで揃わず")
+        final_decision_checks.append("本命絞りは展示後40%以上が必要")
     elif not preview_full:
         buy_decision = "展示待ち"
     else:

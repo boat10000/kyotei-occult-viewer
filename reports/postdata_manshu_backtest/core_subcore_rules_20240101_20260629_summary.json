@@ -1,0 +1,75 @@
+{
+  "version": "core-subcore-rules-v1",
+  "period": {
+    "start": "2024-01-01",
+    "end": "2026-06-29"
+  },
+  "top_n": 10,
+  "summary": [
+    {
+      "segment": "本命+準本命",
+      "watch_races": 9108,
+      "buy_races": 227,
+      "total_points": 2724,
+      "avg_points": 12.0,
+      "stake_yen": 272400,
+      "payback_yen": 241720,
+      "profit_yen": -30680,
+      "roi_pct": 88.74,
+      "hit_rate_pct": 16.3,
+      "manshu_hit_rate_pct": 2.64,
+      "over5000_hit_rate_pct": 6.17,
+      "max_losing_streak": 17.0,
+      "max_drawdown_yen": 61220.0
+    },
+    {
+      "segment": "本命 40%以上",
+      "watch_races": 159,
+      "buy_races": 159,
+      "total_points": 1908,
+      "avg_points": 12.0,
+      "stake_yen": 190800,
+      "payback_yen": 195560,
+      "profit_yen": 4760,
+      "roi_pct": 102.49,
+      "hit_rate_pct": 15.09,
+      "manshu_hit_rate_pct": 3.77,
+      "over5000_hit_rate_pct": 6.29,
+      "max_losing_streak": 18.0,
+      "max_drawdown_yen": 38800.0
+    },
+    {
+      "segment": "準本命 38〜39.9%条件成立",
+      "watch_races": 68,
+      "buy_races": 68,
+      "total_points": 816,
+      "avg_points": 12.0,
+      "stake_yen": 81600,
+      "payback_yen": 46160,
+      "profit_yen": -35440,
+      "roi_pct": 56.57,
+      "hit_rate_pct": 19.12,
+      "manshu_hit_rate_pct": 0.0,
+      "over5000_hit_rate_pct": 5.88,
+      "max_losing_streak": 10.0,
+      "max_drawdown_yen": 35440.0
+    },
+    {
+      "segment": "見送り",
+      "watch_races": 8881,
+      "buy_races": 0,
+      "total_points": 0,
+      "avg_points": NaN,
+      "stake_yen": 0,
+      "payback_yen": 0,
+      "profit_yen": 0,
+      "roi_pct": NaN,
+      "hit_rate_pct": NaN,
+      "manshu_hit_rate_pct": NaN,
+      "over5000_hit_rate_pct": NaN,
+      "max_losing_streak": NaN,
+      "max_drawdown_yen": NaN
+    }
+  ],
+  "generated_at_epoch": 1782729704.095265
+}

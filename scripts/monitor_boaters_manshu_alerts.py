@@ -53,10 +53,8 @@ SUMMER_B1_SLOW_NIGE_DELTA_PP = -17
 SUPER_SLIT_TENJI_ADV = 0.10
 CORE_ALERT_RATE = 40.0
 SUBCORE_ALERT_RATE_MIN = 38.0
-VALIDATED_BUY_STRATEGY_IDS = {"codex_post_core_rate40"}
-SUBCORE_WATCH_STRATEGY_IDS = {
-    "codex_post_subcore_rate38_conditions",
-}
+VALIDATED_BUY_STRATEGY_IDS = {"codex_post_core_front_head2_no1_outer56"}
+SUBCORE_WATCH_STRATEGY_IDS: set[str] = set()
 
 SUPER_SLIT_ALERT_STATS = {
     2: {"win_rate_pct": 29.56, "top3_rate_pct": 70.91, "makuri_win_rate_pct": 11.53, "score_bonus": 11},
@@ -1629,6 +1627,43 @@ def core_40_arunashi12(rows):
     }
 
 
+def core_40_focus_head2_no1_outer56(rows):
+    """High-ROI core filter: only the second head, no 1, and 5/6 involved."""
+    base_tickets, roles = core_40_arunashi12(rows)
+    if not base_tickets or roles is None:
+        return set(), None
+    heads = list(roles.get("heads") or [])
+    if len(heads) < 2:
+        return set(), None
+    target_head = heads[1]
+    tickets = {
+        ticket
+        for ticket in base_tickets
+        if (boats := combo_boats(ticket))
+        and boats[0] == target_head
+        and 1 not in boats
+        and bool({5, 6} & set(boats))
+    }
+    if not tickets:
+        return set(), None
+
+    focused = dict(roles)
+    focused["base_heads"] = heads
+    focused["heads"] = [target_head]
+    focused["head_rule"] = (
+        "本命絞りは、外頭2艇のうち2番手だけを頭にします。"
+        "荒れた時は一番手より2番手外頭が配当を作りやすかったためです"
+    )
+    focused["head_mode"] = "core_front_head2_no1_outer56"
+    focused["head_scores"] = head_score_details(rows, [target_head])
+    focused["supports"] = sorted({boat for ticket in tickets for boat in combo_boats(ticket) if boat != target_head})
+    focused["role_note"] = (
+        f"本命絞り。前半1〜3R専用で、頭は外頭2番手の{target_head}号艇だけ。"
+        "1号艇は買い目から外し、5/6号艇が絡む形だけを残す回収率重視の買い方"
+    )
+    return tickets, focused
+
+
 def combo_boats(value):
     combo = norm_combo(value)
     return [int(ch) for ch in combo] if len(combo) == 3 else []
@@ -3052,14 +3087,33 @@ def roi_strategies(race, metrics, rows):
         row.get("boat_number") in {3, 4, 5, 6} and row.get("double_time")
         for row in rows
     )
+    if full_exhibition and post_rate >= CORE_ALERT_RATE and round_no <= 3:
+        strategies.append(
+            (
+                "codex_post_core_front_head2_no1_outer56",
+                "Codex本命絞り: 前半1〜3R+外頭2番手+1号艇消し+5/6絡み",
+                core_40_focus_head2_no1_outer56,
+                {
+                    "tier": "core_focus",
+                    "entry_checks": [
+                        f"展示後40%以上:OK({post_rate:.2f}%)",
+                        f"前半1〜3R:OK({round_no}R)",
+                        "頭は外頭2艇の2番手だけ",
+                        "1号艇を買い目から外す",
+                        "5/6号艇が買い目に絡む",
+                    ],
+                    "odds_filter": "回収率重視。1号艇入りと低配当形を買わない",
+                },
+            )
+        )
     if full_exhibition and post_rate >= CORE_ALERT_RATE:
         strategies.append(
             (
                 "codex_post_core_rate40",
-                "Codex本命: 展示後40%以上 外頭2艇+AI+一般2位3位軸 12点",
+                "Codex本命参考: 展示後40%以上 外頭2艇+AI+一般2位3位軸 12点",
                 core_40_arunashi12,
                 {
-                    "tier": "core",
+                    "tier": "core_reference",
                     "entry_checks": [f"展示後40%以上:OK({post_rate:.2f}%)"],
                 },
             )
@@ -3907,11 +3961,11 @@ def monitor(args):
         "core_alert_threshold_pct": args.core_alert_threshold,
         "subcore_alert_threshold_min_pct": SUBCORE_ALERT_RATE_MIN,
         "alert_policy": {
-            "primary": "morning_top_then_post_exhibition_core_subcore",
-            "description": "朝TOPリストに入った荒れ下地ありレースだけを、展示/AI取得後に40%以上は本命、38〜39.9%は準本命にする。朝TOP外の40%以上は急浮上参考に分離する",
+            "primary": "morning_top_then_post_exhibition_core_focus_only",
+            "description": "朝TOPリストに入った荒れ下地ありレースだけを、展示/AI取得後に40%以上かつ本命絞り条件成立なら通知する。朝TOP外の40%以上は急浮上参考に分離する",
             "morning_top_n": args.top_n,
             "post_exhibition_core_threshold_pct": args.core_alert_threshold,
-            "post_exhibition_subcore_range_pct": [SUBCORE_ALERT_RATE_MIN, args.core_alert_threshold],
+            "post_exhibition_subcore_range_pct": None,
             "full_exhibition_required": True,
             "notify_late_risers": bool(args.notify_risers),
         },
@@ -3938,7 +3992,7 @@ def main():
         "--alert-threshold",
         type=float,
         default=SUBCORE_ALERT_RATE_MIN,
-        help="Backward-compatible floor for post-exhibition alerts. Current policy uses 38.0-39.9 subcore and 40.0+ core.",
+        help="Backward-compatible floor for post-exhibition checks. Current buy policy alerts only core focus at 40.0+.",
     )
     parser.add_argument(
         "--core-alert-threshold",

@@ -165,7 +165,7 @@
     <header class="header">
       <p class="eyebrow">CODEX MANSHU ONE PAGE</p>
       <h1 id="page-title">朝監視 + 展示後 本命判定</h1>
-      <p>この1ページで見ます。上に展示前の朝監視TOP10、下にBOATERS AI・展示・オッズ取得後の本命/準本命判定を表示します。</p>
+      <p>この1ページで見ます。上に展示前の朝監視TOP10、下にBOATERS AI・展示・オッズ取得後の本命絞り判定を表示します。</p>
     </header>
     <nav class="nav">
       <a id="posts-link" href="manshu_posts.html">投稿センター</a>
@@ -181,11 +181,11 @@
     <main class="layout">
       <section class="panel candidate-panel" id="watchlist-panel">
         <h2>朝の監視候補TOP10（買いではない）</h2>
-        <p class="lead">展示前データだけで荒れる下地が強い上位10レースを表示します。スマホ通知は、この朝TOP10を締切前に再確認して、38〜39.9%なら準本命、40%以上なら本命として送ります。</p>
+        <p class="lead">展示前データだけで荒れる下地が強い上位10レースを表示します。スマホ通知は、この朝TOP10を締切前に再確認して、本命絞り条件まで揃った時だけ送ります。</p>
       </section>
       <section class="panel late-panel" id="final-panel">
-        <h2>本命/準本命（朝監視TOP10限定）</h2>
-        <p class="lead">締切前にBOATERS AI・展示・オッズを取得できた朝監視TOP10のレースだけを、40%以上は本命、38〜39.9%は準本命として表示します。</p>
+        <h2>本命絞り（朝監視TOP10限定）</h2>
+        <p class="lead">締切前にBOATERS AI・展示・オッズを取得できた朝監視TOP10のレースだけを、展示後40%以上からさらに前半1〜3R・外頭2番手・1号艇消し・5/6絡みで絞ります。</p>
       </section>
       <section class="panel notice">
         <h2>このページの見方</h2>
@@ -331,7 +331,6 @@
     function renderStatus(rows){
       var watchRows=currentCandidateRows();
       var core=watchRows.filter(function(r){return buyDecision(r).label==="本命";}).length;
-      var sub=watchRows.filter(function(r){return buyDecision(r).label.indexOf("準本命")===0;}).length;
       var riser=currentFinalRows().filter(function(r){return !isMorningWatch(r)&&buyDecision(r).label==="急浮上参考";}).length;
       var summary=(STATE.data&&STATE.data.summary)||{};
       var settled=rows.filter(function(r){return resultOf(r).payout_yen!=null;}).length;
@@ -348,7 +347,6 @@
         "<div class=\"chips\">",
         "<span class=\"chip hot\">朝TOP"+rows.length+"</span>",
         "<span class=\"chip hot\">本命 "+core+"R</span>",
-        "<span class=\"chip warn\">準本命 "+sub+"R</span>",
         "<span class=\"chip warn\">急浮上参考 "+riser+"R</span>",
         "<span class=\"chip\">展示前+展示後の2段階</span>",
         "<span class=\"chip ok\">本命通知は朝TOP10限定</span>",
@@ -585,10 +583,10 @@
       return ids;
     }
     function validatedBuyIds(ids){
-      return (ids||[]).filter(function(id){return id==="codex_post_core_rate40"||id==="codex_post_core_ab_rank3";});
+      return (ids||[]).filter(function(id){return id==="codex_post_core_front_head2_no1_outer56";});
     }
     function subcoreWatchIds(ids){
-      return (ids||[]).filter(function(id){return id==="codex_post_subcore_rate38_conditions"||id==="codex_post_subcore_rank6_outer_exhibit_top2";});
+      return [];
     }
     function finalCheckText(r){
       var checks=(r.final_decision_checks||[]).filter(Boolean);
@@ -601,7 +599,7 @@
           checks.push("本命40%以上:NG");
         }else if(ex.full&&rate!==null&&rate<40){
           checks.push("展示後38〜39.9%:OK("+pctShort(rate)+")");
-          checks.push("準本命は1号艇危険・外頭2艇(5/6含む)・内軸残り・12点生成が必要");
+          checks.push("本命絞りは展示後40%以上が必要");
         }else if(!ex.full){
           checks.push(ex.text);
         }
@@ -616,15 +614,13 @@
       var subcoreIds=subcoreWatchIds(ids);
       if(!ex.full) return {label:"判定前", cls:"warn", detail:"展示タイム・1周・平均との差・スーパースリット取得後に買い/見送り判定"};
       if(!morning&&(stored==="急浮上参考"||(rate!==null&&rate>=40))) return {label:"急浮上参考", cls:"warn", detail:"朝監視TOP10外なので本命扱いはしません。展示後40%以上の参考枠です"};
-      if(!morning) return {label:"参考外", cls:"bad", detail:"朝監視TOP10外なので本命/準本命には入れません"};
-      if(stored==="本命"&&(buyIds.length||r.core_buy_ready===true)) return {label:"本命", cls:"good", detail:"展示後40%以上。本命通知の対象です"};
-      if(stored==="準本命"&&(subcoreIds.length||r.subcore_buy_ready===true)) return {label:"準本命", cls:"warn", showTickets:true, detail:"展示後38〜39.9%かつ準本命条件成立。準本命通知の対象です"};
+      if(!morning) return {label:"参考外", cls:"bad", detail:"朝監視TOP10外なので本命には入れません"};
+      if(stored==="本命"&&(buyIds.length||r.core_buy_ready===true)) return {label:"本命", cls:"good", detail:"展示後40%以上からさらに前半1〜3R・外頭2番手・1号艇消し・5/6絡みまで揃った本命絞りです"};
       if(stored==="見送り") return {label:"見送り", cls:"bad", detail:finalCheckText(r)||"展示後データでは買い条件が足りません"};
-      if(buyIds.length) return {label:"本命買い候補", cls:"good", detail:"長期検証で最も筋がよかった直前核心条件に該当: "+buyIds.join(" / ")};
-      if(subcoreIds.length) return {label:"準本命候補", cls:"warn", showTickets:true, detail:"AI+最下位の5/6号艇が展示で浮上。万舟監視として前向き検証中: "+subcoreIds.join(" / ")};
-      if(rate!==null&&rate>=40) return {label:"本命条件不足", cls:"bad", detail:"展示後40%以上ですが、12点買い目を作る条件が揃っていません"};
-      if(rate!==null&&rate>=38) return {label:"準本命条件不足", cls:"bad", detail:"展示後38〜39.9%ですが、1号艇危険・外頭2艇(5/6含む)・内軸残り・12点生成が揃っていません"};
-      if(ids.length) return {label:"急浮上監視", cls:"warn", detail:"直前の荒れ材料はあります。ただし本命・準本命条件ではないため買い通知対象外: "+ids.join(" / ")};
+      if(buyIds.length) return {label:"本命買い候補", cls:"good", detail:"長期検証で最も筋がよかった本命絞り条件に該当: "+buyIds.join(" / ")};
+      if(rate!==null&&rate>=40) return {label:"本命条件不足", cls:"bad", detail:"展示後40%以上ですが、本命絞り条件(前半1〜3R・外頭2番手・1号艇消し・5/6絡み)が揃っていません"};
+      if(rate!==null&&rate>=38) return {label:"見送り", cls:"bad", detail:"展示後38〜39.9%です。本命絞りは40%以上からなので買い通知対象外です"};
+      if(ids.length) return {label:"急浮上監視", cls:"warn", detail:"直前の荒れ材料はあります。ただし本命条件ではないため買い通知対象外: "+ids.join(" / ")};
       return {label:"見送り", cls:"bad", detail:"展示後データでは、万舟率が上がる直前条件が揃っていません"};
     }
     function buyDecisionHtml(r){
@@ -635,7 +631,7 @@
         "<div class=\"simple-box\"><h3>買い / 見送り</h3>",
         "<p class=\"lead\"><b class=\"badge "+esc(d.cls)+"\">"+esc(d.label)+"</b> "+esc(d.detail)+"</p>",
         checks?"<p class=\"mini\"><b>展示後チェック:</b> "+esc(checks)+"</p>":"",
-        (d.cls==="good"||d.showTickets)&&tickets.length?"<p class=\"mini\">"+esc(ticketLabel)+": "+esc(tickets.join(" / "))+"</p>":"<p class=\"mini\">買い候補になった時だけ、10〜15点の買い目を表示します。</p>",
+        (d.cls==="good"||d.showTickets)&&tickets.length?"<p class=\"mini\">"+esc(ticketLabel)+": "+esc(tickets.join(" / "))+"</p>":"<p class=\"mini\">本命絞り候補になった時だけ、回収率重視の少点数買い目を表示します。</p>",
         "</div>"
       ].join("");
     }
@@ -858,7 +854,7 @@
         "<div class=\"metric\"><b>"+esc(outerGen<0?'--':pct(outerGen))+"</b><span>5/6一般3連対最大</span></div>",
         "</div>",
         "<p class=\"lead\" style=\"margin-top:10px\">朝に使うデータ: 一般3連対率・平均ST順位・1号艇の逃げ/差され/まくられ・スリット隊形近似・風波・対戦相性・展示前オッズ。BOATERS AI、展示、1周、直前AIオッズ評価は朝には使いません。</p>",
-        "<p class=\"lead\" style=\"margin-top:6px\">直前: BOATERS AI・展示・実オッズ取得後、38〜39.9%なら準本命、40%以上なら本命通知します。</p>",
+        "<p class=\"lead\" style=\"margin-top:6px\">直前: BOATERS AI・展示・実オッズ取得後、展示後40%以上かつ本命絞り条件まで揃った時だけ通知します。</p>",
         "</div>",
         "</details>"
       ].join("");
@@ -893,30 +889,28 @@
       var watchRows=currentCandidateRows();
       var signalRows=watchRows.filter(function(r){
         var label=buyDecision(r).label;
-        return label==="本命"||label.indexOf("準本命")===0;
+        return label==="本命";
       });
       var referenceRows=currentFinalRows().filter(function(r){
         return !isMorningWatch(r)&&buyDecision(r).label==="急浮上参考";
       }).slice(0,5);
       var core=signalRows.filter(function(r){return buyDecision(r).label==="本命";}).length;
-      var sub=signalRows.filter(function(r){return buyDecision(r).label.indexOf("準本命")===0;}).length;
       var waiting=watchRows.filter(function(r){return buyDecision(r).label==="判定前";}).length;
       var skip=watchRows.filter(function(r){return buyDecision(r).label==="見送り";}).length;
       if(!watchRows.length){
-        panel.innerHTML="<h2>展示後 本命/準本命判定</h2><p class=\"lead\">展示後ランキングJSONがまだありません。生成後に表示します。</p>";
+        panel.innerHTML="<h2>展示後 本命絞り判定</h2><p class=\"lead\">展示後ランキングJSONがまだありません。生成後に表示します。</p>";
         return;
       }
       panel.innerHTML=[
         "<h2>朝監視TOP10の展示後判定</h2>",
-        "<p class=\"candidate-note\">朝監視TOP10に入ったレースは、展示後に本命/準本命にならなくても全て表示します。買わない時も、足りなかった条件をここで確認できます。</p>",
+        "<p class=\"candidate-note\">朝監視TOP10に入ったレースは、展示後に本命にならなくても全て表示します。買わない時も、足りなかった条件をここで確認できます。</p>",
         "<div class=\"chips\" style=\"margin-bottom:10px\">",
         "<span class=\"chip hot\">本命 "+core+"R</span>",
-        "<span class=\"chip warn\">準本命 "+sub+"R</span>",
         "<span class=\"chip\">判定前 "+waiting+"R</span>",
         "<span class=\"chip\">見送り "+skip+"R</span>",
         "</div>",
         "<div class=\"race-list\">"+watchRows.map(raceCardHtml).join("")+"</div>",
-        signalRows.length?"":"<p class=\"lead\">本命/準本命はまだありませんが、展示後に見送りになった理由も各カード内に表示しています。</p>",
+        signalRows.length?"":"<p class=\"lead\">本命絞りはまだありませんが、展示後に見送りになった理由も各カード内に表示しています。</p>",
         "<h2 style=\"margin-top:18px\">急浮上参考（朝監視TOP10外）</h2>",
         "<p class=\"candidate-note\">朝の荒れ下地がなかったため、本命扱いにはしません。展示後40%以上まで上がった時だけ参考として分けて表示します。</p>",
         referenceRows.length?"<div class=\"race-list\">"+referenceRows.map(raceCardHtml).join("")+"</div>":"<p class=\"lead\">朝監視外の急浮上参考はありません。</p>"

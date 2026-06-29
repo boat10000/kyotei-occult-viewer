@@ -1,0 +1,91 @@
+{
+  "version": "core-focus-buy-rules-v1",
+  "source_ledger": "reports/postdata_manshu_backtest/core_subcore_rules_20240101_20260629_ledger.csv",
+  "rule": "round1_3_second_head_no1_outer56",
+  "summary": [
+    {
+      "segment": "ALL",
+      "buy_races": 98,
+      "total_points": 310,
+      "avg_points": 3.16,
+      "stake_yen": 31000,
+      "payback_yen": 119070,
+      "profit_yen": 88070,
+      "roi_pct": 384.1,
+      "hit_rate_pct": 7.14,
+      "manshu_hit_rate_pct": 4.08,
+      "max_losing_streak": 24,
+      "max_drawdown_yen": 7100
+    },
+    {
+      "segment": "2024H1",
+      "buy_races": 14,
+      "total_points": 43,
+      "avg_points": 3.07,
+      "stake_yen": 4300,
+      "payback_yen": 0,
+      "profit_yen": -4300,
+      "roi_pct": 0.0,
+      "hit_rate_pct": 0.0,
+      "manshu_hit_rate_pct": 0.0,
+      "max_losing_streak": 14,
+      "max_drawdown_yen": 4300
+    },
+    {
+      "segment": "2024H2",
+      "buy_races": 15,
+      "total_points": 39,
+      "avg_points": 2.6,
+      "stake_yen": 3900,
+      "payback_yen": 3090,
+      "profit_yen": -810,
+      "roi_pct": 79.23,
+      "hit_rate_pct": 6.67,
+      "manshu_hit_rate_pct": 0.0,
+      "max_losing_streak": 12,
+      "max_drawdown_yen": 3200
+    },
+    {
+      "segment": "2025H1",
+      "buy_races": 21,
+      "total_points": 70,
+      "avg_points": 3.33,
+      "stake_yen": 7000,
+      "payback_yen": 13340,
+      "profit_yen": 6340,
+      "roi_pct": 190.57,
+      "hit_rate_pct": 4.76,
+      "manshu_hit_rate_pct": 4.76,
+      "max_losing_streak": 14,
+      "max_drawdown_yen": 4500
+    },
+    {
+      "segment": "2025H2",
+      "buy_races": 19,
+      "total_points": 65,
+      "avg_points": 3.42,
+      "stake_yen": 6500,
+      "payback_yen": 80340,
+      "profit_yen": 73840,
+      "roi_pct": 1236.0,
+      "hit_rate_pct": 15.79,
+      "manshu_hit_rate_pct": 10.53,
+      "max_losing_streak": 9,
+      "max_drawdown_yen": 3000
+    },
+    {
+      "segment": "2026H1",
+      "buy_races": 29,
+      "total_points": 93,
+      "avg_points": 3.21,
+      "stake_yen": 9300,
+      "payback_yen": 22300,
+      "profit_yen": 13000,
+      "roi_pct": 239.78,
+      "hit_rate_pct": 6.9,
+      "manshu_hit_rate_pct": 3.45,
+      "max_losing_streak": 15,
+      "max_drawdown_yen": 4100
+    }
+  ]
+}
