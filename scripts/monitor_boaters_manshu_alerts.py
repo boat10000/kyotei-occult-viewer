@@ -785,13 +785,25 @@ def ntfy_url(config):
     return f"{server}/{topic}"
 
 
+def ascii_header(value, fallback):
+    text = str(value or "")
+    try:
+        text.encode("latin-1")
+        return text
+    except UnicodeEncodeError:
+        return fallback
+
+
 def send_ntfy(config, title, message, tags="rotating_light", priority=None):
     url = ntfy_url(config)
     if not url:
         return {"enabled": False, "reason": "ntfy_topic not configured"}
+    safe_title = ascii_header(title, "BOATERS Alert")
+    if safe_title != str(title or ""):
+        message = f"{title}\n\n{message}"
     headers = {
-        "Title": title,
-        "Tags": tags,
+        "Title": safe_title,
+        "Tags": ascii_header(tags, "boat"),
         "Priority": str(priority or config.get("ntfy_priority") or "high"),
     }
     token = config.get("ntfy_token")
