@@ -29,6 +29,13 @@
     .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px}
     #buff-panel,.factor-panel{display:none!important}
     .panel h2{margin:0 0 8px;font-size:18px;color:#111827}
+    .section-fold > summary{cursor:pointer;list-style:none}
+    .section-fold > summary::-webkit-details-marker{display:none}
+    .section-summary{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .section-summary h2{margin:0 0 6px;font-size:18px}
+    .section-summary:after{content:"閉じる";border:1px solid var(--line);border-radius:999px;background:#f8fafc;color:#1d4ed8;padding:3px 8px;font-size:12px;font-weight:900;white-space:nowrap}
+    .section-fold:not([open]) .section-summary:after{content:"開く"}
+    .section-body{padding-top:10px}
     .lead{margin:0;color:var(--muted);font-size:13px}
     table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
     th,td{border-top:1px solid #edf1f7;padding:10px 8px;text-align:left;vertical-align:top}
@@ -186,12 +193,16 @@
     </section>
     <main class="layout">
       <section class="panel candidate-panel" id="watchlist-panel">
-        <h2>朝の監視候補TOP10（買いではない）</h2>
-        <p class="lead">展示前データだけで荒れる下地が強い上位10レースを表示します。スマホ通知は、この朝TOP10を締切前に再確認して、本命絞り条件まで揃った時だけ送ります。</p>
+        <details class="section-fold" open>
+          <summary><div class="section-summary"><div><h2>朝の監視候補TOP10（買いではない）</h2><p class="lead">展示前データだけで荒れる下地が強い上位10レースを表示します。</p></div></div></summary>
+          <div class="section-body"><p class="lead">スマホ通知は、この朝TOP10を締切前に再確認して、本命絞り条件まで揃った時だけ送ります。</p></div>
+        </details>
       </section>
       <section class="panel late-panel" id="final-panel">
-        <h2>本命絞り（朝監視TOP10限定）</h2>
-        <p class="lead">締切前にBOATERS AI・展示・オッズを取得できた朝監視TOP10のレースだけを、展示後40%以上からさらに前半1〜3R・外頭2番手・1号艇消し・5/6絡みで絞ります。</p>
+        <details class="section-fold" open>
+          <summary><div class="section-summary"><div><h2>本命絞り（朝監視TOP10限定）</h2><p class="lead">展示後に買うか見送るかを判定します。</p></div></div></summary>
+          <div class="section-body"><p class="lead">締切前にBOATERS AI・展示・オッズを取得できた朝監視TOP10のレースだけを、展示後40%以上からさらに前半1〜3R・外頭2番手・1号艇消し・5/6絡みで絞ります。</p></div>
+        </details>
       </section>
       <section class="panel notice">
         <h2>このページの見方</h2>
@@ -659,6 +670,16 @@
         "</details>"
       ].join("");
     }
+    function panelAccordionHtml(title, note, body, open){
+      return [
+        "<details class=\"section-fold\""+(open?" open":"")+">",
+        "<summary><div class=\"section-summary\"><div><h2>"+esc(title)+"</h2>",
+        note?"<p class=\"lead\">"+esc(note)+"</p>":"",
+        "</div></div></summary>",
+        "<div class=\"section-body\">"+body+"</div>",
+        "</details>"
+      ].join("");
+    }
     function boatsByMetric(rows, key, ranks, pool){
       var allowed=pool?new Set(pool.map(Number)):null;
       var ranked=rows.filter(function(b){
@@ -918,16 +939,16 @@
       var panel=document.getElementById(panelId);
       if(!panel) return;
       if(!rows.length){
-        panel.innerHTML="<h2>"+esc(title)+"</h2><p class=\"lead\">"+esc(emptyText)+"</p>";
+        panel.innerHTML=panelAccordionHtml(title,note,"<p class=\"lead\">"+esc(emptyText)+"</p>",true);
         return;
       }
-      panel.innerHTML=[
-        "<h2>"+esc(title)+"</h2>",
+      var body=[
         "<p class=\"candidate-note\">"+esc(note)+"</p>",
         "<div class=\"race-list\">",
         rows.map(candidateCardHtml).join(""),
         "</div>"
       ].join("");
+      panel.innerHTML=panelAccordionHtml(title,note,body,true);
     }
     function renderCandidatePanels(){
       renderCandidateSection(
@@ -953,11 +974,15 @@
       var waiting=watchRows.filter(function(r){return buyDecision(r).label==="判定前";}).length;
       var skip=watchRows.filter(function(r){return buyDecision(r).label==="見送り";}).length;
       if(!watchRows.length){
-        panel.innerHTML="<h2>展示後 本命絞り判定</h2><p class=\"lead\">展示後ランキングJSONがまだありません。生成後に表示します。</p>";
+        panel.innerHTML=panelAccordionHtml(
+          "展示後 本命絞り判定",
+          "朝監視TOP10を展示後に再判定します。",
+          "<p class=\"lead\">展示後ランキングJSONがまだありません。生成後に表示します。</p>",
+          true
+        );
         return;
       }
-      panel.innerHTML=[
-        "<h2>朝監視TOP10の展示後判定</h2>",
+      var body=[
         "<p class=\"candidate-note\">朝監視TOP10に入ったレースは、展示後に本命にならなくても全て表示します。買わない時も、足りなかった条件をここで確認できます。</p>",
         "<div class=\"chips\" style=\"margin-bottom:10px\">",
         "<span class=\"chip hot\">本命 "+core+"R</span>",
@@ -970,6 +995,12 @@
         "<p class=\"candidate-note\">朝の荒れ下地がなかったため、本命扱いにはしません。展示後40%以上まで上がった時だけ参考として分けて表示します。</p>",
         referenceRows.length?"<div class=\"race-list\">"+referenceRows.map(raceCardHtml).join("")+"</div>":"<p class=\"lead\">朝監視外の急浮上参考はありません。</p>"
       ].join("");
+      panel.innerHTML=panelAccordionHtml(
+        "朝監視TOP10の展示後判定",
+        "展示・AI・オッズ取得後に、本命/見送りを確認します。",
+        body,
+        true
+      );
     }
     function render(){
       removeVenueSummary();
@@ -1048,7 +1079,12 @@
       }
       if(!payload){
         document.getElementById("status").innerHTML="<strong>ランキングJSONが見つかりません</strong><div class=\"chips\"><span class=\"chip hot\">"+esc(STATE.date)+"</span></div>";
-        document.getElementById("watchlist-panel").innerHTML="<h2>朝の監視候補TOP10（買いではない）</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
+        document.getElementById("watchlist-panel").innerHTML=panelAccordionHtml(
+          "朝の監視候補TOP10（買いではない）",
+          "展示前の監視リストです。",
+          "<p class=\"lead\">data/output の今日分JSONがまだありません。</p>",
+          true
+        );
         return;
       }
       STATE.data=payload;
