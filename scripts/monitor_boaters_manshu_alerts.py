@@ -865,6 +865,27 @@ def push_notifications(payload, state, now):
     }
 
 
+def push_test_notification(now):
+    config = load_push_config()
+    result = send_ntfy(
+        config,
+        "BOATERS通知テスト",
+        (
+            "BOATERS万舟通知のテストです。\n"
+            f"送信時刻: {now.isoformat(timespec='seconds')}\n"
+            "この通知がスマホに届けば、ntfy送信経路は生きています。"
+        ),
+        tags="white_check_mark,boat",
+        priority="urgent",
+    )
+    return {
+        "version": "boaters-manshu-alerts-v1",
+        "generated_at": now.isoformat(timespec="seconds"),
+        "test_push": True,
+        "push": result,
+    }
+
+
 def rank_values(rows, key, ascending=True):
     vals = sorted(
         {row[key] for row in rows if row.get(key) is not None},
@@ -3348,7 +3369,7 @@ def monitor(args):
     races = ranking_rows(ranking, args.top_n)
     morning_ids = {race.get("race_id") for race in races}
     state = load_json(state_path(date_text), {"sent": {}})
-    sent = state.setdefault("sent", {})
+    pushed = state.setdefault("pushed", {})
 
     inspected = []
     alerts = []
@@ -3528,8 +3549,8 @@ def monitor(args):
             if alert_type is None:
                 return
             alert_strategies = selection_strategies
-            key = f"{race.get('race_id')}:{alert_type}:{','.join(s['strategy_id'] for s in alert_strategies)}"
-            if sent.get(key):
+            push_key = f"alert:{race.get('race_id')}:{alert_type}"
+            if pushed.get(push_key):
                 return
             message_race = dict(race)
             if morning_rank:
@@ -3556,7 +3577,6 @@ def monitor(args):
                 "message": make_message(message_race, alert_type, metrics, checks, alert_strategies),
             }
             alerts.append(alert)
-            sent[key] = now.isoformat(timespec="seconds")
         except Exception as exc:
             inspected.append(
                 {
@@ -3673,6 +3693,7 @@ def main():
     )
     parser.add_argument("--no-refresh", action="store_true", help="Use cached BOATERS pages when available.")
     parser.add_argument("--offline", action="store_true", help="Do not fetch BOATERS pages; only test scheduling windows.")
+    parser.add_argument("--test-push", action="store_true", help="Send a smartphone test notification through the configured ntfy route and exit.")
     parser.add_argument("--no-push", action="store_true", help="Disable smartphone push notifications.")
     parser.add_argument("--no-public-metrics-update", action="store_true", help="Do not merge fetched exhibition metrics back into the public morning-order ranking JSON.")
     parser.add_argument(
@@ -3682,9 +3703,10 @@ def main():
         help="After deadline, still fetch ranking races with missing exhibition data for this many hours. Set 0 to disable.",
     )
     args = parser.parse_args()
-    payload = monitor(args)
+    now = parse_dt(args.now) if args.now else datetime.now(JST)
+    payload = push_test_notification(now) if args.test_push else monitor(args)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
-    return 0
+    return 0 if not args.test_push or payload.get("push", {}).get("ok") else 1
 
 
 if __name__ == "__main__":
