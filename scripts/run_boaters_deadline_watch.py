@@ -131,7 +131,7 @@ def main() -> int:
     parser.add_argument("--top-n", type=int, default=10)
     parser.add_argument("--target-minutes", type=float, default=10.0)
     parser.add_argument("--early-tolerance-minutes", type=float, default=1.0)
-    parser.add_argument("--late-tolerance-minutes", type=float, default=1.0)
+    parser.add_argument("--late-tolerance-minutes", type=float, default=4.0)
     parser.add_argument("--threshold", type=float, default=27.0)
     parser.add_argument("--public-base", default=PUBLIC_BASE)
     parser.add_argument("--no-run", action="store_true", help="Only report due races; do not run the BOATERS monitor.")
@@ -246,15 +246,68 @@ def main() -> int:
     completed = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True)
     result["command"] = cmd
     result["monitor_returncode"] = completed.returncode
+    monitor_payload: dict[str, Any] | None = None
     if completed.stdout:
         try:
-            result["monitor_payload"] = json.loads(completed.stdout)
+            monitor_payload = json.loads(completed.stdout)
+            result["monitor_payload"] = monitor_payload
         except json.JSONDecodeError:
             result["monitor_stdout"] = completed.stdout[-4000:]
     if completed.stderr:
         result["monitor_stderr"] = completed.stderr[-4000:]
 
+    due_ids = {str(row.get("race_id")) for row in due}
+    inspected_rows = (monitor_payload or {}).get("inspected") or []
+    ready_ids = {
+        str(item.get("race_id"))
+        for item in inspected_rows
+        if str(item.get("race_id")) in due_ids
+        and item.get("status") == "checked"
+        and item.get("preview_ready") is not False
+    }
+    failed_ids = {
+        str(item.get("race_id"))
+        for item in inspected_rows
+        if str(item.get("race_id")) in due_ids and item.get("status") == "fetch_failed"
+    }
+    missing_ready_ids = due_ids - ready_ids
+    min_minutes_to_deadline = min((float(row.get("minutes_to_deadline") or 0) for row in due), default=0)
+    final_retry_point = lower + 0.25
+    should_retry = (
+        completed.returncode != 0
+        or bool(failed_ids)
+        or bool(missing_ready_ids)
+    ) and min_minutes_to_deadline > final_retry_point
+
+    if should_retry:
+        result["status"] = "waiting_for_boaters_data"
+        result["retry_reason"] = {
+            "failed_race_ids": sorted(failed_ids),
+            "missing_ready_race_ids": sorted(missing_ready_ids),
+            "minutes_to_deadline": min_minutes_to_deadline,
+            "retry_until_minutes_to_deadline": lower,
+        }
+        attempts = state.setdefault("attempts", {})
+        for row in due:
+            attempts.setdefault(str(row.get("race_id")), []).append(
+                {
+                    "attempted_at": now.isoformat(timespec="seconds"),
+                    "race": row.get("race"),
+                    "deadline_time": row.get("deadline_time"),
+                    "minutes_to_deadline": row.get("minutes_to_deadline"),
+                    "monitor_returncode": completed.returncode,
+                    "failed": str(row.get("race_id")) in failed_ids,
+                    "ready": str(row.get("race_id")) in ready_ids,
+                }
+            )
+        state["updated_at"] = now.isoformat(timespec="seconds")
+        save_json(state_path, state)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+
     status = "monitor_ok" if completed.returncode == 0 else "monitor_failed"
+    if completed.returncode == 0 and missing_ready_ids:
+        status = "data_unavailable_final"
     result["status"] = status
     for row in due:
         handled[str(row.get("race_id"))] = {
