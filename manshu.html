@@ -96,6 +96,12 @@
     .race-body{border-top:1px solid #edf1f7;padding:12px 14px;background:#fcfdff}
     .simple-box{border:1px solid #dbe3ef;border-radius:8px;background:#fff;padding:10px;margin-bottom:10px}
     .simple-box h3{margin:0 0 6px;font-size:15px;color:#111827}
+    .accordion-box{border:1px solid #dbe3ef;border-radius:8px;background:#fff;margin-bottom:10px;overflow:hidden}
+    .accordion-box > summary{cursor:pointer;list-style:none;padding:10px 12px;font-size:14px;font-weight:900;color:#111827;background:#f8fafc}
+    .accordion-box > summary::-webkit-details-marker{display:none}
+    .accordion-box > summary:after{content:"開く";float:right;color:#1d4ed8;font-size:12px}
+    .accordion-box[open] > summary:after{content:"閉じる"}
+    .accordion-body{padding:10px 12px;border-top:1px solid #edf1f7}
     .b1-danger-card{border:1px solid #fed7aa;border-left:6px solid #f59e0b;border-radius:8px;background:#fff7ed;padding:10px;margin:10px 0}
     .b1-danger-card.danger,.b1-danger-card.super{border-color:#fecdd3;border-left-color:#be123c;background:#fff1f2}
     .b1-danger-top{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
@@ -645,6 +651,14 @@
         "</div>"
       ].join("");
     }
+    function accordionHtml(title, body, open){
+      return [
+        "<details class=\"accordion-box\""+(open?" open":"")+">",
+        "<summary>"+esc(title)+"</summary>",
+        "<div class=\"accordion-body\">"+body+"</div>",
+        "</details>"
+      ].join("");
+    }
     function boatsByMetric(rows, key, ranks, pool){
       var allowed=pool?new Set(pool.map(Number)):null;
       var ranked=rows.filter(function(b){
@@ -798,10 +812,11 @@
     }
     function probabilityHtml(r){
       var res=resultOf(r);
+      var popular=popularB1Html(r);
       return [
-        roleDetailHtml(r),
-        boatRatesHtml(r),
-        popularB1Html(r),
+        accordionHtml("1着固定・軸の根拠", roleDetailHtml(r), false),
+        accordionHtml("各号艇の複合1着率・3着内率", boatRatesHtml(r), false),
+        popular?accordionHtml("人気1号艇の危険ロジック", popular, false):"",
         "<p class=\"mini\">決まり目: <b>"+esc(res.trifecta||"--")+"</b> / 配当: <b>"+esc(yen(res.payout_yen))+"</b>"+(res.manshu?" <span class=\"manshu\">万舟</span>":"")+"</p>"
       ].join("");
     }
@@ -842,7 +857,7 @@
         "</summary>",
         "<div class=\"race-body\">",
         buyDecisionHtml(r),
-        "<div class=\"simple-box\"><h3>数字で見る</h3>"+probabilityHtml(r)+"</div>",
+        probabilityHtml(r),
         detailFactorsHtml(r),
         "</div>",
         "</details>"
@@ -856,6 +871,21 @@
       var mr=morningRate(r), lm=lastMinuteRate(r);
       var shownRate=lm!==null?lm:num(r.manshu_rate_pct);
       var rateLabel=lm!==null?("展示後確認率 / 朝 "+pctShort(mr)):"展示前万舟率 / 点数 "+(r.candidate_score==null?"--":Number(r.candidate_score).toFixed(1).replace(/\.0$/,""));
+      var morningReason=[
+        "<p class=\"lead\">"+esc(reasons.join(" / ")||r.condition||"展示前データで判定")+"</p>"
+      ].join("");
+      var morningMetrics=[
+        "<div class=\"cards\">",
+        "<div class=\"metric\"><b>"+esc(pct(m.boat1_nige_pct))+"</b><span>1号艇逃げ率</span></div>",
+        "<div class=\"metric\"><b>"+esc(pct(m.boat1_loss_pct))+"</b><span>1号艇逃げ失敗</span></div>",
+        "<div class=\"metric\"><b>"+esc(b1St==null?'--':Number(b1St).toFixed(1).replace(/\\.0$/,''))+"</b><span>1号艇平均ST順位</span></div>",
+        "<div class=\"metric\"><b>"+esc(outerGen<0?'--':pct(outerGen))+"</b><span>5/6一般3連対最大</span></div>",
+        "</div>"
+      ].join("");
+      var morningMemo=[
+        "<p class=\"lead\">朝に使うデータ: 一般3連対率・平均ST順位・1号艇の逃げ/差され/まくられ・スリット隊形近似・風波・対戦相性・展示前オッズ。BOATERS AI、展示、1周、直前AIオッズ評価は朝には使いません。</p>",
+        "<p class=\"lead\" style=\"margin-top:6px\">直前: BOATERS AI・展示・実オッズ取得後、展示後40%以上かつ本命絞り条件まで揃った時だけ通知します。</p>"
+      ].join("");
       return [
         "<details class=\"race-card\">",
         "<summary>",
@@ -877,15 +907,9 @@
         "</div>",
         "</summary>",
         "<div class=\"race-body\">",
-        "<div class=\"simple-box\"><h3>朝に拾った理由</h3><p class=\"lead\">"+esc(reasons.join(" / ")||r.condition||"展示前データで判定")+"</p></div>",
-        "<div class=\"cards\">",
-        "<div class=\"metric\"><b>"+esc(pct(m.boat1_nige_pct))+"</b><span>1号艇逃げ率</span></div>",
-        "<div class=\"metric\"><b>"+esc(pct(m.boat1_loss_pct))+"</b><span>1号艇逃げ失敗</span></div>",
-        "<div class=\"metric\"><b>"+esc(b1St==null?'--':Number(b1St).toFixed(1).replace(/\\.0$/,''))+"</b><span>1号艇平均ST順位</span></div>",
-        "<div class=\"metric\"><b>"+esc(outerGen<0?'--':pct(outerGen))+"</b><span>5/6一般3連対最大</span></div>",
-        "</div>",
-        "<p class=\"lead\" style=\"margin-top:10px\">朝に使うデータ: 一般3連対率・平均ST順位・1号艇の逃げ/差され/まくられ・スリット隊形近似・風波・対戦相性・展示前オッズ。BOATERS AI、展示、1周、直前AIオッズ評価は朝には使いません。</p>",
-        "<p class=\"lead\" style=\"margin-top:6px\">直前: BOATERS AI・展示・実オッズ取得後、展示後40%以上かつ本命絞り条件まで揃った時だけ通知します。</p>",
+        accordionHtml("朝に拾った理由", morningReason, true),
+        accordionHtml("朝データの数字", morningMetrics, false),
+        accordionHtml("朝監視の運用メモ", morningMemo, false),
         "</div>",
         "</details>"
       ].join("");
