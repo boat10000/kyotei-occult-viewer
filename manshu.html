@@ -126,8 +126,6 @@
     .factor-panel h2{color:#065f46}
     .candidate-panel{border-left:6px solid var(--blue)}
     .candidate-panel h2{color:#0f3f91}
-    .core-panel{border-left:6px solid var(--green)}
-    .core-panel h2{color:#065f46}
     .late-panel{border-left-color:var(--amber)}
     .late-panel h2{color:#92400e}
     .candidate-note{margin:0 0 10px;color:#475467;font-size:13px}
@@ -166,9 +164,10 @@
     <header class="header">
       <p class="eyebrow">CODEX MORNING WATCHLIST</p>
       <h1 id="page-title">朝の荒れ監視リスト</h1>
-      <p>一般戦だけを対象に、展示前に使えるデータで「荒れる下地」を探します。朝は監視リスト、締切前はBOATERS AI・展示・オッズを入れて、35%以上なら本命通知します。</p>
+      <p>これは買い目ページではありません。一般戦だけを対象に、展示前に使えるデータで「あとで確認する荒れ候補」を探します。最終判断は締切前にBOATERS AI・展示・オッズを入れてから行います。</p>
     </header>
     <nav class="nav">
+      <a href="manshu_codex.html">展示後の本命/準本命</a>
       <a id="posts-link" href="manshu_posts.html">投稿センター</a>
       <a href="manshu_chokuzen.html">直前予報</a>
       <a href="manshu_days.html">過去結果</a>
@@ -181,16 +180,12 @@
     </section>
     <main class="layout">
       <section class="panel candidate-panel" id="watchlist-panel">
-        <h2>朝の荒れ監視TOP10</h2>
-        <p class="lead">展示前データだけで荒れる下地が強い上位10レースを表示します。スマホ通知はこの朝TOP10の中から、展示後35%以上になったレースだけを本命扱いします。</p>
-      </section>
-      <section class="panel core-panel" id="core-forward-panel">
-        <h2>本命買い 前向き検証</h2>
-        <p class="lead">直前本命条件に入ったレースだけを、買い目と結果込みで集計します。</p>
+        <h2>朝の監視候補TOP10（買いではない）</h2>
+        <p class="lead">展示前データだけで荒れる下地が強い上位10レースを表示します。スマホ通知は、この朝TOP10を締切前に再確認して、38〜39.9%で条件一致なら準本命、40%以上なら本命として送ります。</p>
       </section>
       <section class="panel notice">
         <h2>このページの見方</h2>
-        <p class="lead">朝のリストは買い目ではありません。締切10〜15分前にBOATERS AI・展示・実オッズを入れて、朝の荒れ下地が展示後も残ったレースだけを買い候補にします。</p>
+        <p class="lead">朝のリストは買い目ではありません。ここで拾った候補を締切前に再確認し、展示後38〜39.9%で条件が揃えば準本命、40%以上なら本命として通知します。</p>
       </section>
     </main>
     <footer>研究・記録用。的中や利益を保証するものではありません。</footer>
@@ -199,7 +194,7 @@
     "use strict";
     var MAN = 10000;
     var RESULT_REFRESH_MS = 30000;
-    var STATE = { date: "", data: null, core: null, resultMap: {}, resultPollTimer: null, lastResultCheck: "", resultFetchError: "" };
+    var STATE = { date: "", data: null, resultMap: {}, resultPollTimer: null, lastResultCheck: "", resultFetchError: "" };
     function q(name){ return new URLSearchParams(location.search).get(name); }
     function todayJst(){ return new Date().toLocaleDateString("sv-SE",{timeZone:"Asia/Tokyo"}); }
     function ymd(date){ return date.replace(/-/g,""); }
@@ -212,7 +207,6 @@
     }
     function resultUrl(date){ return "https://boatraceopenapi.github.io/results/v2/"+date.slice(0,4)+"/"+ymd(date)+".json"; }
     function liveResultUrl(date){ return resultUrl(date)+"?_="+Date.now(); }
-    function coreReportUrl(){ return "data/output/core_buy_forward_validation.json?v=core1&_="+Date.now(); }
     function timeJst(){ return new Date().toLocaleTimeString("ja-JP",{timeZone:"Asia/Tokyo",hour12:false}); }
     function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
     function pct(v){ return v==null?"--":Number(v).toFixed(2).replace(/\.00$/,"")+"%"; }
@@ -296,7 +290,7 @@
         "<div class=\"chips\">",
         "<span class=\"chip hot\">TOP"+rows.length+"</span>",
         "<span class=\"chip\">展示前データ得点式</span>",
-        "<span class=\"chip ok\">通知は朝TOP10×展示後35%以上</span>",
+        "<span class=\"chip ok\">通知は38〜39.9%準本命 / 40%以上本命</span>",
         "<span class=\"chip\">結果 "+settled+"/"+rows.length+"R</span>",
         "<span class=\"chip "+(hits?"hot":"")+"\">万舟 "+hits+"件</span>",
         "<span class=\"chip "+(popularB1Danger?"hot":"")+"\">人気1号艇危険 "+popularB1Danger+"R</span>",
@@ -772,7 +766,7 @@
         "<div class=\"metric\"><b>"+esc(outerGen<0?'--':pct(outerGen))+"</b><span>5/6一般3連対最大</span></div>",
         "</div>",
         "<p class=\"lead\" style=\"margin-top:10px\">朝に使うデータ: 一般3連対率・平均ST順位・1号艇の逃げ/差され/まくられ・スリット隊形近似・風波・対戦相性・展示前オッズ。BOATERS AI、展示、1周、直前AIオッズ評価は朝には使いません。</p>",
-        "<p class=\"lead\" style=\"margin-top:6px\">直前: BOATERS AI・展示・実オッズ取得後、朝TOP10の中で展示後35%以上なら本命通知します。</p>",
+        "<p class=\"lead\" style=\"margin-top:6px\">直前: BOATERS AI・展示・実オッズ取得後、38〜39.9%で条件一致なら準本命、40%以上なら本命通知します。</p>",
         "</div>",
         "</details>"
       ].join("");
@@ -795,36 +789,11 @@
     function renderCandidatePanels(){
       renderCandidateSection(
         "watchlist-panel",
-        "朝の荒れ監視TOP10",
-        "全レースを展示前データだけで点数化し、荒れる下地が強い順に10レース表示します。買い判定はこの朝TOP10の中から展示後35%以上になったレースだけです。",
+        "朝の監視候補TOP10（買いではない）",
+        "全レースを展示前データだけで点数化し、荒れる下地が強い順に10レース表示します。買い判定は締切前にBOATERS AI・展示・実オッズを入れ直してからです。",
         currentCandidateRows(),
         "朝の荒れ監視JSONがまだありません。生成後にTOP10を表示します。"
       );
-    }
-    function renderCoreForwardPanel(){
-      var panel=document.getElementById("core-forward-panel");
-      if(!panel) return;
-      var data=STATE.core||{}, summary=data.summary||{}, picks=data.picks||[];
-      var recent=picks.slice(-5).reverse();
-      var roi=summary.roi_pct==null?"--":pct(summary.roi_pct);
-      panel.innerHTML=[
-        "<h2>本命買い 前向き検証</h2>",
-        "<p class=\"lead\">通知で「本命買い候補」になったレースだけを買い扱いにします。旧ロジックの検証中候補はここに入れません。</p>",
-        "<div class=\"cards\">",
-        "<div class=\"metric\"><b>"+esc(summary.candidate_count||0)+"R</b><span>本命候補</span></div>",
-        "<div class=\"metric\"><b>"+esc(roi)+"</b><span>回収率</span></div>",
-        "<div class=\"metric\"><b>"+esc((summary.profit_yen||0).toLocaleString?Number(summary.profit_yen||0).toLocaleString('ja-JP'):summary.profit_yen||0)+"円</b><span>収支</span></div>",
-        "</div>",
-        picks.length?[
-          "<table><thead><tr><th>日付</th><th>レース</th><th>買い目</th><th>結果</th><th>回収</th></tr></thead><tbody>",
-          recent.map(function(p){
-            var result=p.result_trifecta?esc(p.result_trifecta+" / "+yen(p.result_payout_yen)):"未確定";
-            var hit=p.hit?"<span class=\"manshu\">的中</span>":"<span class=\"miss\">--</span>";
-            return "<tr><td>"+esc(p.date)+"</td><td><b>"+esc(p.race)+"</b><span class=\"mini\">万舟率 "+esc(pct(p.manshu_rate_pct))+"</span></td><td>"+esc((p.points||0)+"点")+"<span class=\"mini\">頭 "+esc((p.heads||[]).join(","))+" / 軸 "+esc((p.axes||[]).join(","))+" / 消し "+esc(p.keshi==null?"--":p.keshi)+"</span></td><td>"+result+"</td><td>"+hit+"<span class=\"mini\">"+esc(yen(p.payback_yen||0))+"</span></td></tr>";
-          }).join(""),
-          "</tbody></table>"
-        ].join(""):"<p class=\"lead\" style=\"margin-top:10px\">まだ本命買い候補は出ていません。条件が揃った日からここに買い目と結果が残ります。</p>"
-      ].join("");
     }
     function render(){
       removeVenueSummary();
@@ -834,7 +803,6 @@
       document.getElementById("posts-link").href="manshu_posts.html?date="+STATE.date;
       renderStatus(rows);
       renderCandidatePanels();
-      renderCoreForwardPanel();
     }
     function stopResultPolling(){
       if(STATE.resultPollTimer){
@@ -893,16 +861,10 @@
       }
       if(!payload){
         document.getElementById("status").innerHTML="<strong>ランキングJSONが見つかりません</strong><div class=\"chips\"><span class=\"chip hot\">"+esc(STATE.date)+"</span></div>";
-        document.getElementById("watchlist-panel").innerHTML="<h2>朝の荒れ監視TOP10</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
+        document.getElementById("watchlist-panel").innerHTML="<h2>朝の監視候補TOP10（買いではない）</h2><p class=\"lead\">data/output の今日分JSONがまだありません。</p>";
         return;
       }
       STATE.data=payload;
-      try{
-        var coreRes=await fetch(coreReportUrl(),{cache:"no-store"});
-        STATE.core=coreRes.ok?await coreRes.json():null;
-      }catch(e){
-        STATE.core=null;
-      }
       render();
       loadResults();
       startResultPolling();
