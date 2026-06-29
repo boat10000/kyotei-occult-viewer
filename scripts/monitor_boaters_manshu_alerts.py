@@ -2198,6 +2198,57 @@ def verified_popular_b1_exhibition_conditions(metrics, round_no):
     return [{key: value for key, value in item.items() if key != "matched"} for item in definitions if item["matched"]]
 
 
+def dominant_b1_hold_guard_from_values(
+    b1_ai_prediction_pct,
+    b1_ai_plus,
+    b1_odds_prediction_pct,
+    b1_odds_rank,
+    b1_isshu_avg_diff=None,
+    outer56_best_avg_isshu_diff=None,
+    outer56_exhibit_top2_count=0,
+):
+    """検証済みの「1号艇が強すぎる時は外枠上振れを買い材料にしすぎない」ガード。"""
+
+    if not (
+        b1_ai_prediction_pct is not None
+        and b1_ai_prediction_pct >= 70
+        and b1_ai_plus is not None
+        and b1_ai_plus >= 180
+        and b1_odds_prediction_pct is not None
+        and b1_odds_prediction_pct >= 60
+        and int(b1_odds_rank or 9) == 1
+    ):
+        return None
+
+    apparent_slow_lap = b1_isshu_avg_diff is not None and b1_isshu_avg_diff <= -0.10
+    apparent_outer_flash = (
+        outer56_best_avg_isshu_diff is not None and outer56_best_avg_isshu_diff >= 0.14
+    ) or int(outer56_exhibit_top2_count or 0) >= 1
+    if apparent_slow_lap and apparent_outer_flash:
+        return {
+            "id": "codex_dominant_b1_hold_guard_slow_outer",
+            "label": "強い1号艇ガード: 1周遅れ+5/6展示上振れでもAI/オッズで1号艇が圧倒的",
+            "sample_races": 352,
+            "b1_win_rate_pct": 76.70,
+            "b1_not_win_rate_pct": 23.30,
+            "b1_top3_miss_rate_pct": 5.40,
+            "manshu_rate_pct": 13.07,
+            "over5000_rate_pct": 21.59,
+            "median_payout_yen": 1470,
+        }
+    return {
+        "id": "codex_dominant_b1_hold_guard",
+        "label": "強い1号艇ガード: AI/オッズで1号艇が圧倒的",
+        "sample_races": 9719,
+        "b1_win_rate_pct": 80.75,
+        "b1_not_win_rate_pct": 19.25,
+        "b1_top3_miss_rate_pct": 4.67,
+        "manshu_rate_pct": 11.23,
+        "over5000_rate_pct": 18.94,
+        "median_payout_yen": 1350,
+    }
+
+
 def race_metrics(rows, date_text=None, round_no=None):
     morning_metrics = rows[0].get("_morning_metrics") or {}
     b1 = next(row for row in rows if row["boat_number"] == 1)
@@ -2230,6 +2281,7 @@ def race_metrics(rows, date_text=None, round_no=None):
     isshu_boats = sum(1 for row in rows if row.get("isshu_time") is not None)
     summer_factor = summer_b1_isshu_factor(date_text, b1.get("isshu_avg_diff"), isshu_boats)
     slit_metrics = slit_rank_metrics(rows)
+    outer56_exhibit_top2_count = sum(1 for row in outer if row.get("exhibit_rank", 9) <= 2)
     live_odds_context = {}
     live_odds_boats = {}
     for row in rows:
@@ -2266,6 +2318,15 @@ def race_metrics(rows, date_text=None, round_no=None):
         if boat1_odds_rank_int == 1 and boat1_odds_pct >= 40:
             popular_score = 35 + max(0, boat1_odds_pct - 40) * 1.2
             popular_reasons = [f"展示後オッズ評価で1号艇が1位{boat1_odds_pct:.1f}%"]
+            dominant_guard = dominant_b1_hold_guard_from_values(
+                as_num(b1.get("ai_prediction_pct")),
+                as_num(b1.get("ai_plus")),
+                boat1_odds_pct,
+                boat1_odds_rank_int,
+                b1.get("isshu_avg_diff"),
+                outer56_best_avgdiff,
+                outer56_exhibit_top2_count,
+            )
             if b1_loss is not None and b1_loss >= 45:
                 popular_score += 13 if b1_loss < 55 else 20
                 popular_reasons.append(f"逃げ失敗率{b1_loss:.1f}%")
@@ -2281,7 +2342,6 @@ def race_metrics(rows, date_text=None, round_no=None):
             if summer_factor["signal"] == "slow_fly":
                 popular_score += 9
                 popular_reasons.append("夏場1周が悪い")
-            outer56_exhibit_top2_count = sum(1 for row in outer if row.get("exhibit_rank", 9) <= 2)
             verified_metrics = {
                 "boat1_nige_pct": b1.get("nige_pct"),
                 "boat1_avg_isshu_diff": b1.get("avg_isshu_diff"),
@@ -2327,6 +2387,9 @@ def race_metrics(rows, date_text=None, round_no=None):
                 reverse=True,
             )
             popular_score = max(popular_score, as_num(morning_metrics.get("popular_b1_fly_score")) or 0)
+            if dominant_guard:
+                popular_score = min(popular_score, 44.0)
+                popular_reasons.append("強い1号艇ガードで危険判定を抑制")
             popular_score = round(bounded(popular_score, 0, 100), 1)
             if popular_score >= 75:
                 popular_level = "超危険"
@@ -2336,7 +2399,13 @@ def race_metrics(rows, date_text=None, round_no=None):
                 popular_level = "注意"
             else:
                 popular_level = "人気だが鉄板寄り"
-            if matched_conditions:
+            if dominant_guard:
+                not_win_rate = dominant_guard["b1_not_win_rate_pct"]
+                top3_miss_rate = dominant_guard["b1_top3_miss_rate_pct"]
+                manshu_rate = dominant_guard["manshu_rate_pct"]
+                rate_source = "強い1号艇ガードの長期検証"
+                matched_conditions = [dominant_guard]
+            elif matched_conditions:
                 not_win_rate = max((item.get("b1_not_win_rate_pct") or 0 for item in matched_conditions), default=0) or None
                 top3_miss_rate = max((item.get("b1_top3_miss_rate_pct") or 0 for item in matched_conditions), default=0) or None
                 manshu_rate = max((item.get("manshu_rate_pct") or 0 for item in matched_conditions), default=0) or None
@@ -2358,6 +2427,8 @@ def race_metrics(rows, date_text=None, round_no=None):
                     "popular_b1_rate_source": rate_source,
                     "popular_b1_reasons": popular_reasons[:7],
                     "popular_b1_matched_conditions": matched_conditions[:3],
+                    "dominant_b1_hold_guard": bool(dominant_guard),
+                    "dominant_b1_hold_guard_stats": dominant_guard or {},
                 }
             )
         else:
@@ -2501,7 +2572,7 @@ def race_metrics(rows, date_text=None, round_no=None):
         "outer56_isshu_top2_count": sum(
             1 for row in outer if row.get("isshu_time") is not None and row.get("isshu_rank", 9) <= 2
         ),
-        "outer56_exhibit_top2_count": sum(1 for row in outer if row.get("exhibit_rank", 9) <= 2),
+        "outer56_exhibit_top2_count": outer56_exhibit_top2_count,
         "outer56_low_aiplus_exhibit_top2_count": sum(
             1 for row in outer if row.get("ai_plus_rank", 9) >= 5 and row.get("exhibit_rank", 9) <= 2
         ),
@@ -2711,16 +2782,26 @@ def b1_danger_for_subcore(metrics):
     b1_tenji_rank = int(as_num(metrics.get("boat1_tenji_rank")) or 9)
     b1_isshu_rank = int(as_num(metrics.get("boat1_isshu_rank")) or 9)
     popular_score = as_num(metrics.get("popular_b1_fly_score")) or 0
-    danger = (
-        (b1_ai_pred is not None and b1_ai_pred < 35)
-        or (b1_nige is not None and b1_nige < 40)
-        or (b1_loss is not None and b1_loss >= 40)
-        or (b1_avg is not None and b1_avg <= 0.10)
-        or b1_tenji_rank >= 4
-        or b1_isshu_rank >= 4
-        or popular_score >= 60
-    )
+    dominant_guard = bool(metrics.get("dominant_b1_hold_guard"))
+    if dominant_guard:
+        danger = (
+            (b1_ai_pred is not None and b1_ai_pred < 35)
+            or (b1_nige is not None and b1_nige < 40)
+            or (b1_loss is not None and b1_loss >= 55)
+        )
+    else:
+        danger = (
+            (b1_ai_pred is not None and b1_ai_pred < 35)
+            or (b1_nige is not None and b1_nige < 40)
+            or (b1_loss is not None and b1_loss >= 40)
+            or (b1_avg is not None and b1_avg <= 0.10)
+            or b1_tenji_rank >= 4
+            or b1_isshu_rank >= 4
+            or popular_score >= 60
+        )
     checks.append(f"1号艇危険:{'OK' if danger else 'NG'}")
+    if dominant_guard:
+        checks.append("強い1号艇ガード:OK")
     checks.append(f"1AI予測{fmt_pct(b1_ai_pred)}")
     checks.append(f"1逃げ{fmt_pct(b1_nige)}")
     checks.append(f"1逃げ失敗{fmt_pct(b1_loss)}")

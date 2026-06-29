@@ -1563,6 +1563,76 @@ def add_edge(signals, signal_id, label, historical_rate_pct, bonus_pct, role, de
     )
 
 
+def dominant_b1_hold_guard_signal(race):
+    """Return a negative edge when the 1 boat is too dominant to overrate outside flashes."""
+
+    b1_ai_pred = num(race.get("b1_ai_prediction_pct"))
+    b1_ai_plus = num(race.get("b1_ai_plus"))
+    b1_odds_pct = num(race.get("b1_odds_prediction_pct"))
+    b1_odds_rank = int_num(race.get("b1_odds_rank"), default=9)
+    if not (
+        b1_ai_pred is not None
+        and b1_ai_pred >= 70
+        and b1_ai_plus is not None
+        and b1_ai_plus >= 180
+        and b1_odds_pct is not None
+        and b1_odds_pct >= 60
+        and b1_odds_rank == 1
+    ):
+        return None
+
+    b1_isshu_avg = num(race.get("b1_isshu_avg_diff"))
+    outer_avg = num(race.get("outer56_best_avg_isshu_diff"))
+    outer_exhibit_top2 = num(race.get("outer56_exhibit_top2_count")) or 0
+    apparent_outer_flash = (outer_avg is not None and outer_avg >= 0.14) or outer_exhibit_top2 >= 1
+    apparent_slow_lap = b1_isshu_avg is not None and b1_isshu_avg <= -0.10
+
+    if apparent_slow_lap and apparent_outer_flash:
+        label = "強い1号艇ガード: 1周遅れ+5/6展示上振れでも、AI/オッズで1号艇が圧倒的なら過大評価しない"
+        historical_rate = 13.07
+        bonus = -4.2
+        details = {
+            "verified_period": "2025-01-01_to_2026-06-29_ippan",
+            "sample_races": 352,
+            "b1_win_pct": 76.70,
+            "b1_top3_pct": 94.60,
+            "manshu_rate_pct": 13.07,
+            "over5000_rate_pct": 21.59,
+            "median_payout_yen": 1470,
+        }
+    else:
+        label = "強い1号艇ガード: AI/オッズで1号艇が圧倒的なら万舟率を上げすぎない"
+        historical_rate = 11.23
+        bonus = -3.8
+        details = {
+            "verified_period": "2025-01-01_to_2026-06-29_ippan",
+            "sample_races": 9719,
+            "b1_win_pct": 80.75,
+            "b1_top3_pct": 95.33,
+            "manshu_rate_pct": 11.23,
+            "over5000_rate_pct": 18.94,
+            "median_payout_yen": 1350,
+        }
+
+    return {
+        "id": "codex_dominant_b1_hold_guard_slow_outer" if apparent_slow_lap and apparent_outer_flash else "codex_dominant_b1_hold_guard",
+        "label": label,
+        "historical_rate_pct": historical_rate,
+        "bonus_pct": bonus,
+        "role": "dominant_b1_hold_down",
+        "details": {
+            **details,
+            "b1_ai_prediction_pct": b1_ai_pred,
+            "b1_ai_plus": b1_ai_plus,
+            "b1_odds_prediction_pct": b1_odds_pct,
+            "b1_odds_rank": b1_odds_rank,
+            "b1_isshu_avg_diff": b1_isshu_avg,
+            "outer56_avg_isshu_diff": outer_avg,
+            "outer56_exhibit_top2_count": outer_exhibit_top2,
+        },
+    }
+
+
 def composite_edge_signals(race):
     signals = []
     b1_avg = num(race.get("b1_avg_isshu_diff"))
@@ -1581,6 +1651,7 @@ def composite_edge_signals(race):
     b1_popular = b1_trifecta_top5_1head or (not has_trifecta_top5 and b1_odds_popular45)
     b1_popular40 = b1_trifecta_top5_1head or (not has_trifecta_top5 and b1_odds_popular40)
     b1_unpopular = b1_odds_pct is not None and (b1_odds_rank != 1 or b1_odds_pct < 45)
+    dominant_b1_guard = dominant_b1_hold_guard_signal(race)
     outer_ai_pred = num(race.get("outer56_best_ai_prediction_pct"))
     outer_ai_plus = num(race.get("outer56_best_ai_plus"))
     outer_avg = num(race.get("outer56_best_avg_isshu_diff"))
@@ -2009,6 +2080,9 @@ def composite_edge_signals(race):
                 "b1_odds_rank": b1_odds_rank,
             },
         )
+
+    if dominant_b1_guard:
+        signals.append(dominant_b1_guard)
 
     if (
         low_outer_boat in {5, 6}
