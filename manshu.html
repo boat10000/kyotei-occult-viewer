@@ -633,11 +633,15 @@
       var d=buyDecision(r), tickets=((r.selection||{}).tickets||[]).slice(0,20);
       var ticketLabel=d.cls==="good"?"買い目":"参考買い目";
       var checks=finalCheckText(r);
+      var s=selectionOf(r);
+      var pointText=(s.points||tickets.length||0)+"点";
+      var roleNote=s.role_note||"";
       return [
         "<div class=\"simple-box\"><h3>買い / 見送り</h3>",
         "<p class=\"lead\"><b class=\"badge "+esc(d.cls)+"\">"+esc(d.label)+"</b> "+esc(d.detail)+"</p>",
         checks?"<p class=\"mini\"><b>展示後チェック:</b> "+esc(checks)+"</p>":"",
-        (d.cls==="good"||d.showTickets)&&tickets.length?"<p class=\"mini\">"+esc(ticketLabel)+": "+esc(tickets.join(" / "))+"</p>":"<p class=\"mini\">本命絞り候補になった時だけ、回収率重視の少点数買い目を表示します。</p>",
+        (d.cls==="good"||d.showTickets)&&tickets.length?"<p class=\"mini\"><b>"+esc(ticketLabel)+" "+esc(pointText)+":</b> "+esc(tickets.join(" / "))+"</p>":"<p class=\"mini\">本命絞り候補になった時だけ、回収率重視の少点数買い目を表示します。</p>",
+        roleNote?"<p class=\"mini\"><b>狙い:</b> "+esc(roleNote)+"</p>":"",
         "</div>"
       ].join("");
     }
@@ -654,6 +658,9 @@
     function selectionOf(r){
       var s=Object.assign({},r.selection||{});
       var rows=boatRows(r);
+      if(s.head_mode==="core_front_head2_no1_outer56"&&Array.isArray(s.heads)&&s.heads.length){
+        return s;
+      }
       if(!Array.isArray(s.heads)||s.heads.length<2){
         var outerHeads=boatsByMetric(rows,"composite_win_pct",[1,2],[3,4,5,6]);
         s.heads=outerHeads.length>=2?outerHeads:boatsByMetric(rows,"composite_win_pct",[1,2]);
@@ -677,6 +684,16 @@
     }
     function quickRolesHtml(r){
       var s=selectionOf(r);
+      if(s.head_mode==="core_front_head2_no1_outer56"){
+        var fixed=(s.heads||[])[0];
+        var base=s.base_heads&&s.base_heads.length?s.base_heads:s.heads;
+        return [
+          "<div class=\"quick-roles\">",
+          "<div class=\"quick-role head\"><b>本命1着固定</b><strong>"+esc(boatsText([fixed]))+"</strong><span>元外頭候補 "+esc(boatsText(base))+" の2番手だけを頭にします</span></div>",
+          "<div class=\"quick-role axis\"><b>軸候補</b><strong>"+esc(boatsText((s.axes||[]).slice(0,2)))+"</strong><span>"+esc(s.axis_rule||"AI3連対率+一般3連対率の2位と3位")+"</span></div>",
+          "</div>"
+        ].join("");
+      }
       var heads=(s.heads||[]).slice(0,2);
       var axes=(s.axes||[]).slice(0,2);
       return [
@@ -688,6 +705,14 @@
     }
     function roleDetailHtml(r){
       var s=selectionOf(r);
+      if(s.head_mode==="core_front_head2_no1_outer56"){
+        return [
+          "<div class=\"role-detail-grid\">",
+          "<div class=\"role-detail-card\"><b>本命買い方</b><p>"+esc(s.role_note||"外頭2番手を1着固定。1号艇なし、5/6絡みだけ買います。")+"</p></div>",
+          "<div class=\"role-detail-card\"><b>軸候補</b><p>"+esc(boatsText(s.axes))+"<br>"+esc(s.axis_rule||"AI3連対率+一般3連対率の2位と3位")+"</p></div>",
+          "</div>"
+        ].join("");
+      }
       var headScores=s.head_scores||{};
       var headText=(s.heads||[]).slice(0,2).map(function(boat){
         var detail=headScores[String(boat)]||{};

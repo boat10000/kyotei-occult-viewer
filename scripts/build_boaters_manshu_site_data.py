@@ -1244,8 +1244,9 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
     selection = build_visible_selection(normalized_metrics)
     old_selection = row.get("selection") or {}
     if old_selection.get("tickets"):
-        selection["tickets"] = old_selection.get("tickets")
-        selection["points"] = old_selection.get("points")
+        merged_selection = dict(selection)
+        merged_selection.update(old_selection)
+        selection = merged_selection
     rate_num = as_num(rate) or 0.0
     preview_full = normalized_metrics["tenji_boats"] >= 6 and normalized_metrics["isshu_boats"] >= 6
     alert_type = row.get("last_minute_alert_type")

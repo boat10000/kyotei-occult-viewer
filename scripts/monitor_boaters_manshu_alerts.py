@@ -427,6 +427,10 @@ def alerts_path(date_text):
     return PUBLIC_OUT / f"boaters_manshu_alerts_{date_text.replace('-', '')}.json"
 
 
+def forward_validation_path(date_text):
+    return PUBLIC_OUT / "forward_validation" / f"core_focus_forward_{date_text.replace('-', '')}.json"
+
+
 def ranking_rows(payload, top_n):
     rows = payload.get("strict_races") or payload.get("races") or []
     return list(rows)[:top_n]
@@ -704,6 +708,82 @@ def merge_live_metrics_into_public_ranking(date_text, updates, now):
     for path in (public_ranking_path(date_text), public_codex_ranking_path(date_text)):
         changed_any = merge_live_metrics_into_ranking_path(path, updates, now) or changed_any
     return changed_any
+
+
+def update_forward_validation_log(date_text, alerts, now):
+    core_alerts = [
+        alert
+        for alert in alerts or []
+        if alert.get("alert_type") == "buy_ok"
+        and any((strategy or {}).get("strategy_id") in VALIDATED_BUY_STRATEGY_IDS for strategy in alert.get("strategies") or [])
+    ]
+    if not core_alerts:
+        return None
+    path = forward_validation_path(date_text)
+    payload = load_json(
+        path,
+        {
+            "version": "core-focus-forward-v1",
+            "date": date_text,
+            "target_roi_pct": 150,
+            "rule_id": "codex_post_core_front_head2_no1_outer56",
+            "entries": [],
+        },
+    )
+    entries = payload.setdefault("entries", [])
+    by_key = {
+        f"{entry.get('race_id')}:{entry.get('rule_id') or payload.get('rule_id')}"
+        for entry in entries
+    }
+    added = 0
+    for alert in core_alerts:
+        selection = alert.get("selection") or {}
+        strategy = next(
+            (
+                item
+                for item in alert.get("strategies") or []
+                if (item or {}).get("strategy_id") in VALIDATED_BUY_STRATEGY_IDS
+            ),
+            {},
+        )
+        key = f"{alert.get('race_id')}:{strategy.get('strategy_id') or payload.get('rule_id')}"
+        if key in by_key:
+            continue
+        tickets = selection.get("tickets") or strategy.get("tickets") or []
+        entries.append(
+            {
+                "status": "pending_result",
+                "created_at": now.isoformat(timespec="seconds"),
+                "date": alert.get("date"),
+                "race_id": alert.get("race_id"),
+                "place_name": alert.get("place_name"),
+                "round": alert.get("round"),
+                "deadline_time": alert.get("deadline_time"),
+                "morning_rank": alert.get("morning_rank"),
+                "live_rank": alert.get("live_rank"),
+                "manshu_rate_pct": alert.get("manshu_rate_pct"),
+                "rule_id": strategy.get("strategy_id") or payload.get("rule_id"),
+                "rule_label": strategy.get("label") or selection.get("label"),
+                "heads": selection.get("heads") or strategy.get("heads") or [],
+                "base_heads": selection.get("base_heads") or strategy.get("base_heads") or [],
+                "axes": selection.get("axes") or strategy.get("axes") or [],
+                "keshi": selection.get("keshi") or strategy.get("keshi"),
+                "points": len(tickets),
+                "tickets": tickets,
+                "role_note": selection.get("role_note") or strategy.get("role_note"),
+                "entry_checks": strategy.get("entry_checks") or selection.get("entry_checks") or [],
+                "odds_filter": strategy.get("odds_filter") or selection.get("odds_filter"),
+                "result": None,
+            }
+        )
+        by_key.add(key)
+        added += 1
+    if not added:
+        return str(path)
+    payload["updated_at"] = now.isoformat(timespec="seconds")
+    payload["entry_count"] = len(entries)
+    save_json(path, payload)
+    return str(path)
 
 
 def merge_live_metrics_into_ranking_path(path, updates, now):
@@ -1683,9 +1763,12 @@ def selection_payload(rows, race=None, strategies=None):
         tickets = {ticket for ticket in tickets if len(ticket) == 3}
         return {
             "version": "codex_roles_v2",
+            "strategy_id": primary_strategy.get("strategy_id"),
             "label": primary_strategy.get("label") or "Codex候補",
             "heads": primary_strategy.get("heads") or [],
+            "base_heads": primary_strategy.get("base_heads") or [],
             "head_rule": primary_strategy.get("head_rule"),
+            "head_mode": primary_strategy.get("head_mode"),
             "head_scores": primary_strategy.get("head_scores") or {},
             "axes": primary_strategy.get("axes") or [],
             "axis_rule": primary_strategy.get("axis_rule"),
@@ -1699,6 +1782,7 @@ def selection_payload(rows, race=None, strategies=None):
             "points": len(tickets),
             "tickets": [fmt_ticket(ticket) for ticket in sorted(tickets)],
             "role_note": primary_strategy.get("role_note"),
+            "entry_checks": primary_strategy.get("entry_checks") or [],
             "axis_hit": axis_hit(primary_strategy.get("axes"), trifecta),
             "alt_axis_hit": axis_hit(primary_strategy.get("alt_axes"), trifecta),
             "odds_filter": primary_strategy.get("odds_filter") or "3連単50倍未満は買わない",
@@ -3447,6 +3531,7 @@ def roi_strategies(race, metrics, rows):
             "label": label,
             "points": len(tickets),
             "heads": roles["heads"],
+            "base_heads": roles.get("base_heads", []),
             "head_rule": roles.get("head_rule"),
             "head_mode": roles.get("head_mode"),
             "head_scores": roles.get("head_scores", {}),
@@ -3603,6 +3688,7 @@ def make_message(race, alert_type, metrics, checks, strategies):
     if alert_type in {"buy_ok", "late_riser_buy_ok", "subcore_watch", "late_riser_subcore_watch"} and strategies:
         s = strategies[0]
         support_text = f" / 相手: {fmt_list(s.get('supports'))}" if s.get("supports") else ""
+        base_head_text = f" / 元外頭候補: {fmt_list(s.get('base_heads'))}" if s.get("base_heads") else ""
         entry_checks = s.get("entry_checks") or []
         all_checks = list(entry_checks or checks or [])
         if s.get("strategy_id") in VALIDATED_BUY_STRATEGY_IDS:
@@ -3617,8 +3703,9 @@ def make_message(race, alert_type, metrics, checks, strategies):
             f"直前条件: {' / '.join(all_checks)}\n"
             f"買い方: {s['label']} / {s['points']}点 / {s['odds_filter']}\n"
             f"頭候補: {fmt_list(s['heads'])} / 軸: {fmt_list(s['axes'])}"
-            f"({s.get('axis_rule','AI+1位3位')}) / 比較軸: {fmt_list(s.get('alt_axes'))}"
+            f"{base_head_text}({s.get('axis_rule','AI+1位3位')}) / 比較軸: {fmt_list(s.get('alt_axes'))}"
             f"{support_text} / 消し: {fmt_role(s['keshi'])}\n"
+            f"狙い: {s.get('role_note') or '本命絞り'}\n"
             f"消し理由: {s.get('keshi_reason') or '-'}\n"
             f"買い目: {' '.join(s['tickets'])}"
         )
@@ -3944,6 +4031,7 @@ def monitor(args):
     public_metrics_updated = False
     if not args.no_public_metrics_update:
         public_metrics_updated = merge_live_metrics_into_public_ranking(date_text, public_updates, now)
+    forward_validation_log_path = update_forward_validation_log(date_text, alerts, now)
 
     payload = {
         "version": "boaters-manshu-alerts-v1",
@@ -3952,6 +4040,7 @@ def monitor(args):
         "ranking_path": str(ranking_path),
         "public_ranking_path": str(public_ranking_path(date_text)),
         "live_ranking_path": str(live_path) if live_path else None,
+        "forward_validation_log_path": forward_validation_log_path,
         "public_metrics_updated": public_metrics_updated,
         "top_n": args.top_n,
         "live_top_n": args.live_top_n,
