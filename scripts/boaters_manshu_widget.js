@@ -13,6 +13,8 @@
 
   var STATE = {
     data: null,
+    monitor: null,
+    live: null,
     resultMap: {}
   };
 
@@ -23,6 +25,16 @@
       prefix + "boaters_manshu_ranking_codex_" + key + ".json?v=codex12",
       prefix + "boaters_manshu_ranking_" + key + ".json?v=codex12"
     ];
+  }
+
+  function monitorUrl(date) {
+    var key = date.replace(/-/g, "");
+    return assetPrefix() + "data/output/boaters_manshu_alerts_" + key + ".json?v=monitor1";
+  }
+
+  function liveUrl(date) {
+    var key = date.replace(/-/g, "");
+    return assetPrefix() + "data/output/boaters_manshu_live_ranking_" + key + ".json?v=monitor1";
   }
 
   function resultUrl(date) {
@@ -134,6 +146,13 @@
       ".boaters-manshu .bm-summary{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}",
       ".boaters-manshu .bm-chip{background:#fff7ed;border:1px solid #fed7aa;border-radius:999px;color:#9a3412;font-size:12px;font-weight:700;padding:6px 10px}",
       ".boaters-manshu .bm-chip.hot{background:#fee2e2;border-color:#fecaca;color:#991b1b}",
+      ".boaters-manshu .bm-chip.ok{background:#ecfdf5;border-color:#bbf7d0;color:#047857}",
+      ".boaters-manshu .bm-chip.wait{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}",
+      ".boaters-manshu .bm-monitor{border:1px solid #dbeafe;background:#f8fbff;border-radius:8px;padding:12px;margin:12px 0 16px}",
+      ".boaters-manshu .bm-monitor h3{font-size:15px;margin:0 0 6px;color:#1e3a8a}",
+      ".boaters-manshu .bm-monitor-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}",
+      ".boaters-manshu .bm-stat{background:#fff;border:1px solid #dbe3ef;border-radius:8px;padding:8px}",
+      ".boaters-manshu .bm-stat b{display:block;font-size:18px;color:#0f172a}",
       ".boaters-manshu .bm-table{width:100%;border-collapse:collapse;margin-top:8px}",
       ".boaters-manshu .bm-table th,.boaters-manshu .bm-table td{border-top:1px solid #e5e7eb;padding:9px 8px;text-align:left;vertical-align:top}",
       ".boaters-manshu .bm-table th{font-size:12px;color:#475569;background:#f8fafc}",
@@ -150,9 +169,64 @@
       ".boaters-manshu .bm-subhead{font-size:15px;font-weight:900;color:#334155;margin:18px 0 4px}",
       ".boaters-manshu .bm-hit{color:#dc2626;font-weight:800}",
       ".boaters-manshu .bm-miss{color:#475569;font-weight:700}",
-      "@media(max-width:720px){.boaters-manshu .bm-table,.boaters-manshu .bm-table thead,.boaters-manshu .bm-table tbody,.boaters-manshu .bm-table tr,.boaters-manshu .bm-table th,.boaters-manshu .bm-table td{display:block}.boaters-manshu .bm-table thead{display:none}.boaters-manshu .bm-table tr{border-top:1px solid #e5e7eb;padding:10px 0}.boaters-manshu .bm-table td{border:0;padding:4px 0}.boaters-manshu .bm-rate{font-size:18px}}"
+      "@media(max-width:720px){.boaters-manshu .bm-monitor-grid{grid-template-columns:1fr}.boaters-manshu .bm-table,.boaters-manshu .bm-table thead,.boaters-manshu .bm-table tbody,.boaters-manshu .bm-table tr,.boaters-manshu .bm-table th,.boaters-manshu .bm-table td{display:block}.boaters-manshu .bm-table thead{display:none}.boaters-manshu .bm-table tr{border-top:1px solid #e5e7eb;padding:10px 0}.boaters-manshu .bm-table td{border:0;padding:4px 0}.boaters-manshu .bm-rate{font-size:18px}}"
     ].join("");
     document.head.appendChild(style);
+  }
+
+  function monitorStatusHtml(data) {
+    var monitor = STATE.monitor || {};
+    var live = STATE.live || {};
+    var inspected = monitor.inspected || [];
+    var alerts = monitor.alerts || [];
+    var statusCounts = {};
+    inspected.forEach(function (item) {
+      statusCounts[item.status || "unknown"] = (statusCounts[item.status || "unknown"] || 0) + 1;
+    });
+    var checked = inspected.filter(function (item) { return item.status === "checked"; });
+    var backfilled = inspected.filter(function (item) { return item.status === "backfilled_missing_exhibition"; });
+    var failed = inspected.filter(function (item) { return item.status === "fetch_failed"; });
+    var previewReady = inspected.filter(function (item) { return item.preview_ready; });
+    var outside = statusCounts.outside_window || 0;
+    var summary = data.summary || {};
+    var liveSummary = live.summary || {};
+    var lines = checked.concat(backfilled).slice(0, 8).map(function (item) {
+      var metrics = item.metrics || {};
+      var ready = item.preview_ready ? "展示OK" : "展示不足";
+      var alert = item.alert_type || (item.core_rate_ready ? "本命条件" : item.subcore_rate_ready ? "準本命帯" : "通知なし");
+      return "<tr><td>" + esc((item.place_name || "") + (item.round || "") + "R") + "</td><td>" + esc(item.status) + "<br><span class=\"bm-mini\">" + esc(ready) + " / " + esc(alert) + "</span></td><td>" + esc(fmtPct(item.post_exhibition_manshu_rate_pct)) + "</td><td><span class=\"bm-mini\">展示" + esc(metrics.tenji_boats || 0) + "艇 / ラップ" + esc(metrics.isshu_boats || 0) + "艇</span></td></tr>";
+    }).join("");
+    var failedLines = failed.slice(0, 5).map(function (item) {
+      return "<tr><td>" + esc((item.place_name || "") + (item.round || "") + "R") + "</td><td colspan=\"3\"><span class=\"bm-mini\">取得失敗: " + esc(item.error || "") + "</span></td></tr>";
+    }).join("");
+    var note = "";
+    if (!checked.length && outside) {
+      note = "現在の最終監視では、対象レースがまだ締切20分以内に入っていないため、直前展示の個別取得・分析は未実行です。締切が近づくとここに分析済みレースが出ます。";
+    } else if (checked.length) {
+      note = "締切前の対象レースでBOATERS直前データを取得し、展示・AI・オッズ込みで本命/準本命判定まで実行しています。";
+    } else {
+      note = "直前監視ログを確認中です。";
+    }
+    return [
+      "<div class=\"bm-monitor\">",
+      "<h3>展示取得・直前分析ログ</h3>",
+      "<p class=\"lead\">" + esc(note) + "</p>",
+      "<div class=\"bm-summary\">",
+      "<span class=\"bm-chip wait\">最終監視 " + esc(monitor.generated_at || "--") + "</span>",
+      "<span class=\"bm-chip " + (checked.length ? "ok" : "wait") + "\">直前分析 " + esc(checked.length) + "R</span>",
+      "<span class=\"bm-chip " + (previewReady.length ? "ok" : "wait") + "\">分析内 展示OK " + esc(previewReady.length) + "R</span>",
+      "<span class=\"bm-chip\">通知候補 " + esc(alerts.length) + "R</span>",
+      "<span class=\"bm-chip " + (failed.length ? "hot" : "ok") + "\">取得失敗 " + esc(failed.length) + "R</span>",
+      "<span class=\"bm-chip\">締切外 " + esc(outside) + "R</span>",
+      "</div>",
+      "<div class=\"bm-monitor-grid\">",
+      "<div class=\"bm-stat\"><b>" + esc(summary.races_with_full_tenji || 0) + "R</b><span class=\"bm-mini\">通常ランキング 展示6艇取得</span></div>",
+      "<div class=\"bm-stat\"><b>" + esc(summary.races_with_full_isshu || 0) + "R</b><span class=\"bm-mini\">通常ランキング ラップ6艇取得</span></div>",
+      "<div class=\"bm-stat\"><b>" + esc(liveSummary.races_with_full_tenji || 0) + "R</b><span class=\"bm-mini\">ライブ全体 展示6艇取得</span></div>",
+      "</div>",
+      (lines || failedLines ? "<table class=\"bm-table\"><thead><tr><th>レース</th><th>状態</th><th>展示後万舟率</th><th>取得数</th></tr></thead><tbody>" + lines + failedLines + "</tbody></table>" : ""),
+      "</div>"
+    ].join("");
   }
 
   function raceRow(r) {
@@ -245,6 +319,7 @@
       "<span class=\"bm-chip\">有効ラップ6艇取得 " + esc(summary.races_with_full_isshu || 0) + "R</span>",
       "<span class=\"bm-chip\">基準値のみ非表示 " + esc(summary.baseline_only_hidden_count || 0) + "R</span>",
       "</div>",
+      monitorStatusHtml(data),
       strictHtml,
       "<p class=\"muted\">※これは万舟が出やすい条件のランキングです。買い目や利益を保証するものではありません。</p>"
     ].join("");
@@ -271,6 +346,22 @@
     }
   }
 
+  async function loadMonitor(date) {
+    try {
+      var res = await fetch(monitorUrl(date), { cache: "no-store" });
+      if (res.ok) STATE.monitor = await res.json();
+    } catch (e) {
+      STATE.monitor = null;
+    }
+    try {
+      var liveRes = await fetch(liveUrl(date), { cache: "no-store" });
+      if (liveRes.ok) STATE.live = await liveRes.json();
+    } catch (e2) {
+      STATE.live = null;
+    }
+    if (STATE.data) render(STATE.data);
+  }
+
   async function load() {
     injectStyle();
     var date = pageDate();
@@ -288,6 +379,7 @@
       if (!payload) return;
       STATE.data = payload;
       render(STATE.data);
+      loadMonitor(date);
       loadResults(date);
     } catch (e) {
       // Static pages remain usable if the BOATERS JSON has not been generated yet.
