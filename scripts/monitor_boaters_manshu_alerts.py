@@ -240,6 +240,8 @@ except Exception:
                 "start_tenji_time": before_row.get("startTenjiTime"),
                 "start_tenji_rank": before_row.get("startTenjiRank"),
                 "tenji_rank": before_row.get("tenjiRank"),
+                "before_start_sinnyu": before_row.get("startSinnyu"),
+                "tilt": before_row.get("tilt"),
                 "isshu_time": original.get("isshuTime"),
                 "chokusen_time": original.get("chokusenTime"),
                 "hanshu_time": original.get("hanshuTime"),
@@ -1082,6 +1084,12 @@ def composite_rate_reasons(row, by_boat):
         reasons.append("低評価外枠だが展示で復活")
     if row.get("longshot_head_candidate"):
         reasons.append("穴頭候補に一致")
+    if row.get("mawariashi_rank") is not None and row.get("mawariashi_rank") <= 2 and boat in {5, 6}:
+        reasons.append("外枠のまわり足が2位以内")
+    if row.get("mawariashi_rank") is not None and row.get("mawariashi_rank") >= 5 and boat == 1:
+        reasons.append("1号艇のまわり足が5位以下")
+    if row.get("tilt") is not None and row.get("tilt") >= 0.5 and boat in {5, 6}:
+        reasons.append("外枠チルト0.5以上")
     return reasons[:4]
 
 
@@ -2086,6 +2094,13 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
             "odds_prediction_pct": as_num(source.get("odds_prediction_pct")),
             "tenji_time": as_num(source.get("tenji_time")),
             "isshu_time": as_num(source.get("isshu_time")),
+            "chokusen_time": as_num(source.get("chokusen_time")),
+            "mawariashi_time": as_num(source.get("mawariashi_time")),
+            "hanshu_time": as_num(source.get("hanshu_time")),
+            "start_tenji_time": as_num(source.get("start_tenji_time")),
+            "start_tenji_rank": as_num(source.get("start_tenji_rank")),
+            "before_start_sinnyu": as_num(source.get("before_start_sinnyu")),
+            "tilt": as_num(source.get("tilt")),
             "nige_pct": as_num(source.get("nige_pct")),
             "sasare_pct": as_num(source.get("sasare_pct")),
             "makurare_pct": as_num(source.get("makurare_pct")),
@@ -2146,6 +2161,9 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
     rank_values(rows, "general_3ren_pct", ascending=False)
     rank_values(rows, "tenji_time", ascending=True)
     rank_values(rows, "isshu_time", ascending=True)
+    rank_values(rows, "chokusen_time", ascending=True)
+    rank_values(rows, "mawariashi_time", ascending=True)
+    rank_values(rows, "start_tenji_time", ascending=True)
 
     low_outer_boat = int(as_num(morning_metrics.get("low_outer_boat")) or 0)
     if low_outer_boat not in {5, 6}:
@@ -2191,6 +2209,10 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
     for row in rows:
         row["tenji_rank"] = row["tenji_time_rank"]
         row["isshu_rank"] = row["isshu_time_rank"]
+        row["chokusen_rank"] = row["chokusen_time_rank"]
+        row["mawariashi_rank"] = row["mawariashi_time_rank"]
+        if row.get("start_tenji_rank") is None:
+            row["start_tenji_rank"] = row["start_tenji_time_rank"]
         row["double_time"] = row["tenji_rank"] == 1 and row["isshu_rank"] == 1
         row["summer_b1_isshu_factor"] = ""
         row["summer_b1_nige_delta_pp"] = 0
@@ -2258,6 +2280,13 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
             matchup_score = -0.70
         if row["boat_number"] == 1 and morning_metrics.get("matchup_lane1_bad_flag"):
             matchup_score -= 0.45
+        extra_exhibition_score = 0
+        if row.get("mawariashi_rank", 9) <= 2 and row["boat_number"] in {5, 6}:
+            extra_exhibition_score += 0.12
+        if row.get("mawariashi_rank", 9) >= 5 and row["boat_number"] == 1:
+            extra_exhibition_score -= 0.14
+        if row.get("tilt") is not None and row.get("tilt") >= 0.5 and row["boat_number"] in {5, 6}:
+            extra_exhibition_score += 0.08
         row["comp_score"] = (
             row["ai_prediction_pct_rank"] * 0.34
             + row["ai_plus_rank"] * 0.30
@@ -2268,6 +2297,7 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
             - summer_score
             - super_slit_score
             - matchup_score
+            - extra_exhibition_score
             - row["low_outer_score_bonus"]
             - row["longshot_head_score_bonus"]
         )
@@ -2278,6 +2308,8 @@ def enrich_rows(by_boat, morning_metrics, date_text=None):
             - (0.30 if row["double_time"] and row["boat_number"] in {5, 6} else 0)
             - (0.35 if row["super_slit_alert"] and row["boat_number"] in {4, 5, 6} else 0)
             - (0.35 if row["matchup_label"] in {"1号艇キラー", "相性バフ"} else 0)
+            - (0.18 if row.get("mawariashi_rank", 9) <= 2 and row["boat_number"] in {5, 6} else 0)
+            - (0.12 if row.get("tilt") is not None and row.get("tilt") >= 0.5 and row["boat_number"] in {5, 6} else 0)
             - (0.25 if row["low_outer_revive"] else 0)
             - (0.25 if row["longshot_head_candidate"] else 0)
         )
@@ -2505,6 +2537,30 @@ def race_metrics(rows, date_text=None, round_no=None):
     double_time_boats = [row["boat_number"] for row in rows if row.get("double_time")]
     super_slit_boats = [row["boat_number"] for row in rows if row.get("super_slit_alert")]
     isshu_boats = sum(1 for row in rows if row.get("isshu_time") is not None)
+    b1_extra_bad_count = sum(
+        1
+        for key in ("start_tenji_time_rank", "mawariashi_rank", "chokusen_rank")
+        if b1.get(key) is not None and b1.get(key, 9) >= 4
+    )
+    outer56_chokusen_top2_count = sum(1 for row in outer if row.get("chokusen_rank", 9) <= 2)
+    outer56_mawariashi_top2_count = sum(1 for row in outer if row.get("mawariashi_rank", 9) <= 2)
+    outer56_start_tenji_top2_count = sum(1 for row in outer if row.get("start_tenji_time_rank", 9) <= 2)
+    outer46_chokusen_top2_count = sum(1 for row in outer46 if row.get("chokusen_rank", 9) <= 2)
+    outer46_mawariashi_top2_count = sum(1 for row in outer46 if row.get("mawariashi_rank", 9) <= 2)
+    outer46_start_tenji_top2_count = sum(1 for row in outer46 if row.get("start_tenji_time_rank", 9) <= 2)
+    outer56_extra_top2_count = sum(
+        1
+        for count in (outer56_chokusen_top2_count, outer56_mawariashi_top2_count, outer56_start_tenji_top2_count)
+        if count >= 1
+    )
+    outer46_extra_top2_count = sum(
+        1
+        for count in (outer46_chokusen_top2_count, outer46_mawariashi_top2_count, outer46_start_tenji_top2_count)
+        if count >= 1
+    )
+    outer56_tilt_plus_count = sum(
+        1 for row in outer if row.get("tilt") is not None and row.get("tilt") >= 0.5
+    )
     summer_factor = summer_b1_isshu_factor(date_text, b1.get("isshu_avg_diff"), isshu_boats)
     slit_metrics = slit_rank_metrics(rows)
     outer56_exhibit_top2_count = sum(1 for row in outer if row.get("exhibit_rank", 9) <= 2)
@@ -2700,6 +2756,15 @@ def race_metrics(rows, date_text=None, round_no=None):
                 "tenji_rank": row.get("tenji_rank"),
                 "isshu_time": row.get("isshu_time"),
                 "isshu_rank": row.get("isshu_rank"),
+                "chokusen_time": row.get("chokusen_time"),
+                "chokusen_rank": row.get("chokusen_rank"),
+                "mawariashi_time": row.get("mawariashi_time"),
+                "mawariashi_rank": row.get("mawariashi_rank"),
+                "start_tenji_time": row.get("start_tenji_time"),
+                "start_tenji_time_rank": row.get("start_tenji_time_rank"),
+                "start_tenji_rank": row.get("start_tenji_rank"),
+                "before_start_sinnyu": row.get("before_start_sinnyu"),
+                "tilt": row.get("tilt"),
                 "avg_isshu_diff": row.get("avg_isshu_diff"),
                 "super_slit_alert": bool(row.get("super_slit_alert")),
                 "super_slit_tenji_adv": row.get("super_slit_tenji_adv"),
@@ -2742,6 +2807,16 @@ def race_metrics(rows, date_text=None, round_no=None):
         "boat1_tenji_rank": b1.get("tenji_rank"),
         "boat1_tenji_time_rank": b1.get("tenji_time_rank"),
         "boat1_isshu_rank": b1.get("isshu_rank"),
+        "boat1_chokusen_time": b1.get("chokusen_time"),
+        "boat1_chokusen_rank": b1.get("chokusen_rank"),
+        "boat1_mawariashi_time": b1.get("mawariashi_time"),
+        "boat1_mawariashi_rank": b1.get("mawariashi_rank"),
+        "boat1_start_tenji_time": b1.get("start_tenji_time"),
+        "boat1_start_tenji_time_rank": b1.get("start_tenji_time_rank"),
+        "boat1_start_tenji_rank": b1.get("start_tenji_rank"),
+        "boat1_before_start_sinnyu": b1.get("before_start_sinnyu"),
+        "boat1_tilt": b1.get("tilt"),
+        "b1_extra_exhibition_bad_count": b1_extra_bad_count,
         "outer56_best_tenji_time": outer56_best_tenji,
         "outer56_best_isshu_time": outer56_best_isshu,
         "outer56_best_avg_isshu_diff": outer56_best_avgdiff,
@@ -2797,6 +2872,21 @@ def race_metrics(rows, date_text=None, round_no=None):
         ),
         "outer56_isshu_top2_count": sum(
             1 for row in outer if row.get("isshu_time") is not None and row.get("isshu_rank", 9) <= 2
+        ),
+        "outer56_chokusen_top2_count": outer56_chokusen_top2_count,
+        "outer56_mawariashi_top2_count": outer56_mawariashi_top2_count,
+        "outer56_start_tenji_top2_count": outer56_start_tenji_top2_count,
+        "outer46_chokusen_top2_count": outer46_chokusen_top2_count,
+        "outer46_mawariashi_top2_count": outer46_mawariashi_top2_count,
+        "outer46_start_tenji_top2_count": outer46_start_tenji_top2_count,
+        "outer56_extra_exhibition_top2_count": outer56_extra_top2_count,
+        "outer46_extra_exhibition_top2_count": outer46_extra_top2_count,
+        "outer56_tilt_plus_count": outer56_tilt_plus_count,
+        "b1_tilt_minus": bool(b1.get("tilt") is not None and b1.get("tilt") < 0),
+        "extra_exhibition_b1weak_outer56strong": bool(b1_extra_bad_count >= 2 and outer56_extra_top2_count >= 2),
+        "extra_exhibition_b1weak_outer46strong": bool(b1_extra_bad_count >= 2 and outer46_extra_top2_count >= 2),
+        "extra_exhibition_b1weak_outer56tilt": bool(
+            b1_extra_bad_count >= 2 and outer56_extra_top2_count >= 1 and outer56_tilt_plus_count >= 1
         ),
         "outer56_exhibit_top2_count": outer56_exhibit_top2_count,
         "outer56_low_aiplus_exhibit_top2_count": sum(

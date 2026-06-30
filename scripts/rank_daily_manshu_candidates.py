@@ -699,6 +699,11 @@ def daily_features(today_db, target_date, matchup_profiles=None):
     with connect_ro(today_db) as con:
         boat_cols = {row[1] for row in con.execute("PRAGMA table_info(race_boats)").fetchall()}
         hanshu_expr = "b.hanshu_time" if "hanshu_time" in boat_cols else "NULL"
+        chokusen_expr = "b.chokusen_time" if "chokusen_time" in boat_cols else "NULL"
+        mawariashi_expr = "b.mawariashi_time" if "mawariashi_time" in boat_cols else "NULL"
+        start_tenji_time_expr = "b.start_tenji_time" if "start_tenji_time" in boat_cols else "NULL"
+        before_start_sinnyu_expr = "b.before_start_sinnyu" if "before_start_sinnyu" in boat_cols else "NULL"
+        tilt_expr = "b.tilt" if "tilt" in boat_cols else "NULL"
         sql = f"""
         WITH base AS (
             SELECT
@@ -732,6 +737,9 @@ def daily_features(today_db, target_date, matchup_profiles=None):
                 b.st_rank_general,
                 b.st_time_avg_general,
                 b.tenji_time,
+                {chokusen_expr} AS chokusen_time,
+                {mawariashi_expr} AS mawariashi_time,
+                {start_tenji_time_expr} AS start_tenji_time,
                 b.isshu_time AS raw_isshu_time,
                 {hanshu_expr} AS hanshu_time,
                 CASE
@@ -753,6 +761,8 @@ def daily_features(today_db, target_date, matchup_profiles=None):
                 END AS exhibit_combo_time,
                 b.tenji_rank,
                 b.start_tenji_rank,
+                {before_start_sinnyu_expr} AS before_start_sinnyu,
+                {tilt_expr} AS tilt,
                 b.nige_pct_year,
                 b.sasare_pct_year,
                 b.makurare_pct_year
@@ -788,8 +798,23 @@ def daily_features(today_db, target_date, matchup_profiles=None):
                     PARTITION BY race_id
                     ORDER BY CASE WHEN isshu_time IS NULL THEN 1 ELSE 0 END, isshu_time ASC
                 ) AS isshu_rank_raw,
+                RANK() OVER (
+                    PARTITION BY race_id
+                    ORDER BY CASE WHEN chokusen_time IS NULL THEN 1 ELSE 0 END, chokusen_time ASC
+                ) AS chokusen_rank_raw,
+                RANK() OVER (
+                    PARTITION BY race_id
+                    ORDER BY CASE WHEN mawariashi_time IS NULL THEN 1 ELSE 0 END, mawariashi_time ASC
+                ) AS mawariashi_rank_raw,
+                RANK() OVER (
+                    PARTITION BY race_id
+                    ORDER BY CASE WHEN start_tenji_time IS NULL THEN 1 ELSE 0 END, start_tenji_time ASC
+                ) AS start_tenji_time_rank_raw,
                 AVG(isshu_time) OVER (PARTITION BY race_id) AS avg_isshu_time,
-                AVG(exhibit_combo_time) OVER (PARTITION BY race_id) AS avg_exhibit_combo_time
+                AVG(exhibit_combo_time) OVER (PARTITION BY race_id) AS avg_exhibit_combo_time,
+                AVG(chokusen_time) OVER (PARTITION BY race_id) AS avg_chokusen_time,
+                AVG(mawariashi_time) OVER (PARTITION BY race_id) AS avg_mawariashi_time,
+                AVG(start_tenji_time) OVER (PARTITION BY race_id) AS avg_start_tenji_time
             FROM base
         ),
         rb AS (
@@ -803,12 +828,27 @@ def daily_features(today_db, target_date, matchup_profiles=None):
                     WHEN exhibit_combo_time IS NOT NULL AND avg_exhibit_combo_time IS NOT NULL
                     THEN avg_exhibit_combo_time - exhibit_combo_time
                 END AS boaters_avgdiff,
+                CASE
+                    WHEN chokusen_time IS NOT NULL AND avg_chokusen_time IS NOT NULL
+                    THEN avg_chokusen_time - chokusen_time
+                END AS chokusen_avgdiff,
+                CASE
+                    WHEN mawariashi_time IS NOT NULL AND avg_mawariashi_time IS NOT NULL
+                    THEN avg_mawariashi_time - mawariashi_time
+                END AS mawariashi_avgdiff,
+                CASE
+                    WHEN start_tenji_time IS NOT NULL AND avg_start_tenji_time IS NOT NULL
+                    THEN avg_start_tenji_time - start_tenji_time
+                END AS start_tenji_avgdiff,
                 CASE WHEN ai_plus IS NOT NULL THEN ai_plus_rank_raw END AS ai_plus_rank,
                 CASE WHEN ai_plus IS NOT NULL THEN ai_plus_order_raw END AS ai_plus_order,
                 CASE WHEN ai_prediction_pct IS NOT NULL THEN ai_prediction_rank_raw END AS ai_prediction_rank,
                 CASE WHEN odds_prediction_pct IS NOT NULL THEN odds_rank_raw END AS odds_rank,
                 CASE WHEN tenji_time IS NOT NULL THEN tenji_time_rank_raw END AS tenji_time_rank,
-                CASE WHEN isshu_time IS NOT NULL THEN isshu_rank_raw END AS isshu_rank
+                CASE WHEN isshu_time IS NOT NULL THEN isshu_rank_raw END AS isshu_rank,
+                CASE WHEN chokusen_time IS NOT NULL THEN chokusen_rank_raw END AS chokusen_rank,
+                CASE WHEN mawariashi_time IS NOT NULL THEN mawariashi_rank_raw END AS mawariashi_rank,
+                CASE WHEN start_tenji_time IS NOT NULL THEN start_tenji_time_rank_raw END AS start_tenji_time_rank
             FROM ranked
         )
         SELECT
@@ -845,6 +885,18 @@ def daily_features(today_db, target_date, matchup_profiles=None):
             MAX(CASE WHEN boat_number = 1 THEN tenji_rank END) AS b1_tenji_rank,
             MAX(CASE WHEN boat_number = 1 THEN tenji_time_rank END) AS b1_tenji_time_rank,
             MAX(CASE WHEN boat_number = 1 THEN isshu_rank END) AS b1_isshu_rank,
+            MAX(CASE WHEN boat_number = 1 THEN chokusen_time END) AS b1_chokusen_time,
+            MAX(CASE WHEN boat_number = 1 THEN chokusen_rank END) AS b1_chokusen_rank,
+            MAX(CASE WHEN boat_number = 1 THEN chokusen_avgdiff END) AS b1_chokusen_avgdiff,
+            MAX(CASE WHEN boat_number = 1 THEN mawariashi_time END) AS b1_mawariashi_time,
+            MAX(CASE WHEN boat_number = 1 THEN mawariashi_rank END) AS b1_mawariashi_rank,
+            MAX(CASE WHEN boat_number = 1 THEN mawariashi_avgdiff END) AS b1_mawariashi_avgdiff,
+            MAX(CASE WHEN boat_number = 1 THEN start_tenji_time END) AS b1_start_tenji_time,
+            MAX(CASE WHEN boat_number = 1 THEN start_tenji_time_rank END) AS b1_start_tenji_time_rank,
+            MAX(CASE WHEN boat_number = 1 THEN start_tenji_rank END) AS b1_start_tenji_rank,
+            MAX(CASE WHEN boat_number = 1 THEN start_tenji_avgdiff END) AS b1_start_tenji_avgdiff,
+            MAX(CASE WHEN boat_number = 1 THEN before_start_sinnyu END) AS b1_before_start_sinnyu,
+            MAX(CASE WHEN boat_number = 1 THEN tilt END) AS b1_tilt,
             MAX(CASE WHEN boat_number = 1 THEN nige_pct_year END) AS b1_nige_pct,
             MAX(CASE WHEN boat_number = 1 THEN sasare_pct_year + makurare_pct_year END) AS b1_loss_pct,
             MAX(CASE WHEN boat_number = 1 THEN reg_no END) AS b1_registration_no,
@@ -927,6 +979,66 @@ def daily_features(today_db, target_date, matchup_profiles=None):
             MAX(CASE WHEN boat_number = 4 THEN tenji_rank END) AS b4_tenji_rank,
             MAX(CASE WHEN boat_number = 5 THEN tenji_rank END) AS b5_tenji_rank,
             MAX(CASE WHEN boat_number = 6 THEN tenji_rank END) AS b6_tenji_rank,
+            MAX(CASE WHEN boat_number = 2 THEN chokusen_time END) AS b2_chokusen_time,
+            MAX(CASE WHEN boat_number = 3 THEN chokusen_time END) AS b3_chokusen_time,
+            MAX(CASE WHEN boat_number = 4 THEN chokusen_time END) AS b4_chokusen_time,
+            MAX(CASE WHEN boat_number = 5 THEN chokusen_time END) AS b5_chokusen_time,
+            MAX(CASE WHEN boat_number = 6 THEN chokusen_time END) AS b6_chokusen_time,
+            MAX(CASE WHEN boat_number = 2 THEN chokusen_rank END) AS b2_chokusen_rank,
+            MAX(CASE WHEN boat_number = 3 THEN chokusen_rank END) AS b3_chokusen_rank,
+            MAX(CASE WHEN boat_number = 4 THEN chokusen_rank END) AS b4_chokusen_rank,
+            MAX(CASE WHEN boat_number = 5 THEN chokusen_rank END) AS b5_chokusen_rank,
+            MAX(CASE WHEN boat_number = 6 THEN chokusen_rank END) AS b6_chokusen_rank,
+            MAX(CASE WHEN boat_number = 2 THEN chokusen_avgdiff END) AS b2_chokusen_avgdiff,
+            MAX(CASE WHEN boat_number = 3 THEN chokusen_avgdiff END) AS b3_chokusen_avgdiff,
+            MAX(CASE WHEN boat_number = 4 THEN chokusen_avgdiff END) AS b4_chokusen_avgdiff,
+            MAX(CASE WHEN boat_number = 5 THEN chokusen_avgdiff END) AS b5_chokusen_avgdiff,
+            MAX(CASE WHEN boat_number = 6 THEN chokusen_avgdiff END) AS b6_chokusen_avgdiff,
+            MAX(CASE WHEN boat_number = 2 THEN mawariashi_time END) AS b2_mawariashi_time,
+            MAX(CASE WHEN boat_number = 3 THEN mawariashi_time END) AS b3_mawariashi_time,
+            MAX(CASE WHEN boat_number = 4 THEN mawariashi_time END) AS b4_mawariashi_time,
+            MAX(CASE WHEN boat_number = 5 THEN mawariashi_time END) AS b5_mawariashi_time,
+            MAX(CASE WHEN boat_number = 6 THEN mawariashi_time END) AS b6_mawariashi_time,
+            MAX(CASE WHEN boat_number = 2 THEN mawariashi_rank END) AS b2_mawariashi_rank,
+            MAX(CASE WHEN boat_number = 3 THEN mawariashi_rank END) AS b3_mawariashi_rank,
+            MAX(CASE WHEN boat_number = 4 THEN mawariashi_rank END) AS b4_mawariashi_rank,
+            MAX(CASE WHEN boat_number = 5 THEN mawariashi_rank END) AS b5_mawariashi_rank,
+            MAX(CASE WHEN boat_number = 6 THEN mawariashi_rank END) AS b6_mawariashi_rank,
+            MAX(CASE WHEN boat_number = 2 THEN mawariashi_avgdiff END) AS b2_mawariashi_avgdiff,
+            MAX(CASE WHEN boat_number = 3 THEN mawariashi_avgdiff END) AS b3_mawariashi_avgdiff,
+            MAX(CASE WHEN boat_number = 4 THEN mawariashi_avgdiff END) AS b4_mawariashi_avgdiff,
+            MAX(CASE WHEN boat_number = 5 THEN mawariashi_avgdiff END) AS b5_mawariashi_avgdiff,
+            MAX(CASE WHEN boat_number = 6 THEN mawariashi_avgdiff END) AS b6_mawariashi_avgdiff,
+            MAX(CASE WHEN boat_number = 2 THEN start_tenji_time END) AS b2_start_tenji_time,
+            MAX(CASE WHEN boat_number = 3 THEN start_tenji_time END) AS b3_start_tenji_time,
+            MAX(CASE WHEN boat_number = 4 THEN start_tenji_time END) AS b4_start_tenji_time,
+            MAX(CASE WHEN boat_number = 5 THEN start_tenji_time END) AS b5_start_tenji_time,
+            MAX(CASE WHEN boat_number = 6 THEN start_tenji_time END) AS b6_start_tenji_time,
+            MAX(CASE WHEN boat_number = 2 THEN start_tenji_time_rank END) AS b2_start_tenji_time_rank,
+            MAX(CASE WHEN boat_number = 3 THEN start_tenji_time_rank END) AS b3_start_tenji_time_rank,
+            MAX(CASE WHEN boat_number = 4 THEN start_tenji_time_rank END) AS b4_start_tenji_time_rank,
+            MAX(CASE WHEN boat_number = 5 THEN start_tenji_time_rank END) AS b5_start_tenji_time_rank,
+            MAX(CASE WHEN boat_number = 6 THEN start_tenji_time_rank END) AS b6_start_tenji_time_rank,
+            MAX(CASE WHEN boat_number = 2 THEN start_tenji_rank END) AS b2_start_tenji_rank,
+            MAX(CASE WHEN boat_number = 3 THEN start_tenji_rank END) AS b3_start_tenji_rank,
+            MAX(CASE WHEN boat_number = 4 THEN start_tenji_rank END) AS b4_start_tenji_rank,
+            MAX(CASE WHEN boat_number = 5 THEN start_tenji_rank END) AS b5_start_tenji_rank,
+            MAX(CASE WHEN boat_number = 6 THEN start_tenji_rank END) AS b6_start_tenji_rank,
+            MAX(CASE WHEN boat_number = 2 THEN start_tenji_avgdiff END) AS b2_start_tenji_avgdiff,
+            MAX(CASE WHEN boat_number = 3 THEN start_tenji_avgdiff END) AS b3_start_tenji_avgdiff,
+            MAX(CASE WHEN boat_number = 4 THEN start_tenji_avgdiff END) AS b4_start_tenji_avgdiff,
+            MAX(CASE WHEN boat_number = 5 THEN start_tenji_avgdiff END) AS b5_start_tenji_avgdiff,
+            MAX(CASE WHEN boat_number = 6 THEN start_tenji_avgdiff END) AS b6_start_tenji_avgdiff,
+            MAX(CASE WHEN boat_number = 2 THEN before_start_sinnyu END) AS b2_before_start_sinnyu,
+            MAX(CASE WHEN boat_number = 3 THEN before_start_sinnyu END) AS b3_before_start_sinnyu,
+            MAX(CASE WHEN boat_number = 4 THEN before_start_sinnyu END) AS b4_before_start_sinnyu,
+            MAX(CASE WHEN boat_number = 5 THEN before_start_sinnyu END) AS b5_before_start_sinnyu,
+            MAX(CASE WHEN boat_number = 6 THEN before_start_sinnyu END) AS b6_before_start_sinnyu,
+            MAX(CASE WHEN boat_number = 2 THEN tilt END) AS b2_tilt,
+            MAX(CASE WHEN boat_number = 3 THEN tilt END) AS b3_tilt,
+            MAX(CASE WHEN boat_number = 4 THEN tilt END) AS b4_tilt,
+            MAX(CASE WHEN boat_number = 5 THEN tilt END) AS b5_tilt,
+            MAX(CASE WHEN boat_number = 6 THEN tilt END) AS b6_tilt,
             MAX(CASE WHEN boat_number = 1 THEN CASE WHEN tenji_time_rank = 1 AND isshu_rank = 1 THEN 1 ELSE 0 END END) AS b1_double_time,
             MAX(CASE WHEN boat_number = 2 THEN CASE WHEN tenji_time_rank = 1 AND isshu_rank = 1 THEN 1 ELSE 0 END END) AS b2_double_time,
             MAX(CASE WHEN boat_number = 3 THEN CASE WHEN tenji_time_rank = 1 AND isshu_rank = 1 THEN 1 ELSE 0 END END) AS b3_double_time,
@@ -996,6 +1108,17 @@ def daily_features(today_db, target_date, matchup_profiles=None):
             SUM(CASE WHEN boat_number IN (5, 6)
                        AND tenji_time_rank = 1
                        AND isshu_rank = 1 THEN 1 ELSE 0 END) AS outer56_double_time_count,
+            SUM(CASE WHEN boat_number IN (5, 6) AND chokusen_rank <= 2 THEN 1 ELSE 0 END) AS outer56_chokusen_top2_count,
+            SUM(CASE WHEN boat_number IN (5, 6) AND mawariashi_rank <= 2 THEN 1 ELSE 0 END) AS outer56_mawariashi_top2_count,
+            SUM(CASE WHEN boat_number IN (5, 6) AND start_tenji_time_rank <= 2 THEN 1 ELSE 0 END) AS outer56_start_tenji_top2_count,
+            SUM(CASE WHEN boat_number IN (4, 5, 6) AND chokusen_rank <= 2 THEN 1 ELSE 0 END) AS outer46_chokusen_top2_count,
+            SUM(CASE WHEN boat_number IN (4, 5, 6) AND mawariashi_rank <= 2 THEN 1 ELSE 0 END) AS outer46_mawariashi_top2_count,
+            SUM(CASE WHEN boat_number IN (4, 5, 6) AND start_tenji_time_rank <= 2 THEN 1 ELSE 0 END) AS outer46_start_tenji_top2_count,
+            MAX(CASE WHEN boat_number IN (5, 6) THEN chokusen_avgdiff END) AS outer56_best_chokusen_avgdiff,
+            MAX(CASE WHEN boat_number IN (5, 6) THEN mawariashi_avgdiff END) AS outer56_best_mawariashi_avgdiff,
+            MAX(CASE WHEN boat_number IN (5, 6) THEN start_tenji_avgdiff END) AS outer56_best_start_tenji_avgdiff,
+            SUM(CASE WHEN boat_number IN (5, 6) AND tilt >= 0.5 THEN 1 ELSE 0 END) AS outer56_tilt_plus_count,
+            MAX(CASE WHEN boat_number = 1 AND tilt < 0 THEN 1 ELSE 0 END) AS b1_tilt_minus,
 
             SUM(CASE WHEN tenji_time IS NOT NULL THEN 1 ELSE 0 END) AS tenji_boats,
             SUM(CASE WHEN raw_isshu_time IS NOT NULL THEN 1 ELSE 0 END) AS raw_isshu_boats,
@@ -1021,10 +1144,64 @@ def daily_features(today_db, target_date, matchup_profiles=None):
     df["outer56_super_slit_count"] = sum(df[f"b{boat}_super_slit_alert"] for boat in (5, 6))
     df["outer56_tenji_advantage"] = df["b1_tenji_time"] - df["outer56_best_tenji_time"]
     df["outer56_isshu_advantage"] = df["b1_isshu_time"] - df["outer56_best_isshu_time"]
+    add_extra_exhibition_features(df)
     add_slit_formation_features(df)
     add_low_outer_value_features(df)
     add_next_factor_candidate_features(df)
     return df
+
+
+def add_extra_exhibition_features(df):
+    for boat in range(1, 7):
+        for col in (
+            f"b{boat}_chokusen_rank",
+            f"b{boat}_mawariashi_rank",
+            f"b{boat}_start_tenji_time_rank",
+            f"b{boat}_tilt",
+        ):
+            if col not in df.columns:
+                df[col] = np.nan
+    for col in (
+        "outer56_chokusen_top2_count",
+        "outer56_mawariashi_top2_count",
+        "outer56_start_tenji_top2_count",
+        "outer46_chokusen_top2_count",
+        "outer46_mawariashi_top2_count",
+        "outer46_start_tenji_top2_count",
+        "outer56_tilt_plus_count",
+        "b1_tilt_minus",
+    ):
+        if col not in df.columns:
+            df[col] = 0
+
+    df["b1_extra_exhibition_bad_count"] = (
+        df["b1_start_tenji_time_rank"].ge(4).fillna(False).astype(int)
+        + df["b1_mawariashi_rank"].ge(4).fillna(False).astype(int)
+        + df["b1_chokusen_rank"].ge(4).fillna(False).astype(int)
+    )
+    df["outer56_extra_exhibition_top2_count"] = (
+        df["outer56_start_tenji_top2_count"].ge(1).fillna(False).astype(int)
+        + df["outer56_mawariashi_top2_count"].ge(1).fillna(False).astype(int)
+        + df["outer56_chokusen_top2_count"].ge(1).fillna(False).astype(int)
+    )
+    df["outer46_extra_exhibition_top2_count"] = (
+        df["outer46_start_tenji_top2_count"].ge(1).fillna(False).astype(int)
+        + df["outer46_mawariashi_top2_count"].ge(1).fillna(False).astype(int)
+        + df["outer46_chokusen_top2_count"].ge(1).fillna(False).astype(int)
+    )
+    df["extra_exhibition_b1weak_outer56strong"] = (
+        df["b1_extra_exhibition_bad_count"].ge(2)
+        & df["outer56_extra_exhibition_top2_count"].ge(2)
+    ).fillna(False).astype(int)
+    df["extra_exhibition_b1weak_outer46strong"] = (
+        df["b1_extra_exhibition_bad_count"].ge(2)
+        & df["outer46_extra_exhibition_top2_count"].ge(2)
+    ).fillna(False).astype(int)
+    df["extra_exhibition_b1weak_outer56tilt"] = (
+        df["b1_extra_exhibition_bad_count"].ge(2)
+        & df["outer56_extra_exhibition_top2_count"].ge(1)
+        & df["outer56_tilt_plus_count"].ge(1)
+    ).fillna(False).astype(int)
 
 
 def add_next_factor_candidate_features(df):
@@ -1039,6 +1216,17 @@ def add_next_factor_candidate_features(df):
         "outer56_best_ai_prediction_pct",
         "outer56_tenji_top2_count",
         "outer56_isshu_top2_count",
+        "outer56_mawariashi_top2_count",
+        "outer56_chokusen_top2_count",
+        "outer56_start_tenji_top2_count",
+        "outer56_tilt_plus_count",
+        "b1_mawariashi_rank",
+        "b1_chokusen_rank",
+        "b1_start_tenji_time_rank",
+        "b1_extra_exhibition_bad_count",
+        "outer56_extra_exhibition_top2_count",
+        "extra_exhibition_b1weak_outer56strong",
+        "extra_exhibition_b1weak_outer56tilt",
         "outer456_pressure",
         "outer56_pressure_vs_1",
         "wind_speed",
@@ -1658,6 +1846,18 @@ def composite_edge_signals(race):
     outer_exhibit_top2 = num(race.get("outer56_exhibit_top2_count")) or 0
     outer_tenji_top2 = int_num(race.get("outer56_tenji_top2_count"))
     outer_isshu_top2 = int_num(race.get("outer56_isshu_top2_count")) or 0
+    outer56_mawari_top2 = int_num(race.get("outer56_mawariashi_top2_count")) or 0
+    outer56_chokusen_top2 = int_num(race.get("outer56_chokusen_top2_count")) or 0
+    outer56_start_top2 = int_num(race.get("outer56_start_tenji_top2_count")) or 0
+    outer56_tilt_plus = int_num(race.get("outer56_tilt_plus_count")) or 0
+    b1_mawari_rank = num(race.get("b1_mawariashi_rank"))
+    b1_chokusen_rank = num(race.get("b1_chokusen_rank"))
+    b1_start_tenji_rank = num(race.get("b1_start_tenji_time_rank"))
+    b1_extra_bad_count = int_num(race.get("b1_extra_exhibition_bad_count")) or 0
+    outer56_extra_top2_count = int_num(race.get("outer56_extra_exhibition_top2_count")) or 0
+    outer46_extra_top2_count = int_num(race.get("outer46_extra_exhibition_top2_count")) or 0
+    b1weak_outer56_extra = int_num(race.get("extra_exhibition_b1weak_outer56strong")) == 1
+    b1weak_outer56_tilt = int_num(race.get("extra_exhibition_b1weak_outer56tilt")) == 1
     round_no = int_num(race.get("round_no"))
     wind_wave = (num(race.get("wind_speed")) or 0) >= 5 or (num(race.get("wave_height")) or 0) >= 5
     rank6_boat = int_num(race.get("ai_rank6_boat"))
@@ -1777,6 +1977,115 @@ def composite_edge_signals(race):
                 "top3_rate_pct": 88.26,
                 "win_uplift_pp": 14.44,
                 "top3_uplift_pp": 8.33,
+            },
+        )
+
+    if b1_mawari_rank is not None and b1_mawari_rank >= 5:
+        add_edge(
+            signals,
+            "codex_extra_exh_b1_mawari_bad5",
+            "追加展示: 1号艇のまわり足が5位以下でインの押し切り材料が弱い",
+            18.28,
+            0.3,
+            "b1_fly_up",
+            {
+                "verified_period": "2025-01-01_to_2026-06-29_ippan",
+                "sample_races": 12613,
+                "base_manshu_rate_pct": 16.52,
+                "over5000_rate_pct": 34.76,
+                "median_payout_yen": 2960,
+                "b1_mawariashi_rank": b1_mawari_rank,
+            },
+        )
+    elif b1_mawari_rank is not None and b1_mawari_rank >= 4:
+        add_edge(
+            signals,
+            "codex_extra_exh_b1_mawari_bad4",
+            "追加展示: 1号艇のまわり足が4位以下でインの押し切り材料が少し弱い",
+            18.04,
+            0.2,
+            "b1_fly_up",
+            {
+                "verified_period": "2025-01-01_to_2026-06-29_ippan",
+                "sample_races": 20642,
+                "base_manshu_rate_pct": 16.52,
+                "over5000_rate_pct": 33.71,
+                "median_payout_yen": 2850,
+                "b1_mawariashi_rank": b1_mawari_rank,
+            },
+        )
+
+    if outer56_mawari_top2 >= 1:
+        add_edge(
+            signals,
+            "codex_extra_exh_outer56_mawari_top2",
+            "追加展示: 5/6号艇のどちらかがまわり足2位以内で外枠の残り材料",
+            17.54,
+            0.25,
+            "outer_top3_up",
+            {
+                "verified_period": "2025-01-01_to_2026-06-29_ippan",
+                "sample_races": 35304,
+                "base_manshu_rate_pct": 16.52,
+                "over5000_rate_pct": 32.38,
+                "median_payout_yen": 2680,
+                "outer56_mawariashi_top2_count": outer56_mawari_top2,
+            },
+        )
+
+    if outer56_tilt_plus >= 1:
+        add_edge(
+            signals,
+            "codex_extra_exh_outer56_tilt_plus",
+            "追加展示: 5/6号艇にチルト0.5以上があり外から攻める形",
+            17.96,
+            0.25,
+            "outer_attack_up",
+            {
+                "verified_period": "2025-01-01_to_2026-06-29_ippan",
+                "sample_races": 9692,
+                "base_manshu_rate_pct": 16.52,
+                "over5000_rate_pct": 33.61,
+                "median_payout_yen": 2840,
+                "outer56_tilt_plus_count": outer56_tilt_plus,
+            },
+        )
+
+    if b1weak_outer56_tilt:
+        add_edge(
+            signals,
+            "codex_extra_exh_b1weak_outer56tilt",
+            "追加展示複合: 1号艇が追加展示2項目で弱く、5/6にチルトと上位時計がある",
+            18.57,
+            0.5,
+            "postdata_manshu_up",
+            {
+                "verified_period": "2025-01-01_to_2026-06-29_ippan",
+                "sample_races": 1712,
+                "base_manshu_rate_pct": 16.52,
+                "over5000_rate_pct": 35.46,
+                "median_payout_yen": 3010,
+                "b1_extra_exhibition_bad_count": b1_extra_bad_count,
+                "outer56_extra_exhibition_top2_count": outer56_extra_top2_count,
+                "outer56_tilt_plus_count": outer56_tilt_plus,
+            },
+        )
+    elif b1weak_outer56_extra:
+        add_edge(
+            signals,
+            "codex_extra_exh_b1weak_outer56strong",
+            "追加展示複合: 1号艇が追加展示2項目で弱く、5/6号艇が追加展示2項目で強い",
+            17.91,
+            0.4,
+            "postdata_manshu_up",
+            {
+                "verified_period": "2025-01-01_to_2026-06-29_ippan",
+                "sample_races": 14720,
+                "base_manshu_rate_pct": 16.52,
+                "over5000_rate_pct": 34.19,
+                "median_payout_yen": 2940,
+                "b1_extra_exhibition_bad_count": b1_extra_bad_count,
+                "outer56_extra_exhibition_top2_count": outer56_extra_top2_count,
             },
         )
 
@@ -3499,6 +3808,19 @@ def row_summary(
         "b1_tenji_time_rank": race.get("b1_tenji_time_rank"),
         "b1_isshu_time": race.get("b1_isshu_time"),
         "b1_isshu_rank": race.get("b1_isshu_rank"),
+        "b1_chokusen_time": race.get("b1_chokusen_time"),
+        "b1_chokusen_rank": race.get("b1_chokusen_rank"),
+        "b1_chokusen_avgdiff": race.get("b1_chokusen_avgdiff"),
+        "b1_mawariashi_time": race.get("b1_mawariashi_time"),
+        "b1_mawariashi_rank": race.get("b1_mawariashi_rank"),
+        "b1_mawariashi_avgdiff": race.get("b1_mawariashi_avgdiff"),
+        "b1_start_tenji_time": race.get("b1_start_tenji_time"),
+        "b1_start_tenji_time_rank": race.get("b1_start_tenji_time_rank"),
+        "b1_start_tenji_rank": race.get("b1_start_tenji_rank"),
+        "b1_start_tenji_avgdiff": race.get("b1_start_tenji_avgdiff"),
+        "b1_before_start_sinnyu": race.get("b1_before_start_sinnyu"),
+        "b1_tilt": race.get("b1_tilt"),
+        "b1_extra_exhibition_bad_count": int_num(race.get("b1_extra_exhibition_bad_count")),
         "outer56_best_avg_isshu_diff": race.get("outer56_best_avg_isshu_diff"),
         "outer56_best_ai_prediction_pct": race.get("outer56_best_ai_prediction_pct"),
         "outer56_best_ai_plus": race.get("outer56_best_ai_plus"),
@@ -3506,6 +3828,22 @@ def row_summary(
         "outer56_best_isshu_time": race.get("outer56_best_isshu_time"),
         "outer56_tenji_top2_count": int_num(race.get("outer56_tenji_top2_count")),
         "outer56_isshu_top2_count": int_num(race.get("outer56_isshu_top2_count")),
+        "outer56_chokusen_top2_count": int_num(race.get("outer56_chokusen_top2_count")),
+        "outer56_mawariashi_top2_count": int_num(race.get("outer56_mawariashi_top2_count")),
+        "outer56_start_tenji_top2_count": int_num(race.get("outer56_start_tenji_top2_count")),
+        "outer46_chokusen_top2_count": int_num(race.get("outer46_chokusen_top2_count")),
+        "outer46_mawariashi_top2_count": int_num(race.get("outer46_mawariashi_top2_count")),
+        "outer46_start_tenji_top2_count": int_num(race.get("outer46_start_tenji_top2_count")),
+        "outer56_best_chokusen_avgdiff": race.get("outer56_best_chokusen_avgdiff"),
+        "outer56_best_mawariashi_avgdiff": race.get("outer56_best_mawariashi_avgdiff"),
+        "outer56_best_start_tenji_avgdiff": race.get("outer56_best_start_tenji_avgdiff"),
+        "outer56_extra_exhibition_top2_count": int_num(race.get("outer56_extra_exhibition_top2_count")),
+        "outer46_extra_exhibition_top2_count": int_num(race.get("outer46_extra_exhibition_top2_count")),
+        "outer56_tilt_plus_count": int_num(race.get("outer56_tilt_plus_count")),
+        "b1_tilt_minus": int_num(race.get("b1_tilt_minus")),
+        "extra_exhibition_b1weak_outer56strong": int_num(race.get("extra_exhibition_b1weak_outer56strong")),
+        "extra_exhibition_b1weak_outer46strong": int_num(race.get("extra_exhibition_b1weak_outer46strong")),
+        "extra_exhibition_b1weak_outer56tilt": int_num(race.get("extra_exhibition_b1weak_outer56tilt")),
         "outer56_exhibit_top2_count": int_num(race.get("outer56_exhibit_top2_count")),
         "ai_rank6_boat": race.get("ai_rank6_boat"),
         "ai_rank6_avg_isshu_diff": race.get("ai_rank6_avg_isshu_diff"),
@@ -3591,6 +3929,62 @@ def row_summary(
         **{
             f"b{boat}_ai_plus_order": race.get(f"b{boat}_ai_plus_order")
             for boat in range(1, 7)
+        },
+        **{
+            f"b{boat}_tenji_time": race.get(f"b{boat}_tenji_time")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_tenji_rank": race.get(f"b{boat}_tenji_rank")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_tenji_time_rank": race.get(f"b{boat}_tenji_time_rank")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_isshu_time": race.get(f"b{boat}_isshu_time")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_isshu_rank": race.get(f"b{boat}_isshu_rank")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_chokusen_time": race.get(f"b{boat}_chokusen_time")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_chokusen_rank": race.get(f"b{boat}_chokusen_rank")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_mawariashi_time": race.get(f"b{boat}_mawariashi_time")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_mawariashi_rank": race.get(f"b{boat}_mawariashi_rank")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_start_tenji_time": race.get(f"b{boat}_start_tenji_time")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_start_tenji_time_rank": race.get(f"b{boat}_start_tenji_time_rank")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_start_tenji_rank": race.get(f"b{boat}_start_tenji_rank")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_before_start_sinnyu": race.get(f"b{boat}_before_start_sinnyu")
+            for boat in range(2, 7)
+        },
+        **{
+            f"b{boat}_tilt": race.get(f"b{boat}_tilt")
+            for boat in range(2, 7)
         },
         "boat1_double_time": int_num(race.get("b1_double_time")),
         "mid234_double_time_count": int_num(race.get("mid234_double_time_count")),

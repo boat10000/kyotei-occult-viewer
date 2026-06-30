@@ -606,6 +606,12 @@ def composite_rate_reasons(row: dict, by_boat: dict[int, dict]) -> list[str]:
         reasons.append("低評価外枠だが展示で復活")
     if row.get("longshot_head_candidate"):
         reasons.append("穴頭候補に一致")
+    if row.get("mawariashi_rank") is not None and row.get("mawariashi_rank") <= 2 and boat in {5, 6}:
+        reasons.append("外枠のまわり足が2位以内")
+    if row.get("mawariashi_rank") is not None and row.get("mawariashi_rank") >= 5 and boat == 1:
+        reasons.append("1号艇のまわり足が5位以下")
+    if row.get("tilt") is not None and row.get("tilt") >= 0.5 and boat in {5, 6}:
+        reasons.append("外枠チルト0.5以上")
     return reasons[:4] or ["AI・3連対率・展示/スリット材料を総合"]
 
 
@@ -643,6 +649,15 @@ def build_boat_rows(normalized_metrics: dict, source_metrics: dict) -> list[dict
             "tenji_rank": as_int(item.get("tenji_rank")) if item.get("tenji_rank") is not None else as_int(normalized_metrics.get(f"boat{boat}_tenji_rank")),
             "isshu_time": as_num(item.get("isshu_time")) if item.get("isshu_time") is not None else as_num(normalized_metrics.get(f"boat{boat}_isshu_time")),
             "isshu_rank": as_int(item.get("isshu_rank")) if item.get("isshu_rank") is not None else as_int(normalized_metrics.get(f"boat{boat}_isshu_rank")),
+            "chokusen_time": as_num(item.get("chokusen_time")) if item.get("chokusen_time") is not None else as_num(normalized_metrics.get(f"boat{boat}_chokusen_time")),
+            "chokusen_rank": as_int(item.get("chokusen_rank")) if item.get("chokusen_rank") is not None else as_int(normalized_metrics.get(f"boat{boat}_chokusen_rank")),
+            "mawariashi_time": as_num(item.get("mawariashi_time")) if item.get("mawariashi_time") is not None else as_num(normalized_metrics.get(f"boat{boat}_mawariashi_time")),
+            "mawariashi_rank": as_int(item.get("mawariashi_rank")) if item.get("mawariashi_rank") is not None else as_int(normalized_metrics.get(f"boat{boat}_mawariashi_rank")),
+            "start_tenji_time": as_num(item.get("start_tenji_time")) if item.get("start_tenji_time") is not None else as_num(normalized_metrics.get(f"boat{boat}_start_tenji_time")),
+            "start_tenji_time_rank": as_int(item.get("start_tenji_time_rank")) if item.get("start_tenji_time_rank") is not None else as_int(normalized_metrics.get(f"boat{boat}_start_tenji_time_rank")),
+            "start_tenji_rank": as_int(item.get("start_tenji_rank")) if item.get("start_tenji_rank") is not None else as_int(normalized_metrics.get(f"boat{boat}_start_tenji_rank")),
+            "before_start_sinnyu": as_int(item.get("before_start_sinnyu")) if item.get("before_start_sinnyu") is not None else as_int(normalized_metrics.get(f"boat{boat}_before_start_sinnyu")),
+            "tilt": as_num(item.get("tilt")) if item.get("tilt") is not None else as_num(normalized_metrics.get(f"boat{boat}_tilt")),
             "avg_isshu_diff": as_num(item.get("avg_isshu_diff")) if item.get("avg_isshu_diff") is not None else as_num(normalized_metrics.get(f"boat{boat}_avg_isshu_diff")),
             "double_time": bool(item.get("double_time")) or boat in double_time_boats or bool(normalized_metrics.get(f"boat{boat}_double_time")),
             "super_slit_alert": bool(item.get("super_slit_alert")) or boat in super_slit_boats,
@@ -677,6 +692,9 @@ def build_boat_rows(normalized_metrics: dict, source_metrics: dict) -> list[dict
             row["odds_prediction_rank"] = row.get("odds_prediction_pct_rank")
     rank_rows(rows, "tenji_time", ascending=True)
     rank_rows(rows, "isshu_time", ascending=True)
+    rank_rows(rows, "chokusen_time", ascending=True)
+    rank_rows(rows, "mawariashi_time", ascending=True)
+    rank_rows(rows, "start_tenji_time", ascending=True)
     for row in rows:
         row["exhibit_rank"] = min(as_int(row.get("tenji_rank")) or row.get("tenji_time_rank") or 9, as_int(row.get("isshu_rank")) or row.get("isshu_time_rank") or 9)
     compute_composite_boat_rates(rows, normalized_metrics)
@@ -733,6 +751,12 @@ def compute_composite_boat_rates(rows: list[dict], metrics: dict) -> None:
             win_score -= 0.14
         if boat == 1 and as_num(metrics.get("boat1_loss_pct")) is not None and as_num(metrics.get("boat1_loss_pct")) >= 50:
             win_score -= 0.16
+        if row.get("mawariashi_rank") is not None and row.get("mawariashi_rank") <= 2 and boat in {5, 6}:
+            win_score += 0.12
+        if row.get("mawariashi_rank") is not None and row.get("mawariashi_rank") >= 5 and boat == 1:
+            win_score -= 0.14
+        if row.get("tilt") is not None and row.get("tilt") >= 0.5 and boat in {5, 6}:
+            win_score += 0.08
         win_scores.append(win_score)
 
         if ai_top3 is not None and general is not None:
@@ -768,6 +792,12 @@ def compute_composite_boat_rates(rows: list[dict], metrics: dict) -> None:
             top3_score += 0.10
         elif row.get("matchup_label") == "相性デバフ":
             top3_score -= 0.16
+        if row.get("mawariashi_rank") is not None and row.get("mawariashi_rank") <= 2 and boat in {5, 6}:
+            top3_score += 0.10
+        if row.get("mawariashi_rank") is not None and row.get("mawariashi_rank") >= 5 and boat == 1:
+            top3_score -= 0.12
+        if row.get("tilt") is not None and row.get("tilt") >= 0.5 and boat in {5, 6}:
+            top3_score += 0.07
         top3_scores.append(sigmoid_pct(top3_score))
 
     max_score = max(win_scores) if win_scores else 0.0
@@ -1107,6 +1137,19 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "boat1_tenji_time_rank": "b1_tenji_time_rank",
         "boat1_isshu_time": "b1_isshu_time",
         "boat1_isshu_rank": "b1_isshu_rank",
+        "boat1_chokusen_time": "b1_chokusen_time",
+        "boat1_chokusen_rank": "b1_chokusen_rank",
+        "boat1_chokusen_avgdiff": "b1_chokusen_avgdiff",
+        "boat1_mawariashi_time": "b1_mawariashi_time",
+        "boat1_mawariashi_rank": "b1_mawariashi_rank",
+        "boat1_mawariashi_avgdiff": "b1_mawariashi_avgdiff",
+        "boat1_start_tenji_time": "b1_start_tenji_time",
+        "boat1_start_tenji_time_rank": "b1_start_tenji_time_rank",
+        "boat1_start_tenji_rank": "b1_start_tenji_rank",
+        "boat1_start_tenji_avgdiff": "b1_start_tenji_avgdiff",
+        "boat1_before_start_sinnyu": "b1_before_start_sinnyu",
+        "boat1_tilt": "b1_tilt",
+        "b1_extra_exhibition_bad_count": "b1_extra_exhibition_bad_count",
         "outer56_best_avg_isshu_diff": "outer56_best_avg_isshu_diff",
         "outer56_best_ai_prediction_pct": "outer56_best_ai_prediction_pct",
         "outer56_best_ai_plus": "outer56_best_ai_plus",
@@ -1114,6 +1157,22 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "outer56_best_isshu_time": "outer56_best_isshu_time",
         "outer56_tenji_top2_count": "outer56_tenji_top2_count",
         "outer56_isshu_top2_count": "outer56_isshu_top2_count",
+        "outer56_chokusen_top2_count": "outer56_chokusen_top2_count",
+        "outer56_mawariashi_top2_count": "outer56_mawariashi_top2_count",
+        "outer56_start_tenji_top2_count": "outer56_start_tenji_top2_count",
+        "outer46_chokusen_top2_count": "outer46_chokusen_top2_count",
+        "outer46_mawariashi_top2_count": "outer46_mawariashi_top2_count",
+        "outer46_start_tenji_top2_count": "outer46_start_tenji_top2_count",
+        "outer56_best_chokusen_avgdiff": "outer56_best_chokusen_avgdiff",
+        "outer56_best_mawariashi_avgdiff": "outer56_best_mawariashi_avgdiff",
+        "outer56_best_start_tenji_avgdiff": "outer56_best_start_tenji_avgdiff",
+        "outer56_extra_exhibition_top2_count": "outer56_extra_exhibition_top2_count",
+        "outer46_extra_exhibition_top2_count": "outer46_extra_exhibition_top2_count",
+        "outer56_tilt_plus_count": "outer56_tilt_plus_count",
+        "b1_tilt_minus": "b1_tilt_minus",
+        "extra_exhibition_b1weak_outer56strong": "extra_exhibition_b1weak_outer56strong",
+        "extra_exhibition_b1weak_outer46strong": "extra_exhibition_b1weak_outer46strong",
+        "extra_exhibition_b1weak_outer56tilt": "extra_exhibition_b1weak_outer56tilt",
         "outer56_exhibit_top2_count": "outer56_exhibit_top2_count",
         "ai_rank6_boat": "ai_rank6_boat",
         "ai_rank6_avg_isshu_diff": "ai_rank6_avg_isshu_diff",
@@ -1193,6 +1252,20 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
                 f"boat{boat}_ai_plus_order": f"b{boat}_ai_plus_order",
                 f"boat{boat}_odds_prediction_pct": f"b{boat}_odds_prediction_pct",
                 f"boat{boat}_odds_rank": f"b{boat}_odds_rank",
+                f"boat{boat}_tenji_time": f"b{boat}_tenji_time",
+                f"boat{boat}_tenji_rank": f"b{boat}_tenji_rank",
+                f"boat{boat}_tenji_time_rank": f"b{boat}_tenji_time_rank",
+                f"boat{boat}_isshu_time": f"b{boat}_isshu_time",
+                f"boat{boat}_isshu_rank": f"b{boat}_isshu_rank",
+                f"boat{boat}_chokusen_time": f"b{boat}_chokusen_time",
+                f"boat{boat}_chokusen_rank": f"b{boat}_chokusen_rank",
+                f"boat{boat}_mawariashi_time": f"b{boat}_mawariashi_time",
+                f"boat{boat}_mawariashi_rank": f"b{boat}_mawariashi_rank",
+                f"boat{boat}_start_tenji_time": f"b{boat}_start_tenji_time",
+                f"boat{boat}_start_tenji_time_rank": f"b{boat}_start_tenji_time_rank",
+                f"boat{boat}_start_tenji_rank": f"b{boat}_start_tenji_rank",
+                f"boat{boat}_before_start_sinnyu": f"b{boat}_before_start_sinnyu",
+                f"boat{boat}_tilt": f"b{boat}_tilt",
             }
         )
     normalized_metrics = {}
