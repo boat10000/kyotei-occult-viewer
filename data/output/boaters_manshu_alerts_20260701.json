@@ -1,0 +1,115 @@
+{
+  "version": "boaters-manshu-alerts-v1",
+  "date": "2026-07-01",
+  "generated_at": "2026-07-01T06:55:50+09:00",
+  "ranking_path": "/private/tmp/kyotei-mm1601-reflect/data/output/boaters_manshu_morning_ranking_20260701.json",
+  "public_ranking_path": "/private/tmp/kyotei-mm1601-reflect/data/output/boaters_manshu_ranking_20260701.json",
+  "live_ranking_path": "/private/tmp/kyotei-mm1601-reflect/data/output/boaters_manshu_live_ranking_20260701.json",
+  "forward_validation_log_path": null,
+  "public_metrics_updated": false,
+  "top_n": 10,
+  "live_top_n": 200,
+  "riser_top_n": 10,
+  "lookahead_minutes": 20.0,
+  "alert_threshold_pct": 38.0,
+  "core_alert_threshold_pct": 40.0,
+  "subcore_alert_threshold_min_pct": 38.0,
+  "alert_policy": {
+    "primary": "morning_top_then_post_exhibition_core_focus_only",
+    "description": "朝TOPリストに入った荒れ下地ありレースだけを、展示/AI取得後に40%以上かつ本命絞り条件成立なら通知する。朝TOP外の40%以上は急浮上参考に分離する",
+    "morning_top_n": 10,
+    "post_exhibition_core_threshold_pct": 40.0,
+    "post_exhibition_subcore_range_pct": null,
+    "full_exhibition_required": true,
+    "notify_late_risers": true
+  },
+  "alerts": [],
+  "inspected": [
+    {
+      "race_id": "2026-07-011105",
+      "place_name": "びわこ",
+      "round": 5,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 329.2
+    },
+    {
+      "race_id": "2026-07-011102",
+      "place_name": "びわこ",
+      "round": 2,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 245.2
+    },
+    {
+      "race_id": "2026-07-010807",
+      "place_name": "常滑",
+      "round": 7,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 406.2
+    },
+    {
+      "race_id": "2026-07-010803",
+      "place_name": "常滑",
+      "round": 3,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 275.2
+    },
+    {
+      "race_id": "2026-07-010602",
+      "place_name": "浜名湖",
+      "round": 2,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 312.2
+    },
+    {
+      "race_id": "2026-07-012006",
+      "place_name": "若松",
+      "round": 6,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 780.2
+    },
+    {
+      "race_id": "2026-07-010507",
+      "place_name": "多摩川",
+      "round": 7,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 460.2
+    },
+    {
+      "race_id": "2026-07-010206",
+      "place_name": "戸田",
+      "round": 6,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 378.2
+    },
+    {
+      "race_id": "2026-07-012307",
+      "place_name": "唐津",
+      "round": 7,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 273.2
+    },
+    {
+      "race_id": "2026-07-012308",
+      "place_name": "唐津",
+      "round": 8,
+      "source": "morning_top",
+      "status": "outside_window",
+      "minutes_to_deadline": 303.2
+    }
+  ],
+  "push": {
+    "enabled": true,
+    "sent": 0,
+    "attempted": 0,
+    "errors": []
+  }
+}
