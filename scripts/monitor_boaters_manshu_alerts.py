@@ -33,6 +33,7 @@ PRICE_DIR = ROOT.parent / "price_action_analysis"
 PRICE_OUT = PRICE_DIR / "outputs"
 PUBLIC_OUT = ROOT / "data" / "output"
 PUSH_CONFIG = PUBLIC_OUT / "boaters_push_config.local.json"
+DEFAULT_NTFY_TOPIC = "boat10000-codex-manshu-7d56f47f-ee5f-48f8-905a-ed6e5025b8db"
 WORK_OUT = PRICE_OUT if PRICE_DIR.exists() else PUBLIC_OUT
 HISTORY_DB = PRICE_OUT / "boaters_all_races.sqlite"
 BUILD_DB_SCRIPT = (
@@ -906,6 +907,33 @@ def load_push_config():
         value = os.environ.get(env_name)
         if value:
             config[key] = value
+    topic_file = os.environ.get("BOATERS_NTFY_TOPIC_FILE")
+    topic_paths = [Path(topic_file).expanduser()] if topic_file else []
+    topic_paths.extend(
+        [
+            ROOT / "data" / "ntfy_topic.txt",
+            Path.home() / "Desktop" / "kyotei-occult-viewer" / "data" / "output" / "boaters_push_config.local.json",
+        ]
+    )
+    if not config.get("ntfy_topic"):
+        for path in topic_paths:
+            try:
+                if path == PUSH_CONFIG or not path.exists():
+                    continue
+                if path.suffix == ".json":
+                    loaded = load_json(path, {})
+                    if isinstance(loaded, dict) and loaded.get("ntfy_topic"):
+                        config.update({k: v for k, v in loaded.items() if v})
+                        break
+                else:
+                    topic = path.read_text(encoding="utf-8").strip()
+                    if topic:
+                        config["ntfy_topic"] = topic
+                        break
+            except Exception:
+                continue
+    config.setdefault("ntfy_server", "https://ntfy.sh")
+    config.setdefault("ntfy_topic", DEFAULT_NTFY_TOPIC)
     return config
 
 
@@ -993,8 +1021,14 @@ def send_ntfy(config, title, message, tags="rotating_light", priority=None):
 
 def push_notifications(payload, state, now):
     config = load_push_config()
+    expected_attempts = len(payload.get("alerts") or []) + sum(1 for item in payload.get("inspected") or [] if item.get("status") == "fetch_failed")
     if not ntfy_url(config):
-        return {"enabled": False, "sent": 0, "errors": []}
+        return {
+            "enabled": False,
+            "sent": 0,
+            "attempted": expected_attempts,
+            "errors": [{"error": "ntfy_topic not configured"}] if expected_attempts else [],
+        }
 
     pushed = state.setdefault("pushed", {})
     results = []
@@ -4322,7 +4356,12 @@ def main():
     now = parse_dt(args.now) if args.now else datetime.now(JST)
     payload = push_test_notification(now) if args.test_push else monitor(args)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
-    return 0 if not args.test_push or payload.get("push", {}).get("ok") else 1
+    push = payload.get("push") or {}
+    if args.test_push:
+        return 0 if push.get("ok") else 1
+    if push.get("attempted", 0) and (push.get("errors") or not push.get("enabled", True)):
+        return 1
+    return 0
 
 
 if __name__ == "__main__":

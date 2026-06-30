@@ -326,6 +326,7 @@ def main() -> int:
     parser.add_argument("--date", default=today_jst())
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--force", action="store_true", help="Send even if the same status was already notified.")
+    parser.add_argument("--allow-push-failure", action="store_true", help="Do not fail the command when a required smartphone notification cannot be sent.")
     args = parser.parse_args()
 
     alerts = load_json(alert_path(args.date), {})
@@ -380,6 +381,8 @@ def main() -> int:
         save_json(state_path(args.date), state)
         save_json(output_path(args.date), output)
     print(json.dumps(output, ensure_ascii=False, indent=2))
+    if should_notify and not args.dry_run and not already_sent and not args.allow_push_failure and not output["push"].get("ok"):
+        return 1
     return 0
 
 
