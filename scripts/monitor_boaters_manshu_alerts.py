@@ -839,7 +839,13 @@ def merge_live_metrics_into_ranking_path(path, updates, now):
             race["last_minute_checked_at"] = update.get("checked_at")
             race["last_minute_alert_type"] = update.get("alert_type")
             if update.get("last_minute_manshu_rate_pct") is not None:
+                old_rate = race.get("manshu_rate_pct")
                 race["last_minute_manshu_rate_pct"] = update.get("last_minute_manshu_rate_pct")
+                race["post_exhibition_manshu_rate_pct"] = update.get("last_minute_manshu_rate_pct")
+                if race.get("morning_manshu_rate_pct") is None and old_rate is not None:
+                    race["morning_manshu_rate_pct"] = old_rate
+                race["manshu_rate_pct"] = update.get("last_minute_manshu_rate_pct")
+                changed = changed or old_rate != race.get("manshu_rate_pct")
             if update.get("morning_manshu_rate_pct") is not None:
                 race["morning_manshu_rate_pct"] = update.get("morning_manshu_rate_pct")
             if update.get("rate_source"):
@@ -856,6 +862,26 @@ def merge_live_metrics_into_ranking_path(path, updates, now):
                 old_buy_decision = race.get("buy_decision")
                 race["buy_decision"] = update.get("buy_decision")
                 changed = changed or old_buy_decision != race.get("buy_decision")
+            post_rate = as_num(update.get("last_minute_manshu_rate_pct"))
+            if post_rate is not None:
+                checks = []
+                if post_rate >= CORE_ALERT_RATE:
+                    checks.append(f"展示後40%以上:OK({post_rate:.2f}%)")
+                elif post_rate >= SUBCORE_ALERT_RATE_MIN:
+                    checks.append(f"展示後38〜39.9%:OK({post_rate:.2f}%)")
+                    checks.append("本命40%以上:NG")
+                else:
+                    checks.append(f"展示後38%未満:NG({post_rate:.2f}%)")
+                    checks.append("本命40%以上:NG")
+                if update.get("core_buy_ready"):
+                    checks.append("本命買い条件:OK")
+                elif update.get("subcore_buy_ready"):
+                    checks.append("準本命買い条件:OK")
+                elif has_full_exhibition(metrics):
+                    checks.append("買い条件:NG")
+                old_checks = race.get("final_decision_checks")
+                race["final_decision_checks"] = checks
+                changed = changed or old_checks != checks
             after = json.dumps(metrics, sort_keys=True, ensure_ascii=False)
             changed = changed or before != after
     if changed:
