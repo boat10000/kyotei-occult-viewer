@@ -725,12 +725,12 @@
             ]
           },
           "4": {
-            "score": 42.99,
+            "score": 57.99,
             "reasons": [
               "複合1着率17.0%",
               "万舟は3〜6号艇頭が多い",
               "穴頭候補に一致",
-              "人気薄頭候補"
+              "4〜6外圧"
             ]
           }
         },
@@ -782,10 +782,11 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "スリット隊形外圧:OK",
+        "対戦相性バフ艇2艇以上:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -807,8 +808,8 @@
         "source": "official_boatrace_result_page"
       },
       "last_minute_manshu_rate_pct": 25.57,
-      "morning_manshu_rate_pct": 19.52,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "morning_manshu_rate_pct": 25.57,
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_live_rank": 88,
       "last_minute_candidate_strategy_ids": [],
@@ -1485,21 +1486,21 @@
         "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_scores": {
           "4": {
-            "score": 37.3,
+            "score": 49.3,
             "reasons": [
               "複合1着率9.3%",
               "万舟は3〜6号艇頭が多い",
               "穴頭候補に一致",
-              "人気薄頭候補"
+              "4〜6外圧"
             ]
           },
           "6": {
-            "score": 17.73,
+            "score": 29.73,
             "reasons": [
               "複合1着率1.7%",
               "万舟は3〜6号艇頭が多い",
               "低評価外枠の復活候補",
-              "低評価外枠の展示復活"
+              "4〜6外圧"
             ]
           }
         },
@@ -1552,10 +1553,11 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "スリット隊形外圧:OK",
+        "対戦相性バフ艇2艇以上:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -1577,11 +1579,11 @@
         "source": "official_boatrace_result_page"
       },
       "last_minute_manshu_rate_pct": 25.55,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 25.55,
-      "morning_manshu_rate_pct": 19.52,
+      "morning_manshu_rate_pct": 25.55,
       "last_minute_live_rank": 89
     },
     {
@@ -2241,11 +2243,12 @@
             ]
           },
           "5": {
-            "score": 24.49,
+            "score": 40.49,
             "reasons": [
               "複合1着率13.5%",
               "万舟は3〜6号艇頭が多い",
-              "展示か1周が2位以内"
+              "スリットで5号艇が左より良い",
+              "過去条件で穴頭寄り"
             ]
           }
         },
@@ -2291,10 +2294,12 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "5/6 展示+一周平均との差0.14以上:OK",
+        "スリット隊形あり:NG",
+        "対戦相性バフ艇2艇以上:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -2316,12 +2321,12 @@
         "source": "official_boatrace_result_page"
       },
       "last_minute_manshu_rate_pct": 28.15,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 28.15,
-      "morning_manshu_rate_pct": 18.62,
-      "last_minute_live_rank": 69
+      "morning_manshu_rate_pct": 28.15,
+      "last_minute_live_rank": 70
     },
     {
       "rank": 4,
@@ -3035,7 +3040,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差+0.10以下:OK",
@@ -3065,7 +3070,7 @@
       "morning_manshu_rate_pct": 37.68,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 18,
+      "last_minute_live_rank": 20,
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 37.68
     },
@@ -4314,7 +4319,7 @@
         "outer46_low_aiplus_exhibit_top2_count": 0,
         "head_primary_boats": [
           3,
-          6
+          5
         ],
         "axis_primary_boats": [
           3,
@@ -4334,26 +4339,26 @@
         "label": "Codex候補",
         "heads": [
           3,
-          6
+          5
         ],
         "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_scores": {
           "3": {
-            "score": 86.33,
+            "score": 111.33,
             "reasons": [
               "複合1着率63.3%",
               "万舟は3〜6号艇頭が多い",
-              "スーパースリット",
-              "展示+1周平均との差+0.14"
+              "3号艇がのぞく形",
+              "過去条件で穴頭寄り"
             ]
           },
-          "6": {
-            "score": 21.14,
+          "5": {
+            "score": 37.25,
             "reasons": [
-              "複合1着率2.6%",
+              "複合1着率4.8%",
               "万舟は3〜6号艇頭が多い",
-              "低評価外枠の復活候補",
-              "低評価外枠の展示復活"
+              "5/6外圧",
+              "過去条件で穴頭寄り"
             ]
           }
         },
@@ -4385,27 +4390,29 @@
           "3-1-6",
           "3-5-1",
           "3-6-1",
-          "6-1-3",
-          "6-1-4",
-          "6-1-5",
-          "6-3-1",
-          "6-3-4",
-          "6-3-5",
-          "6-4-1",
-          "6-4-3",
-          "6-5-1",
-          "6-5-3"
+          "5-1-3",
+          "5-1-4",
+          "5-1-6",
+          "5-3-1",
+          "5-3-4",
+          "5-3-6",
+          "5-4-1",
+          "5-4-3",
+          "5-6-1",
+          "5-6-3"
         ],
-        "role_note": "頭3,6 / 軸はAI3連対率+一般3連対率の1位と3位の3,1 / 2・3着は軸どちらか必須で消し2以外へ折り返し",
+        "role_note": "頭3,5 / 軸はAI3連対率+一般3連対率の1位と3位の3,1 / 2・3着は軸どちらか必須で消し2以外へ折り返し",
         "axis_hit": true,
         "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "スーパースリットあり:OK",
+        "スリット隊形あり:NG",
+        "対戦相性あり:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -4427,12 +4434,12 @@
         "source": "official_boatrace_result_page"
       },
       "last_minute_manshu_rate_pct": 28.45,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 28.45,
-      "morning_manshu_rate_pct": 19.3,
-      "last_minute_live_rank": 67
+      "morning_manshu_rate_pct": 28.45,
+      "last_minute_live_rank": 68
     },
     {
       "rank": 7,
@@ -6405,13 +6412,15 @@
       "buy_decision": "展示待ち",
       "final_decision_checks": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-6-3",
+        "payout_yen": 750,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 2,
+        "source": "official_boatrace_result_page"
       }
     },
     {
@@ -7118,7 +7127,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差+0.10以下:OK",
@@ -7134,21 +7143,23 @@
         "買い条件:NG"
       ],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-3-6",
+        "payout_yen": 6470,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 23,
+        "source": "official_boatrace_result_page"
       },
       "last_minute_manshu_rate_pct": 31.66,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 31.66,
-      "morning_manshu_rate_pct": 18.62,
-      "last_minute_live_rank": 43
+      "morning_manshu_rate_pct": 31.66,
+      "last_minute_live_rank": 46
     }
   ],
   "strict_races": [
@@ -7850,12 +7861,12 @@
             ]
           },
           "4": {
-            "score": 42.99,
+            "score": 57.99,
             "reasons": [
               "複合1着率17.0%",
               "万舟は3〜6号艇頭が多い",
               "穴頭候補に一致",
-              "人気薄頭候補"
+              "4〜6外圧"
             ]
           }
         },
@@ -7907,10 +7918,11 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "スリット隊形外圧:OK",
+        "対戦相性バフ艇2艇以上:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -7932,8 +7944,8 @@
         "source": "official_boatrace_result_page"
       },
       "last_minute_manshu_rate_pct": 25.57,
-      "morning_manshu_rate_pct": 19.52,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "morning_manshu_rate_pct": 25.57,
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_live_rank": 88,
       "last_minute_candidate_strategy_ids": [],
@@ -8610,21 +8622,21 @@
         "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_scores": {
           "4": {
-            "score": 37.3,
+            "score": 49.3,
             "reasons": [
               "複合1着率9.3%",
               "万舟は3〜6号艇頭が多い",
               "穴頭候補に一致",
-              "人気薄頭候補"
+              "4〜6外圧"
             ]
           },
           "6": {
-            "score": 17.73,
+            "score": 29.73,
             "reasons": [
               "複合1着率1.7%",
               "万舟は3〜6号艇頭が多い",
               "低評価外枠の復活候補",
-              "低評価外枠の展示復活"
+              "4〜6外圧"
             ]
           }
         },
@@ -8677,10 +8689,11 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "スリット隊形外圧:OK",
+        "対戦相性バフ艇2艇以上:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -8702,11 +8715,11 @@
         "source": "official_boatrace_result_page"
       },
       "last_minute_manshu_rate_pct": 25.55,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 25.55,
-      "morning_manshu_rate_pct": 19.52,
+      "morning_manshu_rate_pct": 25.55,
       "last_minute_live_rank": 89
     },
     {
@@ -9366,11 +9379,12 @@
             ]
           },
           "5": {
-            "score": 24.49,
+            "score": 40.49,
             "reasons": [
               "複合1着率13.5%",
               "万舟は3〜6号艇頭が多い",
-              "展示か1周が2位以内"
+              "スリットで5号艇が左より良い",
+              "過去条件で穴頭寄り"
             ]
           }
         },
@@ -9416,10 +9430,12 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "5/6 展示+一周平均との差0.14以上:OK",
+        "スリット隊形あり:NG",
+        "対戦相性バフ艇2艇以上:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -9441,12 +9457,12 @@
         "source": "official_boatrace_result_page"
       },
       "last_minute_manshu_rate_pct": 28.15,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 28.15,
-      "morning_manshu_rate_pct": 18.62,
-      "last_minute_live_rank": 69
+      "morning_manshu_rate_pct": 28.15,
+      "last_minute_live_rank": 70
     },
     {
       "rank": 4,
@@ -10160,7 +10176,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差+0.10以下:OK",
@@ -10190,7 +10206,7 @@
       "morning_manshu_rate_pct": 37.68,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 18,
+      "last_minute_live_rank": 20,
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 37.68
     },
@@ -11439,7 +11455,7 @@
         "outer46_low_aiplus_exhibit_top2_count": 0,
         "head_primary_boats": [
           3,
-          6
+          5
         ],
         "axis_primary_boats": [
           3,
@@ -11459,26 +11475,26 @@
         "label": "Codex候補",
         "heads": [
           3,
-          6
+          5
         ],
         "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_scores": {
           "3": {
-            "score": 86.33,
+            "score": 111.33,
             "reasons": [
               "複合1着率63.3%",
               "万舟は3〜6号艇頭が多い",
-              "スーパースリット",
-              "展示+1周平均との差+0.14"
+              "3号艇がのぞく形",
+              "過去条件で穴頭寄り"
             ]
           },
-          "6": {
-            "score": 21.14,
+          "5": {
+            "score": 37.25,
             "reasons": [
-              "複合1着率2.6%",
+              "複合1着率4.8%",
               "万舟は3〜6号艇頭が多い",
-              "低評価外枠の復活候補",
-              "低評価外枠の展示復活"
+              "5/6外圧",
+              "過去条件で穴頭寄り"
             ]
           }
         },
@@ -11510,27 +11526,29 @@
           "3-1-6",
           "3-5-1",
           "3-6-1",
-          "6-1-3",
-          "6-1-4",
-          "6-1-5",
-          "6-3-1",
-          "6-3-4",
-          "6-3-5",
-          "6-4-1",
-          "6-4-3",
-          "6-5-1",
-          "6-5-3"
+          "5-1-3",
+          "5-1-4",
+          "5-1-6",
+          "5-3-1",
+          "5-3-4",
+          "5-3-6",
+          "5-4-1",
+          "5-4-3",
+          "5-6-1",
+          "5-6-3"
         ],
-        "role_note": "頭3,6 / 軸はAI3連対率+一般3連対率の1位と3位の3,1 / 2・3着は軸どちらか必須で消し2以外へ折り返し",
+        "role_note": "頭3,5 / 軸はAI3連対率+一般3連対率の1位と3位の3,1 / 2・3着は軸どちらか必須で消し2以外へ折り返し",
         "axis_hit": true,
         "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "スーパースリットあり:OK",
+        "スリット隊形あり:NG",
+        "対戦相性あり:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -11552,12 +11570,12 @@
         "source": "official_boatrace_result_page"
       },
       "last_minute_manshu_rate_pct": 28.45,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 28.45,
-      "morning_manshu_rate_pct": 19.3,
-      "last_minute_live_rank": 67
+      "morning_manshu_rate_pct": 28.45,
+      "last_minute_live_rank": 68
     },
     {
       "rank": 7,
@@ -13530,13 +13548,15 @@
       "buy_decision": "展示待ち",
       "final_decision_checks": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-6-3",
+        "payout_yen": 750,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 2,
+        "source": "official_boatrace_result_page"
       }
     },
     {
@@ -14243,7 +14263,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差+0.10以下:OK",
@@ -14259,21 +14279,23 @@
         "買い条件:NG"
       ],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-3-6",
+        "payout_yen": 6470,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 23,
+        "source": "official_boatrace_result_page"
       },
       "last_minute_manshu_rate_pct": 31.66,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 31.66,
-      "morning_manshu_rate_pct": 18.62,
-      "last_minute_live_rank": 43
+      "morning_manshu_rate_pct": 31.66,
+      "last_minute_live_rank": 46
     }
   ],
   "morning_candidates": [
@@ -14848,21 +14870,21 @@
         "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_scores": {
           "4": {
-            "score": 37.3,
+            "score": 49.3,
             "reasons": [
               "複合1着率9.3%",
               "万舟は3〜6号艇頭が多い",
               "穴頭候補に一致",
-              "人気薄頭候補"
+              "4〜6外圧"
             ]
           },
           "6": {
-            "score": 17.73,
+            "score": 29.73,
             "reasons": [
               "複合1着率1.7%",
               "万舟は3〜6号艇頭が多い",
               "低評価外枠の復活候補",
-              "低評価外枠の展示復活"
+              "4〜6外圧"
             ]
           }
         },
@@ -14915,10 +14937,11 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "スリット隊形外圧:OK",
+        "対戦相性バフ艇2艇以上:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -14968,11 +14991,11 @@
       ],
       "finalize_rule": "締切10〜15分前にBOATERS AI・展示・実オッズを取得して、買い/見送りへ更新",
       "last_minute_manshu_rate_pct": 25.55,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 25.55,
-      "morning_manshu_rate_pct": 19.52,
+      "morning_manshu_rate_pct": 25.55,
       "last_minute_live_rank": 89
     },
     {
@@ -15539,12 +15562,12 @@
             ]
           },
           "4": {
-            "score": 42.99,
+            "score": 57.99,
             "reasons": [
               "複合1着率17.0%",
               "万舟は3〜6号艇頭が多い",
               "穴頭候補に一致",
-              "人気薄頭候補"
+              "4〜6外圧"
             ]
           }
         },
@@ -15596,10 +15619,11 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "スリット隊形外圧:OK",
+        "対戦相性バフ艇2艇以上:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -15648,8 +15672,8 @@
       ],
       "finalize_rule": "締切10〜15分前にBOATERS AI・展示・実オッズを取得して、買い/見送りへ更新",
       "last_minute_manshu_rate_pct": 25.57,
-      "morning_manshu_rate_pct": 19.52,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "morning_manshu_rate_pct": 25.57,
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_live_rank": 88,
       "last_minute_candidate_strategy_ids": [],
@@ -16183,7 +16207,7 @@
         "outer46_low_aiplus_exhibit_top2_count": 0,
         "head_primary_boats": [
           3,
-          6
+          5
         ],
         "axis_primary_boats": [
           3,
@@ -16203,26 +16227,26 @@
         "label": "Codex候補",
         "heads": [
           3,
-          6
+          5
         ],
         "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_scores": {
           "3": {
-            "score": 86.33,
+            "score": 111.33,
             "reasons": [
               "複合1着率63.3%",
               "万舟は3〜6号艇頭が多い",
-              "スーパースリット",
-              "展示+1周平均との差+0.14"
+              "3号艇がのぞく形",
+              "過去条件で穴頭寄り"
             ]
           },
-          "6": {
-            "score": 21.14,
+          "5": {
+            "score": 37.25,
             "reasons": [
-              "複合1着率2.6%",
+              "複合1着率4.8%",
               "万舟は3〜6号艇頭が多い",
-              "低評価外枠の復活候補",
-              "低評価外枠の展示復活"
+              "5/6外圧",
+              "過去条件で穴頭寄り"
             ]
           }
         },
@@ -16254,27 +16278,29 @@
           "3-1-6",
           "3-5-1",
           "3-6-1",
-          "6-1-3",
-          "6-1-4",
-          "6-1-5",
-          "6-3-1",
-          "6-3-4",
-          "6-3-5",
-          "6-4-1",
-          "6-4-3",
-          "6-5-1",
-          "6-5-3"
+          "5-1-3",
+          "5-1-4",
+          "5-1-6",
+          "5-3-1",
+          "5-3-4",
+          "5-3-6",
+          "5-4-1",
+          "5-4-3",
+          "5-6-1",
+          "5-6-3"
         ],
-        "role_note": "頭3,6 / 軸はAI3連対率+一般3連対率の1位と3位の3,1 / 2・3着は軸どちらか必須で消し2以外へ折り返し",
+        "role_note": "頭3,5 / 軸はAI3連対率+一般3連対率の1位と3位の3,1 / 2・3着は軸どちらか必須で消し2以外へ折り返し",
         "axis_hit": true,
         "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "スーパースリットあり:OK",
+        "スリット隊形あり:NG",
+        "対戦相性あり:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -16323,12 +16349,12 @@
       ],
       "finalize_rule": "締切10〜15分前にBOATERS AI・展示・実オッズを取得して、買い/見送りへ更新",
       "last_minute_manshu_rate_pct": 28.45,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 28.45,
-      "morning_manshu_rate_pct": 19.3,
-      "last_minute_live_rank": 67
+      "morning_manshu_rate_pct": 28.45,
+      "last_minute_live_rank": 68
     },
     {
       "rank": 4,
@@ -16831,8 +16857,8 @@
         "outer46_exhibit_top2_count": 0,
         "outer46_low_aiplus_exhibit_top2_count": 0,
         "head_primary_boats": [
-          3,
-          5
+          5,
+          3
         ],
         "axis_primary_boats": [
           1,
@@ -16877,27 +16903,27 @@
         "version": "codex_roles_v2",
         "label": "Codex候補",
         "heads": [
-          3,
-          5
+          5,
+          3
         ],
         "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_scores": {
           "3": {
-            "score": 32.84,
+            "score": 35.84,
             "reasons": [
               "複合1着率9.8%",
               "万舟は3〜6号艇頭が多い",
-              "ダブルタイム",
-              "展示+1周平均との差+0.51"
+              "過去条件で穴頭寄り",
+              "ダブルタイム"
             ]
           },
           "5": {
-            "score": 23.81,
+            "score": 43.31,
             "reasons": [
               "複合1着率1.8%",
               "万舟は3〜6号艇頭が多い",
               "低評価外枠の復活候補",
-              "スーパースリット"
+              "過去条件で穴頭寄り"
             ]
           }
         },
@@ -16943,16 +16969,17 @@
           "5-6-1",
           "5-6-3"
         ],
-        "role_note": "頭3,5 / 軸はAI3連対率+一般3連対率の1位と3位の1,3 / 2・3着は軸どちらか必須で消し4以外へ折り返し",
+        "role_note": "頭5,3 / 軸はAI3連対率+一般3連対率の1位と3位の1,3 / 2・3着は軸どちらか必須で消し4以外へ折り返し",
         "axis_hit": true,
         "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "スリット隊形外圧:NG",
+        "対戦相性あり:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -17001,10 +17028,10 @@
       ],
       "finalize_rule": "締切10〜15分前にBOATERS AI・展示・実オッズを取得して、買い/見送りへ更新",
       "last_minute_manshu_rate_pct": 28.04,
-      "morning_manshu_rate_pct": 19.3,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "morning_manshu_rate_pct": 28.04,
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 70,
+      "last_minute_live_rank": 71,
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 28.04
     },
@@ -17638,7 +17665,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差+0.10以下:OK",
@@ -17696,7 +17723,7 @@
       "morning_manshu_rate_pct": 37.68,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 18,
+      "last_minute_live_rank": 20,
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 37.68
     },
@@ -18317,7 +18344,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:NG",
@@ -18332,13 +18359,15 @@
         "買い条件:NG"
       ],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "3-1-5",
+        "payout_yen": 1420,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 5,
+        "source": "official_boatrace_result_page"
       },
       "candidate_type": "軽監視",
       "candidate_phase": "morning_watchlist",
@@ -18371,7 +18400,7 @@
       "morning_manshu_rate_pct": 33.28,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 36,
+      "last_minute_live_rank": 39,
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 33.28
     },
@@ -18950,11 +18979,12 @@
             ]
           },
           "5": {
-            "score": 24.49,
+            "score": 40.49,
             "reasons": [
               "複合1着率13.5%",
               "万舟は3〜6号艇頭が多い",
-              "展示か1周が2位以内"
+              "スリットで5号艇が左より良い",
+              "過去条件で穴頭寄り"
             ]
           }
         },
@@ -19000,10 +19030,12 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "5/6 展示+一周平均との差0.14以上:OK",
+        "スリット隊形あり:NG",
+        "対戦相性バフ艇2艇以上:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
@@ -19053,12 +19085,12 @@
       ],
       "finalize_rule": "締切10〜15分前にBOATERS AI・展示・実オッズを取得して、買い/見送りへ更新",
       "last_minute_manshu_rate_pct": 28.15,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 28.15,
-      "morning_manshu_rate_pct": 18.62,
-      "last_minute_live_rank": 69
+      "morning_manshu_rate_pct": 28.15,
+      "last_minute_live_rank": 70
     },
     {
       "rank": 8,
@@ -19698,7 +19730,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差+0.10以下:OK",
@@ -19714,13 +19746,15 @@
         "買い条件:NG"
       ],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-3-6",
+        "payout_yen": 6470,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 23,
+        "source": "official_boatrace_result_page"
       },
       "candidate_type": "後半軽監視",
       "candidate_phase": "morning_watchlist",
@@ -19755,8 +19789,8 @@
       "last_minute_source_type": "morning_top",
       "last_minute_candidate_strategy_ids": [],
       "post_exhibition_manshu_rate_pct": 31.66,
-      "morning_manshu_rate_pct": 18.62,
-      "last_minute_live_rank": 43
+      "morning_manshu_rate_pct": 31.66,
+      "last_minute_live_rank": 46
     },
     {
       "rank": 9,
@@ -19771,7 +19805,7 @@
       "race_kind": null,
       "series_title": "本命戦浜名湖巧者　ＢＯＡＴＢｏｙカップ",
       "ranking_type": "morning_watchlist",
-      "manshu_rate_pct": 31.89,
+      "manshu_rate_pct": 24.04,
       "base_manshu_rate_pct": 16.82,
       "composite_edge_base_rate_pct": null,
       "composite_edge_bonus_pct": 1.8,
@@ -20303,21 +20337,21 @@
         "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_scores": {
           "1": {
-            "score": 99.0,
+            "score": 104.0,
             "reasons": [
               "複合1着率70.0%",
               "1号艇オッズ評価35.7%で売れすぎではないが逃げ材料が強い",
-              "ダブルタイム",
+              "夏場1周が良くイン残り寄り",
               "例外的に内側の頭力が高い"
             ]
           },
           "6": {
-            "score": 17.01,
+            "score": 27.01,
             "reasons": [
               "複合1着率10.0%",
               "万舟は3〜6号艇頭が多い",
-              "展示+1周平均との差-0.20",
-              "AI+2位"
+              "スリットで6号艇が左より良い",
+              "3/4中凹みで外が入りやすい"
             ]
           }
         },
@@ -20368,27 +20402,30 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
-        "直前展示条件なし"
+        "スリット隊形あり:NG",
+        "対戦相性1号艇劣勢:OK"
       ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
       "buy_decision": "見送り",
       "final_decision_checks": [
-        "展示後38%未満:NG(31.89%)",
+        "展示後38%未満:NG(24.04%)",
         "本命40%以上:NG",
         "買い条件:NG"
       ],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "3-1-2",
+        "payout_yen": 7200,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 32,
+        "source": "official_boatrace_result_page"
       },
       "candidate_type": "軽監視",
       "candidate_phase": "morning_watchlist",
@@ -20417,15 +20454,13 @@
         "展示前: 後半9〜12R・宮島以外を少し加点"
       ],
       "finalize_rule": "締切10〜15分前にBOATERS AI・展示・実オッズを取得して、買い/見送りへ更新",
-      "last_minute_manshu_rate_pct": 31.89,
-      "morning_manshu_rate_pct": 18.39,
-      "last_minute_rate_source": "morning_pre_exhibition",
+      "last_minute_manshu_rate_pct": 24.04,
+      "morning_manshu_rate_pct": 31.89,
+      "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 32,
-      "last_minute_candidate_strategy_ids": [
-        "codex_logic29_late_outer12"
-      ],
-      "post_exhibition_manshu_rate_pct": 31.89
+      "last_minute_live_rank": 94,
+      "last_minute_candidate_strategy_ids": [],
+      "post_exhibition_manshu_rate_pct": 24.04
     },
     {
       "rank": 10,
@@ -21035,7 +21070,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-06-30T16:43:09+09:00",
+      "last_minute_checked_at": "2026-06-30T17:43:44+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形外圧:OK",
@@ -21050,13 +21085,15 @@
         "買い条件:NG"
       ],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-5-2",
+        "payout_yen": 2360,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 7,
+        "source": "official_boatrace_result_page"
       },
       "candidate_type": "軽監視",
       "candidate_phase": "morning_watchlist",
@@ -21086,10 +21123,10 @@
       ],
       "finalize_rule": "締切10〜15分前にBOATERS AI・展示・実オッズを取得して、買い/見送りへ更新",
       "last_minute_manshu_rate_pct": 32.81,
-      "morning_manshu_rate_pct": 31.74,
+      "morning_manshu_rate_pct": 32.81,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 39,
+      "last_minute_live_rank": 42,
       "last_minute_candidate_strategy_ids": [
         "codex_logic29_late_outer12"
       ],
@@ -21099,6 +21136,6 @@
   "snapshot_type": "morning_fixed",
   "snapshot_created_at": "2026-06-30T01:46:28+09:00",
   "snapshot_source": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260630.json",
-  "last_minute_updated_at": "2026-06-30T16:43:09+09:00",
-  "official_result_backfilled_at": "2026-06-30T05:37:14+0000"
+  "last_minute_updated_at": "2026-06-30T17:43:44+09:00",
+  "official_result_backfilled_at": "2026-06-30T08:45:24+0000"
 }
