@@ -10,7 +10,9 @@ import re
 import ssl
 import time
 import urllib.request
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 try:
     import certifi
@@ -19,6 +21,7 @@ except Exception:  # pragma: no cover - certifi is installed in GitHub Actions.
 
 
 ROOT = Path(__file__).resolve().parents[1]
+JST = ZoneInfo("Asia/Tokyo")
 
 
 def load_json(path: Path) -> dict:
@@ -58,7 +61,7 @@ def fetch_text(url: str) -> str:
             "Accept-Language": "ja,en-US;q=0.8,en;q=0.6",
         },
     )
-    with urllib.request.urlopen(request, timeout=20, context=context) as response:
+    with urllib.request.urlopen(request, timeout=8, context=context) as response:
         return response.read().decode("utf-8", errors="replace")
 
 
@@ -101,21 +104,69 @@ def result_missing(row: dict) -> bool:
     return result.get("payout_yen") is None or not result.get("trifecta")
 
 
+def parse_deadline(value) -> datetime | None:
+    if not value:
+        return None
+    try:
+        text = str(value).replace("Z", "+00:00")
+        parsed = datetime.fromisoformat(text)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=JST)
+        return parsed.astimezone(JST)
+    except ValueError:
+        return None
+
+
+def should_fetch_result(row: dict, now: datetime) -> bool:
+    if not result_missing(row):
+        return False
+    deadline = parse_deadline(row.get("deadline_time"))
+    if deadline is None:
+        return False
+    return deadline <= now
+
+
 def iter_rows(payload: dict):
     for group_name in ("races", "strict_races", "morning_candidates"):
         for row in payload.get(group_name) or []:
             yield group_name, row
 
 
-def backfill_file(path: Path, dry_run: bool = False, sleep_sec: float = 0.15) -> dict:
+def fetch_result_once(date_text: str, key: tuple[int, int], cache: dict, errors: dict, sleep_sec: float):
+    if key in cache:
+        return cache[key]
+    place_id, round_no = key
+    url = official_result_url(date_text, place_id, round_no)
+    try:
+        result = parse_official_result(fetch_text(url))
+        cache[key] = result
+        time.sleep(sleep_sec)
+        return result
+    except Exception as exc:  # noqa: BLE001 - keep this collector non-fatal.
+        cache[key] = None
+        errors[f"{place_id}:{round_no}"] = str(exc)
+        return None
+
+
+def backfill_file(
+    path: Path,
+    dry_run: bool = False,
+    sleep_sec: float = 0.15,
+    cache: dict | None = None,
+    shared_errors: dict | None = None,
+    now: datetime | None = None,
+) -> dict:
     payload = load_json(path)
     date_text = payload.get("date")
     if not date_text:
         return {"path": str(path), "changed": False, "error": "date missing"}
 
+    now = now or datetime.now(JST)
+    cache = cache if cache is not None else {}
+    shared_errors = shared_errors if shared_errors is not None else {}
     needed = {}
     for _, row in iter_rows(payload):
-        if not result_missing(row):
+        if not should_fetch_result(row, now):
             continue
         place_id = row.get("place_id")
         round_no = row.get("round")
@@ -127,17 +178,10 @@ def backfill_file(path: Path, dry_run: bool = False, sleep_sec: float = 0.15) ->
         }
 
     fetched = {}
-    errors = {}
     for key, info in sorted(needed.items()):
-        place_id, round_no = key
-        url = official_result_url(date_text, place_id, round_no)
-        try:
-            result = parse_official_result(fetch_text(url))
-            if result:
-                fetched[key] = result
-            time.sleep(sleep_sec)
-        except Exception as exc:  # noqa: BLE001 - keep this collector non-fatal.
-            errors[f"{place_id}:{round_no}"] = str(exc)
+        result = fetch_result_once(date_text, key, cache, shared_errors, sleep_sec)
+        if result:
+            fetched[key] = result
 
     changed = False
     updated = []
@@ -175,7 +219,7 @@ def backfill_file(path: Path, dry_run: bool = False, sleep_sec: float = 0.15) ->
         "changed": changed,
         "dry_run": dry_run,
         "updated_rows": updated[:20],
-        "errors": errors,
+        "errors": {f"{key[0]}:{key[1]}": shared_errors[f"{key[0]}:{key[1]}"] for key in needed if f"{key[0]}:{key[1]}" in shared_errors},
     }
 
 
@@ -186,7 +230,14 @@ def main() -> int:
     parser.add_argument("--sleep", type=float, default=0.15)
     args = parser.parse_args()
 
-    results = [backfill_file(path, dry_run=args.dry_run, sleep_sec=args.sleep) for path in args.ranking_json if path.exists()]
+    cache = {}
+    shared_errors = {}
+    now = datetime.now(JST)
+    results = [
+        backfill_file(path, dry_run=args.dry_run, sleep_sec=args.sleep, cache=cache, shared_errors=shared_errors, now=now)
+        for path in args.ranking_json
+        if path.exists()
+    ]
     print(json.dumps({"version": "official-result-backfill-v1", "results": results}, ensure_ascii=False, indent=2))
     return 0
 
