@@ -96,13 +96,21 @@
     .badge.good{background:#ecfdf3;border-color:#bbf7d0;color:#047857}
     .badge.bad{background:#fff1f2;border-color:#fecdd3;color:#be123c}
     .badge.warn{background:#fff7ed;border-color:#fed7aa;color:#9a3412}
-    .quick-roles{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+    .quick-roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:7px;margin-top:8px}
     .quick-role{border:1px solid #dbe3ef;border-radius:8px;background:#f8fafc;padding:7px 8px}
     .quick-role b{display:block;color:#344054;font-size:11px;letter-spacing:0;font-weight:900}
     .quick-role strong{display:block;color:#111827;font-size:15px;line-height:1.25;margin-top:2px}
     .quick-role span{display:block;color:#667085;font-size:11px;font-weight:800;margin-top:2px}
     .quick-role.head{border-color:#fecdd3;background:#fff1f2}
     .quick-role.axis{border-color:#bbf7d0;background:#ecfdf3}
+    .quick-role.keshi{border-color:#fde68a;background:#fffbeb}
+    .buy-role-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:7px;margin:8px 0}
+    .buy-role{border:1px solid #dbe3ef;border-radius:8px;background:#f8fafc;padding:8px}
+    .buy-role b{display:block;color:#344054;font-size:11px;font-weight:900}
+    .buy-role strong{display:block;color:#111827;font-size:15px;line-height:1.25;margin-top:2px}
+    .buy-role.head{border-color:#fecdd3;background:#fff1f2}
+    .buy-role.axis{border-color:#bbf7d0;background:#ecfdf3}
+    .buy-role.keshi{border-color:#fde68a;background:#fffbeb}
     .role-detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
     .role-detail-card{border:1px solid #dbe3ef;border-radius:8px;background:#fff;padding:9px}
     .role-detail-card b{display:block;font-size:13px;color:#111827;margin-bottom:3px}
@@ -661,11 +669,23 @@
       var s=selectionOf(r);
       var pointText=(s.points||tickets.length||0)+"点";
       var roleNote=s.role_note||"";
+      var heads=(s.heads||[]).slice(0,2);
+      var axes=(s.axes||[]).slice(0,2);
+      var roleGrid=[
+        "<div class=\"buy-role-grid\">",
+        "<div class=\"buy-role head\"><b>1着候補</b><strong>"+esc(boatsText(heads))+"</strong></div>",
+        "<div class=\"buy-role axis\"><b>軸候補</b><strong>"+esc(boatsText(axes))+"</strong></div>",
+        "<div class=\"buy-role keshi\"><b>消し候補</b><strong>"+esc(keshiText(s))+"</strong></div>",
+        "<div class=\"buy-role\"><b>点数</b><strong>"+esc(pointText)+"</strong></div>",
+        "</div>"
+      ].join("");
       return [
         "<div class=\"simple-box\"><h3>買い / 見送り</h3>",
         "<p class=\"lead\"><b class=\"badge "+esc(d.cls)+"\">"+esc(d.label)+"</b> "+esc(d.detail)+"</p>",
+        roleGrid,
+        s.keshi_reason?"<p class=\"mini\"><b>消し理由:</b> "+esc(s.keshi_reason)+"</p>":"",
         checks?"<p class=\"mini\"><b>展示後チェック:</b> "+esc(checks)+"</p>":"",
-        (d.cls==="good"||d.showTickets)&&tickets.length?"<p class=\"mini\"><b>"+esc(ticketLabel)+" "+esc(pointText)+":</b> "+esc(tickets.join(" / "))+"</p>":"<p class=\"mini\">本命絞り候補になった時だけ、回収率重視の少点数買い目を表示します。</p>",
+        tickets.length?"<p class=\"mini\"><b>"+esc(ticketLabel)+" "+esc(pointText)+":</b> "+esc(tickets.join(" / "))+"</p>":"<p class=\"mini\">買い目は、展示後に候補・軸・消しが揃ったレースだけ表示します。</p>",
         roleNote?"<p class=\"mini\"><b>狙い:</b> "+esc(roleNote)+"</p>":"",
         "</div>"
       ].join("");
@@ -701,6 +721,9 @@
     function selectionOf(r){
       var s=Object.assign({},r.selection||{});
       var rows=boatRows(r);
+      var m=r.metrics||{};
+      if((s.keshi==null||s.keshi==="")&&m.keshi_boat!=null) s.keshi=m.keshi_boat;
+      if(!s.keshi_reason&&m.keshi_reason) s.keshi_reason=m.keshi_reason;
       if(s.head_mode==="core_front_head2_no1_outer56"&&Array.isArray(s.heads)&&s.heads.length){
         return s;
       }
@@ -725,6 +748,9 @@
       }
       return s;
     }
+    function keshiText(s){
+      return s&&s.keshi!=null&&s.keshi!==""?s.keshi+"号艇":"--";
+    }
     function quickRolesHtml(r){
       var s=selectionOf(r);
       if(s.head_mode==="core_front_head2_no1_outer56"){
@@ -734,6 +760,7 @@
           "<div class=\"quick-roles\">",
           "<div class=\"quick-role head\"><b>本命1着固定</b><strong>"+esc(boatsText([fixed]))+"</strong><span>元外頭候補 "+esc(boatsText(base))+" の2番手だけを頭にします</span></div>",
           "<div class=\"quick-role axis\"><b>軸候補</b><strong>"+esc(boatsText((s.axes||[]).slice(0,2)))+"</strong><span>"+esc(s.axis_rule||"AI3連対率+一般3連対率の2位と3位")+"</span></div>",
+          "<div class=\"quick-role keshi\"><b>消し候補</b><strong>"+esc(keshiText(s))+"</strong><span>"+esc(s.keshi_reason||"買い目から外す艇")+"</span></div>",
           "</div>"
         ].join("");
       }
@@ -743,6 +770,7 @@
         "<div class=\"quick-roles\">",
         "<div class=\"quick-role head\"><b>万舟1着候補2艇</b><strong>"+esc(boatsText(heads))+"</strong><span>"+esc(s.head_rule||"3〜6号艇優先で選定")+"</span></div>",
         "<div class=\"quick-role axis\"><b>軸候補2艇</b><strong>"+esc(boatsText(axes))+"</strong><span>"+esc(s.axis_rule||"AI3連対率の1位と3位")+"</span></div>",
+        "<div class=\"quick-role keshi\"><b>消し候補</b><strong>"+esc(keshiText(s))+"</strong><span>"+esc(s.keshi_reason||"買い目から外す艇")+"</span></div>",
         "</div>"
       ].join("");
     }
