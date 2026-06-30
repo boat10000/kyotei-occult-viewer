@@ -946,12 +946,49 @@ def send_ntfy(config, title, message, tags="rotating_light", priority=None):
     data = message.encode("utf-8")
     request = urllib.request.Request(url, data=data, headers=headers, method="POST")
     try:
-        with urllib.request.urlopen(request, timeout=8) as response:
+        context = ssl.create_default_context()
+        try:
+            import certifi  # type: ignore
+
+            context = ssl.create_default_context(cafile=certifi.where())
+        except Exception:
+            pass
+        with urllib.request.urlopen(request, timeout=8, context=context) as response:
             return {"enabled": True, "ok": 200 <= response.status < 300, "status": response.status}
     except urllib.error.HTTPError as exc:
         return {"enabled": True, "ok": False, "status": exc.code, "error": str(exc)}
     except Exception as exc:
-        return {"enabled": True, "ok": False, "error": str(exc)}
+        curl_cmd = [
+            "curl",
+            "-sS",
+            "--max-time",
+            "8",
+            "-o",
+            "/dev/null",
+            "-w",
+            "%{http_code}",
+            "-X",
+            "POST",
+            url,
+        ]
+        for key, value in headers.items():
+            curl_cmd.extend(["-H", f"{key}: {value}"])
+        curl_cmd.extend(["--data-binary", "@-"])
+        try:
+            result = subprocess.run(curl_cmd, input=data, capture_output=True, check=False)
+            status_text = result.stdout.decode("utf-8", errors="replace").strip()
+            status = int(status_text) if status_text.isdigit() else None
+            ok = status is not None and 200 <= status < 300
+            return {
+                "enabled": True,
+                "ok": ok,
+                "status": status,
+                "fallback": "curl",
+                "python_error": str(exc),
+                "curl_error": result.stderr.decode("utf-8", errors="replace").strip() or None,
+            }
+        except Exception as curl_exc:
+            return {"enabled": True, "ok": False, "error": str(exc), "curl_error": str(curl_exc)}
 
 
 def push_notifications(payload, state, now):

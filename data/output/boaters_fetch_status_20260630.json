@@ -1,13 +1,13 @@
 {
   "version": "boaters-fetch-status-v1",
   "date": "2026-06-30",
-  "generated_at": "2026-06-30T16:44:39+09:00",
+  "generated_at": "2026-06-30T17:09:07+09:00",
   "alert_path": "/private/tmp/kyotei-mm1601-reflect/data/output/boaters_manshu_alerts_20260630.json",
   "ranking_path": "/private/tmp/kyotei-mm1601-reflect/data/output/boaters_manshu_ranking_20260630.json",
   "status_key": "22fca77a3b7d5286",
   "should_notify": true,
   "title": "BOATERS取得ステータス",
-  "message": "2026-06-30 取得確認\nBOATERS展示/AI: 20/20R取得 (展示6艇揃い 18R)\n結果反映: 監視/急上昇20R中 5R確定 / 万舟 0R\n\n監視/急上昇レース状況:\n- 三国11R 見送り 25.6% / 結果 1-2-3 460円\n- 三国4R 見送り 25.6% / 結果 1-4-2 1,460円\n- びわこ6R 見送り 28.4% / 結果 3-2-5 5,580円\n- びわこ1R 見送り 28.0% / 結果待ち\n- 常滑2R 見送り 37.7% / 結果 5-1-2 1,510円\n- 常滑9R 見送り 33.3% / 結果待ち\n- 多摩川2R 見送り 28.1% / 結果 1-4-6 5,120円\n- 多摩川9R 見送り 31.7% / 結果待ち\n- ほか12R",
+  "message": "2026-06-30 取得確認\nBOATERS展示/AI: 20/20R取得 (展示6艇揃い 18R)\n結果反映: 監視/急上昇20R中 5R確定 / 万舟 0R\n結果の増減: +2R\n\n監視/急上昇レース状況:\n- 三国11R 見送り 25.6% / 結果 1-2-3 460円\n- 三国4R 見送り 25.6% / 結果 1-4-2 1,460円\n- びわこ6R 見送り 28.4% / 結果 3-2-5 5,580円\n- びわこ1R 見送り 28.0% / 結果待ち\n- 常滑2R 見送り 37.7% / 結果 5-1-2 1,510円\n- 常滑9R 見送り 33.3% / 結果待ち\n- 多摩川2R 見送り 28.1% / 結果 1-4-6 5,120円\n- 多摩川9R 見送り 31.7% / 結果待ち\n- ほか12R",
   "fetch_summary": {
     "attempted_count": 20,
     "success_count": 20,
@@ -25,7 +25,8 @@
     "relevant_manshu_count": 0
   },
   "push": {
-    "enabled": false,
-    "reason": "ntfy_topic not configured"
+    "enabled": true,
+    "ok": true,
+    "status": 200
   }
 }
