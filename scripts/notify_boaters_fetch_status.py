@@ -64,6 +64,10 @@ def race_label(item: dict) -> str:
     return f"{place}{round_no}R"
 
 
+def race_key(item: dict):
+    return item.get("race_id") or (item.get("place_name"), item.get("round"))
+
+
 def fmt_pct(value) -> str:
     try:
         if value is None:
@@ -155,6 +159,26 @@ def result_line(row: dict) -> str:
     return f"{race_label(row)} {trifecta} {payout_text}"
 
 
+def result_text(row: dict | None) -> str:
+    if not row:
+        return "結果待ち"
+    result = row.get("result") or {}
+    payout = result.get("payout_yen")
+    if payout is None:
+        return "結果待ち"
+    trifecta = result.get("trifecta") or "-"
+    payout_text = f"{int(payout):,}円" if isinstance(payout, int) else f"{payout}円"
+    return f"結果 {trifecta} {payout_text}"
+
+
+def combined_status_line(fetch_item: dict, result_by_key: dict) -> str:
+    return (
+        f"{race_label(fetch_item)} {decision_text(fetch_item)} "
+        f"{fmt_pct(fetch_item.get('post_exhibition_manshu_rate_pct'))} / "
+        f"{result_text(result_by_key.get(race_key(fetch_item)))}"
+    ).strip()
+
+
 def build_message(date_text: str, fetch_summary: dict, result_summary: dict, previous_result_count: int | None) -> tuple[str, str, bool]:
     has_fetch_event = (
         fetch_summary["attempted_count"] > 0
@@ -196,11 +220,12 @@ def build_message(date_text: str, fetch_summary: dict, result_summary: dict, pre
             sign = "+" if delta > 0 else ""
             lines.append(f"結果の増減: {sign}{delta}R")
 
-    successes = fetch_summary["successes"][:5]
+    result_by_key = {race_key(row): row for row in result_summary["settled"]}
+    successes = fetch_summary["successes"][:8]
     if successes:
         lines.append("")
-        lines.append("取得できたレース:")
-        lines.extend(f"- {success_line(item)}" for item in successes)
+        lines.append("監視レース状況:")
+        lines.extend(f"- {combined_status_line(item, result_by_key)}" for item in successes)
         if len(fetch_summary["successes"]) > len(successes):
             lines.append(f"- ほか{len(fetch_summary['successes']) - len(successes)}R")
 
@@ -210,11 +235,12 @@ def build_message(date_text: str, fetch_summary: dict, result_summary: dict, pre
         lines.append("取得できなかったレース:")
         lines.extend(f"- {failure_line(item)}" for item in failures)
 
-    recent_results = result_summary["settled"][-5:]
-    if recent_results:
+    success_keys = {race_key(item) for item in fetch_summary["successes"]}
+    result_only = [row for row in result_summary["settled"] if race_key(row) not in success_keys][-5:]
+    if result_only:
         lines.append("")
-        lines.append("反映済み結果:")
-        lines.extend(f"- {result_line(row)}" for row in recent_results)
+        lines.append("結果のみ反映:")
+        lines.extend(f"- {result_line(row)}" for row in result_only)
 
     return title, "\n".join(lines), should_notify
 
