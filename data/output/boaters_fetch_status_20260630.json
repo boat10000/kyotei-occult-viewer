@@ -1,17 +1,17 @@
 {
   "version": "boaters-fetch-status-v1",
   "date": "2026-06-30",
-  "generated_at": "2026-06-30T10:14:49+09:00",
+  "generated_at": "2026-06-30T10:22:39+09:00",
   "alert_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_alerts_20260630.json",
   "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260630.json",
-  "status_key": "77dfbe78be546395",
+  "status_key": "79641eeef296727c",
   "should_notify": true,
   "title": "BOATERS取得ステータス",
-  "message": "2026-06-30 取得確認\nBOATERS展示/AI: 1/1R取得 (展示6艇揃い 0R)\n結果反映: TOP10中 0R確定 / 万舟 0R\n\n取得できたレース:\n- びわこ1R 展示不足 30.8%",
+  "message": "2026-06-30 取得確認\nBOATERS展示/AI: 2/2R取得 (展示6艇揃い 2R)\n結果反映: TOP10中 0R確定 / 万舟 0R\n\n取得できたレース:\n- 三国4R 見送り 25.6%\n- びわこ1R 見送り 28.0%",
   "fetch_summary": {
-    "attempted_count": 1,
-    "success_count": 1,
-    "preview_ready_count": 0,
+    "attempted_count": 2,
+    "success_count": 2,
+    "preview_ready_count": 2,
     "failure_count": 0,
     "live_failure_count": 0,
     "ranking_missing_count": 0
