@@ -635,6 +635,17 @@ def filter_value_tickets(
     return limit_unique(filtered, max_points)
 
 
+def non1_composite_heads(row: dict[str, Any], count: int = 2) -> list[int]:
+    return sorted_boats_by(row, lambda b: parse_float(b.get("composite_win_pct")), allowed={2, 3, 4, 5, 6})[:count]
+
+
+def ai13_axes(row: dict[str, Any]) -> list[int]:
+    ranked = fallback_axes(row, 3, rank_start=0)
+    if len(ranked) >= 3:
+        return dedupe([ranked[0], ranked[2]])
+    return ranked
+
+
 def box_tickets(boats: list[int]) -> list[str]:
     boats = dedupe(boats)[:3]
     tickets: list[str] = []
@@ -655,8 +666,7 @@ def strategy_tickets(row: dict[str, Any], strategy_id: str) -> list[str]:
     hybrid_heads = head_candidates(row, "honmei_hybrid_v1", 2)
     axes_current = dedupe(ints_from_csv(row.get("axis_boats")) + fallback_axes(row, 2))[:2]
     axes_ai23 = fallback_axes(row, 2, rank_start=1)
-    axes_ai13_source = fallback_axes(row, 3, rank_start=0)
-    axes_ai13 = dedupe(([axes_ai13_source[0], axes_ai13_source[2]] if len(axes_ai13_source) >= 3 else axes_ai13_source) + axes_ai23)[:2]
+    axes_ai13 = dedupe(ai13_axes(row) + axes_ai23)[:2]
     axis_ai2 = fallback_axes(row, 1, rank_start=1)
     axis_ai3 = fallback_axes(row, 1, rank_start=2)
     keshi = fallback_keshi(row)
@@ -678,6 +688,10 @@ def strategy_tickets(row: dict[str, Any], strategy_id: str) -> list[str]:
     if strategy_id == "outer_head2_no1_ai23_12":
         axes = [a for a in axes_ai23 if a != 1] or axis_ai2
         return formation_tickets(outer_heads, axes, supports_no1, 12)
+    if strategy_id == "odds_b1_fade_comp_ai13_12":
+        if not popular_b1_overbet_danger(row):
+            return []
+        return formation_tickets(non1_composite_heads(row, 2), axes_ai13, supports, 12)
     if strategy_id == "value_ai_head2_ai23_has56_12":
         if not any(h in {5, 6} for h in hybrid_heads):
             return []
@@ -703,35 +717,41 @@ def strategy_tickets(row: dict[str, Any], strategy_id: str) -> list[str]:
     return []
 
 
-VALUE_BUY_PRIMARY_STRATEGY = "value_ai_head2_ai23_has56_12"
-VALUE_BUY_FALLBACK_STRATEGY = "value_comp_ai13_outer_or_56_12"
+VALUE_BUY_PRIMARY_STRATEGY = "odds_b1_fade_comp_ai13_12"
+VALUE_BUY_FALLBACK_STRATEGY = "value_ai_head2_ai23_has56_12"
 
 
 def value_buy_recommendation(row: dict[str, Any]) -> dict[str, Any]:
     rate = row.get("manshu_rate_pct") or 0.0
     primary = strategy_tickets(row, VALUE_BUY_PRIMARY_STRATEGY)
-    if rate >= 38.0 and primary:
+    if rate >= 40.0 and primary:
         return {
-            "label": "高配当向け買い候補",
+            "label": "オッズ込み買い候補",
             "strategy_id": VALUE_BUY_PRIMARY_STRATEGY,
             "strategy_name": strategy_name(VALUE_BUY_PRIMARY_STRATEGY),
-            "reason": "展示後38%以上で、推奨頭に5/6が入り、5/6絡みだけに絞れるため",
+            "reason": "1号艇が世間人気ありなのに危険。1号艇頭だけ外し、2〜6号艇頭で狙うため",
             "tickets": primary,
         }
     fallback = strategy_tickets(row, VALUE_BUY_FALLBACK_STRATEGY)
-    if rate >= 40.0 and popular_b1_danger(row) and fallback:
+    if rate >= 38.0 and fallback:
         return {
-            "label": "補助買い候補",
+            "label": "5/6材料あり補助",
             "strategy_id": VALUE_BUY_FALLBACK_STRATEGY,
             "strategy_name": strategy_name(VALUE_BUY_FALLBACK_STRATEGY),
-            "reason": "本命40%以上で人気1号艇が危険。外頭または5/6絡みに絞れるため",
+            "reason": "オッズ込み本命条件は不足。ただし推奨頭に5/6があり、5/6絡みだけなら補助候補",
             "tickets": fallback,
         }
+    if rate >= 38.0 and not popular_b1_publicly_backed(row):
+        reason = "1号艇が世間人気不足。1号艇飛び狙いで入る条件ではないため"
+    elif rate >= 38.0:
+        reason = "1号艇人気か荒れ材料のどちらかが不足。無理に高配当狙いにしないため"
+    else:
+        reason = "展示後の万舟率が38%未満のため"
     return {
         "label": "見送り寄り",
         "strategy_id": "",
         "strategy_name": "",
-        "reason": "高配当向け条件が不足。頭は拾えても安い決着を買いやすい形",
+        "reason": reason,
         "tickets": [],
     }
 
@@ -1067,6 +1087,26 @@ def popular_b1_danger(row: dict[str, Any]) -> bool:
     return level in {"危険", "超危険"} or score >= 70.0
 
 
+def popular_b1_publicly_backed(row: dict[str, Any]) -> bool:
+    metrics = metrics_map(row)
+    if boolish(metrics.get("popular_b1_is_popular")):
+        return True
+    if (parse_float(metrics.get("trifecta_top5_head1_count")) or 0.0) >= 3.0:
+        return True
+    b1_odds_rank = parse_float(metrics.get("boat1_odds_rank"))
+    b1_odds_pct = parse_float(metrics.get("boat1_odds_prediction_pct")) or 0.0
+    return b1_odds_rank == 1.0 and b1_odds_pct >= 40.0
+
+
+def popular_b1_top5_dominant(row: dict[str, Any]) -> bool:
+    metrics = metrics_map(row)
+    return boolish(metrics.get("b1_trifecta_top5_1head")) or (parse_float(metrics.get("trifecta_top5_head1_count")) or 0.0) >= 5.0
+
+
+def popular_b1_overbet_danger(row: dict[str, Any]) -> bool:
+    return popular_b1_publicly_backed(row) and popular_b1_danger(row)
+
+
 def outer56_support_signal(row: dict[str, Any]) -> bool:
     metrics = metrics_map(row)
     if (parse_float(metrics.get("outer56_super_slit_count")) or 0.0) >= 1.0:
@@ -1150,6 +1190,20 @@ HEAD_VALUE_PATTERNS = [
         "usable_before_race": True,
         "logic": "買う前に分かる形。人気の1号艇に飛び材料がある",
         "pred": lambda row, _heads: popular_b1_danger(row),
+    },
+    {
+        "id": "popular_b1_overbet_danger",
+        "name": "1号艇が売れているのに危険",
+        "usable_before_race": True,
+        "logic": "買う前に分かる形。オッズやAIオッズで1号艇が人気なのに、展示や複合条件で危険",
+        "pred": lambda row, _heads: popular_b1_overbet_danger(row),
+    },
+    {
+        "id": "popular_b1_top5_dominant",
+        "name": "三連単上位が1号艇頭寄り",
+        "usable_before_race": True,
+        "logic": "買う前に分かる形。三連単上位5点が1号艇頭に寄っている。現状は保存件数が少ないため参考",
+        "pred": lambda row, _heads: popular_b1_top5_dominant(row),
     },
     {
         "id": "outer56_support",
@@ -1459,6 +1513,11 @@ BUY_STRATEGIES = [
         "logic": "1号艇を2・3着からも外し、外頭2艇とAI+一般3連対2・3位軸で買う",
     },
     {
+        "id": "odds_b1_fade_comp_ai13_12",
+        "name": "オッズ重視 1号艇人気危険なら頭外し12点",
+        "logic": "1号艇が世間人気あり、かつ危険な時だけ買う。頭は2〜6号艇の複合1着率上位2艇、軸はAI+一般3連対の1位・3位。5/6は必須にしない",
+    },
+    {
         "id": "value_ai_head2_ai23_has56_12",
         "name": "高配当向け AI頭2×AI+2・3位軸 5/6絡み",
         "logic": "展示後38%以上で推奨頭に5/6が入る時だけ、AI+上位2艇を頭、AI+2・3位を軸にし、5/6が絡まない安い買い目を削る最大12点",
@@ -1589,6 +1648,8 @@ def build_strategy_research(records: list[dict[str, Any]]) -> dict[str, Any]:
         ("準本命38-39.9", lambda r: 38.0 <= (r.get("manshu_rate_pct") or 0) < 40.0),
         ("本命40%以上", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0),
         ("本命40%以上＋人気1号艇危険", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_danger(r)),
+        ("本命40%以上＋1号艇人気あり危険", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_overbet_danger(r)),
+        ("本命40%以上＋三連単上位1号艇頭", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_top5_dominant(r) and popular_b1_danger(r)),
         ("本命40%以上＋5/6予兆", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and outer56_support_signal(r)),
         ("一般戦 本命40%以上", lambda r: is_general_race(r) and (r.get("manshu_rate_pct") or 0) >= 40.0),
         ("一般戦 本命40%以上 展示6艇", lambda r: is_general_race(r) and (r.get("manshu_rate_pct") or 0) >= 40.0 and has_full_exhibition(r)),
