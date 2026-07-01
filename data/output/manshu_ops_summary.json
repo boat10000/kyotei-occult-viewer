@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-01T13:14:39+00:00",
+  "generated_at": "2026-07-01T13:25:39+00:00",
   "source": {
     "db_path": "data/output/manshu_ops.sqlite",
     "input_dir": "data/output",
@@ -939,5 +939,6487 @@
       "max_losing_streak": 0,
       "month": "2026-07"
     }
-  ]
+  ],
+  "strategy_research": {
+    "strategies": [
+      {
+        "id": "saved_current",
+        "name": "現行保存買い目",
+        "logic": "JSONに保存されているその時点の買い目をそのまま買う"
+      },
+      {
+        "id": "head2_axis2_current_15",
+        "name": "頭2×軸2 15点",
+        "logic": "頭候補2艇と軸候補2艇。消し以外へ2・3着折り返しで最大15点"
+      },
+      {
+        "id": "head1_axis2_current",
+        "name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      },
+      {
+        "id": "head2_axis1_current",
+        "name": "頭2×軸1",
+        "logic": "頭候補2艇、軸候補1艇。点数を抑える形"
+      },
+      {
+        "id": "outer_head2_ai23_12",
+        "name": "外頭2×AI+3連対2・3位軸 12点",
+        "logic": "3〜6号艇から複合1着上位2艇を頭、AI+一般3連対の2・3位を軸"
+      },
+      {
+        "id": "outer_head2_ai3_8",
+        "name": "外頭2×AI+3連対3位軸 8点",
+        "logic": "3〜6号艇から頭2艇、AI+一般3連対3位だけを軸にする省点数型"
+      },
+      {
+        "id": "outer_head2_no1_ai23_12",
+        "name": "1号艇抜き外頭2×AI+2・3位軸",
+        "logic": "1号艇を2・3着からも外し、外頭2艇とAI+一般3連対2・3位軸で買う"
+      },
+      {
+        "id": "three_boat_box",
+        "name": "3艇BOX",
+        "logic": "頭候補と軸候補から3艇に絞り、3連単BOX6点"
+      },
+      {
+        "id": "outer3_boat_box",
+        "name": "外3艇BOX",
+        "logic": "3〜6号艇の中から複合1着・3着内が強い3艇でBOX6点"
+      }
+    ],
+    "rows": [
+      {
+        "strategy_id": "head1_axis2_current",
+        "segment": "一般戦 本命40%以上",
+        "target_races": 29,
+        "buy_races": 29,
+        "total_points": 250,
+        "avg_points": 8.62,
+        "stake_yen": 25000,
+        "payback_yen": 20290,
+        "profit_yen": -4710,
+        "roi_pct": 81.16,
+        "hits": 4,
+        "hit_rate_pct": 13.79,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 11,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 44.8,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "福岡2R",
+            "result": "4-2-6",
+            "payout_yen": 4980,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      },
+      {
+        "strategy_id": "head2_axis2_current_15",
+        "segment": "一般戦 本命40%以上",
+        "target_races": 29,
+        "buy_races": 29,
+        "total_points": 426,
+        "avg_points": 14.69,
+        "stake_yen": 42600,
+        "payback_yen": 29640,
+        "profit_yen": -12960,
+        "roi_pct": 69.58,
+        "hits": 6,
+        "hit_rate_pct": 20.69,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 10,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 30.67,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "result": "2-5-3",
+            "payout_yen": 4750,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-5",
+              "3-5-2",
+              "3-2-6",
+              "3-6-2",
+              "2-3-1",
+              "2-1-3",
+              "2-3-5",
+              "2-5-3",
+              "2-3-6",
+              "2-6-3"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4",
+              "1-3-2",
+              "1-2-3",
+              "1-3-4",
+              "1-4-3",
+              "1-3-6",
+              "1-6-3",
+              "1-4-2",
+              "1-2-4",
+              "1-4-6"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-5-1",
+              "4-1-5",
+              "4-5-2",
+              "4-2-5",
+              "4-5-3",
+              "4-3-5",
+              "5-4-1",
+              "5-1-4",
+              "5-4-2",
+              "5-2-4",
+              "5-4-3",
+              "5-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3",
+              "6-1-2",
+              "6-2-1",
+              "6-1-3",
+              "6-3-1",
+              "6-1-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "4-5-2",
+              "4-2-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "福岡2R",
+            "result": "4-2-6",
+            "payout_yen": 4980,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-6",
+              "4-6-2",
+              "2-4-1",
+              "2-1-4",
+              "2-4-3",
+              "2-3-4",
+              "2-4-6",
+              "2-6-4"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸2 15点",
+        "logic": "頭候補2艇と軸候補2艇。消し以外へ2・3着折り返しで最大15点"
+      },
+      {
+        "strategy_id": "three_boat_box",
+        "segment": "一般戦 本命40%以上",
+        "target_races": 29,
+        "buy_races": 29,
+        "total_points": 174,
+        "avg_points": 6.0,
+        "stake_yen": 17400,
+        "payback_yen": 10820,
+        "profit_yen": -6580,
+        "roi_pct": 62.18,
+        "hits": 3,
+        "hit_rate_pct": 10.34,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 10,
+        "max_hit_payout_yen": 5160,
+        "payback_dependency_pct": 47.69,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-5-2",
+              "4-2-5",
+              "5-4-2",
+              "5-2-4",
+              "2-4-5",
+              "2-5-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-4-1",
+              "5-1-4",
+              "4-5-1",
+              "4-1-5",
+              "1-5-4",
+              "1-4-5"
+            ]
+          }
+        ],
+        "strategy_name": "3艇BOX",
+        "logic": "頭候補と軸候補から3艇に絞り、3連単BOX6点"
+      },
+      {
+        "strategy_id": "head2_axis1_current",
+        "segment": "一般戦 本命40%以上",
+        "target_races": 29,
+        "buy_races": 29,
+        "total_points": 250,
+        "avg_points": 8.62,
+        "stake_yen": 25000,
+        "payback_yen": 14740,
+        "profit_yen": -10260,
+        "roi_pct": 58.96,
+        "hits": 3,
+        "hit_rate_pct": 10.34,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 14,
+        "max_hit_payout_yen": 5160,
+        "payback_dependency_pct": 35.01,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "5-4-1",
+              "5-1-4",
+              "5-4-2",
+              "5-2-4",
+              "5-4-3",
+              "5-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "福岡2R",
+            "result": "4-2-6",
+            "payout_yen": 4980,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸1",
+        "logic": "頭候補2艇、軸候補1艇。点数を抑える形"
+      },
+      {
+        "strategy_id": "outer_head2_ai3_8",
+        "segment": "一般戦 本命40%以上",
+        "target_races": 29,
+        "buy_races": 29,
+        "total_points": 214,
+        "avg_points": 7.38,
+        "stake_yen": 21400,
+        "payback_yen": 10150,
+        "profit_yen": -11250,
+        "roi_pct": 47.43,
+        "hits": 2,
+        "hit_rate_pct": 6.9,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 13,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 89.56,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-3-1",
+              "5-1-3",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3",
+              "6-3-1",
+              "6-1-3"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対3位軸 8点",
+        "logic": "3〜6号艇から頭2艇、AI+一般3連対3位だけを軸にする省点数型"
+      },
+      {
+        "strategy_id": "outer_head2_no1_ai23_12",
+        "segment": "一般戦 本命40%以上",
+        "target_races": 29,
+        "buy_races": 29,
+        "total_points": 294,
+        "avg_points": 10.14,
+        "stake_yen": 29400,
+        "payback_yen": 13690,
+        "profit_yen": -15710,
+        "roi_pct": 46.56,
+        "hits": 2,
+        "hit_rate_pct": 6.9,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 14,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 66.4,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-5-3",
+              "4-3-5",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-3-4",
+              "5-4-3",
+              "6-2-3",
+              "6-3-2",
+              "6-2-4",
+              "6-4-2",
+              "6-2-5",
+              "6-5-2"
+            ]
+          }
+        ],
+        "strategy_name": "1号艇抜き外頭2×AI+2・3位軸",
+        "logic": "1号艇を2・3着からも外し、外頭2艇とAI+一般3連対2・3位軸で買う"
+      },
+      {
+        "strategy_id": "outer_head2_ai23_12",
+        "segment": "一般戦 本命40%以上",
+        "target_races": 29,
+        "buy_races": 29,
+        "total_points": 348,
+        "avg_points": 12.0,
+        "stake_yen": 34800,
+        "payback_yen": 10150,
+        "profit_yen": -24650,
+        "roi_pct": 29.17,
+        "hits": 2,
+        "hit_rate_pct": 6.9,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 13,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 89.56,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4",
+              "4-1-2",
+              "4-2-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-3-1",
+              "5-1-3",
+              "5-3-4",
+              "5-4-3",
+              "6-2-1",
+              "6-1-2"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対2・3位軸 12点",
+        "logic": "3〜6号艇から複合1着上位2艇を頭、AI+一般3連対の2・3位を軸"
+      },
+      {
+        "strategy_id": "outer3_boat_box",
+        "segment": "一般戦 本命40%以上",
+        "target_races": 29,
+        "buy_races": 29,
+        "total_points": 174,
+        "avg_points": 6.0,
+        "stake_yen": 17400,
+        "payback_yen": 0,
+        "profit_yen": -17400,
+        "roi_pct": 0.0,
+        "hits": 0,
+        "hit_rate_pct": 0.0,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 29,
+        "max_hit_payout_yen": null,
+        "payback_dependency_pct": null,
+        "verdict": "保留（件数不足）",
+        "examples": [],
+        "strategy_name": "外3艇BOX",
+        "logic": "3〜6号艇の中から複合1着・3着内が強い3艇でBOX6点"
+      },
+      {
+        "strategy_id": "saved_current",
+        "segment": "一般戦 本命40%以上",
+        "target_races": 29,
+        "buy_races": 0,
+        "total_points": 0,
+        "avg_points": null,
+        "stake_yen": 0,
+        "payback_yen": 0,
+        "profit_yen": 0,
+        "roi_pct": null,
+        "hits": 0,
+        "hit_rate_pct": null,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": null,
+        "max_losing_streak": 0,
+        "max_hit_payout_yen": null,
+        "payback_dependency_pct": null,
+        "verdict": "保留（件数不足）",
+        "examples": [],
+        "strategy_name": "現行保存買い目",
+        "logic": "JSONに保存されているその時点の買い目をそのまま買う"
+      },
+      {
+        "strategy_id": "head1_axis2_current",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 240,
+        "avg_points": 8.57,
+        "stake_yen": 24000,
+        "payback_yen": 20290,
+        "profit_yen": -3710,
+        "roi_pct": 84.54,
+        "hits": 4,
+        "hit_rate_pct": 14.29,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 10,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 44.8,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "福岡2R",
+            "result": "4-2-6",
+            "payout_yen": 4980,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      },
+      {
+        "strategy_id": "head2_axis2_current_15",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 411,
+        "avg_points": 14.68,
+        "stake_yen": 41100,
+        "payback_yen": 29640,
+        "profit_yen": -11460,
+        "roi_pct": 72.12,
+        "hits": 6,
+        "hit_rate_pct": 21.43,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 9,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 30.67,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "result": "2-5-3",
+            "payout_yen": 4750,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-5",
+              "3-5-2",
+              "3-2-6",
+              "3-6-2",
+              "2-3-1",
+              "2-1-3",
+              "2-3-5",
+              "2-5-3",
+              "2-3-6",
+              "2-6-3"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4",
+              "1-3-2",
+              "1-2-3",
+              "1-3-4",
+              "1-4-3",
+              "1-3-6",
+              "1-6-3",
+              "1-4-2",
+              "1-2-4",
+              "1-4-6"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-5-1",
+              "4-1-5",
+              "4-5-2",
+              "4-2-5",
+              "4-5-3",
+              "4-3-5",
+              "5-4-1",
+              "5-1-4",
+              "5-4-2",
+              "5-2-4",
+              "5-4-3",
+              "5-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3",
+              "6-1-2",
+              "6-2-1",
+              "6-1-3",
+              "6-3-1",
+              "6-1-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "4-5-2",
+              "4-2-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "福岡2R",
+            "result": "4-2-6",
+            "payout_yen": 4980,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-6",
+              "4-6-2",
+              "2-4-1",
+              "2-1-4",
+              "2-4-3",
+              "2-3-4",
+              "2-4-6",
+              "2-6-4"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸2 15点",
+        "logic": "頭候補2艇と軸候補2艇。消し以外へ2・3着折り返しで最大15点"
+      },
+      {
+        "strategy_id": "three_boat_box",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 168,
+        "avg_points": 6.0,
+        "stake_yen": 16800,
+        "payback_yen": 10820,
+        "profit_yen": -5980,
+        "roi_pct": 64.4,
+        "hits": 3,
+        "hit_rate_pct": 10.71,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 9,
+        "max_hit_payout_yen": 5160,
+        "payback_dependency_pct": 47.69,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-5-2",
+              "4-2-5",
+              "5-4-2",
+              "5-2-4",
+              "2-4-5",
+              "2-5-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-4-1",
+              "5-1-4",
+              "4-5-1",
+              "4-1-5",
+              "1-5-4",
+              "1-4-5"
+            ]
+          }
+        ],
+        "strategy_name": "3艇BOX",
+        "logic": "頭候補と軸候補から3艇に絞り、3連単BOX6点"
+      },
+      {
+        "strategy_id": "head2_axis1_current",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 240,
+        "avg_points": 8.57,
+        "stake_yen": 24000,
+        "payback_yen": 14740,
+        "profit_yen": -9260,
+        "roi_pct": 61.42,
+        "hits": 3,
+        "hit_rate_pct": 10.71,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 13,
+        "max_hit_payout_yen": 5160,
+        "payback_dependency_pct": 35.01,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "5-4-1",
+              "5-1-4",
+              "5-4-2",
+              "5-2-4",
+              "5-4-3",
+              "5-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "福岡2R",
+            "result": "4-2-6",
+            "payout_yen": 4980,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸1",
+        "logic": "頭候補2艇、軸候補1艇。点数を抑える形"
+      },
+      {
+        "strategy_id": "outer_head2_ai3_8",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 206,
+        "avg_points": 7.36,
+        "stake_yen": 20600,
+        "payback_yen": 10150,
+        "profit_yen": -10450,
+        "roi_pct": 49.27,
+        "hits": 2,
+        "hit_rate_pct": 7.14,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 13,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 89.56,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-3-1",
+              "5-1-3",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3",
+              "6-3-1",
+              "6-1-3"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対3位軸 8点",
+        "logic": "3〜6号艇から頭2艇、AI+一般3連対3位だけを軸にする省点数型"
+      },
+      {
+        "strategy_id": "outer_head2_no1_ai23_12",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 284,
+        "avg_points": 10.14,
+        "stake_yen": 28400,
+        "payback_yen": 13690,
+        "profit_yen": -14710,
+        "roi_pct": 48.2,
+        "hits": 2,
+        "hit_rate_pct": 7.14,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 13,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 66.4,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-5-3",
+              "4-3-5",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-3-4",
+              "5-4-3",
+              "6-2-3",
+              "6-3-2",
+              "6-2-4",
+              "6-4-2",
+              "6-2-5",
+              "6-5-2"
+            ]
+          }
+        ],
+        "strategy_name": "1号艇抜き外頭2×AI+2・3位軸",
+        "logic": "1号艇を2・3着からも外し、外頭2艇とAI+一般3連対2・3位軸で買う"
+      },
+      {
+        "strategy_id": "outer_head2_ai23_12",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 336,
+        "avg_points": 12.0,
+        "stake_yen": 33600,
+        "payback_yen": 10150,
+        "profit_yen": -23450,
+        "roi_pct": 30.21,
+        "hits": 2,
+        "hit_rate_pct": 7.14,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 13,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 89.56,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4",
+              "4-1-2",
+              "4-2-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-3-1",
+              "5-1-3",
+              "5-3-4",
+              "5-4-3",
+              "6-2-1",
+              "6-1-2"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対2・3位軸 12点",
+        "logic": "3〜6号艇から複合1着上位2艇を頭、AI+一般3連対の2・3位を軸"
+      },
+      {
+        "strategy_id": "outer3_boat_box",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 168,
+        "avg_points": 6.0,
+        "stake_yen": 16800,
+        "payback_yen": 0,
+        "profit_yen": -16800,
+        "roi_pct": 0.0,
+        "hits": 0,
+        "hit_rate_pct": 0.0,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 28,
+        "max_hit_payout_yen": null,
+        "payback_dependency_pct": null,
+        "verdict": "保留（件数不足）",
+        "examples": [],
+        "strategy_name": "外3艇BOX",
+        "logic": "3〜6号艇の中から複合1着・3着内が強い3艇でBOX6点"
+      },
+      {
+        "strategy_id": "saved_current",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "target_races": 28,
+        "buy_races": 0,
+        "total_points": 0,
+        "avg_points": null,
+        "stake_yen": 0,
+        "payback_yen": 0,
+        "profit_yen": 0,
+        "roi_pct": null,
+        "hits": 0,
+        "hit_rate_pct": null,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": null,
+        "max_losing_streak": 0,
+        "max_hit_payout_yen": null,
+        "payback_dependency_pct": null,
+        "verdict": "保留（件数不足）",
+        "examples": [],
+        "strategy_name": "現行保存買い目",
+        "logic": "JSONに保存されているその時点の買い目をそのまま買う"
+      },
+      {
+        "strategy_id": "three_boat_box",
+        "segment": "展示後38%以上",
+        "target_races": 87,
+        "buy_races": 87,
+        "total_points": 522,
+        "avg_points": 6.0,
+        "stake_yen": 52200,
+        "payback_yen": 116710,
+        "profit_yen": 64510,
+        "roi_pct": 223.58,
+        "hits": 5,
+        "hit_rate_pct": 5.75,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 1.15,
+        "max_losing_streak": 29,
+        "max_hit_payout_yen": 102140,
+        "payback_dependency_pct": 87.52,
+        "verdict": "保留（高配当依存）",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "result": "5-1-6",
+            "payout_yen": 102140,
+            "tickets": [
+              "6-5-1",
+              "6-1-5",
+              "5-6-1",
+              "5-1-6",
+              "1-6-5",
+              "1-5-6"
+            ]
+          },
+          {
+            "date": "2026-06-26",
+            "race": "芦屋1R",
+            "result": "5-1-6",
+            "payout_yen": 3750,
+            "tickets": [
+              "5-6-1",
+              "5-1-6",
+              "6-5-1",
+              "6-1-5",
+              "1-5-6",
+              "1-6-5"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-5-2",
+              "4-2-5",
+              "5-4-2",
+              "5-2-4",
+              "2-4-5",
+              "2-5-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-4-1",
+              "5-1-4",
+              "4-5-1",
+              "4-1-5",
+              "1-5-4",
+              "1-4-5"
+            ]
+          }
+        ],
+        "strategy_name": "3艇BOX",
+        "logic": "頭候補と軸候補から3艇に絞り、3連単BOX6点"
+      },
+      {
+        "strategy_id": "head1_axis2_current",
+        "segment": "展示後38%以上",
+        "target_races": 87,
+        "buy_races": 87,
+        "total_points": 740,
+        "avg_points": 8.51,
+        "stake_yen": 74000,
+        "payback_yen": 57090,
+        "profit_yen": -16910,
+        "roi_pct": 77.15,
+        "hits": 12,
+        "hit_rate_pct": 13.79,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 1.15,
+        "max_losing_streak": 20,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 17.83,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "平和島7R",
+            "result": "3-4-5",
+            "payout_yen": 1480,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "3-4-1",
+              "3-1-4",
+              "3-4-5",
+              "3-5-4"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "住之江1R",
+            "result": "3-1-2",
+            "payout_yen": 1250,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-5",
+              "3-5-1"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "丸亀9R",
+            "result": "1-2-5",
+            "payout_yen": 3220,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "1-2-6",
+              "1-6-2"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "唐津3R",
+            "result": "3-1-2",
+            "payout_yen": 5660,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "宮島11R",
+            "result": "5-1-2",
+            "payout_yen": 2240,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1"
+            ]
+          }
+        ],
+        "strategy_name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      },
+      {
+        "strategy_id": "saved_current",
+        "segment": "展示後38%以上",
+        "target_races": 87,
+        "buy_races": 12,
+        "total_points": 177,
+        "avg_points": 14.75,
+        "stake_yen": 17700,
+        "payback_yen": 12600,
+        "profit_yen": -5100,
+        "roi_pct": 71.19,
+        "hits": 2,
+        "hit_rate_pct": 16.67,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 8.33,
+        "max_losing_streak": 9,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 80.79,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "大村3R",
+            "result": "1-2-3",
+            "payout_yen": 2420,
+            "tickets": [
+              "1-2-3",
+              "1-2-5",
+              "1-2-6",
+              "1-3-5",
+              "1-5-2",
+              "1-5-3",
+              "1-5-6",
+              "1-6-2",
+              "1-6-5",
+              "5-1-2",
+              "5-2-1",
+              "5-2-3",
+              "5-2-6",
+              "5-3-2",
+              "5-6-2"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "2-3-4",
+              "2-4-3",
+              "2-4-5",
+              "2-4-6",
+              "2-5-4",
+              "2-6-4",
+              "4-2-3",
+              "4-2-5",
+              "4-2-6",
+              "4-3-2",
+              "4-5-2",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "現行保存買い目",
+        "logic": "JSONに保存されているその時点の買い目をそのまま買う"
+      },
+      {
+        "strategy_id": "head2_axis2_current_15",
+        "segment": "展示後38%以上",
+        "target_races": 87,
+        "buy_races": 87,
+        "total_points": 1287,
+        "avg_points": 14.79,
+        "stake_yen": 128700,
+        "payback_yen": 82680,
+        "profit_yen": -46020,
+        "roi_pct": 64.24,
+        "hits": 17,
+        "hit_rate_pct": 19.54,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 1.15,
+        "max_losing_streak": 18,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 12.31,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "平和島7R",
+            "result": "3-4-5",
+            "payout_yen": 1480,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "3-4-1",
+              "3-1-4",
+              "3-4-5",
+              "3-5-4",
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "住之江1R",
+            "result": "3-1-2",
+            "payout_yen": 1250,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-5",
+              "3-5-1",
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "浜名湖12R",
+            "result": "2-1-5",
+            "payout_yen": 5830,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "1-2-6",
+              "1-6-2",
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1",
+              "2-1-6"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "丸亀9R",
+            "result": "1-2-5",
+            "payout_yen": 3220,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "1-2-6",
+              "1-6-2",
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1",
+              "2-1-6"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "唐津3R",
+            "result": "3-1-2",
+            "payout_yen": 5660,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-1-6",
+              "5-6-1",
+              "5-3-2"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-1-2",
+              "6-2-1",
+              "6-1-3",
+              "6-3-1",
+              "6-1-4"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸2 15点",
+        "logic": "頭候補2艇と軸候補2艇。消し以外へ2・3着折り返しで最大15点"
+      },
+      {
+        "strategy_id": "head2_axis1_current",
+        "segment": "展示後38%以上",
+        "target_races": 87,
+        "buy_races": 87,
+        "total_points": 740,
+        "avg_points": 8.51,
+        "stake_yen": 74000,
+        "payback_yen": 39900,
+        "profit_yen": -34100,
+        "roi_pct": 53.92,
+        "hits": 8,
+        "hit_rate_pct": 9.2,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 1.15,
+        "max_losing_streak": 31,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 25.51,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "住之江1R",
+            "result": "3-1-2",
+            "payout_yen": 1250,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-5",
+              "3-5-1",
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "浜名湖12R",
+            "result": "2-1-5",
+            "payout_yen": 5830,
+            "tickets": [
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1",
+              "2-1-6",
+              "2-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "唐津3R",
+            "result": "3-1-2",
+            "payout_yen": 5660,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "宮島11R",
+            "result": "5-1-2",
+            "payout_yen": 2240,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "5-4-1",
+              "5-1-4",
+              "5-4-2",
+              "5-2-4",
+              "5-4-3",
+              "5-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸1",
+        "logic": "頭候補2艇、軸候補1艇。点数を抑える形"
+      },
+      {
+        "strategy_id": "outer_head2_ai3_8",
+        "segment": "展示後38%以上",
+        "target_races": 87,
+        "buy_races": 87,
+        "total_points": 650,
+        "avg_points": 7.47,
+        "stake_yen": 65000,
+        "payback_yen": 33350,
+        "profit_yen": -31650,
+        "roi_pct": 51.31,
+        "hits": 6,
+        "hit_rate_pct": 6.9,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 20,
+        "max_hit_payout_yen": 9960,
+        "payback_dependency_pct": 29.87,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "result": "5-1-3",
+            "payout_yen": 2440,
+            "tickets": [
+              "5-3-1",
+              "5-1-3",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-3-1",
+              "6-1-3"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "宮島3R",
+            "result": "3-1-4",
+            "payout_yen": 2810,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "5-1-2",
+              "5-2-1"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-3-1",
+              "5-1-3",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3",
+              "6-3-1",
+              "6-1-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川7R",
+            "result": "5-2-1",
+            "payout_yen": 7990,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "5-1-2",
+              "5-2-1"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対3位軸 8点",
+        "logic": "3〜6号艇から頭2艇、AI+一般3連対3位だけを軸にする省点数型"
+      },
+      {
+        "strategy_id": "outer_head2_no1_ai23_12",
+        "segment": "展示後38%以上",
+        "target_races": 87,
+        "buy_races": 87,
+        "total_points": 876,
+        "avg_points": 10.07,
+        "stake_yen": 87600,
+        "payback_yen": 41800,
+        "profit_yen": -45800,
+        "roi_pct": 47.72,
+        "hits": 6,
+        "hit_rate_pct": 6.9,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 24,
+        "max_hit_payout_yen": 9960,
+        "payback_dependency_pct": 23.83,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-4-2",
+              "6-2-4",
+              "6-4-3",
+              "6-3-4",
+              "6-4-5",
+              "6-5-4",
+              "6-3-2",
+              "6-2-3"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "唐津6R",
+            "result": "4-2-3",
+            "payout_yen": 7590,
+            "tickets": [
+              "6-2-3",
+              "6-3-2",
+              "6-2-4",
+              "6-4-2",
+              "6-2-5",
+              "6-5-2",
+              "6-4-3",
+              "6-3-4",
+              "6-4-5",
+              "6-5-4",
+              "4-2-3",
+              "4-3-2"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "三国10R",
+            "result": "3-2-4",
+            "payout_yen": 7950,
+            "tickets": [
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-2-6",
+              "5-6-2",
+              "5-3-4",
+              "5-4-3",
+              "5-3-6",
+              "5-6-3",
+              "3-2-4",
+              "3-4-2"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-5-3",
+              "4-3-5",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-3-4",
+              "5-4-3",
+              "6-2-3",
+              "6-3-2",
+              "6-2-4",
+              "6-4-2",
+              "6-2-5",
+              "6-5-2"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "常滑7R",
+            "result": "3-6-2",
+            "payout_yen": 2610,
+            "tickets": [
+              "3-6-2",
+              "3-2-6",
+              "3-6-4",
+              "3-4-6",
+              "3-4-2",
+              "3-2-4",
+              "6-4-2",
+              "6-2-4",
+              "6-4-3",
+              "6-3-4"
+            ]
+          }
+        ],
+        "strategy_name": "1号艇抜き外頭2×AI+2・3位軸",
+        "logic": "1号艇を2・3着からも外し、外頭2艇とAI+一般3連対2・3位軸で買う"
+      },
+      {
+        "strategy_id": "outer_head2_ai23_12",
+        "segment": "展示後38%以上",
+        "target_races": 87,
+        "buy_races": 87,
+        "total_points": 1044,
+        "avg_points": 12.0,
+        "stake_yen": 104400,
+        "payback_yen": 42200,
+        "profit_yen": -62200,
+        "roi_pct": 40.42,
+        "hits": 10,
+        "hit_rate_pct": 11.49,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 20,
+        "max_hit_payout_yen": 9960,
+        "payback_dependency_pct": 23.6,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "住之江1R",
+            "result": "3-1-2",
+            "payout_yen": 1250,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-4-1",
+              "6-1-4",
+              "6-4-2",
+              "6-2-4",
+              "6-4-3",
+              "6-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "宮島11R",
+            "result": "5-1-2",
+            "payout_yen": 2240,
+            "tickets": [
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-3-1",
+              "5-1-3",
+              "5-3-4",
+              "5-4-3",
+              "3-2-1",
+              "3-1-2"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "宮島3R",
+            "result": "3-1-4",
+            "payout_yen": 2810,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-6",
+              "3-6-2",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "5-2-1",
+              "5-1-2"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4",
+              "4-1-2",
+              "4-2-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-3-1",
+              "5-1-3",
+              "5-3-4",
+              "5-4-3",
+              "6-2-1",
+              "6-1-2"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対2・3位軸 12点",
+        "logic": "3〜6号艇から複合1着上位2艇を頭、AI+一般3連対の2・3位を軸"
+      },
+      {
+        "strategy_id": "outer3_boat_box",
+        "segment": "展示後38%以上",
+        "target_races": 87,
+        "buy_races": 84,
+        "total_points": 504,
+        "avg_points": 6.0,
+        "stake_yen": 50400,
+        "payback_yen": 8060,
+        "profit_yen": -42340,
+        "roi_pct": 15.99,
+        "hits": 2,
+        "hit_rate_pct": 2.38,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 68,
+        "max_hit_payout_yen": 6580,
+        "payback_dependency_pct": 81.64,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "平和島7R",
+            "result": "3-4-5",
+            "payout_yen": 1480,
+            "tickets": [
+              "3-5-4",
+              "3-4-5",
+              "5-3-4",
+              "5-4-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-26",
+            "race": "鳴門9R",
+            "result": "3-6-4",
+            "payout_yen": 6580,
+            "tickets": [
+              "6-3-4",
+              "6-4-3",
+              "3-6-4",
+              "3-4-6",
+              "4-6-3",
+              "4-3-6"
+            ]
+          }
+        ],
+        "strategy_name": "外3艇BOX",
+        "logic": "3〜6号艇の中から複合1着・3着内が強い3艇でBOX6点"
+      },
+      {
+        "strategy_id": "outer3_boat_box",
+        "segment": "朝監視TOP10",
+        "target_races": 648,
+        "buy_races": 107,
+        "total_points": 642,
+        "avg_points": 6.0,
+        "stake_yen": 64200,
+        "payback_yen": 75610,
+        "profit_yen": 11410,
+        "roi_pct": 117.77,
+        "hits": 6,
+        "hit_rate_pct": 5.61,
+        "manshu_hits": 3,
+        "manshu_hit_rate_pct": 2.8,
+        "max_losing_streak": 34,
+        "max_hit_payout_yen": 23450,
+        "payback_dependency_pct": 31.01,
+        "verdict": "採用候補",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "平和島7R",
+            "result": "3-4-5",
+            "payout_yen": 1480,
+            "tickets": [
+              "3-5-4",
+              "3-4-5",
+              "5-3-4",
+              "5-4-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-26",
+            "race": "児島2R",
+            "result": "4-3-5",
+            "payout_yen": 23450,
+            "tickets": [
+              "5-3-4",
+              "5-4-3",
+              "3-5-4",
+              "3-4-5",
+              "4-5-3",
+              "4-3-5"
+            ]
+          },
+          {
+            "date": "2026-06-26",
+            "race": "鳴門9R",
+            "result": "3-6-4",
+            "payout_yen": 6580,
+            "tickets": [
+              "6-3-4",
+              "6-4-3",
+              "3-6-4",
+              "3-4-6",
+              "4-6-3",
+              "4-3-6"
+            ]
+          },
+          {
+            "date": "2026-06-29",
+            "race": "江戸川6R",
+            "result": "5-4-3",
+            "payout_yen": 21990,
+            "tickets": [
+              "3-5-4",
+              "3-4-5",
+              "5-3-4",
+              "5-4-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "下関6R",
+            "result": "3-5-4",
+            "payout_yen": 2820,
+            "tickets": [
+              "3-4-5",
+              "3-5-4",
+              "4-3-5",
+              "4-5-3",
+              "5-3-4",
+              "5-4-3"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "宮島7R",
+            "result": "3-4-5",
+            "payout_yen": 19290,
+            "tickets": [
+              "3-4-5",
+              "3-5-4",
+              "4-3-5",
+              "4-5-3",
+              "5-3-4",
+              "5-4-3"
+            ]
+          }
+        ],
+        "strategy_name": "外3艇BOX",
+        "logic": "3〜6号艇の中から複合1着・3着内が強い3艇でBOX6点"
+      },
+      {
+        "strategy_id": "outer_head2_ai23_12",
+        "segment": "朝監視TOP10",
+        "target_races": 648,
+        "buy_races": 648,
+        "total_points": 7776,
+        "avg_points": 12.0,
+        "stake_yen": 777600,
+        "payback_yen": 686650,
+        "profit_yen": -90950,
+        "roi_pct": 88.3,
+        "hits": 79,
+        "hit_rate_pct": 12.19,
+        "manshu_hits": 23,
+        "manshu_hit_rate_pct": 3.55,
+        "max_losing_streak": 51,
+        "max_hit_payout_yen": 50800,
+        "payback_dependency_pct": 7.4,
+        "verdict": "保留",
+        "examples": [
+          {
+            "date": "2026-05-01",
+            "race": "江戸川9R",
+            "result": "3-2-5",
+            "payout_yen": 2390,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2"
+            ]
+          },
+          {
+            "date": "2026-05-02",
+            "race": "鳴門1R",
+            "result": "4-2-3",
+            "payout_yen": 28840,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2"
+            ]
+          },
+          {
+            "date": "2026-05-02",
+            "race": "戸田3R",
+            "result": "4-5-2",
+            "payout_yen": 1000,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2"
+            ]
+          },
+          {
+            "date": "2026-05-02",
+            "race": "宮島8R",
+            "result": "4-1-2",
+            "payout_yen": 2690,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2"
+            ]
+          },
+          {
+            "date": "2026-05-04",
+            "race": "常滑2R",
+            "result": "4-2-5",
+            "payout_yen": 1890,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2"
+            ]
+          },
+          {
+            "date": "2026-05-05",
+            "race": "児島3R",
+            "result": "3-5-2",
+            "payout_yen": 1940,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対2・3位軸 12点",
+        "logic": "3〜6号艇から複合1着上位2艇を頭、AI+一般3連対の2・3位を軸"
+      },
+      {
+        "strategy_id": "outer_head2_ai3_8",
+        "segment": "朝監視TOP10",
+        "target_races": 648,
+        "buy_races": 648,
+        "total_points": 4026,
+        "avg_points": 6.21,
+        "stake_yen": 402600,
+        "payback_yen": 335850,
+        "profit_yen": -66750,
+        "roi_pct": 83.42,
+        "hits": 30,
+        "hit_rate_pct": 4.63,
+        "manshu_hits": 11,
+        "manshu_hit_rate_pct": 1.7,
+        "max_losing_streak": 71,
+        "max_hit_payout_yen": 50800,
+        "payback_dependency_pct": 15.13,
+        "verdict": "保留",
+        "examples": [
+          {
+            "date": "2026-05-02",
+            "race": "鳴門1R",
+            "result": "4-2-3",
+            "payout_yen": 28840,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-05-09",
+            "race": "びわこ3R",
+            "result": "4-3-1",
+            "payout_yen": 17250,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-05-12",
+            "race": "平和島5R",
+            "result": "4-3-5",
+            "payout_yen": 5710,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-05-13",
+            "race": "唐津4R",
+            "result": "4-3-2",
+            "payout_yen": 10990,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-05-15",
+            "race": "三国7R",
+            "result": "4-3-2",
+            "payout_yen": 1630,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-05-17",
+            "race": "丸亀3R",
+            "result": "4-5-3",
+            "payout_yen": 40670,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対3位軸 8点",
+        "logic": "3〜6号艇から頭2艇、AI+一般3連対3位だけを軸にする省点数型"
+      },
+      {
+        "strategy_id": "three_boat_box",
+        "segment": "朝監視TOP10",
+        "target_races": 648,
+        "buy_races": 648,
+        "total_points": 3888,
+        "avg_points": 6.0,
+        "stake_yen": 388800,
+        "payback_yen": 306790,
+        "profit_yen": -82010,
+        "roi_pct": 78.91,
+        "hits": 41,
+        "hit_rate_pct": 6.33,
+        "manshu_hits": 5,
+        "manshu_hit_rate_pct": 0.77,
+        "max_losing_streak": 61,
+        "max_hit_payout_yen": 102140,
+        "payback_dependency_pct": 33.29,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-05-01",
+            "race": "江戸川2R",
+            "result": "3-1-4",
+            "payout_yen": 6010,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-05-02",
+            "race": "若松1R",
+            "result": "3-1-4",
+            "payout_yen": 2270,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-05-03",
+            "race": "宮島7R",
+            "result": "3-1-4",
+            "payout_yen": 1400,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-05-04",
+            "race": "浜名湖1R",
+            "result": "1-3-4",
+            "payout_yen": 2270,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-05-09",
+            "race": "びわこ3R",
+            "result": "4-3-1",
+            "payout_yen": 17250,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-05-09",
+            "race": "丸亀1R",
+            "result": "1-3-4",
+            "payout_yen": 1360,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          }
+        ],
+        "strategy_name": "3艇BOX",
+        "logic": "頭候補と軸候補から3艇に絞り、3連単BOX6点"
+      },
+      {
+        "strategy_id": "head1_axis2_current",
+        "segment": "朝監視TOP10",
+        "target_races": 648,
+        "buy_races": 648,
+        "total_points": 4158,
+        "avg_points": 6.42,
+        "stake_yen": 415800,
+        "payback_yen": 316640,
+        "profit_yen": -99160,
+        "roi_pct": 76.15,
+        "hits": 91,
+        "hit_rate_pct": 14.04,
+        "manshu_hits": 6,
+        "manshu_hit_rate_pct": 0.93,
+        "max_losing_streak": 23,
+        "max_hit_payout_yen": 19290,
+        "payback_dependency_pct": 6.09,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-05-01",
+            "race": "鳴門1R",
+            "result": "1-2-3",
+            "payout_yen": 1380,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2"
+            ]
+          },
+          {
+            "date": "2026-05-02",
+            "race": "宮島6R",
+            "result": "1-2-5",
+            "payout_yen": 1050,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2"
+            ]
+          },
+          {
+            "date": "2026-05-03",
+            "race": "鳴門4R",
+            "result": "1-2-5",
+            "payout_yen": 1680,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2"
+            ]
+          },
+          {
+            "date": "2026-05-03",
+            "race": "宮島4R",
+            "result": "1-2-3",
+            "payout_yen": 1120,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2"
+            ]
+          },
+          {
+            "date": "2026-05-03",
+            "race": "鳴門12R",
+            "result": "1-3-2",
+            "payout_yen": 1060,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2"
+            ]
+          },
+          {
+            "date": "2026-05-04",
+            "race": "平和島1R",
+            "result": "1-2-3",
+            "payout_yen": 5140,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      },
+      {
+        "strategy_id": "outer_head2_no1_ai23_12",
+        "segment": "朝監視TOP10",
+        "target_races": 648,
+        "buy_races": 648,
+        "total_points": 6482,
+        "avg_points": 10.0,
+        "stake_yen": 648200,
+        "payback_yen": 479460,
+        "profit_yen": -168740,
+        "roi_pct": 73.97,
+        "hits": 52,
+        "hit_rate_pct": 8.02,
+        "manshu_hits": 15,
+        "manshu_hit_rate_pct": 2.31,
+        "max_losing_streak": 59,
+        "max_hit_payout_yen": 50800,
+        "payback_dependency_pct": 10.6,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-05-01",
+            "race": "江戸川9R",
+            "result": "3-2-5",
+            "payout_yen": 2390,
+            "tickets": [
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-05-02",
+            "race": "鳴門1R",
+            "result": "4-2-3",
+            "payout_yen": 28840,
+            "tickets": [
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-05-02",
+            "race": "戸田3R",
+            "result": "4-5-2",
+            "payout_yen": 1000,
+            "tickets": [
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-05-04",
+            "race": "常滑2R",
+            "result": "4-2-5",
+            "payout_yen": 1890,
+            "tickets": [
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-05-05",
+            "race": "児島3R",
+            "result": "3-5-2",
+            "payout_yen": 1940,
+            "tickets": [
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-05-10",
+            "race": "鳴門6R",
+            "result": "3-5-2",
+            "payout_yen": 9470,
+            "tickets": [
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-3-5",
+              "4-5-3"
+            ]
+          }
+        ],
+        "strategy_name": "1号艇抜き外頭2×AI+2・3位軸",
+        "logic": "1号艇を2・3着からも外し、外頭2艇とAI+一般3連対2・3位軸で買う"
+      },
+      {
+        "strategy_id": "head2_axis2_current_15",
+        "segment": "朝監視TOP10",
+        "target_races": 648,
+        "buy_races": 648,
+        "total_points": 8055,
+        "avg_points": 12.43,
+        "stake_yen": 805500,
+        "payback_yen": 582630,
+        "profit_yen": -222870,
+        "roi_pct": 72.33,
+        "hits": 141,
+        "hit_rate_pct": 21.76,
+        "manshu_hits": 11,
+        "manshu_hit_rate_pct": 1.7,
+        "max_losing_streak": 20,
+        "max_hit_payout_yen": 54730,
+        "payback_dependency_pct": 9.39,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-05-01",
+            "race": "鳴門1R",
+            "result": "1-2-3",
+            "payout_yen": 1380,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          },
+          {
+            "date": "2026-05-01",
+            "race": "宮島3R",
+            "result": "2-3-1",
+            "payout_yen": 1160,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          },
+          {
+            "date": "2026-05-01",
+            "race": "宮島9R",
+            "result": "2-5-1",
+            "payout_yen": 2010,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          },
+          {
+            "date": "2026-05-02",
+            "race": "宮島6R",
+            "result": "1-2-5",
+            "payout_yen": 1050,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          },
+          {
+            "date": "2026-05-03",
+            "race": "鳴門4R",
+            "result": "1-2-5",
+            "payout_yen": 1680,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          },
+          {
+            "date": "2026-05-03",
+            "race": "津3R",
+            "result": "2-1-3",
+            "payout_yen": 16610,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸2 15点",
+        "logic": "頭候補2艇と軸候補2艇。消し以外へ2・3着折り返しで最大15点"
+      },
+      {
+        "strategy_id": "head2_axis1_current",
+        "segment": "朝監視TOP10",
+        "target_races": 648,
+        "buy_races": 648,
+        "total_points": 4164,
+        "avg_points": 6.43,
+        "stake_yen": 416400,
+        "payback_yen": 288760,
+        "profit_yen": -127640,
+        "roi_pct": 69.35,
+        "hits": 54,
+        "hit_rate_pct": 8.33,
+        "manshu_hits": 6,
+        "manshu_hit_rate_pct": 0.93,
+        "max_losing_streak": 37,
+        "max_hit_payout_yen": 54730,
+        "payback_dependency_pct": 18.95,
+        "verdict": "却下",
+        "examples": [
+          {
+            "date": "2026-05-01",
+            "race": "宮島3R",
+            "result": "2-3-1",
+            "payout_yen": 1160,
+            "tickets": [
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          },
+          {
+            "date": "2026-05-01",
+            "race": "宮島9R",
+            "result": "2-5-1",
+            "payout_yen": 2010,
+            "tickets": [
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          },
+          {
+            "date": "2026-05-03",
+            "race": "津3R",
+            "result": "2-1-3",
+            "payout_yen": 16610,
+            "tickets": [
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          },
+          {
+            "date": "2026-05-04",
+            "race": "若松4R",
+            "result": "2-5-1",
+            "payout_yen": 4790,
+            "tickets": [
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          },
+          {
+            "date": "2026-05-05",
+            "race": "児島1R",
+            "result": "2-5-1",
+            "payout_yen": 5470,
+            "tickets": [
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          },
+          {
+            "date": "2026-05-05",
+            "race": "平和島1R",
+            "result": "2-4-1",
+            "payout_yen": 4550,
+            "tickets": [
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸1",
+        "logic": "頭候補2艇、軸候補1艇。点数を抑える形"
+      },
+      {
+        "strategy_id": "saved_current",
+        "segment": "朝監視TOP10",
+        "target_races": 648,
+        "buy_races": 28,
+        "total_points": 405,
+        "avg_points": 14.46,
+        "stake_yen": 40500,
+        "payback_yen": 22480,
+        "profit_yen": -18020,
+        "roi_pct": 55.51,
+        "hits": 7,
+        "hit_rate_pct": 25.0,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 3.57,
+        "max_losing_streak": 10,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 45.28,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-26",
+            "race": "唐津4R",
+            "result": "4-1-6",
+            "payout_yen": 3350,
+            "tickets": [
+              "4-1-6",
+              "4-2-1",
+              "4-2-5",
+              "4-2-6",
+              "4-5-2",
+              "4-5-6",
+              "4-6-1",
+              "4-6-2",
+              "4-6-5",
+              "6-1-2",
+              "6-2-1",
+              "6-2-4",
+              "6-2-5",
+              "6-4-2",
+              "6-5-2"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "大村3R",
+            "result": "1-2-3",
+            "payout_yen": 2420,
+            "tickets": [
+              "1-2-3",
+              "1-2-5",
+              "1-2-6",
+              "1-3-5",
+              "1-5-2",
+              "1-5-3",
+              "1-5-6",
+              "1-6-2",
+              "1-6-5",
+              "5-1-2",
+              "5-2-1",
+              "5-2-3",
+              "5-2-6",
+              "5-3-2",
+              "5-6-2"
+            ]
+          },
+          {
+            "date": "2026-06-29",
+            "race": "戸田10R",
+            "result": "4-1-2",
+            "payout_yen": 2010,
+            "tickets": [
+              "1-2-4",
+              "1-4-2",
+              "1-4-5",
+              "1-4-6",
+              "1-5-4",
+              "1-6-4",
+              "4-1-2",
+              "4-1-5",
+              "4-1-6",
+              "4-2-1",
+              "4-5-1",
+              "4-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "常滑2R",
+            "result": "5-1-2",
+            "payout_yen": 1510,
+            "tickets": [
+              "5-1-2",
+              "5-1-3",
+              "5-1-6",
+              "5-2-1",
+              "5-3-1",
+              "5-6-1",
+              "6-1-3",
+              "6-1-5",
+              "6-2-1",
+              "6-2-5",
+              "6-3-1",
+              "6-3-5",
+              "6-5-1",
+              "6-5-2",
+              "6-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "2-3-4",
+              "2-4-3",
+              "2-4-5",
+              "2-4-6",
+              "2-5-4",
+              "2-6-4",
+              "4-2-3",
+              "4-2-5",
+              "4-2-6",
+              "4-3-2",
+              "4-5-2",
+              "4-6-2"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "浜名湖2R",
+            "result": "3-1-4",
+            "payout_yen": 1200,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-3-4",
+              "1-3-6",
+              "1-4-3",
+              "1-6-3",
+              "3-1-2",
+              "3-1-4",
+              "3-1-6",
+              "3-2-1",
+              "3-4-1",
+              "3-6-1"
+            ]
+          }
+        ],
+        "strategy_name": "現行保存買い目",
+        "logic": "JSONに保存されているその時点の買い目をそのまま買う"
+      },
+      {
+        "strategy_id": "three_boat_box",
+        "segment": "本命40%以上",
+        "target_races": 48,
+        "buy_races": 48,
+        "total_points": 288,
+        "avg_points": 6.0,
+        "stake_yen": 28800,
+        "payback_yen": 112960,
+        "profit_yen": 84160,
+        "roi_pct": 392.22,
+        "hits": 4,
+        "hit_rate_pct": 8.33,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 2.08,
+        "max_losing_streak": 21,
+        "max_hit_payout_yen": 102140,
+        "payback_dependency_pct": 90.42,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "result": "5-1-6",
+            "payout_yen": 102140,
+            "tickets": [
+              "6-5-1",
+              "6-1-5",
+              "5-6-1",
+              "5-1-6",
+              "1-6-5",
+              "1-5-6"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-5-2",
+              "4-2-5",
+              "5-4-2",
+              "5-2-4",
+              "2-4-5",
+              "2-5-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-4-1",
+              "5-1-4",
+              "4-5-1",
+              "4-1-5",
+              "1-5-4",
+              "1-4-5"
+            ]
+          }
+        ],
+        "strategy_name": "3艇BOX",
+        "logic": "頭候補と軸候補から3艇に絞り、3連単BOX6点"
+      },
+      {
+        "strategy_id": "head1_axis2_current",
+        "segment": "本命40%以上",
+        "target_races": 48,
+        "buy_races": 48,
+        "total_points": 428,
+        "avg_points": 8.92,
+        "stake_yen": 42800,
+        "payback_yen": 35910,
+        "profit_yen": -6890,
+        "roi_pct": 83.9,
+        "hits": 6,
+        "hit_rate_pct": 12.5,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 12,
+        "max_hit_payout_yen": 9960,
+        "payback_dependency_pct": 27.74,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "唐津3R",
+            "result": "3-1-2",
+            "payout_yen": 5660,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "福岡2R",
+            "result": "4-2-6",
+            "payout_yen": 4980,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      },
+      {
+        "strategy_id": "head2_axis2_current_15",
+        "segment": "本命40%以上",
+        "target_races": 48,
+        "buy_races": 48,
+        "total_points": 711,
+        "avg_points": 14.81,
+        "stake_yen": 71100,
+        "payback_yen": 45260,
+        "profit_yen": -25840,
+        "roi_pct": 63.66,
+        "hits": 8,
+        "hit_rate_pct": 16.67,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 12,
+        "max_hit_payout_yen": 9960,
+        "payback_dependency_pct": 22.01,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "唐津3R",
+            "result": "3-1-2",
+            "payout_yen": 5660,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-1-6",
+              "5-6-1",
+              "5-3-2"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-1-2",
+              "6-2-1",
+              "6-1-3",
+              "6-3-1",
+              "6-1-4"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "result": "2-5-3",
+            "payout_yen": 4750,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-5",
+              "3-5-2",
+              "3-2-6",
+              "3-6-2",
+              "2-3-1",
+              "2-1-3",
+              "2-3-5",
+              "2-5-3",
+              "2-3-6",
+              "2-6-3"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4",
+              "1-3-2",
+              "1-2-3",
+              "1-3-4",
+              "1-4-3",
+              "1-3-6",
+              "1-6-3",
+              "1-4-2",
+              "1-2-4",
+              "1-4-6"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-5-1",
+              "4-1-5",
+              "4-5-2",
+              "4-2-5",
+              "4-5-3",
+              "4-3-5",
+              "5-4-1",
+              "5-1-4",
+              "5-4-2",
+              "5-2-4",
+              "5-4-3",
+              "5-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3",
+              "6-1-2",
+              "6-2-1",
+              "6-1-3",
+              "6-3-1",
+              "6-1-4"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸2 15点",
+        "logic": "頭候補2艇と軸候補2艇。消し以外へ2・3着折り返しで最大15点"
+      },
+      {
+        "strategy_id": "outer_head2_ai3_8",
+        "segment": "本命40%以上",
+        "target_races": 48,
+        "buy_races": 48,
+        "total_points": 364,
+        "avg_points": 7.58,
+        "stake_yen": 36400,
+        "payback_yen": 22550,
+        "profit_yen": -13850,
+        "roi_pct": 61.95,
+        "hits": 4,
+        "hit_rate_pct": 8.33,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 13,
+        "max_hit_payout_yen": 9960,
+        "payback_dependency_pct": 44.17,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "result": "5-1-3",
+            "payout_yen": 2440,
+            "tickets": [
+              "5-3-1",
+              "5-1-3",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-3-1",
+              "6-1-3"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-3-1",
+              "5-1-3",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3",
+              "6-3-1",
+              "6-1-3"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対3位軸 8点",
+        "logic": "3〜6号艇から頭2艇、AI+一般3連対3位だけを軸にする省点数型"
+      },
+      {
+        "strategy_id": "outer_head2_no1_ai23_12",
+        "segment": "本命40%以上",
+        "target_races": 48,
+        "buy_races": 48,
+        "total_points": 508,
+        "avg_points": 10.58,
+        "stake_yen": 50800,
+        "payback_yen": 31240,
+        "profit_yen": -19560,
+        "roi_pct": 61.5,
+        "hits": 4,
+        "hit_rate_pct": 8.33,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 17,
+        "max_hit_payout_yen": 9960,
+        "payback_dependency_pct": 31.88,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-4-2",
+              "6-2-4",
+              "6-4-3",
+              "6-3-4",
+              "6-4-5",
+              "6-5-4",
+              "6-3-2",
+              "6-2-3"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "唐津6R",
+            "result": "4-2-3",
+            "payout_yen": 7590,
+            "tickets": [
+              "6-2-3",
+              "6-3-2",
+              "6-2-4",
+              "6-4-2",
+              "6-2-5",
+              "6-5-2",
+              "6-4-3",
+              "6-3-4",
+              "6-4-5",
+              "6-5-4",
+              "4-2-3",
+              "4-3-2"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-5-3",
+              "4-3-5",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-3-4",
+              "5-4-3",
+              "6-2-3",
+              "6-3-2",
+              "6-2-4",
+              "6-4-2",
+              "6-2-5",
+              "6-5-2"
+            ]
+          }
+        ],
+        "strategy_name": "1号艇抜き外頭2×AI+2・3位軸",
+        "logic": "1号艇を2・3着からも外し、外頭2艇とAI+一般3連対2・3位軸で買う"
+      },
+      {
+        "strategy_id": "head2_axis1_current",
+        "segment": "本命40%以上",
+        "target_races": 48,
+        "buy_races": 48,
+        "total_points": 430,
+        "avg_points": 8.96,
+        "stake_yen": 43000,
+        "payback_yen": 20400,
+        "profit_yen": -22600,
+        "roi_pct": 47.44,
+        "hits": 4,
+        "hit_rate_pct": 8.33,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 20,
+        "max_hit_payout_yen": 5660,
+        "payback_dependency_pct": 27.75,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "唐津3R",
+            "result": "3-1-2",
+            "payout_yen": 5660,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "5-4-1",
+              "5-1-4",
+              "5-4-2",
+              "5-2-4",
+              "5-4-3",
+              "5-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "福岡2R",
+            "result": "4-2-6",
+            "payout_yen": 4980,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸1",
+        "logic": "頭候補2艇、軸候補1艇。点数を抑える形"
+      },
+      {
+        "strategy_id": "outer_head2_ai23_12",
+        "segment": "本命40%以上",
+        "target_races": 48,
+        "buy_races": 48,
+        "total_points": 576,
+        "avg_points": 12.0,
+        "stake_yen": 57600,
+        "payback_yen": 20110,
+        "profit_yen": -37490,
+        "roi_pct": 34.91,
+        "hits": 3,
+        "hit_rate_pct": 6.25,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 13,
+        "max_hit_payout_yen": 9960,
+        "payback_dependency_pct": 49.53,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-4-1",
+              "6-1-4",
+              "6-4-2",
+              "6-2-4",
+              "6-4-3",
+              "6-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4",
+              "4-1-2",
+              "4-2-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-3-1",
+              "5-1-3",
+              "5-3-4",
+              "5-4-3",
+              "6-2-1",
+              "6-1-2"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対2・3位軸 12点",
+        "logic": "3〜6号艇から複合1着上位2艇を頭、AI+一般3連対の2・3位を軸"
+      },
+      {
+        "strategy_id": "outer3_boat_box",
+        "segment": "本命40%以上",
+        "target_races": 48,
+        "buy_races": 48,
+        "total_points": 288,
+        "avg_points": 6.0,
+        "stake_yen": 28800,
+        "payback_yen": 0,
+        "profit_yen": -28800,
+        "roi_pct": 0.0,
+        "hits": 0,
+        "hit_rate_pct": 0.0,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 48,
+        "max_hit_payout_yen": null,
+        "payback_dependency_pct": null,
+        "verdict": "保留（件数不足）",
+        "examples": [],
+        "strategy_name": "外3艇BOX",
+        "logic": "3〜6号艇の中から複合1着・3着内が強い3艇でBOX6点"
+      },
+      {
+        "strategy_id": "saved_current",
+        "segment": "本命40%以上",
+        "target_races": 48,
+        "buy_races": 8,
+        "total_points": 120,
+        "avg_points": 15.0,
+        "stake_yen": 12000,
+        "payback_yen": 0,
+        "profit_yen": -12000,
+        "roi_pct": 0.0,
+        "hits": 0,
+        "hit_rate_pct": 0.0,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 8,
+        "max_hit_payout_yen": null,
+        "payback_dependency_pct": null,
+        "verdict": "保留（件数不足）",
+        "examples": [],
+        "strategy_name": "現行保存買い目",
+        "logic": "JSONに保存されているその時点の買い目をそのまま買う"
+      },
+      {
+        "strategy_id": "saved_current",
+        "segment": "準本命38-39.9",
+        "target_races": 39,
+        "buy_races": 4,
+        "total_points": 57,
+        "avg_points": 14.25,
+        "stake_yen": 5700,
+        "payback_yen": 12600,
+        "profit_yen": 6900,
+        "roi_pct": 221.05,
+        "hits": 2,
+        "hit_rate_pct": 50.0,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 25.0,
+        "max_losing_streak": 1,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 80.79,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "大村3R",
+            "result": "1-2-3",
+            "payout_yen": 2420,
+            "tickets": [
+              "1-2-3",
+              "1-2-5",
+              "1-2-6",
+              "1-3-5",
+              "1-5-2",
+              "1-5-3",
+              "1-5-6",
+              "1-6-2",
+              "1-6-5",
+              "5-1-2",
+              "5-2-1",
+              "5-2-3",
+              "5-2-6",
+              "5-3-2",
+              "5-6-2"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "2-3-4",
+              "2-4-3",
+              "2-4-5",
+              "2-4-6",
+              "2-5-4",
+              "2-6-4",
+              "4-2-3",
+              "4-2-5",
+              "4-2-6",
+              "4-3-2",
+              "4-5-2",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "現行保存買い目",
+        "logic": "JSONに保存されているその時点の買い目をそのまま買う"
+      },
+      {
+        "strategy_id": "head1_axis2_current",
+        "segment": "準本命38-39.9",
+        "target_races": 39,
+        "buy_races": 39,
+        "total_points": 312,
+        "avg_points": 8.0,
+        "stake_yen": 31200,
+        "payback_yen": 21180,
+        "profit_yen": -10020,
+        "roi_pct": 67.88,
+        "hits": 6,
+        "hit_rate_pct": 15.38,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 2.56,
+        "max_losing_streak": 13,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 48.06,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "平和島7R",
+            "result": "3-4-5",
+            "payout_yen": 1480,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "3-4-1",
+              "3-1-4",
+              "3-4-5",
+              "3-5-4"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "住之江1R",
+            "result": "3-1-2",
+            "payout_yen": 1250,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-5",
+              "3-5-1"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "丸亀9R",
+            "result": "1-2-5",
+            "payout_yen": 3220,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "1-2-6",
+              "1-6-2"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "宮島11R",
+            "result": "5-1-2",
+            "payout_yen": 2240,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "宮島3R",
+            "result": "3-1-4",
+            "payout_yen": 2810,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      },
+      {
+        "strategy_id": "head2_axis2_current_15",
+        "segment": "準本命38-39.9",
+        "target_races": 39,
+        "buy_races": 39,
+        "total_points": 576,
+        "avg_points": 14.77,
+        "stake_yen": 57600,
+        "payback_yen": 37420,
+        "profit_yen": -20180,
+        "roi_pct": 64.97,
+        "hits": 9,
+        "hit_rate_pct": 23.08,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 2.56,
+        "max_losing_streak": 13,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 27.2,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "平和島7R",
+            "result": "3-4-5",
+            "payout_yen": 1480,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "3-4-1",
+              "3-1-4",
+              "3-4-5",
+              "3-5-4",
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "住之江1R",
+            "result": "3-1-2",
+            "payout_yen": 1250,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-5",
+              "3-5-1",
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "浜名湖12R",
+            "result": "2-1-5",
+            "payout_yen": 5830,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "1-2-6",
+              "1-6-2",
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1",
+              "2-1-6"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "丸亀9R",
+            "result": "1-2-5",
+            "payout_yen": 3220,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "1-2-6",
+              "1-6-2",
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1",
+              "2-1-6"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "宮島11R",
+            "result": "5-1-2",
+            "payout_yen": 2240,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-5",
+              "3-5-1",
+              "3-5-2",
+              "3-2-5",
+              "3-5-4"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "大村3R",
+            "result": "1-2-3",
+            "payout_yen": 2420,
+            "tickets": [
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "1-5-2",
+              "1-2-5",
+              "1-5-3",
+              "1-3-5",
+              "1-5-4",
+              "1-4-5",
+              "1-2-3",
+              "1-3-2",
+              "1-2-4"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸2 15点",
+        "logic": "頭候補2艇と軸候補2艇。消し以外へ2・3着折り返しで最大15点"
+      },
+      {
+        "strategy_id": "head2_axis1_current",
+        "segment": "準本命38-39.9",
+        "target_races": 39,
+        "buy_races": 39,
+        "total_points": 310,
+        "avg_points": 7.95,
+        "stake_yen": 31000,
+        "payback_yen": 19500,
+        "profit_yen": -11500,
+        "roi_pct": 62.9,
+        "hits": 4,
+        "hit_rate_pct": 10.26,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 2.56,
+        "max_losing_streak": 17,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 52.21,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "住之江1R",
+            "result": "3-1-2",
+            "payout_yen": 1250,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-5",
+              "3-5-1",
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "浜名湖12R",
+            "result": "2-1-5",
+            "payout_yen": 5830,
+            "tickets": [
+              "2-1-3",
+              "2-3-1",
+              "2-1-4",
+              "2-4-1",
+              "2-1-5",
+              "2-5-1",
+              "2-1-6",
+              "2-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "宮島11R",
+            "result": "5-1-2",
+            "payout_yen": 2240,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸1",
+        "logic": "頭候補2艇、軸候補1艇。点数を抑える形"
+      },
+      {
+        "strategy_id": "outer_head2_ai23_12",
+        "segment": "準本命38-39.9",
+        "target_races": 39,
+        "buy_races": 39,
+        "total_points": 468,
+        "avg_points": 12.0,
+        "stake_yen": 46800,
+        "payback_yen": 22090,
+        "profit_yen": -24710,
+        "roi_pct": 47.2,
+        "hits": 7,
+        "hit_rate_pct": 17.95,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 14,
+        "max_hit_payout_yen": 7990,
+        "payback_dependency_pct": 36.17,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "住之江1R",
+            "result": "3-1-2",
+            "payout_yen": 1250,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "宮島11R",
+            "result": "5-1-2",
+            "payout_yen": 2240,
+            "tickets": [
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-3-1",
+              "5-1-3",
+              "5-3-4",
+              "5-4-3",
+              "3-2-1",
+              "3-1-2"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "宮島3R",
+            "result": "3-1-4",
+            "payout_yen": 2810,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-6",
+              "3-6-2",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "5-2-1",
+              "5-1-2"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川7R",
+            "result": "5-2-1",
+            "payout_yen": 7990,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "5-2-1",
+              "5-1-2"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "若松1R",
+            "result": "3-4-1",
+            "payout_yen": 2110,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-5",
+              "3-5-1",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "4-1-2",
+              "4-2-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "若松4R",
+            "result": "5-1-6",
+            "payout_yen": 3080,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-4",
+              "5-4-1",
+              "5-1-6",
+              "5-6-1",
+              "5-2-4",
+              "5-4-2",
+              "5-2-6",
+              "5-6-2",
+              "4-1-2",
+              "4-2-1"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対2・3位軸 12点",
+        "logic": "3〜6号艇から複合1着上位2艇を頭、AI+一般3連対の2・3位を軸"
+      },
+      {
+        "strategy_id": "outer_head2_ai3_8",
+        "segment": "準本命38-39.9",
+        "target_races": 39,
+        "buy_races": 39,
+        "total_points": 286,
+        "avg_points": 7.33,
+        "stake_yen": 28600,
+        "payback_yen": 10800,
+        "profit_yen": -17800,
+        "roi_pct": 37.76,
+        "hits": 2,
+        "hit_rate_pct": 5.13,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 16,
+        "max_hit_payout_yen": 7990,
+        "payback_dependency_pct": 73.98,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "宮島3R",
+            "result": "3-1-4",
+            "payout_yen": 2810,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "5-1-2",
+              "5-2-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川7R",
+            "result": "5-2-1",
+            "payout_yen": 7990,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "5-1-2",
+              "5-2-1"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対3位軸 8点",
+        "logic": "3〜6号艇から頭2艇、AI+一般3連対3位だけを軸にする省点数型"
+      },
+      {
+        "strategy_id": "outer3_boat_box",
+        "segment": "準本命38-39.9",
+        "target_races": 39,
+        "buy_races": 36,
+        "total_points": 216,
+        "avg_points": 6.0,
+        "stake_yen": 21600,
+        "payback_yen": 8060,
+        "profit_yen": -13540,
+        "roi_pct": 37.31,
+        "hits": 2,
+        "hit_rate_pct": 5.56,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 30,
+        "max_hit_payout_yen": 6580,
+        "payback_dependency_pct": 81.64,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "平和島7R",
+            "result": "3-4-5",
+            "payout_yen": 1480,
+            "tickets": [
+              "3-5-4",
+              "3-4-5",
+              "5-3-4",
+              "5-4-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-26",
+            "race": "鳴門9R",
+            "result": "3-6-4",
+            "payout_yen": 6580,
+            "tickets": [
+              "6-3-4",
+              "6-4-3",
+              "3-6-4",
+              "3-4-6",
+              "4-6-3",
+              "4-3-6"
+            ]
+          }
+        ],
+        "strategy_name": "外3艇BOX",
+        "logic": "3〜6号艇の中から複合1着・3着内が強い3艇でBOX6点"
+      },
+      {
+        "strategy_id": "outer_head2_no1_ai23_12",
+        "segment": "準本命38-39.9",
+        "target_races": 39,
+        "buy_races": 39,
+        "total_points": 368,
+        "avg_points": 9.44,
+        "stake_yen": 36800,
+        "payback_yen": 10560,
+        "profit_yen": -26240,
+        "roi_pct": 28.7,
+        "hits": 2,
+        "hit_rate_pct": 5.13,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 19,
+        "max_hit_payout_yen": 7950,
+        "payback_dependency_pct": 75.28,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "三国10R",
+            "result": "3-2-4",
+            "payout_yen": 7950,
+            "tickets": [
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "5-2-6",
+              "5-6-2",
+              "5-3-4",
+              "5-4-3",
+              "5-3-6",
+              "5-6-3",
+              "3-2-4",
+              "3-4-2"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "常滑7R",
+            "result": "3-6-2",
+            "payout_yen": 2610,
+            "tickets": [
+              "3-6-2",
+              "3-2-6",
+              "3-6-4",
+              "3-4-6",
+              "3-4-2",
+              "3-2-4",
+              "6-4-2",
+              "6-2-4",
+              "6-4-3",
+              "6-3-4"
+            ]
+          }
+        ],
+        "strategy_name": "1号艇抜き外頭2×AI+2・3位軸",
+        "logic": "1号艇を2・3着からも外し、外頭2艇とAI+一般3連対2・3位軸で買う"
+      },
+      {
+        "strategy_id": "three_boat_box",
+        "segment": "準本命38-39.9",
+        "target_races": 39,
+        "buy_races": 39,
+        "total_points": 234,
+        "avg_points": 6.0,
+        "stake_yen": 23400,
+        "payback_yen": 3750,
+        "profit_yen": -19650,
+        "roi_pct": 16.03,
+        "hits": 1,
+        "hit_rate_pct": 2.56,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 32,
+        "max_hit_payout_yen": 3750,
+        "payback_dependency_pct": 100.0,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-26",
+            "race": "芦屋1R",
+            "result": "5-1-6",
+            "payout_yen": 3750,
+            "tickets": [
+              "5-6-1",
+              "5-1-6",
+              "6-5-1",
+              "6-1-5",
+              "1-5-6",
+              "1-6-5"
+            ]
+          }
+        ],
+        "strategy_name": "3艇BOX",
+        "logic": "頭候補と軸候補から3艇に絞り、3連単BOX6点"
+      },
+      {
+        "strategy_id": "head1_axis2_current",
+        "segment": "買い目あり",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 236,
+        "avg_points": 8.43,
+        "stake_yen": 23600,
+        "payback_yen": 32330,
+        "profit_yen": 8730,
+        "roi_pct": 136.99,
+        "hits": 7,
+        "hit_rate_pct": 25.0,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 3.57,
+        "max_losing_streak": 11,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 31.49,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "唐津3R",
+            "result": "3-1-2",
+            "payout_yen": 5660,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-29",
+            "race": "戸田10R",
+            "result": "4-1-2",
+            "payout_yen": 2010,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-5",
+              "4-5-1",
+              "4-1-6",
+              "4-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "常滑2R",
+            "result": "5-1-2",
+            "payout_yen": 1510,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-6",
+              "5-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "浜名湖2R",
+            "result": "3-1-4",
+            "payout_yen": 1200,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1"
+            ]
+          }
+        ],
+        "strategy_name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      },
+      {
+        "strategy_id": "outer3_boat_box",
+        "segment": "買い目あり",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 168,
+        "avg_points": 6.0,
+        "stake_yen": 16800,
+        "payback_yen": 21990,
+        "profit_yen": 5190,
+        "roi_pct": 130.89,
+        "hits": 1,
+        "hit_rate_pct": 3.57,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 3.57,
+        "max_losing_streak": 15,
+        "max_hit_payout_yen": 21990,
+        "payback_dependency_pct": 100.0,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-29",
+            "race": "江戸川6R",
+            "result": "5-4-3",
+            "payout_yen": 21990,
+            "tickets": [
+              "3-5-4",
+              "3-4-5",
+              "5-3-4",
+              "5-4-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          }
+        ],
+        "strategy_name": "外3艇BOX",
+        "logic": "3〜6号艇の中から複合1着・3着内が強い3艇でBOX6点"
+      },
+      {
+        "strategy_id": "head2_axis1_current",
+        "segment": "買い目あり",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 226,
+        "avg_points": 8.07,
+        "stake_yen": 22600,
+        "payback_yen": 19660,
+        "profit_yen": -2940,
+        "roi_pct": 86.99,
+        "hits": 4,
+        "hit_rate_pct": 14.29,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 3.57,
+        "max_losing_streak": 12,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 51.78,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "唐津3R",
+            "result": "3-1-2",
+            "payout_yen": 5660,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1"
+            ]
+          },
+          {
+            "date": "2026-06-29",
+            "race": "戸田10R",
+            "result": "4-1-2",
+            "payout_yen": 2010,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-5",
+              "4-5-1",
+              "4-1-6",
+              "4-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "びわこ5R",
+            "result": "4-5-2",
+            "payout_yen": 1810,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-5",
+              "4-5-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸1",
+        "logic": "頭候補2艇、軸候補1艇。点数を抑える形"
+      },
+      {
+        "strategy_id": "head2_axis2_current_15",
+        "segment": "買い目あり",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 405,
+        "avg_points": 14.46,
+        "stake_yen": 40500,
+        "payback_yen": 34750,
+        "profit_yen": -5750,
+        "roi_pct": 85.8,
+        "hits": 8,
+        "hit_rate_pct": 28.57,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 3.57,
+        "max_losing_streak": 5,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 29.29,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "唐津3R",
+            "result": "3-1-2",
+            "payout_yen": 5660,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-1-6",
+              "5-6-1",
+              "5-3-2"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-1-2",
+              "6-2-1",
+              "6-1-3",
+              "6-3-1",
+              "6-1-4"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "大村3R",
+            "result": "1-2-3",
+            "payout_yen": 2420,
+            "tickets": [
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-4",
+              "5-4-2",
+              "1-5-2",
+              "1-2-5",
+              "1-5-3",
+              "1-3-5",
+              "1-5-4",
+              "1-4-5",
+              "1-2-3",
+              "1-3-2",
+              "1-2-4"
+            ]
+          },
+          {
+            "date": "2026-06-29",
+            "race": "戸田10R",
+            "result": "4-1-2",
+            "payout_yen": 2010,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-5",
+              "4-5-1",
+              "4-1-6",
+              "4-6-1",
+              "1-4-2",
+              "1-2-4",
+              "1-4-5",
+              "1-5-4",
+              "1-4-6",
+              "1-6-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "常滑2R",
+            "result": "5-1-2",
+            "payout_yen": 1510,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-6",
+              "5-6-1",
+              "6-5-1",
+              "6-1-5",
+              "6-5-2",
+              "6-2-5",
+              "6-5-3",
+              "6-3-5",
+              "6-1-2",
+              "6-2-1",
+              "6-1-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-2-6",
+              "4-6-2",
+              "2-4-3",
+              "2-3-4",
+              "2-4-5",
+              "2-5-4",
+              "2-4-6",
+              "2-6-4"
+            ]
+          }
+        ],
+        "strategy_name": "頭2×軸2 15点",
+        "logic": "頭候補2艇と軸候補2艇。消し以外へ2・3着折り返しで最大15点"
+      },
+      {
+        "strategy_id": "outer_head2_no1_ai23_12",
+        "segment": "買い目あり",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 278,
+        "avg_points": 9.93,
+        "stake_yen": 27800,
+        "payback_yen": 19360,
+        "profit_yen": -8440,
+        "roi_pct": 69.64,
+        "hits": 3,
+        "hit_rate_pct": 10.71,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 19,
+        "max_hit_payout_yen": 9960,
+        "payback_dependency_pct": 51.45,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-4-2",
+              "6-2-4",
+              "6-4-3",
+              "6-3-4",
+              "6-4-5",
+              "6-5-4",
+              "6-3-2",
+              "6-2-3"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "唐津6R",
+            "result": "4-2-3",
+            "payout_yen": 7590,
+            "tickets": [
+              "6-2-3",
+              "6-3-2",
+              "6-2-4",
+              "6-4-2",
+              "6-2-5",
+              "6-5-2",
+              "6-4-3",
+              "6-3-4",
+              "6-4-5",
+              "6-5-4",
+              "4-2-3",
+              "4-3-2"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "びわこ5R",
+            "result": "4-5-2",
+            "payout_yen": 1810,
+            "tickets": [
+              "4-5-2",
+              "4-2-5",
+              "4-5-6",
+              "4-6-5",
+              "5-4-2",
+              "5-2-4",
+              "5-4-6",
+              "5-6-4"
+            ]
+          }
+        ],
+        "strategy_name": "1号艇抜き外頭2×AI+2・3位軸",
+        "logic": "1号艇を2・3着からも外し、外頭2艇とAI+一般3連対2・3位軸で買う"
+      },
+      {
+        "strategy_id": "outer_head2_ai3_8",
+        "segment": "買い目あり",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 212,
+        "avg_points": 7.57,
+        "stake_yen": 21200,
+        "payback_yen": 14480,
+        "profit_yen": -6720,
+        "roi_pct": 68.3,
+        "hits": 4,
+        "hit_rate_pct": 14.29,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 14,
+        "max_hit_payout_yen": 9960,
+        "payback_dependency_pct": 68.78,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-3-1",
+              "6-1-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "常滑2R",
+            "result": "5-1-2",
+            "payout_yen": 1510,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-6",
+              "5-6-1",
+              "6-1-2",
+              "6-2-1"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "浜名湖2R",
+            "result": "3-1-4",
+            "payout_yen": 1200,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1",
+              "4-1-2",
+              "4-2-1"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "びわこ5R",
+            "result": "4-5-2",
+            "payout_yen": 1810,
+            "tickets": [
+              "4-5-1",
+              "4-1-5",
+              "4-5-2",
+              "4-2-5",
+              "4-5-6",
+              "4-6-5"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対3位軸 8点",
+        "logic": "3〜6号艇から頭2艇、AI+一般3連対3位だけを軸にする省点数型"
+      },
+      {
+        "strategy_id": "saved_current",
+        "segment": "買い目あり",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 405,
+        "avg_points": 14.46,
+        "stake_yen": 40500,
+        "payback_yen": 22480,
+        "profit_yen": -18020,
+        "roi_pct": 55.51,
+        "hits": 7,
+        "hit_rate_pct": 25.0,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 3.57,
+        "max_losing_streak": 10,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 45.28,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-26",
+            "race": "唐津4R",
+            "result": "4-1-6",
+            "payout_yen": 3350,
+            "tickets": [
+              "4-1-6",
+              "4-2-1",
+              "4-2-5",
+              "4-2-6",
+              "4-5-2",
+              "4-5-6",
+              "4-6-1",
+              "4-6-2",
+              "4-6-5",
+              "6-1-2",
+              "6-2-1",
+              "6-2-4",
+              "6-2-5",
+              "6-4-2",
+              "6-5-2"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "大村3R",
+            "result": "1-2-3",
+            "payout_yen": 2420,
+            "tickets": [
+              "1-2-3",
+              "1-2-5",
+              "1-2-6",
+              "1-3-5",
+              "1-5-2",
+              "1-5-3",
+              "1-5-6",
+              "1-6-2",
+              "1-6-5",
+              "5-1-2",
+              "5-2-1",
+              "5-2-3",
+              "5-2-6",
+              "5-3-2",
+              "5-6-2"
+            ]
+          },
+          {
+            "date": "2026-06-29",
+            "race": "戸田10R",
+            "result": "4-1-2",
+            "payout_yen": 2010,
+            "tickets": [
+              "1-2-4",
+              "1-4-2",
+              "1-4-5",
+              "1-4-6",
+              "1-5-4",
+              "1-6-4",
+              "4-1-2",
+              "4-1-5",
+              "4-1-6",
+              "4-2-1",
+              "4-5-1",
+              "4-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "常滑2R",
+            "result": "5-1-2",
+            "payout_yen": 1510,
+            "tickets": [
+              "5-1-2",
+              "5-1-3",
+              "5-1-6",
+              "5-2-1",
+              "5-3-1",
+              "5-6-1",
+              "6-1-3",
+              "6-1-5",
+              "6-2-1",
+              "6-2-5",
+              "6-3-1",
+              "6-3-5",
+              "6-5-1",
+              "6-5-2",
+              "6-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "2-3-4",
+              "2-4-3",
+              "2-4-5",
+              "2-4-6",
+              "2-5-4",
+              "2-6-4",
+              "4-2-3",
+              "4-2-5",
+              "4-2-6",
+              "4-3-2",
+              "4-5-2",
+              "4-6-2"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "浜名湖2R",
+            "result": "3-1-4",
+            "payout_yen": 1200,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-3-4",
+              "1-3-6",
+              "1-4-3",
+              "1-6-3",
+              "3-1-2",
+              "3-1-4",
+              "3-1-6",
+              "3-2-1",
+              "3-4-1",
+              "3-6-1"
+            ]
+          }
+        ],
+        "strategy_name": "現行保存買い目",
+        "logic": "JSONに保存されているその時点の買い目をそのまま買う"
+      },
+      {
+        "strategy_id": "outer_head2_ai23_12",
+        "segment": "買い目あり",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 336,
+        "avg_points": 12.0,
+        "stake_yen": 33600,
+        "payback_yen": 16490,
+        "profit_yen": -17110,
+        "roi_pct": 49.08,
+        "hits": 5,
+        "hit_rate_pct": 17.86,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 11,
+        "max_hit_payout_yen": 9960,
+        "payback_dependency_pct": 60.4,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-3-1",
+              "4-1-3",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3",
+              "6-4-1",
+              "6-1-4",
+              "6-4-2",
+              "6-2-4",
+              "6-4-3",
+              "6-3-4"
+            ]
+          },
+          {
+            "date": "2026-06-29",
+            "race": "戸田10R",
+            "result": "4-1-2",
+            "payout_yen": 2010,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-5",
+              "4-5-2",
+              "4-2-6",
+              "4-6-2",
+              "5-2-1",
+              "5-1-2",
+              "5-2-4",
+              "5-4-2",
+              "5-2-6",
+              "5-6-2"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "常滑2R",
+            "result": "5-1-2",
+            "payout_yen": 1510,
+            "tickets": [
+              "5-2-1",
+              "5-1-2",
+              "5-2-3",
+              "5-3-2",
+              "5-2-6",
+              "5-6-2",
+              "5-1-3",
+              "5-3-1",
+              "5-1-6",
+              "5-6-1",
+              "6-2-1",
+              "6-1-2"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "浜名湖2R",
+            "result": "3-1-4",
+            "payout_yen": 1200,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4",
+              "3-1-2",
+              "3-2-1",
+              "3-1-6",
+              "3-6-1",
+              "4-1-2",
+              "4-2-1"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "びわこ5R",
+            "result": "4-5-2",
+            "payout_yen": 1810,
+            "tickets": [
+              "4-5-1",
+              "4-1-5",
+              "4-5-2",
+              "4-2-5",
+              "4-5-6",
+              "4-6-5",
+              "5-4-1",
+              "5-1-4",
+              "5-4-2",
+              "5-2-4",
+              "5-4-6",
+              "5-6-4"
+            ]
+          }
+        ],
+        "strategy_name": "外頭2×AI+3連対2・3位軸 12点",
+        "logic": "3〜6号艇から複合1着上位2艇を頭、AI+一般3連対の2・3位を軸"
+      },
+      {
+        "strategy_id": "three_boat_box",
+        "segment": "買い目あり",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 168,
+        "avg_points": 6.0,
+        "stake_yen": 16800,
+        "payback_yen": 3010,
+        "profit_yen": -13790,
+        "roi_pct": 17.92,
+        "hits": 2,
+        "hit_rate_pct": 7.14,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 26,
+        "max_hit_payout_yen": 1810,
+        "payback_dependency_pct": 60.13,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-07-01",
+            "race": "浜名湖2R",
+            "result": "3-1-4",
+            "payout_yen": 1200,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "びわこ5R",
+            "result": "4-5-2",
+            "payout_yen": 1810,
+            "tickets": [
+              "4-5-2",
+              "4-2-5",
+              "5-4-2",
+              "5-2-4",
+              "2-4-5",
+              "2-5-4"
+            ]
+          }
+        ],
+        "strategy_name": "3艇BOX",
+        "logic": "頭候補と軸候補から3艇に絞り、3連単BOX6点"
+      }
+    ],
+    "best_by_segment": [
+      {
+        "strategy_id": "three_boat_box",
+        "segment": "本命40%以上",
+        "target_races": 48,
+        "buy_races": 48,
+        "total_points": 288,
+        "avg_points": 6.0,
+        "stake_yen": 28800,
+        "payback_yen": 112960,
+        "profit_yen": 84160,
+        "roi_pct": 392.22,
+        "hits": 4,
+        "hit_rate_pct": 8.33,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 2.08,
+        "max_losing_streak": 21,
+        "max_hit_payout_yen": 102140,
+        "payback_dependency_pct": 90.42,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "result": "5-1-6",
+            "payout_yen": 102140,
+            "tickets": [
+              "6-5-1",
+              "6-1-5",
+              "5-6-1",
+              "5-1-6",
+              "1-6-5",
+              "1-5-6"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-5-2",
+              "4-2-5",
+              "5-4-2",
+              "5-2-4",
+              "2-4-5",
+              "2-5-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-4-1",
+              "5-1-4",
+              "4-5-1",
+              "4-1-5",
+              "1-5-4",
+              "1-4-5"
+            ]
+          }
+        ],
+        "strategy_name": "3艇BOX",
+        "logic": "頭候補と軸候補から3艇に絞り、3連単BOX6点"
+      },
+      {
+        "strategy_id": "three_boat_box",
+        "segment": "展示後38%以上",
+        "target_races": 87,
+        "buy_races": 87,
+        "total_points": 522,
+        "avg_points": 6.0,
+        "stake_yen": 52200,
+        "payback_yen": 116710,
+        "profit_yen": 64510,
+        "roi_pct": 223.58,
+        "hits": 5,
+        "hit_rate_pct": 5.75,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 1.15,
+        "max_losing_streak": 29,
+        "max_hit_payout_yen": 102140,
+        "payback_dependency_pct": 87.52,
+        "verdict": "保留（高配当依存）",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "result": "5-1-6",
+            "payout_yen": 102140,
+            "tickets": [
+              "6-5-1",
+              "6-1-5",
+              "5-6-1",
+              "5-1-6",
+              "1-6-5",
+              "1-5-6"
+            ]
+          },
+          {
+            "date": "2026-06-26",
+            "race": "芦屋1R",
+            "result": "5-1-6",
+            "payout_yen": 3750,
+            "tickets": [
+              "5-6-1",
+              "5-1-6",
+              "6-5-1",
+              "6-1-5",
+              "1-5-6",
+              "1-6-5"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "4-3-1",
+              "4-1-3",
+              "1-3-4",
+              "1-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "result": "5-4-2",
+            "payout_yen": 4600,
+            "tickets": [
+              "4-5-2",
+              "4-2-5",
+              "5-4-2",
+              "5-2-4",
+              "2-4-5",
+              "2-5-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-4-1",
+              "5-1-4",
+              "4-5-1",
+              "4-1-5",
+              "1-5-4",
+              "1-4-5"
+            ]
+          }
+        ],
+        "strategy_name": "3艇BOX",
+        "logic": "頭候補と軸候補から3艇に絞り、3連単BOX6点"
+      },
+      {
+        "strategy_id": "head1_axis2_current",
+        "segment": "買い目あり",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 236,
+        "avg_points": 8.43,
+        "stake_yen": 23600,
+        "payback_yen": 32330,
+        "profit_yen": 8730,
+        "roi_pct": 136.99,
+        "hits": 7,
+        "hit_rate_pct": 25.0,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 3.57,
+        "max_losing_streak": 11,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 31.49,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-27",
+            "race": "唐津3R",
+            "result": "3-1-2",
+            "payout_yen": 5660,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "徳山3R",
+            "result": "4-3-2",
+            "payout_yen": 9960,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-3",
+              "4-3-1",
+              "4-1-5",
+              "4-5-1",
+              "4-3-2",
+              "4-2-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-29",
+            "race": "戸田10R",
+            "result": "4-1-2",
+            "payout_yen": 2010,
+            "tickets": [
+              "4-1-2",
+              "4-2-1",
+              "4-1-5",
+              "4-5-1",
+              "4-1-6",
+              "4-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "常滑2R",
+            "result": "5-1-2",
+            "payout_yen": 1510,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-6",
+              "5-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "浜名湖2R",
+            "result": "3-1-4",
+            "payout_yen": 1200,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1"
+            ]
+          }
+        ],
+        "strategy_name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      },
+      {
+        "strategy_id": "outer3_boat_box",
+        "segment": "朝監視TOP10",
+        "target_races": 648,
+        "buy_races": 107,
+        "total_points": 642,
+        "avg_points": 6.0,
+        "stake_yen": 64200,
+        "payback_yen": 75610,
+        "profit_yen": 11410,
+        "roi_pct": 117.77,
+        "hits": 6,
+        "hit_rate_pct": 5.61,
+        "manshu_hits": 3,
+        "manshu_hit_rate_pct": 2.8,
+        "max_losing_streak": 34,
+        "max_hit_payout_yen": 23450,
+        "payback_dependency_pct": 31.01,
+        "verdict": "採用候補",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "平和島7R",
+            "result": "3-4-5",
+            "payout_yen": 1480,
+            "tickets": [
+              "3-5-4",
+              "3-4-5",
+              "5-3-4",
+              "5-4-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-26",
+            "race": "児島2R",
+            "result": "4-3-5",
+            "payout_yen": 23450,
+            "tickets": [
+              "5-3-4",
+              "5-4-3",
+              "3-5-4",
+              "3-4-5",
+              "4-5-3",
+              "4-3-5"
+            ]
+          },
+          {
+            "date": "2026-06-26",
+            "race": "鳴門9R",
+            "result": "3-6-4",
+            "payout_yen": 6580,
+            "tickets": [
+              "6-3-4",
+              "6-4-3",
+              "3-6-4",
+              "3-4-6",
+              "4-6-3",
+              "4-3-6"
+            ]
+          },
+          {
+            "date": "2026-06-29",
+            "race": "江戸川6R",
+            "result": "5-4-3",
+            "payout_yen": 21990,
+            "tickets": [
+              "3-5-4",
+              "3-4-5",
+              "5-3-4",
+              "5-4-3",
+              "4-3-5",
+              "4-5-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "下関6R",
+            "result": "3-5-4",
+            "payout_yen": 2820,
+            "tickets": [
+              "3-4-5",
+              "3-5-4",
+              "4-3-5",
+              "4-5-3",
+              "5-3-4",
+              "5-4-3"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "宮島7R",
+            "result": "3-4-5",
+            "payout_yen": 19290,
+            "tickets": [
+              "3-4-5",
+              "3-5-4",
+              "4-3-5",
+              "4-5-3",
+              "5-3-4",
+              "5-4-3"
+            ]
+          }
+        ],
+        "strategy_name": "外3艇BOX",
+        "logic": "3〜6号艇の中から複合1着・3着内が強い3艇でBOX6点"
+      },
+      {
+        "strategy_id": "head1_axis2_current",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "target_races": 28,
+        "buy_races": 28,
+        "total_points": 240,
+        "avg_points": 8.57,
+        "stake_yen": 24000,
+        "payback_yen": 20290,
+        "profit_yen": -3710,
+        "roi_pct": 84.54,
+        "hits": 4,
+        "hit_rate_pct": 14.29,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 10,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 44.8,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "福岡2R",
+            "result": "4-2-6",
+            "payout_yen": 4980,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      },
+      {
+        "strategy_id": "head1_axis2_current",
+        "segment": "一般戦 本命40%以上",
+        "target_races": 29,
+        "buy_races": 29,
+        "total_points": 250,
+        "avg_points": 8.62,
+        "stake_yen": 25000,
+        "payback_yen": 20290,
+        "profit_yen": -4710,
+        "roi_pct": 81.16,
+        "hits": 4,
+        "hit_rate_pct": 13.79,
+        "manshu_hits": 0,
+        "manshu_hit_rate_pct": 0.0,
+        "max_losing_streak": 11,
+        "max_hit_payout_yen": 9090,
+        "payback_dependency_pct": 44.8,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "result": "3-1-4",
+            "payout_yen": 1060,
+            "tickets": [
+              "3-4-1",
+              "3-1-4",
+              "3-4-2",
+              "3-2-4",
+              "3-4-6",
+              "3-6-4"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "result": "5-2-3",
+            "payout_yen": 9090,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1",
+              "5-3-2",
+              "5-2-3",
+              "5-3-4",
+              "5-4-3"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "result": "5-1-4",
+            "payout_yen": 5160,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1"
+            ]
+          },
+          {
+            "date": "2026-07-01",
+            "race": "福岡2R",
+            "result": "4-2-6",
+            "payout_yen": 4980,
+            "tickets": [
+              "4-2-1",
+              "4-1-2",
+              "4-2-3",
+              "4-3-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      },
+      {
+        "strategy_id": "head1_axis2_current",
+        "segment": "準本命38-39.9",
+        "target_races": 39,
+        "buy_races": 39,
+        "total_points": 312,
+        "avg_points": 8.0,
+        "stake_yen": 31200,
+        "payback_yen": 21180,
+        "profit_yen": -10020,
+        "roi_pct": 67.88,
+        "hits": 6,
+        "hit_rate_pct": 15.38,
+        "manshu_hits": 1,
+        "manshu_hit_rate_pct": 2.56,
+        "max_losing_streak": 13,
+        "max_hit_payout_yen": 10180,
+        "payback_dependency_pct": 48.06,
+        "verdict": "保留（件数不足）",
+        "examples": [
+          {
+            "date": "2026-06-25",
+            "race": "平和島7R",
+            "result": "3-4-5",
+            "payout_yen": 1480,
+            "tickets": [
+              "3-2-1",
+              "3-1-2",
+              "3-2-4",
+              "3-4-2",
+              "3-2-5",
+              "3-5-2",
+              "3-4-1",
+              "3-1-4",
+              "3-4-5",
+              "3-5-4"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "住之江1R",
+            "result": "3-1-2",
+            "payout_yen": 1250,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-5",
+              "3-5-1"
+            ]
+          },
+          {
+            "date": "2026-06-25",
+            "race": "丸亀9R",
+            "result": "1-2-5",
+            "payout_yen": 3220,
+            "tickets": [
+              "1-2-3",
+              "1-3-2",
+              "1-2-4",
+              "1-4-2",
+              "1-2-5",
+              "1-5-2",
+              "1-2-6",
+              "1-6-2"
+            ]
+          },
+          {
+            "date": "2026-06-27",
+            "race": "宮島11R",
+            "result": "5-1-2",
+            "payout_yen": 2240,
+            "tickets": [
+              "5-1-2",
+              "5-2-1",
+              "5-1-3",
+              "5-3-1",
+              "5-1-4",
+              "5-4-1"
+            ]
+          },
+          {
+            "date": "2026-06-28",
+            "race": "宮島3R",
+            "result": "3-1-4",
+            "payout_yen": 2810,
+            "tickets": [
+              "3-1-2",
+              "3-2-1",
+              "3-1-4",
+              "3-4-1",
+              "3-1-6",
+              "3-6-1"
+            ]
+          },
+          {
+            "date": "2026-06-30",
+            "race": "多摩川4R",
+            "result": "4-2-6",
+            "payout_yen": 10180,
+            "tickets": [
+              "4-2-3",
+              "4-3-2",
+              "4-2-5",
+              "4-5-2",
+              "4-2-6",
+              "4-6-2"
+            ]
+          }
+        ],
+        "strategy_name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く"
+      }
+    ],
+    "note": "1点100円均等買い。結果があるレースだけを計算し、返還等の特殊処理は保存JSONに依存します。件数30未満は採用ではなく保留扱いです。"
+  }
 }

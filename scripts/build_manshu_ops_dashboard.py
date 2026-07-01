@@ -70,6 +70,11 @@ def normalize_combo(value: Any) -> str | None:
     return "-".join(digits[:3])
 
 
+def combo_key(value: Any) -> str | None:
+    normalized = normalize_combo(value)
+    return normalized.replace("-", "") if normalized else None
+
+
 def compact_json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
 
@@ -464,6 +469,429 @@ def summarize_records(records: list[dict[str, Any]], name: str, pred: Callable[[
     }
 
 
+def ints_from_csv(value: Any) -> list[int]:
+    if value is None:
+        return []
+    if isinstance(value, list):
+        raw = value
+    else:
+        raw = re.split(r"[,\s]+", str(value))
+    out: list[int] = []
+    for item in raw:
+        n = parse_int(item)
+        if n and 1 <= n <= 6 and n not in out:
+            out.append(n)
+    return out
+
+
+def read_json_field(row: dict[str, Any], key: str, default: Any) -> Any:
+    try:
+        value = json.loads(row.get(key) or "")
+    except Exception:
+        return default
+    return value if value is not None else default
+
+
+def metrics_boats(row: dict[str, Any]) -> list[dict[str, Any]]:
+    metrics = read_json_field(row, "metrics_json", {})
+    boats = metrics.get("boats") if isinstance(metrics, dict) else []
+    if not isinstance(boats, list):
+        return []
+    return [boat for boat in boats if isinstance(boat, dict)]
+
+
+def boat_number(boat: dict[str, Any]) -> int | None:
+    n = parse_int(boat.get("boat_number"))
+    return n if n and 1 <= n <= 6 else None
+
+
+def ai_plus_score(boat: dict[str, Any]) -> float | None:
+    explicit = parse_float(boat.get("ai_plus"))
+    if explicit is not None:
+        return explicit
+    ai = parse_float(boat.get("top3_pct") or boat.get("ai_3ren_pct"))
+    general = parse_float(boat.get("general_top3_pct"))
+    if ai is not None or general is not None:
+        return (ai or 0.0) + (general or 0.0)
+    return parse_float(boat.get("three_ren_pct") or boat.get("composite_top3_pct"))
+
+
+def sorted_boats_by(row: dict[str, Any], score_func: Callable[[dict[str, Any]], float | None], allowed: set[int] | None = None) -> list[int]:
+    scored: list[tuple[float, int]] = []
+    for boat in metrics_boats(row):
+        n = boat_number(boat)
+        if not n or (allowed is not None and n not in allowed):
+            continue
+        score = score_func(boat)
+        if score is None:
+            continue
+        scored.append((score, n))
+    scored.sort(key=lambda x: (-x[0], x[1]))
+    return [n for _score, n in scored]
+
+
+def dedupe(values: list[int]) -> list[int]:
+    out: list[int] = []
+    for value in values:
+        if value and 1 <= value <= 6 and value not in out:
+            out.append(value)
+    return out
+
+
+def current_selection(row: dict[str, Any]) -> dict[str, Any]:
+    selection = read_json_field(row, "selection_json", {})
+    if not isinstance(selection, dict):
+        selection = {}
+    return selection
+
+
+def fallback_heads(row: dict[str, Any], allowed: set[int] | None = None, count: int = 2) -> list[int]:
+    heads = ints_from_csv(row.get("head_boats"))
+    if allowed is not None:
+        heads = [h for h in heads if h in allowed]
+    ranked = sorted_boats_by(row, lambda b: parse_float(b.get("composite_win_pct")), allowed=allowed)
+    return dedupe(heads + ranked + ([3, 4, 5, 6] if allowed == {3, 4, 5, 6} else [1, 2, 3, 4, 5, 6]))[:count]
+
+
+def fallback_axes(row: dict[str, Any], count: int = 2, rank_start: int = 0) -> list[int]:
+    axes = ints_from_csv(row.get("axis_boats"))
+    ranked = sorted_boats_by(row, ai_plus_score)
+    combined = dedupe(ranked + axes + [1, 2, 3, 4, 5, 6])
+    return combined[rank_start : rank_start + count]
+
+
+def fallback_keshi(row: dict[str, Any]) -> int:
+    n = parse_int(row.get("keshi_boat"))
+    if n and 1 <= n <= 6:
+        return n
+    scored: list[tuple[float, int]] = []
+    for boat in metrics_boats(row):
+        boat_no = boat_number(boat)
+        score = ai_plus_score(boat)
+        if boat_no and score is not None:
+            scored.append((score, boat_no))
+    if scored:
+        scored.sort(key=lambda x: (x[0], x[1]))
+        return scored[0][1]
+    return 6
+
+
+def limit_unique(tickets: list[str], max_points: int) -> list[str]:
+    out: list[str] = []
+    for ticket in tickets:
+        key = combo_key(ticket)
+        if not key or len(set(key)) != 3:
+            continue
+        normalized = "-".join(key)
+        if normalized not in out:
+            out.append(normalized)
+        if len(out) >= max_points:
+            break
+    return out
+
+
+def formation_tickets(heads: list[int], axes: list[int], supports: list[int], max_points: int = 15) -> list[str]:
+    tickets: list[str] = []
+    heads = dedupe(heads)
+    axes = dedupe(axes)
+    supports = dedupe(supports)
+    for head in heads:
+        for axis in axes:
+            if axis == head:
+                continue
+            for support in supports:
+                if support in {head, axis}:
+                    continue
+                tickets.append(f"{head}-{axis}-{support}")
+                tickets.append(f"{head}-{support}-{axis}")
+    return limit_unique(tickets, max_points)
+
+
+def box_tickets(boats: list[int]) -> list[str]:
+    boats = dedupe(boats)[:3]
+    tickets: list[str] = []
+    for first in boats:
+        for second in boats:
+            for third in boats:
+                if len({first, second, third}) == 3:
+                    tickets.append(f"{first}-{second}-{third}")
+    return limit_unique(tickets, 6)
+
+
+def strategy_tickets(row: dict[str, Any], strategy_id: str) -> list[str]:
+    selection = current_selection(row)
+    saved = [t for t in (selection.get("tickets") or []) if combo_key(t)]
+    heads = fallback_heads(row, count=2)
+    outer_heads = fallback_heads(row, allowed={3, 4, 5, 6}, count=2)
+    axes_current = dedupe(ints_from_csv(row.get("axis_boats")) + fallback_axes(row, 2))[:2]
+    axes_ai23 = fallback_axes(row, 2, rank_start=1)
+    axis_ai2 = fallback_axes(row, 1, rank_start=1)
+    axis_ai3 = fallback_axes(row, 1, rank_start=2)
+    keshi = fallback_keshi(row)
+    supports = [n for n in range(1, 7) if n != keshi]
+    supports_no1 = [n for n in range(2, 7) if n != keshi]
+
+    if strategy_id == "saved_current":
+        return limit_unique(saved, 30)
+    if strategy_id == "head2_axis2_current_15":
+        return formation_tickets(heads, axes_current, supports, 15)
+    if strategy_id == "head1_axis2_current":
+        return formation_tickets(heads[:1], axes_current, supports, 10)
+    if strategy_id == "head2_axis1_current":
+        return formation_tickets(heads, axes_current[:1], supports, 10)
+    if strategy_id == "outer_head2_ai23_12":
+        return formation_tickets(outer_heads, axes_ai23, supports, 12)
+    if strategy_id == "outer_head2_ai3_8":
+        return formation_tickets(outer_heads, axis_ai3, supports, 8)
+    if strategy_id == "outer_head2_no1_ai23_12":
+        axes = [a for a in axes_ai23 if a != 1] or axis_ai2
+        return formation_tickets(outer_heads, axes, supports_no1, 12)
+    if strategy_id == "three_boat_box":
+        return box_tickets(dedupe(outer_heads + axes_current + fallback_axes(row, 2)))
+    if strategy_id == "outer3_boat_box":
+        return box_tickets(dedupe(outer_heads + sorted_boats_by(row, lambda b: parse_float(b.get("composite_top3_pct")), allowed={3, 4, 5, 6})))
+    return []
+
+
+BUY_STRATEGIES = [
+    {
+        "id": "saved_current",
+        "name": "現行保存買い目",
+        "logic": "JSONに保存されているその時点の買い目をそのまま買う",
+    },
+    {
+        "id": "head2_axis2_current_15",
+        "name": "頭2×軸2 15点",
+        "logic": "頭候補2艇と軸候補2艇。消し以外へ2・3着折り返しで最大15点",
+    },
+    {
+        "id": "head1_axis2_current",
+        "name": "頭1×軸2",
+        "logic": "頭候補を1艇に絞り、軸候補2艇を2・3着に置く",
+    },
+    {
+        "id": "head2_axis1_current",
+        "name": "頭2×軸1",
+        "logic": "頭候補2艇、軸候補1艇。点数を抑える形",
+    },
+    {
+        "id": "outer_head2_ai23_12",
+        "name": "外頭2×AI+3連対2・3位軸 12点",
+        "logic": "3〜6号艇から複合1着上位2艇を頭、AI+一般3連対の2・3位を軸",
+    },
+    {
+        "id": "outer_head2_ai3_8",
+        "name": "外頭2×AI+3連対3位軸 8点",
+        "logic": "3〜6号艇から頭2艇、AI+一般3連対3位だけを軸にする省点数型",
+    },
+    {
+        "id": "outer_head2_no1_ai23_12",
+        "name": "1号艇抜き外頭2×AI+2・3位軸",
+        "logic": "1号艇を2・3着からも外し、外頭2艇とAI+一般3連対2・3位軸で買う",
+    },
+    {
+        "id": "three_boat_box",
+        "name": "3艇BOX",
+        "logic": "頭候補と軸候補から3艇に絞り、3連単BOX6点",
+    },
+    {
+        "id": "outer3_boat_box",
+        "name": "外3艇BOX",
+        "logic": "3〜6号艇の中から複合1着・3着内が強い3艇でBOX6点",
+    },
+]
+
+
+def is_general_race(row: dict[str, Any]) -> bool:
+    grade = str(row.get("race_grade") or "")
+    kind = str(row.get("race_kind") or "")
+    series = str(row.get("series_title") or "")
+    return grade == "Ippan" or "一般" in kind or "一般" in series
+
+
+def has_full_exhibition(row: dict[str, Any]) -> bool:
+    return (row.get("tenji_boats") or 0) >= 6 and ((row.get("isshu_boats") or 0) >= 6 or (row.get("raw_isshu_boats") or 0) >= 6)
+
+
+def strategy_eval(records: list[dict[str, Any]], strategy_id: str, segment: str, pred: Callable[[dict[str, Any]], bool]) -> dict[str, Any]:
+    settled = [r for r in records if pred(r) and r.get("payout_yen") is not None]
+    bought = []
+    for row in settled:
+        tickets = strategy_tickets(row, strategy_id)
+        if tickets:
+            bought.append((row, tickets))
+    stake = sum(len(tickets) * 100 for _row, tickets in bought)
+    hits = 0
+    manshu_hits = 0
+    payback = 0
+    max_losing = 0
+    current_losing = 0
+    biggest_hit = 0
+    total_points = 0
+    examples = []
+    for row, tickets in bought:
+        total_points += len(tickets)
+        result_key = combo_key(row.get("result_trifecta"))
+        hit = bool(result_key and result_key in {combo_key(t) for t in tickets})
+        if hit:
+            hits += 1
+            current_losing = 0
+            payout = row.get("payout_yen") or 0
+            payback += payout
+            biggest_hit = max(biggest_hit, payout)
+            if row.get("is_manshu"):
+                manshu_hits += 1
+            if len(examples) < 6:
+                examples.append(
+                    {
+                        "date": row.get("date"),
+                        "race": f"{row.get('place_name')}{row.get('round')}R",
+                        "result": row.get("result_trifecta"),
+                        "payout_yen": payout,
+                        "tickets": tickets[:15],
+                    }
+                )
+        else:
+            current_losing += 1
+            max_losing = max(max_losing, current_losing)
+    roi = round(payback / stake * 100, 2) if stake else None
+    buy_races = len(bought)
+    dependency_pct = round(biggest_hit / payback * 100, 2) if payback else None
+    high_payout_dependent = bool(dependency_pct is not None and dependency_pct >= 65.0)
+    if buy_races < 50:
+        verdict = "保留（件数不足）"
+    elif high_payout_dependent and roi is not None and roi >= 100:
+        verdict = "保留（高配当依存）"
+    elif roi is not None and roi >= 100:
+        verdict = "採用候補"
+    elif roi is not None and roi >= 80:
+        verdict = "保留"
+    else:
+        verdict = "却下"
+    return {
+        "strategy_id": strategy_id,
+        "segment": segment,
+        "target_races": len(settled),
+        "buy_races": buy_races,
+        "total_points": total_points,
+        "avg_points": round(total_points / buy_races, 2) if buy_races else None,
+        "stake_yen": stake,
+        "payback_yen": payback,
+        "profit_yen": payback - stake,
+        "roi_pct": roi,
+        "hits": hits,
+        "hit_rate_pct": round(hits / buy_races * 100, 2) if buy_races else None,
+        "manshu_hits": manshu_hits,
+        "manshu_hit_rate_pct": round(manshu_hits / buy_races * 100, 2) if buy_races else None,
+        "max_losing_streak": max_losing,
+        "max_hit_payout_yen": biggest_hit or None,
+        "payback_dependency_pct": dependency_pct,
+        "verdict": verdict,
+        "examples": examples,
+    }
+
+
+def build_strategy_research(records: list[dict[str, Any]]) -> dict[str, Any]:
+    segments: list[tuple[str, Callable[[dict[str, Any]], bool]]] = [
+        ("朝監視TOP10", lambda r: (r.get("rank") or 999) <= 10),
+        ("展示後38%以上", lambda r: (r.get("manshu_rate_pct") or 0) >= 38.0),
+        ("準本命38-39.9", lambda r: 38.0 <= (r.get("manshu_rate_pct") or 0) < 40.0),
+        ("本命40%以上", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0),
+        ("一般戦 本命40%以上", lambda r: is_general_race(r) and (r.get("manshu_rate_pct") or 0) >= 40.0),
+        ("一般戦 本命40%以上 展示6艇", lambda r: is_general_race(r) and (r.get("manshu_rate_pct") or 0) >= 40.0 and has_full_exhibition(r)),
+        ("買い目あり", lambda r: (r.get("ticket_count") or 0) > 0),
+    ]
+    rows = []
+    for segment_name, pred in segments:
+        for strategy in BUY_STRATEGIES:
+            item = strategy_eval(records, strategy["id"], segment_name, pred)
+            item["strategy_name"] = strategy["name"]
+            item["logic"] = strategy["logic"]
+            rows.append(item)
+    rows.sort(key=lambda x: (x["segment"], -(x["roi_pct"] or -1), -(x["buy_races"] or 0)))
+    by_segment: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        by_segment[row["segment"]].append(row)
+    best = []
+    for segment_name, items in by_segment.items():
+        candidates = [x for x in items if (x.get("buy_races") or 0) >= 10]
+        if not candidates:
+            candidates = items
+        if candidates:
+            best.append(max(candidates, key=lambda x: ((x.get("roi_pct") or -1), x.get("buy_races") or 0)))
+    best.sort(key=lambda x: (-(x.get("roi_pct") or -1), -(x.get("buy_races") or 0)))
+    return {
+        "strategies": BUY_STRATEGIES,
+        "rows": rows,
+        "best_by_segment": best,
+        "note": "1点100円均等買い。結果があるレースだけを計算し、返還等の特殊処理は保存JSONに依存します。件数30未満は採用ではなく保留扱いです。",
+    }
+
+
+def write_strategy_research_db(db_path: Path, rows: list[dict[str, Any]]) -> None:
+    con = sqlite3.connect(db_path)
+    con.execute("DROP TABLE IF EXISTS buy_strategy_summary")
+    con.execute(
+        """
+        CREATE TABLE buy_strategy_summary (
+          strategy_id TEXT,
+          strategy_name TEXT,
+          segment TEXT,
+          target_races INTEGER,
+          buy_races INTEGER,
+          total_points INTEGER,
+          avg_points REAL,
+          stake_yen INTEGER,
+          payback_yen INTEGER,
+          profit_yen INTEGER,
+          roi_pct REAL,
+          hits INTEGER,
+          hit_rate_pct REAL,
+          manshu_hits INTEGER,
+          manshu_hit_rate_pct REAL,
+          max_losing_streak INTEGER,
+          max_hit_payout_yen INTEGER,
+          payback_dependency_pct REAL,
+          verdict TEXT,
+          logic TEXT,
+          examples_json TEXT
+        )
+        """
+    )
+    cols = [
+        "strategy_id",
+        "strategy_name",
+        "segment",
+        "target_races",
+        "buy_races",
+        "total_points",
+        "avg_points",
+        "stake_yen",
+        "payback_yen",
+        "profit_yen",
+        "roi_pct",
+        "hits",
+        "hit_rate_pct",
+        "manshu_hits",
+        "manshu_hit_rate_pct",
+        "max_losing_streak",
+        "max_hit_payout_yen",
+        "payback_dependency_pct",
+        "verdict",
+        "logic",
+        "examples_json",
+    ]
+    values = []
+    for row in rows:
+        values.append([row.get(col) if col != "examples_json" else compact_json(row.get("examples") or []) for col in cols])
+    con.executemany(
+        f"INSERT INTO buy_strategy_summary ({','.join(cols)}) VALUES ({','.join('?' for _ in cols)})",
+        values,
+    )
+    con.commit()
+    con.close()
+
+
 def grouped_summary(records: list[dict[str, Any]], group_key: str, limit: int = 20) -> list[dict[str, Any]]:
     groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for r in records:
@@ -514,6 +942,7 @@ def latest_payload(records: list[dict[str, Any]]) -> dict[str, Any]:
 
 def build_summary(rows: list[dict[str, Any]], db_path: Path) -> dict[str, Any]:
     primary = primary_records(rows)
+    strategy_research = build_strategy_research(primary)
     segments = [
         ("全保存レース", lambda r: True),
         ("朝監視TOP10", lambda r: (r.get("rank") or 999) <= 10),
@@ -543,6 +972,7 @@ def build_summary(rows: list[dict[str, Any]], db_path: Path) -> dict[str, Any]:
         "source_segments": source_segments,
         "by_venue": grouped_summary(primary, "place_name", 24),
         "by_month": grouped_summary([{**r, "month": r["date"][:7]} for r in primary], "month", 36),
+        "strategy_research": strategy_research,
     }
 
 
@@ -559,6 +989,7 @@ def main() -> int:
     rows = iter_race_snapshots(output_dir)
     write_db(db_path, rows)
     summary = build_summary(rows, db_path)
+    write_strategy_research_db(db_path, summary["strategy_research"]["rows"])
     summary_path.parent.mkdir(parents=True, exist_ok=True)
     summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
 

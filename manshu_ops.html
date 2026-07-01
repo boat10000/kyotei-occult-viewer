@@ -81,6 +81,7 @@
     <section class="status" id="status"><strong>運用データを読み込み中</strong></section>
     <section class="panel" id="overview"></section>
     <section class="panel" id="latest"></section>
+    <section class="panel" id="strategies"></section>
     <section class="panel" id="segments"></section>
     <div class="two">
       <section class="panel" id="venues"></section>
@@ -104,6 +105,22 @@
         rows.map(r=>`<tr><td><b>${esc(r[key]||r.segment)}</b></td><td class="num">${r.settled_races}</td><td class="num hot">${pct(r.manshu_rate_pct)}</td><td class="num">${r.bought_races}</td><td class="num ${Number(r.roi_pct)>=100?'good':'warn'}">${pct(r.roi_pct)}</td></tr>`).join("")+
         `</tbody></table>`;
     }
+    function strategyTable(rows,title,lead){
+      if(!rows||!rows.length)return `<h2>${esc(title)}</h2><p class="lead">買い方データがまだありません。</p>`;
+      return `<h2>${esc(title)}</h2><p class="lead">${esc(lead||"")}</p><table><thead><tr><th>条件</th><th>買い方</th><th class="num">買いR</th><th class="num">平均点</th><th class="num">的中率</th><th class="num">万舟的中</th><th class="num">回収率</th><th class="num">最大依存</th><th class="num">最大連敗</th><th>判定</th></tr></thead><tbody>`+
+        rows.map(r=>`<tr><td><b>${esc(r.segment)}</b></td><td><b>${esc(r.strategy_name)}</b><br><span class="mini">${esc(r.logic)}</span></td><td class="num">${r.buy_races}</td><td class="num">${r.avg_points??"--"}</td><td class="num">${pct(r.hit_rate_pct)}</td><td class="num">${r.manshu_hits}</td><td class="num ${Number(r.roi_pct)>=100?'good':'warn'}">${pct(r.roi_pct)}</td><td class="num">${pct(r.payback_dependency_pct)}</td><td class="num">${r.max_losing_streak??"--"}</td><td>${esc(r.verdict)}</td></tr>`).join("")+
+        `</tbody></table>`;
+    }
+    function strategySection(data){
+      const sr=data.strategy_research||{};
+      const best=(sr.best_by_segment||[]).slice(0,8);
+      const rows=(sr.rows||[]).filter(r=>["本命40%以上","一般戦 本命40%以上","一般戦 本命40%以上 展示6艇","準本命38-39.9","展示後38%以上"].includes(r.segment));
+      const sorted=rows.sort((a,b)=>(a.segment>b.segment?1:a.segment<b.segment?-1:(Number(b.roi_pct||-1)-Number(a.roi_pct||-1))));
+      return strategyTable(best,"買い方研究 ベスト候補","各条件の中で回収率が高い買い方です。件数30未満は保留扱いです。")+
+        `<details style="margin-top:12px"><summary style="cursor:pointer;color:#1d4ed8;font-weight:900">買い方ごとの詳しい比較を開く</summary>`+
+        strategyTable(sorted,"詳細比較","同じ条件で買い方だけを変えて比較しています。")+
+        `</details><p class="lead">${esc(sr.note||"")}</p>`;
+    }
     function latest(data){
       const rows=(data.latest&&data.latest.races)||[];
       if(!rows.length)return `<h2>最新日の表示</h2><p class="lead">最新日のレースがまだありません。</p>`;
@@ -119,6 +136,7 @@
       const buy=(data.segments||[]).find(r=>r.segment==="買い目あり")||{};
       document.getElementById("overview").innerHTML=`<h2>運用サマリー</h2><div class="cards"><div class="card"><b>${main.settled_races??0}</b><span>確定レース</span></div><div class="card"><b>${pct(main.manshu_rate_pct)}</b><span>全体万舟率</span></div><div class="card"><b>${pct(core.manshu_rate_pct)}</b><span>本命40%以上 万舟率</span></div><div class="card"><b>${pct(buy.roi_pct)}</b><span>買い目あり回収率</span></div></div>`;
       document.getElementById("latest").innerHTML=latest(data);
+      document.getElementById("strategies").innerHTML=strategySection(data);
       document.getElementById("segments").innerHTML=`<h2>条件別 成績</h2><p class="lead">回収率は保存JSON内の買い目を1点100円で買った想定です。結果がないレースは回収率計算から除外します。</p>${segTable(data.segments||[])}`;
       document.getElementById("venues").innerHTML=smallTable(data.by_venue||[],"place_name","場別");
       document.getElementById("months").innerHTML=smallTable(data.by_month||[],"month","月別");
