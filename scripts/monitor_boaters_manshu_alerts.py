@@ -54,7 +54,7 @@ SUMMER_B1_SLOW_NIGE_DELTA_PP = -17
 SUPER_SLIT_TENJI_ADV = 0.10
 CORE_ALERT_RATE = 40.0
 SUBCORE_ALERT_RATE_MIN = 38.0
-VALIDATED_BUY_STRATEGY_IDS = {"codex_post_core_front_head2_no1_outer56"}
+VALIDATED_BUY_STRATEGY_IDS = {"codex_post_core_front_head2_no1_outer56", "codex_odds_gap_b1_fade_strong12"}
 SUBCORE_WATCH_STRATEGY_IDS: set[str] = set()
 
 SUPER_SLIT_ALERT_STATS = {
@@ -1518,6 +1518,39 @@ def b1_unpopular_head_signal(row, metrics):
     return True, f"{popularity_text}で売れすぎではないが逃げ材料が強い"
 
 
+def valid_boat_rank(value):
+    rank = as_num(value)
+    if rank is None or rank < 1 or rank > 6:
+        return None
+    return rank
+
+
+def b1_publicly_backed(metrics):
+    if metrics.get("popular_b1_is_popular"):
+        return True
+    if int(as_num(metrics.get("trifecta_top5_head1_count")) or 0) >= 3:
+        return True
+    odds_rank = as_num(metrics.get("boat1_odds_rank"))
+    odds_pct = as_num(metrics.get("boat1_odds_prediction_pct"))
+    return odds_rank == 1 and odds_pct is not None and odds_pct >= 40
+
+
+def b1_data_danger(metrics):
+    level = str(metrics.get("popular_b1_fly_level") or "")
+    score = as_num(metrics.get("popular_b1_fly_score")) or 0
+    return level in {"危険", "超危険"} or score >= 70
+
+
+def b1_exhibition_double_debuff(metrics):
+    tenji_rank = valid_boat_rank(metrics.get("boat1_tenji_time_rank") or metrics.get("boat1_tenji_rank"))
+    isshu_rank = valid_boat_rank(metrics.get("boat1_isshu_rank"))
+    return tenji_rank is not None and isshu_rank is not None and tenji_rank > 3 and isshu_rank > 3
+
+
+def b1_odds_gap_strong(metrics):
+    return b1_publicly_backed(metrics) and b1_data_danger(metrics) and b1_exhibition_double_debuff(metrics)
+
+
 def head_candidate_score(row, manshu_head_mode=False):
     boat = row["boat_number"]
     metrics = row.get("_morning_metrics") or {}
@@ -1893,6 +1926,73 @@ def core_40_focus_head2_no1_outer56(rows):
         "1号艇は買い目から外し、5/6号艇が絡む形だけを残す回収率重視の買い方"
     )
     return tickets, focused
+
+
+def odds_gap_b1_fade_strong12(rows):
+    metrics = rows[0].get("_morning_metrics") or {}
+    if not b1_odds_gap_strong(metrics):
+        return set(), None
+    scored = []
+    for row in rows:
+        boat = row["boat_number"]
+        if boat == 1:
+            continue
+        score = row.get("composite_win_pct")
+        if score is None:
+            score = row.get("ai_prediction_pct")
+        if score is None:
+            score = 0
+        edge_boost, _edge_reasons = edge_head_boost(boat, metrics)
+        scored.append((score + edge_boost, boat))
+    scored.sort(key=lambda item: (-item[0], item[1]))
+    heads = [boat for _score, boat in scored[:2]]
+    axes, axis_rule = axis_boats_for_roles(rows, ranks=(1, 3))
+    if len(heads) < 2 or len(axes) < 2:
+        return set(), None
+    keshi, keshi_reason, ai_plus_rank6_boat, ai_plus_rank6_revival = select_keshi_boat(
+        rows, protected=set(heads + axes)
+    )
+    if keshi is None:
+        return set(), None
+    pool = [boat for boat in range(1, 7) if boat != keshi]
+    tickets = set()
+    for head in heads:
+        if head in {1, keshi}:
+            continue
+        for axis in axes:
+            if axis in {head, keshi}:
+                continue
+            for other in pool:
+                if other in {head, axis}:
+                    continue
+                tickets.add(f"{head}{axis}{other}")
+                tickets.add(f"{head}{other}{axis}")
+    if not tickets:
+        return set(), None
+    tickets = trim_tickets(tickets, heads, axes, max_points=12)
+    if len(tickets) != 12:
+        return set(), None
+    b1_tenji_rank = valid_boat_rank(metrics.get("boat1_tenji_time_rank") or metrics.get("boat1_tenji_rank"))
+    b1_isshu_rank = valid_boat_rank(metrics.get("boat1_isshu_rank"))
+    return tickets, {
+        "heads": heads,
+        "head_rule": "1号艇が売れすぎ危険なので、1号艇頭は買わず2〜6号艇から複合1着上位2艇を選ぶ",
+        "head_mode": "odds_gap_b1_fade_strong",
+        "head_scores": head_score_details(rows, heads),
+        "axes": axes,
+        "axis_rule": axis_rule,
+        "alt_axes": [],
+        "alt_axis_rule": "歪み本命専用: 軸はAI3連対率+一般3連対率の1位と3位",
+        "supports": pool,
+        "keshi": keshi,
+        "keshi_reason": keshi_reason,
+        "ai_plus_rank6_boat": ai_plus_rank6_boat,
+        "ai_plus_rank6_revival": ai_plus_rank6_revival,
+        "role_note": (
+            f"歪み本命。1号艇は世間人気あり+危険+展示{b1_tenji_rank:.0f}位/1周{b1_isshu_rank:.0f}位。"
+            f"頭{heads[0]},{heads[1]} / 軸は{axis_rule}の{axes[0]},{axes[1]} / 1号艇頭は買わない12点"
+        ),
+    }
 
 
 def combo_boats(value):
@@ -3404,6 +3504,25 @@ def roi_strategies(race, metrics, rows):
         row.get("boat_number") in {3, 4, 5, 6} and row.get("double_time")
         for row in rows
     )
+    if full_exhibition and post_rate >= CORE_ALERT_RATE and b1_odds_gap_strong(metrics):
+        strategies.append(
+            (
+                "codex_odds_gap_b1_fade_strong12",
+                "Codex歪み本命: 1号艇売れすぎ危険+展示Wデバフ 12点",
+                odds_gap_b1_fade_strong12,
+                {
+                    "tier": "core_odds_gap",
+                    "entry_checks": [
+                        f"展示後40%以上:OK({post_rate:.2f}%)",
+                        "1号艇が世間人気あり",
+                        "データ上は1号艇危険",
+                        "1号艇が展示タイム・1周タイムとも上位3外",
+                        "5/6号艇は必須にしない",
+                    ],
+                    "odds_filter": "1号艇頭は買わない。低配当ではなく世間とデータの歪みを狙う",
+                },
+            )
+        )
     if full_exhibition and post_rate >= CORE_ALERT_RATE and round_no <= 3:
         strategies.append(
             (
