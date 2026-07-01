@@ -728,6 +728,28 @@ def save_json(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def refresh_ops_dashboard():
+    script = ROOT / "scripts" / "build_manshu_ops_dashboard.py"
+    if not script.exists():
+        return {"ok": False, "error": f"missing script: {script}"}
+    try:
+        proc = subprocess.run(
+            [sys.executable, str(script)],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            timeout=90,
+        )
+        return {
+            "ok": proc.returncode == 0,
+            "returncode": proc.returncode,
+            "stdout": (proc.stdout or "").strip()[-1200:],
+            "stderr": (proc.stderr or "").strip()[-1200:],
+        }
+    except Exception as exc:
+        return {"ok": False, "error": str(exc)}
+
+
 def merge_live_metrics_into_public_ranking(date_text, updates, now):
     if not updates:
         return False
@@ -4292,6 +4314,9 @@ def monitor(args):
     save_json(alerts_path(date_text), payload)
     state["updated_at"] = now.isoformat(timespec="seconds")
     save_json(state_path(date_text), state)
+    if not args.no_ops_update:
+        payload["ops_dashboard"] = refresh_ops_dashboard()
+        save_json(alerts_path(date_text), payload)
     return payload
 
 
@@ -4346,6 +4371,7 @@ def main():
     parser.add_argument("--test-push", action="store_true", help="Send a smartphone test notification through the configured ntfy route and exit.")
     parser.add_argument("--no-push", action="store_true", help="Disable smartphone push notifications.")
     parser.add_argument("--no-public-metrics-update", action="store_true", help="Do not merge fetched exhibition metrics back into the public morning-order ranking JSON.")
+    parser.add_argument("--no-ops-update", action="store_true", help="Do not rebuild the operations SQLite/summary JSON after monitoring.")
     parser.add_argument(
         "--backfill-missing-exhibition-hours",
         type=float,
