@@ -696,6 +696,10 @@ def strategy_tickets(row: dict[str, Any], strategy_id: str) -> list[str]:
         if not popular_b1_overbet_strong(row):
             return []
         return formation_tickets(non1_composite_heads(row, 2), axes_ai13, supports, 12)
+    if strategy_id == "odds_gap_b1_fade_filtered_12":
+        if not popular_b1_overbet_filtered(row):
+            return []
+        return formation_tickets(non1_composite_heads(row, 2), axes_ai13, supports, 12)
     if strategy_id == "value_ai_head2_ai23_has56_12":
         if not any(h in {5, 6} for h in hybrid_heads):
             return []
@@ -722,6 +726,7 @@ def strategy_tickets(row: dict[str, Any], strategy_id: str) -> list[str]:
 
 
 VALUE_BUY_PRIMARY_STRATEGY = "odds_gap_b1_fade_strong_12"
+VALUE_BUY_FILTERED_STRATEGY = "odds_gap_b1_fade_filtered_12"
 VALUE_BUY_SECONDARY_STRATEGY = "odds_b1_fade_comp_ai13_12"
 VALUE_BUY_FALLBACK_STRATEGY = "value_ai_head2_ai23_has56_12"
 
@@ -731,11 +736,20 @@ def value_buy_recommendation(row: dict[str, Any]) -> dict[str, Any]:
     primary = strategy_tickets(row, VALUE_BUY_PRIMARY_STRATEGY)
     if rate >= 40.0 and primary:
         return {
-            "label": "歪み本命",
+            "label": "歪み強本命",
             "strategy_id": VALUE_BUY_PRIMARY_STRATEGY,
             "strategy_name": strategy_name(VALUE_BUY_PRIMARY_STRATEGY),
             "reason": "1号艇が世間人気ありなのに、データでは危険。さらに展示タイム・1周タイムの両方が上位3に入らないため、1号艇頭を外して狙う",
             "tickets": primary,
+        }
+    filtered = strategy_tickets(row, VALUE_BUY_FILTERED_STRATEGY)
+    if rate >= 40.0 and filtered:
+        return {
+            "label": "歪み本命",
+            "strategy_id": VALUE_BUY_FILTERED_STRATEGY,
+            "strategy_name": strategy_name(VALUE_BUY_FILTERED_STRATEGY),
+            "reason": "1号艇が世間人気ありなのにデータでは危険。さらに前半1〜6Rで、1号艇の展示か1周のどちらかが4位以下、展示+1周平均との差もマイナスなので、1号艇頭を外して狙う",
+            "tickets": filtered,
         }
     secondary = strategy_tickets(row, VALUE_BUY_SECONDARY_STRATEGY)
     if rate >= 40.0 and secondary:
@@ -1161,6 +1175,22 @@ def popular_b1_overbet_strong(row: dict[str, Any]) -> bool:
     return popular_b1_overbet_danger(row) and popular_b1_exhibition_double_debuff(row)
 
 
+def popular_b1_overbet_filtered(row: dict[str, Any]) -> bool:
+    if not popular_b1_overbet_danger(row):
+        return False
+    try:
+        if int(row.get("round") or 99) > 6:
+            return False
+    except (TypeError, ValueError):
+        return False
+    boat = boat_metrics(row, 1)
+    tenji_rank = valid_boat_rank(boat.get("tenji_rank"))
+    isshu_rank = valid_boat_rank(boat.get("isshu_rank"))
+    avg_diff = parse_float(boat.get("avg_isshu_diff"))
+    one_rank_weak = (tenji_rank is not None and tenji_rank > 3.0) or (isshu_rank is not None and isshu_rank > 3.0)
+    return one_rank_weak and avg_diff is not None and avg_diff < 0.0
+
+
 def popular_b1_underbet_value(row: dict[str, Any]) -> bool:
     boat = boat_metrics(row, 1)
     composite_win = parse_float(boat.get("composite_win_pct")) or 0.0
@@ -1170,6 +1200,8 @@ def popular_b1_underbet_value(row: dict[str, Any]) -> bool:
 
 def popular_b1_odds_gap_label(row: dict[str, Any]) -> str:
     if popular_b1_overbet_strong(row):
+        return "1号艇売れすぎ強危険"
+    if popular_b1_overbet_filtered(row):
         return "1号艇売れすぎ危険"
     if popular_b1_overbet_danger(row):
         return "1号艇人気だが危険"
@@ -1624,8 +1656,13 @@ BUY_STRATEGIES = [
     },
     {
         "id": "odds_gap_b1_fade_strong_12",
-        "name": "歪み本命 1号艇売れすぎ危険12点",
+        "name": "歪み強本命 1号艇売れすぎ強危険12点",
         "logic": "1号艇が世間で売れているのに、データでは危険。さらに1号艇の展示タイムと1周タイムが両方4位以下の時だけ、1号艇頭を外して2〜6号艇の複合1着率上位2艇から買う",
+    },
+    {
+        "id": "odds_gap_b1_fade_filtered_12",
+        "name": "歪み本命 1号艇売れすぎ危険 絞り込み12点",
+        "logic": "1号艇が世間で売れているのにデータでは危険。さらに1〜6Rで、1号艇の展示タイムまたは1周タイムが4位以下、展示+1周平均との差がマイナスの時だけ1号艇頭を外す",
     },
     {
         "id": "odds_b1_fade_comp_ai13_12",
@@ -1764,8 +1801,10 @@ def build_strategy_research(records: list[dict[str, Any]]) -> dict[str, Any]:
         ("本命40%以上", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0),
         ("本命40%以上＋人気1号艇危険", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_danger(r)),
         ("本命40%以上＋1号艇人気あり危険", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_overbet_danger(r)),
-        ("本命40%以上＋1号艇売れすぎ危険", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_overbet_strong(r)),
-        ("展示後38%以上＋1号艇売れすぎ危険", lambda r: (r.get("manshu_rate_pct") or 0) >= 38.0 and popular_b1_overbet_strong(r)),
+        ("本命40%以上＋1号艇歪み本命", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_overbet_filtered(r)),
+        ("本命40%以上＋1号艇歪み強本命", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_overbet_strong(r)),
+        ("展示後38%以上＋1号艇歪み本命", lambda r: (r.get("manshu_rate_pct") or 0) >= 38.0 and popular_b1_overbet_filtered(r)),
+        ("展示後38%以上＋1号艇歪み強本命", lambda r: (r.get("manshu_rate_pct") or 0) >= 38.0 and popular_b1_overbet_strong(r)),
         ("展示後38%以上＋1号艇人気薄データ強", lambda r: (r.get("manshu_rate_pct") or 0) >= 38.0 and popular_b1_underbet_value(r)),
         ("本命40%以上＋三連単上位1号艇頭", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_top5_dominant(r) and popular_b1_danger(r)),
         ("本命40%以上＋5/6予兆", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and outer56_support_signal(r)),
