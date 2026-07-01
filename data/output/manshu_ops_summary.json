@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-01T13:25:39+00:00",
+  "generated_at": "2026-07-01T13:36:05+00:00",
   "source": {
     "db_path": "data/output/manshu_ops.sqlite",
     "input_dir": "data/output",
@@ -20,6 +20,8 @@
         "decision_class": "準本命",
         "buy_decision": "展示待ち",
         "heads": "4,6",
+        "recommended_heads": "4,1",
+        "recommended_head_logic": "本命専用ハイブリッドV1",
         "axes": "4,3",
         "keshi": 1,
         "ticket_count": 15,
@@ -37,6 +39,8 @@
         "decision_class": "準本命",
         "buy_decision": "展示待ち",
         "heads": "3,4",
+        "recommended_heads": "1,3",
+        "recommended_head_logic": "本命専用ハイブリッドV1",
         "axes": "1,4",
         "keshi": null,
         "ticket_count": 0,
@@ -54,6 +58,8 @@
         "decision_class": "判定前",
         "buy_decision": "展示待ち",
         "heads": "6,3",
+        "recommended_heads": "6,3",
+        "recommended_head_logic": "現行の頭2艇",
         "axes": "1,4",
         "keshi": null,
         "ticket_count": 0,
@@ -71,6 +77,8 @@
         "decision_class": "見送り",
         "buy_decision": "見送り",
         "heads": "3,1",
+        "recommended_heads": "3,1",
+        "recommended_head_logic": "現行の頭2艇",
         "axes": "3,1",
         "keshi": 5,
         "ticket_count": 12,
@@ -88,6 +96,8 @@
         "decision_class": "判定前",
         "buy_decision": "展示待ち",
         "heads": "3,5",
+        "recommended_heads": "3,5",
+        "recommended_head_logic": "現行の頭2艇",
         "axes": "1,6",
         "keshi": null,
         "ticket_count": 0,
@@ -105,6 +115,8 @@
         "decision_class": "判定前",
         "buy_decision": "展示待ち",
         "heads": "3,4",
+        "recommended_heads": "3,4",
+        "recommended_head_logic": "現行の頭2艇",
         "axes": "1,4",
         "keshi": null,
         "ticket_count": 0,
@@ -122,6 +134,8 @@
         "decision_class": "判定前",
         "buy_decision": "展示待ち",
         "heads": "5,3",
+        "recommended_heads": "5,3",
+        "recommended_head_logic": "現行の頭2艇",
         "axes": "1,2",
         "keshi": null,
         "ticket_count": 0,
@@ -139,6 +153,8 @@
         "decision_class": "判定前",
         "buy_decision": "展示待ち",
         "heads": "3,6",
+        "recommended_heads": "3,6",
+        "recommended_head_logic": "現行の頭2艇",
         "axes": "2,3",
         "keshi": null,
         "ticket_count": 0,
@@ -156,6 +172,8 @@
         "decision_class": "見送り",
         "buy_decision": "見送り",
         "heads": "4,2",
+        "recommended_heads": "4,2",
+        "recommended_head_logic": "現行の頭2艇",
         "axes": "2,5",
         "keshi": 3,
         "ticket_count": 15,
@@ -173,6 +191,8 @@
         "decision_class": "判定前",
         "buy_decision": "展示待ち",
         "heads": "5,6",
+        "recommended_heads": "5,6",
+        "recommended_head_logic": "現行の頭2艇",
         "axes": "6,5",
         "keshi": null,
         "ticket_count": 0,
@@ -940,6 +960,5172 @@
       "month": "2026-07"
     }
   ],
+  "head_research": {
+    "selectors": [
+      {
+        "id": "saved_heads",
+        "name": "現行の頭2艇",
+        "logic": "JSONに保存されている頭候補2艇をそのまま使う"
+      },
+      {
+        "id": "composite_win_top2",
+        "name": "複合1着率 上位2艇",
+        "logic": "AI・一般成績・展示・スリット・相性を混ぜた複合1着率の上位2艇"
+      },
+      {
+        "id": "outer_composite_win_top2",
+        "name": "3〜6号艇 複合1着率上位2艇",
+        "logic": "万舟は外頭が多い前提で、3〜6号艇だけから複合1着率上位2艇"
+      },
+      {
+        "id": "ai_plus_top2",
+        "name": "AI+一般3連対 上位2艇",
+        "logic": "AI3連対率と一般3連対率の合計が高い2艇"
+      },
+      {
+        "id": "exhibition_power_top2",
+        "name": "展示パワー 上位2艇",
+        "logic": "複合1着率に展示タイム・1周・直線・回り足・展示ST・ダブルタイムを加点"
+      },
+      {
+        "id": "slit_matchup_top2",
+        "name": "スリット+相性 上位2艇",
+        "logic": "複合1着率にスーパースリット、対戦相性、穴頭候補を強めに加点"
+      },
+      {
+        "id": "honmei_hybrid_v1",
+        "name": "本命専用ハイブリッドV1",
+        "logic": "3〜6号艇を優先しつつ、1号艇が複合1着率・展示で抜けた時だけ戻す"
+      }
+    ],
+    "rows": [
+      {
+        "selector_id": "composite_win_top2",
+        "segment": "一般戦 本命40%以上",
+        "races": 29,
+        "empty_predictions": 0,
+        "top1_hits": 17,
+        "top1_hit_rate_pct": 58.62,
+        "top2_hits": 24,
+        "top2_capture_rate_pct": 82.76,
+        "winner_counts": {
+          "1": 15,
+          "2": 9,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 23,
+          "2": 10,
+          "3": 9,
+          "4": 8,
+          "5": 6,
+          "6": 2
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              2
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              2,
+              1
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-29",
+            "race": "江戸川9R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-1-5",
+            "payout_yen": 5180
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              4,
+              2
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4600
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "複合1着率 上位2艇",
+        "logic": "AI・一般成績・展示・スリット・相性を混ぜた複合1着率の上位2艇"
+      },
+      {
+        "selector_id": "slit_matchup_top2",
+        "segment": "一般戦 本命40%以上",
+        "races": 29,
+        "empty_predictions": 0,
+        "top1_hits": 17,
+        "top1_hit_rate_pct": 58.62,
+        "top2_hits": 23,
+        "top2_capture_rate_pct": 79.31,
+        "winner_counts": {
+          "1": 15,
+          "2": 9,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 23,
+          "2": 8,
+          "3": 8,
+          "4": 8,
+          "5": 9,
+          "6": 2
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              2
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              2,
+              1
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-29",
+            "race": "江戸川9R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-5",
+            "payout_yen": 5180
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "5-1-4",
+            "payout_yen": 5160
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "スリット+相性 上位2艇",
+        "logic": "複合1着率にスーパースリット、対戦相性、穴頭候補を強めに加点"
+      },
+      {
+        "selector_id": "honmei_hybrid_v1",
+        "segment": "一般戦 本命40%以上",
+        "races": 29,
+        "empty_predictions": 0,
+        "top1_hits": 16,
+        "top1_hit_rate_pct": 55.17,
+        "top2_hits": 23,
+        "top2_capture_rate_pct": 79.31,
+        "winner_counts": {
+          "1": 15,
+          "2": 9,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 23,
+          "2": 7,
+          "3": 10,
+          "4": 8,
+          "5": 9,
+          "6": 1
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              2
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              2,
+              1
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-29",
+            "race": "江戸川9R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-5",
+            "payout_yen": 5180
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "5-1-4",
+            "payout_yen": 5160
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "本命専用ハイブリッドV1",
+        "logic": "3〜6号艇を優先しつつ、1号艇が複合1着率・展示で抜けた時だけ戻す"
+      },
+      {
+        "selector_id": "exhibition_power_top2",
+        "segment": "一般戦 本命40%以上",
+        "races": 29,
+        "empty_predictions": 0,
+        "top1_hits": 16,
+        "top1_hit_rate_pct": 55.17,
+        "top2_hits": 22,
+        "top2_capture_rate_pct": 75.86,
+        "winner_counts": {
+          "1": 15,
+          "2": 9,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 25,
+          "2": 8,
+          "3": 7,
+          "4": 9,
+          "5": 7,
+          "6": 2
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          },
+          {
+            "date": "2026-06-29",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "1-3-2",
+            "payout_yen": 1100
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              1
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-29",
+            "race": "江戸川9R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-5",
+            "payout_yen": 5180
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "展示パワー 上位2艇",
+        "logic": "複合1着率に展示タイム・1周・直線・回り足・展示ST・ダブルタイムを加点"
+      },
+      {
+        "selector_id": "ai_plus_top2",
+        "segment": "一般戦 本命40%以上",
+        "races": 29,
+        "empty_predictions": 0,
+        "top1_hits": 18,
+        "top1_hit_rate_pct": 62.07,
+        "top2_hits": 20,
+        "top2_capture_rate_pct": 68.97,
+        "winner_counts": {
+          "1": 15,
+          "2": 9,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 23,
+          "2": 12,
+          "3": 11,
+          "4": 6,
+          "5": 5,
+          "6": 1
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              2,
+              1
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          },
+          {
+            "date": "2026-06-29",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "1-3-2",
+            "payout_yen": 1100
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-29",
+            "race": "江戸川9R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-1-5",
+            "payout_yen": 5180
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "AI+一般3連対 上位2艇",
+        "logic": "AI3連対率と一般3連対率の合計が高い2艇"
+      },
+      {
+        "selector_id": "saved_heads",
+        "segment": "一般戦 本命40%以上",
+        "races": 29,
+        "empty_predictions": 0,
+        "top1_hits": 4,
+        "top1_hit_rate_pct": 13.79,
+        "top2_hits": 8,
+        "top2_capture_rate_pct": 27.59,
+        "winner_counts": {
+          "1": 15,
+          "2": 9,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 3,
+          "2": 3,
+          "3": 11,
+          "4": 9,
+          "5": 15,
+          "6": 17
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              2
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              4,
+              5
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4600
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              5,
+              6
+            ],
+            "result": "5-2-3",
+            "payout_yen": 9090
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              6,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              6
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              3,
+              6
+            ],
+            "result": "1-3-2",
+            "payout_yen": 1100
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "現行の頭2艇",
+        "logic": "JSONに保存されている頭候補2艇をそのまま使う"
+      },
+      {
+        "selector_id": "outer_composite_win_top2",
+        "segment": "一般戦 本命40%以上",
+        "races": 29,
+        "empty_predictions": 0,
+        "top1_hits": 4,
+        "top1_hit_rate_pct": 13.79,
+        "top2_hits": 5,
+        "top2_capture_rate_pct": 17.24,
+        "winner_counts": {
+          "1": 15,
+          "2": 9,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "3": 19,
+          "4": 18,
+          "5": 17,
+          "6": 4
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              3,
+              4
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              4,
+              5
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4600
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              5,
+              3
+            ],
+            "result": "5-2-3",
+            "payout_yen": 9090
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              5,
+              4
+            ],
+            "result": "5-1-4",
+            "payout_yen": 5160
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              5,
+              4
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              6
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "3〜6号艇 複合1着率上位2艇",
+        "logic": "万舟は外頭が多い前提で、3〜6号艇だけから複合1着率上位2艇"
+      },
+      {
+        "selector_id": "composite_win_top2",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "races": 28,
+        "empty_predictions": 0,
+        "top1_hits": 17,
+        "top1_hit_rate_pct": 60.71,
+        "top2_hits": 24,
+        "top2_capture_rate_pct": 85.71,
+        "winner_counts": {
+          "1": 15,
+          "2": 8,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 22,
+          "2": 10,
+          "3": 9,
+          "4": 7,
+          "5": 6,
+          "6": 2
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              2
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              2,
+              1
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              4,
+              2
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4600
+          },
+          {
+            "date": "2026-07-01",
+            "race": "浜名湖9R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "2-3-5",
+            "payout_yen": 11440
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "複合1着率 上位2艇",
+        "logic": "AI・一般成績・展示・スリット・相性を混ぜた複合1着率の上位2艇"
+      },
+      {
+        "selector_id": "slit_matchup_top2",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "races": 28,
+        "empty_predictions": 0,
+        "top1_hits": 17,
+        "top1_hit_rate_pct": 60.71,
+        "top2_hits": 23,
+        "top2_capture_rate_pct": 82.14,
+        "winner_counts": {
+          "1": 15,
+          "2": 8,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 22,
+          "2": 8,
+          "3": 7,
+          "4": 8,
+          "5": 9,
+          "6": 2
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              2
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              2,
+              1
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "5-1-4",
+            "payout_yen": 5160
+          },
+          {
+            "date": "2026-07-01",
+            "race": "宮島1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "2-3-5",
+            "payout_yen": 11260
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "スリット+相性 上位2艇",
+        "logic": "複合1着率にスーパースリット、対戦相性、穴頭候補を強めに加点"
+      },
+      {
+        "selector_id": "honmei_hybrid_v1",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "races": 28,
+        "empty_predictions": 0,
+        "top1_hits": 16,
+        "top1_hit_rate_pct": 57.14,
+        "top2_hits": 23,
+        "top2_capture_rate_pct": 82.14,
+        "winner_counts": {
+          "1": 15,
+          "2": 8,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 22,
+          "2": 7,
+          "3": 9,
+          "4": 8,
+          "5": 9,
+          "6": 1
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              2
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              2,
+              1
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "5-1-4",
+            "payout_yen": 5160
+          },
+          {
+            "date": "2026-07-01",
+            "race": "宮島1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "2-3-5",
+            "payout_yen": 11260
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "本命専用ハイブリッドV1",
+        "logic": "3〜6号艇を優先しつつ、1号艇が複合1着率・展示で抜けた時だけ戻す"
+      },
+      {
+        "selector_id": "exhibition_power_top2",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "races": 28,
+        "empty_predictions": 0,
+        "top1_hits": 16,
+        "top1_hit_rate_pct": 57.14,
+        "top2_hits": 22,
+        "top2_capture_rate_pct": 78.57,
+        "winner_counts": {
+          "1": 15,
+          "2": 8,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 24,
+          "2": 8,
+          "3": 6,
+          "4": 9,
+          "5": 7,
+          "6": 2
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          },
+          {
+            "date": "2026-06-29",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "1-3-2",
+            "payout_yen": 1100
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              1
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              4,
+              2
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4600
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "展示パワー 上位2艇",
+        "logic": "複合1着率に展示タイム・1周・直線・回り足・展示ST・ダブルタイムを加点"
+      },
+      {
+        "selector_id": "ai_plus_top2",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "races": 28,
+        "empty_predictions": 0,
+        "top1_hits": 18,
+        "top1_hit_rate_pct": 64.29,
+        "top2_hits": 20,
+        "top2_capture_rate_pct": 71.43,
+        "winner_counts": {
+          "1": 15,
+          "2": 8,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 22,
+          "2": 12,
+          "3": 11,
+          "4": 5,
+          "5": 5,
+          "6": 1
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              2,
+              1
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          },
+          {
+            "date": "2026-06-29",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "1-3-2",
+            "payout_yen": 1100
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              4,
+              2
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4600
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "AI+一般3連対 上位2艇",
+        "logic": "AI3連対率と一般3連対率の合計が高い2艇"
+      },
+      {
+        "selector_id": "saved_heads",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "races": 28,
+        "empty_predictions": 0,
+        "top1_hits": 4,
+        "top1_hit_rate_pct": 14.29,
+        "top2_hits": 8,
+        "top2_capture_rate_pct": 28.57,
+        "winner_counts": {
+          "1": 15,
+          "2": 8,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 3,
+          "2": 3,
+          "3": 10,
+          "4": 8,
+          "5": 15,
+          "6": 17
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              2
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              4,
+              5
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4600
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              5,
+              6
+            ],
+            "result": "5-2-3",
+            "payout_yen": 9090
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              6,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              6
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              3,
+              6
+            ],
+            "result": "1-3-2",
+            "payout_yen": 1100
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "現行の頭2艇",
+        "logic": "JSONに保存されている頭候補2艇をそのまま使う"
+      },
+      {
+        "selector_id": "outer_composite_win_top2",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "races": 28,
+        "empty_predictions": 0,
+        "top1_hits": 4,
+        "top1_hit_rate_pct": 14.29,
+        "top2_hits": 5,
+        "top2_capture_rate_pct": 17.86,
+        "winner_counts": {
+          "1": 15,
+          "2": 8,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "3": 18,
+          "4": 17,
+          "5": 17,
+          "6": 4
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              3,
+              4
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              4,
+              5
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4600
+          },
+          {
+            "date": "2026-06-30",
+            "race": "尼崎5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              5,
+              3
+            ],
+            "result": "5-2-3",
+            "payout_yen": 9090
+          },
+          {
+            "date": "2026-06-30",
+            "race": "大村2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              5,
+              4
+            ],
+            "result": "5-1-4",
+            "payout_yen": 5160
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              5,
+              4
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              6
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "3〜6号艇 複合1着率上位2艇",
+        "logic": "万舟は外頭が多い前提で、3〜6号艇だけから複合1着率上位2艇"
+      },
+      {
+        "selector_id": "saved_heads",
+        "segment": "朝監視TOP10",
+        "races": 647,
+        "empty_predictions": 0,
+        "top1_hits": 184,
+        "top1_hit_rate_pct": 28.44,
+        "top2_hits": 327,
+        "top2_capture_rate_pct": 50.54,
+        "winner_counts": {
+          "1": 200,
+          "2": 141,
+          "3": 116,
+          "4": 89,
+          "5": 72,
+          "6": 29
+        },
+        "selected_counts": {
+          "1": 560,
+          "2": 549,
+          "3": 53,
+          "4": 30,
+          "5": 51,
+          "6": 51
+        },
+        "examples_hit": [
+          {
+            "date": "2026-05-01",
+            "race": "鳴門1R",
+            "rate": 30.19,
+            "winner": 1,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "1-2-3",
+            "payout_yen": 1380
+          },
+          {
+            "date": "2026-05-01",
+            "race": "宮島3R",
+            "rate": 32.2,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-3-1",
+            "payout_yen": 1160
+          },
+          {
+            "date": "2026-05-01",
+            "race": "宮島9R",
+            "rate": 30.32,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-5-1",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-05-02",
+            "race": "宮島6R",
+            "rate": 32.49,
+            "winner": 1,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1050
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-05-01",
+            "race": "唐津4R",
+            "rate": 27.73,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-2-1",
+            "payout_yen": 980
+          },
+          {
+            "date": "2026-05-01",
+            "race": "津2R",
+            "rate": 28.93,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4500
+          },
+          {
+            "date": "2026-05-01",
+            "race": "江戸川2R",
+            "rate": 31.37,
+            "winner": 3,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "3-1-4",
+            "payout_yen": 6010
+          },
+          {
+            "date": "2026-05-01",
+            "race": "多摩川3R",
+            "rate": 28.24,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-3-1",
+            "payout_yen": 14380
+          }
+        ],
+        "verdict": "保留",
+        "selector_name": "現行の頭2艇",
+        "logic": "JSONに保存されている頭候補2艇をそのまま使う"
+      },
+      {
+        "selector_id": "honmei_hybrid_v1",
+        "segment": "朝監視TOP10",
+        "races": 647,
+        "empty_predictions": 537,
+        "top1_hits": 44,
+        "top1_hit_rate_pct": 6.8,
+        "top2_hits": 78,
+        "top2_capture_rate_pct": 12.06,
+        "winner_counts": {
+          "1": 200,
+          "2": 141,
+          "3": 116,
+          "4": 89,
+          "5": 72,
+          "6": 29
+        },
+        "selected_counts": {
+          "1": 83,
+          "2": 27,
+          "3": 44,
+          "4": 22,
+          "5": 32,
+          "6": 12
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "常滑2R",
+            "rate": 38.58,
+            "winner": 2,
+            "candidates": [
+              5,
+              6
+            ],
+            "result": "2-6-4",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "却下",
+        "selector_name": "本命専用ハイブリッドV1",
+        "logic": "3〜6号艇を優先しつつ、1号艇が複合1着率・展示で抜けた時だけ戻す"
+      },
+      {
+        "selector_id": "slit_matchup_top2",
+        "segment": "朝監視TOP10",
+        "races": 647,
+        "empty_predictions": 537,
+        "top1_hits": 47,
+        "top1_hit_rate_pct": 7.26,
+        "top2_hits": 76,
+        "top2_capture_rate_pct": 11.75,
+        "winner_counts": {
+          "1": 200,
+          "2": 141,
+          "3": 116,
+          "4": 89,
+          "5": 72,
+          "6": 29
+        },
+        "selected_counts": {
+          "1": 88,
+          "2": 38,
+          "3": 31,
+          "4": 21,
+          "5": 31,
+          "6": 11
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門8R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "5-1-4",
+            "payout_yen": 4600
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              6
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑2R",
+            "rate": 38.58,
+            "winner": 2,
+            "candidates": [
+              5,
+              6
+            ],
+            "result": "2-6-4",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          }
+        ],
+        "verdict": "却下",
+        "selector_name": "スリット+相性 上位2艇",
+        "logic": "複合1着率にスーパースリット、対戦相性、穴頭候補を強めに加点"
+      },
+      {
+        "selector_id": "composite_win_top2",
+        "segment": "朝監視TOP10",
+        "races": 647,
+        "empty_predictions": 540,
+        "top1_hits": 47,
+        "top1_hit_rate_pct": 7.26,
+        "top2_hits": 74,
+        "top2_capture_rate_pct": 11.44,
+        "winner_counts": {
+          "1": 200,
+          "2": 141,
+          "3": 116,
+          "4": 89,
+          "5": 72,
+          "6": 29
+        },
+        "selected_counts": {
+          "1": 89,
+          "2": 55,
+          "3": 29,
+          "4": 20,
+          "5": 15,
+          "6": 6
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-25",
+            "race": "平和島7R",
+            "rate": 38.68,
+            "winner": 3,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "3-4-5",
+            "payout_yen": 1480
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "却下",
+        "selector_name": "複合1着率 上位2艇",
+        "logic": "AI・一般成績・展示・スリット・相性を混ぜた複合1着率の上位2艇"
+      },
+      {
+        "selector_id": "exhibition_power_top2",
+        "segment": "朝監視TOP10",
+        "races": 647,
+        "empty_predictions": 537,
+        "top1_hits": 45,
+        "top1_hit_rate_pct": 6.96,
+        "top2_hits": 74,
+        "top2_capture_rate_pct": 11.44,
+        "winner_counts": {
+          "1": 200,
+          "2": 141,
+          "3": 116,
+          "4": 89,
+          "5": 72,
+          "6": 29
+        },
+        "selected_counts": {
+          "1": 94,
+          "2": 45,
+          "3": 31,
+          "4": 25,
+          "5": 17,
+          "6": 8
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "常滑2R",
+            "rate": 38.58,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-4",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "却下",
+        "selector_name": "展示パワー 上位2艇",
+        "logic": "複合1着率に展示タイム・1周・直線・回り足・展示ST・ダブルタイムを加点"
+      },
+      {
+        "selector_id": "ai_plus_top2",
+        "segment": "朝監視TOP10",
+        "races": 647,
+        "empty_predictions": 537,
+        "top1_hits": 50,
+        "top1_hit_rate_pct": 7.73,
+        "top2_hits": 66,
+        "top2_capture_rate_pct": 10.2,
+        "winner_counts": {
+          "1": 200,
+          "2": 141,
+          "3": 116,
+          "4": 89,
+          "5": 72,
+          "6": 29
+        },
+        "selected_counts": {
+          "1": 92,
+          "2": 68,
+          "3": 26,
+          "4": 14,
+          "5": 12,
+          "6": 5
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-25",
+            "race": "丸亀9R",
+            "rate": 38.16,
+            "winner": 1,
+            "candidates": [
+              1
+            ],
+            "result": "1-2-5",
+            "payout_yen": 3220
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑2R",
+            "rate": 38.58,
+            "winner": 2,
+            "candidates": [
+              1
+            ],
+            "result": "2-6-4",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          }
+        ],
+        "verdict": "却下",
+        "selector_name": "AI+一般3連対 上位2艇",
+        "logic": "AI3連対率と一般3連対率の合計が高い2艇"
+      },
+      {
+        "selector_id": "outer_composite_win_top2",
+        "segment": "朝監視TOP10",
+        "races": 647,
+        "empty_predictions": 540,
+        "top1_hits": 30,
+        "top1_hit_rate_pct": 4.64,
+        "top2_hits": 41,
+        "top2_capture_rate_pct": 6.34,
+        "winner_counts": {
+          "1": 200,
+          "2": 141,
+          "3": 116,
+          "4": 89,
+          "5": 72,
+          "6": 29
+        },
+        "selected_counts": {
+          "3": 82,
+          "4": 74,
+          "5": 44,
+          "6": 14
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門8R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-4",
+            "payout_yen": 4600
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              4
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              3,
+              4
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              5,
+              4
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          }
+        ],
+        "verdict": "却下",
+        "selector_name": "3〜6号艇 複合1着率上位2艇",
+        "logic": "万舟は外頭が多い前提で、3〜6号艇だけから複合1着率上位2艇"
+      },
+      {
+        "selector_id": "honmei_hybrid_v1",
+        "segment": "本命/準本命38%以上",
+        "races": 87,
+        "empty_predictions": 0,
+        "top1_hits": 36,
+        "top1_hit_rate_pct": 41.38,
+        "top2_hits": 62,
+        "top2_capture_rate_pct": 71.26,
+        "winner_counts": {
+          "1": 35,
+          "2": 20,
+          "3": 12,
+          "4": 7,
+          "5": 12,
+          "6": 1
+        },
+        "selected_counts": {
+          "1": 61,
+          "2": 17,
+          "3": 29,
+          "4": 20,
+          "5": 34,
+          "6": 13
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "常滑2R",
+            "rate": 38.58,
+            "winner": 2,
+            "candidates": [
+              5,
+              6
+            ],
+            "result": "2-6-4",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "本命専用ハイブリッドV1",
+        "logic": "3〜6号艇を優先しつつ、1号艇が複合1着率・展示で抜けた時だけ戻す"
+      },
+      {
+        "selector_id": "slit_matchup_top2",
+        "segment": "本命/準本命38%以上",
+        "races": 87,
+        "empty_predictions": 0,
+        "top1_hits": 37,
+        "top1_hit_rate_pct": 42.53,
+        "top2_hits": 61,
+        "top2_capture_rate_pct": 70.11,
+        "winner_counts": {
+          "1": 35,
+          "2": 20,
+          "3": 12,
+          "4": 7,
+          "5": 12,
+          "6": 1
+        },
+        "selected_counts": {
+          "1": 64,
+          "2": 19,
+          "3": 26,
+          "4": 22,
+          "5": 31,
+          "6": 12
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門8R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "5-1-4",
+            "payout_yen": 4600
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              6
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑2R",
+            "rate": 38.58,
+            "winner": 2,
+            "candidates": [
+              5,
+              6
+            ],
+            "result": "2-6-4",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "スリット+相性 上位2艇",
+        "logic": "複合1着率にスーパースリット、対戦相性、穴頭候補を強めに加点"
+      },
+      {
+        "selector_id": "exhibition_power_top2",
+        "segment": "本命/準本命38%以上",
+        "races": 87,
+        "empty_predictions": 0,
+        "top1_hits": 36,
+        "top1_hit_rate_pct": 41.38,
+        "top2_hits": 61,
+        "top2_capture_rate_pct": 70.11,
+        "winner_counts": {
+          "1": 35,
+          "2": 20,
+          "3": 12,
+          "4": 7,
+          "5": 12,
+          "6": 1
+        },
+        "selected_counts": {
+          "1": 75,
+          "2": 28,
+          "3": 24,
+          "4": 20,
+          "5": 18,
+          "6": 9
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "常滑2R",
+            "rate": 38.58,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-4",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "展示パワー 上位2艇",
+        "logic": "複合1着率に展示タイム・1周・直線・回り足・展示ST・ダブルタイムを加点"
+      },
+      {
+        "selector_id": "composite_win_top2",
+        "segment": "本命/準本命38%以上",
+        "races": 87,
+        "empty_predictions": 3,
+        "top1_hits": 36,
+        "top1_hit_rate_pct": 41.38,
+        "top2_hits": 59,
+        "top2_capture_rate_pct": 67.82,
+        "winner_counts": {
+          "1": 35,
+          "2": 20,
+          "3": 12,
+          "4": 7,
+          "5": 12,
+          "6": 1
+        },
+        "selected_counts": {
+          "1": 67,
+          "2": 32,
+          "3": 26,
+          "4": 21,
+          "5": 15,
+          "6": 7
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-25",
+            "race": "平和島7R",
+            "rate": 38.68,
+            "winner": 3,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "3-4-5",
+            "payout_yen": 1480
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "複合1着率 上位2艇",
+        "logic": "AI・一般成績・展示・スリット・相性を混ぜた複合1着率の上位2艇"
+      },
+      {
+        "selector_id": "ai_plus_top2",
+        "segment": "本命/準本命38%以上",
+        "races": 87,
+        "empty_predictions": 0,
+        "top1_hits": 39,
+        "top1_hit_rate_pct": 44.83,
+        "top2_hits": 51,
+        "top2_capture_rate_pct": 58.62,
+        "winner_counts": {
+          "1": 35,
+          "2": 20,
+          "3": 12,
+          "4": 7,
+          "5": 12,
+          "6": 1
+        },
+        "selected_counts": {
+          "1": 69,
+          "2": 46,
+          "3": 25,
+          "4": 13,
+          "5": 14,
+          "6": 4
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-25",
+            "race": "丸亀9R",
+            "rate": 38.16,
+            "winner": 1,
+            "candidates": [
+              1
+            ],
+            "result": "1-2-5",
+            "payout_yen": 3220
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑2R",
+            "rate": 38.58,
+            "winner": 2,
+            "candidates": [
+              1
+            ],
+            "result": "2-6-4",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "AI+一般3連対 上位2艇",
+        "logic": "AI3連対率と一般3連対率の合計が高い2艇"
+      },
+      {
+        "selector_id": "saved_heads",
+        "segment": "本命/準本命38%以上",
+        "races": 87,
+        "empty_predictions": 0,
+        "top1_hits": 19,
+        "top1_hit_rate_pct": 21.84,
+        "top2_hits": 37,
+        "top2_capture_rate_pct": 42.53,
+        "winner_counts": {
+          "1": 35,
+          "2": 20,
+          "3": 12,
+          "4": 7,
+          "5": 12,
+          "6": 1
+        },
+        "selected_counts": {
+          "1": 14,
+          "2": 12,
+          "3": 30,
+          "4": 25,
+          "5": 49,
+          "6": 44
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              6,
+              5
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑2R",
+            "rate": 38.58,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-4",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              4,
+              1
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              6,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              6
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              5,
+              6
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              6,
+              1
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "却下",
+        "selector_name": "現行の頭2艇",
+        "logic": "JSONに保存されている頭候補2艇をそのまま使う"
+      },
+      {
+        "selector_id": "outer_composite_win_top2",
+        "segment": "本命/準本命38%以上",
+        "races": 87,
+        "empty_predictions": 3,
+        "top1_hits": 22,
+        "top1_hit_rate_pct": 25.29,
+        "top2_hits": 28,
+        "top2_capture_rate_pct": 32.18,
+        "winner_counts": {
+          "1": 35,
+          "2": 20,
+          "3": 12,
+          "4": 7,
+          "5": 12,
+          "6": 1
+        },
+        "selected_counts": {
+          "3": 58,
+          "4": 53,
+          "5": 43,
+          "6": 14
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門8R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-4",
+            "payout_yen": 4600
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              4
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              3,
+              4
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              5,
+              4
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          }
+        ],
+        "verdict": "却下",
+        "selector_name": "3〜6号艇 複合1着率上位2艇",
+        "logic": "万舟は外頭が多い前提で、3〜6号艇だけから複合1着率上位2艇"
+      },
+      {
+        "selector_id": "composite_win_top2",
+        "segment": "本命40%以上",
+        "races": 48,
+        "empty_predictions": 0,
+        "top1_hits": 23,
+        "top1_hit_rate_pct": 47.92,
+        "top2_hits": 36,
+        "top2_capture_rate_pct": 75.0,
+        "winner_counts": {
+          "1": 22,
+          "2": 12,
+          "3": 3,
+          "4": 5,
+          "5": 6
+        },
+        "selected_counts": {
+          "1": 42,
+          "2": 17,
+          "3": 14,
+          "4": 12,
+          "5": 8,
+          "6": 3
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-26",
+            "race": "徳山4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-1-6",
+            "payout_yen": 1700
+          },
+          {
+            "date": "2026-06-26",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              6
+            ],
+            "result": "1-2-3",
+            "payout_yen": 1940
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "複合1着率 上位2艇",
+        "logic": "AI・一般成績・展示・スリット・相性を混ぜた複合1着率の上位2艇"
+      },
+      {
+        "selector_id": "slit_matchup_top2",
+        "segment": "本命40%以上",
+        "races": 48,
+        "empty_predictions": 0,
+        "top1_hits": 23,
+        "top1_hit_rate_pct": 47.92,
+        "top2_hits": 36,
+        "top2_capture_rate_pct": 75.0,
+        "winner_counts": {
+          "1": 22,
+          "2": 12,
+          "3": 3,
+          "4": 5,
+          "5": 6
+        },
+        "selected_counts": {
+          "1": 41,
+          "2": 12,
+          "3": 11,
+          "4": 11,
+          "5": 17,
+          "6": 4
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門8R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "5-1-4",
+            "payout_yen": 4600
+          },
+          {
+            "date": "2026-06-26",
+            "race": "徳山4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-1-6",
+            "payout_yen": 1700
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              6
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "スリット+相性 上位2艇",
+        "logic": "複合1着率にスーパースリット、対戦相性、穴頭候補を強めに加点"
+      },
+      {
+        "selector_id": "honmei_hybrid_v1",
+        "segment": "本命40%以上",
+        "races": 48,
+        "empty_predictions": 0,
+        "top1_hits": 22,
+        "top1_hit_rate_pct": 45.83,
+        "top2_hits": 36,
+        "top2_capture_rate_pct": 75.0,
+        "winner_counts": {
+          "1": 22,
+          "2": 12,
+          "3": 3,
+          "4": 5,
+          "5": 6
+        },
+        "selected_counts": {
+          "1": 40,
+          "2": 11,
+          "3": 12,
+          "4": 11,
+          "5": 18,
+          "6": 4
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門8R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "5-1-4",
+            "payout_yen": 4600
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          },
+          {
+            "date": "2026-06-27",
+            "race": "唐津6R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "4-2-3",
+            "payout_yen": 7590
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "本命専用ハイブリッドV1",
+        "logic": "3〜6号艇を優先しつつ、1号艇が複合1着率・展示で抜けた時だけ戻す"
+      },
+      {
+        "selector_id": "exhibition_power_top2",
+        "segment": "本命40%以上",
+        "races": 48,
+        "empty_predictions": 0,
+        "top1_hits": 22,
+        "top1_hit_rate_pct": 45.83,
+        "top2_hits": 33,
+        "top2_capture_rate_pct": 68.75,
+        "winner_counts": {
+          "1": 22,
+          "2": 12,
+          "3": 3,
+          "4": 5,
+          "5": 6
+        },
+        "selected_counts": {
+          "1": 43,
+          "2": 13,
+          "3": 12,
+          "4": 13,
+          "5": 10,
+          "6": 5
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-26",
+            "race": "徳山4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-1-6",
+            "payout_yen": 1700
+          },
+          {
+            "date": "2026-06-26",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "1-2-3",
+            "payout_yen": 1940
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "展示パワー 上位2艇",
+        "logic": "複合1着率に展示タイム・1周・直線・回り足・展示ST・ダブルタイムを加点"
+      },
+      {
+        "selector_id": "ai_plus_top2",
+        "segment": "本命40%以上",
+        "races": 48,
+        "empty_predictions": 0,
+        "top1_hits": 24,
+        "top1_hit_rate_pct": 50.0,
+        "top2_hits": 32,
+        "top2_capture_rate_pct": 66.67,
+        "winner_counts": {
+          "1": 22,
+          "2": 12,
+          "3": 3,
+          "4": 5,
+          "5": 6
+        },
+        "selected_counts": {
+          "1": 42,
+          "2": 26,
+          "3": 14,
+          "4": 7,
+          "5": 6,
+          "6": 1
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-26",
+            "race": "徳山4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-1-6",
+            "payout_yen": 1700
+          },
+          {
+            "date": "2026-06-26",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "1-2-3",
+            "payout_yen": 1940
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "AI+一般3連対 上位2艇",
+        "logic": "AI3連対率と一般3連対率の合計が高い2艇"
+      },
+      {
+        "selector_id": "saved_heads",
+        "segment": "本命40%以上",
+        "races": 48,
+        "empty_predictions": 0,
+        "top1_hits": 7,
+        "top1_hit_rate_pct": 14.58,
+        "top2_hits": 14,
+        "top2_capture_rate_pct": 29.17,
+        "winner_counts": {
+          "1": 22,
+          "2": 12,
+          "3": 3,
+          "4": 5,
+          "5": 6
+        },
+        "selected_counts": {
+          "1": 6,
+          "2": 4,
+          "3": 15,
+          "4": 14,
+          "5": 27,
+          "6": 30
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              6,
+              5
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              4,
+              1
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-27",
+            "race": "唐津3R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "3-1-2",
+            "payout_yen": 5660
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              6
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              5,
+              6
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              6,
+              1
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門8R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              6
+            ],
+            "result": "5-1-4",
+            "payout_yen": 4600
+          }
+        ],
+        "verdict": "却下",
+        "selector_name": "現行の頭2艇",
+        "logic": "JSONに保存されている頭候補2艇をそのまま使う"
+      },
+      {
+        "selector_id": "outer_composite_win_top2",
+        "segment": "本命40%以上",
+        "races": 48,
+        "empty_predictions": 0,
+        "top1_hits": 10,
+        "top1_hit_rate_pct": 20.83,
+        "top2_hits": 13,
+        "top2_capture_rate_pct": 27.08,
+        "winner_counts": {
+          "1": 22,
+          "2": 12,
+          "3": 3,
+          "4": 5,
+          "5": 6
+        },
+        "selected_counts": {
+          "3": 31,
+          "4": 32,
+          "5": 28,
+          "6": 5
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門8R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-4",
+            "payout_yen": 4600
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              4
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              5,
+              4
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-26",
+            "race": "徳山4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-1-6",
+            "payout_yen": 1700
+          }
+        ],
+        "verdict": "却下",
+        "selector_name": "3〜6号艇 複合1着率上位2艇",
+        "logic": "万舟は外頭が多い前提で、3〜6号艇だけから複合1着率上位2艇"
+      }
+    ],
+    "best_by_segment": [
+      {
+        "selector_id": "composite_win_top2",
+        "segment": "一般戦 本命40%以上 展示6艇",
+        "races": 28,
+        "empty_predictions": 0,
+        "top1_hits": 17,
+        "top1_hit_rate_pct": 60.71,
+        "top2_hits": 24,
+        "top2_capture_rate_pct": 85.71,
+        "winner_counts": {
+          "1": 15,
+          "2": 8,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 22,
+          "2": 10,
+          "3": 9,
+          "4": 7,
+          "5": 6,
+          "6": 2
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              2
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              2,
+              1
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              4,
+              2
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4600
+          },
+          {
+            "date": "2026-07-01",
+            "race": "浜名湖9R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "2-3-5",
+            "payout_yen": 11440
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "複合1着率 上位2艇",
+        "logic": "AI・一般成績・展示・スリット・相性を混ぜた複合1着率の上位2艇"
+      },
+      {
+        "selector_id": "composite_win_top2",
+        "segment": "一般戦 本命40%以上",
+        "races": 29,
+        "empty_predictions": 0,
+        "top1_hits": 17,
+        "top1_hit_rate_pct": 58.62,
+        "top2_hits": 24,
+        "top2_capture_rate_pct": 82.76,
+        "winner_counts": {
+          "1": 15,
+          "2": 9,
+          "3": 1,
+          "4": 1,
+          "5": 3
+        },
+        "selected_counts": {
+          "1": 23,
+          "2": 10,
+          "3": 9,
+          "4": 8,
+          "5": 6,
+          "6": 2
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-28",
+            "race": "徳山6R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1230
+          },
+          {
+            "date": "2026-06-28",
+            "race": "住之江3R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              3,
+              2
+            ],
+            "result": "2-3-1",
+            "payout_yen": 3150
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              2,
+              1
+            ],
+            "result": "2-5-3",
+            "payout_yen": 4750
+          },
+          {
+            "date": "2026-06-28",
+            "race": "若松6R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "3-1-4",
+            "payout_yen": 1060
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-29",
+            "race": "びわこ1R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "2-1-3",
+            "payout_yen": 6580
+          },
+          {
+            "date": "2026-06-29",
+            "race": "宮島2R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              4,
+              3
+            ],
+            "result": "2-4-1",
+            "payout_yen": 3380
+          },
+          {
+            "date": "2026-06-29",
+            "race": "江戸川9R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-1-5",
+            "payout_yen": 5180
+          },
+          {
+            "date": "2026-06-30",
+            "race": "浜名湖2R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              4,
+              2
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4600
+          }
+        ],
+        "verdict": "保留（件数不足）",
+        "selector_name": "複合1着率 上位2艇",
+        "logic": "AI・一般成績・展示・スリット・相性を混ぜた複合1着率の上位2艇"
+      },
+      {
+        "selector_id": "composite_win_top2",
+        "segment": "本命40%以上",
+        "races": 48,
+        "empty_predictions": 0,
+        "top1_hits": 23,
+        "top1_hit_rate_pct": 47.92,
+        "top2_hits": 36,
+        "top2_capture_rate_pct": 75.0,
+        "winner_counts": {
+          "1": 22,
+          "2": 12,
+          "3": 3,
+          "4": 5,
+          "5": 6
+        },
+        "selected_counts": {
+          "1": 42,
+          "2": 17,
+          "3": 14,
+          "4": 12,
+          "5": 8,
+          "6": 3
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-26",
+            "race": "徳山4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-1-6",
+            "payout_yen": 1700
+          },
+          {
+            "date": "2026-06-26",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 1,
+            "candidates": [
+              1,
+              6
+            ],
+            "result": "1-2-3",
+            "payout_yen": 1940
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              1
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "複合1着率 上位2艇",
+        "logic": "AI・一般成績・展示・スリット・相性を混ぜた複合1着率の上位2艇"
+      },
+      {
+        "selector_id": "honmei_hybrid_v1",
+        "segment": "本命/準本命38%以上",
+        "races": 87,
+        "empty_predictions": 0,
+        "top1_hits": 36,
+        "top1_hit_rate_pct": 41.38,
+        "top2_hits": 62,
+        "top2_capture_rate_pct": 71.26,
+        "winner_counts": {
+          "1": 35,
+          "2": 20,
+          "3": 12,
+          "4": 7,
+          "5": 12,
+          "6": 1
+        },
+        "selected_counts": {
+          "1": 61,
+          "2": 17,
+          "3": 29,
+          "4": 20,
+          "5": 34,
+          "6": 13
+        },
+        "examples_hit": [
+          {
+            "date": "2026-06-25",
+            "race": "唐津5R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "5-1-6",
+            "payout_yen": 102140
+          },
+          {
+            "date": "2026-06-25",
+            "race": "芦屋7R",
+            "rate": 38.88,
+            "winner": 1,
+            "candidates": [
+              1,
+              3
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1310
+          },
+          {
+            "date": "2026-06-25",
+            "race": "江戸川1R",
+            "rate": 40.0,
+            "winner": 4,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "4-6-5",
+            "payout_yen": 3900
+          },
+          {
+            "date": "2026-06-25",
+            "race": "尼崎3R",
+            "rate": 40.0,
+            "winner": 5,
+            "candidates": [
+              3,
+              5
+            ],
+            "result": "5-1-3",
+            "payout_yen": 2440
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-06-25",
+            "race": "常滑2R",
+            "rate": 38.58,
+            "winner": 2,
+            "candidates": [
+              5,
+              6
+            ],
+            "result": "2-6-4",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-06-25",
+            "race": "常滑4R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              4
+            ],
+            "result": "2-4-1",
+            "payout_yen": 12720
+          },
+          {
+            "date": "2026-06-25",
+            "race": "児島5R",
+            "rate": 40.0,
+            "winner": 2,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "2-6-5",
+            "payout_yen": 23580
+          },
+          {
+            "date": "2026-06-25",
+            "race": "鳴門7R",
+            "rate": 40.0,
+            "winner": 3,
+            "candidates": [
+              1,
+              5
+            ],
+            "result": "3-4-5",
+            "payout_yen": 5910
+          }
+        ],
+        "verdict": "採用候補",
+        "selector_name": "本命専用ハイブリッドV1",
+        "logic": "3〜6号艇を優先しつつ、1号艇が複合1着率・展示で抜けた時だけ戻す"
+      },
+      {
+        "selector_id": "saved_heads",
+        "segment": "朝監視TOP10",
+        "races": 647,
+        "empty_predictions": 0,
+        "top1_hits": 184,
+        "top1_hit_rate_pct": 28.44,
+        "top2_hits": 327,
+        "top2_capture_rate_pct": 50.54,
+        "winner_counts": {
+          "1": 200,
+          "2": 141,
+          "3": 116,
+          "4": 89,
+          "5": 72,
+          "6": 29
+        },
+        "selected_counts": {
+          "1": 560,
+          "2": 549,
+          "3": 53,
+          "4": 30,
+          "5": 51,
+          "6": 51
+        },
+        "examples_hit": [
+          {
+            "date": "2026-05-01",
+            "race": "鳴門1R",
+            "rate": 30.19,
+            "winner": 1,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "1-2-3",
+            "payout_yen": 1380
+          },
+          {
+            "date": "2026-05-01",
+            "race": "宮島3R",
+            "rate": 32.2,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-3-1",
+            "payout_yen": 1160
+          },
+          {
+            "date": "2026-05-01",
+            "race": "宮島9R",
+            "rate": 30.32,
+            "winner": 2,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "2-5-1",
+            "payout_yen": 2010
+          },
+          {
+            "date": "2026-05-02",
+            "race": "宮島6R",
+            "rate": 32.49,
+            "winner": 1,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "1-2-5",
+            "payout_yen": 1050
+          }
+        ],
+        "examples_miss": [
+          {
+            "date": "2026-05-01",
+            "race": "唐津4R",
+            "rate": 27.73,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-2-1",
+            "payout_yen": 980
+          },
+          {
+            "date": "2026-05-01",
+            "race": "津2R",
+            "rate": 28.93,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-4-2",
+            "payout_yen": 4500
+          },
+          {
+            "date": "2026-05-01",
+            "race": "江戸川2R",
+            "rate": 31.37,
+            "winner": 3,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "3-1-4",
+            "payout_yen": 6010
+          },
+          {
+            "date": "2026-05-01",
+            "race": "多摩川3R",
+            "rate": 28.24,
+            "winner": 5,
+            "candidates": [
+              1,
+              2
+            ],
+            "result": "5-3-1",
+            "payout_yen": 14380
+          }
+        ],
+        "verdict": "保留",
+        "selector_name": "現行の頭2艇",
+        "logic": "JSONに保存されている頭候補2艇をそのまま使う"
+      }
+    ],
+    "note": "頭精度は1着艇が1番手にいる率と、2艇候補内に入る率で評価します。結果があるレースだけが対象です。"
+  },
   "strategy_research": {
     "strategies": [
       {

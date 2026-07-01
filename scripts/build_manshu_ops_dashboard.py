@@ -653,6 +653,374 @@ def strategy_tickets(row: dict[str, Any], strategy_id: str) -> list[str]:
     return []
 
 
+def actual_head(row: dict[str, Any]) -> int | None:
+    key = combo_key(row.get("result_trifecta"))
+    return parse_int(key[0]) if key else None
+
+
+def boolish(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    if value is None:
+        return False
+    if isinstance(value, (int, float)):
+        return value != 0
+    return str(value).lower() in {"1", "true", "yes", "ok"}
+
+
+def boat_map(row: dict[str, Any]) -> dict[int, dict[str, Any]]:
+    out: dict[int, dict[str, Any]] = {}
+    for boat in metrics_boats(row):
+        n = boat_number(boat)
+        if n:
+            out[n] = boat
+    return out
+
+
+def boat_metric(row: dict[str, Any], boat_no: int, key: str) -> float | None:
+    boats = boat_map(row)
+    if boat_no in boats:
+        value = parse_float(boats[boat_no].get(key))
+        if value is not None:
+            return value
+    metrics = read_json_field(row, "metrics_json", {})
+    if isinstance(metrics, dict):
+        return parse_float(metrics.get(f"boat{boat_no}_{key}") or metrics.get(f"b{boat_no}_{key}"))
+    return None
+
+
+def exhibit_power_score(boat: dict[str, Any]) -> float | None:
+    n = boat_number(boat)
+    if not n:
+        return None
+    comp = parse_float(boat.get("composite_win_pct")) or 0.0
+    score = comp * 0.65
+    for key, weight in [
+        ("tenji_rank", 2.8),
+        ("isshu_rank", 2.4),
+        ("chokusen_rank", 1.4),
+        ("mawariashi_rank", 1.4),
+        ("start_tenji_rank", 1.2),
+    ]:
+        rank = parse_float(boat.get(key))
+        if rank is not None and 1 <= rank <= 6:
+            score += (7 - rank) * weight
+    if boolish(boat.get("double_time")):
+        score += 5.0
+    if boolish(boat.get("super_slit_alert")):
+        score += 4.0
+    if "バフ" in str(boat.get("matchup_label") or ""):
+        score += 3.0
+    return score
+
+
+def slit_matchup_score(boat: dict[str, Any]) -> float | None:
+    n = boat_number(boat)
+    if not n:
+        return None
+    score = parse_float(boat.get("composite_win_pct")) or 0.0
+    if n >= 3:
+        score += 3.0
+    if n in {5, 6}:
+        score += 1.5
+    if boolish(boat.get("super_slit_alert")):
+        score += 6.0
+    if boolish(boat.get("longshot_head_candidate")):
+        score += 4.0
+    if boolish(boat.get("low_outer_revive")):
+        score += 3.0
+    if "バフ" in str(boat.get("matchup_label") or ""):
+        score += 4.0
+    return score
+
+
+def honmei_hybrid_score(row: dict[str, Any], boat: dict[str, Any]) -> float | None:
+    n = boat_number(boat)
+    if not n:
+        return None
+    rate = row.get("manshu_rate_pct") or 0.0
+    comp = parse_float(boat.get("composite_win_pct")) or 0.0
+    top3 = parse_float(boat.get("composite_top3_pct")) or 0.0
+    score = comp * 0.9 + top3 * 0.12
+    if n >= 3:
+        score += 5.0
+    if n in {5, 6}:
+        score += 2.0
+    if boolish(boat.get("super_slit_alert")):
+        score += 6.0
+    if boolish(boat.get("double_time")):
+        score += 4.0
+    if boolish(boat.get("longshot_head_candidate")):
+        score += 4.0
+    if "バフ" in str(boat.get("matchup_label") or ""):
+        score += 4.0
+    for key, bonus in [("tenji_rank", 3.0), ("isshu_rank", 3.0), ("start_tenji_rank", 2.0)]:
+        rank = parse_float(boat.get(key))
+        if rank is not None and rank <= 2:
+            score += bonus
+    if n == 1:
+        # 本命/強本命は荒れ判定済みなので、1号艇は基本やや割引。
+        # ただし複合1着率や展示が抜けている時だけ戻す。
+        score -= 5.0 if rate >= 40.0 else 3.0
+        if comp >= 34.0:
+            score += 5.0
+        tenji_rank = parse_float(boat.get("tenji_rank"))
+        isshu_rank = parse_float(boat.get("isshu_rank"))
+        if tenji_rank is not None and tenji_rank <= 2:
+            score += 4.0
+        if isshu_rank is not None and isshu_rank <= 2:
+            score += 4.0
+    return score
+
+
+def head_candidates(row: dict[str, Any], selector_id: str, count: int = 2) -> list[int]:
+    if selector_id == "saved_heads":
+        return fallback_heads(row, count=count)
+    if selector_id == "composite_win_top2":
+        return sorted_boats_by(row, lambda b: parse_float(b.get("composite_win_pct")))[:count]
+    if selector_id == "outer_composite_win_top2":
+        return sorted_boats_by(row, lambda b: parse_float(b.get("composite_win_pct")), allowed={3, 4, 5, 6})[:count]
+    if selector_id == "ai_plus_top2":
+        return sorted_boats_by(row, ai_plus_score)[:count]
+    if selector_id == "exhibition_power_top2":
+        return sorted_boats_by(row, exhibit_power_score)[:count]
+    if selector_id == "slit_matchup_top2":
+        return sorted_boats_by(row, slit_matchup_score)[:count]
+    if selector_id == "honmei_hybrid_v1":
+        scored: list[tuple[float, int]] = []
+        for boat in metrics_boats(row):
+            n = boat_number(boat)
+            score = honmei_hybrid_score(row, boat)
+            if n and score is not None:
+                scored.append((score, n))
+        scored.sort(key=lambda x: (-x[0], x[1]))
+        return [n for _score, n in scored[:count]]
+    return []
+
+
+HEAD_SELECTORS = [
+    {
+        "id": "saved_heads",
+        "name": "現行の頭2艇",
+        "logic": "JSONに保存されている頭候補2艇をそのまま使う",
+    },
+    {
+        "id": "composite_win_top2",
+        "name": "複合1着率 上位2艇",
+        "logic": "AI・一般成績・展示・スリット・相性を混ぜた複合1着率の上位2艇",
+    },
+    {
+        "id": "outer_composite_win_top2",
+        "name": "3〜6号艇 複合1着率上位2艇",
+        "logic": "万舟は外頭が多い前提で、3〜6号艇だけから複合1着率上位2艇",
+    },
+    {
+        "id": "ai_plus_top2",
+        "name": "AI+一般3連対 上位2艇",
+        "logic": "AI3連対率と一般3連対率の合計が高い2艇",
+    },
+    {
+        "id": "exhibition_power_top2",
+        "name": "展示パワー 上位2艇",
+        "logic": "複合1着率に展示タイム・1周・直線・回り足・展示ST・ダブルタイムを加点",
+    },
+    {
+        "id": "slit_matchup_top2",
+        "name": "スリット+相性 上位2艇",
+        "logic": "複合1着率にスーパースリット、対戦相性、穴頭候補を強めに加点",
+    },
+    {
+        "id": "honmei_hybrid_v1",
+        "name": "本命専用ハイブリッドV1",
+        "logic": "3〜6号艇を優先しつつ、1号艇が複合1着率・展示で抜けた時だけ戻す",
+    },
+]
+
+
+def eval_head_selector(records: list[dict[str, Any]], selector_id: str, segment: str, pred: Callable[[dict[str, Any]], bool]) -> dict[str, Any]:
+    settled = [r for r in records if pred(r) and actual_head(r) is not None]
+    top1_hits = 0
+    top2_hits = 0
+    empty = 0
+    winner_counts: dict[str, int] = defaultdict(int)
+    selected_counts: dict[str, int] = defaultdict(int)
+    examples_hit = []
+    examples_miss = []
+    for row in settled:
+        winner = actual_head(row)
+        if winner is None:
+            continue
+        winner_counts[str(winner)] += 1
+        candidates = head_candidates(row, selector_id, 2)
+        if not candidates:
+            empty += 1
+            continue
+        for c in candidates:
+            selected_counts[str(c)] += 1
+        hit1 = candidates[0] == winner
+        hit2 = winner in candidates[:2]
+        top1_hits += int(hit1)
+        top2_hits += int(hit2)
+        example = {
+            "date": row.get("date"),
+            "race": f"{row.get('place_name')}{row.get('round')}R",
+            "rate": row.get("manshu_rate_pct"),
+            "winner": winner,
+            "candidates": candidates[:2],
+            "result": row.get("result_trifecta"),
+            "payout_yen": row.get("payout_yen"),
+        }
+        if hit2 and len(examples_hit) < 4:
+            examples_hit.append(example)
+        if not hit2 and len(examples_miss) < 4:
+            examples_miss.append(example)
+    n = len(settled)
+    top1_rate = round(top1_hits / n * 100, 2) if n else None
+    top2_rate = round(top2_hits / n * 100, 2) if n else None
+    if n < 30:
+        verdict = "保留（件数不足）"
+    elif top2_rate is not None and top2_rate >= 58:
+        verdict = "採用候補"
+    elif top2_rate is not None and top2_rate >= 45:
+        verdict = "保留"
+    else:
+        verdict = "却下"
+    return {
+        "selector_id": selector_id,
+        "segment": segment,
+        "races": n,
+        "empty_predictions": empty,
+        "top1_hits": top1_hits,
+        "top1_hit_rate_pct": top1_rate,
+        "top2_hits": top2_hits,
+        "top2_capture_rate_pct": top2_rate,
+        "winner_counts": dict(sorted(winner_counts.items(), key=lambda x: int(x[0]))),
+        "selected_counts": dict(sorted(selected_counts.items(), key=lambda x: int(x[0]))),
+        "examples_hit": examples_hit,
+        "examples_miss": examples_miss,
+        "verdict": verdict,
+    }
+
+
+def build_head_research(records: list[dict[str, Any]]) -> dict[str, Any]:
+    segments: list[tuple[str, Callable[[dict[str, Any]], bool]]] = [
+        ("本命40%以上", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0),
+        ("本命/準本命38%以上", lambda r: (r.get("manshu_rate_pct") or 0) >= 38.0),
+        ("一般戦 本命40%以上", lambda r: is_general_race(r) and (r.get("manshu_rate_pct") or 0) >= 40.0),
+        ("一般戦 本命40%以上 展示6艇", lambda r: is_general_race(r) and (r.get("manshu_rate_pct") or 0) >= 40.0 and has_full_exhibition(r)),
+        ("朝監視TOP10", lambda r: (r.get("rank") or 999) <= 10),
+    ]
+    rows = []
+    for segment_name, pred in segments:
+        for selector in HEAD_SELECTORS:
+            item = eval_head_selector(records, selector["id"], segment_name, pred)
+            item["selector_name"] = selector["name"]
+            item["logic"] = selector["logic"]
+            rows.append(item)
+    rows.sort(key=lambda x: (x["segment"], -(x.get("top2_capture_rate_pct") or -1), -(x.get("top1_hit_rate_pct") or -1)))
+    by_segment: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        by_segment[row["segment"]].append(row)
+    best = []
+    for segment_name, items in by_segment.items():
+        candidates = [x for x in items if (x.get("races") or 0) >= 10]
+        if candidates:
+            best.append(max(candidates, key=lambda x: ((x.get("top2_capture_rate_pct") or -1), x.get("top1_hit_rate_pct") or -1)))
+    best.sort(key=lambda x: (-(x.get("top2_capture_rate_pct") or -1), -(x.get("top1_hit_rate_pct") or -1)))
+    return {
+        "selectors": HEAD_SELECTORS,
+        "rows": rows,
+        "best_by_segment": best,
+        "note": "頭精度は1着艇が1番手にいる率と、2艇候補内に入る率で評価します。結果があるレースだけが対象です。",
+    }
+
+
+def recommended_head_selector(row: dict[str, Any]) -> str:
+    rate = row.get("manshu_rate_pct") or 0.0
+    if rate >= 40.0:
+        return "composite_win_top2"
+    if rate >= 38.0:
+        return "honmei_hybrid_v1"
+    return "saved_heads"
+
+
+def head_selector_name(selector_id: str) -> str:
+    for selector in HEAD_SELECTORS:
+        if selector["id"] == selector_id:
+            return selector["name"]
+    return selector_id
+
+
+def write_head_research_db(db_path: Path, rows: list[dict[str, Any]]) -> None:
+    con = sqlite3.connect(db_path)
+    con.execute("DROP TABLE IF EXISTS head_selector_summary")
+    con.execute(
+        """
+        CREATE TABLE head_selector_summary (
+          selector_id TEXT,
+          selector_name TEXT,
+          segment TEXT,
+          races INTEGER,
+          top1_hits INTEGER,
+          top1_hit_rate_pct REAL,
+          top2_hits INTEGER,
+          top2_capture_rate_pct REAL,
+          empty_predictions INTEGER,
+          verdict TEXT,
+          logic TEXT,
+          winner_counts_json TEXT,
+          selected_counts_json TEXT,
+          examples_hit_json TEXT,
+          examples_miss_json TEXT
+        )
+        """
+    )
+    cols = [
+        "selector_id",
+        "selector_name",
+        "segment",
+        "races",
+        "top1_hits",
+        "top1_hit_rate_pct",
+        "top2_hits",
+        "top2_capture_rate_pct",
+        "empty_predictions",
+        "verdict",
+        "logic",
+        "winner_counts_json",
+        "selected_counts_json",
+        "examples_hit_json",
+        "examples_miss_json",
+    ]
+    values = []
+    for row in rows:
+        values.append(
+            [
+                row.get("selector_id"),
+                row.get("selector_name"),
+                row.get("segment"),
+                row.get("races"),
+                row.get("top1_hits"),
+                row.get("top1_hit_rate_pct"),
+                row.get("top2_hits"),
+                row.get("top2_capture_rate_pct"),
+                row.get("empty_predictions"),
+                row.get("verdict"),
+                row.get("logic"),
+                compact_json(row.get("winner_counts") or {}),
+                compact_json(row.get("selected_counts") or {}),
+                compact_json(row.get("examples_hit") or []),
+                compact_json(row.get("examples_miss") or []),
+            ]
+        )
+    con.executemany(
+        f"INSERT INTO head_selector_summary ({','.join(cols)}) VALUES ({','.join('?' for _ in cols)})",
+        values,
+    )
+    con.commit()
+    con.close()
+
+
 BUY_STRATEGIES = [
     {
         "id": "saved_current",
@@ -927,6 +1295,8 @@ def latest_payload(records: list[dict[str, Any]]) -> dict[str, Any]:
                 "decision_class": r.get("decision_class"),
                 "buy_decision": r.get("buy_decision"),
                 "heads": r.get("head_boats"),
+                "recommended_heads": ",".join(map(str, head_candidates(r, recommended_head_selector(r), 2))),
+                "recommended_head_logic": head_selector_name(recommended_head_selector(r)),
                 "axes": r.get("axis_boats"),
                 "keshi": r.get("keshi_boat"),
                 "ticket_count": r.get("ticket_count"),
@@ -942,6 +1312,7 @@ def latest_payload(records: list[dict[str, Any]]) -> dict[str, Any]:
 
 def build_summary(rows: list[dict[str, Any]], db_path: Path) -> dict[str, Any]:
     primary = primary_records(rows)
+    head_research = build_head_research(primary)
     strategy_research = build_strategy_research(primary)
     segments = [
         ("全保存レース", lambda r: True),
@@ -972,6 +1343,7 @@ def build_summary(rows: list[dict[str, Any]], db_path: Path) -> dict[str, Any]:
         "source_segments": source_segments,
         "by_venue": grouped_summary(primary, "place_name", 24),
         "by_month": grouped_summary([{**r, "month": r["date"][:7]} for r in primary], "month", 36),
+        "head_research": head_research,
         "strategy_research": strategy_research,
     }
 
@@ -989,6 +1361,7 @@ def main() -> int:
     rows = iter_race_snapshots(output_dir)
     write_db(db_path, rows)
     summary = build_summary(rows, db_path)
+    write_head_research_db(db_path, summary["head_research"]["rows"])
     write_strategy_research_db(db_path, summary["strategy_research"]["rows"])
     summary_path.parent.mkdir(parents=True, exist_ok=True)
     summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n")

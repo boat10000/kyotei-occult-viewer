@@ -81,6 +81,7 @@
     <section class="status" id="status"><strong>運用データを読み込み中</strong></section>
     <section class="panel" id="overview"></section>
     <section class="panel" id="latest"></section>
+    <section class="panel" id="heads"></section>
     <section class="panel" id="strategies"></section>
     <section class="panel" id="segments"></section>
     <div class="two">
@@ -111,6 +112,26 @@
         rows.map(r=>`<tr><td><b>${esc(r.segment)}</b></td><td><b>${esc(r.strategy_name)}</b><br><span class="mini">${esc(r.logic)}</span></td><td class="num">${r.buy_races}</td><td class="num">${r.avg_points??"--"}</td><td class="num">${pct(r.hit_rate_pct)}</td><td class="num">${r.manshu_hits}</td><td class="num ${Number(r.roi_pct)>=100?'good':'warn'}">${pct(r.roi_pct)}</td><td class="num">${pct(r.payback_dependency_pct)}</td><td class="num">${r.max_losing_streak??"--"}</td><td>${esc(r.verdict)}</td></tr>`).join("")+
         `</tbody></table>`;
     }
+    function countsText(obj){
+      if(!obj)return "--";
+      return Object.keys(obj).sort((a,b)=>Number(a)-Number(b)).map(k=>`${k}号艇${obj[k]}`).join(" / ")||"--";
+    }
+    function headTable(rows,title,lead){
+      if(!rows||!rows.length)return `<h2>${esc(title)}</h2><p class="lead">頭精度データがまだありません。</p>`;
+      return `<h2>${esc(title)}</h2><p class="lead">${esc(lead||"")}</p><table><thead><tr><th>条件</th><th>頭ロジック</th><th class="num">対象</th><th class="num">1番手的中</th><th class="num">2艇捕捉</th><th>勝ち艇内訳</th><th>判定</th></tr></thead><tbody>`+
+        rows.map(r=>`<tr><td><b>${esc(r.segment)}</b></td><td><b>${esc(r.selector_name)}</b><br><span class="mini">${esc(r.logic)}</span></td><td class="num">${r.races}</td><td class="num">${pct(r.top1_hit_rate_pct)}</td><td class="num ${Number(r.top2_capture_rate_pct)>=60?'good':'warn'}">${pct(r.top2_capture_rate_pct)}</td><td>${esc(countsText(r.winner_counts))}</td><td>${esc(r.verdict)}</td></tr>`).join("")+
+        `</tbody></table>`;
+    }
+    function headSection(data){
+      const hr=data.head_research||{};
+      const best=(hr.best_by_segment||[]).slice(0,8);
+      const rows=(hr.rows||[]).filter(r=>["本命40%以上","本命/準本命38%以上","一般戦 本命40%以上","一般戦 本命40%以上 展示6艇"].includes(r.segment));
+      const sorted=rows.sort((a,b)=>(a.segment>b.segment?1:a.segment<b.segment?-1:(Number(b.top2_capture_rate_pct||-1)-Number(a.top2_capture_rate_pct||-1))));
+      return headTable(best,"頭精度研究 ベスト候補","本命/強本命が出た時に、1着を2艇以内へ入れられるかを比較します。")+
+        `<details style="margin-top:12px"><summary style="cursor:pointer;color:#1d4ed8;font-weight:900">頭ロジックごとの詳しい比較を開く</summary>`+
+        headTable(sorted,"頭ロジック詳細比較","外枠だけ・複合1着率・展示パワー・スリット相性などを同じ条件で比べています。")+
+        `</details><p class="lead">${esc(hr.note||"")}</p>`;
+    }
     function strategySection(data){
       const sr=data.strategy_research||{};
       const best=(sr.best_by_segment||[]).slice(0,8);
@@ -125,7 +146,7 @@
       const rows=(data.latest&&data.latest.races)||[];
       if(!rows.length)return `<h2>最新日の表示</h2><p class="lead">最新日のレースがまだありません。</p>`;
       return `<h2>${esc(data.latest.date)} 最新TOP10</h2><p class="lead">頭・軸・消し・買い目点数と結果をまとめて確認します。</p><div class="latest">`+
-        rows.map(r=>`<div class="race"><div class="race-top"><div><div class="race-title">${r.rank}位 ${esc(r.place_name)}${r.round}R <span class="badge ${cls(r.decision_class)}">${esc(r.decision_class)}</span></div><div class="mini">${esc(r.deadline)}締切 / ${r.result_trifecta?`結果 ${esc(r.result_trifecta)} ${yen(r.payout_yen)}`:"結果待ち"}</div></div><div class="rate">${pct(r.manshu_rate_pct)}</div></div><div class="roles"><div class="role"><b>頭</b><strong>${esc(r.heads||"--")}</strong></div><div class="role"><b>軸</b><strong>${esc(r.axes||"--")}</strong></div><div class="role"><b>消し</b><strong>${esc(r.keshi||"--")}</strong></div><div class="role"><b>買い目</b><strong>${r.ticket_count||0}点 ${r.ticket_hit?"的中":"-"}</strong></div></div></div>`).join("")+
+        rows.map(r=>`<div class="race"><div class="race-top"><div><div class="race-title">${r.rank}位 ${esc(r.place_name)}${r.round}R <span class="badge ${cls(r.decision_class)}">${esc(r.decision_class)}</span></div><div class="mini">${esc(r.deadline)}締切 / ${r.result_trifecta?`結果 ${esc(r.result_trifecta)} ${yen(r.payout_yen)}`:"結果待ち"}</div></div><div class="rate">${pct(r.manshu_rate_pct)}</div></div><div class="roles"><div class="role"><b>推奨頭</b><strong>${esc(r.recommended_heads||"--")}</strong><span class="mini">${esc(r.recommended_head_logic||"")}</span></div><div class="role"><b>保存頭</b><strong>${esc(r.heads||"--")}</strong></div><div class="role"><b>軸</b><strong>${esc(r.axes||"--")}</strong></div><div class="role"><b>消し</b><strong>${esc(r.keshi||"--")}</strong></div><div class="role"><b>買い目</b><strong>${r.ticket_count||0}点 ${r.ticket_hit?"的中":"-"}</strong></div></div></div>`).join("")+
         `</div>`;
     }
     function render(data){
@@ -136,6 +157,7 @@
       const buy=(data.segments||[]).find(r=>r.segment==="買い目あり")||{};
       document.getElementById("overview").innerHTML=`<h2>運用サマリー</h2><div class="cards"><div class="card"><b>${main.settled_races??0}</b><span>確定レース</span></div><div class="card"><b>${pct(main.manshu_rate_pct)}</b><span>全体万舟率</span></div><div class="card"><b>${pct(core.manshu_rate_pct)}</b><span>本命40%以上 万舟率</span></div><div class="card"><b>${pct(buy.roi_pct)}</b><span>買い目あり回収率</span></div></div>`;
       document.getElementById("latest").innerHTML=latest(data);
+      document.getElementById("heads").innerHTML=headSection(data);
       document.getElementById("strategies").innerHTML=strategySection(data);
       document.getElementById("segments").innerHTML=`<h2>条件別 成績</h2><p class="lead">回収率は保存JSON内の買い目を1点100円で買った想定です。結果がないレースは回収率計算から除外します。</p>${segTable(data.segments||[])}`;
       document.getElementById("venues").innerHTML=smallTable(data.by_venue||[],"place_name","場別");
