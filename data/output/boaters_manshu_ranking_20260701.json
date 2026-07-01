@@ -1,7 +1,7 @@
 {
   "version": "boaters-manshu-logic-v2",
   "date": "2026-07-01",
-  "generated_at": "2026-07-01T06:59:36+00:00",
+  "generated_at": "2026-07-01T10:40:48+00:00",
   "threshold_pct": 27.0,
   "logic_label": "Codex厳選ランキング（全ファクター統合）",
   "logic_summary": "過去検証27%以上の強条件、三連単人気1〜5が1号艇頭の売れ過ぎイン飛び、1号艇弱化、外枠上振れ、AI+下位の穴、AI/オッズ評価、展示タイム+有効ラップ（通常は1周、江戸川は半周対応）、夏場ラップ補正、スーパースリットアラート、平均STタイム/順位で近似したスリット隊形、女子戦攻略ファクター、天候/風波、今回メンバー同士の対戦相性をすべて同じスコアに混ぜた統合厳選ランキング。",
@@ -17,12 +17,12 @@
     "races_with_full_isshu": 0,
     "displayed_top_n": 10,
     "strict_displayed_top_n": 10,
-    "settled_top_n": 0,
-    "manshu_hits_top_n": 0,
-    "actual_manshu_rate_top_n_pct": null,
-    "strict_settled_top_n": 0,
-    "strict_manshu_hits_top_n": 0,
-    "strict_actual_manshu_rate_top_n_pct": null,
+    "settled_top_n": 6,
+    "manshu_hits_top_n": 1,
+    "actual_manshu_rate_top_n_pct": 16.67,
+    "strict_settled_top_n": 6,
+    "strict_manshu_hits_top_n": 1,
+    "strict_actual_manshu_rate_top_n_pct": 16.67,
     "morning_candidate_count": 10,
     "baseline_only_hidden_count": 0
   },
@@ -156,8 +156,8 @@
       "metrics": {
         "boat1_ai_prediction_pct": null,
         "boat1_odds_prediction_pct": null,
-        "boat1_odds_rank": null,
-        "odds_snapshot_source": "",
+        "boat1_odds_rank": 9.0,
+        "odds_snapshot_source": "morning_saved",
         "b1_trifecta_top5_1head": 0.0,
         "trifecta_top5_head1_count": 0.0,
         "trifecta_top5_count": 0.0,
@@ -166,7 +166,7 @@
         "trifecta_top5_combos": "",
         "trifecta_odds_snapshot_at": "",
         "boat1_ai_plus": null,
-        "boat1_ai_plus_order": null,
+        "boat1_ai_plus_order": 9.0,
         "boat1_nige_pct": 27.59,
         "boat1_loss_pct": 44.83,
         "is_joshi": 0.0,
@@ -179,23 +179,23 @@
         "b1_summer_isshu_factor": "",
         "b1_summer_nige_delta_pp": 0.0,
         "boat1_tenji_time": null,
-        "boat1_tenji_rank": null,
-        "boat1_tenji_time_rank": null,
+        "boat1_tenji_rank": 9.0,
+        "boat1_tenji_time_rank": 9.0,
         "boat1_isshu_time": null,
-        "boat1_isshu_rank": null,
+        "boat1_isshu_rank": 9.0,
         "boat1_chokusen_time": null,
-        "boat1_chokusen_rank": null,
+        "boat1_chokusen_rank": 9.0,
         "boat1_chokusen_avgdiff": null,
         "boat1_mawariashi_time": null,
-        "boat1_mawariashi_rank": null,
+        "boat1_mawariashi_rank": 9.0,
         "boat1_mawariashi_avgdiff": null,
         "boat1_start_tenji_time": null,
-        "boat1_start_tenji_time_rank": null,
-        "boat1_start_tenji_rank": null,
+        "boat1_start_tenji_time_rank": 9.0,
+        "boat1_start_tenji_rank": 9.0,
         "boat1_start_tenji_avgdiff": null,
         "boat1_before_start_sinnyu": null,
         "boat1_tilt": null,
-        "b1_extra_exhibition_bad_count": 0.0,
+        "b1_extra_exhibition_bad_count": 3.0,
         "outer56_best_avg_isshu_diff": null,
         "outer56_best_ai_prediction_pct": null,
         "outer56_best_ai_plus": null,
@@ -256,7 +256,7 @@
         "b4_slit_adv_vs_123": 0.050100000000000006,
         "outer56_slit_adv_vs_1": 0.005299999999999999,
         "outer456_slit_adv_vs_123": 0.050100000000000006,
-        "slit_dekoboko": 1.0,
+        "slit_dekoboko": 0.0,
         "slit_b1_front_wall": 0.0,
         "slit_b1_hole_vs_23": 0.0,
         "slit_b2_wall_break_3peek": 0.0,
@@ -518,21 +518,21 @@
             "top3_pct": null,
             "general_top3_pct": 80.0,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.6,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -555,11 +555,13 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 28.2,
-            "composite_top3_pct": 26.6,
-            "composite_top3_actual_pct": 79.79,
+            "composite_win_pct": 25.45,
+            "composite_top3_pct": 26.82,
+            "composite_top3_actual_pct": 80.91,
             "composite_rate_reasons": [
-              "相性デバフ"
+              "AI+一般3連対が9位で弱め",
+              "相性デバフ",
+              "1号艇のまわり足が5位以下"
             ]
           },
           {
@@ -568,21 +570,21 @@
             "top3_pct": null,
             "general_top3_pct": 43.33,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.1667,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -605,11 +607,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 21.43,
-            "composite_top3_pct": 12.88,
-            "composite_top3_actual_pct": 38.65,
+            "composite_win_pct": 22.25,
+            "composite_top3_pct": 11.17,
+            "composite_top3_actual_pct": 33.95,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           },
           {
@@ -618,21 +620,21 @@
             "top3_pct": null,
             "general_top3_pct": 70.97,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.4839,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -655,11 +657,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 16.96,
-            "composite_top3_pct": 23.7,
-            "composite_top3_actual_pct": 71.11,
+            "composite_win_pct": 17.61,
+            "composite_top3_pct": 24.12,
+            "composite_top3_actual_pct": 72.8,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           },
           {
@@ -668,21 +670,21 @@
             "top3_pct": null,
             "general_top3_pct": 78.05,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 1.7317,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -705,10 +707,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 17.99,
-            "composite_top3_pct": 28.49,
-            "composite_top3_actual_pct": 85.47,
+            "composite_win_pct": 18.68,
+            "composite_top3_pct": 31.4,
+            "composite_top3_actual_pct": 92.0,
             "composite_rate_reasons": [
+              "AI+一般3連対が9位で弱め",
               "相性バフ"
             ]
           },
@@ -718,21 +721,21 @@
             "top3_pct": null,
             "general_top3_pct": 10.87,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.7609,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -755,11 +758,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 9.8,
-            "composite_top3_pct": 2.79,
-            "composite_top3_actual_pct": 8.36,
+            "composite_win_pct": 10.17,
+            "composite_top3_pct": 2.12,
+            "composite_top3_actual_pct": 6.81,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           },
           {
@@ -768,21 +771,21 @@
             "top3_pct": null,
             "general_top3_pct": 20.69,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.6207,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -805,11 +808,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 5.63,
-            "composite_top3_pct": 5.54,
-            "composite_top3_actual_pct": 16.61,
+            "composite_win_pct": 5.84,
+            "composite_top3_pct": 4.36,
+            "composite_top3_actual_pct": 13.53,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           }
         ],
@@ -825,30 +828,30 @@
         "popular_b1_matched_conditions": []
       },
       "selection": {
-        "version": "codex_visible_roles_v1",
+        "version": "codex_roles_v2",
         "label": "Codex候補",
         "heads": [
           4,
-          3
+          6
         ],
-        "head_rule": "万舟は3〜6号艇頭が多いので、3〜6号艇から2艇を優先",
+        "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_mode": "manshu_3to6_priority",
         "head_scores": {
           "4": {
-            "score": 39.99,
+            "score": 41.24,
             "reasons": [
-              "複合1着率18.0%",
+              "複合1着率21.2%",
               "万舟は3〜6号艇頭が多い",
               "4〜6外圧",
               "4カドがのぞく形"
             ]
           },
-          "3": {
-            "score": 30.96,
+          "6": {
+            "score": 38.61,
             "reasons": [
-              "複合1着率17.0%",
+              "複合1着率16.6%",
               "万舟は3〜6号艇頭が多い",
-              "過去条件で穴頭寄り",
+              "4〜6外圧",
               "過去条件で穴頭寄り"
             ]
           }
@@ -862,15 +865,55 @@
           1,
           3
         ],
-        "alt_axis_rule": "AI+一般3連対が不足したため複合3着内率の2位と3位"
+        "alt_axis_rule": "比較用: AI+一般3連対が不足したため複合3着内率の2位と3位",
+        "supports": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "keshi": 1,
+        "keshi_reason": "AI3連対率+一般3連対率が6位(-)で、展示・一周・スリットの復活材料が弱い",
+        "ai_plus_rank6_boat": 1,
+        "ai_plus_rank6_revival": [],
+        "points": 15,
+        "tickets": [
+          "4-3-2",
+          "4-3-5",
+          "4-3-6",
+          "4-5-3",
+          "4-6-3",
+          "6-2-3",
+          "6-2-4",
+          "6-3-2",
+          "6-3-4",
+          "6-3-5",
+          "6-4-2",
+          "6-4-3",
+          "6-4-5",
+          "6-5-3",
+          "6-5-4"
+        ],
+        "role_note": "頭4,6 / 軸はAI+一般3連対が不足したため複合3着内率の1位と3位の4,3 / 2・3着は軸どちらか必須で消し1以外へ折り返し",
+        "axis_hit": null,
+        "alt_axis_hit": null,
+        "odds_filter": "3連単50倍未満は買わない",
+        "source_strategy_ids": []
       },
-      "last_minute_checked_at": null,
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
-      "last_minute_checks": [],
+      "last_minute_checks": [
+        "スリット隊形外圧:OK",
+        "対戦相性あり:OK"
+      ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
       "buy_decision": "展示待ち",
-      "final_decision_checks": [],
+      "final_decision_checks": [
+        "展示後38〜39.9%:OK(38.91%)",
+        "本命40%以上:NG"
+      ],
       "result": {
         "trifecta": null,
         "payout_yen": null,
@@ -1710,13 +1753,15 @@
       "buy_decision": "展示待ち",
       "final_decision_checks": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "3-6-1",
+        "payout_yen": 6050,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 21,
+        "source": "official_boatrace_result_page"
       }
     },
     {
@@ -2605,12 +2650,10 @@
         "trifecta": "2-1-4",
         "payout_yen": 1380,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 4,
-        "source": "official_boatrace_result_page"
+        "win_method": 2,
+        "weather": 3,
+        "wind_speed": 1.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -3477,12 +3520,12 @@
           "3-6-1"
         ],
         "role_note": "頭3,1 / 軸はAI3連対率+一般3連対率の1位と3位の3,1 / 2・3着は軸どちらか必須で消し5以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": true,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:NG",
@@ -3500,12 +3543,10 @@
         "trifecta": "3-1-4",
         "payout_yen": 1200,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 2,
-        "source": "official_boatrace_result_page"
+        "win_method": 4,
+        "weather": 2,
+        "wind_speed": 3.0,
+        "wave_height": 2.0
       }
     },
     {
@@ -4272,13 +4313,15 @@
       "buy_decision": "展示待ち",
       "final_decision_checks": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
-        "manshu": false,
+        "trifecta": "4-6-1",
+        "payout_yen": 15110,
+        "manshu": true,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 39,
+        "source": "official_boatrace_result_page"
       }
     },
     {
@@ -5017,12 +5060,10 @@
         "trifecta": "3-4-5",
         "payout_yen": 19290,
         "manshu": true,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 44,
-        "source": "official_boatrace_result_page"
+        "win_method": 2,
+        "weather": 3,
+        "wind_speed": 3.0,
+        "wave_height": 3.0
       }
     },
     {
@@ -5885,12 +5926,10 @@
         "trifecta": "1-5-2",
         "payout_yen": 1240,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 4,
-        "source": "official_boatrace_result_page"
+        "win_method": 5,
+        "weather": 2,
+        "wind_speed": 3.0,
+        "wave_height": 2.0
       }
     },
     {
@@ -6704,12 +6743,10 @@
         "trifecta": "2-3-5",
         "payout_yen": 540,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 1,
-        "source": "official_boatrace_result_page"
+        "win_method": 3,
+        "weather": 2,
+        "wind_speed": 3.0,
+        "wave_height": 2.0
       }
     },
     {
@@ -7791,12 +7828,12 @@
           "4-6-5"
         ],
         "role_note": "頭4,2 / 軸はAI3連対率+一般3連対率の1位と3位の2,5 / 2・3着は軸どちらか必須で消し3以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": true,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:OK",
@@ -7814,12 +7851,10 @@
         "trifecta": "4-5-2",
         "payout_yen": 1810,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 5,
-        "source": "official_boatrace_result_page"
+        "win_method": 3,
+        "weather": 2,
+        "wind_speed": 0.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -8801,13 +8836,15 @@
       "buy_decision": "展示待ち",
       "final_decision_checks": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
-        "manshu": false,
+        "trifecta": "4-6-3",
+        "payout_yen": 14120,
+        "manshu": true,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 61,
+        "source": "official_boatrace_result_page"
       }
     }
   ],
@@ -8941,8 +8978,8 @@
       "metrics": {
         "boat1_ai_prediction_pct": null,
         "boat1_odds_prediction_pct": null,
-        "boat1_odds_rank": null,
-        "odds_snapshot_source": "",
+        "boat1_odds_rank": 9.0,
+        "odds_snapshot_source": "morning_saved",
         "b1_trifecta_top5_1head": 0.0,
         "trifecta_top5_head1_count": 0.0,
         "trifecta_top5_count": 0.0,
@@ -8951,7 +8988,7 @@
         "trifecta_top5_combos": "",
         "trifecta_odds_snapshot_at": "",
         "boat1_ai_plus": null,
-        "boat1_ai_plus_order": null,
+        "boat1_ai_plus_order": 9.0,
         "boat1_nige_pct": 27.59,
         "boat1_loss_pct": 44.83,
         "is_joshi": 0.0,
@@ -8964,23 +9001,23 @@
         "b1_summer_isshu_factor": "",
         "b1_summer_nige_delta_pp": 0.0,
         "boat1_tenji_time": null,
-        "boat1_tenji_rank": null,
-        "boat1_tenji_time_rank": null,
+        "boat1_tenji_rank": 9.0,
+        "boat1_tenji_time_rank": 9.0,
         "boat1_isshu_time": null,
-        "boat1_isshu_rank": null,
+        "boat1_isshu_rank": 9.0,
         "boat1_chokusen_time": null,
-        "boat1_chokusen_rank": null,
+        "boat1_chokusen_rank": 9.0,
         "boat1_chokusen_avgdiff": null,
         "boat1_mawariashi_time": null,
-        "boat1_mawariashi_rank": null,
+        "boat1_mawariashi_rank": 9.0,
         "boat1_mawariashi_avgdiff": null,
         "boat1_start_tenji_time": null,
-        "boat1_start_tenji_time_rank": null,
-        "boat1_start_tenji_rank": null,
+        "boat1_start_tenji_time_rank": 9.0,
+        "boat1_start_tenji_rank": 9.0,
         "boat1_start_tenji_avgdiff": null,
         "boat1_before_start_sinnyu": null,
         "boat1_tilt": null,
-        "b1_extra_exhibition_bad_count": 0.0,
+        "b1_extra_exhibition_bad_count": 3.0,
         "outer56_best_avg_isshu_diff": null,
         "outer56_best_ai_prediction_pct": null,
         "outer56_best_ai_plus": null,
@@ -9041,7 +9078,7 @@
         "b4_slit_adv_vs_123": 0.050100000000000006,
         "outer56_slit_adv_vs_1": 0.005299999999999999,
         "outer456_slit_adv_vs_123": 0.050100000000000006,
-        "slit_dekoboko": 1.0,
+        "slit_dekoboko": 0.0,
         "slit_b1_front_wall": 0.0,
         "slit_b1_hole_vs_23": 0.0,
         "slit_b2_wall_break_3peek": 0.0,
@@ -9303,21 +9340,21 @@
             "top3_pct": null,
             "general_top3_pct": 80.0,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.6,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -9340,11 +9377,13 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 28.2,
-            "composite_top3_pct": 26.6,
-            "composite_top3_actual_pct": 79.79,
+            "composite_win_pct": 25.45,
+            "composite_top3_pct": 26.82,
+            "composite_top3_actual_pct": 80.91,
             "composite_rate_reasons": [
-              "相性デバフ"
+              "AI+一般3連対が9位で弱め",
+              "相性デバフ",
+              "1号艇のまわり足が5位以下"
             ]
           },
           {
@@ -9353,21 +9392,21 @@
             "top3_pct": null,
             "general_top3_pct": 43.33,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.1667,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -9390,11 +9429,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 21.43,
-            "composite_top3_pct": 12.88,
-            "composite_top3_actual_pct": 38.65,
+            "composite_win_pct": 22.25,
+            "composite_top3_pct": 11.17,
+            "composite_top3_actual_pct": 33.95,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           },
           {
@@ -9403,21 +9442,21 @@
             "top3_pct": null,
             "general_top3_pct": 70.97,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.4839,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -9440,11 +9479,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 16.96,
-            "composite_top3_pct": 23.7,
-            "composite_top3_actual_pct": 71.11,
+            "composite_win_pct": 17.61,
+            "composite_top3_pct": 24.12,
+            "composite_top3_actual_pct": 72.8,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           },
           {
@@ -9453,21 +9492,21 @@
             "top3_pct": null,
             "general_top3_pct": 78.05,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 1.7317,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -9490,10 +9529,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 17.99,
-            "composite_top3_pct": 28.49,
-            "composite_top3_actual_pct": 85.47,
+            "composite_win_pct": 18.68,
+            "composite_top3_pct": 31.4,
+            "composite_top3_actual_pct": 92.0,
             "composite_rate_reasons": [
+              "AI+一般3連対が9位で弱め",
               "相性バフ"
             ]
           },
@@ -9503,21 +9543,21 @@
             "top3_pct": null,
             "general_top3_pct": 10.87,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.7609,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -9540,11 +9580,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 9.8,
-            "composite_top3_pct": 2.79,
-            "composite_top3_actual_pct": 8.36,
+            "composite_win_pct": 10.17,
+            "composite_top3_pct": 2.12,
+            "composite_top3_actual_pct": 6.81,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           },
           {
@@ -9553,21 +9593,21 @@
             "top3_pct": null,
             "general_top3_pct": 20.69,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.6207,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -9590,11 +9630,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 5.63,
-            "composite_top3_pct": 5.54,
-            "composite_top3_actual_pct": 16.61,
+            "composite_win_pct": 5.84,
+            "composite_top3_pct": 4.36,
+            "composite_top3_actual_pct": 13.53,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           }
         ],
@@ -9610,30 +9650,30 @@
         "popular_b1_matched_conditions": []
       },
       "selection": {
-        "version": "codex_visible_roles_v1",
+        "version": "codex_roles_v2",
         "label": "Codex候補",
         "heads": [
           4,
-          3
+          6
         ],
-        "head_rule": "万舟は3〜6号艇頭が多いので、3〜6号艇から2艇を優先",
+        "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_mode": "manshu_3to6_priority",
         "head_scores": {
           "4": {
-            "score": 39.99,
+            "score": 41.24,
             "reasons": [
-              "複合1着率18.0%",
+              "複合1着率21.2%",
               "万舟は3〜6号艇頭が多い",
               "4〜6外圧",
               "4カドがのぞく形"
             ]
           },
-          "3": {
-            "score": 30.96,
+          "6": {
+            "score": 38.61,
             "reasons": [
-              "複合1着率17.0%",
+              "複合1着率16.6%",
               "万舟は3〜6号艇頭が多い",
-              "過去条件で穴頭寄り",
+              "4〜6外圧",
               "過去条件で穴頭寄り"
             ]
           }
@@ -9647,15 +9687,55 @@
           1,
           3
         ],
-        "alt_axis_rule": "AI+一般3連対が不足したため複合3着内率の2位と3位"
+        "alt_axis_rule": "比較用: AI+一般3連対が不足したため複合3着内率の2位と3位",
+        "supports": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "keshi": 1,
+        "keshi_reason": "AI3連対率+一般3連対率が6位(-)で、展示・一周・スリットの復活材料が弱い",
+        "ai_plus_rank6_boat": 1,
+        "ai_plus_rank6_revival": [],
+        "points": 15,
+        "tickets": [
+          "4-3-2",
+          "4-3-5",
+          "4-3-6",
+          "4-5-3",
+          "4-6-3",
+          "6-2-3",
+          "6-2-4",
+          "6-3-2",
+          "6-3-4",
+          "6-3-5",
+          "6-4-2",
+          "6-4-3",
+          "6-4-5",
+          "6-5-3",
+          "6-5-4"
+        ],
+        "role_note": "頭4,6 / 軸はAI+一般3連対が不足したため複合3着内率の1位と3位の4,3 / 2・3着は軸どちらか必須で消し1以外へ折り返し",
+        "axis_hit": null,
+        "alt_axis_hit": null,
+        "odds_filter": "3連単50倍未満は買わない",
+        "source_strategy_ids": []
       },
-      "last_minute_checked_at": null,
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
-      "last_minute_checks": [],
+      "last_minute_checks": [
+        "スリット隊形外圧:OK",
+        "対戦相性あり:OK"
+      ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
       "buy_decision": "展示待ち",
-      "final_decision_checks": [],
+      "final_decision_checks": [
+        "展示後38〜39.9%:OK(38.91%)",
+        "本命40%以上:NG"
+      ],
       "result": {
         "trifecta": null,
         "payout_yen": null,
@@ -10495,13 +10575,15 @@
       "buy_decision": "展示待ち",
       "final_decision_checks": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "3-6-1",
+        "payout_yen": 6050,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 21,
+        "source": "official_boatrace_result_page"
       }
     },
     {
@@ -11390,12 +11472,10 @@
         "trifecta": "2-1-4",
         "payout_yen": 1380,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 4,
-        "source": "official_boatrace_result_page"
+        "win_method": 2,
+        "weather": 3,
+        "wind_speed": 1.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -12262,12 +12342,12 @@
           "3-6-1"
         ],
         "role_note": "頭3,1 / 軸はAI3連対率+一般3連対率の1位と3位の3,1 / 2・3着は軸どちらか必須で消し5以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": true,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:NG",
@@ -12285,12 +12365,10 @@
         "trifecta": "3-1-4",
         "payout_yen": 1200,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 2,
-        "source": "official_boatrace_result_page"
+        "win_method": 4,
+        "weather": 2,
+        "wind_speed": 3.0,
+        "wave_height": 2.0
       }
     },
     {
@@ -13057,13 +13135,15 @@
       "buy_decision": "展示待ち",
       "final_decision_checks": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
-        "manshu": false,
+        "trifecta": "4-6-1",
+        "payout_yen": 15110,
+        "manshu": true,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 39,
+        "source": "official_boatrace_result_page"
       }
     },
     {
@@ -13802,12 +13882,10 @@
         "trifecta": "3-4-5",
         "payout_yen": 19290,
         "manshu": true,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 44,
-        "source": "official_boatrace_result_page"
+        "win_method": 2,
+        "weather": 3,
+        "wind_speed": 3.0,
+        "wave_height": 3.0
       }
     },
     {
@@ -14670,12 +14748,10 @@
         "trifecta": "1-5-2",
         "payout_yen": 1240,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 4,
-        "source": "official_boatrace_result_page"
+        "win_method": 5,
+        "weather": 2,
+        "wind_speed": 3.0,
+        "wave_height": 2.0
       }
     },
     {
@@ -15489,12 +15565,10 @@
         "trifecta": "2-3-5",
         "payout_yen": 540,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 1,
-        "source": "official_boatrace_result_page"
+        "win_method": 3,
+        "weather": 2,
+        "wind_speed": 3.0,
+        "wave_height": 2.0
       }
     },
     {
@@ -16576,12 +16650,12 @@
           "4-6-5"
         ],
         "role_note": "頭4,2 / 軸はAI3連対率+一般3連対率の1位と3位の2,5 / 2・3着は軸どちらか必須で消し3以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": true,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:OK",
@@ -16599,12 +16673,10 @@
         "trifecta": "4-5-2",
         "payout_yen": 1810,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 5,
-        "source": "official_boatrace_result_page"
+        "win_method": 3,
+        "weather": 2,
+        "wind_speed": 0.0,
+        "wave_height": 1.0
       }
     },
     {
@@ -17586,13 +17658,15 @@
       "buy_decision": "展示待ち",
       "final_decision_checks": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
-        "manshu": false,
+        "trifecta": "4-6-3",
+        "payout_yen": 14120,
+        "manshu": true,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 61,
+        "source": "official_boatrace_result_page"
       }
     }
   ],
@@ -18486,12 +18560,12 @@
           "4-6-5"
         ],
         "role_note": "頭4,2 / 軸はAI3連対率+一般3連対率の1位と3位の2,5 / 2・3着は軸どちらか必須で消し3以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": true,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:OK",
@@ -18509,12 +18583,10 @@
         "trifecta": "4-5-2",
         "payout_yen": 1810,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 5,
-        "source": "official_boatrace_result_page"
+        "win_method": 3,
+        "weather": 2,
+        "wind_speed": 0.0,
+        "wave_height": 1.0
       },
       "candidate_type": "重点監視",
       "candidate_phase": "morning_watchlist",
@@ -19443,7 +19515,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "夏場6〜8月:OK",
@@ -20409,12 +20481,12 @@
           "4-6-3"
         ],
         "role_note": "頭3,4 / 軸はAI3連対率+一般3連対率の1位と3位の3,4 / 2・3着は軸どちらか必須で消し1以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": true,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差0以下:OK",
@@ -20434,12 +20506,10 @@
         "trifecta": "3-6-2",
         "payout_yen": 2610,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 8,
-        "source": "official_boatrace_result_page"
+        "win_method": 3,
+        "weather": 3,
+        "wind_speed": 2.0,
+        "wave_height": 1.0
       },
       "candidate_type": "重点監視",
       "candidate_phase": "morning_watchlist",
@@ -21346,7 +21416,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:NG",
@@ -22266,12 +22336,12 @@
           "3-6-1"
         ],
         "role_note": "頭3,1 / 軸はAI3連対率+一般3連対率の1位と3位の3,1 / 2・3着は軸どちらか必須で消し5以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": true,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:NG",
@@ -22289,12 +22359,10 @@
         "trifecta": "3-1-4",
         "payout_yen": 1200,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 2,
-        "source": "official_boatrace_result_page"
+        "win_method": 4,
+        "weather": 2,
+        "wind_speed": 3.0,
+        "wave_height": 2.0
       },
       "candidate_type": "重点監視",
       "candidate_phase": "morning_watchlist",
@@ -22340,7 +22408,7 @@
       "race_kind": null,
       "series_title": "ＭＮＢＲ若松３ｒｄパイナップルナイターカップ",
       "ranking_type": "morning_watchlist",
-      "manshu_rate_pct": 20.67,
+      "manshu_rate_pct": 38.91,
       "base_manshu_rate_pct": 16.82,
       "composite_edge_base_rate_pct": null,
       "composite_edge_bonus_pct": 14.05,
@@ -22430,8 +22498,8 @@
       "metrics": {
         "boat1_ai_prediction_pct": null,
         "boat1_odds_prediction_pct": null,
-        "boat1_odds_rank": null,
-        "odds_snapshot_source": "",
+        "boat1_odds_rank": 9.0,
+        "odds_snapshot_source": "morning_saved",
         "b1_trifecta_top5_1head": 0.0,
         "trifecta_top5_head1_count": 0.0,
         "trifecta_top5_count": 0.0,
@@ -22440,7 +22508,7 @@
         "trifecta_top5_combos": "",
         "trifecta_odds_snapshot_at": "",
         "boat1_ai_plus": null,
-        "boat1_ai_plus_order": null,
+        "boat1_ai_plus_order": 9.0,
         "boat1_nige_pct": 27.59,
         "boat1_loss_pct": 44.83,
         "is_joshi": 0.0,
@@ -22453,23 +22521,23 @@
         "b1_summer_isshu_factor": "",
         "b1_summer_nige_delta_pp": 0.0,
         "boat1_tenji_time": null,
-        "boat1_tenji_rank": null,
-        "boat1_tenji_time_rank": null,
+        "boat1_tenji_rank": 9.0,
+        "boat1_tenji_time_rank": 9.0,
         "boat1_isshu_time": null,
-        "boat1_isshu_rank": null,
+        "boat1_isshu_rank": 9.0,
         "boat1_chokusen_time": null,
-        "boat1_chokusen_rank": null,
+        "boat1_chokusen_rank": 9.0,
         "boat1_chokusen_avgdiff": null,
         "boat1_mawariashi_time": null,
-        "boat1_mawariashi_rank": null,
+        "boat1_mawariashi_rank": 9.0,
         "boat1_mawariashi_avgdiff": null,
         "boat1_start_tenji_time": null,
-        "boat1_start_tenji_time_rank": null,
-        "boat1_start_tenji_rank": null,
+        "boat1_start_tenji_time_rank": 9.0,
+        "boat1_start_tenji_rank": 9.0,
         "boat1_start_tenji_avgdiff": null,
         "boat1_before_start_sinnyu": null,
         "boat1_tilt": null,
-        "b1_extra_exhibition_bad_count": 0.0,
+        "b1_extra_exhibition_bad_count": 3.0,
         "outer56_best_avg_isshu_diff": null,
         "outer56_best_ai_prediction_pct": null,
         "outer56_best_ai_plus": null,
@@ -22530,7 +22598,7 @@
         "b4_slit_adv_vs_123": 0.050100000000000006,
         "outer56_slit_adv_vs_1": 0.005299999999999999,
         "outer456_slit_adv_vs_123": 0.050100000000000006,
-        "slit_dekoboko": 1.0,
+        "slit_dekoboko": 0.0,
         "slit_b1_front_wall": 0.0,
         "slit_b1_hole_vs_23": 0.0,
         "slit_b2_wall_break_3peek": 0.0,
@@ -22766,21 +22834,21 @@
             "top3_pct": null,
             "general_top3_pct": 80.0,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.6,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -22803,11 +22871,13 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 28.2,
-            "composite_top3_pct": 26.6,
-            "composite_top3_actual_pct": 79.79,
+            "composite_win_pct": 25.45,
+            "composite_top3_pct": 26.82,
+            "composite_top3_actual_pct": 80.91,
             "composite_rate_reasons": [
-              "相性デバフ"
+              "AI+一般3連対が9位で弱め",
+              "相性デバフ",
+              "1号艇のまわり足が5位以下"
             ]
           },
           {
@@ -22816,21 +22886,21 @@
             "top3_pct": null,
             "general_top3_pct": 43.33,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.1667,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -22853,11 +22923,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 21.43,
-            "composite_top3_pct": 12.88,
-            "composite_top3_actual_pct": 38.65,
+            "composite_win_pct": 22.25,
+            "composite_top3_pct": 11.17,
+            "composite_top3_actual_pct": 33.95,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           },
           {
@@ -22866,21 +22936,21 @@
             "top3_pct": null,
             "general_top3_pct": 70.97,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.4839,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -22903,11 +22973,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 16.96,
-            "composite_top3_pct": 23.7,
-            "composite_top3_actual_pct": 71.11,
+            "composite_win_pct": 17.61,
+            "composite_top3_pct": 24.12,
+            "composite_top3_actual_pct": 72.8,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           },
           {
@@ -22916,21 +22986,21 @@
             "top3_pct": null,
             "general_top3_pct": 78.05,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 1.7317,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -22953,10 +23023,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 17.99,
-            "composite_top3_pct": 28.49,
-            "composite_top3_actual_pct": 85.47,
+            "composite_win_pct": 18.68,
+            "composite_top3_pct": 31.4,
+            "composite_top3_actual_pct": 92.0,
             "composite_rate_reasons": [
+              "AI+一般3連対が9位で弱め",
               "相性バフ"
             ]
           },
@@ -22966,21 +23037,21 @@
             "top3_pct": null,
             "general_top3_pct": 10.87,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.7609,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -23003,11 +23074,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 9.8,
-            "composite_top3_pct": 2.79,
-            "composite_top3_actual_pct": 8.36,
+            "composite_win_pct": 10.17,
+            "composite_top3_pct": 2.12,
+            "composite_top3_actual_pct": 6.81,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           },
           {
@@ -23016,21 +23087,21 @@
             "top3_pct": null,
             "general_top3_pct": 20.69,
             "ai_plus": null,
-            "ai_plus_rank": null,
+            "ai_plus_rank": 9,
             "odds_prediction_pct": null,
             "odds_prediction_rank": 9,
             "st_rank_general": 3.6207,
             "tenji_time": null,
-            "tenji_rank": null,
+            "tenji_rank": 9,
             "isshu_time": null,
-            "isshu_rank": null,
+            "isshu_rank": 9,
             "chokusen_time": null,
-            "chokusen_rank": null,
+            "chokusen_rank": 9,
             "mawariashi_time": null,
-            "mawariashi_rank": null,
+            "mawariashi_rank": 9,
             "start_tenji_time": null,
             "start_tenji_time_rank": 9,
-            "start_tenji_rank": null,
+            "start_tenji_rank": 9,
             "before_start_sinnyu": null,
             "tilt": null,
             "avg_isshu_diff": null,
@@ -23053,11 +23124,11 @@
             "chokusen_time_rank": 9,
             "mawariashi_time_rank": 9,
             "exhibit_rank": 9,
-            "composite_win_pct": 5.63,
-            "composite_top3_pct": 5.54,
-            "composite_top3_actual_pct": 16.61,
+            "composite_win_pct": 5.84,
+            "composite_top3_pct": 4.36,
+            "composite_top3_actual_pct": 13.53,
             "composite_rate_reasons": [
-              "AI・3連対率・展示/スリット材料を総合"
+              "AI+一般3連対が9位で弱め"
             ]
           }
         ],
@@ -23073,30 +23144,30 @@
         "popular_b1_matched_conditions": []
       },
       "selection": {
-        "version": "codex_visible_roles_v1",
+        "version": "codex_roles_v2",
         "label": "Codex候補",
         "heads": [
           4,
-          3
+          6
         ],
-        "head_rule": "万舟は3〜6号艇頭が多いので、3〜6号艇から2艇を優先",
+        "head_rule": "万舟は3〜6号艇頭が多いので3〜6号艇を優先。1/2号艇は強い1着根拠がある時だけ例外",
         "head_mode": "manshu_3to6_priority",
         "head_scores": {
           "4": {
-            "score": 37.99,
+            "score": 41.24,
             "reasons": [
-              "複合1着率18.0%",
+              "複合1着率21.2%",
               "万舟は3〜6号艇頭が多い",
-              "過去条件で穴頭寄り",
-              "過去条件で穴頭寄り"
+              "4〜6外圧",
+              "4カドがのぞく形"
             ]
           },
-          "3": {
-            "score": 36.96,
+          "6": {
+            "score": 38.61,
             "reasons": [
-              "複合1着率17.0%",
+              "複合1着率16.6%",
               "万舟は3〜6号艇頭が多い",
-              "過去条件で穴頭寄り",
+              "4〜6外圧",
               "過去条件で穴頭寄り"
             ]
           }
@@ -23110,15 +23181,55 @@
           1,
           3
         ],
-        "alt_axis_rule": "AI+一般3連対が不足したため複合3着内率の2位と3位"
+        "alt_axis_rule": "比較用: AI+一般3連対が不足したため複合3着内率の2位と3位",
+        "supports": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "keshi": 1,
+        "keshi_reason": "AI3連対率+一般3連対率が6位(-)で、展示・一周・スリットの復活材料が弱い",
+        "ai_plus_rank6_boat": 1,
+        "ai_plus_rank6_revival": [],
+        "points": 15,
+        "tickets": [
+          "4-3-2",
+          "4-3-5",
+          "4-3-6",
+          "4-5-3",
+          "4-6-3",
+          "6-2-3",
+          "6-2-4",
+          "6-3-2",
+          "6-3-4",
+          "6-3-5",
+          "6-4-2",
+          "6-4-3",
+          "6-4-5",
+          "6-5-3",
+          "6-5-4"
+        ],
+        "role_note": "頭4,6 / 軸はAI+一般3連対が不足したため複合3着内率の1位と3位の4,3 / 2・3着は軸どちらか必須で消し1以外へ折り返し",
+        "axis_hit": null,
+        "alt_axis_hit": null,
+        "odds_filter": "3連単50倍未満は買わない",
+        "source_strategy_ids": []
       },
-      "last_minute_checked_at": null,
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
-      "last_minute_checks": [],
+      "last_minute_checks": [
+        "スリット隊形外圧:OK",
+        "対戦相性あり:OK"
+      ],
       "last_minute_strategy_ids": [],
       "last_minute_subcore_strategy_ids": [],
       "buy_decision": "展示待ち",
-      "final_decision_checks": [],
+      "final_decision_checks": [
+        "展示後38〜39.9%:OK(38.91%)",
+        "本命40%以上:NG"
+      ],
       "result": {
         "trifecta": null,
         "payout_yen": null,
@@ -24053,12 +24164,12 @@
           "6-4-3"
         ],
         "role_note": "頭4,6 / 軸はAI3連対率+一般3連対率の1位と3位の4,3 / 2・3着は軸どちらか必須で消し5以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": true,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差+0.10以下:OK",
@@ -24080,12 +24191,10 @@
         "trifecta": "1-3-6",
         "payout_yen": 5110,
         "manshu": false,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 18,
-        "source": "official_boatrace_result_page"
+        "win_method": 1,
+        "weather": 2,
+        "wind_speed": 4.0,
+        "wave_height": 2.0
       },
       "candidate_type": "重点監視",
       "candidate_phase": "morning_watchlist",
@@ -24944,12 +25053,12 @@
           "5-6-4"
         ],
         "role_note": "頭5,4 / 軸はAI3連対率+一般3連対率の1位と3位の1,4 / 2・3着は軸どちらか必須で消し3以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": false,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差0以下:OK",
@@ -24969,12 +25078,10 @@
         "trifecta": "2-5-3",
         "payout_yen": 49970,
         "manshu": true,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 94,
-        "source": "official_boatrace_result_page"
+        "win_method": 3,
+        "weather": 2,
+        "wind_speed": 2.0,
+        "wave_height": 1.0
       },
       "candidate_type": "重点監視",
       "candidate_phase": "morning_watchlist",
@@ -25863,7 +25970,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形外圧:OK",
@@ -26771,12 +26878,12 @@
           "5-4-3"
         ],
         "role_note": "頭4,5 / 軸はAI3連対率+一般3連対率の1位と3位の4,2 / 2・3着は軸どちらか必須で消し6以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": false,
+        "alt_axis_hit": false,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-01T15:59:05+09:00",
+      "last_minute_checked_at": "2026-07-01T19:40:06+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スーパースリットあり:OK",
@@ -26795,12 +26902,10 @@
         "trifecta": "5-3-6",
         "payout_yen": 123360,
         "manshu": true,
-        "win_method": null,
-        "weather": null,
-        "wind_speed": null,
-        "wave_height": null,
-        "popularity": 109,
-        "source": "official_boatrace_result_page"
+        "win_method": 2,
+        "weather": 3,
+        "wind_speed": 5.0,
+        "wave_height": 5.0
       },
       "candidate_type": "重点監視",
       "candidate_phase": "morning_watchlist",
@@ -26834,5 +26939,5 @@
       "finalize_rule": "締切10〜15分前にBOATERS AI・展示・実オッズを取得して、買い/見送りへ更新"
     }
   ],
-  "official_result_backfilled_at": "2026-07-01T07:01:14+0000"
+  "official_result_backfilled_at": "2026-07-01T10:41:15+0000"
 }
