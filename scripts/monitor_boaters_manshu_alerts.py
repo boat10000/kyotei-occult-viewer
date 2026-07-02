@@ -1759,6 +1759,172 @@ def head_candidate_score(row, manshu_head_mode=False):
     return round(score, 3), reasons[:4]
 
 
+def attack_candidate_score(row):
+    """Race-breaker score: who can make the race rough, not who necessarily wins."""
+    boat = row["boat_number"]
+    metrics = row.get("_morning_metrics") or {}
+    score = 0.0
+    reasons = []
+    edge_boost, edge_reasons = edge_head_boost(boat, metrics)
+    if edge_boost:
+        score += edge_boost
+        reasons.extend(edge_reasons)
+    straight_rank = valid_boat_rank(row.get("chokusen_rank"))
+    start_rank = valid_boat_rank(row.get("start_tenji_rank") or row.get("start_tenji_time_rank"))
+    exhibit_rank = valid_boat_rank(row.get("exhibit_rank") or row.get("tenji_rank") or row.get("tenji_time_rank"))
+    if straight_rank is not None and straight_rank <= 2:
+        score += 6
+        reasons.append(f"直線{int(straight_rank)}位")
+    if start_rank is not None and start_rank <= 2:
+        score += 5
+        reasons.append(f"展示ST{int(start_rank)}位")
+    if exhibit_rank is not None and exhibit_rank <= 2:
+        score += 3
+        reasons.append(f"展示{int(exhibit_rank)}位")
+    if row.get("super_slit_alert"):
+        score += 8
+        reasons.append("スーパースリット")
+    if row.get("low_outer_revive"):
+        score += 5
+        reasons.append("低評価外枠の復活")
+    if boat in {4, 5, 6}:
+        score += 2
+        reasons.append("外から攻める枠")
+    avg_diff = row.get("avg_isshu_diff")
+    if avg_diff is not None and avg_diff >= 0.10:
+        score += 3
+        reasons.append(f"展示+1周平均との差+{avg_diff:.2f}")
+    return round(score, 3), reasons[:5]
+
+
+def finish_head_candidate_score(row):
+    """Finisher score: who can actually take 1st after the race gets rough."""
+    boat = row["boat_number"]
+    metrics = row.get("_morning_metrics") or {}
+    base = row.get("composite_win_pct")
+    if base is None:
+        base = row.get("ai_prediction_pct")
+    if base is None:
+        base = 0.0
+    score = float(base)
+    reasons = [f"複合1着率{score:.1f}%"]
+
+    ai_pred = row.get("ai_prediction_pct") or 0
+    if ai_pred >= 10:
+        score += 6
+        reasons.append(f"AI1着率{ai_pred:.1f}%")
+    elif ai_pred >= 5:
+        score += 3
+        reasons.append(f"AI1着率{ai_pred:.1f}%")
+    else:
+        score -= 8
+        reasons.append(f"AI1着率{ai_pred:.1f}%で頭弱い")
+
+    ai_plus_rank = valid_boat_rank(row.get("ai_plus_rank"))
+    if ai_plus_rank is not None and ai_plus_rank <= 3:
+        score += 4
+        reasons.append(f"AI+{int(ai_plus_rank)}位")
+    elif ai_plus_rank is not None and ai_plus_rank >= 5:
+        score -= 3
+        reasons.append(f"AI+{int(ai_plus_rank)}位で弱い")
+
+    exhibit_rank = valid_boat_rank(row.get("exhibit_rank") or row.get("tenji_rank") or row.get("tenji_time_rank"))
+    isshu_rank = valid_boat_rank(row.get("isshu_rank"))
+    mawari_rank = valid_boat_rank(row.get("mawariashi_rank"))
+    straight_rank = valid_boat_rank(row.get("chokusen_rank"))
+    start_rank = valid_boat_rank(row.get("start_tenji_rank") or row.get("start_tenji_time_rank"))
+
+    for label, rank, plus, minus in (
+        ("展示", exhibit_rank, 4, 4),
+        ("1周", isshu_rank, 4, 4),
+        ("回り足", mawari_rank, 4, 3),
+    ):
+        if rank is None:
+            continue
+        if rank <= 2:
+            score += plus
+            reasons.append(f"{label}{int(rank)}位")
+        elif rank >= 4:
+            score -= minus
+            reasons.append(f"{label}{int(rank)}位で頭弱い")
+
+    avg_diff = row.get("avg_isshu_diff")
+    if avg_diff is not None:
+        if avg_diff >= 0.10:
+            score += 4
+            reasons.append(f"展示+1周平均との差+{avg_diff:.2f}")
+        elif avg_diff <= -0.10:
+            score -= 4
+            reasons.append(f"展示+1周平均との差{avg_diff:.2f}で頭弱い")
+
+    if straight_rank is not None and straight_rank <= 2 and start_rank is not None and start_rank <= 2:
+        score += 3
+        reasons.append("直線+展示STで攻め切り材料")
+    elif straight_rank is not None and straight_rank <= 2:
+        score += 1
+        reasons.append("直線上位")
+
+    edge_boost, edge_reasons = edge_head_boost(boat, metrics)
+    if edge_boost:
+        score += min(edge_boost * 0.35, 4)
+        reasons.extend(edge_reasons[:1])
+
+    if boat == 4 and ai_pred < 5 and mawari_rank is not None and mawari_rank >= 4:
+        score -= 5
+        reasons.append("4カド攻め材料はあるが回り足/AI頭が弱く2着寄り")
+    if boat in {5, 6} and ai_pred < 3 and mawari_rank is not None and mawari_rank >= 4:
+        score -= 4
+        reasons.append("外枠穴だが頭より3着穴寄り")
+    return round(score, 3), reasons[:6]
+
+
+def role_split_details(rows, exclude=None):
+    exclude = set(exclude or [])
+    attack = []
+    finish = []
+    support = []
+    for row in rows:
+        boat = row["boat_number"]
+        if boat in exclude:
+            continue
+        attack_score, attack_reasons = attack_candidate_score(row)
+        finish_score, finish_reasons = finish_head_candidate_score(row)
+        top3 = row.get("composite_top3_actual_pct")
+        if top3 is None:
+            top3 = row.get("ai_plus") or row.get("ai_3ren_pct") or 0
+        support_reasons = []
+        if row.get("ai_plus_rank") is not None:
+            support_reasons.append(f"AI+{int(row.get('ai_plus_rank'))}位")
+        if row.get("composite_top3_actual_pct") is not None:
+            support_reasons.append(f"複合3着内率{row.get('composite_top3_actual_pct'):.1f}%")
+        support.append((float(top3), boat, support_reasons[:3]))
+        attack.append((attack_score, boat, attack_reasons))
+        finish.append((finish_score, boat, finish_reasons))
+    attack.sort(key=lambda item: (-item[0], item[1]))
+    finish.sort(key=lambda item: (-item[0], item[1]))
+    support.sort(key=lambda item: (-item[0], item[1]))
+    return {
+        "attackers": [boat for _score, boat, _reasons in attack[:3]],
+        "attack_scores": {str(boat): {"score": score, "reasons": reasons} for score, boat, reasons in attack[:4]},
+        "finishers": [boat for _score, boat, _reasons in finish[:3]],
+        "finisher_scores": {str(boat): {"score": score, "reasons": reasons} for score, boat, reasons in finish[:4]},
+        "support_boats": [boat for _score, boat, _reasons in support[:4]],
+        "support_scores": {str(boat): {"score": round(score, 3), "reasons": reasons} for score, boat, reasons in support[:4]},
+        "role_split_note": "荒れる材料を作る攻め艇と、1着を取り切る頭候補を別々に評価",
+    }
+
+
+def finish_head_score_details(rows, heads):
+    details = {}
+    for row in rows:
+        boat = row["boat_number"]
+        if boat not in set(heads):
+            continue
+        score, reasons = finish_head_candidate_score(row)
+        details[str(boat)] = {"score": score, "reasons": reasons}
+    return details
+
+
 def inner_head_exception(row, outer_cut_score):
     boat = row["boat_number"]
     metrics = row.get("_morning_metrics") or {}
@@ -2141,20 +2307,8 @@ def odds_gap_b1_fade_strong12(rows):
     if not b1_odds_gap_strong(metrics):
         return set(), None
     popularity_level = b1_popularity_context(metrics).get("level") or "人気あり"
-    scored = []
-    for row in rows:
-        boat = row["boat_number"]
-        if boat == 1:
-            continue
-        score = row.get("composite_win_pct")
-        if score is None:
-            score = row.get("ai_prediction_pct")
-        if score is None:
-            score = 0
-        edge_boost, _edge_reasons = edge_head_boost(boat, metrics)
-        scored.append((score + edge_boost, boat))
-    scored.sort(key=lambda item: (-item[0], item[1]))
-    heads = [boat for _score, boat in scored[:2]]
+    role_split = role_split_details(rows, exclude={1})
+    heads = role_split["finishers"][:2]
     axes, axis_rule = axis_boats_for_roles(rows, ranks=(1, 3))
     if len(heads) < 2 or len(axes) < 2:
         return set(), None
@@ -2185,9 +2339,16 @@ def odds_gap_b1_fade_strong12(rows):
     b1_isshu_rank = valid_boat_rank(metrics.get("boat1_isshu_rank"))
     return tickets, {
         "heads": heads,
-        "head_rule": f"1号艇が{popularity_level}で危険なので、1号艇頭は買わず2〜6号艇から複合1着上位2艇を選ぶ",
+        "head_rule": f"1号艇が{popularity_level}で危険。頭は攻め艇ではなく、2〜6号艇の取り切りスコア上位2艇を選ぶ",
         "head_mode": "odds_gap_b1_fade_strong",
-        "head_scores": head_score_details(rows, heads),
+        "head_scores": finish_head_score_details(rows, heads),
+        "attackers": role_split.get("attackers") or [],
+        "attack_scores": role_split.get("attack_scores") or {},
+        "finishers": role_split.get("finishers") or [],
+        "finisher_scores": role_split.get("finisher_scores") or {},
+        "support_boats": role_split.get("support_boats") or [],
+        "support_scores": role_split.get("support_scores") or {},
+        "role_split_note": role_split.get("role_split_note"),
         "axes": axes,
         "axis_rule": axis_rule,
         "alt_axes": [],
@@ -2199,7 +2360,9 @@ def odds_gap_b1_fade_strong12(rows):
         "ai_plus_rank6_revival": ai_plus_rank6_revival,
         "role_note": (
             f"歪み強本命。1号艇は{popularity_level}+危険+展示{b1_tenji_rank:.0f}位/1周{b1_isshu_rank:.0f}位。"
-            f"頭{heads[0]},{heads[1]} / 軸は{axis_rule}の{axes[0]},{axes[1]} / 1号艇頭は買わない12点"
+            f"攻め艇{','.join(map(str, role_split.get('attackers') or []))}とは分け、"
+            f"頭は取り切りスコアの{heads[0]},{heads[1]}。"
+            f"軸は{axis_rule}の{axes[0]},{axes[1]} / 1号艇頭は買わない12点"
         ),
     }
 
@@ -2209,20 +2372,8 @@ def odds_gap_b1_fade_filtered12(rows):
     if not b1_odds_gap_filtered(metrics):
         return set(), None
     popularity_level = b1_popularity_context(metrics).get("level") or "人気あり"
-    scored = []
-    for row in rows:
-        boat = row["boat_number"]
-        if boat == 1:
-            continue
-        score = row.get("composite_win_pct")
-        if score is None:
-            score = row.get("ai_prediction_pct")
-        if score is None:
-            score = 0
-        edge_boost, _edge_reasons = edge_head_boost(boat, metrics)
-        scored.append((score + edge_boost, boat))
-    scored.sort(key=lambda item: (-item[0], item[1]))
-    heads = [boat for _score, boat in scored[:2]]
+    role_split = role_split_details(rows, exclude={1})
+    heads = role_split["finishers"][:2]
     axes, axis_rule = axis_boats_for_roles(rows, ranks=(1, 3))
     if len(heads) < 2 or len(axes) < 2:
         return set(), None
@@ -2261,9 +2412,16 @@ def odds_gap_b1_fade_filtered12(rows):
         rank_bits.append(f"平均との差{b1_avg_diff:+.2f}")
     return tickets, {
         "heads": heads,
-        "head_rule": f"1号艇が{popularity_level}で危険なので、1号艇頭は買わず2〜6号艇から複合1着上位2艇を選ぶ",
+        "head_rule": f"1号艇が{popularity_level}で危険。頭は攻め艇ではなく、2〜6号艇の取り切りスコア上位2艇を選ぶ",
         "head_mode": "odds_gap_b1_fade_filtered",
-        "head_scores": head_score_details(rows, heads),
+        "head_scores": finish_head_score_details(rows, heads),
+        "attackers": role_split.get("attackers") or [],
+        "attack_scores": role_split.get("attack_scores") or {},
+        "finishers": role_split.get("finishers") or [],
+        "finisher_scores": role_split.get("finisher_scores") or {},
+        "support_boats": role_split.get("support_boats") or [],
+        "support_scores": role_split.get("support_scores") or {},
+        "role_split_note": role_split.get("role_split_note"),
         "axes": axes,
         "axis_rule": axis_rule,
         "alt_axes": [],
@@ -2276,7 +2434,9 @@ def odds_gap_b1_fade_filtered12(rows):
         "role_note": (
             f"歪み本命。1号艇は{popularity_level}+危険+前半1〜6Rで"
             f"{'・'.join(rank_bits)}。"
-            f"頭{heads[0]},{heads[1]} / 軸は{axis_rule}の{axes[0]},{axes[1]} / 1号艇頭は買わない12点"
+            f"攻め艇{','.join(map(str, role_split.get('attackers') or []))}とは分け、"
+            f"頭は取り切りスコアの{heads[0]},{heads[1]}。"
+            f"軸は{axis_rule}の{axes[0]},{axes[1]} / 1号艇頭は買わない12点"
         ),
     }
 
@@ -2307,6 +2467,13 @@ def selection_payload(rows, race=None, strategies=None):
             "head_rule": primary_strategy.get("head_rule"),
             "head_mode": primary_strategy.get("head_mode"),
             "head_scores": primary_strategy.get("head_scores") or {},
+            "attackers": primary_strategy.get("attackers") or [],
+            "attack_scores": primary_strategy.get("attack_scores") or {},
+            "finishers": primary_strategy.get("finishers") or primary_strategy.get("heads") or [],
+            "finisher_scores": primary_strategy.get("finisher_scores") or primary_strategy.get("head_scores") or {},
+            "support_boats": primary_strategy.get("support_boats") or primary_strategy.get("supports") or [],
+            "support_scores": primary_strategy.get("support_scores") or {},
+            "role_split_note": primary_strategy.get("role_split_note"),
             "axes": primary_strategy.get("axes") or [],
             "axis_rule": primary_strategy.get("axis_rule"),
             "alt_axes": primary_strategy.get("alt_axes") or [],
@@ -2336,6 +2503,13 @@ def selection_payload(rows, race=None, strategies=None):
         "heads": roles["heads"],
         "head_rule": roles.get("head_rule"),
         "head_scores": roles.get("head_scores") or {},
+        "attackers": roles.get("attackers") or [],
+        "attack_scores": roles.get("attack_scores") or {},
+        "finishers": roles.get("finishers") or roles.get("heads") or [],
+        "finisher_scores": roles.get("finisher_scores") or roles.get("head_scores") or {},
+        "support_boats": roles.get("support_boats") or roles.get("supports") or [],
+        "support_scores": roles.get("support_scores") or {},
+        "role_split_note": roles.get("role_split_note"),
         "axes": roles["axes"],
         "axis_rule": roles.get("axis_rule") or "AI3連対率の1位と3位",
         "alt_axes": roles.get("alt_axes") or [],
@@ -4254,6 +4428,13 @@ def roi_strategies(race, metrics, rows):
             "head_rule": roles.get("head_rule"),
             "head_mode": roles.get("head_mode"),
             "head_scores": roles.get("head_scores", {}),
+            "attackers": roles.get("attackers", []),
+            "attack_scores": roles.get("attack_scores", {}),
+            "finishers": roles.get("finishers", roles.get("heads", [])),
+            "finisher_scores": roles.get("finisher_scores", roles.get("head_scores", {})),
+            "support_boats": roles.get("support_boats", roles.get("supports", [])),
+            "support_scores": roles.get("support_scores", {}),
+            "role_split_note": roles.get("role_split_note"),
             "axes": roles["axes"],
             "alt_axes": roles.get("alt_axes", []),
             "axis_rule": roles.get("axis_rule"),
@@ -4410,6 +4591,13 @@ def make_message(race, alert_type, metrics, checks, strategies):
         s = strategies[0]
         support_text = f" / 相手: {fmt_list(s.get('supports'))}" if s.get("supports") else ""
         base_head_text = f" / 元外頭候補: {fmt_list(s.get('base_heads'))}" if s.get("base_heads") else ""
+        split_text = ""
+        if s.get("attackers") or s.get("finishers") or s.get("support_boats"):
+            split_text = (
+                f"役割分解: 攻め艇{fmt_list(s.get('attackers'))} / "
+                f"頭{fmt_list(s.get('finishers') or s.get('heads'))} / "
+                f"相手{fmt_list(s.get('support_boats') or s.get('supports'))}\n"
+            )
         entry_checks = s.get("entry_checks") or []
         all_checks = list(entry_checks or checks or [])
         if s.get("strategy_id") in VALIDATED_BUY_STRATEGY_IDS:
@@ -4426,6 +4614,7 @@ def make_message(race, alert_type, metrics, checks, strategies):
             f"頭候補: {fmt_list(s['heads'])} / 軸: {fmt_list(s['axes'])}"
             f"{base_head_text}({s.get('axis_rule','AI+1位3位')}) / 比較軸: {fmt_list(s.get('alt_axes'))}"
             f"{support_text} / 消し: {fmt_role(s['keshi'])}\n"
+            f"{split_text}"
             f"荒れた時はこの買い目: {' '.join(s['tickets'])}\n"
             f"根拠: {s.get('role_note') or '本命絞り'} / 消し理由: {s.get('keshi_reason') or '-'}"
         )
