@@ -1,0 +1,32 @@
+{
+  "version": "boaters-fetch-status-v1",
+  "date": "2026-07-02",
+  "generated_at": "2026-07-02T11:38:03+09:00",
+  "alert_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_alerts_20260702.json",
+  "ranking_path": "/home/runner/work/kyotei-occult-viewer/kyotei-occult-viewer/data/output/boaters_manshu_ranking_20260702.json",
+  "status_key": "7b7141b677551d9f",
+  "should_notify": true,
+  "title": "BOATERS取得ステータス",
+  "message": "2026-07-02 取得確認\nBOATERS展示/AI: 4/4R取得 (展示6艇揃い 4R)\n結果反映: 監視/急上昇4R中 2R確定 / 万舟 1R\n\n監視/急上昇レース状況:\n- びわこ2R 見送り 33.5% / 結果待ち\n- 芦屋7R 見送り 40.0% / 結果 2-5-1 21,010円\n- 唐津4R 見送り 31.8% / 結果待ち\n- 唐津6R 見送り 30.7% / 結果 2-6-5 4,910円",
+  "fetch_summary": {
+    "attempted_count": 4,
+    "success_count": 4,
+    "preview_ready_count": 4,
+    "failure_count": 0,
+    "live_failure_count": 0,
+    "ranking_missing_count": 0
+  },
+  "result_summary": {
+    "top_count": 10,
+    "settled_count": 2,
+    "manshu_count": 1,
+    "relevant_target_count": 4,
+    "relevant_settled_count": 2,
+    "relevant_manshu_count": 1
+  },
+  "push": {
+    "enabled": true,
+    "ok": true,
+    "status": 200
+  }
+}
