@@ -183,8 +183,8 @@
     inspected.forEach(function (item) {
       statusCounts[item.status || "unknown"] = (statusCounts[item.status || "unknown"] || 0) + 1;
     });
-    var checked = inspected.filter(function (item) { return item.status === "checked"; });
-    var backfilled = inspected.filter(function (item) { return item.status === "backfilled_missing_exhibition"; });
+    var checked = inspected.filter(function (item) { return item.status === "checked" || item.status === "preview_refreshed"; });
+    var backfilled = inspected.filter(function (item) { return item.status === "backfilled_missing_exhibition" || item.status === "after_close_backfilled"; });
     var failed = inspected.filter(function (item) { return item.status === "fetch_failed"; });
     var previewReady = inspected.filter(function (item) { return item.preview_ready; });
     var outside = statusCounts.outside_window || 0;
@@ -192,9 +192,9 @@
     var liveSummary = live.summary || {};
     var lines = checked.concat(backfilled).slice(0, 8).map(function (item) {
       var metrics = item.metrics || {};
-      var ready = item.preview_ready ? "展示OK" : "展示不足";
+      var ready = item.preview_ready ? "展示OK" : ((metrics.preview_missing_reason || (metrics.preview_fetch_attempted ? "BOATERS未公開" : "展示不足")));
       var alert = item.alert_type || (item.core_rate_ready ? "本命条件" : item.subcore_rate_ready ? "準本命帯" : "通知なし");
-      return "<tr><td>" + esc((item.place_name || "") + (item.round || "") + "R") + "</td><td>" + esc(item.status) + "<br><span class=\"bm-mini\">" + esc(ready) + " / " + esc(alert) + "</span></td><td>" + esc(fmtPct(item.post_exhibition_manshu_rate_pct)) + "</td><td><span class=\"bm-mini\">展示" + esc(metrics.tenji_boats || 0) + "艇 / ラップ" + esc(metrics.isshu_boats || 0) + "艇</span></td></tr>";
+      return "<tr><td>" + esc((item.place_name || "") + (item.round || "") + "R") + "</td><td>" + esc(item.status) + "<br><span class=\"bm-mini\">" + esc(ready) + " / " + esc(alert) + "</span></td><td>" + esc(fmtPct(item.post_exhibition_manshu_rate_pct)) + "</td><td><span class=\"bm-mini\">展示" + esc(metrics.tenji_boats || 0) + "艇 / ラップ" + esc(Math.max(metrics.isshu_boats || 0, metrics.raw_isshu_boats || 0)) + "艇</span></td></tr>";
     }).join("");
     var failedLines = failed.slice(0, 5).map(function (item) {
       return "<tr><td>" + esc((item.place_name || "") + (item.round || "") + "R") + "</td><td colspan=\"3\"><span class=\"bm-mini\">取得失敗: " + esc(item.error || "") + "</span></td></tr>";
@@ -235,8 +235,8 @@
     var manshu = result.manshu;
     var deadline = r.deadline_time ? String(r.deadline_time).slice(11, 16) : "--:--";
     var lap = lapLabel(r, metrics);
-    var status = r.status || (metrics.tenji_boats >= 6 || metrics.isshu_boats >= 6 ? "確定" : "展示待ち");
-    var statusClass = status === "展示待ち" ? " wait" : "";
+    var status = r.status || (metrics.tenji_boats >= 6 || Math.max(metrics.isshu_boats || 0, metrics.raw_isshu_boats || 0) >= 6 ? "確定" : (metrics.preview_fetch_attempted ? (metrics.preview_missing_reason || "BOATERS未公開") : "展示待ち"));
+    var statusClass = status === "展示待ち" || status === "BOATERS未公開" ? " wait" : "";
     var decision = r.buy_decision || (Number(r.manshu_rate_pct || 0) >= 40 ? "本命" : Number(r.manshu_rate_pct || 0) >= 38 ? "準本命判定" : "見送り");
     var decisionClass = decision === "本命" ? " core" : (decision === "準本命" || decision === "準本命判定") ? " subcore" : decision === "見送り" ? " skip" : "";
     var decisionChecks = (r.final_decision_checks || []).join(" / ");

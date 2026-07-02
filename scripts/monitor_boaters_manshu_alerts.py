@@ -518,7 +518,28 @@ def snapshot_morning_ranking(date_text, source_path):
 
 
 def has_full_exhibition(metrics):
-    return int(as_num(metrics.get("tenji_boats")) or 0) >= 6 and int(as_num(metrics.get("isshu_boats")) or 0) >= 6
+    isshu_count = max(
+        int(as_num(metrics.get("isshu_boats")) or 0),
+        int(as_num(metrics.get("raw_isshu_boats")) or 0),
+    )
+    return int(as_num(metrics.get("tenji_boats")) or 0) >= 6 and isshu_count >= 6
+
+
+def exhibition_missing_reason(metrics):
+    if has_full_exhibition(metrics):
+        return ""
+    tenji_count = int(as_num(metrics.get("tenji_boats")) or 0)
+    isshu_count = max(
+        int(as_num(metrics.get("isshu_boats")) or 0),
+        int(as_num(metrics.get("raw_isshu_boats")) or 0),
+    )
+    if tenji_count <= 0 and isshu_count <= 0:
+        return "BOATERS未公開"
+    if tenji_count < 6 and isshu_count < 6:
+        return f"展示{tenji_count}/6・1周{isshu_count}/6"
+    if tenji_count < 6:
+        return f"展示{tenji_count}/6"
+    return f"1周{isshu_count}/6"
 
 
 def db_race_count(db_path):
@@ -4401,7 +4422,37 @@ def monitor(args):
                 or source_type == "morning_top"
             )
         )
+        preview_fetch_limit = max(args.lookahead_minutes, args.preview_fetch_lookahead_minutes)
+        preview_refresh_before_alert_window = (
+            minutes_to_deadline > args.lookahead_minutes
+            and minutes_to_deadline <= preview_fetch_limit
+            and (
+                missing_exhibition
+                # Keep the public watchlist fresh even when the frozen morning
+                # row still says "展示待ち" but the live ranking has started to
+                # carry post-exhibition metrics.
+                or source_type == "morning_top"
+            )
+        )
         if minutes_to_deadline > args.lookahead_minutes or minutes_to_deadline < -args.grace_minutes:
+            if preview_refresh_before_alert_window:
+                if args.offline:
+                    inspected.append(
+                        {
+                            "race_id": race.get("race_id"),
+                            "place_name": race.get("place_name"),
+                            "round": race.get("round"),
+                            "source": source_type,
+                            "status": "offline_preview_refresh",
+                            "minutes_to_deadline": round(minutes_to_deadline, 1),
+                        }
+                    )
+                    return None
+                return {
+                    "minutes_to_deadline": minutes_to_deadline,
+                    "backfill_only": True,
+                    "fetch_reason": "preview_refresh",
+                }
             if backfill_after_close:
                 if args.offline:
                     inspected.append(
@@ -4415,7 +4466,11 @@ def monitor(args):
                         }
                     )
                     return None
-                return {"minutes_to_deadline": minutes_to_deadline, "backfill_only": True}
+                return {
+                    "minutes_to_deadline": minutes_to_deadline,
+                    "backfill_only": True,
+                    "fetch_reason": "after_close_backfill",
+                }
             inspected.append(
                 {
                     "race_id": race.get("race_id"),
@@ -4439,7 +4494,11 @@ def monitor(args):
                 }
             )
             return None
-        return {"minutes_to_deadline": minutes_to_deadline, "backfill_only": False}
+        return {
+            "minutes_to_deadline": minutes_to_deadline,
+            "backfill_only": False,
+            "fetch_reason": "alert_window",
+        }
 
     def inspect_race(race, source_type, morning_rank=None, live_rank=None):
         window = inspect_window(race, source_type)
@@ -4447,6 +4506,7 @@ def monitor(args):
             return
         minutes_to_deadline = window["minutes_to_deadline"]
         backfill_only = bool(window.get("backfill_only"))
+        fetch_reason = str(window.get("fetch_reason") or "alert_window")
         try:
             by_boat = fetch_live_race(race, refresh=not args.no_refresh)
             rows = enrich_rows(by_boat, race.get("metrics") or {}, date_text=race.get("date"))
@@ -4465,6 +4525,10 @@ def monitor(args):
             ]
             selection_strategies = buy_strategies or subcore_strategies
             selection = selection_payload(rows, race=race, strategies=selection_strategies)
+            metrics["preview_fetch_attempted"] = True
+            metrics["preview_fetch_attempted_at"] = now.isoformat(timespec="seconds")
+            metrics["preview_fetch_reason"] = fetch_reason
+            metrics["preview_missing_reason"] = exhibition_missing_reason(metrics)
             preview_ready = has_full_exhibition(metrics)
             post_rate = as_num(race.get("manshu_rate_pct")) or 0
             core_rate_ready = post_rate >= args.core_alert_threshold
@@ -4529,7 +4593,12 @@ def monitor(args):
                     "place_name": race.get("place_name"),
                     "round": race.get("round"),
                     "source": source_type,
-                    "status": "backfilled_missing_exhibition" if backfill_only else "checked",
+                    "status": (
+                        "preview_refreshed"
+                        if fetch_reason == "preview_refresh"
+                        else ("after_close_backfilled" if fetch_reason == "after_close_backfill" else "checked")
+                    ),
+                    "fetch_reason": fetch_reason,
                     "minutes_to_deadline": round(minutes_to_deadline, 1),
                     "condition_confirmed": confirmed,
                     "checks": checks,
@@ -4641,6 +4710,7 @@ def monitor(args):
         "live_top_n": args.live_top_n,
         "riser_top_n": args.riser_top_n,
         "lookahead_minutes": args.lookahead_minutes,
+        "preview_fetch_lookahead_minutes": args.preview_fetch_lookahead_minutes,
         "alert_threshold_pct": SUBCORE_ALERT_RATE_MIN,
         "core_alert_threshold_pct": args.core_alert_threshold,
         "subcore_alert_threshold_min_pct": SUBCORE_ALERT_RATE_MIN,
@@ -4650,6 +4720,7 @@ def monitor(args):
             "morning_top_n": args.top_n,
             "post_exhibition_core_threshold_pct": args.core_alert_threshold,
             "post_exhibition_subcore_range_pct": None,
+            "preview_fetch_lookahead_minutes": args.preview_fetch_lookahead_minutes,
             "full_exhibition_required": True,
             "notify_late_risers": bool(args.notify_risers),
         },
@@ -4674,6 +4745,15 @@ def main():
     parser.add_argument("--top-n", type=int, default=10)
     parser.add_argument("--threshold", type=float, default=27.0)
     parser.add_argument("--lookahead-minutes", type=float, default=20.0)
+    parser.add_argument(
+        "--preview-fetch-lookahead-minutes",
+        type=float,
+        default=240.0,
+        help=(
+            "Fetch BOATERS exhibition data for display this many minutes before deadline. "
+            "Alert sending still uses --lookahead-minutes."
+        ),
+    )
     parser.add_argument("--grace-minutes", type=float, default=2.0)
     parser.add_argument(
         "--alert-threshold",

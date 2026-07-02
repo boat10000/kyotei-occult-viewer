@@ -107,6 +107,18 @@
     const pct=v=>v==null?"--":Number(v).toFixed(2).replace(/\.00$/,"")+"%";
     const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
     const cls=d=>d==="本命"||d==="強本命"?"core":(d==="準本命"?"semi":"wait");
+    function lapBoatCount(r){
+      return Math.max(Number(r.isshu_boats||0),Number(r.raw_isshu_boats||0));
+    }
+    function fullExhibition(r){
+      return Number(r.tenji_boats||0)>=6&&lapBoatCount(r)>=6;
+    }
+    function exhibitionLabel(r){
+      if(fullExhibition(r)) return "展示6艇";
+      if(r.preview_fetch_attempted&&r.preview_missing_reason) return r.preview_missing_reason;
+      if(r.preview_fetch_attempted) return "BOATERS未公開";
+      return "展示待ち";
+    }
     function segTable(rows){
       return `<table><thead><tr><th>区分</th><th class="num">対象</th><th class="num">確定</th><th class="num">万舟率</th><th class="num">買いR</th><th class="num">的中率</th><th class="num">回収率</th><th class="num">収支</th><th class="num">最大連敗</th></tr></thead><tbody>`+
         rows.map(r=>`<tr><td><b>${esc(r.segment)}</b></td><td class="num">${r.races}</td><td class="num">${r.settled_races}</td><td class="num hot">${pct(r.manshu_rate_pct)}</td><td class="num">${r.bought_races}</td><td class="num">${pct(r.hit_rate_pct)}</td><td class="num ${Number(r.roi_pct)>=100?'good':'warn'}">${pct(r.roi_pct)}</td><td class="num">${yen(r.profit_yen)}</td><td class="num">${r.max_losing_streak??"--"}</td></tr>`).join("")+
@@ -143,7 +155,10 @@
       if(Number(r.points||0)>0){
         return `${r.buy_label||"買い候補"} / ${r.points}点 / ${r.reason||""}`;
       }
-      if(Number(r.tenji_boats||0)<6||Number(r.isshu_boats||0)<6){
+      if(!fullExhibition(r)){
+        if(r.preview_fetch_attempted){
+          return "取得は試したが、BOATERS側の展示・1周がまだ未公開なので監視継続";
+        }
         return "展示・1周・AI/オッズがまだ揃っていないので監視継続";
       }
       return r.reason||r.odds_gap_label||"本命条件までは届いていない";
@@ -185,7 +200,7 @@
       if(!rows.length)return `<h2>展示後判定ログ</h2><p class="lead">最新日の展示後ログがまだありません。</p>`;
       return `<h2>${esc(log.date)} 展示後判定ログ</h2><p class="lead">${esc(log.note||"")}</p><div class="latest">`+
         rows.map(r=>{
-          const ready=(Number(r.tenji_boats||0)>=6 && Number(r.isshu_boats||0)>=6)?'展示6艇':'展示不足';
+          const ready=exhibitionLabel(r);
           const result=r.result?`結果 ${esc(r.result)} ${yen(r.payout_yen)}`:'結果待ち';
           const tickets=(r.tickets||[]).join(" / ");
           return `<details><summary>${esc(r.rank)}位 ${esc(r.race)} ${pct(r.rate)} <span class="badge ${cls(r.decision_class)}">${esc(r.decision_class)}</span></summary>`+

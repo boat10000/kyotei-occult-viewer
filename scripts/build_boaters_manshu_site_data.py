@@ -1239,6 +1239,10 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         "raw_isshu_boats": "raw_isshu_boats",
         "hanshu_boats": "hanshu_boats",
         "isshu_boats": "isshu_boats",
+        "preview_fetch_attempted": "preview_fetch_attempted",
+        "preview_fetch_attempted_at": "preview_fetch_attempted_at",
+        "preview_fetch_reason": "preview_fetch_reason",
+        "preview_missing_reason": "preview_missing_reason",
     }
     for boat in range(1, 7):
         metric_map.update(
@@ -1291,6 +1295,9 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
             "trifecta_odds_snapshot_at",
             "odds_snapshot_source",
             "lap_time_type",
+            "preview_fetch_attempted_at",
+            "preview_fetch_reason",
+            "preview_missing_reason",
         }:
             normalized_metrics[out_key] = value or ""
         else:
@@ -1306,6 +1313,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
     normalized_metrics["raw_isshu_boats"] = as_int(normalized_metrics.get("raw_isshu_boats")) or 0
     normalized_metrics["hanshu_boats"] = as_int(normalized_metrics.get("hanshu_boats")) or 0
     normalized_metrics["isshu_boats"] = as_int(normalized_metrics["isshu_boats"]) or 0
+    normalized_metrics["preview_fetch_attempted"] = bool(as_int(normalized_metrics.get("preview_fetch_attempted")) or 0)
     if not normalized_metrics.get("lap_time_type"):
         normalized_metrics["lap_time_type"] = "半周" if row.get("place_name") == "江戸川" else "1周"
     normalized_metrics["composite_edges"] = row.get("composite_edges") or metrics.get("composite_edges") or []
@@ -1321,7 +1329,19 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
         merged_selection.update(old_selection)
         selection = merged_selection
     rate_num = as_num(rate) or 0.0
-    preview_full = normalized_metrics["tenji_boats"] >= 6 and normalized_metrics["isshu_boats"] >= 6
+    lap_boats = max(normalized_metrics["isshu_boats"], normalized_metrics["raw_isshu_boats"])
+    preview_full = normalized_metrics["tenji_boats"] >= 6 and lap_boats >= 6
+    if preview_full:
+        normalized_metrics["preview_missing_reason"] = ""
+    elif normalized_metrics.get("preview_fetch_attempted") and not normalized_metrics.get("preview_missing_reason"):
+        if normalized_metrics["tenji_boats"] <= 0 and lap_boats <= 0:
+            normalized_metrics["preview_missing_reason"] = "BOATERS未公開"
+        elif normalized_metrics["tenji_boats"] < 6 and lap_boats < 6:
+            normalized_metrics["preview_missing_reason"] = f"展示{normalized_metrics['tenji_boats']}/6・1周{lap_boats}/6"
+        elif normalized_metrics["tenji_boats"] < 6:
+            normalized_metrics["preview_missing_reason"] = f"展示{normalized_metrics['tenji_boats']}/6"
+        else:
+            normalized_metrics["preview_missing_reason"] = f"1周{lap_boats}/6"
     alert_type = row.get("last_minute_alert_type")
     buy_decision = row.get("buy_decision")
     final_decision_checks = list(row.get("final_decision_checks") or [])
@@ -1353,7 +1373,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
     if (
         row.get("ranking_type") != "morning_watchlist"
         and normalized_metrics["tenji_boats"] >= 6
-        and normalized_metrics["isshu_boats"] >= 6
+        and lap_boats >= 6
     ):
         if "展示待ち" in str(status):
             status = str(status).replace("・展示待ち", "").replace("展示待ち", "展示込み")
@@ -1362,7 +1382,7 @@ def normalize_row(row: dict, rank: int, date_text: str, results_map: dict[tuple[
     elif (
         row.get("ranking_type") != "morning_watchlist"
         and normalized_metrics["tenji_boats"] >= 6
-        and normalized_metrics["isshu_boats"] < 6
+        and lap_boats < 6
         and "未取得" not in str(status)
     ):
         missing_lap = "半周未取得" if normalized_metrics.get("lap_time_type") == "半周" else "一周未取得"

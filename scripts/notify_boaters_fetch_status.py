@@ -88,7 +88,7 @@ def as_float(value):
 
 def summarize_fetch(alert_payload: dict) -> dict:
     inspected = alert_payload.get("inspected") or []
-    success_statuses = {"checked", "backfilled_missing_exhibition"}
+    success_statuses = {"checked", "backfilled_missing_exhibition", "preview_refreshed", "after_close_backfilled"}
     successes = [item for item in inspected if item.get("status") in success_statuses]
     failures = [item for item in inspected if item.get("status") == "fetch_failed"]
     live_failures = [item for item in inspected if item.get("status") == "live_ranking_failed"]
@@ -141,8 +141,9 @@ def decision_text(item: dict) -> str:
         return "準本命"
     if item.get("preview_ready"):
         return "見送り"
-    if item.get("status") in {"checked", "backfilled_missing_exhibition"}:
-        return "展示不足"
+    if item.get("status") in {"checked", "backfilled_missing_exhibition", "preview_refreshed", "after_close_backfilled"}:
+        metrics = item.get("metrics") or {}
+        return metrics.get("preview_missing_reason") or "展示不足"
     return str(item.get("status") or "")
 
 

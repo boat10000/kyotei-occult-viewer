@@ -2469,6 +2469,11 @@ def post_exhibition_log(rows: list[dict[str, Any]]) -> dict[str, Any]:
     races = []
     for row in view:
         outcome = value_buy_outcome(row)
+        metrics = {}
+        try:
+            metrics = json.loads(row.get("metrics_json") or "{}")
+        except (TypeError, json.JSONDecodeError):
+            metrics = {}
         races.append(
             {
                 "rank": row.get("rank"),
@@ -2479,7 +2484,12 @@ def post_exhibition_log(rows: list[dict[str, Any]]) -> dict[str, Any]:
                 "base_rate": row.get("base_manshu_rate_pct"),
                 "decision_class": row.get("decision_class"),
                 "tenji_boats": row.get("tenji_boats"),
-                "isshu_boats": row.get("isshu_boats") or row.get("raw_isshu_boats"),
+                "isshu_boats": row.get("isshu_boats"),
+                "raw_isshu_boats": row.get("raw_isshu_boats"),
+                "preview_fetch_attempted": bool(metrics.get("preview_fetch_attempted")),
+                "preview_fetch_attempted_at": metrics.get("preview_fetch_attempted_at") or "",
+                "preview_fetch_reason": metrics.get("preview_fetch_reason") or "",
+                "preview_missing_reason": metrics.get("preview_missing_reason") or "",
                 "odds_source": row.get("odds_snapshot_source") or "",
                 "head_candidates": ",".join(map(str, head_candidates(row, recommended_head_selector(row), 2))),
                 "axis_candidates": row.get("axis_boats") or ",".join(map(str, fallback_axes(row, 2))),

@@ -290,9 +290,19 @@
       var deadlineMs=Date.parse(r.deadline_time||"");
       return Number.isFinite(deadlineMs)&&Date.now()>deadlineMs;
     }
+    function lapBoatCount(m){
+      m=m||{};
+      return Math.max(Number(m.isshu_boats||0),Number(m.raw_isshu_boats||0));
+    }
+    function fullExhibition(m){
+      m=m||{};
+      return Number(m.tenji_boats||0)>=6&&lapBoatCount(m)>=6;
+    }
     function exhibitState(r){
-      var m=r.metrics||{}, full=Number(m.tenji_boats||0)>=6&&Number(m.isshu_boats||0)>=6;
+      var m=r.metrics||{}, full=fullExhibition(m);
       if(full) return {full:true, text:"展示込み", cls:"good", kind:"ready"};
+      if(m.preview_fetch_attempted&&m.preview_missing_reason) return {full:false, text:m.preview_missing_reason, cls:"warn", kind:"not_published"};
+      if(m.preview_fetch_attempted) return {full:false, text:"BOATERS未公開", cls:"warn", kind:"not_published"};
       if(raceClosed(r)) return {full:false, text:"展示再取得中", cls:"warn", kind:"missing_after_close"};
       return {full:false, text:"展示待ち", cls:"warn", kind:"waiting"};
     }
@@ -337,7 +347,7 @@
       if((!live.result||(!live.result.trifecta&&live.result.payout_yen==null))&&r.result){
         merged.result=r.result;
       }
-      if((live.metrics||{}).tenji_boats>=6&&(live.metrics||{}).isshu_boats>=6&&live.manshu_rate_pct!=null){
+      if(fullExhibition(live.metrics||{})&&live.manshu_rate_pct!=null){
         merged.last_minute_manshu_rate_pct=live.manshu_rate_pct;
       }
       return merged;
@@ -450,8 +460,9 @@
       var ex=exhibitState(r);
       if(ex.full) addTag(exhibit,"buff","展示6艇取得済み","展示込み");
       else if(ex.kind==="missing_after_close") addTag(exhibit,"debuff","展示再取得中","レース後なので自動再取得対象");
+      else if(ex.kind==="not_published") addTag(exhibit,"neutral",ex.text,"取得は試したがBOATERS側がまだ未公開");
       else addTag(exhibit,"neutral","展示待ち","締切前");
-      if(Number(m.isshu_boats||0)>=6) addTag(exhibit,"buff","1周6艇取得済み","1周込み");
+      if(lapBoatCount(m)>=6) addTag(exhibit,"buff","1周6艇取得済み","1周込み");
       if(m.double_time_boats) addTag(exhibit,"superbuff","ダブルタイム",boatList(m.double_time_boats));
       if(m.super_slit_boats) addTag(exhibit,"superbuff","スーパースリットアラート",boatList(m.super_slit_boats));
       if(m.slit_shape_label) addTag(exhibit,"buff","スリット隊形 "+m.slit_shape_label,"");
