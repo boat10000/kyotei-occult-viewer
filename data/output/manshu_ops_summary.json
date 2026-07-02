@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-02T01:41:06+00:00",
+  "generated_at": "2026-07-02T01:46:12+00:00",
   "source": {
     "db_path": "data/output/manshu_ops.sqlite",
     "input_dir": "data/output",
@@ -288,22 +288,23 @@
         "place_name": "唐津",
         "round": 6,
         "deadline": "10:59",
-        "manshu_rate_pct": 33.04,
+        "manshu_rate_pct": 32.44,
         "decision_class": "判定前",
         "buy_decision": "展示待ち",
-        "heads": "5,4",
-        "recommended_heads": "5,4",
+        "heads": "6,2",
+        "recommended_heads": "6,2",
         "recommended_head_logic": "現行の頭2艇",
         "axes": "2,4",
-        "keshi": 1,
+        "keshi": 5,
         "ticket_count": 15,
         "ticket_hit": false,
         "odds_gap": {
           "label": "大きな歪みなし",
-          "popularity_level": "未取得",
-          "popularity_source": "未取得",
+          "popularity_level": "人気不足",
+          "popularity_source": "BOATERS AIオッズ評価",
           "reasons": [
-            "1号艇人気レベル: 未取得（未取得）"
+            "展示後BOATERSオッズ評価",
+            "1号艇人気レベル: 人気不足（BOATERS AIオッズ評価）"
           ]
         },
         "value_buy": {
