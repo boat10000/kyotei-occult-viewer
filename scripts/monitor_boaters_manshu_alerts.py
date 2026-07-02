@@ -1505,14 +1505,19 @@ def b1_unpopular_head_signal(row, metrics):
     trifecta_top5 = int(as_num(metrics.get("b1_trifecta_top5_1head")) or 0) == 1
     top5_head_count = int(as_num(metrics.get("trifecta_top5_head1_count")) or 0)
     top5_count = int(as_num(metrics.get("trifecta_top5_count")) or 0)
+    top10_head_count = int(as_num(metrics.get("trifecta_top10_head1_count")) or 0)
+    top10_count = int(as_num(metrics.get("trifecta_top10_count")) or 0)
+    b1_first_rank = int(as_num(metrics.get("b1_trifecta_first_rank")) or 0) or None
     odds_rank = int(as_num(metrics.get("boat1_odds_rank")) or 0) or None
     odds_pct = as_num(metrics.get("boat1_odds_prediction_pct"))
-    has_popularity_data = top5_count >= 5 or odds_rank is not None or odds_pct is not None
+    has_popularity_data = top5_count >= 5 or top10_count >= 10 or b1_first_rank is not None or odds_rank is not None or odds_pct is not None
     if not has_popularity_data:
         return False, ""
     top5_almost = top5_count >= 5 and top5_head_count >= 4
+    top10_backed = top10_count >= 10 and top10_head_count >= 4
+    top_rank_backed = b1_first_rank is not None and b1_first_rank <= 5
     odds_heavy = odds_rank == 1 and odds_pct is not None and odds_pct >= 40
-    is_unpopular = (not trifecta_top5) and (not top5_almost) and (not odds_heavy)
+    is_unpopular = (not trifecta_top5) and (not top5_almost) and (not top10_backed) and (not top_rank_backed) and (not odds_heavy)
     if not is_unpopular:
         return False, ""
 
@@ -1541,6 +1546,8 @@ def b1_unpopular_head_signal(row, metrics):
     popularity_text = "人気薄"
     if odds_rank == 1 and odds_pct is not None:
         popularity_text = f"1号艇オッズ評価{odds_pct:.1f}%"
+    elif b1_first_rank is not None:
+        popularity_text = f"1号艇頭の三連単初出{b1_first_rank}位"
     elif top5_count >= 5:
         popularity_text = f"人気上位5点中1号艇頭{top5_head_count}点"
     return True, f"{popularity_text}で売れすぎではないが逃げ材料が強い"
@@ -1562,10 +1569,18 @@ def b1_popularity_context_from_values(
     trifecta_top5_count=None,
     trifecta_head1_count=None,
     trifecta_head1_flag=None,
+    trifecta_top10_count=None,
+    trifecta_top10_head1_count=None,
+    b1_trifecta_first_rank=None,
 ):
     top5_count = int(as_num(trifecta_top5_count) or 0)
     head1_count_raw = as_num(trifecta_head1_count)
     head1_count = int(head1_count_raw) if head1_count_raw is not None else None
+    top10_count = int(as_num(trifecta_top10_count) or 0)
+    head1_top10_raw = as_num(trifecta_top10_head1_count)
+    head1_top10_count = int(head1_top10_raw) if head1_top10_raw is not None else None
+    first_rank_raw = as_num(b1_trifecta_first_rank)
+    first_rank = int(first_rank_raw) if first_rank_raw is not None else None
     if head1_count is None and int(as_num(trifecta_head1_flag) or 0) == 1:
         head1_count = 5
     if top5_count >= 5 and head1_count is not None:
@@ -1575,14 +1590,54 @@ def b1_popularity_context_from_values(
             level = "かなり人気"
         elif head1_count == 3:
             level = "普通に人気"
+        elif top10_count >= 10 and head1_top10_count is not None and head1_top10_count >= 4:
+            level = "普通に人気"
         else:
             level = "人気不足"
         return {
             "level": level,
-            "source": "三連単人気上位5点",
+            "source": "三連単人気上位5点+頭別分布",
             "is_backed": level in B1_POPULARITY_BUY_LEVELS,
             "head1_count": head1_count,
             "top5_count": top5_count,
+            "head1_top10_count": head1_top10_count,
+            "top10_count": top10_count,
+            "b1_trifecta_first_rank": first_rank,
+            "odds_prediction_pct": odds_pct,
+            "odds_rank": odds_rank,
+        }
+    if top10_count >= 10 and head1_top10_count is not None:
+        if head1_top10_count >= 7:
+            level = "売れすぎ"
+        elif head1_top10_count >= 5:
+            level = "かなり人気"
+        elif head1_top10_count >= 3:
+            level = "普通に人気"
+        else:
+            level = "人気不足"
+        return {
+            "level": level,
+            "source": "三連単人気上位10点",
+            "is_backed": level in B1_POPULARITY_BUY_LEVELS,
+            "head1_count": head1_count,
+            "top5_count": top5_count,
+            "head1_top10_count": head1_top10_count,
+            "top10_count": top10_count,
+            "b1_trifecta_first_rank": first_rank,
+            "odds_prediction_pct": odds_pct,
+            "odds_rank": odds_rank,
+        }
+    if first_rank is not None:
+        level = "普通に人気" if first_rank <= 3 else "人気不足"
+        return {
+            "level": level,
+            "source": "三連単1号艇頭の初出順位",
+            "is_backed": level in B1_POPULARITY_BUY_LEVELS,
+            "head1_count": head1_count,
+            "top5_count": top5_count,
+            "head1_top10_count": head1_top10_count,
+            "top10_count": top10_count,
+            "b1_trifecta_first_rank": first_rank,
             "odds_prediction_pct": odds_pct,
             "odds_rank": odds_rank,
         }
@@ -1612,6 +1667,9 @@ def b1_popularity_context_from_values(
         "top5_count": top5_count,
         "odds_prediction_pct": pct,
         "odds_rank": rank,
+        "head1_top10_count": head1_top10_count,
+        "top10_count": top10_count,
+        "b1_trifecta_first_rank": first_rank,
     }
 
 
@@ -1635,6 +1693,9 @@ def b1_popularity_context(metrics):
         trifecta_top5_count=metrics.get("trifecta_top5_count"),
         trifecta_head1_count=metrics.get("trifecta_top5_head1_count"),
         trifecta_head1_flag=metrics.get("b1_trifecta_top5_1head"),
+        trifecta_top10_count=metrics.get("trifecta_top10_count"),
+        trifecta_top10_head1_count=metrics.get("trifecta_top10_head1_count"),
+        b1_trifecta_first_rank=metrics.get("b1_trifecta_first_rank"),
     )
 
 
@@ -1720,6 +1781,43 @@ def head_candidate_score(row, manshu_head_mode=False):
         elif metrics.get("b1_summer_isshu_factor") == "slow_fly":
             score -= 6
             reasons.append("夏場1周が悪くイン飛び寄り")
+    first_rank = as_num(metrics.get(f"b{boat}_trifecta_first_rank"))
+    top10_head_count = as_num(metrics.get(f"b{boat}_trifecta_top10_head_count")) or 0
+    if first_rank is not None:
+        if first_rank <= 5:
+            score += 3
+            reasons.append(f"三連単頭初出{int(first_rank)}位")
+        elif first_rank >= 20 and (row.get("ai_prediction_pct") or 0) < 5:
+            score -= 3
+            reasons.append(f"三連単頭初出{int(first_rank)}位で頭薄い")
+    elif top10_head_count >= 2:
+        score += 2
+        reasons.append(f"上位10点に頭{int(top10_head_count)}点")
+    recent_win = as_num(row.get("recent10_win_pct") or metrics.get(f"b{boat}_recent10_win_pct"))
+    recent_top3 = as_num(row.get("recent10_top3_pct") or metrics.get(f"b{boat}_recent10_top3_pct"))
+    recent_st_rank = as_num(row.get("recent10_st_rank_avg") or metrics.get(f"b{boat}_recent10_st_rank_avg"))
+    recent_sashi = as_num(row.get("recent10_sashi_rate") or metrics.get(f"b{boat}_recent10_sashi_rate")) or 0
+    recent_makuri = as_num(row.get("recent10_makuri_rate") or metrics.get(f"b{boat}_recent10_makuri_rate")) or 0
+    recent_makurizashi = as_num(row.get("recent10_makurizashi_rate") or metrics.get(f"b{boat}_recent10_makurizashi_rate")) or 0
+    if recent_win is not None:
+        if recent_win >= 20:
+            score += 4
+            reasons.append(f"直近10走枠1着{recent_win:.0f}%")
+        elif recent_win >= 10:
+            score += 2
+            reasons.append(f"直近10走枠1着{recent_win:.0f}%")
+    if recent_top3 is not None and recent_top3 >= 60:
+        score += 1
+        reasons.append(f"直近10走枠3連対{recent_top3:.0f}%")
+    if recent_st_rank is not None and recent_st_rank <= 2.5:
+        score += 1.5
+        reasons.append(f"直近10走ST順位{recent_st_rank:.1f}")
+    if boat == 2 and recent_sashi >= 20:
+        score += 2
+        reasons.append(f"直近10走差し{recent_sashi:.0f}%")
+    if boat in {3, 4, 5, 6} and max(recent_makuri, recent_makurizashi) >= 15:
+        score += 2
+        reasons.append("直近10走で攻め切り実績")
     if row.get("double_time"):
         score += 7
         reasons.append("ダブルタイム")
@@ -1787,6 +1885,17 @@ def attack_candidate_score(row):
     if row.get("low_outer_revive"):
         score += 5
         reasons.append("低評価外枠の復活")
+    recent_st_rank = as_num(row.get("recent10_st_rank_avg") or metrics.get(f"b{boat}_recent10_st_rank_avg"))
+    if recent_st_rank is not None and recent_st_rank <= 2.5:
+        score += 3
+        reasons.append(f"直近10走ST順位{recent_st_rank:.1f}")
+    recent_attack_rate = max(
+        as_num(row.get("recent10_makuri_rate") or metrics.get(f"b{boat}_recent10_makuri_rate")) or 0,
+        as_num(row.get("recent10_makurizashi_rate") or metrics.get(f"b{boat}_recent10_makurizashi_rate")) or 0,
+    )
+    if boat in {3, 4, 5, 6} and recent_attack_rate >= 15:
+        score += 3
+        reasons.append(f"直近10走攻め決まり手{recent_attack_rate:.0f}%")
     if boat in {4, 5, 6}:
         score += 2
         reasons.append("外から攻める枠")
@@ -1819,6 +1928,48 @@ def finish_head_candidate_score(row):
     else:
         score -= 8
         reasons.append(f"AI1着率{ai_pred:.1f}%で頭弱い")
+
+    first_rank = as_num(metrics.get(f"b{boat}_trifecta_first_rank"))
+    top10_head_count = as_num(metrics.get(f"b{boat}_trifecta_top10_head_count")) or 0
+    min_head_odds = as_num(metrics.get(f"b{boat}_trifecta_min_head_odds"))
+    if first_rank is not None:
+        if first_rank <= 5:
+            score += 3
+            reasons.append(f"三連単頭初出{int(first_rank)}位")
+        elif first_rank <= 12:
+            score += 1
+            reasons.append(f"三連単頭初出{int(first_rank)}位で妙味")
+        elif ai_pred < 5:
+            score -= 3
+            reasons.append(f"三連単頭初出{int(first_rank)}位で市場も頭薄い")
+        elif min_head_odds is not None and min_head_odds >= 60:
+            score += 1
+            reasons.append(f"頭最小オッズ{min_head_odds:.1f}倍で妙味")
+    elif top10_head_count >= 2:
+        score += 2
+        reasons.append(f"上位10点に頭{int(top10_head_count)}点")
+
+    recent_win = as_num(row.get("recent10_win_pct") or metrics.get(f"b{boat}_recent10_win_pct"))
+    recent_top3 = as_num(row.get("recent10_top3_pct") or metrics.get(f"b{boat}_recent10_top3_pct"))
+    recent_sashi = as_num(row.get("recent10_sashi_rate") or metrics.get(f"b{boat}_recent10_sashi_rate")) or 0
+    recent_makuri = as_num(row.get("recent10_makuri_rate") or metrics.get(f"b{boat}_recent10_makuri_rate")) or 0
+    recent_makurizashi = as_num(row.get("recent10_makurizashi_rate") or metrics.get(f"b{boat}_recent10_makurizashi_rate")) or 0
+    if recent_win is not None:
+        if recent_win >= 20:
+            score += 4
+            reasons.append(f"直近10走枠1着{recent_win:.0f}%")
+        elif recent_win >= 10:
+            score += 2
+            reasons.append(f"直近10走枠1着{recent_win:.0f}%")
+    if recent_top3 is not None and recent_top3 >= 60:
+        score += 1
+        reasons.append(f"直近10走枠3連対{recent_top3:.0f}%")
+    if boat == 2 and recent_sashi >= 20:
+        score += 2
+        reasons.append(f"直近10走差し{recent_sashi:.0f}%")
+    if boat in {3, 4, 5, 6} and max(recent_makuri, recent_makurizashi) >= 15:
+        score += 2
+        reasons.append("直近10走で攻め切り実績")
 
     ai_plus_rank = valid_boat_rank(row.get("ai_plus_rank"))
     if ai_plus_rank is not None and ai_plus_rank <= 3:
@@ -3282,6 +3433,9 @@ def race_metrics(rows, date_text=None, round_no=None):
             trifecta_top5_count=morning_metrics.get("trifecta_top5_count"),
             trifecta_head1_count=morning_metrics.get("trifecta_top5_head1_count"),
             trifecta_head1_flag=morning_metrics.get("b1_trifecta_top5_1head"),
+            trifecta_top10_count=morning_metrics.get("trifecta_top10_count"),
+            trifecta_top10_head1_count=morning_metrics.get("trifecta_top10_head1_count"),
+            b1_trifecta_first_rank=morning_metrics.get("b1_trifecta_first_rank"),
         )
         popularity_level = popularity_context["level"]
         if popularity_level in B1_POPULARITY_BUY_LEVELS:
@@ -3439,6 +3593,17 @@ def race_metrics(rows, date_text=None, round_no=None):
                 "general_top3_pct": row.get("general_3ren_pct"),
                 "odds_prediction_pct": row.get("odds_prediction_pct"),
                 "odds_prediction_rank": row.get("odds_prediction_pct_rank"),
+                "trifecta_first_rank": morning_metrics.get(f"b{row['boat_number']}_trifecta_first_rank"),
+                "trifecta_min_head_odds": morning_metrics.get(f"b{row['boat_number']}_trifecta_min_head_odds"),
+                "trifecta_top10_head_count": morning_metrics.get(f"b{row['boat_number']}_trifecta_top10_head_count"),
+                "trifecta_top20_head_count": morning_metrics.get(f"b{row['boat_number']}_trifecta_top20_head_count"),
+                "recent10_st_time_avg": morning_metrics.get(f"b{row['boat_number']}_recent10_st_time_avg"),
+                "recent10_st_rank_avg": morning_metrics.get(f"b{row['boat_number']}_recent10_st_rank_avg"),
+                "recent10_win_pct": morning_metrics.get(f"b{row['boat_number']}_recent10_win_pct"),
+                "recent10_top3_pct": morning_metrics.get(f"b{row['boat_number']}_recent10_top3_pct"),
+                "recent10_sashi_rate": morning_metrics.get(f"b{row['boat_number']}_recent10_sashi_rate"),
+                "recent10_makuri_rate": morning_metrics.get(f"b{row['boat_number']}_recent10_makuri_rate"),
+                "recent10_makurizashi_rate": morning_metrics.get(f"b{row['boat_number']}_recent10_makurizashi_rate"),
                 "composite_win_pct": row.get("composite_win_pct"),
                 "composite_top3_pct": row.get("composite_top3_pct"),
                 "composite_top3_actual_pct": row.get("composite_top3_actual_pct"),
@@ -3484,6 +3649,53 @@ def race_metrics(rows, date_text=None, round_no=None):
             key: value
             for key, value in live_odds_context.items()
             if key.startswith("popular_b1_")
+        },
+        **{
+            key: morning_metrics.get(key)
+            for key in [
+                "b1_trifecta_top5_1head",
+                "trifecta_top5_head1_count",
+                "trifecta_top5_count",
+                "trifecta_top10_head1_count",
+                "trifecta_top10_count",
+                "trifecta_top20_head1_count",
+                "trifecta_top20_count",
+                "trifecta_top10_head_counts",
+                "trifecta_top20_head_counts",
+                "trifecta_head_first_ranks",
+                "trifecta_head_min_odds",
+                "trifecta_top1_odds",
+                "trifecta_top5_avg_odds",
+                "trifecta_top5_combos",
+                "trifecta_odds_snapshot_at",
+            ]
+            if key in morning_metrics
+        },
+        **{
+            f"b{boat}_{suffix}": morning_metrics.get(f"b{boat}_{suffix}")
+            for boat in range(1, 7)
+            for suffix in [
+                "trifecta_first_rank",
+                "trifecta_min_head_odds",
+                "trifecta_top10_head_count",
+                "trifecta_top20_head_count",
+                "recent10_st_time_avg",
+                "recent10_st_rank_avg",
+                "recent10_waku_race_count",
+                "recent10_win_pct",
+                "recent10_second_pct",
+                "recent10_third_pct",
+                "recent10_top3_pct",
+                "recent10_nige_rate",
+                "recent10_sasare_rate",
+                "recent10_makurare_rate",
+                "recent10_sashi_rate",
+                "recent10_makuri_rate",
+                "recent10_makurizashi_rate",
+                "recent10_makurizasare_rate",
+                "recent10_nigashi_rate",
+            ]
+            if f"b{boat}_{suffix}" in morning_metrics
         },
         "boat1_ai_plus": b1.get("ai_plus"),
         "boat1_ai_plus_order": b1.get("ai_plus_rank"),

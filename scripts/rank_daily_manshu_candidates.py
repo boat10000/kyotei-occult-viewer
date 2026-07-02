@@ -602,15 +602,105 @@ def add_empty_trifecta_odds_features(df):
         "b1_trifecta_top5_1head": 0,
         "trifecta_top5_head1_count": np.nan,
         "trifecta_top5_count": np.nan,
+        "trifecta_top10_head1_count": np.nan,
+        "trifecta_top10_count": np.nan,
+        "trifecta_top20_head1_count": np.nan,
+        "trifecta_top20_count": np.nan,
         "trifecta_top1_odds": np.nan,
         "trifecta_top5_avg_odds": np.nan,
         "trifecta_top5_combos": "",
+        "trifecta_top10_head_counts": "",
+        "trifecta_top20_head_counts": "",
+        "trifecta_head_first_ranks": "",
+        "trifecta_head_min_odds": "",
         "trifecta_odds_snapshot_at": "",
     }
+    for boat in range(1, 7):
+        defaults[f"b{boat}_trifecta_first_rank"] = np.nan
+        defaults[f"b{boat}_trifecta_min_head_odds"] = np.nan
+        defaults[f"b{boat}_trifecta_top10_head_count"] = np.nan
+        defaults[f"b{boat}_trifecta_top20_head_count"] = np.nan
     for col, value in defaults.items():
         if col not in df.columns:
             df[col] = value
     return df
+
+
+def combo_head(value):
+    text = str(value or "")
+    digits = [ch for ch in text if ch.isdigit()]
+    if not digits:
+        return np.nan
+    try:
+        head = int(digits[0])
+    except ValueError:
+        return np.nan
+    return head if 1 <= head <= 6 else np.nan
+
+
+def fmt_head_count_map(counts):
+    parts = []
+    for boat in range(1, 7):
+        count = int(counts.get(boat, 0) or 0)
+        if count:
+            parts.append(f"{boat}:{count}")
+    return " ".join(parts)
+
+
+def fmt_head_num_map(values, digits=1):
+    parts = []
+    for boat in range(1, 7):
+        value = values.get(boat)
+        if value is None or pd.isna(value):
+            continue
+        if digits == 0:
+            parts.append(f"{boat}:{int(round(float(value)))}")
+        else:
+            parts.append(f"{boat}:{float(value):.{digits}f}")
+    return " ".join(parts)
+
+
+def build_trifecta_head_features(odds):
+    rows = []
+    for keys, group in odds.groupby(["date", "venue_code", "race_no"], sort=False):
+        date, venue_code, race_no = keys
+        top10 = group[group["odds_rank"] <= 10]
+        top20 = group[group["odds_rank"] <= 20]
+        top10_counts = top10["head"].dropna().astype(int).value_counts().to_dict()
+        top20_counts = top20["head"].dropna().astype(int).value_counts().to_dict()
+        first_ranks = {}
+        min_odds = {}
+        row = {
+            "date": date,
+            "venue_code": venue_code,
+            "race_no": race_no,
+            "trifecta_top10_head1_count": int(top10_counts.get(1, 0)),
+            "trifecta_top10_count": int(len(top10)),
+            "trifecta_top20_head1_count": int(top20_counts.get(1, 0)),
+            "trifecta_top20_count": int(len(top20)),
+            "trifecta_top10_head_counts": fmt_head_count_map(top10_counts),
+            "trifecta_top20_head_counts": fmt_head_count_map(top20_counts),
+        }
+        for boat in range(1, 7):
+            boat_group = group[group["head"].eq(boat)]
+            if boat_group.empty:
+                row[f"b{boat}_trifecta_first_rank"] = np.nan
+                row[f"b{boat}_trifecta_min_head_odds"] = np.nan
+                row[f"b{boat}_trifecta_top10_head_count"] = 0
+                row[f"b{boat}_trifecta_top20_head_count"] = 0
+                continue
+            first_rank = float(boat_group["odds_rank"].min())
+            min_head_odds = float(boat_group["odds"].min())
+            first_ranks[boat] = first_rank
+            min_odds[boat] = min_head_odds
+            row[f"b{boat}_trifecta_first_rank"] = first_rank
+            row[f"b{boat}_trifecta_min_head_odds"] = min_head_odds
+            row[f"b{boat}_trifecta_top10_head_count"] = int(top10_counts.get(boat, 0))
+            row[f"b{boat}_trifecta_top20_head_count"] = int(top20_counts.get(boat, 0))
+        row["trifecta_head_first_ranks"] = fmt_head_num_map(first_ranks, digits=0)
+        row["trifecta_head_min_odds"] = fmt_head_num_map(min_odds, digits=1)
+        rows.append(row)
+    return pd.DataFrame(rows)
 
 
 def add_trifecta_odds_features(df, odds_db, target_date):
@@ -645,15 +735,19 @@ def add_trifecta_odds_features(df, odds_db, target_date):
     odds["odds"] = pd.to_numeric(odds["odds"], errors="coerce")
     odds = odds.sort_values(["date", "venue_code", "race_no", "odds", "combo"])
     odds["odds_rank"] = odds.groupby(["date", "venue_code", "race_no"]).cumcount() + 1
+    odds["head"] = odds["combo"].map(combo_head)
     top5 = odds[odds["odds_rank"] <= 5]
     features = top5.groupby(["date", "venue_code", "race_no"], as_index=False).agg(
         trifecta_top5_combos=("combo", lambda values: " ".join(map(str, values))),
         trifecta_top5_avg_odds=("odds", "mean"),
         trifecta_top1_odds=("odds", "min"),
-        trifecta_top5_head1_count=("combo", lambda values: sum(str(value).startswith("1-") for value in values)),
+        trifecta_top5_head1_count=("head", lambda values: sum(int(value) == 1 for value in values.dropna())),
         trifecta_top5_count=("combo", "count"),
         trifecta_odds_snapshot_at=("snapshot_at", "max"),
     )
+    head_features = build_trifecta_head_features(odds)
+    if not head_features.empty:
+        features = features.merge(head_features, on=["date", "venue_code", "race_no"], how="left")
     features["b1_trifecta_top5_1head"] = (
         features["trifecta_top5_count"].eq(5) & features["trifecta_top5_head1_count"].eq(5)
     ).astype(int)
@@ -665,17 +759,115 @@ def add_trifecta_odds_features(df, odds_db, target_date):
         "b1_trifecta_top5_1head",
         "trifecta_top5_head1_count",
         "trifecta_top5_count",
+        "trifecta_top10_head1_count",
+        "trifecta_top10_count",
+        "trifecta_top20_head1_count",
+        "trifecta_top20_count",
         "trifecta_top1_odds",
         "trifecta_top5_avg_odds",
         "trifecta_top5_combos",
+        "trifecta_top10_head_counts",
+        "trifecta_top20_head_counts",
+        "trifecta_head_first_ranks",
+        "trifecta_head_min_odds",
         "trifecta_odds_snapshot_at",
     ]:
         odds_col = f"{col}_odds"
         if odds_col in merged.columns:
             merged[col] = merged[odds_col].combine_first(merged[col])
             merged = merged.drop(columns=[odds_col])
+    for boat in range(1, 7):
+        for suffix in (
+            "trifecta_first_rank",
+            "trifecta_min_head_odds",
+            "trifecta_top10_head_count",
+            "trifecta_top20_head_count",
+        ):
+            col = f"b{boat}_{suffix}"
+            odds_col = f"{col}_odds"
+            if odds_col in merged.columns:
+                merged[col] = merged[odds_col].combine_first(merged[col])
+                merged = merged.drop(columns=[odds_col])
     merged["b1_trifecta_top5_1head"] = merged["b1_trifecta_top5_1head"].fillna(0).astype(int)
     return merged
+
+
+def add_recent_race_aggregation_features(df, today_db, target_date):
+    """Add recent-start, waku, and win-method context already stored in BOATERS DB."""
+    if df.empty or not today_db or not Path(today_db).exists():
+        return df
+    sql = """
+    SELECT
+      r.date,
+      r.place_id,
+      r.round AS round_no,
+      b.boat_number,
+      st.start_time_avg AS recent10_st_time_avg,
+      st.start_time_rank_avg AS recent10_st_rank_avg,
+      wa.race_count AS recent10_waku_race_count,
+      wa.result_is1_avg AS recent10_win_pct,
+      wa.result_is2_avg AS recent10_second_pct,
+      wa.result_is3_avg AS recent10_third_pct,
+      wa.result_3ren_avg AS recent10_top3_pct,
+      wm.nige_rate AS recent10_nige_rate,
+      wm.sasare_rate AS recent10_sasare_rate,
+      wm.makurare_rate AS recent10_makurare_rate,
+      wm.sashi_rate AS recent10_sashi_rate,
+      wm.makuri_rate AS recent10_makuri_rate,
+      wm.makurizashi_rate AS recent10_makurizashi_rate,
+      wm.makurizasare_rate AS recent10_makurizasare_rate,
+      wm.nigashi_rate AS recent10_nigashi_rate
+    FROM races r
+    JOIN race_boats b ON b.race_id = r.race_id
+    LEFT JOIN start_aggregations st
+      ON st.race_id = r.race_id
+     AND st.waku = b.boat_number
+     AND st.agg_type = '直近10走'
+    LEFT JOIN waku_aggregations wa
+      ON wa.race_id = r.race_id
+     AND wa.waku = b.boat_number
+     AND wa.agg_type = '直近10走'
+    LEFT JOIN win_method_aggregations wm
+      ON wm.race_id = r.race_id
+     AND wm.waku = b.boat_number
+     AND wm.aggregation_range = 'Recent10'
+    WHERE r.date = ?
+    """
+    try:
+        with connect_ro(today_db) as con:
+            aggs = pd.read_sql_query(sql, con, params=(target_date,))
+    except sqlite3.Error:
+        return df
+    if aggs.empty:
+        return df
+    value_cols = [
+        "recent10_st_time_avg",
+        "recent10_st_rank_avg",
+        "recent10_waku_race_count",
+        "recent10_win_pct",
+        "recent10_second_pct",
+        "recent10_third_pct",
+        "recent10_top3_pct",
+        "recent10_nige_rate",
+        "recent10_sasare_rate",
+        "recent10_makurare_rate",
+        "recent10_sashi_rate",
+        "recent10_makuri_rate",
+        "recent10_makurizashi_rate",
+        "recent10_makurizasare_rate",
+        "recent10_nigashi_rate",
+    ]
+    for col in value_cols:
+        aggs[col] = pd.to_numeric(aggs[col], errors="coerce")
+    pivot = aggs.pivot_table(
+        index=["date", "place_id", "round_no"],
+        columns="boat_number",
+        values=value_cols,
+        aggfunc="first",
+    )
+    pivot.columns = [f"b{int(boat)}_{name}" for name, boat in pivot.columns]
+    pivot = pivot.reset_index()
+    return df.merge(pivot, on=["date", "place_id", "round_no"], how="left")
 
 
 def historical_venue_sets(history_db):
@@ -1760,44 +1952,70 @@ def b1_popularity_context_from_values(
     trifecta_top5_count=None,
     trifecta_head1_count=None,
     trifecta_head1_flag=None,
+    trifecta_top10_count=None,
+    trifecta_top10_head1_count=None,
+    b1_trifecta_first_rank=None,
 ):
     """1号艇の売れ方を、買い妙味のある3段階と人気不足に分ける。"""
 
     top5_count = int_num(trifecta_top5_count, default=0) or 0
     head1_count = int_num(trifecta_head1_count, default=None)
+    top10_count = int_num(trifecta_top10_count, default=0) or 0
+    head1_top10_count = int_num(trifecta_top10_head1_count, default=None)
+    first_rank = int_num(b1_trifecta_first_rank, default=None)
     if head1_count is None and int_num(trifecta_head1_flag, default=0) == 1:
         head1_count = 5
     if top5_count >= 5 and head1_count is not None:
         if head1_count >= 5:
-            return {
-                "level": "売れすぎ",
-                "source": "三連単人気上位5点",
-                "head1_count": head1_count,
-                "top5_count": top5_count,
-                "is_backed": True,
-            }
-        if head1_count == 4:
-            return {
-                "level": "かなり人気",
-                "source": "三連単人気上位5点",
-                "head1_count": head1_count,
-                "top5_count": top5_count,
-                "is_backed": True,
-            }
-        if head1_count == 3:
-            return {
-                "level": "普通に人気",
-                "source": "三連単人気上位5点",
-                "head1_count": head1_count,
-                "top5_count": top5_count,
-                "is_backed": True,
-            }
+            level = "売れすぎ"
+        elif head1_count == 4:
+            level = "かなり人気"
+        elif head1_count == 3:
+            level = "普通に人気"
+        elif top10_count >= 10 and head1_top10_count is not None and head1_top10_count >= 4:
+            level = "普通に人気"
+        else:
+            level = "人気不足"
         return {
-            "level": "人気不足",
-            "source": "三連単人気上位5点",
+            "level": level,
+            "source": "三連単人気上位5点+頭別分布",
             "head1_count": head1_count,
             "top5_count": top5_count,
-            "is_backed": False,
+            "head1_top10_count": head1_top10_count,
+            "top10_count": top10_count,
+            "b1_trifecta_first_rank": first_rank,
+            "is_backed": level in B1_POPULARITY_BUY_LEVELS,
+        }
+    if top10_count >= 10 and head1_top10_count is not None:
+        if head1_top10_count >= 7:
+            level = "売れすぎ"
+        elif head1_top10_count >= 5:
+            level = "かなり人気"
+        elif head1_top10_count >= 3:
+            level = "普通に人気"
+        else:
+            level = "人気不足"
+        return {
+            "level": level,
+            "source": "三連単人気上位10点",
+            "head1_count": head1_count,
+            "top5_count": top5_count,
+            "head1_top10_count": head1_top10_count,
+            "top10_count": top10_count,
+            "b1_trifecta_first_rank": first_rank,
+            "is_backed": level in B1_POPULARITY_BUY_LEVELS,
+        }
+    if first_rank is not None:
+        level = "普通に人気" if first_rank <= 3 else "人気不足"
+        return {
+            "level": level,
+            "source": "三連単1号艇頭の初出順位",
+            "head1_count": head1_count,
+            "top5_count": top5_count,
+            "head1_top10_count": head1_top10_count,
+            "top10_count": top10_count,
+            "b1_trifecta_first_rank": first_rank,
+            "is_backed": level in B1_POPULARITY_BUY_LEVELS,
         }
 
     pct = num(odds_pct)
@@ -1824,6 +2042,9 @@ def b1_popularity_context_from_values(
         "odds_rank": rank,
         "head1_count": head1_count,
         "top5_count": top5_count,
+        "head1_top10_count": head1_top10_count,
+        "top10_count": top10_count,
+        "b1_trifecta_first_rank": first_rank,
         "is_backed": is_backed,
     }
 
@@ -1835,6 +2056,9 @@ def b1_popularity_context(race):
         trifecta_top5_count=race.get("trifecta_top5_count"),
         trifecta_head1_count=race.get("trifecta_top5_head1_count"),
         trifecta_head1_flag=race.get("b1_trifecta_top5_1head"),
+        trifecta_top10_count=race.get("trifecta_top10_count"),
+        trifecta_top10_head1_count=race.get("trifecta_top10_head1_count"),
+        b1_trifecta_first_rank=race.get("b1_trifecta_first_rank"),
     )
 
 
@@ -4065,10 +4289,55 @@ def row_summary(
         "b1_trifecta_top5_1head": int_num(race.get("b1_trifecta_top5_1head")),
         "trifecta_top5_head1_count": int_num(race.get("trifecta_top5_head1_count")),
         "trifecta_top5_count": int_num(race.get("trifecta_top5_count")),
+        "trifecta_top10_head1_count": int_num(race.get("trifecta_top10_head1_count")),
+        "trifecta_top10_count": int_num(race.get("trifecta_top10_count")),
+        "trifecta_top20_head1_count": int_num(race.get("trifecta_top20_head1_count")),
+        "trifecta_top20_count": int_num(race.get("trifecta_top20_count")),
         "trifecta_top1_odds": race.get("trifecta_top1_odds"),
         "trifecta_top5_avg_odds": race.get("trifecta_top5_avg_odds"),
         "trifecta_top5_combos": race.get("trifecta_top5_combos"),
+        "trifecta_top10_head_counts": race.get("trifecta_top10_head_counts"),
+        "trifecta_top20_head_counts": race.get("trifecta_top20_head_counts"),
+        "trifecta_head_first_ranks": race.get("trifecta_head_first_ranks"),
+        "trifecta_head_min_odds": race.get("trifecta_head_min_odds"),
         "trifecta_odds_snapshot_at": race.get("trifecta_odds_snapshot_at"),
+        **{
+            f"b{boat}_trifecta_first_rank": race.get(f"b{boat}_trifecta_first_rank")
+            for boat in range(1, 7)
+        },
+        **{
+            f"b{boat}_trifecta_min_head_odds": race.get(f"b{boat}_trifecta_min_head_odds")
+            for boat in range(1, 7)
+        },
+        **{
+            f"b{boat}_trifecta_top10_head_count": int_num(race.get(f"b{boat}_trifecta_top10_head_count"))
+            for boat in range(1, 7)
+        },
+        **{
+            f"b{boat}_trifecta_top20_head_count": int_num(race.get(f"b{boat}_trifecta_top20_head_count"))
+            for boat in range(1, 7)
+        },
+        **{
+            f"b{boat}_{suffix}": race.get(f"b{boat}_{suffix}")
+            for boat in range(1, 7)
+            for suffix in [
+                "recent10_st_time_avg",
+                "recent10_st_rank_avg",
+                "recent10_waku_race_count",
+                "recent10_win_pct",
+                "recent10_second_pct",
+                "recent10_third_pct",
+                "recent10_top3_pct",
+                "recent10_nige_rate",
+                "recent10_sasare_rate",
+                "recent10_makurare_rate",
+                "recent10_sashi_rate",
+                "recent10_makuri_rate",
+                "recent10_makurizashi_rate",
+                "recent10_makurizasare_rate",
+                "recent10_nigashi_rate",
+            ]
+        },
         "b1_ai_plus": race.get("b1_ai_plus"),
         "b1_ai_plus_order": race.get("b1_ai_plus_order"),
         "b1_nige_pct": race.get("b1_nige_pct"),
@@ -4367,6 +4636,7 @@ def main():
     pre_exhibition_calibration = read_pre_exhibition_calibration(pre_exhibition_calibration_path)
     df = daily_features(args.today_db, args.date, matchup_profiles=matchup_profiles)
     df = add_trifecta_odds_features(df, args.trifecta_odds_db, args.date)
+    df = add_recent_race_aggregation_features(df, args.today_db, args.date)
     logic_df = pd.read_csv(args.logic_csv)
     logic_df = logic_df[logic_df["manshu_rate_pct"] >= args.threshold].copy()
     masks = atom_masks(df, top6, top10)

@@ -1170,6 +1170,11 @@ def popular_b1_popularity_context(row: dict[str, Any]) -> dict[str, Any]:
     top5_count = int(parse_float(metrics.get("trifecta_top5_count")) or 0)
     head1_count_raw = parse_float(metrics.get("trifecta_top5_head1_count"))
     head1_count = int(head1_count_raw) if head1_count_raw is not None else None
+    top10_count = int(parse_float(metrics.get("trifecta_top10_count")) or 0)
+    head1_top10_raw = parse_float(metrics.get("trifecta_top10_head1_count"))
+    head1_top10_count = int(head1_top10_raw) if head1_top10_raw is not None else None
+    b1_first_rank_raw = parse_float(metrics.get("b1_trifecta_first_rank"))
+    b1_first_rank = int(b1_first_rank_raw) if b1_first_rank_raw is not None else None
     if head1_count is None and boolish(metrics.get("b1_trifecta_top5_1head")):
         head1_count = 5
     if top5_count >= 5 and head1_count is not None:
@@ -1179,11 +1184,34 @@ def popular_b1_popularity_context(row: dict[str, Any]) -> dict[str, Any]:
             level = "かなり人気"
         elif head1_count == 3:
             level = "普通に人気"
+        elif top10_count >= 10 and head1_top10_count is not None and head1_top10_count >= 4:
+            level = "普通に人気"
         else:
             level = "人気不足"
         return {
             "level": level,
-            "source": "三連単人気上位5点",
+            "source": "三連単人気上位5点+頭別分布",
+            "is_backed": level in B1_POPULARITY_BUY_LEVELS,
+        }
+    if top10_count >= 10 and head1_top10_count is not None:
+        if head1_top10_count >= 7:
+            level = "売れすぎ"
+        elif head1_top10_count >= 5:
+            level = "かなり人気"
+        elif head1_top10_count >= 3:
+            level = "普通に人気"
+        else:
+            level = "人気不足"
+        return {
+            "level": level,
+            "source": "三連単人気上位10点",
+            "is_backed": level in B1_POPULARITY_BUY_LEVELS,
+        }
+    if b1_first_rank is not None:
+        level = "普通に人気" if b1_first_rank <= 3 else "人気不足"
+        return {
+            "level": level,
+            "source": "三連単1号艇頭の初出順位",
             "is_backed": level in B1_POPULARITY_BUY_LEVELS,
         }
     b1_odds_rank = parse_float(metrics.get("boat1_odds_rank"))
@@ -1211,7 +1239,11 @@ def popular_b1_publicly_backed(row: dict[str, Any]) -> bool:
 
 def popular_b1_top5_dominant(row: dict[str, Any]) -> bool:
     metrics = metrics_map(row)
-    return boolish(metrics.get("b1_trifecta_top5_1head")) or (parse_float(metrics.get("trifecta_top5_head1_count")) or 0.0) >= 5.0
+    return (
+        boolish(metrics.get("b1_trifecta_top5_1head"))
+        or (parse_float(metrics.get("trifecta_top5_head1_count")) or 0.0) >= 5.0
+        or (parse_float(metrics.get("trifecta_top10_head1_count")) or 0.0) >= 7.0
+    )
 
 
 def popular_b1_overbet_danger(row: dict[str, Any]) -> bool:
