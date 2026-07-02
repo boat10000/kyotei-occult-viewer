@@ -84,6 +84,7 @@
     </nav>
     <section class="status" id="status"><strong>運用データを読み込み中</strong></section>
     <section class="panel" id="overview"></section>
+    <section class="panel" id="actionPlan"></section>
     <section class="panel" id="latest"></section>
     <section class="panel" id="postLog"></section>
     <section class="panel" id="coreBuy"></section>
@@ -136,6 +137,30 @@
       return `<h2>${esc(title)}</h2><p class="lead">${esc(lead||"")}</p><table><thead><tr><th>条件</th><th>中身</th><th class="num">対象</th><th class="num">頭2艇捕捉</th><th class="num">万舟率</th><th class="num">5000円以上</th><th class="num">5/6絡み</th><th class="num">1号艇1着外</th><th class="num">中央配当</th><th>判定</th></tr></thead><tbody>`+
         rows.map(r=>`<tr><td><b>${esc(r.pattern_name)}</b><br><span class="mini">${esc(r.segment)}</span></td><td>${r.usable_before_race?'<span class="badge core">買う前に使える</span>':'<span class="badge wait">結果確認用</span>'}<br><span class="mini">${esc(r.logic)}</span></td><td class="num">${r.races}</td><td class="num ${Number(r.head_capture_rate_pct)>=60?'good':'warn'}">${pct(r.head_capture_rate_pct)}</td><td class="num hot">${pct(r.manshu_rate_pct)}</td><td class="num">${pct(r.high_payout_rate_pct)}</td><td class="num">${pct(r.result_has_56_rate_pct)}</td><td class="num">${pct(r.b1_not_win_rate_pct)}</td><td class="num">${yen(r.median_payout_yen)}</td><td>${esc(r.verdict)}</td></tr>`).join("")+
         `</tbody></table>`;
+    }
+    function actionReason(r){
+      if(Number(r.points||0)>0){
+        return `${r.buy_label||"買い候補"} / ${r.points}点 / ${r.reason||""}`;
+      }
+      if(Number(r.tenji_boats||0)<6||Number(r.isshu_boats||0)<6){
+        return "展示・1周・AI/オッズがまだ揃っていないので監視継続";
+      }
+      return r.reason||r.odds_gap_label||"本命条件までは届いていない";
+    }
+    function actionRow(r,kind){
+      const result=r.result?`結果 ${r.result} ${yen(r.payout_yen)}`:"結果待ち";
+      const tickets=(r.tickets||[]).join(" / ");
+      return `<tr><td><span class="badge ${kind==='買い候補'?'core':kind==='監視継続'?'semi':'wait'}">${esc(kind)}</span></td><td><b>${esc(r.race)}</b><br><span class="mini">${esc(r.deadline)}締切 / ${esc(result)}</span></td><td class="num hot">${pct(r.rate)}</td><td>${esc(r.head_candidates||"--")}</td><td>${esc(r.axis_candidates||"--")}</td><td>${esc(r.keshi||"--")}</td><td>${esc(actionReason(r))}${tickets?`<br><span class="mini">${esc(tickets)}</span>`:""}</td></tr>`;
+    }
+    function actionPlanSection(data){
+      const log=data.post_exhibition_log||{};
+      const rows=log.races||[];
+      const buy=rows.filter(r=>!r.result&&Number(r.points||0)>0).sort((a,b)=>Number(b.rate||0)-Number(a.rate||0));
+      const watch=rows.filter(r=>!r.result&&Number(r.points||0)===0).filter(r=>Number(r.rate||0)>=38||Number(r.rank||99)<=10).slice(0,8);
+      const done=rows.filter(r=>r.result).slice(0,8);
+      const topCards=`<div class="cards"><div class="card"><b>${buy.length}</b><span>買い候補</span></div><div class="card"><b>${watch.length}</b><span>監視継続</span></div><div class="card"><b>${done.length}</b><span>結果確認済み</span></div><div class="card"><b>${esc(log.date||"--")}</b><span>対象日</span></div></div>`;
+      const table=(title,kind,items)=>items.length?`<details ${kind==='買い候補'?'open':''}><summary>${esc(title)} ${items.length}R</summary><table><thead><tr><th>区分</th><th>レース</th><th class="num">万舟率</th><th>頭</th><th>軸</th><th>消し</th><th>判断理由・買い目</th></tr></thead><tbody>${items.map(r=>actionRow(r,kind)).join("")}</tbody></table></details>`:`<details><summary>${esc(title)} 0R</summary><p class="lead">該当レースはありません。</p></details>`;
+      return `<h2>本日の行動リスト</h2><p class="lead">コンセプト通り、荒れる下地を展示・AI・オッズで確認し、買えるものだけ上に出します。</p>${topCards}${table("買い候補", "買い候補", buy)}${table("監視継続", "監視継続", watch)}${table("結果確認済み", "結果確認済み", done)}`;
     }
     function coreBuyTable(rows,title,lead){
       if(!rows||!rows.length)return `<h2>${esc(title)}</h2><p class="lead">本命買いの成績がまだありません。</p>`;
@@ -246,6 +271,7 @@
       const core=(data.segments||[]).find(r=>r.segment==="本命40%以上")||{};
       const buy=(data.segments||[]).find(r=>r.segment==="買い目あり")||{};
       document.getElementById("overview").innerHTML=`<h2>運用サマリー</h2><div class="cards"><div class="card"><b>${main.settled_races??0}</b><span>確定レース</span></div><div class="card"><b>${pct(main.manshu_rate_pct)}</b><span>全体万舟率</span></div><div class="card"><b>${pct(core.manshu_rate_pct)}</b><span>本命40%以上 万舟率</span></div><div class="card"><b>${pct(buy.roi_pct)}</b><span>買い目あり回収率</span></div></div>`;
+      document.getElementById("actionPlan").innerHTML=actionPlanSection(data);
       document.getElementById("latest").innerHTML=latest(data);
       document.getElementById("postLog").innerHTML=postLogSection(data);
       document.getElementById("coreBuy").innerHTML=coreBuySection(data);
