@@ -150,7 +150,8 @@
     function actionRow(r,kind){
       const result=r.result?`結果 ${r.result} ${yen(r.payout_yen)}`:"結果待ち";
       const tickets=(r.tickets||[]).join(" / ");
-      return `<tr><td><span class="badge ${kind==='買い候補'?'core':kind==='監視継続'?'semi':'wait'}">${esc(kind)}</span></td><td><b>${esc(r.race)}</b><br><span class="mini">${esc(r.deadline)}締切 / ${esc(result)}</span></td><td class="num hot">${pct(r.rate)}</td><td>${esc(r.head_candidates||"--")}</td><td>${esc(r.axis_candidates||"--")}</td><td>${esc(r.keshi||"--")}</td><td>${esc(actionReason(r))}${tickets?`<br><span class="mini">${esc(tickets)}</span>`:""}</td></tr>`;
+      const oddsReasons=(r.odds_gap_reasons||[]).join(" / ");
+      return `<tr><td><span class="badge ${kind==='買い候補'?'core':kind==='監視継続'?'semi':'wait'}">${esc(kind)}</span></td><td><b>${esc(r.race)}</b><br><span class="mini">${esc(r.deadline)}締切 / ${esc(result)}</span></td><td class="num hot">${pct(r.rate)}</td><td>${esc(r.head_candidates||"--")}</td><td>${esc(r.axis_candidates||"--")}</td><td>${esc(r.keshi||"--")}</td><td><b>${esc(r.odds_gap_label||"--")}</b><br><span class="mini">${esc(oddsReasons||"--")}</span></td><td>${esc(actionReason(r))}${tickets?`<br><span class="mini">${esc(tickets)}</span>`:""}</td></tr>`;
     }
     function actionPlanSection(data){
       const log=data.post_exhibition_log||{};
@@ -159,7 +160,7 @@
       const watch=rows.filter(r=>!r.result&&Number(r.points||0)===0).filter(r=>Number(r.rate||0)>=38||Number(r.rank||99)<=10).slice(0,8);
       const done=rows.filter(r=>r.result).slice(0,8);
       const topCards=`<div class="cards"><div class="card"><b>${buy.length}</b><span>買い候補</span></div><div class="card"><b>${watch.length}</b><span>監視継続</span></div><div class="card"><b>${done.length}</b><span>結果確認済み</span></div><div class="card"><b>${esc(log.date||"--")}</b><span>対象日</span></div></div>`;
-      const table=(title,kind,items)=>items.length?`<details ${kind==='買い候補'?'open':''}><summary>${esc(title)} ${items.length}R</summary><table><thead><tr><th>区分</th><th>レース</th><th class="num">万舟率</th><th>頭</th><th>軸</th><th>消し</th><th>判断理由・買い目</th></tr></thead><tbody>${items.map(r=>actionRow(r,kind)).join("")}</tbody></table></details>`:`<details><summary>${esc(title)} 0R</summary><p class="lead">該当レースはありません。</p></details>`;
+      const table=(title,kind,items)=>items.length?`<details ${kind==='買い候補'?'open':''}><summary>${esc(title)} ${items.length}R</summary><table><thead><tr><th>区分</th><th>レース</th><th class="num">万舟率</th><th>頭</th><th>軸</th><th>消し</th><th>1号艇人気×危険</th><th>判断理由・買い目</th></tr></thead><tbody>${items.map(r=>actionRow(r,kind)).join("")}</tbody></table></details>`:`<details><summary>${esc(title)} 0R</summary><p class="lead">該当レースはありません。</p></details>`;
       return `<h2>本日の行動リスト</h2><p class="lead">コンセプト通り、荒れる下地を展示・AI・オッズで確認し、買えるものだけ上に出します。</p>${topCards}${table("買い候補", "買い候補", buy)}${table("監視継続", "監視継続", watch)}${table("結果確認済み", "結果確認済み", done)}`;
     }
     function coreBuyTable(rows,title,lead){
