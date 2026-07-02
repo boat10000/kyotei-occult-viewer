@@ -30,7 +30,12 @@ STRATEGY_LABELS = {
     "codex_post_subcore_rate38_conditions": "準本命: 38〜39.9%+1危険+外頭2艇+内軸残り 12点",
 }
 ALERT_RE = re.compile(r"boaters_manshu_alerts_(\d{8})\.json$")
-RANKING_RE = re.compile(r"boaters_manshu_ranking_(\d{8})\.json$")
+DATE_RE = re.compile(r"(\d{8})")
+RANKING_GLOBS = (
+    "boaters_manshu_ranking_*.json",
+    "boaters_manshu_live_ranking_*.json",
+    "boaters_manshu_morning_ranking_*.json",
+)
 
 
 def iso_now() -> str:
@@ -73,6 +78,21 @@ def load_json(path: Path) -> dict[str, Any]:
 def compact_key(path: Path, pattern: re.Pattern[str]) -> str | None:
     match = pattern.match(path.name)
     return match.group(1) if match else None
+
+
+def date_key_from_path(path: Path) -> str | None:
+    match = DATE_RE.search(path.name)
+    return match.group(1) if match else None
+
+
+def ranking_paths() -> list[Path]:
+    paths: dict[Path, None] = {}
+    for pattern in RANKING_GLOBS:
+        for path in sorted(OUTPUT_DIR.glob(pattern)):
+            if path.name.startswith("boaters_manshu_ranking_codex_"):
+                continue
+            paths[path] = None
+    return sorted(paths)
 
 
 def in_range(key: str, start_date: str | None, end_date: str | None) -> bool:
@@ -157,10 +177,8 @@ def tickets_from_item(item: dict[str, Any], strategy_id: str | None = None) -> l
 
 def result_index(start_date: str | None, end_date: str | None) -> dict[str, dict[str, Any]]:
     out: dict[str, dict[str, Any]] = {}
-    for path in sorted(OUTPUT_DIR.glob("boaters_manshu_ranking_*.json")):
-        if path.name.startswith("boaters_manshu_ranking_codex_"):
-            continue
-        key = compact_key(path, RANKING_RE)
+    for path in ranking_paths():
+        key = date_key_from_path(path)
         if not key or not in_range(key, start_date, end_date):
             continue
         payload = load_json(path)
@@ -229,10 +247,8 @@ def collect_candidates(start_date: str | None, end_date: str | None) -> dict[str
         date_text = payload.get("date") or date_from_key(key)
         for alert in payload.get("alerts") or []:
             add_candidate(candidates, alert, "alert", date_text)
-    for path in sorted(OUTPUT_DIR.glob("boaters_manshu_ranking_*.json")):
-        if path.name.startswith("boaters_manshu_ranking_codex_"):
-            continue
-        key = compact_key(path, RANKING_RE)
+    for path in ranking_paths():
+        key = date_key_from_path(path)
         if not key or not in_range(key, start_date, end_date):
             continue
         payload = load_json(path)
