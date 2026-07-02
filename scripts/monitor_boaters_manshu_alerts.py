@@ -58,6 +58,7 @@ VALIDATED_BUY_STRATEGY_IDS = {
     "codex_post_core_front_head2_no1_outer56",
     "codex_odds_gap_b1_fade_strong12",
     "codex_odds_gap_b1_fade_filtered12",
+    "codex_b1_underbet_head8",
 }
 SUBCORE_WATCH_STRATEGY_IDS: set[str] = set()
 
@@ -2058,6 +2059,83 @@ def core_40_focus_head2_no1_outer56(rows):
     return tickets, focused
 
 
+def b1_underbet_head8(rows):
+    """1号艇が売れていないのにデータが強い時だけ、1号艇頭で絞る。"""
+    metrics = rows[0].get("_morning_metrics") or {}
+    head_ok, head_reason = b1_unpopular_head_value(rows, metrics)
+    if not head_ok:
+        return set(), None
+
+    head = 1
+    axes, axis_rule = axis_boats_for_roles(rows, ranks=(1, 3))
+    axes = [axis for axis in axes if axis != head]
+    if len(axes) < 2:
+        fallback_axes, fallback_rule = axis_boats_for_roles(rows, ranks=(2, 3))
+        axes = unique(axes + [axis for axis in fallback_axes if axis != head])[:2]
+        axis_rule = f"{axis_rule}（1号艇頭と重なる時は{fallback_rule}で補完）"
+    if len(axes) < 2:
+        axes = unique(
+            axes
+            + [
+                row["boat_number"]
+                for row in sorted(
+                    rows,
+                    key=lambda row: (
+                        -(row.get("composite_top3_actual_pct") or 0),
+                        row["boat_number"],
+                    ),
+                )
+                if row["boat_number"] != head
+            ]
+        )[:2]
+        axis_rule = f"{axis_rule}（不足分は複合3着内率上位で補完）"
+    if len(axes) < 2:
+        return set(), None
+
+    keshi, keshi_reason, ai_plus_rank6_boat, ai_plus_rank6_revival = select_keshi_boat(
+        rows, protected=set([head] + axes)
+    )
+    if keshi is None:
+        return set(), None
+
+    pool = [boat for boat in range(1, 7) if boat not in {head, keshi}]
+    tickets = set()
+    for axis in axes:
+        if axis in {head, keshi}:
+            continue
+        for other in pool:
+            if other == axis:
+                continue
+            tickets.add(f"{head}{axis}{other}")
+            tickets.add(f"{head}{other}{axis}")
+    if not tickets:
+        return set(), None
+
+    tickets = trim_tickets(tickets, [head], axes, max_points=8)
+    if len(tickets) < 6:
+        return set(), None
+
+    return tickets, {
+        "heads": [head],
+        "head_rule": "1号艇が人気不足なのに、AI・逃げ率・展示/1周などのデータでは頭で買える時だけ1号艇頭を採用",
+        "head_mode": "b1_underbet_head_value",
+        "head_scores": head_score_details(rows, [head]),
+        "axes": axes,
+        "axis_rule": axis_rule,
+        "alt_axes": [],
+        "alt_axis_rule": "人気薄1号艇頭専用: 軸は1号艇以外から選ぶ",
+        "supports": pool,
+        "keshi": keshi,
+        "keshi_reason": keshi_reason,
+        "ai_plus_rank6_boat": ai_plus_rank6_boat,
+        "ai_plus_rank6_revival": ai_plus_rank6_revival,
+        "role_note": (
+            f"逆歪み本命。{head_reason}ため、1号艇頭を固定。"
+            f"軸は{axis_rule}の{axes[0]},{axes[1]}。消し{keshi}以外へ2・3着折り返し{len(tickets)}点"
+        ),
+    }
+
+
 def odds_gap_b1_fade_strong12(rows):
     metrics = rows[0].get("_morning_metrics") or {}
     if not b1_odds_gap_strong(metrics):
@@ -3735,6 +3813,24 @@ def roi_strategies(race, metrics, rows):
     metrics["b1_unpopular_head_value"] = bool(b1_head_value)
     if b1_head_value_reason:
         metrics["b1_unpopular_head_value_reason"] = b1_head_value_reason
+    if full_exhibition and post_rate >= CORE_ALERT_RATE and b1_head_value:
+        strategies.append(
+            (
+                "codex_b1_underbet_head8",
+                "Codex逆歪み本命: 人気薄1号艇データ強 1頭最大8点",
+                b1_underbet_head8,
+                {
+                    "tier": "core_b1_underbet",
+                    "entry_checks": [
+                        f"展示後40%以上:OK({post_rate:.2f}%)",
+                        f"1号艇人気レベル: {b1_popularity_level}",
+                        f"1号艇データ強:OK({b1_head_value_reason})",
+                        "1号艇頭で配当妙味を狙う",
+                    ],
+                    "odds_filter": "1号艇が売れていない時だけ。1号艇頭でも低配当なら買わない",
+                },
+            )
+        )
     if full_exhibition and post_rate >= CORE_ALERT_RATE and b1_odds_gap_strong(metrics):
         strategies.append(
             (
@@ -3807,7 +3903,7 @@ def roi_strategies(race, metrics, rows):
                     },
                 )
             )
-        else:
+        elif not b1_head_value:
             metrics["core_front_no1_odds_blocked"] = True
             metrics["core_front_no1_odds_block_reason"] = (
                 f"1号艇が{b1_popularity_level}なので、1号艇を飛ばしても配当が伸びにくい。"
