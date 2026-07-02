@@ -817,7 +817,7 @@
           "低評価外枠の展示復活"
         ],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -897,7 +897,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:OK",
@@ -927,12 +927,12 @@
       "morning_manshu_rate_pct": 34.28,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 20,
+      "last_minute_live_rank": 21,
       "last_minute_candidate_strategy_ids": []
     },
     {
       "rank": 2,
-      "status": "厳選統合",
+      "status": "厳選統合・展示込み",
       "date": "2026-07-02",
       "race_id": "2026-07-022002",
       "place_id": 20,
@@ -1784,7 +1784,7 @@
         "ai_plus_rank6_boat": 2,
         "ai_plus_rank6_revival": [],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "popular_b1_popularity_level": "人気不足",
@@ -1861,12 +1861,12 @@
           "6-5-4"
         ],
         "role_note": "頭6,5 / 軸はAI3連対率+一般3連対率の1位と3位の6,4 / 2・3着は軸どちらか必須で消し2以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": true,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差0以下:OK",
@@ -5442,7 +5442,7 @@
           "展示か1周が2位以内"
         ],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -5523,7 +5523,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:NG",
@@ -6371,7 +6371,7 @@
           "展示か1周が2位以内"
         ],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -6452,7 +6452,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形外圧:OK",
@@ -6482,7 +6482,7 @@
       "morning_manshu_rate_pct": 35.98,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 14,
+      "last_minute_live_rank": 15,
       "last_minute_candidate_strategy_ids": []
     },
     {
@@ -7192,13 +7192,15 @@
       "buy_decision": "展示待ち",
       "final_decision_checks": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-4-2",
+        "payout_yen": 920,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 3,
+        "source": "official_boatrace_result_page"
       }
     },
     {
@@ -8049,7 +8051,7 @@
         "popular_b1_popularity_level": "人気不足",
         "popular_b1_popularity_source": "BOATERS AIオッズ評価",
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -8129,7 +8131,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:OK",
@@ -8159,7 +8161,7 @@
       "morning_manshu_rate_pct": 30.74,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 41,
+      "last_minute_live_rank": 42,
       "last_minute_candidate_strategy_ids": []
     },
     {
@@ -9121,7 +9123,7 @@
         "popular_b1_popularity_level": "かなり人気",
         "popular_b1_popularity_source": "BOATERS AIオッズ評価",
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -9203,7 +9205,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "夏場6〜8月:OK",
@@ -10036,7 +10038,7 @@
           "低評価外枠の展示復活"
         ],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -10116,7 +10118,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:OK",
@@ -10146,12 +10148,12 @@
       "morning_manshu_rate_pct": 34.28,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 20,
+      "last_minute_live_rank": 21,
       "last_minute_candidate_strategy_ids": []
     },
     {
       "rank": 2,
-      "status": "厳選統合",
+      "status": "厳選統合・展示込み",
       "date": "2026-07-02",
       "race_id": "2026-07-022002",
       "place_id": 20,
@@ -11003,7 +11005,7 @@
         "ai_plus_rank6_boat": 2,
         "ai_plus_rank6_revival": [],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "popular_b1_popularity_level": "人気不足",
@@ -11080,12 +11082,12 @@
           "6-5-4"
         ],
         "role_note": "頭6,5 / 軸はAI3連対率+一般3連対率の1位と3位の6,4 / 2・3着は軸どちらか必須で消し2以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": true,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差0以下:OK",
@@ -14661,7 +14663,7 @@
           "展示か1周が2位以内"
         ],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -14742,7 +14744,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:NG",
@@ -15590,7 +15592,7 @@
           "展示か1周が2位以内"
         ],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -15671,7 +15673,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形外圧:OK",
@@ -15701,7 +15703,7 @@
       "morning_manshu_rate_pct": 35.98,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 14,
+      "last_minute_live_rank": 15,
       "last_minute_candidate_strategy_ids": []
     },
     {
@@ -16411,13 +16413,15 @@
       "buy_decision": "展示待ち",
       "final_decision_checks": [],
       "result": {
-        "trifecta": null,
-        "payout_yen": null,
+        "trifecta": "1-4-2",
+        "payout_yen": 920,
         "manshu": false,
         "win_method": null,
         "weather": null,
         "wind_speed": null,
-        "wave_height": null
+        "wave_height": null,
+        "popularity": 3,
+        "source": "official_boatrace_result_page"
       }
     },
     {
@@ -17268,7 +17272,7 @@
         "popular_b1_popularity_level": "人気不足",
         "popular_b1_popularity_source": "BOATERS AIオッズ評価",
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -17348,7 +17352,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:OK",
@@ -17378,7 +17382,7 @@
       "morning_manshu_rate_pct": 30.74,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 41,
+      "last_minute_live_rank": 42,
       "last_minute_candidate_strategy_ids": []
     },
     {
@@ -18340,7 +18344,7 @@
         "popular_b1_popularity_level": "かなり人気",
         "popular_b1_popularity_source": "BOATERS AIオッズ評価",
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -18422,7 +18426,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "夏場6〜8月:OK",
@@ -19258,7 +19262,7 @@
         "popular_b1_popularity_level": "人気不足",
         "popular_b1_popularity_source": "BOATERS AIオッズ評価",
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -19338,7 +19342,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:OK",
@@ -19398,7 +19402,7 @@
       "morning_manshu_rate_pct": 33.53,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 24,
+      "last_minute_live_rank": 27,
       "last_minute_candidate_strategy_ids": []
     },
     {
@@ -20222,7 +20226,7 @@
           "低評価外枠の展示復活"
         ],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -20302,7 +20306,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スーパースリットあり:OK",
@@ -20363,7 +20367,7 @@
       "morning_manshu_rate_pct": 33.85,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 23,
+      "last_minute_live_rank": 26,
       "last_minute_candidate_strategy_ids": [
         "codex_post_core_ab_rank3",
         "codex_matchup_outer_good12"
@@ -21201,7 +21205,7 @@
           "低評価外枠の展示復活"
         ],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -21281,7 +21285,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:OK",
@@ -21341,7 +21345,7 @@
       "morning_manshu_rate_pct": 34.28,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 20,
+      "last_minute_live_rank": 21,
       "last_minute_candidate_strategy_ids": []
     },
     {
@@ -22075,7 +22079,7 @@
         "popular_b1_popularity_level": "かなり人気",
         "popular_b1_popularity_source": "BOATERS AIオッズ評価",
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -22157,7 +22161,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "夏場6〜8月:OK",
@@ -23005,7 +23009,7 @@
           "展示か1周が2位以内"
         ],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -23086,7 +23090,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形外圧:OK",
@@ -23146,7 +23150,7 @@
       "morning_manshu_rate_pct": 35.98,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 14,
+      "last_minute_live_rank": 15,
       "last_minute_candidate_strategy_ids": []
     },
     {
@@ -23892,7 +23896,7 @@
           "展示か1周が2位以内"
         ],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -23973,7 +23977,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:NG",
@@ -24791,7 +24795,7 @@
         "ai_plus_rank6_boat": 4,
         "ai_plus_rank6_revival": [],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -24869,7 +24873,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "低評価外枠が5/6号艇:OK",
@@ -25691,7 +25695,7 @@
           "展示か1周が2位以内"
         ],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -25772,7 +25776,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形外圧:OK",
@@ -25832,7 +25836,7 @@
       "morning_manshu_rate_pct": 31.84,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 36,
+      "last_minute_live_rank": 38,
       "last_minute_candidate_strategy_ids": [
         "codex_matchup_outer_good12"
       ]
@@ -26587,7 +26591,7 @@
         "ai_plus_rank6_boat": 2,
         "ai_plus_rank6_revival": [],
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "popular_b1_popularity_level": "人気不足",
@@ -26664,12 +26668,12 @@
           "6-5-4"
         ],
         "role_note": "頭6,5 / 軸はAI3連対率+一般3連対率の1位と3位の6,4 / 2・3着は軸どちらか必須で消し2以外へ折り返し",
-        "axis_hit": null,
-        "alt_axis_hit": null,
+        "axis_hit": true,
+        "alt_axis_hit": true,
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "1号艇 展示+一周平均との差0以下:OK",
@@ -27513,7 +27517,7 @@
         "popular_b1_popularity_level": "人気不足",
         "popular_b1_popularity_source": "BOATERS AIオッズ評価",
         "preview_fetch_attempted": true,
-        "preview_fetch_attempted_at": "2026-07-02T18:39:54+09:00",
+        "preview_fetch_attempted_at": "2026-07-02T20:55:52+09:00",
         "preview_fetch_reason": "after_close_backfill",
         "preview_missing_reason": "",
         "b1_unpopular_head_value": false
@@ -27593,7 +27597,7 @@
         "odds_filter": "3連単50倍未満は買わない",
         "source_strategy_ids": []
       },
-      "last_minute_checked_at": "2026-07-02T18:39:54+09:00",
+      "last_minute_checked_at": "2026-07-02T20:55:52+09:00",
       "last_minute_alert_type": null,
       "last_minute_checks": [
         "スリット隊形あり:OK",
@@ -27653,13 +27657,13 @@
       "morning_manshu_rate_pct": 30.74,
       "last_minute_rate_source": "post_exhibition_live_ranking",
       "last_minute_source_type": "morning_top",
-      "last_minute_live_rank": 41,
+      "last_minute_live_rank": 42,
       "last_minute_candidate_strategy_ids": []
     }
   ],
   "snapshot_type": "morning_fixed",
   "snapshot_created_at": "2026-07-02T09:03:40+09:00",
   "snapshot_source": "/private/tmp/kyotei-mm1601-reflect/data/output/boaters_manshu_ranking_20260702.json",
-  "last_minute_updated_at": "2026-07-02T18:39:54+09:00",
-  "official_result_backfilled_at": "2026-07-02T09:41:29+0000"
+  "last_minute_updated_at": "2026-07-02T20:55:52+09:00",
+  "official_result_backfilled_at": "2026-07-02T11:57:18+0000"
 }
