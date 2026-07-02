@@ -2076,6 +2076,119 @@ def finish_head_score_details(rows, heads):
     return details
 
 
+def odds_gap_head_candidate_score(row):
+    """Score heads for 1号艇人気なのに危険な歪み本命."""
+    boat = row["boat_number"]
+    metrics = row.get("_morning_metrics") or {}
+    base = as_num(row.get("composite_win_pct"))
+    if base is None:
+        base = as_num(row.get("ai_prediction_pct"))
+    if base is None:
+        base = 0.0
+    score = float(base)
+    reasons = [f"複合1着率{score:.1f}%"]
+
+    ai_pred = as_num(row.get("ai_prediction_pct")) or 0.0
+    # In this segment, historical checks favored composite win rate as the
+    # main sorter. AI/display only break close calls so we do not over-steer
+    # away from the strongest signal.
+    if ai_pred >= 12:
+        score += 0.18
+        reasons.append(f"AI1着率{ai_pred:.1f}%")
+    elif ai_pred >= 8:
+        score += 0.10
+        reasons.append(f"AI1着率{ai_pred:.1f}%")
+    elif ai_pred < 3:
+        score -= 0.10
+        reasons.append(f"AI1着率{ai_pred:.1f}%で頭薄い")
+
+    exhibit_rank = valid_boat_rank(row.get("exhibit_rank") or row.get("tenji_rank") or row.get("tenji_time_rank"))
+    isshu_rank = valid_boat_rank(row.get("isshu_rank"))
+    mawari_rank = valid_boat_rank(row.get("mawariashi_rank"))
+    for label, rank in (("展示", exhibit_rank), ("1周", isshu_rank), ("回り足", mawari_rank)):
+        if rank is None:
+            continue
+        if rank <= 2:
+            score += 0.10
+            reasons.append(f"{label}{int(rank)}位")
+        elif rank >= 5:
+            score -= 0.08
+            reasons.append(f"{label}{int(rank)}位")
+
+    avg_diff = as_num(row.get("avg_isshu_diff"))
+    if avg_diff is not None:
+        if avg_diff >= 0.10:
+            score += 0.10
+            reasons.append(f"展示+1周平均との差+{avg_diff:.2f}")
+        elif avg_diff <= -0.10:
+            score -= 0.10
+            reasons.append(f"展示+1周平均との差{avg_diff:.2f}")
+
+    ai_plus_rank = valid_boat_rank(row.get("ai_plus_rank"))
+    if ai_plus_rank is not None:
+        if ai_plus_rank <= 3:
+            score += 0.08
+            reasons.append(f"AI+{int(ai_plus_rank)}位")
+        elif ai_plus_rank >= 5:
+            score -= 0.06
+            reasons.append(f"AI+{int(ai_plus_rank)}位")
+
+    first_rank = as_num(metrics.get(f"b{boat}_trifecta_first_rank"))
+    top10_head_count = as_num(metrics.get(f"b{boat}_trifecta_top10_head_count")) or 0
+    if first_rank is not None:
+        if first_rank <= 5:
+            score += 0.06
+            reasons.append(f"三連単頭初出{int(first_rank)}位")
+        elif first_rank >= 30 and ai_pred < 5:
+            score -= 0.06
+            reasons.append(f"三連単頭初出{int(first_rank)}位")
+    elif top10_head_count >= 2:
+        score += 0.04
+        reasons.append(f"上位10点に頭{int(top10_head_count)}点")
+
+    recent_win = as_num(row.get("recent10_win_pct") or metrics.get(f"b{boat}_recent10_win_pct"))
+    recent_top3 = as_num(row.get("recent10_top3_pct") or metrics.get(f"b{boat}_recent10_top3_pct"))
+    if recent_win is not None and recent_win >= 15:
+        score += 0.06
+        reasons.append(f"直近10走枠1着{recent_win:.0f}%")
+    if recent_top3 is not None and recent_top3 >= 60:
+        score += 0.04
+        reasons.append(f"直近10走枠3連対{recent_top3:.0f}%")
+
+    if row.get("double_time"):
+        score += 0.06
+        reasons.append("ダブルタイム")
+    if row.get("super_slit_alert"):
+        score += 0.06
+        reasons.append("スーパースリット")
+
+    return round(score, 3), reasons[:6]
+
+
+def odds_gap_head_candidates(rows, exclude=None, count=2):
+    exclude = set(exclude or [])
+    scored = []
+    for row in rows:
+        boat = row["boat_number"]
+        if boat in exclude:
+            continue
+        score, reasons = odds_gap_head_candidate_score(row)
+        scored.append((score, boat, reasons))
+    scored.sort(key=lambda item: (-item[0], item[1]))
+    return [boat for _score, boat, _reasons in scored[:count]]
+
+
+def odds_gap_head_score_details(rows, heads):
+    details = {}
+    for row in rows:
+        boat = row["boat_number"]
+        if boat not in set(heads):
+            continue
+        score, reasons = odds_gap_head_candidate_score(row)
+        details[str(boat)] = {"score": score, "reasons": reasons}
+    return details
+
+
 def inner_head_exception(row, outer_cut_score):
     boat = row["boat_number"]
     metrics = row.get("_morning_metrics") or {}
@@ -2459,7 +2572,7 @@ def odds_gap_b1_fade_strong12(rows):
         return set(), None
     popularity_level = b1_popularity_context(metrics).get("level") or "人気あり"
     role_split = role_split_details(rows, exclude={1})
-    heads = role_split["finishers"][:2]
+    heads = odds_gap_head_candidates(rows, exclude={1}, count=2)
     axes, axis_rule = axis_boats_for_roles(rows, ranks=(1, 3))
     if len(heads) < 2 or len(axes) < 2:
         return set(), None
@@ -2490,9 +2603,9 @@ def odds_gap_b1_fade_strong12(rows):
     b1_isshu_rank = valid_boat_rank(metrics.get("boat1_isshu_rank"))
     return tickets, {
         "heads": heads,
-        "head_rule": f"1号艇が{popularity_level}で危険。頭は攻め艇ではなく、2〜6号艇の取り切りスコア上位2艇を選ぶ",
+        "head_rule": f"1号艇が{popularity_level}で危険。頭は2〜6号艇の複合1着率を軸に、展示・1周・AI頭材料で補正した上位2艇",
         "head_mode": "odds_gap_b1_fade_strong",
-        "head_scores": finish_head_score_details(rows, heads),
+        "head_scores": odds_gap_head_score_details(rows, heads),
         "attackers": role_split.get("attackers") or [],
         "attack_scores": role_split.get("attack_scores") or {},
         "finishers": role_split.get("finishers") or [],
@@ -2512,7 +2625,7 @@ def odds_gap_b1_fade_strong12(rows):
         "role_note": (
             f"歪み強本命。1号艇は{popularity_level}+危険+展示{b1_tenji_rank:.0f}位/1周{b1_isshu_rank:.0f}位。"
             f"攻め艇{','.join(map(str, role_split.get('attackers') or []))}とは分け、"
-            f"頭は取り切りスコアの{heads[0]},{heads[1]}。"
+            f"頭は複合1着率+展示/AI頭補正の{heads[0]},{heads[1]}。"
             f"軸は{axis_rule}の{axes[0]},{axes[1]} / 1号艇頭は買わない12点"
         ),
     }
@@ -2524,7 +2637,7 @@ def odds_gap_b1_fade_filtered12(rows):
         return set(), None
     popularity_level = b1_popularity_context(metrics).get("level") or "人気あり"
     role_split = role_split_details(rows, exclude={1})
-    heads = role_split["finishers"][:2]
+    heads = odds_gap_head_candidates(rows, exclude={1}, count=2)
     axes, axis_rule = axis_boats_for_roles(rows, ranks=(1, 3))
     if len(heads) < 2 or len(axes) < 2:
         return set(), None
@@ -2563,9 +2676,9 @@ def odds_gap_b1_fade_filtered12(rows):
         rank_bits.append(f"平均との差{b1_avg_diff:+.2f}")
     return tickets, {
         "heads": heads,
-        "head_rule": f"1号艇が{popularity_level}で危険。頭は攻め艇ではなく、2〜6号艇の取り切りスコア上位2艇を選ぶ",
+        "head_rule": f"1号艇が{popularity_level}で危険。頭は2〜6号艇の複合1着率を軸に、展示・1周・AI頭材料で補正した上位2艇",
         "head_mode": "odds_gap_b1_fade_filtered",
-        "head_scores": finish_head_score_details(rows, heads),
+        "head_scores": odds_gap_head_score_details(rows, heads),
         "attackers": role_split.get("attackers") or [],
         "attack_scores": role_split.get("attack_scores") or {},
         "finishers": role_split.get("finishers") or [],
@@ -2586,7 +2699,7 @@ def odds_gap_b1_fade_filtered12(rows):
             f"歪み本命。1号艇は{popularity_level}+危険+前半1〜6Rで"
             f"{'・'.join(rank_bits)}。"
             f"攻め艇{','.join(map(str, role_split.get('attackers') or []))}とは分け、"
-            f"頭は取り切りスコアの{heads[0]},{heads[1]}。"
+            f"頭は複合1着率+展示/AI頭補正の{heads[0]},{heads[1]}。"
             f"軸は{axis_rule}の{axes[0]},{axes[1]} / 1号艇頭は買わない12点"
         ),
     }
