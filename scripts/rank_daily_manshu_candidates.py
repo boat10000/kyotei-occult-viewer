@@ -1751,6 +1751,93 @@ def add_edge(signals, signal_id, label, historical_rate_pct, bonus_pct, role, de
     )
 
 
+B1_POPULARITY_BUY_LEVELS = {"普通に人気", "かなり人気", "売れすぎ"}
+
+
+def b1_popularity_context_from_values(
+    odds_pct=None,
+    odds_rank=None,
+    trifecta_top5_count=None,
+    trifecta_head1_count=None,
+    trifecta_head1_flag=None,
+):
+    """1号艇の売れ方を、買い妙味のある3段階と人気不足に分ける。"""
+
+    top5_count = int_num(trifecta_top5_count, default=0) or 0
+    head1_count = int_num(trifecta_head1_count, default=None)
+    if head1_count is None and int_num(trifecta_head1_flag, default=0) == 1:
+        head1_count = 5
+    if top5_count >= 5 and head1_count is not None:
+        if head1_count >= 5:
+            return {
+                "level": "売れすぎ",
+                "source": "三連単人気上位5点",
+                "head1_count": head1_count,
+                "top5_count": top5_count,
+                "is_backed": True,
+            }
+        if head1_count == 4:
+            return {
+                "level": "かなり人気",
+                "source": "三連単人気上位5点",
+                "head1_count": head1_count,
+                "top5_count": top5_count,
+                "is_backed": True,
+            }
+        if head1_count == 3:
+            return {
+                "level": "普通に人気",
+                "source": "三連単人気上位5点",
+                "head1_count": head1_count,
+                "top5_count": top5_count,
+                "is_backed": True,
+            }
+        return {
+            "level": "人気不足",
+            "source": "三連単人気上位5点",
+            "head1_count": head1_count,
+            "top5_count": top5_count,
+            "is_backed": False,
+        }
+
+    pct = num(odds_pct)
+    rank = int_num(odds_rank, default=None)
+    if pct is None:
+        level = "未取得"
+        is_backed = False
+    elif rank != 1 or pct < 40:
+        level = "人気不足"
+        is_backed = False
+    elif pct < 45:
+        level = "普通に人気"
+        is_backed = True
+    elif pct < 55:
+        level = "かなり人気"
+        is_backed = True
+    else:
+        level = "売れすぎ"
+        is_backed = True
+    return {
+        "level": level,
+        "source": "BOATERS AIオッズ評価" if pct is not None else "未取得",
+        "odds_prediction_pct": pct,
+        "odds_rank": rank,
+        "head1_count": head1_count,
+        "top5_count": top5_count,
+        "is_backed": is_backed,
+    }
+
+
+def b1_popularity_context(race):
+    return b1_popularity_context_from_values(
+        odds_pct=race.get("b1_odds_prediction_pct"),
+        odds_rank=race.get("b1_odds_rank"),
+        trifecta_top5_count=race.get("trifecta_top5_count"),
+        trifecta_head1_count=race.get("trifecta_top5_head1_count"),
+        trifecta_head1_flag=race.get("b1_trifecta_top5_1head"),
+    )
+
+
 def dominant_b1_hold_guard_signal(race):
     """Return a negative edge when the 1 boat is too dominant to overrate outside flashes."""
 
@@ -1832,13 +1919,11 @@ def composite_edge_signals(race):
     b1_ai_order = num(race.get("b1_ai_plus_order"))
     b1_odds_pct = num(race.get("b1_odds_prediction_pct"))
     b1_odds_rank = int_num(race.get("b1_odds_rank"), default=9)
-    has_trifecta_top5 = int_num(race.get("trifecta_top5_count"), default=0) == 5
-    b1_trifecta_top5_1head = int_num(race.get("b1_trifecta_top5_1head"), default=0) == 1
-    b1_odds_popular45 = b1_odds_pct is not None and b1_odds_rank == 1 and b1_odds_pct >= 45
-    b1_odds_popular40 = b1_odds_pct is not None and b1_odds_rank == 1 and b1_odds_pct >= 40
-    b1_popular = b1_trifecta_top5_1head or (not has_trifecta_top5 and b1_odds_popular45)
-    b1_popular40 = b1_trifecta_top5_1head or (not has_trifecta_top5 and b1_odds_popular40)
-    b1_unpopular = b1_odds_pct is not None and (b1_odds_rank != 1 or b1_odds_pct < 45)
+    popularity = b1_popularity_context(race)
+    b1_popularity_level = popularity["level"]
+    b1_popular = b1_popularity_level in {"かなり人気", "売れすぎ"}
+    b1_popular40 = b1_popularity_level in B1_POPULARITY_BUY_LEVELS
+    b1_unpopular = b1_popularity_level == "人気不足"
     dominant_b1_guard = dominant_b1_hold_guard_signal(race)
     outer_ai_pred = num(race.get("outer56_best_ai_prediction_pct"))
     outer_ai_plus = num(race.get("outer56_best_ai_plus"))
@@ -1901,6 +1986,21 @@ def composite_edge_signals(race):
     outer36_ai_pred_top1 = any(
         ai_pred_max is not None and ai_pred_values.get(boat) is not None and ai_pred_values[boat] == ai_pred_max
         for boat in (3, 4, 5, 6)
+    )
+    outer36_ai_pred_values = [ai_pred_values.get(boat) for boat in (3, 4, 5, 6) if ai_pred_values.get(boat) is not None]
+    outer36_best_ai_pred = max(outer36_ai_pred_values) if outer36_ai_pred_values else None
+    outer36_avg_values = [num(race.get(f"b{boat}_avg_isshu_diff")) for boat in (3, 4, 5, 6)]
+    outer36_avg_values = [value for value in outer36_avg_values if value is not None]
+    outer36_best_avg = max(outer36_avg_values) if outer36_avg_values else None
+    outer36_tenji_top2 = sum(
+        1
+        for boat in (3, 4, 5, 6)
+        if (tenji_rank_use(race, boat) is not None and tenji_rank_use(race, boat) <= 2)
+    )
+    outer36_isshu_top2 = sum(
+        1
+        for boat in (3, 4, 5, 6)
+        if (num(race.get(f"b{boat}_isshu_rank")) is not None and num(race.get(f"b{boat}_isshu_rank")) <= 2)
     )
     outer36_ai_plus_top1 = any(num(race.get(f"b{boat}_ai_plus_order")) == 1 for boat in (3, 4, 5, 6))
     slit_signal_ids = [
@@ -2124,13 +2224,161 @@ def composite_edge_signals(race):
         )
 
     popular_details = {
-        "b1_trifecta_top5_1head": int(b1_trifecta_top5_1head),
+        "b1_popularity_level": b1_popularity_level,
+        "b1_popularity_source": popularity.get("source"),
+        "b1_trifecta_top5_1head": int_num(race.get("b1_trifecta_top5_1head")),
         "trifecta_top5_head1_count": int_num(race.get("trifecta_top5_head1_count")),
         "trifecta_top5_combos": race.get("trifecta_top5_combos"),
         "b1_odds_prediction_pct": b1_odds_pct,
         "b1_odds_rank": b1_odds_rank,
-        "popular_source": "trifecta_top5" if b1_trifecta_top5_1head else "boaters_odds_prediction",
     }
+    if (
+        b1_popularity_level == "普通に人気"
+        and b1_tenji_rank is not None
+        and b1_tenji_rank >= 5
+        and b1_avg is not None
+        and b1_avg <= -0.10
+        and outer36_best_ai_pred is not None
+        and outer36_best_ai_pred >= 15
+        and outer36_best_avg is not None
+        and outer36_best_avg >= 0.10
+    ):
+        add_edge(
+            signals,
+            "codex_b1_normal_popular_fly_combo",
+            "普通に人気1号艇の歪み: 1展示5位以下+平均との差-0.10以下、3〜6にAI1着15%以上と平均との差+0.10以上",
+            22.47,
+            2.6,
+            "popular_b1_fly_up",
+            {
+                **popular_details,
+                "verified_period": "2025-01-01_to_2026-06-29_ippan",
+                "sample_races": 89,
+                "b1_not_win_rate_pct": 67.42,
+                "fly_manshu_rate_pct": 31.67,
+                "fly_median_payout_yen": 5535,
+                "b1_tenji_rank": b1_tenji_rank,
+                "b1_avg_isshu_diff": b1_avg,
+                "outer36_best_ai_prediction_pct": outer36_best_ai_pred,
+                "outer36_best_avg_isshu_diff": outer36_best_avg,
+            },
+        )
+    if (
+        b1_popularity_level == "かなり人気"
+        and b1_tenji_rank is not None
+        and b1_tenji_rank >= 5
+        and b1_avg is not None
+        and b1_avg < 0
+        and outer36_best_avg is not None
+        and outer36_best_avg >= 0.10
+        and round_no is not None
+        and round_no <= 6
+    ):
+        add_edge(
+            signals,
+            "codex_b1_high_popular_fly_early_outeravg",
+            "かなり人気1号艇の歪み: 1展示5位以下+平均との差マイナス、3〜6平均との差+0.10以上、1〜6R",
+            26.77,
+            3.4,
+            "popular_b1_fly_up",
+            {
+                **popular_details,
+                "verified_period": "2025-01-01_to_2026-06-29_ippan",
+                "sample_races": 127,
+                "b1_not_win_rate_pct": 59.06,
+                "fly_manshu_rate_pct": 50.67,
+                "fly_median_payout_yen": 10010,
+                "b1_tenji_rank": b1_tenji_rank,
+                "b1_avg_isshu_diff": b1_avg,
+                "outer36_best_avg_isshu_diff": outer36_best_avg,
+                "round_no": round_no,
+            },
+        )
+    if (
+        b1_popularity_level == "売れすぎ"
+        and b1_nige is not None
+        and b1_nige < 45
+        and outer36_best_ai_pred is not None
+        and outer36_best_ai_pred >= 15
+        and outer36_tenji_top2 >= 1
+        and outer36_isshu_top2 >= 1
+    ):
+        add_edge(
+            signals,
+            "codex_b1_overbet_fly_outer_ai_exh",
+            "売れすぎ1号艇の歪み: 1逃げ率45%未満、3〜6にAI1着15%以上+展示2位以内+1周2位以内",
+            21.95,
+            3.1,
+            "popular_b1_fly_up",
+            {
+                **popular_details,
+                "verified_period": "2025-01-01_to_2026-06-29_ippan",
+                "sample_races": 123,
+                "b1_not_win_rate_pct": 49.59,
+                "fly_manshu_rate_pct": 39.34,
+                "fly_median_payout_yen": 7010,
+                "b1_nige_pct": b1_nige,
+                "outer36_best_ai_prediction_pct": outer36_best_ai_pred,
+                "outer36_tenji_top2_count": outer36_tenji_top2,
+                "outer36_isshu_top2_count": outer36_isshu_top2,
+            },
+        )
+    if (
+        b1_popularity_level == "売れすぎ"
+        and outer36_best_ai_pred is not None
+        and outer36_best_ai_pred >= 20
+        and outer36_best_avg is not None
+        and outer36_best_avg >= 0.10
+        and wind_wave
+    ):
+        add_edge(
+            signals,
+            "codex_b1_overbet_fly_outer_ai_weather",
+            "売れすぎ1号艇の歪み: 3〜6にAI1着20%以上+平均との差+0.10以上、風波強め",
+            22.14,
+            2.8,
+            "popular_b1_fly_up",
+            {
+                **popular_details,
+                "verified_period": "2025-01-01_to_2026-06-29_ippan",
+                "sample_races": 140,
+                "b1_not_win_rate_pct": 46.43,
+                "fly_manshu_rate_pct": 44.62,
+                "fly_median_payout_yen": 7030,
+                "outer36_best_ai_prediction_pct": outer36_best_ai_pred,
+                "outer36_best_avg_isshu_diff": outer36_best_avg,
+                "wind_speed": race.get("wind_speed"),
+                "wave_height": race.get("wave_height"),
+            },
+        )
+    if (
+        b1_popularity_level == "売れすぎ"
+        and b1_tenji_rank is not None
+        and b1_tenji_rank >= 5
+        and outer36_best_ai_pred is not None
+        and outer36_best_ai_pred >= 20
+        and outer_avg is not None
+        and outer_avg >= 0.10
+    ):
+        add_edge(
+            signals,
+            "codex_b1_overbet_fly_b1bad_outer56",
+            "売れすぎ1号艇の歪み: 1展示5位以下、3〜6にAI1着20%以上、5/6平均との差+0.10以上",
+            23.08,
+            3.0,
+            "popular_b1_fly_up",
+            {
+                **popular_details,
+                "verified_period": "2025-01-01_to_2026-06-29_ippan",
+                "sample_races": 143,
+                "b1_not_win_rate_pct": 45.45,
+                "fly_manshu_rate_pct": 46.15,
+                "fly_median_payout_yen": 9080,
+                "b1_tenji_rank": b1_tenji_rank,
+                "outer36_best_ai_prediction_pct": outer36_best_ai_pred,
+                "outer56_avg_isshu_diff": outer_avg,
+            },
+        )
     if (
         b1_popular
         and b1_nige is not None
@@ -3344,6 +3592,8 @@ def morning_candidate_signals(race):
     has_trifecta_top5 = int_num(race.get("trifecta_top5_count"), default=0) == 5
     b1_top5_heads = int_num(race.get("trifecta_top5_head1_count"), default=0) or 0
     b1_top5_all_head = int_num(race.get("b1_trifecta_top5_1head"), default=0) == 1
+    popularity = b1_popularity_context(race)
+    popularity_level = popularity.get("level")
     wind_wave = (num(race.get("wind_speed")) or 0) >= 5 or (num(race.get("wave_height")) or 0) >= 5
 
     if b1_nige is not None and b1_nige < 25:
@@ -3414,13 +3664,39 @@ def morning_candidate_signals(race):
     if b1_bad and outer_or_head:
         add_edge(signals, "morning_combo_b1bad_outer", "展示前: 1号艇不安＋外/中枠に上位材料", None, 2.2, "combo_manshu_up")
 
-    if has_trifecta_top5:
-        if b1_top5_all_head and b1_bad:
-            add_edge(signals, "morning_popular_b1_bad", "展示前: 人気1〜5が1号艇頭なのに1号艇が弱い", None, 2.4, "popular_b1_fly_up", {"trifecta_top5_head1_count": b1_top5_heads})
-        elif b1_top5_heads >= 3 and b1_bad:
-            add_edge(signals, "morning_popular_b1_some_bad", "展示前: 1号艇頭が売れているのに1号艇に不安", None, 1.6, "popular_b1_fly_up", {"trifecta_top5_head1_count": b1_top5_heads})
-        elif b1_top5_heads <= 1 and b1_bad and not outer_or_head:
-            add_edge(signals, "morning_b1_unpopular_bad_discount", "展示前: 1号艇不安は既にオッズに出ている", None, -0.8, "value_down", {"trifecta_top5_head1_count": b1_top5_heads})
+    if popularity_level in B1_POPULARITY_BUY_LEVELS and b1_bad:
+        if popularity_level == "売れすぎ":
+            add_edge(
+                signals,
+                "morning_b1_overbet_bad",
+                "展示前: 1号艇が売れすぎなのに1号艇が弱い",
+                None,
+                2.6,
+                "popular_b1_fly_up",
+                {"b1_popularity_level": popularity_level, "trifecta_top5_head1_count": b1_top5_heads},
+            )
+        elif popularity_level == "かなり人気":
+            add_edge(
+                signals,
+                "morning_b1_high_popular_bad",
+                "展示前: 1号艇がかなり人気なのに1号艇に不安",
+                None,
+                2.0,
+                "popular_b1_fly_up",
+                {"b1_popularity_level": popularity_level, "trifecta_top5_head1_count": b1_top5_heads},
+            )
+        else:
+            add_edge(
+                signals,
+                "morning_b1_normal_popular_bad",
+                "展示前: 1号艇が普通に人気で、1号艇に不安",
+                None,
+                1.3,
+                "popular_b1_fly_up",
+                {"b1_popularity_level": popularity_level, "trifecta_top5_head1_count": b1_top5_heads},
+            )
+    elif has_trifecta_top5 and b1_top5_heads <= 1 and b1_bad and not outer_or_head:
+        add_edge(signals, "morning_b1_unpopular_bad_discount", "展示前: 1号艇不安は既にオッズに出ている", None, -0.8, "value_down", {"trifecta_top5_head1_count": b1_top5_heads})
 
     if matchup_outer_good >= 2:
         add_edge(signals, "morning_matchup_outer_good2", "展示前: 1号艇に強い相性バフ艇が2艇以上", None, 1.8, "matchup_manshu_up", {"matchup_outer_good_count": matchup_outer_good})
@@ -3784,6 +4060,8 @@ def row_summary(
         "b1_ai_prediction_pct": race.get("b1_ai_prediction_pct"),
         "b1_odds_prediction_pct": race.get("b1_odds_prediction_pct"),
         "b1_odds_rank": race.get("b1_odds_rank"),
+        "b1_popularity_level": b1_popularity_context(race).get("level"),
+        "b1_popularity_source": b1_popularity_context(race).get("source"),
         "b1_trifecta_top5_1head": int_num(race.get("b1_trifecta_top5_1head")),
         "trifecta_top5_head1_count": int_num(race.get("trifecta_top5_head1_count")),
         "trifecta_top5_count": int_num(race.get("trifecta_top5_count")),

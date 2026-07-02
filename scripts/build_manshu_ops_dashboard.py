@@ -733,13 +733,14 @@ VALUE_BUY_FALLBACK_STRATEGY = "value_ai_head2_ai23_has56_12"
 
 def value_buy_recommendation(row: dict[str, Any]) -> dict[str, Any]:
     rate = row.get("manshu_rate_pct") or 0.0
+    popularity_level = popular_b1_popularity_context(row).get("level") or "人気あり"
     primary = strategy_tickets(row, VALUE_BUY_PRIMARY_STRATEGY)
     if rate >= 40.0 and primary:
         return {
             "label": "歪み強本命",
             "strategy_id": VALUE_BUY_PRIMARY_STRATEGY,
             "strategy_name": strategy_name(VALUE_BUY_PRIMARY_STRATEGY),
-            "reason": "1号艇が世間人気ありなのに、データでは危険。さらに展示タイム・1周タイムの両方が上位3に入らないため、1号艇頭を外して狙う",
+            "reason": f"1号艇が{popularity_level}なのに、データでは危険。さらに展示タイム・1周タイムの両方が上位3に入らないため、1号艇頭を外して狙う",
             "tickets": primary,
         }
     filtered = strategy_tickets(row, VALUE_BUY_FILTERED_STRATEGY)
@@ -748,7 +749,7 @@ def value_buy_recommendation(row: dict[str, Any]) -> dict[str, Any]:
             "label": "歪み本命",
             "strategy_id": VALUE_BUY_FILTERED_STRATEGY,
             "strategy_name": strategy_name(VALUE_BUY_FILTERED_STRATEGY),
-            "reason": "1号艇が世間人気ありなのにデータでは危険。さらに前半1〜6Rで、1号艇の展示か1周のどちらかが4位以下、展示+1周平均との差もマイナスなので、1号艇頭を外して狙う",
+            "reason": f"1号艇が{popularity_level}なのにデータでは危険。さらに前半1〜6Rで、1号艇の展示か1周のどちらかが4位以下、展示+1周平均との差もマイナスなので、1号艇頭を外して狙う",
             "tickets": filtered,
         }
     secondary = strategy_tickets(row, VALUE_BUY_SECONDARY_STRATEGY)
@@ -757,7 +758,7 @@ def value_buy_recommendation(row: dict[str, Any]) -> dict[str, Any]:
             "label": "歪み準本命",
             "strategy_id": VALUE_BUY_SECONDARY_STRATEGY,
             "strategy_name": strategy_name(VALUE_BUY_SECONDARY_STRATEGY),
-            "reason": "1号艇は世間人気ありで危険。ただし展示の弱さが本命条件まではそろわないため、買うなら慎重に扱う",
+            "reason": f"1号艇は{popularity_level}で危険。ただし展示の弱さが本命条件まではそろわないため、買うなら慎重に扱う",
             "tickets": secondary,
         }
     fallback = strategy_tickets(row, VALUE_BUY_FALLBACK_STRATEGY)
@@ -1118,15 +1119,65 @@ def popular_b1_danger(row: dict[str, Any]) -> bool:
     return level in {"危険", "超危険"} or score >= 70.0
 
 
-def popular_b1_publicly_backed(row: dict[str, Any]) -> bool:
+B1_POPULARITY_BUY_LEVELS = {"普通に人気", "かなり人気", "売れすぎ"}
+
+
+def popular_b1_popularity_context(row: dict[str, Any]) -> dict[str, Any]:
     metrics = metrics_map(row)
+    explicit_level = metrics.get("popular_b1_popularity_level") or metrics.get("b1_popularity_level")
+    if explicit_level:
+        level = str(explicit_level)
+        return {
+            "level": level,
+            "source": str(metrics.get("popular_b1_popularity_source") or metrics.get("b1_popularity_source") or ""),
+            "is_backed": level in B1_POPULARITY_BUY_LEVELS,
+        }
     if boolish(metrics.get("popular_b1_is_popular")):
-        return True
-    if (parse_float(metrics.get("trifecta_top5_head1_count")) or 0.0) >= 3.0:
-        return True
+        return {
+            "level": "かなり人気",
+            "source": str(metrics.get("popular_b1_source") or "旧データ人気フラグ"),
+            "is_backed": True,
+        }
+    top5_count = int(parse_float(metrics.get("trifecta_top5_count")) or 0)
+    head1_count_raw = parse_float(metrics.get("trifecta_top5_head1_count"))
+    head1_count = int(head1_count_raw) if head1_count_raw is not None else None
+    if head1_count is None and boolish(metrics.get("b1_trifecta_top5_1head")):
+        head1_count = 5
+    if top5_count >= 5 and head1_count is not None:
+        if head1_count >= 5:
+            level = "売れすぎ"
+        elif head1_count == 4:
+            level = "かなり人気"
+        elif head1_count == 3:
+            level = "普通に人気"
+        else:
+            level = "人気不足"
+        return {
+            "level": level,
+            "source": "三連単人気上位5点",
+            "is_backed": level in B1_POPULARITY_BUY_LEVELS,
+        }
     b1_odds_rank = parse_float(metrics.get("boat1_odds_rank"))
-    b1_odds_pct = parse_float(metrics.get("boat1_odds_prediction_pct")) or 0.0
-    return b1_odds_rank == 1.0 and b1_odds_pct >= 40.0
+    b1_odds_pct = parse_float(metrics.get("boat1_odds_prediction_pct"))
+    if b1_odds_pct is None:
+        level = "未取得"
+    elif b1_odds_rank != 1.0 or b1_odds_pct < 40.0:
+        level = "人気不足"
+    elif b1_odds_pct < 45.0:
+        level = "普通に人気"
+    elif b1_odds_pct < 55.0:
+        level = "かなり人気"
+    else:
+        level = "売れすぎ"
+    return {
+        "level": level,
+        "source": "BOATERS AIオッズ評価" if b1_odds_pct is not None else "未取得",
+        "is_backed": level in B1_POPULARITY_BUY_LEVELS,
+    }
+
+
+def popular_b1_publicly_backed(row: dict[str, Any]) -> bool:
+    return bool(popular_b1_popularity_context(row).get("is_backed"))
 
 
 def popular_b1_top5_dominant(row: dict[str, Any]) -> bool:
@@ -1199,16 +1250,17 @@ def popular_b1_underbet_value(row: dict[str, Any]) -> bool:
 
 
 def popular_b1_odds_gap_label(row: dict[str, Any]) -> str:
+    popularity_level = popular_b1_popularity_context(row).get("level") or "1号艇人気"
     if popular_b1_overbet_strong(row):
-        return "1号艇売れすぎ強危険"
+        return f"1号艇{popularity_level}強危険"
     if popular_b1_overbet_filtered(row):
-        return "1号艇売れすぎ危険"
+        return f"1号艇{popularity_level}危険"
     if popular_b1_overbet_danger(row):
-        return "1号艇人気だが危険"
+        return f"1号艇{popularity_level}だが危険"
     if popular_b1_underbet_value(row):
         return "1号艇人気薄だがデータ強"
     if popular_b1_publicly_backed(row):
-        return "1号艇人気どおり"
+        return f"1号艇{popularity_level}どおり"
     if popular_b1_danger(row):
         return "世間も1号艇を疑い"
     return "大きな歪みなし"
@@ -1221,6 +1273,12 @@ def popular_b1_odds_gap_reasons(row: dict[str, Any]) -> list[str]:
     source = str(metrics.get("popular_b1_source") or "")
     if source:
         reasons.append(source)
+    popularity_context = popular_b1_popularity_context(row)
+    popularity_level = popularity_context.get("level")
+    popularity_source = popularity_context.get("source")
+    if popularity_level:
+        suffix = f"（{popularity_source}）" if popularity_source else ""
+        reasons.append(f"1号艇人気レベル: {popularity_level}{suffix}")
     if popular_b1_top5_dominant(row):
         reasons.append("三連単人気上位が1号艇頭に寄っている")
     elif popular_b1_publicly_backed(row):
@@ -1801,6 +1859,9 @@ def build_strategy_research(records: list[dict[str, Any]]) -> dict[str, Any]:
         ("本命40%以上", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0),
         ("本命40%以上＋人気1号艇危険", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_danger(r)),
         ("本命40%以上＋1号艇人気あり危険", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_overbet_danger(r)),
+        ("本命40%以上＋普通に人気1号艇危険", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_overbet_danger(r) and popular_b1_popularity_context(r).get("level") == "普通に人気"),
+        ("本命40%以上＋かなり人気1号艇危険", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_overbet_danger(r) and popular_b1_popularity_context(r).get("level") == "かなり人気"),
+        ("本命40%以上＋売れすぎ1号艇危険", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_overbet_danger(r) and popular_b1_popularity_context(r).get("level") == "売れすぎ"),
         ("本命40%以上＋1号艇歪み本命", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_overbet_filtered(r)),
         ("本命40%以上＋1号艇歪み強本命", lambda r: (r.get("manshu_rate_pct") or 0) >= 40.0 and popular_b1_overbet_strong(r)),
         ("展示後38%以上＋1号艇歪み本命", lambda r: (r.get("manshu_rate_pct") or 0) >= 38.0 and popular_b1_overbet_filtered(r)),
@@ -1946,6 +2007,8 @@ def latest_payload(records: list[dict[str, Any]]) -> dict[str, Any]:
                 "ticket_hit": bool(r.get("ticket_hit")),
                 "odds_gap": {
                     "label": popular_b1_odds_gap_label(r),
+                    "popularity_level": popular_b1_popularity_context(r).get("level"),
+                    "popularity_source": popular_b1_popularity_context(r).get("source"),
                     "reasons": popular_b1_odds_gap_reasons(r),
                 },
                 "value_buy": {

@@ -1529,14 +1529,93 @@ def valid_boat_rank(value):
     return rank
 
 
-def b1_publicly_backed(metrics):
+B1_POPULARITY_BUY_LEVELS = {"普通に人気", "かなり人気", "売れすぎ"}
+
+
+def b1_popularity_context_from_values(
+    odds_pct=None,
+    odds_rank=None,
+    trifecta_top5_count=None,
+    trifecta_head1_count=None,
+    trifecta_head1_flag=None,
+):
+    top5_count = int(as_num(trifecta_top5_count) or 0)
+    head1_count_raw = as_num(trifecta_head1_count)
+    head1_count = int(head1_count_raw) if head1_count_raw is not None else None
+    if head1_count is None and int(as_num(trifecta_head1_flag) or 0) == 1:
+        head1_count = 5
+    if top5_count >= 5 and head1_count is not None:
+        if head1_count >= 5:
+            level = "売れすぎ"
+        elif head1_count == 4:
+            level = "かなり人気"
+        elif head1_count == 3:
+            level = "普通に人気"
+        else:
+            level = "人気不足"
+        return {
+            "level": level,
+            "source": "三連単人気上位5点",
+            "is_backed": level in B1_POPULARITY_BUY_LEVELS,
+            "head1_count": head1_count,
+            "top5_count": top5_count,
+            "odds_prediction_pct": odds_pct,
+            "odds_rank": odds_rank,
+        }
+
+    pct = as_num(odds_pct)
+    rank = as_num(odds_rank)
+    if pct is None:
+        level = "未取得"
+        backed = False
+    elif rank != 1 or pct < 40:
+        level = "人気不足"
+        backed = False
+    elif pct < 45:
+        level = "普通に人気"
+        backed = True
+    elif pct < 55:
+        level = "かなり人気"
+        backed = True
+    else:
+        level = "売れすぎ"
+        backed = True
+    return {
+        "level": level,
+        "source": "BOATERS AIオッズ評価" if pct is not None else "未取得",
+        "is_backed": backed,
+        "head1_count": head1_count,
+        "top5_count": top5_count,
+        "odds_prediction_pct": pct,
+        "odds_rank": rank,
+    }
+
+
+def b1_popularity_context(metrics):
+    explicit_level = metrics.get("popular_b1_popularity_level") or metrics.get("b1_popularity_level")
+    if explicit_level:
+        return {
+            "level": str(explicit_level),
+            "source": str(metrics.get("popular_b1_popularity_source") or metrics.get("b1_popularity_source") or ""),
+            "is_backed": str(explicit_level) in B1_POPULARITY_BUY_LEVELS,
+        }
     if metrics.get("popular_b1_is_popular"):
-        return True
-    if int(as_num(metrics.get("trifecta_top5_head1_count")) or 0) >= 3:
-        return True
-    odds_rank = as_num(metrics.get("boat1_odds_rank"))
-    odds_pct = as_num(metrics.get("boat1_odds_prediction_pct"))
-    return odds_rank == 1 and odds_pct is not None and odds_pct >= 40
+        return {
+            "level": "かなり人気",
+            "source": str(metrics.get("popular_b1_source") or "旧データ人気フラグ"),
+            "is_backed": True,
+        }
+    return b1_popularity_context_from_values(
+        odds_pct=metrics.get("boat1_odds_prediction_pct"),
+        odds_rank=metrics.get("boat1_odds_rank"),
+        trifecta_top5_count=metrics.get("trifecta_top5_count"),
+        trifecta_head1_count=metrics.get("trifecta_top5_head1_count"),
+        trifecta_head1_flag=metrics.get("b1_trifecta_top5_1head"),
+    )
+
+
+def b1_publicly_backed(metrics):
+    return b1_popularity_context(metrics).get("level") in B1_POPULARITY_BUY_LEVELS
 
 
 def b1_data_danger(metrics):
@@ -1950,6 +2029,7 @@ def odds_gap_b1_fade_strong12(rows):
     metrics = rows[0].get("_morning_metrics") or {}
     if not b1_odds_gap_strong(metrics):
         return set(), None
+    popularity_level = b1_popularity_context(metrics).get("level") or "人気あり"
     scored = []
     for row in rows:
         boat = row["boat_number"]
@@ -1994,7 +2074,7 @@ def odds_gap_b1_fade_strong12(rows):
     b1_isshu_rank = valid_boat_rank(metrics.get("boat1_isshu_rank"))
     return tickets, {
         "heads": heads,
-        "head_rule": "1号艇が売れすぎ危険なので、1号艇頭は買わず2〜6号艇から複合1着上位2艇を選ぶ",
+        "head_rule": f"1号艇が{popularity_level}で危険なので、1号艇頭は買わず2〜6号艇から複合1着上位2艇を選ぶ",
         "head_mode": "odds_gap_b1_fade_strong",
         "head_scores": head_score_details(rows, heads),
         "axes": axes,
@@ -2007,7 +2087,7 @@ def odds_gap_b1_fade_strong12(rows):
         "ai_plus_rank6_boat": ai_plus_rank6_boat,
         "ai_plus_rank6_revival": ai_plus_rank6_revival,
         "role_note": (
-            f"歪み強本命。1号艇は世間人気あり+危険+展示{b1_tenji_rank:.0f}位/1周{b1_isshu_rank:.0f}位。"
+            f"歪み強本命。1号艇は{popularity_level}+危険+展示{b1_tenji_rank:.0f}位/1周{b1_isshu_rank:.0f}位。"
             f"頭{heads[0]},{heads[1]} / 軸は{axis_rule}の{axes[0]},{axes[1]} / 1号艇頭は買わない12点"
         ),
     }
@@ -2017,6 +2097,7 @@ def odds_gap_b1_fade_filtered12(rows):
     metrics = rows[0].get("_morning_metrics") or {}
     if not b1_odds_gap_filtered(metrics):
         return set(), None
+    popularity_level = b1_popularity_context(metrics).get("level") or "人気あり"
     scored = []
     for row in rows:
         boat = row["boat_number"]
@@ -2069,7 +2150,7 @@ def odds_gap_b1_fade_filtered12(rows):
         rank_bits.append(f"平均との差{b1_avg_diff:+.2f}")
     return tickets, {
         "heads": heads,
-        "head_rule": "1号艇が売れすぎ危険なので、1号艇頭は買わず2〜6号艇から複合1着上位2艇を選ぶ",
+        "head_rule": f"1号艇が{popularity_level}で危険なので、1号艇頭は買わず2〜6号艇から複合1着上位2艇を選ぶ",
         "head_mode": "odds_gap_b1_fade_filtered",
         "head_scores": head_score_details(rows, heads),
         "axes": axes,
@@ -2082,7 +2163,7 @@ def odds_gap_b1_fade_filtered12(rows):
         "ai_plus_rank6_boat": ai_plus_rank6_boat,
         "ai_plus_rank6_revival": ai_plus_rank6_revival,
         "role_note": (
-            "歪み本命。1号艇は世間人気あり+危険+前半1〜6Rで"
+            f"歪み本命。1号艇は{popularity_level}+危険+前半1〜6Rで"
             f"{'・'.join(rank_bits)}。"
             f"頭{heads[0]},{heads[1]} / 軸は{axis_rule}の{axes[0]},{axes[1]} / 1号艇頭は買わない12点"
         ),
@@ -2910,9 +2991,18 @@ def race_metrics(rows, date_text=None, round_no=None):
         live_odds_context["odds_boats"] = live_odds_boats
     if live_odds_boats and boat1_odds_pct is not None:
         boat1_odds_rank_int = int(boat1_odds_rank or 9)
-        if boat1_odds_rank_int == 1 and boat1_odds_pct >= 40:
-            popular_score = 35 + max(0, boat1_odds_pct - 40) * 1.2
-            popular_reasons = [f"展示後オッズ評価で1号艇が1位{boat1_odds_pct:.1f}%"]
+        popularity_context = b1_popularity_context_from_values(
+            odds_pct=boat1_odds_pct,
+            odds_rank=boat1_odds_rank_int,
+            trifecta_top5_count=morning_metrics.get("trifecta_top5_count"),
+            trifecta_head1_count=morning_metrics.get("trifecta_top5_head1_count"),
+            trifecta_head1_flag=morning_metrics.get("b1_trifecta_top5_1head"),
+        )
+        popularity_level = popularity_context["level"]
+        if popularity_level in B1_POPULARITY_BUY_LEVELS:
+            level_bonus = {"普通に人気": 0, "かなり人気": 6, "売れすぎ": 11}.get(popularity_level, 0)
+            popular_score = 35 + max(0, boat1_odds_pct - 40) * 1.2 + level_bonus
+            popular_reasons = [f"1号艇は{popularity_level}（展示後オッズ評価1位{boat1_odds_pct:.1f}%）"]
             dominant_guard = dominant_b1_hold_guard_from_values(
                 as_num(b1.get("ai_prediction_pct")),
                 as_num(b1.get("ai_plus")),
@@ -3014,6 +3104,10 @@ def race_metrics(rows, date_text=None, round_no=None):
                 {
                     "popular_b1_is_popular": True,
                     "popular_b1_source": "展示後BOATERSオッズ評価",
+                    "popular_b1_popularity_level": popularity_level,
+                    "popular_b1_popularity_source": popularity_context.get("source"),
+                    "b1_popularity_level": popularity_level,
+                    "b1_popularity_source": popularity_context.get("source"),
                     "popular_b1_fly_score": popular_score,
                     "popular_b1_fly_level": popular_level,
                     "popular_b1_not_win_rate_pct": round(not_win_rate, 2) if not_win_rate is not None else None,
@@ -3031,13 +3125,17 @@ def race_metrics(rows, date_text=None, round_no=None):
                 {
                     "popular_b1_is_popular": False,
                     "popular_b1_source": "展示後BOATERSオッズ評価",
+                    "popular_b1_popularity_level": popularity_level,
+                    "popular_b1_popularity_source": popularity_context.get("source"),
+                    "b1_popularity_level": popularity_level,
+                    "b1_popularity_source": popularity_context.get("source"),
                     "popular_b1_fly_score": 0,
                     "popular_b1_fly_level": "人気不足",
                     "popular_b1_not_win_rate_pct": None,
                     "popular_b1_top3_miss_rate_pct": None,
                     "popular_b1_manshu_rate_pct": None,
                     "popular_b1_rate_source": "展示後オッズ評価で人気不足",
-                    "popular_b1_reasons": [f"展示後オッズ評価{fmt_pct(boat1_odds_pct)}({boat1_odds_rank_int}位)で1号艇が売れすぎではない"],
+                    "popular_b1_reasons": [f"1号艇は{popularity_level}（展示後オッズ評価{fmt_pct(boat1_odds_pct)}・{boat1_odds_rank_int}位）なので、人気イン飛び狙いの主役ではない"],
                     "popular_b1_matched_conditions": [],
                 }
             )
@@ -3598,17 +3696,19 @@ def roi_strategies(race, metrics, rows):
         row.get("boat_number") in {3, 4, 5, 6} and row.get("double_time")
         for row in rows
     )
+    b1_popularity = b1_popularity_context(metrics)
+    b1_popularity_level = b1_popularity.get("level") or "不明"
     if full_exhibition and post_rate >= CORE_ALERT_RATE and b1_odds_gap_strong(metrics):
         strategies.append(
             (
                 "codex_odds_gap_b1_fade_strong12",
-                "Codex歪み強本命: 1号艇売れすぎ危険+展示Wデバフ 12点",
+                f"Codex歪み強本命: 1号艇{b1_popularity_level}+危険+展示Wデバフ 12点",
                 odds_gap_b1_fade_strong12,
                 {
                     "tier": "core_odds_gap",
                     "entry_checks": [
                         f"展示後40%以上:OK({post_rate:.2f}%)",
-                        "1号艇が世間人気あり",
+                        f"1号艇人気レベル: {b1_popularity_level}",
                         "データ上は1号艇危険",
                         "1号艇が展示タイム・1周タイムとも上位3外",
                         "5/6号艇は必須にしない",
@@ -3632,14 +3732,14 @@ def roi_strategies(race, metrics, rows):
         strategies.append(
             (
                 "codex_odds_gap_b1_fade_filtered12",
-                "Codex歪み本命: 1号艇売れすぎ危険+前半展示弱化 12点",
+                f"Codex歪み本命: 1号艇{b1_popularity_level}+危険+前半展示弱化 12点",
                 odds_gap_b1_fade_filtered12,
                 {
                     "tier": "core_odds_gap_filtered",
                     "entry_checks": [
                         f"展示後40%以上:OK({post_rate:.2f}%)",
                         f"前半1〜6R:OK({round_no}R)",
-                        "1号艇が世間人気あり",
+                        f"1号艇人気レベル: {b1_popularity_level}",
                         "データ上は1号艇危険",
                         f"1号艇の展示または1周が4位以下:OK(展示{tenji_text}/1周{isshu_text})",
                         f"1号艇の展示+1周平均との差がマイナス:OK({avg_text})",
@@ -4091,7 +4191,9 @@ def fmt_b1_odds(metrics):
     if pct is None and rank is None:
         return ""
     rank_text = "-" if rank is None else f"{int(rank)}位"
-    return f", 1オッズ評価{fmt_pct(pct)}({rank_text})"
+    popularity = b1_popularity_context(metrics).get("level") or ""
+    pop_text = f"/{popularity}" if popularity else ""
+    return f", 1オッズ評価{fmt_pct(pct)}({rank_text}{pop_text})"
 
 
 def fmt_low_outer(metrics):
