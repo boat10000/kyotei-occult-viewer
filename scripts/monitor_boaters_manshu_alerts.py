@@ -925,6 +925,8 @@ def merge_live_metrics_into_ranking_path(path, updates, now):
                     checks.append("本命買い条件:OK")
                 elif update.get("subcore_buy_ready"):
                     checks.append("準本命買い条件:OK")
+                elif metrics.get("core_front_no1_odds_blocked"):
+                    checks.append("1号艇人気不足で1号艇消し買い:NG")
                 elif has_full_exhibition(metrics):
                     checks.append("買い条件:NG")
                 old_checks = race.get("final_decision_checks")
@@ -1637,6 +1639,16 @@ def b1_popularity_context(metrics):
 
 def b1_publicly_backed(metrics):
     return b1_popularity_context(metrics).get("level") in B1_POPULARITY_BUY_LEVELS
+
+
+def b1_unpopular_head_value(rows, metrics):
+    """Return True when 1号艇 is unpopular but still worth treating as a head candidate."""
+    if b1_publicly_backed(metrics):
+        return False, ""
+    b1_row = row_by_boat(rows, 1)
+    if not b1_row:
+        return False, ""
+    return b1_unpopular_head_signal(b1_row, metrics)
 
 
 def b1_data_danger(metrics):
@@ -3719,6 +3731,10 @@ def roi_strategies(race, metrics, rows):
     )
     b1_popularity = b1_popularity_context(metrics)
     b1_popularity_level = b1_popularity.get("level") or "不明"
+    b1_head_value, b1_head_value_reason = b1_unpopular_head_value(rows, metrics)
+    metrics["b1_unpopular_head_value"] = bool(b1_head_value)
+    if b1_head_value_reason:
+        metrics["b1_unpopular_head_value_reason"] = b1_head_value_reason
     if full_exhibition and post_rate >= CORE_ALERT_RATE and b1_odds_gap_strong(metrics):
         strategies.append(
             (
@@ -3771,24 +3787,32 @@ def roi_strategies(race, metrics, rows):
             )
         )
     if full_exhibition and post_rate >= CORE_ALERT_RATE and round_no <= 3:
-        strategies.append(
-            (
-                "codex_post_core_front_head2_no1_outer56",
-                "Codex本命絞り: 前半1〜3R+外頭2番手+1号艇消し+5/6絡み",
-                core_40_focus_head2_no1_outer56,
-                {
-                    "tier": "core_focus",
-                    "entry_checks": [
-                        f"展示後40%以上:OK({post_rate:.2f}%)",
-                        f"前半1〜3R:OK({round_no}R)",
-                        "頭は外頭2艇の2番手だけ",
-                        "1号艇を買い目から外す",
-                        "5/6号艇が買い目に絡む",
-                    ],
-                    "odds_filter": "回収率重視。1号艇入りと低配当形を買わない",
-                },
+        if b1_publicly_backed(metrics):
+            strategies.append(
+                (
+                    "codex_post_core_front_head2_no1_outer56",
+                    "Codex本命絞り: 前半1〜3R+人気1号艇消し+外頭2番手+5/6絡み",
+                    core_40_focus_head2_no1_outer56,
+                    {
+                        "tier": "core_focus",
+                        "entry_checks": [
+                            f"展示後40%以上:OK({post_rate:.2f}%)",
+                            f"前半1〜3R:OK({round_no}R)",
+                            f"1号艇人気レベル:OK({b1_popularity_level})",
+                            "頭は外頭2艇の2番手だけ",
+                            "1号艇を買い目から外す",
+                            "5/6号艇が買い目に絡む",
+                        ],
+                        "odds_filter": "人気1号艇をデータで疑える時だけ、1号艇頭と低配当形を買わない",
+                    },
+                )
             )
-        )
+        else:
+            metrics["core_front_no1_odds_blocked"] = True
+            metrics["core_front_no1_odds_block_reason"] = (
+                f"1号艇が{b1_popularity_level}なので、1号艇を飛ばしても配当が伸びにくい。"
+                "1号艇頭で買える強い根拠がある時だけ別枠で検討"
+            )
     if full_exhibition and post_rate >= CORE_ALERT_RATE:
         strategies.append(
             (
@@ -4716,7 +4740,7 @@ def monitor(args):
         "subcore_alert_threshold_min_pct": SUBCORE_ALERT_RATE_MIN,
         "alert_policy": {
             "primary": "morning_top_then_post_exhibition_core_focus_only",
-            "description": "朝TOPリストに入った荒れ下地ありレースだけを、展示/AI取得後に40%以上かつ本命絞り条件成立なら通知する。朝TOP外の40%以上は急浮上参考に分離する",
+            "description": "朝TOPリストに入った荒れ下地ありレースだけを、展示/AI/オッズ取得後に40%以上かつ本命絞り条件成立なら通知する。1号艇消し型は1号艇が普通に人気以上の時だけ買い候補にし、朝TOP外の40%以上はオッズ歪みがある時だけ急浮上参考にする",
             "morning_top_n": args.top_n,
             "post_exhibition_core_threshold_pct": args.core_alert_threshold,
             "post_exhibition_subcore_range_pct": None,
